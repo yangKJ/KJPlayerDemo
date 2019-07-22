@@ -122,8 +122,8 @@
 			isa = PBXGroup;
 			children = (
 				681AD53B22E5661B00F1018B /* KJPlayerHeader.h */,
-				689D5AB122E3305700DE33FC /* KJPlayerView */,
-				689D5AA922E3012E00DE33FC /* KJPlayer */,
+				689D5AB122E3305700DE33FC /* PlayerView */,
+				689D5AA922E3012E00DE33FC /* Player */,
 				689D5AA822E3011E00DE33FC /* Demo */,
 			);
 			path = KJPlayerDemo;
@@ -165,7 +165,7 @@
 			path = Demo;
 			sourceTree = "<group>";
 		};
-		689D5AA922E3012E00DE33FC /* KJPlayer */ = {
+		689D5AA922E3012E00DE33FC /* Player */ = {
 			isa = PBXGroup;
 			children = (
 				689D5AB822E47F7C00DE33FC /* Tools */,
@@ -173,7 +173,7 @@
 				689D5AAA22E30EDA00DE33FC /* KJPlayer.h */,
 				689D5AAB22E30EDA00DE33FC /* KJPlayer.m */,
 			);
-			path = KJPlayer;
+			path = Player;
 			sourceTree = "<group>";
 		};
 		689D5AAD22E3146B00DE33FC /* Network */ = {
@@ -187,13 +187,13 @@
 			path = Network;
 			sourceTree = "<group>";
 		};
-		689D5AB122E3305700DE33FC /* KJPlayerView */ = {
+		689D5AB122E3305700DE33FC /* PlayerView */ = {
 			isa = PBXGroup;
 			children = (
 				681AD53622E55F2800F1018B /* KJPlayerView.h */,
 				681AD53722E55F2800F1018B /* KJPlayerView.m */,
 			);
-			path = KJPlayerView;
+			path = PlayerView;
 			sourceTree = "<group>";
 		};
 		689D5AB822E47F7C00DE33FC /* Tools */ = {
@@ -515,6 +515,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CLANG_ENABLE_OBJC_WEAK = NO;
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = HXTFJDA4H2;
 				INFOPLIST_FILE = "$(SRCROOT)/KJPlayerDemo/Demo/Info.plist";
@@ -532,6 +533,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CLANG_ENABLE_OBJC_WEAK = NO;
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = HXTFJDA4H2;
 				INFOPLIST_FILE = "$(SRCROOT)/KJPlayerDemo/Demo/Info.plist";

@@ -9,7 +9,11 @@
 #ifndef KJPlayerHeader_h
 #define KJPlayerHeader_h
 
-/*
+/** 作者信息
+ *  Github地址：https://github.com/yangKJ
+ *  简书地址：https://www.jianshu.com/u/c84c00476ab6
+ *  博客地址：https://blog.csdn.net/qq_34534179
+ 
  ------------- 本人其他库 -------------
  播放器 - KJPlayer是一款视频播放器，AVPlayer的封装，继承UIView
  pod 'KJPlayer'  # 播放器功能区
@@ -33,11 +37,6 @@
  pod 'KJLoadingAnimation' # 加载控件
  
  
- Github地址：https://github.com/yangKJ
- 简书地址：https://www.jianshu.com/u/c84c00476ab6
- 博客地址：https://blog.csdn.net/qq_34534179
- 
- 
  ####版本更新日志:
  
  #### Add 1.0.0
@@ -45,6 +44,11 @@
 
  */
 
+/** 功能区
+ *  支持播放网络和本地视频、播放多种格式
+ *  视频可以边下边播，把播放器播放过的数据流缓存到本地
+ *  下次直接优先从缓冲读取播放
+ */
 #import "KJPlayer.h"
 
 #endif /* KJPlayerHeader_h */

@@ -66,7 +66,7 @@ pod 'KJPlayer/KJPlayerView'  # 自带展示界面
 - KJRequestTask：网络缓存类   网络请求结束的时候，如果数据完整，则把数据缓存到指定的路径，储存起来，如果不完整，则删除缓存的临时文件数据
 - KJPlayerURLConnection：网络和Player的中转类   把网络请求缓存到本地的临时数据`offset`和`videoLength`传递给播放器
 
-#### 功能区
+#### 代码事例
 ```
 UIView *view = [[UIView alloc] initWithFrame:CGRectMake(0, 20, [UIScreen mainScreen].bounds.size.width, [UIScreen mainScreen].bounds.size.width*9/16)];
 view.backgroundColor = UIColor.cyanColor;
@@ -81,7 +81,7 @@ AVPlayerLayer *playerLayer = [player kj_playWithUrl:url];
 playerLayer.frame = view.bounds;
 [view.layer addSublayer:playerLayer];
 ```
-#####委托代理
+#### 委托代理
 ```
 #pragma mark - KJPlayerDelegate
 - (void)kj_player:(nonnull KJPlayer *)player LoadedProgress:(CGFloat)loadedProgress LoadComplete:(BOOL)complete SaveSuccess:(BOOL)saveSuccess {
