@@ -1,6 +1,6 @@
 Pod::Spec.new do |s|
   s.name         = "KJPlayer"
-  s.version      = "1.0.1"
+  s.version      = "1.0.2"
   s.summary      = "A good player made by yangkejun"
   s.homepage     = "https://github.com/yangKJ/KJPlayerDemo"
   s.license      = "MIT"
@@ -11,22 +11,24 @@ Pod::Spec.new do |s|
   s.source       = { :git => "https://github.com/yangKJ/KJPlayerDemo.git", :tag => "#{s.version}" }
   s.social_media_url = 'https://www.jianshu.com/u/c84c00476ab6'
   s.requires_arc = true
+  s.ios.deployment_target = '9.0'
 
-  s.default_subspec  = 'Player' # 默认引入的文件
+  s.default_subspec  = 'KJPlayer' # 默认引入的文件
   s.ios.source_files = 'KJPlayerDemo/KJPlayerHeader.h' # 添加头文件
 
-  s.subspec 'Player' do |y|
-    y.source_files = "KJPlayerDemo/Player/**/*.{h,m}" # 添加文件
-    y.public_header_files = 'KJPlayerDemo/Player/*.h',"KJPlayerDemo/Player/**/*.h"   # 添加头文件
+  s.subspec 'KJPlayer' do |y|
+    y.source_files = "KJPlayerDemo/KJPlayer/**/*.{h,m}"
+    y.public_header_files = 'KJPlayerDemo/KJPlayer/*.h',"KJPlayerDemo/KJPlayer/**/*.h"
+    y.frameworks = 'Foundation','UIKit','MobileCoreServices','AVFoundation'
   end
 
-  s.subspec 'PlayerView' do |a|
-    a.source_files = "KJPlayerDemo/PlayerView/**/*.{h,m}" # 添加文件
-    a.dependency 'KJPlayer/Player'
+  s.subspec 'KJPlayerView' do |a|
+    a.source_files = "KJPlayerDemo/KJPlayerView/**/*.{h,m}" # 添加文件
+    a.resources    = "KJPlayerDemo/KJPlayerView/**/*.{bundle}" # 添加数据资料
+    a.dependency 'KJPlayer/KJPlayer'
+    a.frameworks = 'QuartzCore','Accelerate','CoreGraphics'
   end
-  
-  s.frameworks = 'Foundation','UIKit','MobileCoreServices','AVFoundation','CommonCrypto','Accelerate'
-  
+
 end
 
 

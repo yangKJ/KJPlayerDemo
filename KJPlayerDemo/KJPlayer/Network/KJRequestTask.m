@@ -1,5 +1,5 @@
 //
-//  KJRequestTask.m
+//  KJPlayer.m
 //  KJPlayerDemo
 //
 //  Created by 杨科军 on 2019/7/20.
@@ -7,6 +7,8 @@
 //
 
 #import "KJRequestTask.h"
+#import <AVFoundation/AVFoundation.h>
+#import "KJPlayerTool.h"
 
 @interface KJRequestTask ()<NSURLConnectionDataDelegate, AVAssetResourceLoaderDelegate>{
     BOOL _once; // 网络超时，重连一次

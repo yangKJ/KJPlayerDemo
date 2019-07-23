@@ -7,8 +7,8 @@
 //  播放器功能区
 
 #import <Foundation/Foundation.h>
-#import "KJRequestTask.h"
-#import "KJPlayerURLConnection.h"
+#import <AVFoundation/AVFoundation.h>
+#import "KJPlayerTool.h"
 
 NS_ASSUME_NONNULL_BEGIN
 
@@ -72,7 +72,7 @@ typedef NS_ENUM(NSInteger, KJPlayerState) {
 /* 进入后台是否停止播放，默认yes */
 @property (nonatomic,assign) BOOL stopWhenAppEnterBackground;
 /** 委托 */
-@property (nonatomic,weak) id <KJPlayerDelegate> playerDelegate;
+@property (nonatomic,weak) id <KJPlayerDelegate> delegate;
 
 /* 播放地址 */
 - (AVPlayerLayer*)kj_playWithUrl:(NSURL*)url;

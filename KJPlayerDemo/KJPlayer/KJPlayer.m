@@ -7,6 +7,7 @@
 //
 
 #import "KJPlayer.h"
+#import "KJPlayerURLConnection.h"
 
 @interface KJPlayer ()
 /* 播放状态 */
@@ -196,8 +197,8 @@
             [self.videoPlayer pause];
             [self releasePlayer];
             /// 进度处理
-            if ([self.playerDelegate respondsToSelector:@selector(kj_player:Progress:CurrentTime:DurationTime:)]) {
-                [self.playerDelegate kj_player:self Progress:self.progress CurrentTime:self.current DurationTime:self.videoTotalTime];
+            if ([self.delegate respondsToSelector:@selector(kj_player:Progress:CurrentTime:DurationTime:)]) {
+                [self.delegate kj_player:self Progress:self.progress CurrentTime:self.current DurationTime:self.videoTotalTime];
             }
             if (self.kPlayerPlayProgressBlcok) {
                 self.kPlayerPlayProgressBlcok(self,self.progress,self.current,self.videoTotalTime);
@@ -216,8 +217,8 @@
     _loadedProgress = loadedProgress;
     if (loadedProgress == 1.0 || loadedProgress == 0.0) return;
     /// 缓存进度处理
-    if ([self.playerDelegate respondsToSelector:@selector(kj_player:LoadedProgress:LoadComplete:SaveSuccess:)]) {
-        [self.playerDelegate kj_player:self LoadedProgress:loadedProgress LoadComplete:self.loadComplete SaveSuccess:NO];
+    if ([self.delegate respondsToSelector:@selector(kj_player:LoadedProgress:LoadComplete:SaveSuccess:)]) {
+        [self.delegate kj_player:self LoadedProgress:loadedProgress LoadComplete:self.loadComplete SaveSuccess:NO];
     }
     if (self.kPlayerLoadingBlcok) {
         self.kPlayerLoadingBlcok(self,loadedProgress,self.loadComplete,self.videoIsLocalityData);
@@ -230,8 +231,8 @@
     }
     _state = state;
     /// 播放状态处理
-    if ([self.playerDelegate respondsToSelector:@selector(kj_player:State:ErrorCode:)]) {
-        [self.playerDelegate kj_player:self State:_state ErrorCode:self.errorCode];
+    if ([self.delegate respondsToSelector:@selector(kj_player:State:ErrorCode:)]) {
+        [self.delegate kj_player:self State:_state ErrorCode:self.errorCode];
     }
     if (self.kPlayerStateBlcok) {
         self.kPlayerStateBlcok(self,_state,self.errorCode);
@@ -269,7 +270,7 @@
 
 // 播放处理
 - (void)kDealPlayWithItem:(AVPlayerItem *)playerItem{
-//    self.videoTotalTime = playerItem.duration.value / playerItem.duration.timescale; //视频总时间
+    //    self.videoTotalTime = playerItem.duration.value / playerItem.duration.timescale; //视频总时间
     [self.videoPlayer play];
     __weak __typeof(self)weakSelf = self;
     self.kPeriodicTimeObserver = [self.videoPlayer addPeriodicTimeObserverForInterval:CMTimeMake(1, 1) queue:NULL usingBlock:^(CMTime time) {
@@ -284,10 +285,10 @@
             if (strongSelf.current > strongSelf.videoTotalTime) {
                 strongSelf.videoTotalTime = strongSelf.current;
             }
-        
+            
             /// 播放进度时间处理
-            if ([strongSelf.playerDelegate respondsToSelector:@selector(kj_player:Progress:CurrentTime:DurationTime:)]) {
-                [strongSelf.playerDelegate kj_player:strongSelf
+            if ([strongSelf.delegate respondsToSelector:@selector(kj_player:Progress:CurrentTime:DurationTime:)]) {
+                [strongSelf.delegate kj_player:strongSelf
                                             Progress:strongSelf.progress
                                          CurrentTime:strongSelf.current
                                         DurationTime:strongSelf.videoTotalTime];
@@ -385,40 +386,38 @@
 
 #pragma mark - block
 - (void)kSetBlock{
-    __weak __typeof(self) weakSelf = self;
-    self.kPlayerURLConnection.kPlayerURLConnectionDidFinishLoadingAndSaveFileBlcok = ^(KJRequestTask * _Nonnull task, BOOL saveSuccess) {
-        __strong __typeof(weakSelf)strongSelf = weakSelf;
+    PLAYER_WEAKSELF;
+    self.kPlayerURLConnection.kPlayerURLConnectionDidFinishLoadingAndSaveFileBlcok = ^(BOOL completeLoad, BOOL saveSuccess) {
         /// 回调数据出去处理
-        CGFloat xx = task.completeLoad ? 1.0 : 0.0;
-        strongSelf.loadComplete = task.completeLoad;
-        strongSelf.videoIsLocalityData = saveSuccess;
-        if ([strongSelf.playerDelegate respondsToSelector:@selector(kj_player:LoadedProgress:LoadComplete:SaveSuccess:)]) {
-            [strongSelf.playerDelegate kj_player:strongSelf LoadedProgress:xx LoadComplete:task.completeLoad SaveSuccess:saveSuccess];
+        CGFloat xx = completeLoad ? 1.0 : 0.0;
+        weakself.loadComplete = completeLoad;
+        weakself.videoIsLocalityData = saveSuccess;
+        if ([weakself.delegate respondsToSelector:@selector(kj_player:LoadedProgress:LoadComplete:SaveSuccess:)]) {
+            [weakself.delegate kj_player:weakself LoadedProgress:xx LoadComplete:completeLoad SaveSuccess:saveSuccess];
         }
-        if (strongSelf.kPlayerLoadingBlcok) {
-            strongSelf.kPlayerLoadingBlcok(strongSelf,xx,task.completeLoad,saveSuccess);
+        if (weakself.kPlayerLoadingBlcok) {
+            weakself.kPlayerLoadingBlcok(weakself,xx,completeLoad,saveSuccess);
         }
     };
-    self.kPlayerURLConnection.kPlayerURLConnectiondidFailWithErrorCodeBlcok = ^(KJRequestTask * _Nonnull task, NSInteger errorCode) {
-        __strong __typeof(weakSelf)strongSelf = weakSelf;
+    self.kPlayerURLConnection.kPlayerURLConnectiondidFailWithErrorCodeBlcok = ^(NSInteger errorCode) {
         switch (errorCode) {
             case -1001:
-                strongSelf.errorCode = KJPlayerErrorCodeNetworkOvertime;
+                weakself.errorCode = KJPlayerErrorCodeNetworkOvertime;
                 break;
             case -1003:
-                strongSelf.errorCode = KJPlayerErrorCodeServerNotFound;
+                weakself.errorCode = KJPlayerErrorCodeServerNotFound;
                 break;
             case -1004:
-                strongSelf.errorCode = KJPlayerErrorCodeServerInternalError;
+                weakself.errorCode = KJPlayerErrorCodeServerInternalError;
                 break;
             case -1005:
-                strongSelf.errorCode = KJPlayerErrorCodeNetworkInterruption;
+                weakself.errorCode = KJPlayerErrorCodeNetworkInterruption;
                 break;
             case -1009:
-                strongSelf.errorCode = KJPlayerErrorCodeNetworkNoConnection;
+                weakself.errorCode = KJPlayerErrorCodeNetworkNoConnection;
                 break;
             default:
-                strongSelf.errorCode = KJPlayerErrorCodeOtherSituations;
+                weakself.errorCode = KJPlayerErrorCodeOtherSituations;
                 break;
         }
     };

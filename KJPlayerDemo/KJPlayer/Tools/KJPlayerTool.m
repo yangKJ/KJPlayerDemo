@@ -28,9 +28,9 @@
 + (BOOL)kj_playerIsURL:(NSURL*)url{
     if(url == nil) return NO;
     NSString *string = [url absoluteString];
-//    if (string.length>4 && [[string substringToIndex:4] isEqualToString:@"www."]) {
-//        string = [NSString stringWithFormat:@"http://%@",self];
-//    }
+    //    if (string.length>4 && [[string substringToIndex:4] isEqualToString:@"www."]) {
+    //        string = [NSString stringWithFormat:@"http://%@",self];
+    //    }
     NSString *urlRegex = @"(https|http|ftp|rtsp|igmp|file|rtspt|rtspu)://((((25[0-5]|2[0-4]\\d|1?\\d?\\d)\\.){3}(25[0-5]|2[0-4]\\d|1?\\d?\\d))|([0-9a-z_!~*'()-]*\\.?))([0-9a-z][0-9a-z-]{0,61})?[0-9a-z]\\.([a-z]{2,6})(:[0-9]{1,4})?([a-zA-Z/?_=]*)\\.\\w{1,5}";
     /// 谓词判断
     NSPredicate *urlTest = [NSPredicate predicateWithFormat:@"SELF MATCHES %@", urlRegex];
@@ -83,8 +83,7 @@
 + (BOOL)kj_playerCreateFileDirectoriesWithPath:(NSString*)path{
     NSFileManager *fileManager = [NSFileManager defaultManager];
     BOOL isDir = NO;
-    BOOL isDirExist = [fileManager fileExistsAtPath:path
-                                   isDirectory:&isDir];
+    BOOL isDirExist = [fileManager fileExistsAtPath:path isDirectory:&isDir];
     if(!(isDirExist && isDir)){
         BOOL bCreateDir = [fileManager createDirectoryAtPath:path
                                  withIntermediateDirectories:YES
@@ -100,7 +99,7 @@
 
 // 获取视频第一帧图片和视频总时长
 + (NSArray*)kj_playerFristImageWithURL:(NSURL*)url{
-//    NSDictionary *opts = [NSDictionary dictionaryWithObject:@(NO) forKey:AVURLAssetPreferPreciseDurationAndTimingKey];
+    //    NSDictionary *opts = [NSDictionary dictionaryWithObject:@(NO) forKey:AVURLAssetPreferPreciseDurationAndTimingKey];
     // 初始化视频媒体文件
     AVURLAsset *asset = [[AVURLAsset alloc] initWithURL:url options:nil];
     AVAssetImageGenerator *assetGen = [[AVAssetImageGenerator alloc] initWithAsset:asset];
@@ -117,6 +116,21 @@
     NSInteger seconds = ceil(asset.duration.value / asset.duration.timescale);
     
     return @[videoImage,@(seconds)];
+}
+
+// 获取当前的旋转状态
++ (CGAffineTransform)kj_playerCurrentDeviceOrientation{
+    //状态条的方向已经设置过,所以这个就是你想要旋转的方向
+    UIInterfaceOrientation orientation = [UIApplication sharedApplication].statusBarOrientation;
+    //根据要进行旋转的方向来计算旋转的角度
+    if (orientation == UIInterfaceOrientationPortrait) {
+        return CGAffineTransformIdentity;
+    } else if (orientation == UIInterfaceOrientationLandscapeLeft) {
+        return CGAffineTransformMakeRotation(-M_PI_2);
+    } else if(orientation == UIInterfaceOrientationLandscapeRight) {
+        return CGAffineTransformMakeRotation(M_PI_2);
+    }
+    return CGAffineTransformIdentity;
 }
 
 @end

@@ -13,8 +13,6 @@
  */
 
 #import <Foundation/Foundation.h>
-#import <AVFoundation/AVFoundation.h>
-#import "KJPlayerTool.h" 
 
 NS_ASSUME_NONNULL_BEGIN
 

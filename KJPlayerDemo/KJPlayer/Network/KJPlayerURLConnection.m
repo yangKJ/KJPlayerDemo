@@ -8,12 +8,13 @@
 
 #import "KJPlayerURLConnection.h"
 #import <MobileCoreServices/MobileCoreServices.h>
-
+#import "KJRequestTask.h"
+#import "KJPlayerTool.h"
 ///
 NSString *const kMIMEType = @"video/mp4";
 
 @interface KJPlayerURLConnection ()
-@property (nonatomic,strong) NSMutableArray *pendingRequestTemps;
+@property (nonatomic,strong) NSMutableArray *loadingRequestTemps;
 @property (nonatomic,strong) NSString *videoPath;
 @property (nonatomic,strong) KJRequestTask *task;
 @end
@@ -22,7 +23,7 @@ NSString *const kMIMEType = @"video/mp4";
 #pragma mark - init methods
 - (instancetype)init{
     if (self == [super init]) {
-        self.pendingRequestTemps = [NSMutableArray array];
+        self.loadingRequestTemps = [NSMutableArray array];
         NSString *document = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES).lastObject;
         self.videoPath = [document stringByAppendingPathComponent:@"videoTemp.mp4"];
     }
@@ -50,7 +51,7 @@ NSString *const kMIMEType = @"video/mp4";
     /// 请求完成的数组
     NSMutableArray *temp = [NSMutableArray array];
     //1.每次下载一块数据都是一次请求，把这些请求放到数组，遍历数组
-    [self.pendingRequestTemps enumerateObjectsUsingBlock:^(id  _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
+    [self.loadingRequestTemps enumerateObjectsUsingBlock:^(id  _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
         AVAssetResourceLoadingRequest *loadingRequest = (AVAssetResourceLoadingRequest*)obj;
         [self kFillInContentInformation:loadingRequest.contentInformationRequest];
         //2.判断此次请求的数据是否处理完全
@@ -63,7 +64,7 @@ NSString *const kMIMEType = @"video/mp4";
         }
     }];
     //在所有请求的数组中移除已经完成的
-    [self.pendingRequestTemps removeObjectsInArray:temp];
+    [self.loadingRequestTemps removeObjectsInArray:temp];
 }
 /// 判断此次请求的数据是否处理完
 - (BOOL)kRespondDataWithRequest:(AVAssetResourceLoadingDataRequest *)dataRequest{
@@ -97,6 +98,7 @@ NSString *const kMIMEType = @"video/mp4";
     
     return complete;
 }
+/// 处理本次请求
 - (void)dealWithLoadingRequest:(AVAssetResourceLoadingRequest *)loadingRequest{
     NSURL *interceptedURL = [loadingRequest.request URL];
     NSRange range = NSMakeRange((NSUInteger)loadingRequest.dataRequest.currentOffset, NSUIntegerMax);
@@ -128,9 +130,9 @@ NSString *const kMIMEType = @"video/mp4";
  *  @param loadingRequest 每一小块数据的请求
  */
 - (BOOL)resourceLoader:(AVAssetResourceLoader *)resourceLoader shouldWaitForLoadingOfRequestedResource:(AVAssetResourceLoadingRequest *)loadingRequest{
-    [self.pendingRequestTemps addObject:loadingRequest];
+    [self.loadingRequestTemps addObject:loadingRequest];
     [self dealWithLoadingRequest:loadingRequest];
-//    NSLog(@"----%@", loadingRequest);
+    //    NSLog(@"----%@", loadingRequest);
     return YES;
 }
 /** 当视频播放器要取消请求时，相应的，也应该停止下载这部分数据。
@@ -139,7 +141,7 @@ NSString *const kMIMEType = @"video/mp4";
  *  @param loadingRequest 每一小块数据的请求
  */
 - (void)resourceLoader:(AVAssetResourceLoader *)resourceLoader didCancelLoadingRequest:(AVAssetResourceLoadingRequest *)loadingRequest{
-    [self.pendingRequestTemps removeObject:loadingRequest];
+    [self.loadingRequestTemps removeObject:loadingRequest];
 }
 /// 当视频播放器播放新的视频时，需要把之前发起的请求全部请求，并发起新的视频请求
 - (BOOL)resourceLoader:(AVAssetResourceLoader *)resourceLoader shouldWaitForRenewalOfRequestedResource:(AVAssetResourceRenewalRequest *)renewalRequest{
@@ -147,24 +149,21 @@ NSString *const kMIMEType = @"video/mp4";
 }
 #pragma mark - block
 - (void)kSetBlock{
-    __weak __typeof(self) weakSelf = self;
-    self.task.kRequestTaskDidReceiveVideoLengthBlcok = ^(KJRequestTask * _Nonnull task, NSUInteger videoLength) {
-        
-    };
+    PLAYER_WEAKSELF;
+    //    self.task.kRequestTaskDidReceiveVideoLengthBlcok = ^(KJRequestTask * _Nonnull task, NSUInteger videoLength) {
+    //
+    //    };
     self.task.kRequestTaskDidReceiveDataBlcok = ^(KJRequestTask * _Nonnull task, NSData * _Nonnull data) {
-        __strong __typeof(weakSelf)strongSelf = weakSelf;
-        [strongSelf kProcessPendingRequests];
+        [weakself kProcessPendingRequests];
     };
     self.task.kRequestTaskDidFinishLoadingAndSaveFileBlcok = ^(KJRequestTask * _Nonnull task, BOOL saveSuccess) {
-        __strong __typeof(weakSelf)strongSelf = weakSelf;
-        if (strongSelf.kPlayerURLConnectionDidFinishLoadingAndSaveFileBlcok) {
-            strongSelf.kPlayerURLConnectionDidFinishLoadingAndSaveFileBlcok(task,saveSuccess);
+        if (weakself.kPlayerURLConnectionDidFinishLoadingAndSaveFileBlcok) {
+            weakself.kPlayerURLConnectionDidFinishLoadingAndSaveFileBlcok(task.completeLoad,saveSuccess);
         }
     };
     self.task.kRequestTaskdidFailWithErrorCodeBlcok = ^(KJRequestTask * _Nonnull task, NSInteger errorCode) {
-        __strong __typeof(weakSelf)strongSelf = weakSelf;
-        if (strongSelf.kPlayerURLConnectiondidFailWithErrorCodeBlcok) {        
-            strongSelf.kPlayerURLConnectiondidFailWithErrorCodeBlcok(task,errorCode);
+        if (weakself.kPlayerURLConnectiondidFailWithErrorCodeBlcok) {
+            weakself.kPlayerURLConnectiondidFailWithErrorCodeBlcok(errorCode);
         }
     };
 }

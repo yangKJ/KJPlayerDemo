@@ -10,6 +10,8 @@
 		681AD53822E55F2800F1018B /* KJPlayerView.m in Sources */ = {isa = PBXBuildFile; fileRef = 681AD53722E55F2800F1018B /* KJPlayerView.m */; };
 		681AD53A22E5613600F1018B /* README.md in Resources */ = {isa = PBXBuildFile; fileRef = 681AD53922E5613600F1018B /* README.md */; };
 		681AD53D22E58C9100F1018B /* KJPlayer.podspec in Resources */ = {isa = PBXBuildFile; fileRef = 681AD53C22E58C9100F1018B /* KJPlayer.podspec */; };
+		68231D8F22E59E5F00A333DC /* KJPlayerView.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 68231D8E22E59E5F00A333DC /* KJPlayerView.bundle */; };
+		6846A03E22E6A3FA0086C16F /* KJLightView.m in Sources */ = {isa = PBXBuildFile; fileRef = 6846A03D22E6A3FA0086C16F /* KJLightView.m */; };
 		689D5A7822E3011200DE33FC /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 689D5A7722E3011200DE33FC /* AppDelegate.m */; };
 		689D5A7B22E3011200DE33FC /* ViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 689D5A7A22E3011200DE33FC /* ViewController.m */; };
 		689D5A7E22E3011200DE33FC /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 689D5A7C22E3011200DE33FC /* Main.storyboard */; };
@@ -22,6 +24,7 @@
 		689D5AB022E3149400DE33FC /* KJRequestTask.m in Sources */ = {isa = PBXBuildFile; fileRef = 689D5AAF22E3149400DE33FC /* KJRequestTask.m */; };
 		689D5AB422E3525200DE33FC /* KJPlayerURLConnection.m in Sources */ = {isa = PBXBuildFile; fileRef = 689D5AB322E3525200DE33FC /* KJPlayerURLConnection.m */; };
 		689D5AB722E471AB00DE33FC /* KJPlayerTool.m in Sources */ = {isa = PBXBuildFile; fileRef = 689D5AB622E471AB00DE33FC /* KJPlayerTool.m */; };
+		68C4AE8D22E5A86000E9E806 /* KJFastView.m in Sources */ = {isa = PBXBuildFile; fileRef = 68C4AE8C22E5A86000E9E806 /* KJFastView.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -47,6 +50,9 @@
 		681AD53922E5613600F1018B /* README.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = SOURCE_ROOT; };
 		681AD53B22E5661B00F1018B /* KJPlayerHeader.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = KJPlayerHeader.h; sourceTree = "<group>"; };
 		681AD53C22E58C9100F1018B /* KJPlayer.podspec */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = KJPlayer.podspec; sourceTree = SOURCE_ROOT; };
+		68231D8E22E59E5F00A333DC /* KJPlayerView.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = KJPlayerView.bundle; sourceTree = "<group>"; };
+		6846A03C22E6A3FA0086C16F /* KJLightView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = KJLightView.h; sourceTree = "<group>"; };
+		6846A03D22E6A3FA0086C16F /* KJLightView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = KJLightView.m; sourceTree = "<group>"; };
 		689D5A7322E3011200DE33FC /* KJPlayerDemo.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = KJPlayerDemo.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		689D5A7622E3011200DE33FC /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
 		689D5A7722E3011200DE33FC /* AppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
@@ -71,6 +77,9 @@
 		689D5AB322E3525200DE33FC /* KJPlayerURLConnection.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = KJPlayerURLConnection.m; sourceTree = "<group>"; };
 		689D5AB522E471AB00DE33FC /* KJPlayerTool.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = KJPlayerTool.h; sourceTree = "<group>"; };
 		689D5AB622E471AB00DE33FC /* KJPlayerTool.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = KJPlayerTool.m; sourceTree = "<group>"; };
+		68C4AE8B22E5A86000E9E806 /* KJFastView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = KJFastView.h; sourceTree = "<group>"; };
+		68C4AE8C22E5A86000E9E806 /* KJFastView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = KJFastView.m; sourceTree = "<group>"; };
+		68C4AE8E22E5B38A00E9E806 /* KJPlayerViewHeader.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = KJPlayerViewHeader.h; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -122,8 +131,8 @@
 			isa = PBXGroup;
 			children = (
 				681AD53B22E5661B00F1018B /* KJPlayerHeader.h */,
-				689D5AB122E3305700DE33FC /* PlayerView */,
-				689D5AA922E3012E00DE33FC /* Player */,
+				689D5AB122E3305700DE33FC /* KPlayerView */,
+				689D5AA922E3012E00DE33FC /* KJPlayer */,
 				689D5AA822E3011E00DE33FC /* Demo */,
 			);
 			path = KJPlayerDemo;
@@ -165,7 +174,7 @@
 			path = Demo;
 			sourceTree = "<group>";
 		};
-		689D5AA922E3012E00DE33FC /* Player */ = {
+		689D5AA922E3012E00DE33FC /* KJPlayer */ = {
 			isa = PBXGroup;
 			children = (
 				689D5AB822E47F7C00DE33FC /* Tools */,
@@ -173,7 +182,7 @@
 				689D5AAA22E30EDA00DE33FC /* KJPlayer.h */,
 				689D5AAB22E30EDA00DE33FC /* KJPlayer.m */,
 			);
-			path = Player;
+			path = KJPlayer;
 			sourceTree = "<group>";
 		};
 		689D5AAD22E3146B00DE33FC /* Network */ = {
@@ -187,13 +196,19 @@
 			path = Network;
 			sourceTree = "<group>";
 		};
-		689D5AB122E3305700DE33FC /* PlayerView */ = {
+		689D5AB122E3305700DE33FC /* KPlayerView */ = {
 			isa = PBXGroup;
 			children = (
+				68231D8E22E59E5F00A333DC /* KJPlayerView.bundle */,
 				681AD53622E55F2800F1018B /* KJPlayerView.h */,
 				681AD53722E55F2800F1018B /* KJPlayerView.m */,
+				68C4AE8B22E5A86000E9E806 /* KJFastView.h */,
+				68C4AE8C22E5A86000E9E806 /* KJFastView.m */,
+				6846A03C22E6A3FA0086C16F /* KJLightView.h */,
+				6846A03D22E6A3FA0086C16F /* KJLightView.m */,
+				68C4AE8E22E5B38A00E9E806 /* KJPlayerViewHeader.h */,
 			);
-			path = PlayerView;
+			path = KPlayerView;
 			sourceTree = "<group>";
 		};
 		689D5AB822E47F7C00DE33FC /* Tools */ = {
@@ -308,6 +323,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				68231D8F22E59E5F00A333DC /* KJPlayerView.bundle in Resources */,
 				681AD53D22E58C9100F1018B /* KJPlayer.podspec in Resources */,
 				689D5A8322E3011400DE33FC /* LaunchScreen.storyboard in Resources */,
 				689D5A8022E3011400DE33FC /* Assets.xcassets in Resources */,
@@ -341,9 +357,11 @@
 				689D5A7B22E3011200DE33FC /* ViewController.m in Sources */,
 				689D5A8622E3011400DE33FC /* main.m in Sources */,
 				689D5AB022E3149400DE33FC /* KJRequestTask.m in Sources */,
+				6846A03E22E6A3FA0086C16F /* KJLightView.m in Sources */,
 				689D5AB422E3525200DE33FC /* KJPlayerURLConnection.m in Sources */,
 				689D5A7822E3011200DE33FC /* AppDelegate.m in Sources */,
 				681AD53822E55F2800F1018B /* KJPlayerView.m in Sources */,
+				68C4AE8D22E5A86000E9E806 /* KJFastView.m in Sources */,
 				689D5AAC22E30EDA00DE33FC /* KJPlayer.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

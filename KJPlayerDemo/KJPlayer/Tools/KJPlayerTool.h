@@ -10,7 +10,8 @@
 #import <UIKit/UIKit.h>
 
 NS_ASSUME_NONNULL_BEGIN
-
+#pragma mark ********** 3.弱引用   *********
+#define PLAYER_WEAKSELF __weak typeof(self) weakself = self
 @interface KJPlayerTool : NSObject
 
 /// 判断是否含有视频轨道（判断视频是否可以正常播放）
@@ -33,6 +34,9 @@ NS_ASSUME_NONNULL_BEGIN
 
 // 获取视频第一帧图片和视频总时长
 + (NSArray*)kj_playerFristImageWithURL:(NSURL*)url;
+
+// 获取当前的旋转状态
++ (CGAffineTransform)kj_playerCurrentDeviceOrientation;
 
 @end
 
