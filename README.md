@@ -81,11 +81,9 @@ pod 'KJLoadingAnimation' # 加载控件
 - [x] 支持拖动、手势快进倒退、增大减小音量等等
 - [x] 支持重力感应切换横竖屏
 
-###
-下载完Demo请执行`carthage update --platform iOS`
 
-##### Feature
-如果您在使用中有好的需求及建议，或者遇到什么bug，欢迎随时issue，我会及时的回复，有空也会不断优化更新这些库。
+##### Issue
+如果您在使用中有好的需求及建议，或者遇到什么bug，欢迎随时issue，我会及时的回复，有空也会不断优化更新这些库
 
 #### <a id="使用方法(支持cocoapods/carthage安装)"></a>Pod使用方法
 ```
@@ -116,7 +114,14 @@ pod 'KJPlayer/KJPlayerView'  # 自带展示界面
 #### <a id="效果图"></a>效果图
 竖屏目前展示效果：
 
-![WechatIMG9.png](https://upload-images.jianshu.io/upload_images/1933747-c350cda7cc17265b.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240)
+![WechatIMG10.jpeg](https://upload-images.jianshu.io/upload_images/1933747-537dbd09082b0153.jpeg?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240)
+
+横屏展示效果图：
+
+![IMG_6792.jpg](https://upload-images.jianshu.io/upload_images/1933747-9d702f8c97617a3e.jpg?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240)
+
+![IMG_6794.jpg](https://upload-images.jianshu.io/upload_images/1933747-0f5da34077eb46f4.jpg?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240)
+
 
 
 #### KJPlayer
@@ -125,8 +130,22 @@ pod 'KJPlayer/KJPlayerView'  # 自带展示界面
 - KJRequestTask：网络缓存类   网络请求结束的时候，如果数据完整，则把数据缓存到指定的路径，储存起来，如果不完整，则删除缓存的临时文件数据
 - KJPlayerURLConnection：网络和Player的中转类   把网络请求缓存到本地的临时数据`offset`和`videoLength`传递给播放器
 
+##### 功能流程图
+![1副本.png](https://upload-images.jianshu.io/upload_images/1933747-dab51173f89aaa32.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240)
+
+<!--爱学习-->
+
 ##### 代码事例
 ```
+UIButton *button = [UIButton buttonWithType:(UIButtonTypeCustom)];
+button.frame = CGRectMake(0, 0, 120, 30);
+button.center = CGPointMake(self.view.frame.size.width/2, self.view.frame.size.height/2+50);
+[button setTitle:@"自带展示区控制器" forState:(UIControlStateNormal)];
+button.titleLabel.font = [UIFont systemFontOfSize:12];
+button.backgroundColor = UIColor.greenColor;
+[self.view addSubview:button];
+[button addTarget:self action:@selector(butAction:) forControlEvents:(UIControlEventTouchUpInside)];
+
 UIView *view = [[UIView alloc] initWithFrame:CGRectMake(0, 20, [UIScreen mainScreen].bounds.size.width, [UIScreen mainScreen].bounds.size.width*9/16)];
 view.backgroundColor = UIColor.cyanColor;
 [self.view addSubview:view];
@@ -134,9 +153,10 @@ view.backgroundColor = UIColor.cyanColor;
 NSURL *url = [NSURL URLWithString:@"https://mp4.vjshi.com/2018-03-30/1f36dd9819eeef0bc508414494d34ad9.mp4"];
 
 KJPlayer *player = [KJPlayer sharedInstance];
-player.playerDelegate = self;
-AVPlayerLayer *playerLayer = [player kj_playWithUrl:url];
-[player kj_seekToTime:player.videoTotalTime - 10];
+self.player = player;
+player.delegate = self;
+AVPlayerLayer *playerLayer = [player kj_playerPlayWithURL:url];
+[player kj_playerSeekToTime:0];
 playerLayer.frame = view.bounds;
 [view.layer addSublayer:playerLayer];
 ```
@@ -154,6 +174,16 @@ playerLayer.frame = view.bounds;
 - (void)kj_player:(nonnull KJPlayer *)player State:(KJPlayerState)state ErrorCode:(KJPlayerErrorCode)errorCode {
     NSLog(@"State:%ld==%ld",state,errorCode);
 }
+
+- (void)butAction:(UIButton*)sender{
+PlayViewController *vc = [PlayViewController new];
+vc.view.backgroundColor = UIColor.whiteColor;
+UINavigationController *nav = [[UINavigationController alloc]initWithRootViewController:vc];
+nav.navigationBar.hidden = YES;
+[self presentViewController:nav animated:YES completion:^{
+[self.player kj_playerStop];
+}];
+}
 ```
 
 #### KPlayerView
@@ -161,9 +191,9 @@ playerLayer.frame = view.bounds;
 直接 pod 'KJPlayer/KJPlayerView'  # 自带展示界面  
 
 > KJPlayerViewConfiguration：配置信息  
-> KJPlayerViewHeader：宏文件
-> KJLightView：亮度管理
-> KJFastView：快进倒退管理
+> KJPlayerViewHeader：宏文件  
+> KJLightView：亮度管理  
+> KJFastView：快进倒退管理  
 
 ##### 展示区代码事例
 ```

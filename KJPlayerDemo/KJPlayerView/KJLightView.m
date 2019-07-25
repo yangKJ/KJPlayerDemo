@@ -21,7 +21,7 @@
 }
 
 - (void)kSetUI{
-    self.backgroundColor = UIColor.redColor;
+//    self.backgroundColor = UIColor.redColor;
 //    self.effectView.frame = self.bounds;
 }
 - (CGFloat)touchBeginLightValue{
