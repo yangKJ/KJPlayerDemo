@@ -97,12 +97,20 @@ pod 'KJPlayer/KJPlayerView'  # 自带展示界面
 ```
 ####版本更新日志:
 
+#### Add 1.0.3
+1.增加播放类型功能 重复播放、随机播放、顺序播放、仅播放一次
+2.优化提高播放器稳定性和降低性能消耗
+3.新增 KJPlayerViewConfiguration 类用来管理设置默认属性
+4.完善全屏布局 完善 KJFastView 快进倒退展示区
+5.完成手势快进快退、手势改变音量、完成重力感应改变屏幕方向
+
 #### Add 1.0.2
 1.完善 KJPlayerView 展示界面
 2.修改bug
 
 #### Add 1.0.0
 1.第一次提交项目
+2.完善 KJPlayer 功能区
 ```
 
 #### <a id="效果图"></a>效果图
@@ -151,18 +159,86 @@ playerLayer.frame = view.bounds;
 #### KPlayerView
 提供一套完整的布局界面，视图属性我全部暴露在外界，这样方便修改和重新布局  
 直接 pod 'KJPlayer/KJPlayerView'  # 自带展示界面  
-还有一些功能后续会陆续完善
+
+> KJPlayerViewConfiguration：配置信息  
+> KJPlayerViewHeader：宏文件
+> KJLightView：亮度管理
+> KJFastView：快进倒退管理
 
 ##### 展示区代码事例
 ```
-/// 视图属性我全部暴露在外界，这样方便修改和重新布局
-KJPlayerView *view = [[KJPlayerView alloc] initWithFrame:CGRectMake(0, 20, [UIScreen mainScreen].bounds.size.width, [UIScreen mainScreen].bounds.size.width*9/16)];
-view.backgroundColor = UIColor.cyanColor;
-[self.view addSubview:view];
+@interface ViewController ()<KJPlayerViewDelegate>
+@property(nonatomic,strong) KJPlayerView *playerView;
+@end
 
-view.topTitleLabel.text = @"正在播放";
-//    view.loadingProgress.frame = CGRectMake(20, 0, 200, 20);
-//    NSURL *url = [NSURL URLWithString:@"https://mp4.vjshi.com/2018-03-30/1f36dd9819eeef0bc508414494d34ad9.mp4"];
+@implementation ViewController
+
+/// 电池状态栏管理
+- (BOOL)prefersStatusBarHidden{
+if (self.playerView) {
+return _playerView.configuration.fullScreen;
+}else{
+return NO;
+}
+}
+
+- (void)viewDidLoad {
+[super viewDidLoad];
+
+// Do any additional setup after loading the view.
+[self.view addSubview:self.playerView];
+}
+
+- (KJPlayerView*)playerView{
+if (!_playerView) {
+KJPlayerViewConfiguration *configuration = [[KJPlayerViewConfiguration alloc]init];
+configuration.autoHideTime = 0.0;
+configuration.playType = KJPlayerPlayTypeOrder;
+KJPlayerView *view = [[KJPlayerView alloc] initWithFrame:CGRectMake(0, 20, [UIScreen mainScreen].bounds.size.width, [UIScreen mainScreen].bounds.size.width*9/16) Configuration:configuration];
+_playerView = view;
+view.backgroundColor = UIColor.blackColor;
+
+view.delegate = self;
+
 NSString *url = @"https://mp4.vjshi.com/2018-03-30/1f36dd9819eeef0bc508414494d34ad9.mp4";
-[view kj_setPlayWithURL:url StartTime:100];
+[view kj_setPlayWithURL:url StartTime:0];
+NSArray *temp = @[@"https://mp4.vjshi.com/2018-08-31/3ba67e58deb45fefe7f7d3d16dbf2b16.mp4",
+@"https://mp4.vjshi.com/2017-07-02/0cbbf21c6003f7936f4086dd10e7ebf5.mp4",
+[NSURL URLWithString:@"https://mp4.vjshi.com/2018-03-30/1f36dd9819eeef0bc508414494d34ad9.mp4"],
+];
+view.videoUrlTemps = temp;
+view.videoIndex = 2;
+}
+return _playerView;
+}
 ```
+#### 委托代理
+```
+#pragma mark - KJPlayerViewDelegate
+- (BOOL)kj_PlayerView:(KJPlayerView *)playerView DeviceDirection:(KJPlayerDeviceDirection)direction{
+/// 重置电池状态
+[self setNeedsStatusBarAppearanceUpdate];
+//    switch (direction) {
+//        case KJPlayerDeviceDirectionTop:
+//            playerView.layer.transform = CATransform3DIdentity;
+//            break;
+//        case KJPlayerDeviceDirectionBottom:
+//            playerView.layer.transform = CATransform3DIdentity;
+//            break;
+//        case KJPlayerDeviceDirectionLeft:
+//            playerView.layer.transform = CATransform3DMakeRotation(-M_PI/2, 0, 0, 1);
+//            playerView.layer.frame = CGRectMake(0, 0, PLAYER_SCREEN_WIDTH, PLAYER_SCREEN_HEIGHT);
+//            playerView.playerLayer.frame = playerView.bounds;
+//            break;
+//        case KJPlayerDeviceDirectionRight:
+//            playerView.layer.transform = CATransform3DMakeRotation(M_PI/2, 0, 0, 1);
+//            playerView.layer.frame = CGRectMake(0, 0, PLAYER_SCREEN_WIDTH, PLAYER_SCREEN_HEIGHT);
+//            break;
+//        default:
+//            break;
+//    }
+return NO;
+}
+
+```
+

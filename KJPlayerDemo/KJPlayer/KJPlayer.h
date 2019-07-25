@@ -28,9 +28,10 @@ typedef NS_ENUM(NSInteger, KJPlayerErrorCode) {
 typedef NS_ENUM(NSInteger, KJPlayerState) {
     KJPlayerStateLoading = 1, /// 加载中 缓存数据
     KJPlayerStatePlaying = 2, /// 播放中
-    KJPlayerStateStopped = 3, /// 停止
-    KJPlayerStatePause   = 4, /// 暂停
-    KJPlayerStateError   = 5, /// 播放错误
+    KJPlayerStatePlayEnd = 3, /// 播放结束
+    KJPlayerStateStopped = 4, /// 停止
+    KJPlayerStatePause   = 5, /// 暂停
+    KJPlayerStateError   = 6, /// 播放错误
 };
 @class KJPlayer;
 @protocol KJPlayerDelegate <NSObject>
@@ -71,13 +72,17 @@ typedef NS_ENUM(NSInteger, KJPlayerState) {
 
 /* 进入后台是否停止播放，默认yes */
 @property (nonatomic,assign) BOOL stopWhenAppEnterBackground;
+/* 是否需要显示第一帧图片，默认no */
+@property (nonatomic,assign) BOOL needDisplayFristImage;
 /** 委托 */
 @property (nonatomic,weak) id <KJPlayerDelegate> delegate;
 
 /* 播放地址 */
-- (AVPlayerLayer*)kj_playWithUrl:(NSURL*)url;
+- (AVPlayerLayer*)kj_playerPlayWithURL:(NSURL*)url;
+/* 重播地址 */
+- (void)kj_playerReplayWithURL:(NSURL*)url;
 /* 设置开始播放时间 */
-- (void)kj_seekToTime:(CGFloat)seconds;
+- (void)kj_playerSeekToTime:(CGFloat)seconds;
 /* 恢复播放 */
 - (void)kj_playerResume;
 /* 暂停 */

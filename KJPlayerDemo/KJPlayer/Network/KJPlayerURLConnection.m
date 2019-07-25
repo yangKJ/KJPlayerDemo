@@ -109,9 +109,9 @@ NSString *const kMIMEType = @"video/mp4";
     
     if (!self.task) {
         self.task = [[KJRequestTask alloc] init];
-        [self.task kj_startLoadWithUrl:interceptedURL Offset:0];
         /// 回调事件处理
         [self kSetBlock];
+        [self.task kj_startLoadWithUrl:interceptedURL Offset:0];
     } else {
         //1.如果新的rang的起始位置比当前缓存的位置还大300k，则重新按照range请求数据
         //2.如果往回拖也重新请求
@@ -132,7 +132,7 @@ NSString *const kMIMEType = @"video/mp4";
 - (BOOL)resourceLoader:(AVAssetResourceLoader *)resourceLoader shouldWaitForLoadingOfRequestedResource:(AVAssetResourceLoadingRequest *)loadingRequest{
     [self.loadingRequestTemps addObject:loadingRequest];
     [self dealWithLoadingRequest:loadingRequest];
-    //    NSLog(@"----%@", loadingRequest);
+//    NSLog(@"----%@", loadingRequest);
     return YES;
 }
 /** 当视频播放器要取消请求时，相应的，也应该停止下载这部分数据。

@@ -12,6 +12,9 @@
 		681AD53D22E58C9100F1018B /* KJPlayer.podspec in Resources */ = {isa = PBXBuildFile; fileRef = 681AD53C22E58C9100F1018B /* KJPlayer.podspec */; };
 		68231D8F22E59E5F00A333DC /* KJPlayerView.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 68231D8E22E59E5F00A333DC /* KJPlayerView.bundle */; };
 		6846A03E22E6A3FA0086C16F /* KJLightView.m in Sources */ = {isa = PBXBuildFile; fileRef = 6846A03D22E6A3FA0086C16F /* KJLightView.m */; };
+		68643A5B22E6F63A0065F787 /* KJPlayerViewConfiguration.m in Sources */ = {isa = PBXBuildFile; fileRef = 68643A5A22E6F63A0065F787 /* KJPlayerViewConfiguration.m */; };
+		6887897C22E7E6C30087597D /* KJPlayerViewModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 6887897B22E7E6C30087597D /* KJPlayerViewModel.m */; };
+		6887897E22E82BC00087597D /* Heiyaya.mp4 in Resources */ = {isa = PBXBuildFile; fileRef = 6887897D22E82BC00087597D /* Heiyaya.mp4 */; };
 		689D5A7822E3011200DE33FC /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 689D5A7722E3011200DE33FC /* AppDelegate.m */; };
 		689D5A7B22E3011200DE33FC /* ViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 689D5A7A22E3011200DE33FC /* ViewController.m */; };
 		689D5A7E22E3011200DE33FC /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 689D5A7C22E3011200DE33FC /* Main.storyboard */; };
@@ -53,6 +56,11 @@
 		68231D8E22E59E5F00A333DC /* KJPlayerView.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = KJPlayerView.bundle; sourceTree = "<group>"; };
 		6846A03C22E6A3FA0086C16F /* KJLightView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = KJLightView.h; sourceTree = "<group>"; };
 		6846A03D22E6A3FA0086C16F /* KJLightView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = KJLightView.m; sourceTree = "<group>"; };
+		68643A5922E6F63A0065F787 /* KJPlayerViewConfiguration.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = KJPlayerViewConfiguration.h; sourceTree = "<group>"; };
+		68643A5A22E6F63A0065F787 /* KJPlayerViewConfiguration.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = KJPlayerViewConfiguration.m; sourceTree = "<group>"; };
+		6887897A22E7E6C30087597D /* KJPlayerViewModel.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = KJPlayerViewModel.h; sourceTree = "<group>"; };
+		6887897B22E7E6C30087597D /* KJPlayerViewModel.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = KJPlayerViewModel.m; sourceTree = "<group>"; };
+		6887897D22E82BC00087597D /* Heiyaya.mp4 */ = {isa = PBXFileReference; lastKnownFileType = file; path = Heiyaya.mp4; sourceTree = "<group>"; };
 		689D5A7322E3011200DE33FC /* KJPlayerDemo.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = KJPlayerDemo.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		689D5A7622E3011200DE33FC /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
 		689D5A7722E3011200DE33FC /* AppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
@@ -107,6 +115,14 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		6887897F22E82BC40087597D /* Res */ = {
+			isa = PBXGroup;
+			children = (
+				6887897D22E82BC00087597D /* Heiyaya.mp4 */,
+			);
+			path = Res;
+			sourceTree = "<group>";
+		};
 		689D5A6A22E3011200DE33FC = {
 			isa = PBXGroup;
 			children = (
@@ -131,7 +147,7 @@
 			isa = PBXGroup;
 			children = (
 				681AD53B22E5661B00F1018B /* KJPlayerHeader.h */,
-				689D5AB122E3305700DE33FC /* KPlayerView */,
+				689D5AB122E3305700DE33FC /* KJPlayerView */,
 				689D5AA922E3012E00DE33FC /* KJPlayer */,
 				689D5AA822E3011E00DE33FC /* Demo */,
 			);
@@ -159,6 +175,7 @@
 		689D5AA822E3011E00DE33FC /* Demo */ = {
 			isa = PBXGroup;
 			children = (
+				6887897F22E82BC40087597D /* Res */,
 				689D5A7622E3011200DE33FC /* AppDelegate.h */,
 				689D5A7722E3011200DE33FC /* AppDelegate.m */,
 				689D5A7922E3011200DE33FC /* ViewController.h */,
@@ -196,7 +213,7 @@
 			path = Network;
 			sourceTree = "<group>";
 		};
-		689D5AB122E3305700DE33FC /* KPlayerView */ = {
+		689D5AB122E3305700DE33FC /* KJPlayerView */ = {
 			isa = PBXGroup;
 			children = (
 				68231D8E22E59E5F00A333DC /* KJPlayerView.bundle */,
@@ -206,9 +223,13 @@
 				68C4AE8C22E5A86000E9E806 /* KJFastView.m */,
 				6846A03C22E6A3FA0086C16F /* KJLightView.h */,
 				6846A03D22E6A3FA0086C16F /* KJLightView.m */,
+				6887897A22E7E6C30087597D /* KJPlayerViewModel.h */,
+				6887897B22E7E6C30087597D /* KJPlayerViewModel.m */,
+				68643A5922E6F63A0065F787 /* KJPlayerViewConfiguration.h */,
+				68643A5A22E6F63A0065F787 /* KJPlayerViewConfiguration.m */,
 				68C4AE8E22E5B38A00E9E806 /* KJPlayerViewHeader.h */,
 			);
-			path = KPlayerView;
+			path = KJPlayerView;
 			sourceTree = "<group>";
 		};
 		689D5AB822E47F7C00DE33FC /* Tools */ = {
@@ -325,6 +346,7 @@
 			files = (
 				68231D8F22E59E5F00A333DC /* KJPlayerView.bundle in Resources */,
 				681AD53D22E58C9100F1018B /* KJPlayer.podspec in Resources */,
+				6887897E22E82BC00087597D /* Heiyaya.mp4 in Resources */,
 				689D5A8322E3011400DE33FC /* LaunchScreen.storyboard in Resources */,
 				689D5A8022E3011400DE33FC /* Assets.xcassets in Resources */,
 				681AD53A22E5613600F1018B /* README.md in Resources */,
@@ -357,8 +379,10 @@
 				689D5A7B22E3011200DE33FC /* ViewController.m in Sources */,
 				689D5A8622E3011400DE33FC /* main.m in Sources */,
 				689D5AB022E3149400DE33FC /* KJRequestTask.m in Sources */,
+				6887897C22E7E6C30087597D /* KJPlayerViewModel.m in Sources */,
 				6846A03E22E6A3FA0086C16F /* KJLightView.m in Sources */,
 				689D5AB422E3525200DE33FC /* KJPlayerURLConnection.m in Sources */,
+				68643A5B22E6F63A0065F787 /* KJPlayerViewConfiguration.m in Sources */,
 				689D5A7822E3011200DE33FC /* AppDelegate.m in Sources */,
 				681AD53822E55F2800F1018B /* KJPlayerView.m in Sources */,
 				68C4AE8D22E5A86000E9E806 /* KJFastView.m in Sources */,

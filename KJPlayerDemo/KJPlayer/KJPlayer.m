@@ -69,6 +69,7 @@
     _userPause = YES;
     _loadComplete = NO;
     _videoIsLocalityData = NO;
+    _needDisplayFristImage = NO;
 }
 - (instancetype)init{
     if (self == [super init]) {
@@ -86,11 +87,12 @@
     self.userPause = NO;
     self.loadComplete = NO;
     
-    /// 获取视频第一帧图片和视频总时间
-    NSArray *temp = [KJPlayerTool kj_playerFristImageWithURL:url];
-    self.videoFristImage = temp[0];
-    self.videoTotalTime = [(NSNumber*)temp[1] floatValue];
-    
+    if (self.needDisplayFristImage) {
+        /// 获取视频第一帧图片
+        self.videoFristImage = [KJPlayerTool kj_playerFristImageWithURL:url];
+    }
+    self.videoTotalTime = [KJPlayerTool kj_playerVideoTotalTimeWithURL:url];
+
     // 本地文件不设置 KJPlayerStateLoading 状态
     if ([url.scheme isEqualToString:@"file"]) {
         // 如果已经在 KJPlayerStatePlaying，则直接发通知，否则设置状态
@@ -106,10 +108,56 @@
 }
 
 #pragma mark - public methods
-- (AVPlayerLayer*)kj_playWithUrl:(NSURL*)url{
+/* 重播放地址 */
+- (void)kj_playerReplayWithURL:(NSURL*)url{
     ///1.判断本地是否有缓存
     NSString *path = [KJPlayerTool kj_playerGetIntegrityPathWithUrl:url];
-    NSLog(@"%@",path);
+    if ([[NSFileManager defaultManager] fileExistsAtPath:path]) {
+        self.videoIsLocalityData = YES;
+        url = [NSURL fileURLWithPath:path];
+    }else {
+        self.videoIsLocalityData = NO;
+        ///2.判断网络地址是否可用
+        BOOL isUrl = [KJPlayerTool kj_playerHaveTracksWithURL:url];
+        if (!isUrl) {
+            self.errorCode = KJPlayerErrorCodeVideoUrlError;
+            self.state = KJPlayerStateError;
+            return;
+        }
+    }
+    
+    //3.播放前的准备工作
+    [self kPlayBeforePreparationWithURL:url];
+    
+    //4.判断版本和是否为本地资源  iOS7以下和本地资源直接播放
+    if (self.videoIsLocalityData) {
+        AVURLAsset *asset = [AVURLAsset URLAssetWithURL:url options:nil];
+        self.kPlayerItem = [AVPlayerItem playerItemWithAsset:asset];
+        if (!self.videoPlayer) {
+            self.videoPlayer = [AVPlayer playerWithPlayerItem:self.kPlayerItem];
+        } else {
+            [self.videoPlayer replaceCurrentItemWithPlayerItem:self.kPlayerItem];
+        }
+    } else {
+        self.kPlayerURLConnection = [[KJPlayerURLConnection alloc] init];
+        [self kSetBlock]; /// 设置回调代理
+        NSURL *playUrl = [self.kPlayerURLConnection kSetComponentsWithUrl:url];
+        AVURLAsset *asset = [AVURLAsset URLAssetWithURL:playUrl options:nil];
+        [asset.resourceLoader setDelegate:self.kPlayerURLConnection queue:dispatch_get_main_queue()];
+        self.kPlayerItem = [AVPlayerItem playerItemWithAsset:asset];
+        if (!self.videoPlayer) {
+            self.videoPlayer = [AVPlayer playerWithPlayerItem:self.kPlayerItem];
+        } else {
+            [self.videoPlayer replaceCurrentItemWithPlayerItem:self.kPlayerItem];
+        }
+    }
+    
+    //5.设置通知和kvo
+    [self kSetNotificationAndKvo];
+}
+- (AVPlayerLayer*)kj_playerPlayWithURL:(NSURL*)url{
+    ///1.判断本地是否有缓存
+    NSString *path = [KJPlayerTool kj_playerGetIntegrityPathWithUrl:url];
     if ([[NSFileManager defaultManager] fileExistsAtPath:path]) {
         self.videoIsLocalityData = YES;
         url = [NSURL fileURLWithPath:path];
@@ -128,7 +176,7 @@
     [self kPlayBeforePreparationWithURL:url];
     
     //4.判断版本和是否为本地资源  iOS7以下和本地资源直接播放
-    if ([[[UIDevice currentDevice] systemVersion] floatValue] < 7.0 || self.videoIsLocalityData) {
+    if (self.videoIsLocalityData) {
         AVURLAsset *asset = [AVURLAsset URLAssetWithURL:url options:nil];
         self.kPlayerItem = [AVPlayerItem playerItemWithAsset:asset];
         if (!self.videoPlayer) {
@@ -157,7 +205,7 @@
     
     return self.videoPlayerLayer;
 }
-- (void)kj_seekToTime:(CGFloat)seconds{
+- (void)kj_playerSeekToTime:(CGFloat)seconds{
     if (_state == KJPlayerStateStopped) return;
     
     seconds = MAX(0, seconds);
@@ -165,12 +213,14 @@
     self.current = seconds;
     
     [self.videoPlayer pause];
-    [self.videoPlayer seekToTime:CMTimeMakeWithSeconds(seconds, self.kPlayerItem.currentTime.timescale)];
-    self.userPause = NO;
-    [self.videoPlayer play];
-    if (!self.kPlayerItem.isPlaybackBufferEmpty) {
-        self.state = KJPlayerStateLoading;
-    }
+//    [self.videoPlayer seekToTime:CMTimeMakeWithSeconds(seconds, self.kPlayerItem.currentTime.timescale)];
+    [self.videoPlayer seekToTime:CMTimeMakeWithSeconds(seconds, self.kPlayerItem.currentTime.timescale) toleranceBefore:kCMTimeZero toleranceAfter:kCMTimeZero completionHandler:^(BOOL finished) {
+        self.userPause = NO;
+        [self.videoPlayer play];
+        if (!self.kPlayerItem.isPlaybackBufferEmpty) {
+            self.state = KJPlayerStateLoading;
+        }
+    }];
 }
 
 - (void)kj_playerResume{
@@ -270,31 +320,29 @@
 
 // 播放处理
 - (void)kDealPlayWithItem:(AVPlayerItem *)playerItem{
-    //    self.videoTotalTime = playerItem.duration.value / playerItem.duration.timescale; //视频总时间
     [self.videoPlayer play];
-    __weak __typeof(self)weakSelf = self;
+    PLAYER_WEAKSELF;
     self.kPeriodicTimeObserver = [self.videoPlayer addPeriodicTimeObserverForInterval:CMTimeMake(1, 1) queue:NULL usingBlock:^(CMTime time) {
-        __strong __typeof(weakSelf)strongSelf = weakSelf;
         CGFloat current = playerItem.currentTime.value / playerItem.currentTime.timescale;
-        if (strongSelf.userPause == NO) {
-            strongSelf.state = KJPlayerStatePlaying;
+        if (weakself.userPause == NO) {
+            weakself.state = KJPlayerStatePlaying;
         }
-        // 不相等的时候才更新，并发通知，否则seek时会继续跳动
-        if (strongSelf.current != current) {
-            strongSelf.current = current;
-            if (strongSelf.current > strongSelf.videoTotalTime) {
-                strongSelf.videoTotalTime = strongSelf.current;
-            }
-            
+        // 不相等的时候才更新，并回调出去，否则seek时会继续跳动
+        if (weakself.current != current) {
+//            weakself.current = current;
+//            if (weakself.current > weakself.videoTotalTime) {
+//                weakself.videoTotalTime = weakself.current;
+//            }
+            weakself.current = current > weakself.videoTotalTime ? weakself.videoTotalTime : current;
             /// 播放进度时间处理
-            if ([strongSelf.delegate respondsToSelector:@selector(kj_player:Progress:CurrentTime:DurationTime:)]) {
-                [strongSelf.delegate kj_player:strongSelf
-                                            Progress:strongSelf.progress
-                                         CurrentTime:strongSelf.current
-                                        DurationTime:strongSelf.videoTotalTime];
+            if ([weakself.delegate respondsToSelector:@selector(kj_player:Progress:CurrentTime:DurationTime:)]) {
+                [weakself.delegate kj_player:weakself
+                                    Progress:weakself.progress
+                                 CurrentTime:weakself.current
+                                DurationTime:weakself.videoTotalTime];
             }
-            if (strongSelf.kPlayerPlayProgressBlcok) {
-                strongSelf.kPlayerPlayProgressBlcok(strongSelf,strongSelf.progress,strongSelf.current,strongSelf.videoTotalTime);
+            if (weakself.kPlayerPlayProgressBlcok) {
+                weakself.kPlayerPlayProgressBlcok(weakself,weakself.progress,weakself.current,weakself.videoTotalTime);
             }
         }
     }];
@@ -353,7 +401,8 @@
 }
 ///当前视频播放结束
 - (void)playerItemDidPlayToEnd:(NSNotification *)notification{
-    [self kj_playerStop];
+    self.state = KJPlayerStatePlayEnd;
+    [self.videoPlayer pause];
 }
 //在监听播放器状态中处理比较准确
 - (void)playerItemPlaybackStalled:(NSNotification *)notification{

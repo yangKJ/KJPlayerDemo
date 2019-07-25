@@ -32,11 +32,17 @@ NS_ASSUME_NONNULL_BEGIN
 /// 判断存放视频的文件夹是否存在，不存在则创建对应文件夹
 + (BOOL)kj_playerCreateFileDirectoriesWithPath:(NSString*)path;
 
-// 获取视频第一帧图片和视频总时长
-+ (NSArray*)kj_playerFristImageWithURL:(NSURL*)url;
+// 获取视频第一帧图片
++ (UIImage*)kj_playerFristImageWithURL:(NSURL*)url;
+    
+// 获取视频总时间
++ (NSInteger)kj_playerVideoTotalTimeWithURL:(NSURL*)url;
 
 // 获取当前的旋转状态
 + (CGAffineTransform)kj_playerCurrentDeviceOrientation;
+
+/// 设置时间显示
++ (NSString *)kj_playerConvertTime:(CGFloat)second;
 
 @end
 

@@ -97,9 +97,9 @@
     return YES;
 }
 
-// 获取视频第一帧图片和视频总时长
-+ (NSArray*)kj_playerFristImageWithURL:(NSURL*)url{
-    //    NSDictionary *opts = [NSDictionary dictionaryWithObject:@(NO) forKey:AVURLAssetPreferPreciseDurationAndTimingKey];
+// 获取视频第一帧图片
++ (UIImage*)kj_playerFristImageWithURL:(NSURL*)url{
+    // NSDictionary *opts = [NSDictionary dictionaryWithObject:@(NO) forKey:AVURLAssetPreferPreciseDurationAndTimingKey];
     // 初始化视频媒体文件
     AVURLAsset *asset = [[AVURLAsset alloc] initWithURL:url options:nil];
     AVAssetImageGenerator *assetGen = [[AVAssetImageGenerator alloc] initWithAsset:asset];
@@ -111,11 +111,16 @@
     CGImageRef image = [assetGen copyCGImageAtTime:time actualTime:&actualTime error:&error];
     UIImage *videoImage = [[UIImage alloc] initWithCGImage:image];
     CGImageRelease(image);
+    return videoImage;
+}
     
-    /// 获取视频总时长 单位秒
+// 获取视频总时间
++ (NSInteger)kj_playerVideoTotalTimeWithURL:(NSURL*)url{
+     NSDictionary *opts = [NSDictionary dictionaryWithObject:@(NO) forKey:AVURLAssetPreferPreciseDurationAndTimingKey];
+    // 初始化视频媒体文件
+    AVURLAsset *asset = [[AVURLAsset alloc] initWithURL:url options:opts];
     NSInteger seconds = ceil(asset.duration.value / asset.duration.timescale);
-    
-    return @[videoImage,@(seconds)];
+    return seconds;
 }
 
 // 获取当前的旋转状态
@@ -125,12 +130,25 @@
     //根据要进行旋转的方向来计算旋转的角度
     if (orientation == UIInterfaceOrientationPortrait) {
         return CGAffineTransformIdentity;
-    } else if (orientation == UIInterfaceOrientationLandscapeLeft) {
+    }else if (orientation == UIInterfaceOrientationLandscapeLeft) {
         return CGAffineTransformMakeRotation(-M_PI_2);
-    } else if(orientation == UIInterfaceOrientationLandscapeRight) {
+    }else if (orientation == UIInterfaceOrientationLandscapeRight) {
         return CGAffineTransformMakeRotation(M_PI_2);
     }
     return CGAffineTransformIdentity;
+}
+
+/// 设置时间显示
++ (NSString *)kj_playerConvertTime:(CGFloat)second{
+    NSDate *date = [NSDate dateWithTimeIntervalSince1970:second];
+    NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
+    dateFormatter.timeZone = [NSTimeZone timeZoneWithName:@"GMT"];
+    if (second / 3600 >= 1) {
+        [dateFormatter setDateFormat:@"HH:mm:ss"];
+    }else {
+        [dateFormatter setDateFormat:@"mm:ss"];
+    }
+    return [dateFormatter stringFromDate:date];
 }
 
 @end

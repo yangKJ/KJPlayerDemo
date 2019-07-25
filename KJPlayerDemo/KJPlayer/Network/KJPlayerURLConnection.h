@@ -26,7 +26,6 @@ FOUNDATION_EXPORT NSString *const kMIMEType;
 /** 当请求错误的时候调用 */
 @property (nonatomic,copy) void (^kPlayerURLConnectiondidFailWithErrorCodeBlcok)(NSInteger errorCode);
 
-
 @end
 
 NS_ASSUME_NONNULL_END
