@@ -2,16 +2,33 @@
 [![Language](https://img.shields.io/badge/Language-%20Objective%20C%20-blue.svg)](https://github.com/yangKJ/KJPlayerDemo)
 
 ----------------------------------------
-KJPlayer 是一款视频播放器，AVPlayer的封装，继承UIView  
-后续功能：  
-1.缓存离线观看  
-2.免费试看几分钟  
-3.视频支持重力感应、手势滑动、小窗口播放、锁屏等等  
-4.视频支持播放完之后播放下一集  
-5.随机播放、顺序播放  
-6.缓存管理、清除长时间不再观看的视频  
-7.音频功能  
-8.音频和视频混合播放  
+### 框架整体介绍
+* [作者信息](#作者信息)
+* [作者其他库](#作者其他库)
+* [功能介绍](#功能介绍)
+* [Pod使用方法](#使用方法(支持cocoapods/carthage安装))
+* [更新日志](#更新日志)
+* [效果图](#效果图)
+* [KJPlayer 功能区](#KJPlayer)
+* [KJPlayerView 展示区](#KJPlayerView)
+* [打赏作者 &radic;](#打赏作者)
+
+----------------------------------------
+#### <a id="功能介绍"></a>功能介绍
+KJPlayer 是一款视频播放器，AVPlayer的封装，继承UIView    
+1.支持播放网络和本地视频  ☑️  
+2.播放多种格式mp4  ☑️  m3u8、3gp、mov等等暂未完成  
+3.视频边播边下，缓存完成视频保存本地  ☑️  
+4.缓存离线观看  ☑️    
+5.重力感应切换横竖屏  ☑️  
+6.手势滑动改变播放进度和音量和亮度  ☑️  
+7.视频支持播放完之后播放下一集  ☑️  
+8.随机播放、顺序播放、重复播放  ☑️  
+9.小窗口播放、锁定控制面板等等  
+10.缓存管理、清除长时间不再观看的视频  
+11.免费试看几分钟  
+12.音频功能  
+13.音频和视频混合播放  
 
 ----------------------------------------
 #### 温馨提示
@@ -35,13 +52,6 @@ end
 ```
 
 ----------------------------------------
-### 框架整体介绍
-* [作者信息](#作者信息)
-* [作者其他库](#作者其他库)
-* [功能介绍](#功能介绍)
-* [Pod使用方法](#使用方法(支持cocoapods/carthage安装))
-* [更新日志](#更新日志)
-* [效果图](#效果图)
 
 #### <a id="作者信息"></a>作者信息
 > Github地址：https://github.com/yangKJ  
@@ -74,14 +84,6 @@ pod 'KJLoadingAnimation' # 加载控件
 
 ```
 
-#### <a id="功能介绍"></a>功能介绍
-- [x] 支持播放网络和本地视频
-- [x] 支持播放多种格式mp4、m3u8、3gp、mov等等
-- [x] 视频可以边下边播，把播放器播放过的数据流缓存到本地，下次直接从缓冲读取播放
-- [x] 支持拖动、手势快进倒退、增大减小音量等等
-- [x] 支持重力感应切换横竖屏
-
-
 ##### Issue
 如果您在使用中有好的需求及建议，或者遇到什么bug，欢迎随时issue，我会及时的回复，有空也会不断优化更新这些库
 
@@ -112,19 +114,15 @@ pod 'KJPlayer/KJPlayerView'  # 自带展示界面
 ```
 
 #### <a id="效果图"></a>效果图
+横屏展示效果图：
+
+![培训活动-视频全屏](https://raw.githubusercontent.com/yangKJ/CommonDatas/master/CommonDatas/Res/培训活动-视频全屏.png)
+
 竖屏目前展示效果：
 
 ![WechatIMG10.jpeg](https://upload-images.jianshu.io/upload_images/1933747-537dbd09082b0153.jpeg?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240)
 
-横屏展示效果图：
-
-![IMG_6792.jpg](https://upload-images.jianshu.io/upload_images/1933747-9d702f8c97617a3e.jpg?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240)
-
-![IMG_6794.jpg](https://upload-images.jianshu.io/upload_images/1933747-0f5da34077eb46f4.jpg?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240)
-
-
-
-#### KJPlayer
+#### <a id="KJPlayer"></a>KJPlayer
 
 - KJPlayerTool：主要提供一些播放器的工具  判断是否含有视频轨道  获取视频第一帧图片和总时长等等
 - KJRequestTask：网络缓存类   网络请求结束的时候，如果数据完整，则把数据缓存到指定的路径，储存起来，如果不完整，则删除缓存的临时文件数据
@@ -186,7 +184,7 @@ nav.navigationBar.hidden = YES;
 }
 ```
 
-#### KPlayerView
+#### <a id="KJPlayerView"></a>KJPlayerView
 提供一套完整的布局界面，视图属性我全部暴露在外界，这样方便修改和重新布局  
 直接 pod 'KJPlayer/KJPlayerView'  # 自带展示界面  
 
@@ -272,3 +270,14 @@ return NO;
 
 ```
 
+#### <a id="打赏作者"></a>打赏作者
+* 如果你觉得有帮助，还请为我Star
+* 如果在使用过程中遇到Bug，希望你能Issues，我会及时修复
+* 大家有什么需要添加的功能，也可以给我留言，有空我将补充完善
+* 谢谢大家的支持 - -！
+
+[![LOGO](https://github.com/yangKJ/KJPlayerDemo/blob/master/KJPlayerDemo/Demo/Assets.xcassets/AppIcon.appiconset/WechatIMG57486iPhoneSpootlight7_40pt@3x.png?raw=true)](https://www.jianshu.com/u/c84c00476ab6)
+
+[![谢谢老板](https://raw.githubusercontent.com/yangKJ/CommonDatas/master/CommonDatas/Money/77%E3%80%82/All.png)](https://github.com/yangKJ/KJPlayerDemo)
+
+#### 救救孩子吧，谢谢各位老板～～～～
