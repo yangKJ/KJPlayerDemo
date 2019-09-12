@@ -40,8 +40,7 @@
 /// 设置数据
 - (void)kj_updateLightValue:(CGFloat)value{
     /// 判断控制一下, 不能超出 0~1
-    value = MAX(0, value);
-    value = MIN(value, 1);
+    value = MIN(MAX(0, value), 1);
     /// 改变屏幕亮度
     [UIScreen mainScreen].brightness = value;
 //    if (value>0) {

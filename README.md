@@ -1,5 +1,5 @@
 # KJPlayer
-[![Language](https://img.shields.io/badge/Language-%20Objective%20C%20-blue.svg)](https://github.com/yangKJ/KJPlayerDemo)
+![coverImage](https://raw.githubusercontent.com/yangKJ/CommonDatas/master/CommonDatas/Res/coverImage.jpg)
 
 ----------------------------------------
 ### 框架整体介绍
@@ -32,7 +32,7 @@ KJPlayer 是一款视频播放器，AVPlayer的封装，继承UIView
 
 ----------------------------------------
 #### 温馨提示
-使用第三方库Xcode报错  
+#####1、使用第三方库Xcode报错  
 Cannot synthesize weak property because the current deployment target does not support weak references  
 可在`Podfile`文件底下加入下面的代码，'8.0'是对应的部署目标（deployment target） 删除库重新Pod  
 不支持用weak修饰属性，而weak在使用ARC管理引用计数项目中才可使用  
@@ -42,22 +42,26 @@ Cannot synthesize weak property because the current deployment target does not s
 ##################加入代码##################
 # 使用第三方库xcode报错Cannot synthesize weak property because the current deployment target does not support weak references
 post_install do |installer|
-    installer.pods_project.targets.each do |target|
-        target.build_configurations.each do |config|
-            config.build_settings['IPHONEOS_DEPLOYMENT_TARGET'] ='8.0'
-        end
-    end
+installer.pods_project.targets.each do |target|
+target.build_configurations.each do |config|
+config.build_settings['IPHONEOS_DEPLOYMENT_TARGET'] = '8.0'
+end
+end
 end
 ##################加入代码##################
 ```
+#####2、若搜索不到库
+- 方案1：可执行pod repo update
+- 方案2：使用 rm ~/Library/Caches/CocoaPods/search_index.json 移除本地索引然后再执行安装
+- 方案3：更新一下 CocoaPods 版本
 
 ----------------------------------------
 
 #### <a id="作者信息"></a>作者信息
+[![Language](https://img.shields.io/badge/Language-%20Objective%20C%20-blue.svg)](https://github.com/yangKJ/KJPlayerDemo)
 > Github地址：https://github.com/yangKJ  
 > 简书地址：https://www.jianshu.com/u/c84c00476ab6  
 > 博客地址：https://blog.csdn.net/qq_34534179  
-
 
 #### <a id="作者其他库"></a>作者其他Pod库
 ```
@@ -96,6 +100,14 @@ pod 'KJPlayer/KJPlayerView'  # 自带展示界面
 #### <a id="更新日志"></a>更新日志
 ```
 ####版本更新日志:
+#### Add 1.0.5
+1.重新更新KJPlayer播放方式
+2.新增清晰度选择
+
+#### Add 1.0.4
+1.新增 KJFileOperation 文件操作类
+2.KJPlayerView 重新布局添加控件
+3.修复不能播放长视频BUG
 
 #### Add 1.0.3
 1.增加播放类型功能 重复播放、随机播放、顺序播放、仅播放一次
@@ -127,9 +139,6 @@ pod 'KJPlayer/KJPlayerView'  # 自带展示界面
 - KJPlayerTool：主要提供一些播放器的工具  判断是否含有视频轨道  获取视频第一帧图片和总时长等等
 - KJRequestTask：网络缓存类   网络请求结束的时候，如果数据完整，则把数据缓存到指定的路径，储存起来，如果不完整，则删除缓存的临时文件数据
 - KJPlayerURLConnection：网络和Player的中转类   把网络请求缓存到本地的临时数据`offset`和`videoLength`传递给播放器
-
-##### 功能流程图
-![1副本.png](https://upload-images.jianshu.io/upload_images/1933747-dab51173f89aaa32.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240)
 
 <!--爱学习-->
 
@@ -174,13 +183,13 @@ playerLayer.frame = view.bounds;
 }
 
 - (void)butAction:(UIButton*)sender{
-PlayViewController *vc = [PlayViewController new];
-vc.view.backgroundColor = UIColor.whiteColor;
-UINavigationController *nav = [[UINavigationController alloc]initWithRootViewController:vc];
-nav.navigationBar.hidden = YES;
-[self presentViewController:nav animated:YES completion:^{
-[self.player kj_playerStop];
-}];
+    PlayViewController *vc = [PlayViewController new];
+    vc.view.backgroundColor = UIColor.whiteColor;
+    UINavigationController *nav = [[UINavigationController alloc]initWithRootViewController:vc];
+    nav.navigationBar.hidden = YES;
+    [self presentViewController:nav animated:YES completion:^{
+        [self.player kj_playerStop];
+    }];
 }
 ```
 
@@ -188,10 +197,11 @@ nav.navigationBar.hidden = YES;
 提供一套完整的布局界面，视图属性我全部暴露在外界，这样方便修改和重新布局  
 直接 pod 'KJPlayer/KJPlayerView'  # 自带展示界面  
 
-> KJPlayerViewConfiguration：配置信息  
-> KJPlayerViewHeader：宏文件  
-> KJLightView：亮度管理  
-> KJFastView：快进倒退管理  
+> KJPlayerViewConfiguration:配置信息
+> KJPlayerViewHeader:宏文件
+> KJLightView:亮度管理
+> KJFastView:快进倒退管理
+> KJDefinitionView:清晰度展示面板
 
 ##### 展示区代码事例
 ```
@@ -203,41 +213,55 @@ nav.navigationBar.hidden = YES;
 
 /// 电池状态栏管理
 - (BOOL)prefersStatusBarHidden{
-if (self.playerView) {
-return _playerView.configuration.fullScreen;
-}else{
-return NO;
-}
+    if (self.playerView) {
+        return _playerView.configuration.fullScreen;
+    }else{
+        return NO;
+    }
 }
 
 - (void)viewDidLoad {
-[super viewDidLoad];
+    [super viewDidLoad];
 
-// Do any additional setup after loading the view.
-[self.view addSubview:self.playerView];
+    // Do any additional setup after loading the view.
+    [self.view addSubview:self.playerView];
 }
 
 - (KJPlayerView*)playerView{
-if (!_playerView) {
-KJPlayerViewConfiguration *configuration = [[KJPlayerViewConfiguration alloc]init];
-configuration.autoHideTime = 0.0;
-configuration.playType = KJPlayerPlayTypeOrder;
-KJPlayerView *view = [[KJPlayerView alloc] initWithFrame:CGRectMake(0, 20, [UIScreen mainScreen].bounds.size.width, [UIScreen mainScreen].bounds.size.width*9/16) Configuration:configuration];
-_playerView = view;
-view.backgroundColor = UIColor.blackColor;
+    if (!_playerView) {
+        KJPlayerViewConfiguration *configuration = [[KJPlayerViewConfiguration alloc]init];
+        configuration.autoHideTime = 0.0;
+        configuration.playType = KJPlayerPlayTypeOrder;
+        KJPlayerView *view = [[KJPlayerView alloc] initWithFrame:CGRectMake(0, 20, [UIScreen mainScreen].bounds.size.width, [UIScreen mainScreen].bounds.size.width*9/16) Configuration:configuration];
+        _playerView = view;
+        view.backgroundColor = UIColor.blackColor;
+        view.delegate = self;
 
-view.delegate = self;
-
-NSString *url = @"https://mp4.vjshi.com/2018-03-30/1f36dd9819eeef0bc508414494d34ad9.mp4";
-[view kj_setPlayWithURL:url StartTime:0];
-NSArray *temp = @[@"https://mp4.vjshi.com/2018-08-31/3ba67e58deb45fefe7f7d3d16dbf2b16.mp4",
-@"https://mp4.vjshi.com/2017-07-02/0cbbf21c6003f7936f4086dd10e7ebf5.mp4",
-[NSURL URLWithString:@"https://mp4.vjshi.com/2018-03-30/1f36dd9819eeef0bc508414494d34ad9.mp4"],
-];
-view.videoUrlTemps = temp;
-view.videoIndex = 2;
-}
-return _playerView;
+        NSArray *temp = @[@"https:apps.winpow.com/attached/media/mp4/1559550527183.mp4",
+                        @"http:appit.winpow.com/attached/media/MP4/1567585643618.mp4",
+                        @"https:devstreaming-cdn.apple.com/videos/streaming/examples/bipbop_4x3/gear1/prog_index.m3u8",
+                        @"https:mp4.vjshi.com/2018-08-31/3ba67e58deb45fefe7f7d3d16dbf2b16.mp4",
+                        @"https:mp4.vjshi.com/2017-07-02/0cbbf21c6003f7936f4086dd10e7ebf5.mp4",
+                        @"https:mp4.vjshi.com/2018-03-30/1f36dd9819eeef0bc508414494d34ad9.mp4",
+                        ];
+        NSMutableArray *array = [NSMutableArray array];
+        for (NSInteger i=0; i<2; i++) {
+            KJPlayerViewModel *model = [KJPlayerViewModel new];
+            if (i==0) {
+                model.sd = temp[0];
+                model.cif = temp[1];
+            }else if (i==1) {
+                model.hd = temp[2];
+            }else{
+                model.sd = temp[3];
+                model.hd = temp[4];
+            }
+            [array addObject:model];
+        }
+        view.videoIndex = 0;
+        view.videoModelTemps = array;
+    }
+    return _playerView;
 }
 ```
 #### 委托代理
@@ -267,7 +291,24 @@ return _playerView;
 //    }
 return NO;
 }
-
+/// Bottom按钮事件  tag:520收藏、521下载、522清晰度
+- (void)kj_PlayerView:(KJPlayerView*)playerView BottomButton:(UIButton*)sender{
+    if (sender.tag == 522) {
+        NSString *url = @"https://mp4.vjshi.com/2018-03-30/1f36dd9819eeef0bc508414494d34ad9.mp4";
+        KJPlayerViewModel *model = [KJPlayerViewModel new];
+        model.hd = url;
+        self.playerView.videoModel = model;
+        self.playerView.seekTime = 20;
+    }else if (sender.tag == 521) {
+        NSString *url = @"http://appit.winpow.com/attached/media/MP4/1567585643618.mp4";
+        KJPlayerViewModel *model = [KJPlayerViewModel new];
+        model.hd = url;
+        self.playerView.videoModel = model;
+        self.playerView.seekTime = 100;
+    }else if (sender.tag == 520) {
+        self.playerView.seekTime = 150;
+    }
+}
 ```
 
 #### <a id="打赏作者"></a>打赏作者

@@ -9,5 +9,11 @@
 #import "KJPlayerViewModel.h"
 
 @implementation KJPlayerViewModel
-
+- (instancetype)init{
+    if (self==[super init]) {
+        /// 默认标清，无则流畅，再无则高清
+        self.priorityType = KJPlayerViewModelPriorityTypeCIF;
+    }
+    return self;
+}
 @end

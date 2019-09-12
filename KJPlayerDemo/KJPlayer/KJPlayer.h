@@ -23,7 +23,6 @@ typedef NS_ENUM(NSInteger, KJPlayerErrorCode) {
     KJPlayerErrorCodeNetworkInterruption = -1005, /// 网络中断：-1005
     KJPlayerErrorCodeNetworkNoConnection = -1009, /// 无网络连接：-1009
 };
-
 /// 播放器的几种状态
 typedef NS_ENUM(NSInteger, KJPlayerState) {
     KJPlayerStateLoading = 1, /// 加载中 缓存数据
@@ -33,9 +32,71 @@ typedef NS_ENUM(NSInteger, KJPlayerState) {
     KJPlayerStatePause   = 5, /// 暂停
     KJPlayerStateError   = 6, /// 播放错误
 };
-@class KJPlayer;
-@protocol KJPlayerDelegate <NSObject>
+/// 枚举映射字符串
+static NSString  * const _Nonnull KJPlayerStateStringMap[] = {
+    [KJPlayerStateLoading] = @"loading",
+    [KJPlayerStatePlaying] = @"playing",
+    [KJPlayerStatePlayEnd] = @"end",
+    [KJPlayerStateStopped] = @"stop",
+    [KJPlayerStatePause]   = @"pause",
+    [KJPlayerStateError]   = @"error",
+};
 
+typedef void (^KJPlayerSeekBeginPlayBlock)(void);
+@protocol KJPlayerDelegate;
+@interface KJPlayer : NSObject
+/* 单例 */
++ (instancetype)sharedInstance;
+/* 播放器 */
+@property (nonatomic,strong,readonly) AVPlayer *videoPlayer;
+/* 播放器Layer */
+@property (nonatomic,strong,readonly) AVPlayerLayer *videoPlayerLayer;
+/* 视频总时间 */
+@property (nonatomic,assign,readonly) CGFloat videoTotalTime;
+/* 是否为本地资源 */
+@property (nonatomic,assign,readonly) BOOL videoIsLocalityData;
+
+/* 是否使用缓存功能，默认yes */
+@property (nonatomic,assign) BOOL useCacheFunction;
+/* 进入后台是否停止播放，默认yes */
+@property (nonatomic,assign) BOOL stopWhenAppEnterBackground;
+/** 委托 */
+@property (nonatomic,weak) id <KJPlayerDelegate> delegate;
+
+/* 设置开始播放时间，默认为0 */
+@property (nonatomic,assign) CGFloat startPlayTime;
+/* 播放地址 */
+- (AVPlayerLayer*)kj_playerPlayWithURL:(NSURL*)url;
+/* 重播地址 */
+- (void)kj_playerReplayWithURL:(NSURL*)url;
+/* 设置开始播放时间 */
+- (void)kj_playerSeekToTime:(CGFloat)seconds BeginPlayBlock:(KJPlayerSeekBeginPlayBlock)block;
+/* 恢复播放 */
+- (void)kj_playerResume;
+/* 暂停 */
+- (void)kj_playerPause;
+/* 停止 */
+- (void)kj_playerStop;
+
+/************************* 回调事件处理 *************************/
+/** 当前播放器状态 */
+@property (nonatomic,copy) void (^kPlayerStateBlcok)(KJPlayer *player, KJPlayerState state, KJPlayerErrorCode errorCode);
+/** 播放进度
+ *  progress 播放进度 0~1
+ *  currentTime 当前播放时间
+ *  durationTime 视频总时间
+ */
+@property (nonatomic,copy) void (^kPlayerPlayProgressBlcok)(KJPlayer *player, CGFloat progress, CGFloat currentTime, CGFloat durationTime);
+/** 缓存完成
+ *  loadedProgress 缓存进度 0~1
+ *  complete 缓存完成
+ *  saveSuccess 视频保存成功
+ */
+@property (nonatomic,copy) void (^kPlayerLoadingBlcok)(KJPlayer *player, CGFloat loadedProgress, BOOL complete, BOOL saveSuccess);
+
+@end
+//// 委托代理
+@protocol KJPlayerDelegate <NSObject>
 @optional;
 /** 当前播放器状态 */
 - (void)kj_player:(KJPlayer*)player State:(KJPlayerState)state ErrorCode:(KJPlayerErrorCode)errorCode;
@@ -45,7 +106,6 @@ typedef NS_ENUM(NSInteger, KJPlayerState) {
  *  durationTime 视频总时间
  */
 - (void)kj_player:(KJPlayer *)player Progress:(CGFloat)progress CurrentTime:(CGFloat)currentTime DurationTime:(CGFloat)durationTime;
-
 /** 缓存完成
  *  loadedProgress 缓存进度 0~1
  *  complete 缓存完成
@@ -55,57 +115,5 @@ typedef NS_ENUM(NSInteger, KJPlayerState) {
 
 @end
 
-@interface KJPlayer : NSObject
-
-/* 单例 */
-+ (instancetype)sharedInstance;
-/* 播放器 */
-@property (nonatomic,strong,readonly) AVPlayer *videoPlayer;
-/* 播放器Layer */
-@property (nonatomic,strong,readonly) AVPlayerLayer *videoPlayerLayer;
-/* 视频第一帧图片 */
-@property (nonatomic,strong,readonly) UIImage *videoFristImage;
-/* 视频总时间 */
-@property (nonatomic,assign,readonly) CGFloat videoTotalTime;
-/* 是否为本地资源 */
-@property (nonatomic,assign,readonly) BOOL videoIsLocalityData;
-
-/* 进入后台是否停止播放，默认yes */
-@property (nonatomic,assign) BOOL stopWhenAppEnterBackground;
-/* 是否需要显示第一帧图片，默认no */
-@property (nonatomic,assign) BOOL needDisplayFristImage;
-/** 委托 */
-@property (nonatomic,weak) id <KJPlayerDelegate> delegate;
-
-/* 播放地址 */
-- (AVPlayerLayer*)kj_playerPlayWithURL:(NSURL*)url;
-/* 重播地址 */
-- (void)kj_playerReplayWithURL:(NSURL*)url;
-/* 设置开始播放时间 */
-- (void)kj_playerSeekToTime:(CGFloat)seconds;
-/* 恢复播放 */
-- (void)kj_playerResume;
-/* 暂停 */
-- (void)kj_playerPause;
-/* 停止 */
-- (void)kj_playerStop;
-
-/************************* 事件处理 *************************/
-/** 当前播放器状态 */
-@property (nonatomic,copy) void (^kPlayerStateBlcok)(KJPlayer *player, KJPlayerState state, KJPlayerErrorCode errorCode);
-/** 缓存完成
- *  loadedProgress 缓存进度 0~1
- *  complete 缓存完成
- *  saveSuccess 视频保存成功
- */
-@property (nonatomic,copy) void (^kPlayerLoadingBlcok)(KJPlayer *player, CGFloat loadedProgress, BOOL complete, BOOL saveSuccess);
-/** 播放进度
- *  progress 播放进度 0~1
- *  currentTime 当前播放时间
- *  durationTime 视频总时间
- */
-@property (nonatomic,copy) void (^kPlayerPlayProgressBlcok)(KJPlayer *player, CGFloat progress, CGFloat currentTime, CGFloat durationTime);
-
-@end
 
 NS_ASSUME_NONNULL_END

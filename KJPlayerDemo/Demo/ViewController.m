@@ -39,17 +39,32 @@
         KJPlayerView *view = [[KJPlayerView alloc] initWithFrame:CGRectMake(0, 20, [UIScreen mainScreen].bounds.size.width, [UIScreen mainScreen].bounds.size.width*9/16) Configuration:configuration];
         _playerView = view;
         view.backgroundColor = UIColor.blackColor;
-
         view.delegate = self;
         
-        NSString *url = @"https://mp4.vjshi.com/2018-03-30/1f36dd9819eeef0bc508414494d34ad9.mp4";
-        [view kj_setPlayWithURL:url StartTime:0];
-        NSArray *temp = @[@"https://mp4.vjshi.com/2018-08-31/3ba67e58deb45fefe7f7d3d16dbf2b16.mp4",
+        NSArray *temp = @[@"https://apps.winpow.com/attached/media/mp4/1559550527183.mp4",
+                          @"http://appit.winpow.com/attached/media/MP4/1567585643618.mp4",
+                          @"https://devstreaming-cdn.apple.com/videos/streaming/examples/bipbop_4x3/gear1/prog_index.m3u8",
+                          @"https://mp4.vjshi.com/2018-08-31/3ba67e58deb45fefe7f7d3d16dbf2b16.mp4",
                           @"https://mp4.vjshi.com/2017-07-02/0cbbf21c6003f7936f4086dd10e7ebf5.mp4",
-                          [NSURL URLWithString:@"https://mp4.vjshi.com/2018-03-30/1f36dd9819eeef0bc508414494d34ad9.mp4"],
+                          @"https://mp4.vjshi.com/2018-03-30/1f36dd9819eeef0bc508414494d34ad9.mp4",
                           ];
-        view.videoUrlTemps = temp;
-        view.videoIndex = 2;
+        NSMutableArray *array = [NSMutableArray array];
+        for (NSInteger i=0; i<2; i++) {
+            KJPlayerViewModel *model = [KJPlayerViewModel new];
+            if (i==0) {
+                model.sd = temp[0];
+                model.cif = temp[1];
+                model.hd = temp[5];
+            }else if (i==1) {
+                model.hd = temp[5];
+            }else{
+                model.sd = temp[3];
+                model.hd = temp[4];
+            }
+            [array addObject:model];
+        }
+        view.videoIndex = 0;
+        view.videoModelTemps = array;
     }
     return _playerView;
 }
@@ -79,5 +94,8 @@
 //    }
     return NO;
 }
-
+/// Bottom按钮事件  tag:520收藏、521下载、522清晰度
+- (void)kj_PlayerView:(KJPlayerView*)playerView BottomButton:(UIButton*)sender{
+    
+}
 @end

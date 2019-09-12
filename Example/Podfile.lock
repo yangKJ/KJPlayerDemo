@@ -1,0 +1,21 @@
+PODS:
+  - KJPlayer (1.0.3):
+    - KJPlayer/KJPlayer (= 1.0.3)
+  - KJPlayer/KJPlayer (1.0.3)
+  - KJPlayer/KJPlayerView (1.0.3):
+    - KJPlayer/KJPlayer
+
+DEPENDENCIES:
+  - KJPlayer
+  - KJPlayer/KJPlayerView
+
+SPEC REPOS:
+  https://github.com/cocoapods/specs.git:
+    - KJPlayer
+
+SPEC CHECKSUMS:
+  KJPlayer: b30ae9adf96e0478ab184ecd0cf44f7519894924
+
+PODFILE CHECKSUM: 79922caad472df1495952d573272cd2e5ec98121
+
+COCOAPODS: 1.6.1

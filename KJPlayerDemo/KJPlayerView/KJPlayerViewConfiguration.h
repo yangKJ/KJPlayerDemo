@@ -21,7 +21,6 @@ typedef NS_ENUM(NSUInteger,KJPlayerGestureType) {
     KJPlayerGestureTypeLight    = 2, //屏幕亮度调节操作
     KJPlayerGestureTypeNone     = 3, //无任何操作
 };
-
 //播放类型
 typedef NS_ENUM(NSUInteger,KJPlayerPlayType) {
     KJPlayerPlayTypeReplay = 0, //重复播放
@@ -29,7 +28,6 @@ typedef NS_ENUM(NSUInteger,KJPlayerPlayType) {
     KJPlayerPlayTypeRandom = 2, //随机播放
     KJPlayerPlayTypeOnce   = 3, //仅播放一次
 };
-
 //手机方向
 typedef NS_ENUM(NSUInteger,KJPlayerDeviceDirection) {
     KJPlayerDeviceDirectionCustom,//其他
@@ -41,7 +39,7 @@ typedef NS_ENUM(NSUInteger,KJPlayerDeviceDirection) {
 
 @interface KJPlayerViewConfiguration : NSObject
 /** 主色调 */
-@property(nonatomic,strong) UIColor *mainColor;
+@property (nonatomic,strong) UIColor *mainColor;
 /** 设置自动隐藏面板时间，默认5秒，为0时表示关闭自动隐藏功能 */
 @property (nonatomic,assign) CGFloat autoHideTime;
 /** 设置播放类型，默认 KJPlayerPlayTypeReplay 重复播放 */
@@ -62,10 +60,17 @@ typedef NS_ENUM(NSUInteger,KJPlayerDeviceDirection) {
 @property (nonatomic,assign) BOOL openGravitySensing;
 /** 手势滑动触发的最小距离，默认3 */
 @property (nonatomic,assign) CGFloat gestureSliderMinX;
+/* 进入后台是否停止播放，默认yes */
+@property (nonatomic,assign) BOOL stopWhenAppEnterBackground;
+/* 是否使用默认的清晰度面板，默认yes */
+@property (nonatomic,assign) BOOL useCustomDefinition;
+/* 是否使用缓存功能，默认NO */
+@property (nonatomic,assign) BOOL useCacheFunction;
 
 /********************** 内部使用 可以获取,但是别乱改数据 **********************/
 @property (nonatomic,assign) KJPlayerState state;//播放器状态
 @property (nonatomic,assign) CGFloat totalTime;//视频总时间
+@property (nonatomic,assign) CGFloat currentTime;//视频当前播放时间
 @property (nonatomic,strong) id url;//视频地址
 @property (nonatomic,strong) UIImage *videoImage;//视频第一帧图片
 /** 判断当前的状态是否显示为全屏 */

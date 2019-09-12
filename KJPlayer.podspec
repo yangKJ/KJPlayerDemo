@@ -1,6 +1,6 @@
 Pod::Spec.new do |s|
   s.name         = "KJPlayer"
-  s.version      = "1.0.3"
+  s.version      = "1.0.5"
   s.summary      = "A good player made by yangkejun"
   s.homepage     = "https://github.com/yangKJ/KJPlayerDemo"
   s.license      = "MIT"
@@ -11,10 +11,10 @@ Pod::Spec.new do |s|
   s.source       = { :git => "https://github.com/yangKJ/KJPlayerDemo.git", :tag => "#{s.version}" }
   s.social_media_url = 'https://www.jianshu.com/u/c84c00476ab6'
   s.requires_arc = true
-  s.ios.deployment_target = '8.0'
+  s.ios.deployment_target = '9.0'
 
-  s.default_subspec  = 'KJPlayer' # 默认引入的文件
-  s.public_header_files = 'KJPlayerDemo/KJPlayerHeader.h'
+  s.ios.source_files = 'KJPlayerDemo/KJPlayerHeader/KJPlayerHeader.h' # 添加头文件
+  s.default_subspec  = 'KJPlayer' # 默认
 
   s.subspec 'KJPlayer' do |y|
     y.source_files = "KJPlayerDemo/KJPlayer/**/*.{h,m}"

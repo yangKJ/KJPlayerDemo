@@ -29,9 +29,6 @@ NS_ASSUME_NONNULL_BEGIN
 /// 根据 URL 得到完整路径
 + (NSString*)kj_playerGetIntegrityPathWithUrl:(NSURL*)url;
 
-/// 判断存放视频的文件夹是否存在，不存在则创建对应文件夹
-+ (BOOL)kj_playerCreateFileDirectoriesWithPath:(NSString*)path;
-
 // 获取视频第一帧图片
 + (UIImage*)kj_playerFristImageWithURL:(NSURL*)url;
     

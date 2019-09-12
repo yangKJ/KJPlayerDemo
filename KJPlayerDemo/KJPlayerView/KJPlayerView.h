@@ -7,38 +7,45 @@
 //  播放器展示层
 
 #import <UIKit/UIKit.h>
+#import "KJPlayerViewModel.h"
 #import "KJPlayer.h"
 #import "KJFastView.h"
 #import "KJLightView.h"
+#import "KJDefinitionView.h"
 #import "KJPlayerViewConfiguration.h"
 
 NS_ASSUME_NONNULL_BEGIN
 @class KJPlayerView;
 @protocol KJPlayerViewDelegate <NSObject>
 @optional;
-/// 当前手机方向  同时也控制全屏和半屏切换  全屏：left和right  半屏：top和bottom
+/// 当前手机方向  同时也控制全屏和半屏切换  全屏:left和right  半屏:top和bottom
 - (BOOL)kj_PlayerView:(KJPlayerView*)playerView DeviceDirection:(KJPlayerDeviceDirection)direction;
-/// 返回按钮事件 state 播放器状态
-- (void)kj_PlayerView:(KJPlayerView*)playerView PlayerState:(KJPlayerState)state;
-/// Bottom按钮事件  tag: 520收藏、521下载、522清晰度
+/// Top按钮事件 state:播放器状态  tag:200返回(左上角)、201功能按钮(右上角)
+- (void)kj_PlayerView:(KJPlayerView*)playerView PlayerState:(KJPlayerState)state TopButton:(UIButton*)sender;
+/// Bottom按钮事件  tag:520收藏、521下载、522清晰度
 - (void)kj_PlayerView:(KJPlayerView*)playerView BottomButton:(UIButton*)sender;
 
 @end
 
 @interface KJPlayerView : UIView
 
-/* 初始化 */
+/** 初始化 */
 - (instancetype)initWithFrame:(CGRect)frame Configuration:(KJPlayerViewConfiguration*)configuration;
-/** 视频地址数组，随机播放和顺序播放只有设置了该属性才生效 */
-@property (nonatomic,strong) NSArray *videoUrlTemps;
-/** 视频地址数组在数组中位置，随机播放和顺序播放只有设置了该属性才生效 */
-@property (nonatomic,assign) NSInteger videoIndex;
-/* 播放视频并设置开始播放时间 */
-- (void)kj_setPlayWithURL:(id)url StartTime:(CGFloat)time;
 /** 委托 */
 @property (nonatomic,weak) id<KJPlayerViewDelegate> delegate;
 /// 配置信息
 @property (nonatomic,strong,readonly) KJPlayerViewConfiguration *configuration;
+/// 播放器
+@property (nonatomic,strong,readonly) KJPlayer *player;
+
+/** 视频地址数组，随机播放和顺序播放只有设置了该属性才生效 */
+@property (nonatomic,strong) NSArray<KJPlayerViewModel*>*videoModelTemps;
+/** 视频地址数组在数组中位置，随机播放和顺序播放只有设置了该属性才生效 */
+@property (nonatomic,assign) NSInteger videoIndex;
+/** 播放视频数据模型 */
+@property (nonatomic,strong) KJPlayerViewModel *videoModel;
+/** 跳转播放时间,默认为0 */
+@property (nonatomic,assign) CGFloat seekTime;
 
 /************************ 布局视图 ************************/
 /** 播放器展示Layer */
@@ -50,7 +57,7 @@ NS_ASSUME_NONNULL_BEGIN
 /** 顶部操作工具栏 */
 @property (nonatomic,strong) UIImageView *topView;
 /** 开始播放前背景占位图片 */
-@property (nonatomic,strong) UIImageView *backImageView;
+@property (nonatomic,strong) UIImageView *coverImageView;
 /** 显示播放视频的title */
 @property (nonatomic,strong) UILabel *topTitleLabel;
 /** 控制全屏的按钮 */
@@ -59,6 +66,8 @@ NS_ASSUME_NONNULL_BEGIN
 @property (nonatomic,strong) UIButton *playOrPauseButton;
 /** 左上角关闭按钮 */
 @property (nonatomic,strong) UIButton *backButton;
+/** 右上角功能按钮 */
+@property (nonatomic,strong) UIButton *functionButton;
 /** 显示播放时间的UILabel */
 @property (nonatomic,strong) UILabel *leftTimeLabel;
 @property (nonatomic,strong) UILabel *rightTimeLabel;

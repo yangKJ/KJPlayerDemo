@@ -16,6 +16,19 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
+/// 临时文件完整路径
+#define PLAYER_TEMP_PATH \
+({\
+NSString *document = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES).lastObject;\
+NSString *tempPath = [document stringByAppendingPathComponent:@"tempVideo.mp4"];\
+(tempPath);})
+
+//NSDateFormatter *formatter = [[NSDateFormatter alloc] init]; \
+//NSDate *date = [NSDate date]; \
+//formatter.dateFormat = @"yyyyMMddHHmmssSSS";\
+//NSString *time = [formatter stringFromDate:date]; \
+//NSString *name = [time stringByAppendingString:@".mp4"];\
+
 @interface KJRequestTask : NSObject
 @property (nonatomic,strong,readonly) NSURL *url;/// 视频地址
 @property (nonatomic,assign,readonly) NSUInteger currentOffset; /// 当前偏移量

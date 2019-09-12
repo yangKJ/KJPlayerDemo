@@ -39,13 +39,12 @@
         [self config];
         self.taskTemps = [NSMutableArray array];
         /// 临时缓存文件
-        NSString *document = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES).lastObject;
-        self.tempPath = [document stringByAppendingPathComponent:@"videoTemp.mp4"];
+        self.tempPath = PLAYER_TEMP_PATH;
         if ([[NSFileManager defaultManager] fileExistsAtPath:_tempPath]) {
             [[NSFileManager defaultManager] removeItemAtPath:_tempPath error:nil];
             [[NSFileManager defaultManager] createFileAtPath:_tempPath contents:nil attributes:nil];
         } else {
-            [[NSFileManager defaultManager] createFileAtPath:_tempPath contents:nil attributes:nil];
+           [[NSFileManager defaultManager] createFileAtPath:_tempPath contents:nil attributes:nil];
         }
     }
     return self;

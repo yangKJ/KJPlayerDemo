@@ -10,6 +10,7 @@
 #import "KJPlayerURLConnection.h"
 
 @interface KJPlayer ()
+@property (nonatomic,strong) KJPlayerSeekBeginPlayBlock seekBeginPlayBlock;
 /* 播放状态 */
 @property (nonatomic,assign) KJPlayerState state;
 /* 错误的code */
@@ -30,8 +31,6 @@
 /**************** 外界需要可以访问的属性 ****************/
 /* 视频总时间 */
 @property (nonatomic,assign) CGFloat videoTotalTime;
-/* 视频第一帧图片 */
-@property (nonatomic,strong) UIImage *videoFristImage;
 /* 播放器 */
 @property (nonatomic,strong) AVPlayer *videoPlayer;
 /* 播放器Layer */
@@ -69,7 +68,7 @@
     _userPause = YES;
     _loadComplete = NO;
     _videoIsLocalityData = NO;
-    _needDisplayFristImage = NO;
+    _useCacheFunction = YES;
 }
 - (instancetype)init{
     if (self == [super init]) {
@@ -86,98 +85,44 @@
     self.current = 0;
     self.userPause = NO;
     self.loadComplete = NO;
-    
-    if (self.needDisplayFristImage) {
-        /// 获取视频第一帧图片
-        self.videoFristImage = [KJPlayerTool kj_playerFristImageWithURL:url];
-    }
+    /// 视频总时间
     self.videoTotalTime = [KJPlayerTool kj_playerVideoTotalTimeWithURL:url];
-
-    // 本地文件不设置 KJPlayerStateLoading 状态
-    if ([url.scheme isEqualToString:@"file"]) {
-        // 如果已经在 KJPlayerStatePlaying，则直接发通知，否则设置状态
-        if (_state != KJPlayerStatePlaying) {
-            self.state = KJPlayerStatePlaying;
-        }
-    } else {
-        // 如果已经在KJPlayerStateLoading，则直接发通知，否则设置状态
-        if (_state != KJPlayerStateLoading) {
-            self.state = KJPlayerStateLoading;
-        }
-    }
 }
 
 #pragma mark - public methods
-/* 重播放地址 */
-- (void)kj_playerReplayWithURL:(NSURL*)url{
-    ///1.判断本地是否有缓存
-    NSString *path = [KJPlayerTool kj_playerGetIntegrityPathWithUrl:url];
-    if ([[NSFileManager defaultManager] fileExistsAtPath:path]) {
-        self.videoIsLocalityData = YES;
-        url = [NSURL fileURLWithPath:path];
-    }else {
-        self.videoIsLocalityData = NO;
-        ///2.判断网络地址是否可用
-        BOOL isUrl = [KJPlayerTool kj_playerHaveTracksWithURL:url];
-        if (!isUrl) {
-            self.errorCode = KJPlayerErrorCodeVideoUrlError;
-            self.state = KJPlayerStateError;
-            return;
-        }
-    }
-    
-    //3.播放前的准备工作
-    [self kPlayBeforePreparationWithURL:url];
-    
-    //4.判断版本和是否为本地资源  iOS7以下和本地资源直接播放
-    if (self.videoIsLocalityData) {
-        AVURLAsset *asset = [AVURLAsset URLAssetWithURL:url options:nil];
-        self.kPlayerItem = [AVPlayerItem playerItemWithAsset:asset];
-        if (!self.videoPlayer) {
-            self.videoPlayer = [AVPlayer playerWithPlayerItem:self.kPlayerItem];
-        } else {
-            [self.videoPlayer replaceCurrentItemWithPlayerItem:self.kPlayerItem];
-        }
-    } else {
-        self.kPlayerURLConnection = [[KJPlayerURLConnection alloc] init];
-        [self kSetBlock]; /// 设置回调代理
-        NSURL *playUrl = [self.kPlayerURLConnection kSetComponentsWithUrl:url];
-        AVURLAsset *asset = [AVURLAsset URLAssetWithURL:playUrl options:nil];
-        [asset.resourceLoader setDelegate:self.kPlayerURLConnection queue:dispatch_get_main_queue()];
-        self.kPlayerItem = [AVPlayerItem playerItemWithAsset:asset];
-        if (!self.videoPlayer) {
-            self.videoPlayer = [AVPlayer playerWithPlayerItem:self.kPlayerItem];
-        } else {
-            [self.videoPlayer replaceCurrentItemWithPlayerItem:self.kPlayerItem];
-        }
-    }
-    
-    //5.设置通知和kvo
-    [self kSetNotificationAndKvo];
-}
 - (AVPlayerLayer*)kj_playerPlayWithURL:(NSURL*)url{
-    ///1.判断本地是否有缓存
-    NSString *path = [KJPlayerTool kj_playerGetIntegrityPathWithUrl:url];
-    if ([[NSFileManager defaultManager] fileExistsAtPath:path]) {
-        self.videoIsLocalityData = YES;
-        url = [NSURL fileURLWithPath:path];
-    }else {
-        self.videoIsLocalityData = NO;
-        ///2.判断网络地址是否可用
-        BOOL isUrl = [KJPlayerTool kj_playerHaveTracksWithURL:url];
-        if (!isUrl) {
-            self.errorCode = KJPlayerErrorCodeVideoUrlError;
-            self.state = KJPlayerStateError;
-            return nil;
-        }
-    }
-    
-    //3.播放前的准备工作
+    //播放前的准备工作
     [self kPlayBeforePreparationWithURL:url];
     
-    //4.判断版本和是否为本地资源  iOS7以下和本地资源直接播放
-    if (self.videoIsLocalityData) {
-        AVURLAsset *asset = [AVURLAsset URLAssetWithURL:url options:nil];
+    //是否使用缓存功能
+    if (self.useCacheFunction) {
+        ///1.判断本地是否有缓存
+        NSString *path = [KJPlayerTool kj_playerGetIntegrityPathWithUrl:url];
+        self.videoIsLocalityData = [[NSFileManager defaultManager] fileExistsAtPath:path];
+        //4.判断版本和是否为本地资源  iOS7以下和本地资源直接播放
+        AVURLAsset *asset;
+        if (self.videoIsLocalityData) {
+            // 本地文件不设置 KJPlayerStateLoading 状态
+            self.state = KJPlayerStatePlaying;
+            url = [NSURL fileURLWithPath:path];
+            asset = [AVURLAsset URLAssetWithURL:url options:nil];
+            NSArray *tracks = [asset tracksWithMediaType:AVMediaTypeVideo];
+            BOOL hasVideoTrack = [tracks count] > 0;
+            /// 判断网络地址是否可用
+            if (hasVideoTrack == NO) {
+                self.errorCode = KJPlayerErrorCodeVideoUrlError;
+                self.state = KJPlayerStateError;
+                return nil;
+            }
+        } else {
+            self.state = KJPlayerStateLoading;
+            self.kPlayerURLConnection = [[KJPlayerURLConnection alloc] init];
+            [self kSetBlock]; /// 设置回调代理
+            NSURL *playUrl = [self.kPlayerURLConnection kSetComponentsWithUrl:url];
+            asset = [AVURLAsset URLAssetWithURL:playUrl options:nil];
+            [asset.resourceLoader setDelegate:self.kPlayerURLConnection queue:dispatch_get_main_queue()];
+        }
+        
         self.kPlayerItem = [AVPlayerItem playerItemWithAsset:asset];
         if (!self.videoPlayer) {
             self.videoPlayer = [AVPlayer playerWithPlayerItem:self.kPlayerItem];
@@ -185,16 +130,13 @@
             [self.videoPlayer replaceCurrentItemWithPlayerItem:self.kPlayerItem];
         }
         self.videoPlayerLayer = [AVPlayerLayer playerLayerWithPlayer:self.videoPlayer];
-    } else {
-        self.kPlayerURLConnection = [[KJPlayerURLConnection alloc] init];
-        [self kSetBlock]; /// 设置回调代理
-        NSURL *playUrl = [self.kPlayerURLConnection kSetComponentsWithUrl:url];
-        AVURLAsset *asset = [AVURLAsset URLAssetWithURL:playUrl options:nil];
-        [asset.resourceLoader setDelegate:self.kPlayerURLConnection queue:dispatch_get_main_queue()];
-        self.kPlayerItem = [AVPlayerItem playerItemWithAsset:asset];
-        if (!self.videoPlayer) {
+    }else{
+        AVURLAsset *urlAsset = [AVURLAsset assetWithURL:url];
+        self.kPlayerItem = [AVPlayerItem playerItemWithAsset:urlAsset];
+        if (self.videoPlayer == nil) {
             self.videoPlayer = [AVPlayer playerWithPlayerItem:self.kPlayerItem];
-        } else {
+            self.videoPlayer.usesExternalPlaybackWhileExternalScreenIsActive = YES;
+        }else{
             [self.videoPlayer replaceCurrentItemWithPlayerItem:self.kPlayerItem];
         }
         self.videoPlayerLayer = [AVPlayerLayer playerLayerWithPlayer:self.videoPlayer];
@@ -205,11 +147,19 @@
     
     return self.videoPlayerLayer;
 }
-- (void)kj_playerSeekToTime:(CGFloat)seconds{
+/* 重播放地址 */
+- (void)kj_playerReplayWithURL:(NSURL*)url{
+    [self kj_playerPlayWithURL:url];
+}
+// 切换倍速
+- (void)switchingTimesSpeed:(CGFloat)speed{
+    self.videoPlayer.rate = speed;
+}
+// 从此刻开始播放
+- (void)kj_playerSeekToTime:(CGFloat)seconds BeginPlayBlock:(KJPlayerSeekBeginPlayBlock)block{
     if (_state == KJPlayerStateStopped) return;
-    
-    seconds = MAX(0, seconds);
-    seconds = MIN(seconds, self.videoTotalTime);
+    self.seekBeginPlayBlock = block;
+    seconds = MIN(MAX(0, seconds), self.videoTotalTime);
     self.current = seconds;
     
     [self.videoPlayer pause];
@@ -276,9 +226,7 @@
 }
 
 - (void)setState:(KJPlayerState)state{
-    if (_state == state) {
-        return;
-    }
+    if (_state == state) return;
     _state = state;
     /// 播放状态处理
     if ([self.delegate respondsToSelector:@selector(kj_player:State:ErrorCode:)]) {
@@ -369,14 +317,11 @@
     // 需要先暂停一小会之后再播放，否则网络状况不好的时候时间在走，声音播放不出来
     [self.videoPlayer pause];
     dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(2 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+        kLoading = NO;
         // 如果此时用户已经暂停了，则不再需要开启播放了
-        if (self.userPause) {
-            kLoading = NO;
-            return;
-        }
+        if (self.userPause) return;
         [self.videoPlayer play];
         // 如果执行了play还是没有播放则说明还没有缓存好，则再次缓存一段时间
-        kLoading = NO;
         if (!self.kPlayerItem.isPlaybackLikelyToKeepUp) {
             [self loadingSomeSecond];
         }
@@ -429,7 +374,7 @@
         }
     }else if ([keyPath isEqualToString:@"playbackLikelyToKeepUp"]) {
         /// seekToTime后,可以正常播放，相当于readyToPlay，一般拖动滑竿菊花转，到了这个这个状态菊花隐藏
-        
+        !self.seekBeginPlayBlock?:self.seekBeginPlayBlock();
     }
 }
 
@@ -450,24 +395,12 @@
     };
     self.kPlayerURLConnection.kPlayerURLConnectiondidFailWithErrorCodeBlcok = ^(NSInteger errorCode) {
         switch (errorCode) {
-            case -1001:
-                weakself.errorCode = KJPlayerErrorCodeNetworkOvertime;
-                break;
-            case -1003:
-                weakself.errorCode = KJPlayerErrorCodeServerNotFound;
-                break;
-            case -1004:
-                weakself.errorCode = KJPlayerErrorCodeServerInternalError;
-                break;
-            case -1005:
-                weakself.errorCode = KJPlayerErrorCodeNetworkInterruption;
-                break;
-            case -1009:
-                weakself.errorCode = KJPlayerErrorCodeNetworkNoConnection;
-                break;
-            default:
-                weakself.errorCode = KJPlayerErrorCodeOtherSituations;
-                break;
+            case -1001:weakself.errorCode = KJPlayerErrorCodeNetworkOvertime;break;
+            case -1003:weakself.errorCode = KJPlayerErrorCodeServerNotFound;break;
+            case -1004:weakself.errorCode = KJPlayerErrorCodeServerInternalError;break;
+            case -1005:weakself.errorCode = KJPlayerErrorCodeNetworkInterruption;break;
+            case -1009:weakself.errorCode = KJPlayerErrorCodeNetworkNoConnection;break;
+            default:weakself.errorCode = KJPlayerErrorCodeOtherSituations;break;
         }
     };
 }

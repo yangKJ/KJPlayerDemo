@@ -1,0 +1,34 @@
+# Uncomment the next line to define a global platform for your project
+# platform :ios, '9.0'
+
+target 'playerDemo' do
+  # Uncomment the next line if you're using Swift or would like to use dynamic frameworks
+  # use_frameworks!
+
+  # Pods for playerDemo
+
+pod 'KJPlayer'
+pod 'KJPlayer/KJPlayerView'
+
+##################加入代码##################
+# 使用第三方库xcode报错Cannot synthesize weak property because the current deployment target does not support weak references
+post_install do |installer|
+    installer.pods_project.targets.each do |target|
+        target.build_configurations.each do |config|
+            config.build_settings['IPHONEOS_DEPLOYMENT_TARGET'] = '8.0'
+        end
+    end
+end
+##################加入代码##################
+
+target 'playerDemoTests' do
+  inherit! :search_paths
+  # Pods for testing
+end
+
+target 'playerDemoUITests' do
+  inherit! :search_paths
+  # Pods for testing
+end
+
+end

@@ -7,6 +7,7 @@
 //
 
 #import "KJPlayerTool.h"
+#import "KJFileOperation.h"
 #import <CommonCrypto/CommonDigest.h>
 #import <AVFoundation/AVFoundation.h>
 
@@ -28,9 +29,6 @@
 + (BOOL)kj_playerIsURL:(NSURL*)url{
     if(url == nil) return NO;
     NSString *string = [url absoluteString];
-    //    if (string.length>4 && [[string substringToIndex:4] isEqualToString:@"www."]) {
-    //        string = [NSString stringWithFormat:@"http://%@",self];
-    //    }
     NSString *urlRegex = @"(https|http|ftp|rtsp|igmp|file|rtspt|rtspu)://((((25[0-5]|2[0-4]\\d|1?\\d?\\d)\\.){3}(25[0-5]|2[0-4]\\d|1?\\d?\\d))|([0-9a-z_!~*'()-]*\\.?))([0-9a-z][0-9a-z-]{0,61})?[0-9a-z]\\.([a-z]{2,6})(:[0-9]{1,4})?([a-zA-Z/?_=]*)\\.\\w{1,5}";
     /// 谓词判断
     NSPredicate *urlTest = [NSPredicate predicateWithFormat:@"SELF MATCHES %@", urlRegex];
@@ -65,9 +63,10 @@
 /// 根据 url 得到完整路径、
 + (NSString*)kj_playerGetIntegrityPathWithUrl:(NSURL*)url{
     NSString *document = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES).lastObject;
-    NSString *videoPath = [document stringByAppendingPathComponent:DOCUMENTS_FOLDER_VEDIO];
-    // 判断存放音频、视频的文件夹是否存在，不存在则创建对应文件夹
-    [self kj_playerCreateFileDirectoriesWithPath:videoPath];
+//    NSString *videoPath = [document stringByAppendingPathComponent:DOCUMENTS_FOLDER_VEDIO];
+//    // 判断存放音频、视频的文件夹是否存在，不存在则创建对应文件夹
+//    BOOL boo = [KJFileOperation kj_fileNewFileWithPath:videoPath];
+//    if (boo == NO) return nil;
     NSString *urlString = [url absoluteString];
     /// 分割字符串
     NSArray *array = [urlString componentsSeparatedByString:@"://"];
@@ -75,31 +74,12 @@
     /// 加密名字
     NSString *md5Name = [self kj_playerMD5WithString:name];
     NSString *videoName = [md5Name stringByAppendingString:@".mp4"];
-    NSString *filePath = [videoPath stringByAppendingPathComponent:videoName];
+    NSString *filePath = [document stringByAppendingPathComponent:videoName];
     return filePath;
-}
-
-// 判断存放视频的文件夹是否存在，不存在则创建对应文件夹
-+ (BOOL)kj_playerCreateFileDirectoriesWithPath:(NSString*)path{
-    NSFileManager *fileManager = [NSFileManager defaultManager];
-    BOOL isDir = NO;
-    BOOL isDirExist = [fileManager fileExistsAtPath:path isDirectory:&isDir];
-    if(!(isDirExist && isDir)){
-        BOOL bCreateDir = [fileManager createDirectoryAtPath:path
-                                 withIntermediateDirectories:YES
-                                                  attributes:nil
-                                                       error:nil];
-        if(!bCreateDir){
-            NSLog(@"Create vedio Directory Failed.");
-            return NO;
-        }
-    }
-    return YES;
 }
 
 // 获取视频第一帧图片
 + (UIImage*)kj_playerFristImageWithURL:(NSURL*)url{
-    // NSDictionary *opts = [NSDictionary dictionaryWithObject:@(NO) forKey:AVURLAssetPreferPreciseDurationAndTimingKey];
     // 初始化视频媒体文件
     AVURLAsset *asset = [[AVURLAsset alloc] initWithURL:url options:nil];
     AVAssetImageGenerator *assetGen = [[AVAssetImageGenerator alloc] initWithAsset:asset];

@@ -24,7 +24,11 @@
         self.playProgressGesture = YES;
         self.gestureSliderMinX = 3;
         self.hasMoved = NO;
+        self.stopWhenAppEnterBackground = YES;
         self.videoImage = PLAYER_GET_BUNDLE_IMAGE(@"kj_player_background");
+        self.currentTime = 0.0;
+        self.useCustomDefinition = YES;
+        self.useCacheFunction = NO;
     }
     return self;
 }
