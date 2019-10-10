@@ -60,6 +60,8 @@ typedef void (^KJPlayerSeekBeginPlayBlock)(void);
 @property (nonatomic,assign) BOOL useCacheFunction;
 /* 进入后台是否停止播放，默认yes */
 @property (nonatomic,assign) BOOL stopWhenAppEnterBackground;
+/* 是否开启退出后台暂停和返回播放功能，默认yes */
+@property (nonatomic,assign) BOOL useOpenAppEnterBackground;
 /** 委托 */
 @property (nonatomic,weak) id <KJPlayerDelegate> delegate;
 

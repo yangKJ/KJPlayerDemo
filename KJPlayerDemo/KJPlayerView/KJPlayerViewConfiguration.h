@@ -60,12 +60,14 @@ typedef NS_ENUM(NSUInteger,KJPlayerDeviceDirection) {
 @property (nonatomic,assign) BOOL openGravitySensing;
 /** 手势滑动触发的最小距离，默认3 */
 @property (nonatomic,assign) CGFloat gestureSliderMinX;
-/* 进入后台是否停止播放，默认yes */
-@property (nonatomic,assign) BOOL stopWhenAppEnterBackground;
 /* 是否使用默认的清晰度面板，默认yes */
 @property (nonatomic,assign) BOOL useCustomDefinition;
 /* 是否使用缓存功能，默认NO */
 @property (nonatomic,assign) BOOL useCacheFunction;
+/* 进入后台是否停止播放，默认yes */
+@property (nonatomic,assign) BOOL stopWhenAppEnterBackground;
+/* 后台返回继续播放功能，默认yes */
+@property (nonatomic,assign) BOOL continuePlayWhenAppReception;
 
 /********************** 内部使用 可以获取,但是别乱改数据 **********************/
 @property (nonatomic,assign) KJPlayerState state;//播放器状态

@@ -94,6 +94,7 @@
         _player.delegate = self;
         _player.stopWhenAppEnterBackground = self.configuration.stopWhenAppEnterBackground;
         _player.useCacheFunction = self.configuration.useCacheFunction;
+        _player.useOpenAppEnterBackground = self.configuration.continuePlayWhenAppReception;
     }
     return _player;
 }
@@ -202,15 +203,27 @@
 
 - (void)kj_player:(nonnull KJPlayer *)player State:(KJPlayerState)state ErrorCode:(KJPlayerErrorCode)errorCode {
     self.configuration.state = state;
-    NSLog(@"%@", KJPlayerStateStringMap[state]);
+    NSLog(@"\nKJPlayer:%@", KJPlayerStateStringMap[state]);
     switch (state) {
-        case KJPlayerStateLoading:[self kStartLoading];break;
-        case KJPlayerStatePlaying:[self kStartPlay];break;
-        case KJPlayerStatePlayEnd:[self kPlayEnd];break;
-        case KJPlayerStateStopped:[self kStoppp];break;
-        case KJPlayerStatePause:break;
-        case KJPlayerStateError:NSLog(@"KJPlayerStateError:%ld",errorCode);break;
-        default:break;
+        case KJPlayerStateLoading:
+            [self kStartLoading];
+            break;
+        case KJPlayerStatePlaying:
+            [self kStartPlay];
+            break;
+        case KJPlayerStatePlayEnd:
+            [self kPlayEnd];
+            break;
+        case KJPlayerStateStopped:
+            [self kStoppp];
+            break;
+        case KJPlayerStatePause:
+            break;
+        case KJPlayerStateError:
+            NSLog(@"KJPlayerStateError:%ld",errorCode);
+            break;
+        default:
+            break;
     }
 }
 
@@ -225,7 +238,9 @@
     /// 隐藏加载
     [self.loadingView stopAnimating];
     self.loadingView.hidden = YES;
-    self.coverImageView.hidden = YES;
+    [UIView animateWithDuration:0.2 animations:^{
+        self.coverImageView.hidden = YES;
+    }];
     self.playOrPauseButton.selected = YES;
     [self setupTimer]; /// 创建计时器
     

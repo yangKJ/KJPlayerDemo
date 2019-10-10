@@ -258,8 +258,13 @@
     [self.kPlayerItem addObserver:self forKeyPath:@"playbackBufferEmpty" options:NSKeyValueObservingOptionNew context:nil];
     [self.kPlayerItem addObserver:self forKeyPath:@"playbackLikelyToKeepUp" options:NSKeyValueObservingOptionNew context:nil];
     
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(appDidEnterBackground) name:UIApplicationWillResignActiveNotification object:nil];
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(appDidEnterPlayGround) name:UIApplicationDidBecomeActiveNotification object:nil];
+    if (self.stopWhenAppEnterBackground) {
+        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(appDidEnterBackground) name:UIApplicationWillResignActiveNotification object:nil];
+    }
+    if (self.useOpenAppEnterBackground) {
+        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(appDidEnterPlayGround) name:UIApplicationDidBecomeActiveNotification object:nil];
+    }
+    
     /// 播放进度
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(playerItemPlaybackStalled:) name:AVPlayerItemPlaybackStalledNotification object:self.kPlayerItem];
     // 添加视频播放结束通知
@@ -339,7 +344,7 @@
 }
 ///从后台返回
 - (void)appDidEnterPlayGround{
-    if (!self.userPause) {
+    if (!self.userPause && self.useOpenAppEnterBackground) {
         [self kj_playerResume];
         self.state = KJPlayerStatePlaying;
     }

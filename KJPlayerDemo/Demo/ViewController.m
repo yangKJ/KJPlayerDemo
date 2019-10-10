@@ -42,6 +42,7 @@
         view.delegate = self;
         
         NSArray *temp = @[@"https://apps.winpow.com/attached/media/mp4/1559550527183.mp4",
+                          @"https://winpow.oss-cn-chengdu.aliyuncs.com/winpow/aliyuntest/media/mp4/1566292681078.mp4?Expires=1568337510&OSSAccessKeyId=LTAIzl3x2LjCZqZP&Signature=nbQ0JAFZnNRFHFW6wBEwX4OQHY8%3D",
                           @"http://appit.winpow.com/attached/media/MP4/1567585643618.mp4",
                           @"https://devstreaming-cdn.apple.com/videos/streaming/examples/bipbop_4x3/gear1/prog_index.m3u8",
                           @"https://mp4.vjshi.com/2018-08-31/3ba67e58deb45fefe7f7d3d16dbf2b16.mp4",
