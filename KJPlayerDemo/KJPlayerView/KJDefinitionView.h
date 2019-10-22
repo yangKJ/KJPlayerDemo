@@ -10,17 +10,18 @@
 #import "KJPlayerViewModel.h"
 #import "KJPlayerViewHeader.h"
 #import "KJPlayerViewConfiguration.h"
+
 NS_ASSUME_NONNULL_BEGIN
 
+typedef void (^kDefinitionViewBlock)(KJPlayerViewModel *model);
 @interface KJDefinitionView : UIView
 // 初始化
-+ (instancetype)createDefinitionView:(void(^_Nullable)(KJDefinitionView *obj))block;
++ (instancetype)createDefinitionView:(KJPlayerViewModel*(^_Nullable)(KJDefinitionView *obj))block ModelBlock:(kDefinitionViewBlock)modelBlock;
 // 保存父视图控制器
-@property(nonatomic,weak,readonly) KJDefinitionView *(^VC)(UIViewController*);
-@property(nonatomic,strong,readonly) KJDefinitionView *(^KJAddView)(UIView *addView);
-@property(nonatomic,strong) KJPlayerViewConfiguration *configuration;
-@property(nonatomic,strong) KJPlayerViewModel *model;
-@property(nonatomic,copy) void (^kDefinitionViewBlock)(KJPlayerViewModel *model);
+@property(nonatomic,weak,readonly)   KJDefinitionView *(^KJSuperViewController)(UIViewController*);
+@property(nonatomic,strong,readonly) KJDefinitionView *(^KJConfiguration)(KJPlayerViewConfiguration*);
+@property(nonatomic,strong,readonly) KJDefinitionView *(^KJAddView)(UIView *);
+/** 清晰度面板是否正在显示 */
 @property(nonatomic,assign,readonly) BOOL displayDefiniton;
 /// 视图消失
 - (void)kDismiss;

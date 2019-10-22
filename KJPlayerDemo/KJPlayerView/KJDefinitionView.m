@@ -10,31 +10,44 @@
 #define PLAYER_BACK_WIDTH  (150)
 @interface KJDefinitionView ()
 @property(nonatomic,weak) UIViewController *saveVC;  // 保存父视图控制器
-@property(nonatomic,strong) UIView *addView;
+@property(nonatomic,strong) UIView *kSuperView;
 @property(nonatomic,strong) UIView *backView;
 @property(nonatomic,strong) NSMutableArray *names;
 @property(nonatomic,assign) BOOL displayDefiniton;
+@property(nonatomic,strong) KJPlayerViewModel *model;
+@property(nonatomic,strong) KJPlayerViewConfiguration *configuration;
+@property(nonatomic,copy,class) kDefinitionViewBlock xxblock; /// 类属性
 @end
 
 @implementation KJDefinitionView
-- (void)config{
-    self.displayDefiniton = NO;
-    self.addView = [UIApplication sharedApplication].windows[0];
+static kDefinitionViewBlock _xxblock = nil;
++ (kDefinitionViewBlock)xxblock{
+    if (_xxblock == nil) {
+        _xxblock = ^void(KJPlayerViewModel *model){ };
+    }
+    return _xxblock;
 }
-+ (instancetype)createDefinitionView:(void(^_Nullable)(KJDefinitionView *obj))block{
++ (void)setXxblock:(kDefinitionViewBlock)xxblock{
+    if (xxblock != _xxblock) _xxblock = [xxblock copy];
+}
++ (instancetype)createDefinitionView:(KJPlayerViewModel*(^_Nullable)(KJDefinitionView *obj))block ModelBlock:(kDefinitionViewBlock)modelBlock{
     KJDefinitionView *view = [[KJDefinitionView alloc] initWithFrame:CGRectMake(0, 0, PLAYER_SCREEN_HEIGHT, PLAYER_SCREEN_WIDTH)];
     view.backgroundColor = UIColor.clearColor;
     [view addGestureRecognizer:[[UITapGestureRecognizer alloc] initWithTarget:view action:@selector(kDismiss)]];
     [view config];
     // 回调出去数据
-    if (block) block(view);
+    if (block) view.model = block(view);
     [view setUI];
+    self.xxblock = modelBlock;
     return view;
 }
-
-- (void)setUI{
+- (void)config{
     self.names = [NSMutableArray array];
-    [self.addView addSubview:self];
+    self.displayDefiniton = NO;
+    self.kSuperView = [UIApplication sharedApplication].windows[0];
+}
+- (void)setUI{
+    [self.kSuperView addSubview:self];
     [self addSubview:self.backView];
     [self kDisplay];
 }
@@ -65,18 +78,25 @@
         [self removeFromSuperview];
     }];
 }
-- (KJDefinitionView *(^)(UIViewController *))VC {
+- (KJDefinitionView *(^)(UIViewController *))KJSuperViewController {
     return ^(UIViewController *vc) {
         self.saveVC = vc;
         return self;
     };
 }
-- (KJDefinitionView *(^)(UIView *addView))KJAddView {
-    return ^(UIView *addView){
-       self.addView = addView;
+- (KJDefinitionView *(^)(KJPlayerViewConfiguration *))KJConfiguration {
+    return ^(KJPlayerViewConfiguration *configuration){
+       self.configuration = configuration;
        return self;
     };
 }
+- (KJDefinitionView *(^)(UIView *))KJAddView {
+    return ^(UIView *addView){
+       self.kSuperView = addView;
+       return self;
+    };
+}
+#pragma mark - setter
 - (void)setModel:(KJPlayerViewModel *)model{
     if (model == nil) return;
     _model = model;
@@ -109,6 +129,7 @@
         [self.backView addSubview:button];
     }
 }
+
 - (void)buttonAction:(UIButton*)sender{
     NSString *name = self.names[sender.tag - 520];
     if ([name isEqualToString:KJPlayerViewModelPriorityTypeStringMap[KJPlayerViewModelPriorityTypeSD]]) {
@@ -121,7 +142,7 @@
         if (_model.priorityType == KJPlayerViewModelPriorityTypeHD) return;
         _model.priorityType = KJPlayerViewModelPriorityTypeHD;
     }
-    !self.kDefinitionViewBlock?:self.kDefinitionViewBlock(_model);
+    _xxblock(_model);
     [self kDismiss];
 }
 

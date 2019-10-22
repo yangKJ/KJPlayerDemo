@@ -35,23 +35,28 @@
     return [urlTest evaluateWithObject:string];
 }
 
-/// 判断url地址是否可用
-+ (void)kj_playerValidateUrl:(NSURL*)url CompletionHandler:(void(^)(BOOL success))completionHandler{
-    NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:url];
-    [request setHTTPMethod:@"HEAD"];
-    NSURLSession *session = [NSURLSession sessionWithConfiguration:[NSURLSessionConfiguration defaultSessionConfiguration]];
-    NSURLSessionDataTask *task = [session dataTaskWithRequest:request completionHandler:^(NSData * _Nullable data, NSURLResponse * _Nullable response, NSError * _Nullable error) {
-        if (completionHandler) {
-            completionHandler(error ? NO : YES);
-        }
-    }];
-    [task resume];
+/// Block 同步执行 判断当前URL是否可用
++ (BOOL)kj_playerValidateUrl:(NSURL*)url{
+    __block BOOL boo = NO;
+    dispatch_queue_t queue = dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0);
+    dispatch_semaphore_t sem = dispatch_semaphore_create(0);//创建信号量初始值为0  0:表示无限等待
+    dispatch_group_async(dispatch_group_create(), queue, ^{
+        NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:url];
+        [request setHTTPMethod:@"HEAD"];
+        NSURLSession *session = [NSURLSession sessionWithConfiguration:[NSURLSessionConfiguration defaultSessionConfiguration]];
+        [[session dataTaskWithRequest:request completionHandler:^(NSData * _Nullable data, NSURLResponse * _Nullable response, NSError * _Nullable error) {
+            boo = error ? NO : YES;
+            dispatch_semaphore_signal(sem); //发送信号量 信号量+1
+        }] resume];
+    });
+    dispatch_semaphore_wait(sem, DISPATCH_TIME_FOREVER);//阻塞等待 信号量-1
+    return boo;
 }
 
 /// md5加密
 + (NSString*)kj_playerMD5WithString:(NSString*)string{
     const char *original_str = [string UTF8String];
-    unsigned char digist[CC_MD5_DIGEST_LENGTH]; //CC_MD5_DIGEST_LENGTH = 16
+    unsigned char digist[CC_MD5_DIGEST_LENGTH]; // CC_MD5_DIGEST_LENGTH = 16
     CC_MD5(original_str, (uint)strlen(original_str), digist);
     NSMutableString *outPutStr = [NSMutableString stringWithCapacity:10];
     for(int i = 0; i < CC_MD5_DIGEST_LENGTH; i++){
@@ -60,7 +65,7 @@
     return [outPutStr lowercaseString];
 }
 
-/// 根据 url 得到完整路径、
+/// 根据 url 得到完整路径
 + (NSString*)kj_playerGetIntegrityPathWithUrl:(NSURL*)url{
     NSString *document = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES).lastObject;
 //    NSString *videoPath = [document stringByAppendingPathComponent:DOCUMENTS_FOLDER_VEDIO];

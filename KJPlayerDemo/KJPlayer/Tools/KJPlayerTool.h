@@ -20,8 +20,8 @@ NS_ASSUME_NONNULL_BEGIN
 /// 判断是否是URL
 + (BOOL)kj_playerIsURL:(NSURL*)url;
 
-/// 判断URL地址是否可用
-+ (void)kj_playerValidateUrl:(NSURL*)url CompletionHandler:(void(^)(BOOL success))completionHandler;
+/// Block 同步执行 判断当前URL是否可用
++ (BOOL)kj_playerValidateUrl:(NSURL*)url;
 
 /// MD5加密
 + (NSString*)kj_playerMD5WithString:(NSString*)string;

@@ -82,19 +82,19 @@ typedef void (^KJPlayerSeekBeginPlayBlock)(void);
 
 /************************* 回调事件处理 *************************/
 /** 当前播放器状态 */
-@property (nonatomic,copy) void (^kPlayerStateBlcok)(KJPlayer *player, KJPlayerState state, KJPlayerErrorCode errorCode);
+@property (nonatomic,readwrite,copy) void (^kPlayerStateBlcok)(KJPlayer *player, KJPlayerState state, KJPlayerErrorCode errorCode);
 /** 播放进度
  *  progress 播放进度 0~1
  *  currentTime 当前播放时间
  *  durationTime 视频总时间
  */
-@property (nonatomic,copy) void (^kPlayerPlayProgressBlcok)(KJPlayer *player, CGFloat progress, CGFloat currentTime, CGFloat durationTime);
+@property (nonatomic,readwrite,copy) void (^kPlayerPlayProgressBlcok)(KJPlayer *player, CGFloat progress, CGFloat currentTime, CGFloat durationTime);
 /** 缓存完成
  *  loadedProgress 缓存进度 0~1
  *  complete 缓存完成
  *  saveSuccess 视频保存成功
  */
-@property (nonatomic,copy) void (^kPlayerLoadingBlcok)(KJPlayer *player, CGFloat loadedProgress, BOOL complete, BOOL saveSuccess);
+@property (nonatomic,readwrite,copy) void (^kPlayerLoadingBlcok)(KJPlayer *player, CGFloat loadedProgress, BOOL complete, BOOL saveSuccess);
 
 @end
 //// 委托代理

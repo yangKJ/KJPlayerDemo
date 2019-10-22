@@ -47,11 +47,11 @@ NSString *tempPath = [document stringByAppendingPathComponent:@"tempVideo.mp4"];
 
 /************************* 事件处理 *************************/
 /** 当接收到服务器响应的时候调用 返回视频长度 videoLength */
-@property (nonatomic,copy) void (^kRequestTaskDidReceiveVideoLengthBlcok)(KJRequestTask *task, NSUInteger videoLength);
+@property (nonatomic,readwrite,copy)  void (^kRequestTaskDidReceiveVideoLengthBlcok)(KJRequestTask *task, NSUInteger videoLength);
 /** 当接收到数据的时候调用，该方法会被调用多次 返回接收到的服务端二进制数据 NSData */
-@property (nonatomic,copy) void (^kRequestTaskDidReceiveDataBlcok)(KJRequestTask *task, NSData *data);
+@property (nonatomic,readwrite,copy) void (^kRequestTaskDidReceiveDataBlcok)(KJRequestTask *task, NSData *data);
 /** 当服务端返回的数据接收完毕之后会调用 */
-@property (nonatomic,copy) void (^kRequestTaskDidFinishLoadingAndSaveFileBlcok)(KJRequestTask *task, BOOL saveSuccess);
+@property (nonatomic,readwrite,copy) void (^kRequestTaskDidFinishLoadingAndSaveFileBlcok)(KJRequestTask *task, BOOL saveSuccess);
 /** 当请求错误的时候调用
  *  errorCode 对应的一些code
  *  请求超时：-1001

@@ -42,20 +42,20 @@
         view.delegate = self;
         
         NSArray *temp = @[@"https://apps.winpow.com/attached/media/mp4/1559550527183.mp4",
-                          @"https://winpow.oss-cn-chengdu.aliyuncs.com/winpow/aliyuntest/media/mp4/1566292681078.mp4?Expires=1568337510&OSSAccessKeyId=LTAIzl3x2LjCZqZP&Signature=nbQ0JAFZnNRFHFW6wBEwX4OQHY8%3D",
                           @"http://appit.winpow.com/attached/media/MP4/1567585643618.mp4",
+                          @"https://devstreaming-cdn",
                           @"https://devstreaming-cdn.apple.com/videos/streaming/examples/bipbop_4x3/gear1/prog_index.m3u8",
                           @"https://mp4.vjshi.com/2018-08-31/3ba67e58deb45fefe7f7d3d16dbf2b16.mp4",
-                          @"https://mp4.vjshi.com/2017-07-02/0cbbf21c6003f7936f4086dd10e7ebf5.mp4",
                           @"https://mp4.vjshi.com/2018-03-30/1f36dd9819eeef0bc508414494d34ad9.mp4",
+                          @"https://mp4.vjshi.com/2017-07-02/0cbbf21c6003f7936f4086dd10e7ebf5.mp4",
                           ];
         NSMutableArray *array = [NSMutableArray array];
         for (NSInteger i=0; i<2; i++) {
             KJPlayerViewModel *model = [KJPlayerViewModel new];
             if (i==0) {
                 model.sd = temp[0];
-                model.cif = temp[1];
-                model.hd = temp[5];
+                model.cif = temp[5];
+                model.hd = temp[2];
             }else if (i==1) {
                 model.hd = temp[5];
             }else{

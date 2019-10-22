@@ -106,21 +106,23 @@
 }
 
 - (NSString*)kj_getCurrentURL{
-    NSString *name;
-    switch (_videoModel.priorityType) {
-        case KJPlayerViewModelPriorityTypeSD:
-            name = [self kj_getPlayURL:_videoModel.sd:_videoModel.cif:_videoModel.hd];
-            break;
-        case KJPlayerViewModelPriorityTypeCIF:
-            name = [self kj_getPlayURL:_videoModel.cif:_videoModel.sd:_videoModel.hd];
-            break;
-        case KJPlayerViewModelPriorityTypeHD:
-            name = [self kj_getPlayURL:_videoModel.hd:_videoModel.cif:_videoModel.sd];
-            break;
-        default:
-            break;
-    }
-    return name;
+    return ({
+        NSString *name;
+        switch (_videoModel.priorityType) {
+            case KJPlayerViewModelPriorityTypeSD:
+                name = [self kj_getPlayURL:_videoModel.sd:_videoModel.cif:_videoModel.hd];
+                break;
+            case KJPlayerViewModelPriorityTypeCIF:
+                name = [self kj_getPlayURL:_videoModel.cif:_videoModel.sd:_videoModel.hd];
+                break;
+            case KJPlayerViewModelPriorityTypeHD:
+                name = [self kj_getPlayURL:_videoModel.hd:_videoModel.cif:_videoModel.sd];
+                break;
+            default:
+                break;
+        }
+        name;
+    });
 }
 /// 得到当前播放的视频地址
 - (NSString*)kj_getPlayURL:(NSString*)x :(NSString*)y :(NSString*)z{
@@ -129,10 +131,21 @@
 
 - (void)setVideoURL:(id)videoURL{
     _videoURL = videoURL;
-    self.configuration.url = videoURL;
     if (![videoURL isKindOfClass:[NSURL class]]) {
         videoURL = [NSURL URLWithString:videoURL];
     }
+//    /// 判断地址是否可用
+//    BOOL boo = [KJPlayerTool kj_playerHaveTracksWithURL:videoURL];
+//    if (boo == NO) {
+//        [self.player kj_playerStop];
+//        [self.contentView.layer.sublayers makeObjectsPerformSelector:@selector(removeFromSuperlayer)];
+//        ///给UIView设置图片
+//        UIImage *image = PLAYER_GET_BUNDLE_IMAGE(@"kj_player_background");
+//        self.contentView.layer.contents = (__bridge id)image.CGImage;
+//        self.contentView.layer.contentsCenter = CGRectMake(0, 0, 1, 1);
+//        return;
+//    }
+    self.configuration.url = videoURL;
     
     if (self.playerLayer == nil) {
         /// 播放视频
@@ -166,7 +179,7 @@
     if (self.configuration.haveFristImage) {
         /// 获取视频第一帧图片
         self.configuration.videoImage = [KJPlayerTool kj_playerFristImageWithURL:self.configuration.url];
-        self.coverImageView.image = self.configuration.videoImage ? self.configuration.videoImage : PLAYER_GET_BUNDLE_IMAGE(@"kj_player_background");
+        self.coverImageView.image = self.configuration.videoImage ?: PLAYER_GET_BUNDLE_IMAGE(@"kj_player_background");
     }
     
     // 视频的默认填充模式，AVLayerVideoGravityResizeAspect
@@ -323,7 +336,11 @@
     /// 为0时表示关闭自动隐藏功能
     if (self.configuration.autoHideTime <= 0) return;
     [self invalidateTimer]; // 创建定时器前先停止定时器,不然会出现僵尸定时器,导致错误
-    NSTimer *timer = [NSTimer timerWithTimeInterval:self.configuration.autoHideTime target:self selector:@selector(autoDismissBottomView:) userInfo:nil repeats:YES]; /// 创建只执行一次的计时器
+    NSTimer *timer = [NSTimer timerWithTimeInterval:self.configuration.autoHideTime
+                                             target:self
+                                           selector:@selector(autoDismissBottomView:)
+                                           userInfo:nil
+                                            repeats:YES]; /// 创建只执行一次的计时器
     /// 放入当前的自动释放池
     [[NSRunLoop currentRunLoop] addTimer:timer forMode:NSDefaultRunLoopMode];
     self.timer = timer;
@@ -501,8 +518,7 @@
     if (direction == KJPlayerDeviceDirectionCustom) return;
     /// 当前手机方向  同时也控制全屏和半屏切换  全屏：left和right  半屏：top和bottom
     if ([self.delegate respondsToSelector:@selector(kj_PlayerView:DeviceDirection:)]) {
-        BOOL close = [self.delegate kj_PlayerView:self DeviceDirection:direction];
-        if (close) return;
+        if ([self.delegate kj_PlayerView:self DeviceDirection:direction]) return;
     }
     /// 旋转屏幕
     [self kFullWithDirection:(direction)];
@@ -516,11 +532,7 @@
     if ([self.delegate respondsToSelector:@selector(kj_PlayerView:DeviceDirection:)]) {
         if ([self.delegate kj_PlayerView:self DeviceDirection:KJPlayerDeviceDirectionRight]) return;
     }
-    if (sender.selected) {
-        [self kFullWithDirection:(KJPlayerDeviceDirectionRight)];
-    }else{
-        [self kFullWithDirection:(KJPlayerDeviceDirectionTop)];
-    }
+    [self kFullWithDirection:sender.selected?(KJPlayerDeviceDirectionRight):(KJPlayerDeviceDirectionTop)];
 }
 // 播放和暂停
 - (void)playOrPauseAction:(UIButton*)sender{
@@ -547,19 +559,17 @@
 }
 //底部按钮事件处理
 - (void)kBottomButtonAction:(UIButton*)sender{
-    if (self.configuration.useCustomDefinition) {
-        if (sender.tag == 522) {
-            KJDefinitionView *view = [KJDefinitionView createDefinitionView:^(KJDefinitionView * _Nonnull obj) {
-                obj.KJAddView(self);
-            }];
-            view.configuration = self.configuration;
-            view.model = self.videoModelTemps[self.videoIndex];
+    if (sender.tag == 522) {
+        if (self.configuration.useCustomDefinition) {
             PLAYER_WEAKSELF;
-            view.kDefinitionViewBlock = ^(KJPlayerViewModel * _Nonnull model) {
+            [KJDefinitionView createDefinitionView:^KJPlayerViewModel * _Nonnull(KJDefinitionView * _Nonnull obj) {
+                obj.KJAddView(weakself);
+                obj.KJConfiguration(weakself.configuration);
+                return weakself.videoModelTemps[weakself.videoIndex];
+            } ModelBlock:^(KJPlayerViewModel * _Nonnull model) {
                 weakself.videoModel = model;
-                /// 接着播放
-                weakself.seekTime = weakself.configuration.currentTime;
-            };
+                weakself.seekTime = weakself.configuration.currentTime;/// 接着播放
+            }];
             return;
         }
     }

@@ -37,6 +37,11 @@
  
  ####版本更新日志:
  
+ #### Add 1.0.6
+ 1.重构KJDefinitionView清晰度面板
+ 2.配置信息类KJPlayerViewConfiguration新增属性 continuePlayWhenAppReception 控制是否后台返回播放
+ 3.工具类KJPlayerTool 新增 kj_playerValidateUrl 判断当前URL是否可用
+ 
  #### Add 1.0.5
  1.重新更新KJPlayer播放方式
  2.新增清晰度选择

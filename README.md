@@ -66,9 +66,6 @@ end
 #### <a id="作者其他库"></a>作者其他Pod库
 ```
 播放器 - KJPlayer是一款视频播放器，AVPlayer的封装，继承UIView
-- 支持播放网络和本地视频、播放多种格式
-- 视频可以边下边播，把播放器播放过的数据流缓存到本地，下次直接从缓冲读取播放
-- 支持拖动、手势快进倒退、增大减小音量、重力感应切换横竖屏等等
 pod 'KJPlayer'  # 播放器功能区
 pod 'KJPlayer/KJPlayerView'  # 自带展示界面
 
@@ -100,6 +97,11 @@ pod 'KJPlayer/KJPlayerView'  # 自带展示界面
 #### <a id="更新日志"></a>更新日志
 ```
 ####版本更新日志:
+#### Add 1.0.6
+1.重构KJDefinitionView清晰度面板
+2.配置信息类KJPlayerViewConfiguration新增属性 continuePlayWhenAppReception 控制是否后台返回播放
+3.工具类KJPlayerTool 新增 kj_playerValidateUrl 判断当前URL是否可用
+
 #### Add 1.0.5
 1.重新更新KJPlayer播放方式
 2.新增清晰度选择
@@ -136,7 +138,7 @@ pod 'KJPlayer/KJPlayerView'  # 自带展示界面
 
 #### <a id="KJPlayer"></a>KJPlayer
 
-- KJPlayerTool：主要提供一些播放器的工具  判断是否含有视频轨道  获取视频第一帧图片和总时长等等
+- KJPlayerTool：主要提供一些播放器的工具  判断是否含有视频轨道  获取视频第一帧图片和总时长等等  
 - KJRequestTask：网络缓存类   网络请求结束的时候，如果数据完整，则把数据缓存到指定的路径，储存起来，如果不完整，则删除缓存的临时文件数据
 - KJPlayerURLConnection：网络和Player的中转类   把网络请求缓存到本地的临时数据`offset`和`videoLength`传递给播放器
 
@@ -197,11 +199,11 @@ playerLayer.frame = view.bounds;
 提供一套完整的布局界面，视图属性我全部暴露在外界，这样方便修改和重新布局  
 直接 pod 'KJPlayer/KJPlayerView'  # 自带展示界面  
 
-> KJPlayerViewConfiguration:配置信息
-> KJPlayerViewHeader:宏文件
-> KJLightView:亮度管理
-> KJFastView:快进倒退管理
-> KJDefinitionView:清晰度展示面板
+- KJPlayerViewConfiguration:配置信息  
+- KJPlayerViewHeader:宏文件  
+- KJLightView:亮度管理  
+- KJFastView:快进倒退管理  
+- KJDefinitionView:清晰度展示面板  
 
 ##### 展示区代码事例
 ```
@@ -268,46 +270,13 @@ playerLayer.frame = view.bounds;
 ```
 #pragma mark - KJPlayerViewDelegate
 - (BOOL)kj_PlayerView:(KJPlayerView *)playerView DeviceDirection:(KJPlayerDeviceDirection)direction{
-/// 重置电池状态
-[self setNeedsStatusBarAppearanceUpdate];
-//    switch (direction) {
-//        case KJPlayerDeviceDirectionTop:
-//            playerView.layer.transform = CATransform3DIdentity;
-//            break;
-//        case KJPlayerDeviceDirectionBottom:
-//            playerView.layer.transform = CATransform3DIdentity;
-//            break;
-//        case KJPlayerDeviceDirectionLeft:
-//            playerView.layer.transform = CATransform3DMakeRotation(-M_PI/2, 0, 0, 1);
-//            playerView.layer.frame = CGRectMake(0, 0, PLAYER_SCREEN_WIDTH, PLAYER_SCREEN_HEIGHT);
-//            playerView.playerLayer.frame = playerView.bounds;
-//            break;
-//        case KJPlayerDeviceDirectionRight:
-//            playerView.layer.transform = CATransform3DMakeRotation(M_PI/2, 0, 0, 1);
-//            playerView.layer.frame = CGRectMake(0, 0, PLAYER_SCREEN_WIDTH, PLAYER_SCREEN_HEIGHT);
-//            break;
-//        default:
-//            break;
-//    }
-return NO;
+    /// 重置电池状态
+    [self setNeedsStatusBarAppearanceUpdate];
+    return NO;
 }
 /// Bottom按钮事件  tag:520收藏、521下载、522清晰度
 - (void)kj_PlayerView:(KJPlayerView*)playerView BottomButton:(UIButton*)sender{
-    if (sender.tag == 522) {
-        NSString *url = @"https://mp4.vjshi.com/2018-03-30/1f36dd9819eeef0bc508414494d34ad9.mp4";
-        KJPlayerViewModel *model = [KJPlayerViewModel new];
-        model.hd = url;
-        self.playerView.videoModel = model;
-        self.playerView.seekTime = 20;
-    }else if (sender.tag == 521) {
-        NSString *url = @"http://appit.winpow.com/attached/media/MP4/1567585643618.mp4";
-        KJPlayerViewModel *model = [KJPlayerViewModel new];
-        model.hd = url;
-        self.playerView.videoModel = model;
-        self.playerView.seekTime = 100;
-    }else if (sender.tag == 520) {
-        self.playerView.seekTime = 150;
-    }
+    
 }
 ```
 

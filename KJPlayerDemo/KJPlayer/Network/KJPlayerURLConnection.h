@@ -22,9 +22,9 @@ FOUNDATION_EXPORT NSString *const kMIMEType;
 
 /************************* 事件处理 *************************/
 /** 当服务端返回的数据接收完毕之后会调用 */
-@property (nonatomic,copy) void (^kPlayerURLConnectionDidFinishLoadingAndSaveFileBlcok)(BOOL completeLoad, BOOL saveSuccess);
+@property (nonatomic,readwrite,copy) void (^kPlayerURLConnectionDidFinishLoadingAndSaveFileBlcok)(BOOL completeLoad, BOOL saveSuccess);
 /** 当请求错误的时候调用 */
-@property (nonatomic,copy) void (^kPlayerURLConnectiondidFailWithErrorCodeBlcok)(NSInteger errorCode);
+@property (nonatomic,readwrite,copy) void (^kPlayerURLConnectiondidFailWithErrorCodeBlcok)(NSInteger errorCode);
 
 @end
 

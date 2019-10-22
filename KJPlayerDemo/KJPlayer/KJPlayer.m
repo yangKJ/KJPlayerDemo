@@ -99,7 +99,7 @@
         ///1.判断本地是否有缓存
         NSString *path = [KJPlayerTool kj_playerGetIntegrityPathWithUrl:url];
         self.videoIsLocalityData = [[NSFileManager defaultManager] fileExistsAtPath:path];
-        //4.判断版本和是否为本地资源  iOS7以下和本地资源直接播放
+        //4.判断版本和是否为本地资源
         AVURLAsset *asset;
         if (self.videoIsLocalityData) {
             // 本地文件不设置 KJPlayerStateLoading 状态
