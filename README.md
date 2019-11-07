@@ -1,5 +1,5 @@
 # KJPlayer
-![coverImage](https://raw.githubusercontent.com/yangKJ/CommonDatas/master/CommonDatas/Res/coverImage.jpg)
+![coverImage](https://upload-images.jianshu.io/upload_images/1933747-b7e843a01999b9a9.jpg?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240)
 
 ----------------------------------------
 ### 框架整体介绍
@@ -130,7 +130,7 @@ pod 'KJPlayer/KJPlayerView'  # 自带展示界面
 #### <a id="效果图"></a>效果图
 横屏展示效果图：
 
-![培训活动-视频全屏](https://raw.githubusercontent.com/yangKJ/CommonDatas/master/CommonDatas/Res/培训活动-视频全屏.png)
+![培训活动-视频全屏](https://upload-images.jianshu.io/upload_images/1933747-3d64de1b9d073891.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240)
 
 竖屏目前展示效果：
 
@@ -315,8 +315,6 @@ static inline NSString * kj_getPlayURL(NSString*x,NSString*y,NSString*z){
 * 如果在使用过程中遇到Bug，希望你能Issues，我会及时修复
 * 大家有什么需要添加的功能，也可以给我留言，有空我将补充完善
 * 谢谢大家的支持 - -！
-
-[![LOGO](https://github.com/yangKJ/KJPlayerDemo/blob/master/KJPlayerDemo/Demo/Assets.xcassets/AppIcon.appiconset/WechatIMG57486iPhoneSpootlight7_40pt@3x.png?raw=true)](https://www.jianshu.com/u/c84c00476ab6)
 
 [![谢谢老板](https://upload-images.jianshu.io/upload_images/1933747-879572df848f758a.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240)](https://github.com/yangKJ/KJPlayerDemo)
 
