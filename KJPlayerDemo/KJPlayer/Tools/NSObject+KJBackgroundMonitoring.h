@@ -7,14 +7,16 @@
 //
 
 #import <Foundation/Foundation.h>
+#import <UIKit/UIKit.h>
+#import <objc/runtime.h>
 
 NS_ASSUME_NONNULL_BEGIN
-typedef void(^BackgroundMonitoringBlock)(BOOL isBackground);
+typedef void(^KJBackgroundMonitoringBlock)(BOOL isBackground);
 
 @interface NSObject (KJBackgroundMonitoring)
 
 /** 注册进入后台 进入前台事件 */
-- (void)registergroundBlock:(void(^)(BOOL isBackground))monitoringBlock;
+- (void)registergroundBlock:(KJBackgroundMonitoringBlock)block;
 /** 继续前后台监听 */
 - (void)resumegroundListen;
 /** 暂停前后台监听 */

@@ -37,6 +37,9 @@
  
  ####版本更新日志:
  
+ #### Add 1.0.8
+ 1.引入头文件 KJPlayerHeader
+ 
  #### Add 1.0.6
  1.重构KJDefinitionView清晰度面板
  2.配置信息类KJPlayerViewConfiguration新增属性 continuePlayWhenAppReception 控制是否后台返回播放
@@ -76,7 +79,6 @@
 - KJPlayerURLConnection:网络和Player的中转类 把网络请求缓存到本地的临时数据`offset`和`videoLength`传递给播放器
 
 ##### 代码事例
-```
 UIView *view = [[UIView alloc] initWithFrame:CGRectMake(0, 20, [UIScreen mainScreen].bounds.size.width, [UIScreen mainScreen].bounds.size.width*9/16)];
 view.backgroundColor = UIColor.cyanColor;
 [self.view addSubview:view];
@@ -89,22 +91,20 @@ AVPlayerLayer *playerLayer = [player kj_playWithUrl:url];
 [player kj_seekToTime:player.videoTotalTime - 10];
 playerLayer.frame = view.bounds;
 [view.layer addSublayer:playerLayer];
-```
+ 
 ##### 委托代理
-```
 #pragma mark - KJPlayerDelegate
 - (void)kj_player:(nonnull KJPlayer *)player LoadedProgress:(CGFloat)loadedProgress LoadComplete:(BOOL)complete SaveSuccess:(BOOL)saveSuccess {
-NSLog(@"Load:%.2f==%d==%d",loadedProgress,complete,saveSuccess);
+    NSLog(@"Load:%.2f==%d==%d",loadedProgress,complete,saveSuccess);
 }
 
 - (void)kj_player:(nonnull KJPlayer *)player Progress:(CGFloat)progress CurrentTime:(CGFloat)currentTime DurationTime:(CGFloat)durationTime {
-NSLog(@"Time:%.2f==%.2f==%.2f",progress,currentTime,durationTime);
+    NSLog(@"Time:%.2f==%.2f==%.2f",progress,currentTime,durationTime);
 }
 
 - (void)kj_player:(nonnull KJPlayer *)player State:(KJPlayerState)state ErrorCode:(KJPlayerErrorCode)errorCode {
-NSLog(@"State:%ld==%ld",state,errorCode);
+    NSLog(@"State:%ld==%ld",state,errorCode);
 }
-```
 
 #### KPlayerView
 提供一套完整的布局界面，视图属性我全部暴露在外界，这样方便修改和重新布局
@@ -116,8 +116,37 @@ NSLog(@"State:%ld==%ld",state,errorCode);
 > KJFastView:快进倒退管理
 > KJDefinitionView:清晰度展示面板
 
+ #### 获取当前播放视频地址的算法
+ 如果你们需要不同的算法方式，请修改就完事
+
+ ```
+ /// 得到当前播放的视频地址
+ - (NSString*)kj_getCurrentURL{
+     return ({
+         NSString *name;
+         switch (_videoModel.priorityType) {
+             case KJPlayerViewModelPriorityTypeSD:
+                 name = kj_getPlayURL(_videoModel.sd,_videoModel.cif,_videoModel.hd);
+                 break;
+             case KJPlayerViewModelPriorityTypeCIF:
+                 name = kj_getPlayURL(_videoModel.cif,_videoModel.sd,_videoModel.hd);
+                 break;
+             case KJPlayerViewModelPriorityTypeHD:
+                 name = kj_getPlayURL(_videoModel.hd,_videoModel.cif,_videoModel.sd);
+                 break;
+             default:
+                 break;
+         }
+         name;
+     });
+ }
+
+ static inline NSString * kj_getPlayURL(NSString*x,NSString*y,NSString*z){
+     return (x || y) == 0 ? z : (x?:y);
+ }
+ ```
+ 
 ##### 展示区代码事例
-```
 @interface ViewController ()<KJPlayerViewDelegate>
 @property(nonatomic,strong) KJPlayerView *playerView;
 @end
@@ -126,18 +155,18 @@ NSLog(@"State:%ld==%ld",state,errorCode);
 
 /// 电池状态栏管理
 - (BOOL)prefersStatusBarHidden{
-if (self.playerView) {
-return _playerView.configuration.fullScreen;
-}else{
-return NO;
-}
+    if (self.playerView) {
+        return _playerView.configuration.fullScreen;
+    }else{
+        return NO;
+    }
 }
 
 - (void)viewDidLoad {
-[super viewDidLoad];
+    [super viewDidLoad];
 
-// Do any additional setup after loading the view.
-[self.view addSubview:self.playerView];
+    // Do any additional setup after loading the view.
+    [self.view addSubview:self.playerView];
 }
 
 - (KJPlayerView*)playerView{
@@ -176,53 +205,18 @@ return NO;
  }
  return _playerView;
 }
-```
+ 
 #### 委托代理
-```
 #pragma mark - KJPlayerViewDelegate
 - (BOOL)kj_PlayerView:(KJPlayerView *)playerView DeviceDirection:(KJPlayerDeviceDirection)direction{
-/// 重置电池状态
-[self setNeedsStatusBarAppearanceUpdate];
-//    switch (direction) {
-//        case KJPlayerDeviceDirectionTop:
-//            playerView.layer.transform = CATransform3DIdentity;
-//            break;
-//        case KJPlayerDeviceDirectionBottom:
-//            playerView.layer.transform = CATransform3DIdentity;
-//            break;
-//        case KJPlayerDeviceDirectionLeft:
-//            playerView.layer.transform = CATransform3DMakeRotation(-M_PI/2, 0, 0, 1);
-//            playerView.layer.frame = CGRectMake(0, 0, PLAYER_SCREEN_WIDTH, PLAYER_SCREEN_HEIGHT);
-//            playerView.playerLayer.frame = playerView.bounds;
-//            break;
-//        case KJPlayerDeviceDirectionRight:
-//            playerView.layer.transform = CATransform3DMakeRotation(M_PI/2, 0, 0, 1);
-//            playerView.layer.frame = CGRectMake(0, 0, PLAYER_SCREEN_WIDTH, PLAYER_SCREEN_HEIGHT);
-//            break;
-//        default:
-//            break;
-//    }
-return NO;
+    /// 重置电池状态
+    [self setNeedsStatusBarAppearanceUpdate];
+    return NO;
 }
 /// Bottom按钮事件  tag:520收藏、521下载、522清晰度
 - (void)kj_PlayerView:(KJPlayerView*)playerView BottomButton:(UIButton*)sender{
- if (sender.tag == 522) {
-     NSString *url = @"https://mp4.vjshi.com/2018-03-30/1f36dd9819eeef0bc508414494d34ad9.mp4";
-     KJPlayerViewModel *model = [KJPlayerViewModel new];
-     model.hd = url;
-     self.playerView.videoModel = model;
-     self.playerView.seekTime = 20;
- }else if (sender.tag == 521) {
-     NSString *url = @"http://appit.winpow.com/attached/media/MP4/1567585643618.mp4";
-     KJPlayerViewModel *model = [KJPlayerViewModel new];
-     model.hd = url;
-     self.playerView.videoModel = model;
-     self.playerView.seekTime = 100;
- }else if (sender.tag == 520) {
-     self.playerView.seekTime = 150;
- }
+ 
 }
-```
 */
 
 /** 功能区
@@ -231,5 +225,7 @@ return NO;
  *  下次直接优先从缓冲读取播放
  */
 #import "KJPlayer.h"
+
+//#import "KJPlayerView.h" /// 提供一套布局
 
 #endif /* KJPlayerHeader_h */

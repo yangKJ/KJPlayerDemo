@@ -7,28 +7,19 @@
 //
 
 #import "NSObject+KJBackgroundMonitoring.h"
-#import <Foundation/Foundation.h>
-#import <UIKit/UIKit.h>
-#import <objc/runtime.h>
-
-static void *DirectionMonitoringBlockKey = &DirectionMonitoringBlockKey;
-static void *DirectionNeedGroundKey = &DirectionNeedGroundKey;
-static void *DirectionIsBackgroundKey = &DirectionIsBackgroundKey;
 
 @interface NSObject ()
 // 是否需要前后台回调
 @property (nonatomic, assign) BOOL needGround;
-@property (nonatomic, assign) BOOL isBackground;
-@property (nonatomic, strong) BackgroundMonitoringBlock monitoringBlock;
-
+@property (nonatomic, strong) KJBackgroundMonitoringBlock xxblock;
 @end
 
 @implementation NSObject (KJBackgroundMonitoring)
 #pragma mark - public
 // 注册进入后台 进入前台事件
-- (void)registergroundBlock:(void(^)(BOOL isBackground))monitoringBlock {
+- (void)registergroundBlock:(KJBackgroundMonitoringBlock)block {
     @synchronized(self) {
-        self.monitoringBlock = monitoringBlock;
+        self.xxblock = block;
         self.needGround = YES;
     }
     [self setupgroundNotificationCenter];
@@ -59,33 +50,24 @@ static void *DirectionIsBackgroundKey = &DirectionIsBackgroundKey;
 }
 
 - (void)applicationBecomeActive {
-    self.isBackground = NO;
-    if (self.monitoringBlock) {
-        self.monitoringBlock(NO);
-    }
+    !self.xxblock?:self.xxblock(NO);
 }
 
 - (void)applicationEnterBackground {
-    self.isBackground = YES;
-    if (self.monitoringBlock) {
-        self.monitoringBlock(YES);
-    }
-}
-
-- (void)setNeedGround:(BOOL)needGround {
-    objc_setAssociatedObject(self, &DirectionNeedGroundKey, @(needGround), OBJC_ASSOCIATION_ASSIGN);
+    !self.xxblock?:self.xxblock(YES);
 }
 
 - (BOOL)needGround {
-    return objc_getAssociatedObject(self, &DirectionNeedGroundKey);
+    return objc_getAssociatedObject(self, @selector(needGround));
 }
-
-- (void)setMonitoringBlock:(BackgroundMonitoringBlock)monitoringBlock {
-    objc_setAssociatedObject(self, &DirectionMonitoringBlockKey, monitoringBlock, OBJC_ASSOCIATION_RETAIN_NONATOMIC);
+- (void)setNeedGround:(BOOL)needGround {
+    objc_setAssociatedObject(self, @selector(needGround), @(needGround), OBJC_ASSOCIATION_ASSIGN);
 }
-
-- (BackgroundMonitoringBlock)monitoringBlock {
-    return objc_getAssociatedObject(self, &DirectionMonitoringBlockKey);
+- (KJBackgroundMonitoringBlock)xxblock {
+    return objc_getAssociatedObject(self, @selector(xxblock));
+}
+- (void)setXxblock:(KJBackgroundMonitoringBlock)xxblock {
+    objc_setAssociatedObject(self, @selector(xxblock), xxblock, OBJC_ASSOCIATION_RETAIN_NONATOMIC);
 }
 
 @end

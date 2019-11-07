@@ -58,7 +58,6 @@
 		681AD53622E55F2800F1018B /* KJPlayerView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = KJPlayerView.h; sourceTree = "<group>"; };
 		681AD53722E55F2800F1018B /* KJPlayerView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = KJPlayerView.m; sourceTree = "<group>"; };
 		68231D8E22E59E5F00A333DC /* KJPlayerView.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = KJPlayerView.bundle; sourceTree = "<group>"; };
-		682E3C2F22F9705F001C23B4 /* KJPlayerHeader.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = KJPlayerHeader.h; path = KJPlayerHeader/KJPlayerHeader.h; sourceTree = "<group>"; };
 		68322DC822EB5C5B003AFA6B /* KJFileOperation.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = KJFileOperation.h; sourceTree = "<group>"; };
 		68322DC922EB5C5B003AFA6B /* KJFileOperation.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = KJFileOperation.m; sourceTree = "<group>"; };
 		6846A03C22E6A3FA0086C16F /* KJLightView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = KJLightView.h; sourceTree = "<group>"; };
@@ -97,6 +96,7 @@
 		68C4AE8B22E5A86000E9E806 /* KJFastView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = KJFastView.h; sourceTree = "<group>"; };
 		68C4AE8C22E5A86000E9E806 /* KJFastView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = KJFastView.m; sourceTree = "<group>"; };
 		68C4AE8E22E5B38A00E9E806 /* KJPlayerViewHeader.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = KJPlayerViewHeader.h; sourceTree = "<group>"; };
+		68EC0D762360025D00867AAB /* KJPlayerHeader.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = KJPlayerHeader.h; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -155,7 +155,7 @@
 		689D5A7522E3011200DE33FC /* KJPlayerDemo */ = {
 			isa = PBXGroup;
 			children = (
-				682E3C2F22F9705F001C23B4 /* KJPlayerHeader.h */,
+				68EC0D762360025D00867AAB /* KJPlayerHeader.h */,
 				689D5AB122E3305700DE33FC /* KJPlayerView */,
 				689D5AA922E3012E00DE33FC /* KJPlayer */,
 				689D5AA822E3011E00DE33FC /* Demo */,

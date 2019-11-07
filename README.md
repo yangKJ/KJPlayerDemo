@@ -203,7 +203,37 @@ playerLayer.frame = view.bounds;
 - KJPlayerViewHeader:宏文件  
 - KJLightView:亮度管理  
 - KJFastView:快进倒退管理  
-- KJDefinitionView:清晰度展示面板  
+- KJDefinitionView:清晰度展示面板 
+
+#### 获取当前播放视频地址的算法
+如果你们需要不同的算法方式，请修改就完事
+
+```
+/// 得到当前播放的视频地址
+- (NSString*)kj_getCurrentURL{
+    return ({
+        NSString *name;
+        switch (_videoModel.priorityType) {
+            case KJPlayerViewModelPriorityTypeSD:
+                name = kj_getPlayURL(_videoModel.sd,_videoModel.cif,_videoModel.hd);
+                break;
+            case KJPlayerViewModelPriorityTypeCIF:
+                name = kj_getPlayURL(_videoModel.cif,_videoModel.sd,_videoModel.hd);
+                break;
+            case KJPlayerViewModelPriorityTypeHD:
+                name = kj_getPlayURL(_videoModel.hd,_videoModel.cif,_videoModel.sd);
+                break;
+            default:
+                break;
+        }
+        name;
+    });
+}
+
+static inline NSString * kj_getPlayURL(NSString*x,NSString*y,NSString*z){
+    return (x || y) == 0 ? z : (x?:y);
+}
+``` 
 
 ##### 展示区代码事例
 ```
@@ -288,6 +318,6 @@ playerLayer.frame = view.bounds;
 
 [![LOGO](https://github.com/yangKJ/KJPlayerDemo/blob/master/KJPlayerDemo/Demo/Assets.xcassets/AppIcon.appiconset/WechatIMG57486iPhoneSpootlight7_40pt@3x.png?raw=true)](https://www.jianshu.com/u/c84c00476ab6)
 
-[![谢谢老板](https://raw.githubusercontent.com/yangKJ/CommonDatas/master/CommonDatas/Money/77%E3%80%82/All.png)](https://github.com/yangKJ/KJPlayerDemo)
+[![谢谢老板](https://upload-images.jianshu.io/upload_images/1933747-879572df848f758a.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240)](https://github.com/yangKJ/KJPlayerDemo)
 
 #### 救救孩子吧，谢谢各位老板～～～～

@@ -105,18 +105,19 @@
     if (url) self.videoURL = self.configuration.url = url;
 }
 
+/// 得到当前播放的视频地址
 - (NSString*)kj_getCurrentURL{
     return ({
         NSString *name;
         switch (_videoModel.priorityType) {
             case KJPlayerViewModelPriorityTypeSD:
-                name = [self kj_getPlayURL:_videoModel.sd:_videoModel.cif:_videoModel.hd];
+                name = kj_getPlayURL(_videoModel.sd,_videoModel.cif,_videoModel.hd);
                 break;
             case KJPlayerViewModelPriorityTypeCIF:
-                name = [self kj_getPlayURL:_videoModel.cif:_videoModel.sd:_videoModel.hd];
+                name = kj_getPlayURL(_videoModel.cif,_videoModel.sd,_videoModel.hd);
                 break;
             case KJPlayerViewModelPriorityTypeHD:
-                name = [self kj_getPlayURL:_videoModel.hd:_videoModel.cif:_videoModel.sd];
+                name = kj_getPlayURL(_videoModel.hd,_videoModel.cif,_videoModel.sd);
                 break;
             default:
                 break;
@@ -124,10 +125,13 @@
         name;
     });
 }
-/// 得到当前播放的视频地址
-- (NSString*)kj_getPlayURL:(NSString*)x :(NSString*)y :(NSString*)z{
+
+static inline NSString * kj_getPlayURL(NSString*x,NSString*y,NSString*z){
     return (x || y) == 0 ? z : (x?:y);
 }
+//- (NSString*)kj_getPlayURL:(NSString*)x :(NSString*)y :(NSString*)z{
+//    return (x || y) == 0 ? z : (x?:y);
+//}
 
 - (void)setVideoURL:(id)videoURL{
     _videoURL = videoURL;
@@ -256,7 +260,6 @@
     }];
     self.playOrPauseButton.selected = YES;
     [self setupTimer]; /// 创建计时器
-    
 }
 /// 播放完成playEnd的相关操作
 - (void)kPlayEnd{

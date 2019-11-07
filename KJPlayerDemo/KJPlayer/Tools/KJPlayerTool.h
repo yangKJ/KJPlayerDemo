@@ -10,7 +10,7 @@
 #import <UIKit/UIKit.h>
 
 NS_ASSUME_NONNULL_BEGIN
-#pragma mark ********** 3.弱引用   *********
+#pragma mark ********** 3.弱引用 *********
 #define PLAYER_WEAKSELF __weak typeof(self) weakself = self
 @interface KJPlayerTool : NSObject
 

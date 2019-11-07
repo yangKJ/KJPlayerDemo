@@ -1,6 +1,6 @@
 Pod::Spec.new do |s|
   s.name         = "KJPlayer"
-  s.version      = "1.0.6"
+  s.version      = "1.0.8"
   s.summary      = "A good player made by yangkejun"
   s.homepage     = "https://github.com/yangKJ/KJPlayerDemo"
   s.license      = "MIT"
@@ -13,8 +13,8 @@ Pod::Spec.new do |s|
   s.requires_arc = true
   s.ios.deployment_target = '9.0'
 
-  s.ios.source_files = 'KJPlayerDemo/KJPlayerHeader/*.h' # 添加头文件
   s.default_subspec  = 'KJPlayer' # 默认
+  s.ios.source_files = 'KJPlayerDemo/KJPlayerHeader.h' # 添加头文件
 
   s.subspec 'KJPlayer' do |y|
     y.source_files = "KJPlayerDemo/KJPlayer/**/*.{h,m}"
