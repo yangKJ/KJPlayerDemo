@@ -15,6 +15,7 @@
 		68322DCA22EB5C5B003AFA6B /* KJFileOperation.m in Sources */ = {isa = PBXBuildFile; fileRef = 68322DC922EB5C5B003AFA6B /* KJFileOperation.m */; };
 		6846A03E22E6A3FA0086C16F /* KJLightView.m in Sources */ = {isa = PBXBuildFile; fileRef = 6846A03D22E6A3FA0086C16F /* KJLightView.m */; };
 		68643A5B22E6F63A0065F787 /* KJPlayerViewConfiguration.m in Sources */ = {isa = PBXBuildFile; fileRef = 68643A5A22E6F63A0065F787 /* KJPlayerViewConfiguration.m */; };
+		686EEB9123C3357300F7DC2C /* UIButton+KJPlayerButtonTouchAreaInsets.m in Sources */ = {isa = PBXBuildFile; fileRef = 686EEB9023C3357300F7DC2C /* UIButton+KJPlayerButtonTouchAreaInsets.m */; };
 		687AA4CB2326357900C8EFF7 /* KJDefinitionView.m in Sources */ = {isa = PBXBuildFile; fileRef = 687AA4CA2326357900C8EFF7 /* KJDefinitionView.m */; };
 		6887897C22E7E6C30087597D /* KJPlayerViewModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 6887897B22E7E6C30087597D /* KJPlayerViewModel.m */; };
 		6887897E22E82BC00087597D /* Heiyaya.mp4 in Resources */ = {isa = PBXBuildFile; fileRef = 6887897D22E82BC00087597D /* Heiyaya.mp4 */; };
@@ -64,6 +65,8 @@
 		6846A03D22E6A3FA0086C16F /* KJLightView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = KJLightView.m; sourceTree = "<group>"; };
 		68643A5922E6F63A0065F787 /* KJPlayerViewConfiguration.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = KJPlayerViewConfiguration.h; sourceTree = "<group>"; };
 		68643A5A22E6F63A0065F787 /* KJPlayerViewConfiguration.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = KJPlayerViewConfiguration.m; sourceTree = "<group>"; };
+		686EEB8F23C3357300F7DC2C /* UIButton+KJPlayerButtonTouchAreaInsets.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "UIButton+KJPlayerButtonTouchAreaInsets.h"; sourceTree = "<group>"; };
+		686EEB9023C3357300F7DC2C /* UIButton+KJPlayerButtonTouchAreaInsets.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = "UIButton+KJPlayerButtonTouchAreaInsets.m"; sourceTree = "<group>"; };
 		687AA4C92326357900C8EFF7 /* KJDefinitionView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = KJDefinitionView.h; sourceTree = "<group>"; };
 		687AA4CA2326357900C8EFF7 /* KJDefinitionView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = KJDefinitionView.m; sourceTree = "<group>"; };
 		6887897A22E7E6C30087597D /* KJPlayerViewModel.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = KJPlayerViewModel.h; sourceTree = "<group>"; };
@@ -239,6 +242,8 @@
 				68643A5922E6F63A0065F787 /* KJPlayerViewConfiguration.h */,
 				68643A5A22E6F63A0065F787 /* KJPlayerViewConfiguration.m */,
 				68C4AE8E22E5B38A00E9E806 /* KJPlayerViewHeader.h */,
+				686EEB8F23C3357300F7DC2C /* UIButton+KJPlayerButtonTouchAreaInsets.h */,
+				686EEB9023C3357300F7DC2C /* UIButton+KJPlayerButtonTouchAreaInsets.m */,
 			);
 			path = KJPlayerView;
 			sourceTree = "<group>";
@@ -398,6 +403,7 @@
 				6846A03E22E6A3FA0086C16F /* KJLightView.m in Sources */,
 				68322DCA22EB5C5B003AFA6B /* KJFileOperation.m in Sources */,
 				689D5AB422E3525200DE33FC /* KJPlayerURLConnection.m in Sources */,
+				686EEB9123C3357300F7DC2C /* UIButton+KJPlayerButtonTouchAreaInsets.m in Sources */,
 				68643A5B22E6F63A0065F787 /* KJPlayerViewConfiguration.m in Sources */,
 				689D5A7822E3011200DE33FC /* AppDelegate.m in Sources */,
 				6819B5C4231F674200552AF2 /* NSObject+KJBackgroundMonitoring.m in Sources */,

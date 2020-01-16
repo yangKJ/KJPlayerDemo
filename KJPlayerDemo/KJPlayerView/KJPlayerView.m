@@ -65,8 +65,8 @@
         //旋转屏幕通知
         [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(onDeviceOrientationChange) name:UIDeviceOrientationDidChangeNotification object:nil];
     }
-    _seekTime = 0.0;
     self.videoIndex = 0;
+    _seekTime = 0.0;
 }
 
 /* 初始化 */
@@ -104,20 +104,18 @@
     NSString *url = [self kj_getCurrentURL];
     if (url) self.videoURL = self.configuration.url = url;
 }
-
-/// 得到当前播放的视频地址
 - (NSString*)kj_getCurrentURL{
     return ({
         NSString *name;
         switch (_videoModel.priorityType) {
             case KJPlayerViewModelPriorityTypeSD:
-                name = kj_getPlayURL(_videoModel.sd,_videoModel.cif,_videoModel.hd);
+                name = [self kj_getPlayURL:_videoModel.sd:_videoModel.cif:_videoModel.hd];
                 break;
             case KJPlayerViewModelPriorityTypeCIF:
-                name = kj_getPlayURL(_videoModel.cif,_videoModel.sd,_videoModel.hd);
+                name = [self kj_getPlayURL:_videoModel.cif:_videoModel.sd:_videoModel.hd];
                 break;
             case KJPlayerViewModelPriorityTypeHD:
-                name = kj_getPlayURL(_videoModel.hd,_videoModel.cif,_videoModel.sd);
+                name = [self kj_getPlayURL:_videoModel.hd:_videoModel.cif:_videoModel.sd];
                 break;
             default:
                 break;
@@ -125,13 +123,10 @@
         name;
     });
 }
-
-static inline NSString * kj_getPlayURL(NSString*x,NSString*y,NSString*z){
+/// 得到当前播放的视频地址
+- (NSString*)kj_getPlayURL:(NSString*)x :(NSString*)y :(NSString*)z{
     return (x || y) == 0 ? z : (x?:y);
 }
-//- (NSString*)kj_getPlayURL:(NSString*)x :(NSString*)y :(NSString*)z{
-//    return (x || y) == 0 ? z : (x?:y);
-//}
 
 - (void)setVideoURL:(id)videoURL{
     _videoURL = videoURL;
@@ -160,7 +155,6 @@ static inline NSString * kj_getPlayURL(NSString*x,NSString*y,NSString*z){
         /// 播放视频
         [self.player kj_playerReplayWithURL:videoURL];
     }
-    
     /// 播放的准备工作
     [self kPlayBeforePlan];
 }
@@ -172,44 +166,42 @@ static inline NSString * kj_getPlayURL(NSString*x,NSString*y,NSString*z){
         [weakself kStartPlay];
     }];
 }
-- (void)setVideoModelTemps:(NSArray<KJPlayerViewModel *> *)videoModelTemps{
+- (void)setVideoModelTemps:(NSArray<KJPlayerViewModel*>*)videoModelTemps{
     _videoModelTemps = videoModelTemps;
     self.videoModel = videoModelTemps[self.videoIndex];
 }
 #pragma mark - public methods
 /// 播放的准备工作
 - (void)kPlayBeforePlan{
-    /// 设置一些信息
+    PLAYER_WEAKSELF;
     if (self.configuration.haveFristImage) {
-        /// 获取视频第一帧图片
-        self.configuration.videoImage = [KJPlayerTool kj_playerFristImageWithURL:self.configuration.url];
-        self.coverImageView.image = self.configuration.videoImage ?: PLAYER_GET_BUNDLE_IMAGE(@"kj_player_background");
+        dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
+            /// 获取视频第一帧图片
+            weakself.configuration.videoImage = [KJPlayerTool kj_playerFristImageWithURL:weakself.configuration.url];
+            dispatch_async(dispatch_get_main_queue(), ^{
+                weakself.coverImageView.image = weakself.configuration.videoImage ?: PLAYER_GET_BUNDLE_IMAGE(@"kj_player_background");
+            });
+        });
     }
     
     // 视频的默认填充模式，AVLayerVideoGravityResizeAspect
     self.playerLayer.videoGravity = self.configuration.videoGravity;
-    
-    CGFloat totalTime = self.configuration.totalTime = self.player.videoTotalTime;
-    self.leftTimeLabel.text  = [KJPlayerTool kj_playerConvertTime:_seekTime];
-    self.rightTimeLabel.text = [KJPlayerTool kj_playerConvertTime:totalTime];
-    CGFloat loadValue = self.player.videoIsLocalityData ? 1.0 : 0.0;
-    [self.loadingProgress setProgress:loadValue animated:YES];
-    self.playScheduleSlider.maximumValue = totalTime;
-    self.playScheduleSlider.value = _seekTime;//指定初始值
+    self.configuration.totalTime  = self.player.videoTotalTime;
+    self.leftTimeLabel.text  = [KJPlayerTool kj_playerConvertTime:self.configuration.currentTime];
+    self.rightTimeLabel.text = [KJPlayerTool kj_playerConvertTime:self.configuration.totalTime];
+    [self.loadingProgress setProgress:self.player.videoIsLocalityData?1.0:0.0 animated:YES];
+    self.playScheduleSlider.maximumValue = self.configuration.totalTime;
+    self.playScheduleSlider.value = self.configuration.currentTime;//指定初始值
     self.playOrPauseButton.selected = YES;
-    
-    self.fastView.moveGestureFast = NO;
-    self.configuration.hasMoved = NO;
-    self.configuration.currentTime = _seekTime;
+    self.configuration.hasMoved = self.fastView.moveGestureFast = NO;
 }
 
 #pragma mark - KJPlayerDelegate
-- (void)kj_player:(nonnull KJPlayer *)player LoadedProgress:(CGFloat)loadedProgress LoadComplete:(BOOL)complete SaveSuccess:(BOOL)saveSuccess {
+- (void)kj_player:(KJPlayer *)player LoadedProgress:(CGFloat)loadedProgress LoadComplete:(BOOL)complete SaveSuccess:(BOOL)saveSuccess {
 //    NSLog(@"PlayerLoad:%.2f",loadedProgress);
     [self.loadingProgress setProgress:loadedProgress animated:YES];
 }
-
-- (void)kj_player:(nonnull KJPlayer *)player Progress:(CGFloat)progress CurrentTime:(CGFloat)currentTime DurationTime:(CGFloat)durationTime {
+- (void)kj_player:(KJPlayer *)player Progress:(CGFloat)progress CurrentTime:(CGFloat)currentTime DurationTime:(CGFloat)durationTime {
 //        NSLog(@"Time:%.2f==%.2f==%.2f",progress,currentTime,durationTime);
     if (self.fastView.moveGestureFast == NO) {
         self.leftTimeLabel.text = [KJPlayerTool kj_playerConvertTime:currentTime];
@@ -217,8 +209,7 @@ static inline NSString * kj_getPlayURL(NSString*x,NSString*y,NSString*z){
         self.configuration.currentTime = currentTime;
     }
 }
-
-- (void)kj_player:(nonnull KJPlayer *)player State:(KJPlayerState)state ErrorCode:(KJPlayerErrorCode)errorCode {
+- (void)kj_player:(KJPlayer *)player State:(KJPlayerState)state ErrorCode:(KJPlayerErrorCode)errorCode {
     self.configuration.state = state;
     NSLog(@"\nKJPlayer:%@", KJPlayerStateStringMap[state]);
     switch (state) {
@@ -243,7 +234,6 @@ static inline NSString * kj_getPlayURL(NSString*x,NSString*y,NSString*z){
             break;
     }
 }
-
 /// 加载的相关操作
 - (void)kStartLoading{
     self.loadingView.hidden = NO;
@@ -311,7 +301,7 @@ static inline NSString * kj_getPlayURL(NSString*x,NSString*y,NSString*z){
     [self.loadingView startAnimating];
     self.coverImageView.hidden = NO;
     self.playScheduleSlider.value = 0;//指定初始值
-    _seekTime = 0.0;
+    self.configuration.currentTime = _seekTime = 0.0;
     self.videoURL = self.configuration.url;
 }
 /// 播放Stop的相关操作
@@ -321,7 +311,7 @@ static inline NSString * kj_getPlayURL(NSString*x,NSString*y,NSString*z){
     self.coverImageView.hidden = NO;
     self.playOrPauseButton.selected = NO;
     self.playScheduleSlider.value = 0;//指定初始值
-    _seekTime = 0.0;
+    self.configuration.currentTime = _seekTime = 0.0;
     if (self.bottomView.alpha == 0.0) {
         [self showControlView];
     }
@@ -568,7 +558,7 @@ static inline NSString * kj_getPlayURL(NSString*x,NSString*y,NSString*z){
             [KJDefinitionView createDefinitionView:^KJPlayerViewModel * _Nonnull(KJDefinitionView * _Nonnull obj) {
                 obj.KJAddView(weakself);
                 obj.KJConfiguration(weakself.configuration);
-                return weakself.videoModelTemps[weakself.videoIndex];
+                return weakself.videoModel;
             } ModelBlock:^(KJPlayerViewModel * _Nonnull model) {
                 weakself.videoModel = model;
                 weakself.seekTime = weakself.configuration.currentTime;/// 接着播放
@@ -599,6 +589,7 @@ static inline NSString * kj_getPlayURL(NSString*x,NSString*y,NSString*z){
             self.playOrPauseButton.selected = YES;
             CGFloat second = slider.value;
             [self.playScheduleSlider setValue:second animated:YES];
+            self.configuration.currentTime = second;
             [self.player kj_playerSeekToTime:second BeginPlayBlock:^{
                 
             }];
@@ -612,6 +603,7 @@ static inline NSString * kj_getPlayURL(NSString*x,NSString*y,NSString*z){
     CGPoint touchLocation = [gesture locationInView:self.playScheduleSlider];
     CGFloat value = (self.playScheduleSlider.maximumValue - self.playScheduleSlider.minimumValue) * (touchLocation.x / self.playScheduleSlider.frame.size.width);
     [self.playScheduleSlider setValue:value animated:YES];
+    self.configuration.currentTime = value;
     [self.player kj_playerSeekToTime:value BeginPlayBlock:^{
         
     }];
@@ -627,6 +619,10 @@ static inline NSString * kj_getPlayURL(NSString*x,NSString*y,NSString*z){
             [self hiddenControlView];
         }
     }];
+}
+/// 点击标题也触发返回
+- (void)topTitleSingleTap:(UITapGestureRecognizer *)sender{
+    [self goBackAction:self.backButton];
 }
 // 双击手势方法
 - (void)handleDoubleTap:(UITapGestureRecognizer *)doubleTap{
@@ -725,7 +721,6 @@ static inline NSString * kj_getPlayURL(NSString*x,NSString*y,NSString*z){
             [self.lightView kj_updateLightValue:value];
         }
     }
-    
     /// 有移动距离
     self.configuration.hasMoved = YES;
 }
@@ -741,6 +736,7 @@ static inline NSString * kj_getPlayURL(NSString*x,NSString*y,NSString*z){
         self.configuration.gestureType == KJPlayerGestureTypeProgress) { //进度控制就跳到响应的进度
         CGPoint tempPoint = [touches.anyObject locationInView:self];
         CGFloat second = [self kmoveFastViewWithTempPoint:tempPoint];
+        self.configuration.currentTime = second;
         [self.player kj_playerSeekToTime:second BeginPlayBlock:^{
             
         }];
@@ -775,37 +771,6 @@ static inline NSString * kj_getPlayURL(NSString*x,NSString*y,NSString*z){
     [self.topView addSubview:self.functionButton];
     [self.topView addSubview:self.topTitleLabel];
     
-    /*************** 记录视图初始位置 ***************/
-    /** 父视图 */
-    self.superViewFrame = self.frame;
-    /** 底部操作工具栏 */
-    self.bottomViewFrame = self.bottomView.frame;
-    /** 顶部操作工具栏 */
-    self.topViewFrame = self.topView.frame;
-    /** 开始播放前背景占位图片 */
-    self.coverImageViewFrame = self.coverImageView.frame;
-    /** 显示播放视频的title */
-    self.topTitleLabelFrame = self.topTitleLabel.frame;
-    /** 控制全屏的按钮 */
-    self.fullScreenButtonFrame = self.fullScreenButton.frame;
-    /** 播放暂停按钮 */
-    self.playOrPauseButtonFrame = self.playOrPauseButton.frame;
-    /** 左上角关闭按钮 */
-    self.backButtonFrame = self.backButton.frame;
-    /** 右上角功能按钮 */
-    self.functionButtonFrame = self.functionButton.frame;
-    /** 进度滑块 */
-    self.fastViewFrame = self.fastView.frame;
-    /** 显示播放时间的UILabel */
-    self.leftTimeLabelFrame = self.leftTimeLabel.frame;
-    self.rightTimeLabelFrame = self.rightTimeLabel.frame;
-    /** 播放进度滑块 */
-    self.playScheduleSliderFrame = self.playScheduleSlider.frame;
-    /** 显示缓冲进度 */
-    self.loadingProgressFrame = self.loadingProgress.frame;
-    /** 菊花（加载框）*/
-    self.loadingViewFrame = self.loadingView.frame;
-    
     // 单击的 Recognizer
     UITapGestureRecognizer *singleTap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(handleSingleTap:)];
     singleTap.numberOfTapsRequired = 1; // 单击
@@ -828,6 +793,8 @@ static inline NSString * kj_getPlayURL(NSString*x,NSString*y,NSString*z){
 - (UIView*)contentView{
     if (!_contentView) {
         _contentView = [[UIView alloc]initWithFrame:self.bounds];
+        /** 父视图 */
+        self.superViewFrame = self.frame;
     }
     return _contentView;
 }
@@ -836,6 +803,7 @@ static inline NSString * kj_getPlayURL(NSString*x,NSString*y,NSString*z){
         _coverImageView = [[UIImageView alloc] initWithFrame:self.bounds];
         _coverImageView.contentMode = UIViewContentModeScaleToFill;
         _coverImageView.image = PLAYER_GET_BUNDLE_IMAGE(@"kj_player_background");
+        self.coverImageViewFrame = _coverImageView.frame;
     }
     return _coverImageView;
 }
@@ -845,6 +813,7 @@ static inline NSString * kj_getPlayURL(NSString*x,NSString*y,NSString*z){
         _fastView.center = self.contentView.center;
         _fastView.moveGestureFast = NO;
         _fastView.progressView.progressTintColor = self.configuration.mainColor;
+        self.fastViewFrame = _fastView.frame;
     }
     return _fastView;
 }
@@ -875,7 +844,8 @@ static inline NSString * kj_getPlayURL(NSString*x,NSString*y,NSString*z){
     if (!_loadingView) {
         _loadingView = [[UIActivityIndicatorView alloc] initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleWhite];
         _loadingView.center = self.contentView.center;
-        //        [_loadingView startAnimating];
+        [_loadingView startAnimating];
+        self.loadingViewFrame = _loadingView.frame;
     }
     return _loadingView;
 }
@@ -884,6 +854,7 @@ static inline NSString * kj_getPlayURL(NSString*x,NSString*y,NSString*z){
         _topView = [[UIImageView alloc]initWithFrame:CGRectMake(0, 0, self.frame.size.width, 70)];
         _topView.image = PLAYER_GET_BUNDLE_IMAGE(@"kj_player_top_shadow");
         _topView.userInteractionEnabled = YES;
+        self.topViewFrame = _topView.frame;
     }
     return _topView;
 }
@@ -892,6 +863,7 @@ static inline NSString * kj_getPlayURL(NSString*x,NSString*y,NSString*z){
         _bottomView = [[UIImageView alloc]initWithFrame:CGRectMake(0, self.frame.size.height-50, self.frame.size.width, 50)];
         _bottomView.image = PLAYER_GET_BUNDLE_IMAGE(@"kj_player_bottom_shadow");
         _bottomView.userInteractionEnabled = YES;
+        self.bottomViewFrame = _bottomView.frame;
     }
     return _bottomView;
 }
@@ -903,6 +875,7 @@ static inline NSString * kj_getPlayURL(NSString*x,NSString*y,NSString*z){
         [_playOrPauseButton setImage:PLAYER_GET_BUNDLE_IMAGE(@"kj_player_播放-全屏") forState:UIControlStateNormal];
         [_playOrPauseButton setImage:PLAYER_GET_BUNDLE_IMAGE(@"kj_player_暂停-全屏") forState:UIControlStateSelected];
         _playOrPauseButton.selected = YES;//默认状态，即默认是不自动播放
+        self.playOrPauseButtonFrame = _playOrPauseButton.frame;
     }
     return _playOrPauseButton;
 }
@@ -922,18 +895,45 @@ static inline NSString * kj_getPlayURL(NSString*x,NSString*y,NSString*z){
         UITapGestureRecognizer *tap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(tapGestureForSlider:)];
         tap.delegate = self;
         [_playScheduleSlider addGestureRecognizer:tap];
+        self.playScheduleSliderFrame = _playScheduleSlider.frame;
     }
     return _playScheduleSlider;
 }
 - (UIProgressView*)loadingProgress{
     if (!_loadingProgress) {
+        CGFloat x = 45 + 40;
         _loadingProgress = [[UIProgressView alloc] initWithProgressViewStyle:UIProgressViewStyleDefault];
-        _loadingProgress.frame = CGRectMake(45, self.bottomView.frame.size.height/2-1, self.bottomView.frame.size.width-90, 2);
+        _loadingProgress.frame = CGRectMake(x, self.bottomView.frame.size.height/2-1, self.bottomView.frame.size.width-2*x, 2);
         _loadingProgress.trackTintColor = UIColor.lightGrayColor;
         _loadingProgress.progressTintColor = UIColor.whiteColor;//[self.configuration.mainColor colorWithAlphaComponent:0.2];
         [_loadingProgress setProgress:0.0 animated:NO];
+        self.loadingProgressFrame = _loadingProgress.frame;
     }
     return _loadingProgress;
+}
+- (UILabel*)leftTimeLabel{
+    if (!_leftTimeLabel) {
+        _leftTimeLabel = [UILabel new];
+        _leftTimeLabel.frame = CGRectMake(45, self.bottomView.frame.size.height/2-10, 40, 20);
+        _leftTimeLabel.textAlignment = NSTextAlignmentLeft;
+        _leftTimeLabel.textColor = [UIColor whiteColor];
+        _leftTimeLabel.font = [UIFont systemFontOfSize:11];
+        _leftTimeLabel.text = [KJPlayerTool kj_playerConvertTime:0.0];//设置默认值
+        self.leftTimeLabelFrame = _leftTimeLabel.frame;
+    }
+    return _leftTimeLabel;
+}
+- (UILabel*)rightTimeLabel{
+    if (!_rightTimeLabel) {
+        _rightTimeLabel = [UILabel new];
+        _rightTimeLabel.frame = CGRectMake(self.bottomView.frame.size.width-45-40, self.bottomView.frame.size.height/2-10, 40, 20);
+        _rightTimeLabel.textAlignment = NSTextAlignmentRight;
+        _rightTimeLabel.textColor = [UIColor whiteColor];
+        _rightTimeLabel.font = [UIFont systemFontOfSize:11];
+        _rightTimeLabel.text = [KJPlayerTool kj_playerConvertTime:0.0];//设置默认值
+        self.rightTimeLabelFrame = _rightTimeLabel.frame;
+    }
+    return _rightTimeLabel;
 }
 - (UIButton*)fullScreenButton{
     if (!_fullScreenButton) {
@@ -943,30 +943,9 @@ static inline NSString * kj_getPlayURL(NSString*x,NSString*y,NSString*z){
         [_fullScreenButton addTarget:self action:@selector(fullScreenAction:) forControlEvents:UIControlEventTouchUpInside];
         [_fullScreenButton setImage:PLAYER_GET_BUNDLE_IMAGE(@"kj_player_全屏") forState:UIControlStateNormal];
         [_fullScreenButton setImage:PLAYER_GET_BUNDLE_IMAGE(@"kj_player_全屏") forState:UIControlStateSelected];
+        self.fullScreenButtonFrame = _fullScreenButton.frame;
     }
     return _fullScreenButton;
-}
-- (UILabel*)leftTimeLabel{
-    if (!_leftTimeLabel) {
-        _leftTimeLabel = [UILabel new];
-        _leftTimeLabel.frame = CGRectMake(45, self.bottomView.frame.size.height-20, 50, 20);
-        _leftTimeLabel.textAlignment = NSTextAlignmentLeft;
-        _leftTimeLabel.textColor = [UIColor whiteColor];
-        _leftTimeLabel.font = [UIFont systemFontOfSize:11];
-        _leftTimeLabel.text = [KJPlayerTool kj_playerConvertTime:0.0];//设置默认值
-    }
-    return _leftTimeLabel;
-}
-- (UILabel*)rightTimeLabel{
-    if (!_rightTimeLabel) {
-        _rightTimeLabel = [UILabel new];
-        _rightTimeLabel.frame = CGRectMake(self.bottomView.frame.size.width-45-50, self.bottomView.frame.size.height-20, 50, 20);
-        _rightTimeLabel.textAlignment = NSTextAlignmentRight;
-        _rightTimeLabel.textColor = [UIColor whiteColor];
-        _rightTimeLabel.font = [UIFont systemFontOfSize:11];
-        _rightTimeLabel.text = [KJPlayerTool kj_playerConvertTime:0.0];//设置默认值
-    }
-    return _rightTimeLabel;
 }
 - (UIButton*)backButton{
     if (!_backButton) {
@@ -975,6 +954,7 @@ static inline NSString * kj_getPlayURL(NSString*x,NSString*y,NSString*z){
         _backButton.tag = 200;
         [_backButton setImage:PLAYER_GET_BUNDLE_IMAGE(@"kj_player_返回-视频") forState:(UIControlStateNormal)];
         [_backButton addTarget:self action:@selector(goBackAction:) forControlEvents:UIControlEventTouchUpInside];
+        self.backButtonFrame = _backButton.frame;
     }
     return _backButton;
 }
@@ -985,6 +965,7 @@ static inline NSString * kj_getPlayURL(NSString*x,NSString*y,NSString*z){
         _functionButton.tag = 201;
         [_functionButton setImage:PLAYER_GET_BUNDLE_IMAGE(@"kj_player_转发-视频") forState:(UIControlStateNormal)];
         [_functionButton addTarget:self action:@selector(functionButtonAction:) forControlEvents:UIControlEventTouchUpInside];
+        self.functionButtonFrame = _functionButton.frame;
     }
     return _functionButton;
 }
@@ -997,6 +978,13 @@ static inline NSString * kj_getPlayURL(NSString*x,NSString*y,NSString*z){
         _topTitleLabel.numberOfLines = 1;
         _topTitleLabel.font = [UIFont boldSystemFontOfSize:(16)];
         _topTitleLabel.text = self.configuration.backString;
+        _topTitleLabel.userInteractionEnabled = YES;
+        // 单击的 Recognizer
+        UITapGestureRecognizer *singleTap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(topTitleSingleTap:)];
+        singleTap.numberOfTapsRequired = 1; // 单击
+        singleTap.numberOfTouchesRequired = 1;
+        [_topTitleLabel addGestureRecognizer:singleTap];
+        self.topTitleLabelFrame = _topTitleLabel.frame;
     }
     return _topTitleLabel;
 }
@@ -1013,6 +1001,7 @@ static inline NSString * kj_getPlayURL(NSString*x,NSString*y,NSString*z){
         _collectButton.hidden = YES;
         [_collectButton addTarget:self action:@selector(kBottomButtonAction:) forControlEvents:(UIControlEventTouchUpInside)];
         [self.bottomView addSubview:_collectButton];
+        _collectButton.touchAreaInsets = UIEdgeInsetsMake(10., .0, 10., .0); /// 扩大点击域
     }
     return _collectButton;
 }
@@ -1029,6 +1018,7 @@ static inline NSString * kj_getPlayURL(NSString*x,NSString*y,NSString*z){
         _downloadButton.hidden = YES;
         [_downloadButton addTarget:self action:@selector(kBottomButtonAction:) forControlEvents:(UIControlEventTouchUpInside)];
         [self.bottomView addSubview:_downloadButton];
+        _downloadButton.touchAreaInsets = UIEdgeInsetsMake(10., .0, 10., .0);
     }
     return _downloadButton;
 }
@@ -1045,6 +1035,7 @@ static inline NSString * kj_getPlayURL(NSString*x,NSString*y,NSString*z){
         _definitionButton.hidden = YES;
         [_definitionButton addTarget:self action:@selector(kBottomButtonAction:) forControlEvents:(UIControlEventTouchUpInside)];
         [self.bottomView addSubview:_definitionButton];
+        _definitionButton.touchAreaInsets = UIEdgeInsetsMake(10., .0, 10., .0);
     }
     return _definitionButton;
 }

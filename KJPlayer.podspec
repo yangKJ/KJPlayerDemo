@@ -19,7 +19,7 @@ Pod::Spec.new do |s|
   s.subspec 'KJPlayer' do |y|
     y.source_files = "KJPlayerDemo/KJPlayer/**/*.{h,m}"
     y.public_header_files = 'KJPlayerDemo/KJPlayer/*.h',"KJPlayerDemo/KJPlayer/**/*.h"
-    y.frameworks = 'Foundation','UIKit','MobileCoreServices','AVFoundation'
+    y.frameworks = 'MobileCoreServices','AVFoundation'
   end
 
   s.subspec 'KJPlayerView' do |a|
@@ -29,6 +29,8 @@ Pod::Spec.new do |s|
     a.dependency 'KJPlayer/KJPlayer'
     a.frameworks = 'QuartzCore','Accelerate','CoreGraphics'
   end
+  
+  s.frameworks = 'Foundation','UIKit'
 
 end
 

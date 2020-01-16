@@ -8,6 +8,7 @@
 
 #import "KJPlayer.h"
 #import "KJPlayerURLConnection.h"
+#import "NSObject+KJBackgroundMonitoring.h"
 
 @interface KJPlayer ()
 @property (nonatomic,strong) KJPlayerSeekBeginPlayBlock seekBeginPlayBlock;
@@ -63,7 +64,7 @@
     _errorCode = KJPlayerErrorCodeNoError;
     _loadedProgress = 0.0;
     _videoTotalTime = 0.0;
-    _current = 0.0;
+    _current  = 0.0;
     _progress = 0.0;
     _userPause = YES;
     _loadComplete = NO;
@@ -282,17 +283,10 @@
         }
         // 不相等的时候才更新，并回调出去，否则seek时会继续跳动
         if (weakself.current != current) {
-//            weakself.current = current;
-//            if (weakself.current > weakself.videoTotalTime) {
-//                weakself.videoTotalTime = weakself.current;
-//            }
             weakself.current = current > weakself.videoTotalTime ? weakself.videoTotalTime : current;
             /// 播放进度时间处理
             if ([weakself.delegate respondsToSelector:@selector(kj_player:Progress:CurrentTime:DurationTime:)]) {
-                [weakself.delegate kj_player:weakself
-                                    Progress:weakself.progress
-                                 CurrentTime:weakself.current
-                                DurationTime:weakself.videoTotalTime];
+                [weakself.delegate kj_player:weakself Progress:weakself.progress CurrentTime:weakself.current DurationTime:weakself.videoTotalTime];
             }
             if (weakself.kPlayerPlayProgressBlcok) {
                 weakself.kPlayerPlayProgressBlcok(weakself,weakself.progress,weakself.current,weakself.videoTotalTime);
@@ -321,7 +315,7 @@
     kLoading = YES;
     // 需要先暂停一小会之后再播放，否则网络状况不好的时候时间在走，声音播放不出来
     [self.videoPlayer pause];
-    dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(2 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+    dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(1 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
         kLoading = NO;
         // 如果此时用户已经暂停了，则不再需要开启播放了
         if (self.userPause) return;

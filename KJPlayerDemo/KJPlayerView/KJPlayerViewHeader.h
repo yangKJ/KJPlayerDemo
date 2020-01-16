@@ -30,6 +30,13 @@ sizeWithFont:font constrainedToSize:maxSize lineBreakMode:mode] : CGSizeZero;
 #define PLAYER_SystemFontSize(fontsize)     [UIFont systemFontOfSize:(fontsize)]
 #define PLAYER_SystemBlodFontSize(fontsize) [UIFont boldSystemFontOfSize:(fontsize)] /// 粗体
 
+/* 使用方式  kGCD_MAIN_ASYNC(^{ NSLog(@"77"); }); */
+//GCD - 异步主线程
+#define PLAYER_GCD_MAIN_ASYNC(main_queue_block) dispatch_async(dispatch_get_main_queue(), main_queue_block)
+//GCD - 异步子线程
+#define PLAYER_GCD_QUEUE_ASYNC(global_queue_block) dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), global_queue_block)
+
 #import "KJPlayerTool.h"
+#import "UIButton+KJPlayerButtonTouchAreaInsets.h" /// 改变UIButton的响应区域 - 扩大Button点击域
 
 #endif /* KJPlayerViewHeader_h */

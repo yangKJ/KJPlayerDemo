@@ -20,8 +20,8 @@ NS_ASSUME_NONNULL_BEGIN
 + (BOOL)kj_fileRemoveFileWithPath:(NSString *)path;
 // 判断文件是否存在 存在返回文件路径
 + (NSString *)kj_fileIsFileExistWithPath:(NSString *)path;
-// 更具时间随机文件名
-+ (NSString *)randomFilesName;
+// 随机文件名
++ (NSString *)kj_randomFilesName;
 
 @end
 

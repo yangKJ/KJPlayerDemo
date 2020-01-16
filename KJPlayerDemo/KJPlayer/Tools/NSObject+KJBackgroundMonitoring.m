@@ -9,29 +9,26 @@
 #import "NSObject+KJBackgroundMonitoring.h"
 
 @interface NSObject ()
-// 是否需要前后台回调
-@property (nonatomic, assign) BOOL needGround;
-@property (nonatomic, strong) KJBackgroundMonitoringBlock xxblock;
+@property (nonatomic,assign) BOOL needGround;// 是否需要前后台回调
+@property (nonatomic,copy) kBackgroundMonitoringBlock xxblock;
 @end
 
 @implementation NSObject (KJBackgroundMonitoring)
 #pragma mark - public
 // 注册进入后台 进入前台事件
-- (void)registergroundBlock:(KJBackgroundMonitoringBlock)block {
+- (void)registergroundBlock:(kBackgroundMonitoringBlock)block {
     @synchronized(self) {
         self.xxblock = block;
         self.needGround = YES;
     }
     [self setupgroundNotificationCenter];
 }
-
 // 继续前后台监听
 - (void)resumegroundListen {
     @synchronized(self) {
         self.needGround = YES;
     }
 }
-
 // 暂停前后台监听
 - (void)pausegroundListen {
     @synchronized(self) {
@@ -48,25 +45,25 @@
         [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(applicationEnterBackground) name: UIApplicationDidEnterBackgroundNotification object:nil];
     });
 }
-
+/// 进入前台
 - (void)applicationBecomeActive {
-    !self.xxblock?:self.xxblock(NO);
+    !self.xxblock?:self.xxblock(KJApplicationTypeActive);
 }
-
+/// 进入后台
 - (void)applicationEnterBackground {
-    !self.xxblock?:self.xxblock(YES);
+    !self.xxblock?:self.xxblock(KJApplicationTypeBackground);
 }
-
+#pragma mark - geter/seter
 - (BOOL)needGround {
     return objc_getAssociatedObject(self, @selector(needGround));
 }
 - (void)setNeedGround:(BOOL)needGround {
     objc_setAssociatedObject(self, @selector(needGround), @(needGround), OBJC_ASSOCIATION_ASSIGN);
 }
-- (KJBackgroundMonitoringBlock)xxblock {
+- (kBackgroundMonitoringBlock)xxblock {
     return objc_getAssociatedObject(self, @selector(xxblock));
 }
-- (void)setXxblock:(KJBackgroundMonitoringBlock)xxblock {
+- (void)setXxblock:(kBackgroundMonitoringBlock)xxblock {
     objc_setAssociatedObject(self, @selector(xxblock), xxblock, OBJC_ASSOCIATION_RETAIN_NONATOMIC);
 }
 

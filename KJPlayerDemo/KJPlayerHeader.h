@@ -20,7 +20,9 @@
  pod 'KJPlayer'  # 播放器功能区
  pod 'KJPlayer/KJPlayerView'  # 自带展示界面
  
- 实用又方便的Category和自定义控件(Switch、选择控件等等)
+ - 粒子效果、Button图文混排、点击事件封装、扩大点击域、点赞粒子效果，
+ - 手势封装、圆角渐变、Xib属性、TextView输入框扩展、限制字数、识别网址超链接，
+ - Image图片加工处理、滤镜渲染、泛洪算法等等
  pod 'KJEmitterView'
  pod 'KJEmitterView/Function'#
  pod 'KJEmitterView/Control' # 自定义控件
@@ -34,11 +36,15 @@
  菜单控件 - 下拉控件 选择控件
  pod 'KJMenuView' # 菜单控件
  
+ 工具库 - 推送工具、网络下载工具、识别网页图片工具等
+ pod 'KJWorkbox' # 系统工具
+ pod 'KJWorkbox/CommonBox'
  
  ####版本更新日志:
- 
  #### Add 1.0.8
  1.引入头文件 KJPlayerHeader
+ 2.修复切换视频清晰度之后从头播放
+ 3.扩大按钮点击域KJPlayerButtonTouchAreaInsets
  
  #### Add 1.0.6
  1.重构KJDefinitionView清晰度面板

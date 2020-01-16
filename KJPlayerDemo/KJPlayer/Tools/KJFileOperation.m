@@ -58,8 +58,8 @@
     }
     return nil;
 }
-// 随机文件名
-+ (NSString *)randomFilesName{
+// 根据时间得到随机文件名
++ (NSString *)kj_randomFilesName{
     NSDateFormatter *fmt = [[NSDateFormatter alloc] init];
     NSDate *date = [NSDate date];
     fmt.dateFormat = @"yyyyMMddHHmmssSSS"; // @"yyyy-MM-dd HH:mm:ss"

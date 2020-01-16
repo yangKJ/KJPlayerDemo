@@ -112,7 +112,8 @@ NSString *const kMIMEType = @"video/mp4";
     } else {
         //1.如果新的rang的起始位置比当前缓存的位置还大300k，则重新按照range请求数据
         //2.如果往回拖也重新请求
-        if (self.task.currentOffset + self.task.downLoadOffset + 1024 * 300 < range.location || range.location < self.task.currentOffset) {
+        if (self.task.currentOffset + self.task.downLoadOffset + 1024 * 300 < range.location ||
+            range.location < self.task.currentOffset) {
             [self.task kj_startLoadWithUrl:interceptedURL Offset:range.location];
         }
     }

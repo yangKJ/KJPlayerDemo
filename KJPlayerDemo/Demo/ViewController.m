@@ -35,6 +35,8 @@
     if (!_playerView) {
         KJPlayerViewConfiguration *configuration = [[KJPlayerViewConfiguration alloc]init];
         configuration.autoHideTime = 0.0;
+        configuration.haveFristImage = YES;
+//        configuration.useCacheFunction = YES;
         configuration.playType = KJPlayerPlayTypeOrder;
         KJPlayerView *view = [[KJPlayerView alloc] initWithFrame:CGRectMake(0, 20, [UIScreen mainScreen].bounds.size.width, [UIScreen mainScreen].bounds.size.width*9/16) Configuration:configuration];
         _playerView = view;

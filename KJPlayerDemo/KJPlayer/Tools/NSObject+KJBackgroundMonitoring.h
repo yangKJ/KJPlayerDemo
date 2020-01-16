@@ -11,15 +11,19 @@
 #import <objc/runtime.h>
 
 NS_ASSUME_NONNULL_BEGIN
-typedef void(^KJBackgroundMonitoringBlock)(BOOL isBackground);
+typedef NS_ENUM(NSUInteger,KJApplicationType) {
+    KJApplicationTypeActive = 0, //前台
+    KJApplicationTypeBackground, //后台
+};
+typedef void(^kBackgroundMonitoringBlock)(KJApplicationType type);
 
 @interface NSObject (KJBackgroundMonitoring)
 
-/** 注册进入后台 进入前台事件 */
-- (void)registergroundBlock:(KJBackgroundMonitoringBlock)block;
-/** 继续前后台监听 */
+/// 注册进入后台 进入前台事件
+- (void)registergroundBlock:(kBackgroundMonitoringBlock)block;
+/// 继续前后台监听
 - (void)resumegroundListen;
-/** 暂停前后台监听 */
+/// 暂停前后台监听
 - (void)pausegroundListen;
 
 @end
