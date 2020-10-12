@@ -123,7 +123,7 @@
     NSUInteger videoLength;
     if ([length integerValue] == 0) {
         videoLength = (NSUInteger)httpResponse.expectedContentLength;
-    } else {
+    }else {
         videoLength = [length integerValue];
     }
     

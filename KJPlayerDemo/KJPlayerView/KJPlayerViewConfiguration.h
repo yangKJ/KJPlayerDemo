@@ -80,8 +80,7 @@ typedef NS_ENUM(NSUInteger,KJPlayerDeviceDirection) {
 @property (nonatomic,assign) BOOL hasMoved;//用来判断手势是否移动过
 @property (nonatomic,assign) CGPoint touchBeginPoint;//记录touch开始的点
 @property (nonatomic,assign) CGFloat touchBeginVoiceValue;//记录触摸开始的音量
-/* 手势控制的类型 判断当前手势是在控制进度、声音、亮度 */
-@property (nonatomic,assign) KJPlayerGestureType gestureType;
+@property (nonatomic,assign) KJPlayerGestureType gestureType;//手势控制类型
 
 @end
 

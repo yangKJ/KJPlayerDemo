@@ -16,9 +16,7 @@ typedef NS_ENUM(NSUInteger,KJApplicationType) {
     KJApplicationTypeBackground, //后台
 };
 typedef void(^kBackgroundMonitoringBlock)(KJApplicationType type);
-
 @interface NSObject (KJBackgroundMonitoring)
-
 /// 注册进入后台 进入前台事件
 - (void)registergroundBlock:(kBackgroundMonitoringBlock)block;
 /// 继续前后台监听

@@ -85,24 +85,21 @@
 
 // 获取视频第一帧图片
 + (UIImage*)kj_playerFristImageWithURL:(NSURL*)url{
-    // 初始化视频媒体文件
-    AVURLAsset *asset = [[AVURLAsset alloc] initWithURL:url options:nil];
-    AVAssetImageGenerator *assetGen = [[AVAssetImageGenerator alloc] initWithAsset:asset];
-    assetGen.appliesPreferredTrackTransform = YES;
-    CMTime time = CMTimeMakeWithSeconds(0.0, 600);
+    NSDictionary *opts = [NSDictionary dictionaryWithObject:[NSNumber numberWithBool:NO] forKey:AVURLAssetPreferPreciseDurationAndTimingKey];
+    AVURLAsset *urlAsset = [AVURLAsset URLAssetWithURL:url options:opts];
+    AVAssetImageGenerator *generator = [AVAssetImageGenerator assetImageGeneratorWithAsset:urlAsset];
+    generator.appliesPreferredTrackTransform = YES;
+//    generator.maximumSize = CGSizeMake(size.width, size.height);
     NSError *error = nil;
-    CMTime actualTime;
-    /// 获取视频第一帧图片
-    CGImageRef image = [assetGen copyCGImageAtTime:time actualTime:&actualTime error:&error];
-    UIImage *videoImage = [[UIImage alloc] initWithCGImage:image];
+    CGImageRef image = [generator copyCGImageAtTime:CMTimeMake(0, 10) actualTime:NULL error:&error];
+    UIImage *videoImage = [UIImage imageWithCGImage:image];
     CGImageRelease(image);
     return videoImage;
 }
     
 // 获取视频总时间
 + (NSInteger)kj_playerVideoTotalTimeWithURL:(NSURL*)url{
-     NSDictionary *opts = [NSDictionary dictionaryWithObject:@(NO) forKey:AVURLAssetPreferPreciseDurationAndTimingKey];
-    // 初始化视频媒体文件
+    NSDictionary *opts = [NSDictionary dictionaryWithObject:@(NO) forKey:AVURLAssetPreferPreciseDurationAndTimingKey];
     AVURLAsset *asset = [[AVURLAsset alloc] initWithURL:url options:opts];
     NSInteger seconds = ceil(asset.duration.value / asset.duration.timescale);
     return seconds;
