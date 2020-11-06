@@ -4,7 +4,7 @@
 //
 //  Created by 杨科军 on 2020/1/6.
 //  Copyright © 2020 杨科军. All rights reserved.
-//
+//  https://github.com/yangKJ/KJPlayerDemo
 
 #import "UIButton+KJPlayerButtonTouchAreaInsets.h"
 #import <objc/runtime.h>

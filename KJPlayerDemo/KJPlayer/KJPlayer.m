@@ -4,7 +4,7 @@
 //
 //  Created by 杨科军 on 2019/7/20.
 //  Copyright © 2019 杨科军. All rights reserved.
-//
+//  https://github.com/yangKJ/KJPlayerDemo
 
 #import "KJPlayer.h"
 #import "KJPlayerURLConnection.h"
@@ -29,7 +29,7 @@
 @property (nonatomic,assign) BOOL userPause;//是否被用户暂停
 @property (nonatomic,assign) BOOL loadComplete;//是否缓存完成
 
-/**************** 外界需要可以访问的属性 ****************/
+/* ************** 外界需要可以访问的属性 ****************/
 /* 视频总时间 */
 @property (nonatomic,assign) CGFloat videoTotalTime;
 /* 播放器 */
@@ -97,7 +97,7 @@
     
     //是否使用缓存功能
     if (self.useCacheFunction) {
-        ///1.判断本地是否有缓存
+        //1.判断本地是否有缓存
         NSString *path = [KJPlayerTool kj_playerGetIntegrityPathWithUrl:url];
         self.videoIsLocalityData = [[NSFileManager defaultManager] fileExistsAtPath:path];
         //4.判断版本和是否为本地资源
@@ -109,7 +109,6 @@
             asset = [AVURLAsset URLAssetWithURL:url options:nil];
             NSArray *tracks = [asset tracksWithMediaType:AVMediaTypeVideo];
             BOOL hasVideoTrack = [tracks count] > 0;
-            /// 判断网络地址是否可用
             if (hasVideoTrack == NO) {
                 self.errorCode = KJPlayerErrorCodeVideoUrlError;
                 self.state = KJPlayerStateError;
@@ -118,7 +117,7 @@
         } else {
             self.state = KJPlayerStateLoading;
             self.kPlayerURLConnection = [[KJPlayerURLConnection alloc] init];
-            [self kSetBlock]; /// 设置回调代理
+            [self kSetBlock];
             NSURL *playUrl = [self.kPlayerURLConnection kSetComponentsWithUrl:url];
             asset = [AVURLAsset URLAssetWithURL:playUrl options:nil];
             [asset.resourceLoader setDelegate:self.kPlayerURLConnection queue:dispatch_get_main_queue()];
@@ -176,14 +175,12 @@
 
 - (void)kj_playerResume{
     if (!self.kPlayerItem) return;
-    
     self.userPause = NO;
     [self.videoPlayer play];
 }
 
 - (void)kj_playerPause{
     if (!self.kPlayerItem) return;
-    
     self.userPause = YES;
     self.state = KJPlayerStatePause;
     [self.videoPlayer pause];
@@ -197,7 +194,6 @@
             self.state = KJPlayerStateStopped;
             [self.videoPlayer pause];
             [self releasePlayer];
-            /// 进度处理
             if ([self.delegate respondsToSelector:@selector(kj_player:Progress:CurrentTime:DurationTime:)]) {
                 [self.delegate kj_player:self Progress:self.progress CurrentTime:self.current DurationTime:self.videoTotalTime];
             }
@@ -217,7 +213,6 @@
     if (_loadedProgress == loadedProgress) return;
     _loadedProgress = loadedProgress;
     if (loadedProgress == 1.0 || loadedProgress == 0.0) return;
-    /// 缓存进度处理
     if ([self.delegate respondsToSelector:@selector(kj_player:LoadedProgress:LoadComplete:SaveSuccess:)]) {
         [self.delegate kj_player:self LoadedProgress:loadedProgress LoadComplete:self.loadComplete SaveSuccess:NO];
     }
@@ -229,7 +224,6 @@
 - (void)setState:(KJPlayerState)state{
     if (_state == state) return;
     _state = state;
-    /// 播放状态处理
     if ([self.delegate respondsToSelector:@selector(kj_player:State:ErrorCode:)]) {
         [self.delegate kj_player:self State:_state ErrorCode:self.errorCode];
     }

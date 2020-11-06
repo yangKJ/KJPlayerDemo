@@ -4,6 +4,7 @@
 //
 //  Created by 杨科军 on 2019/7/21.
 //  Copyright © 2019 杨科军. All rights reserved.
+//  https://github.com/yangKJ/KJPlayerDemo
 //  播放器的相关工具
 
 #import <Foundation/Foundation.h>

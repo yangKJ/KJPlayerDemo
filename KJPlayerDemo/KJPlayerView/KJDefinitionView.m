@@ -4,7 +4,7 @@
 //
 //  Created by 杨科军 on 2019/9/9.
 //  Copyright © 2019 杨科军. All rights reserved.
-//
+//  https://github.com/yangKJ/KJPlayerDemo
 
 #import "KJDefinitionView.h"
 #define PLAYER_BACK_WIDTH  (150)
@@ -35,7 +35,6 @@ static kDefinitionViewBlock _xxblock = nil;
     view.backgroundColor = UIColor.clearColor;
     [view addGestureRecognizer:[[UITapGestureRecognizer alloc] initWithTarget:view action:@selector(kDismiss)]];
     [view config];
-    // 回调出去数据
     if (block) view.model = block(view);
     [view setUI];
     self.xxblock = modelBlock;
@@ -59,11 +58,9 @@ static kDefinitionViewBlock _xxblock = nil;
     return _backView;
 }
 - (void)kDisplay{
-    //1.移动动画
     CABasicAnimation *animation = [CABasicAnimation animationWithKeyPath:@"position"];
     animation.duration = 0.2;
-    animation.repeatCount = 1; // 重复次数
-//    animation.beginTime = CACurrentMediaTime()+ .1;// 1秒后执行
+    animation.repeatCount = 1;
     animation.fromValue = [NSValue valueWithCGPoint:CGPointMake(PLAYER_SCREEN_HEIGHT+PLAYER_BACK_WIDTH*.5,PLAYER_SCREEN_WIDTH*.5)];
     animation.toValue   = [NSValue valueWithCGPoint:CGPointMake(PLAYER_SCREEN_HEIGHT-PLAYER_BACK_WIDTH*.5,PLAYER_SCREEN_WIDTH*.5)];
     [self.backView.layer addAnimation:animation forKey:@"move-layer"];

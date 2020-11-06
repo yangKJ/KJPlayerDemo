@@ -4,7 +4,7 @@
 //
 //  Created by 杨科军 on 2019/7/22.
 //  Copyright © 2019 杨科军. All rights reserved.
-//
+//  https://github.com/yangKJ/KJPlayerDemo
 
 #ifndef KJPlayerHeader_h
 #define KJPlayerHeader_h
@@ -240,13 +240,20 @@ playerLayer.frame = view.bounds;
 }
 */
 
-/** 功能区
+/*  功能区
  *  支持播放网络和本地视频、播放多种格式
  *  视频可以边下边播，把播放器播放过的数据流缓存到本地
  *  下次直接优先从缓冲读取播放
  */
 #import "KJPlayer.h"
 
-//#import "KJPlayerView.h" /// 提供一套布局
+//************************************* 播放器UI *****************************************
+// 需要引入，请使用 pod 'KJPlayer/KJPlayerView'
+#if __has_include(<KJPlayer/KJPlayerView.h>)
+#import <KJPlayer/KJPlayerView.h>
+#elif __has_include("KJPlayerView.h")
+#import "KJPlayerView.h"
+#else
+#endif
 
 #endif /* KJPlayerHeader_h */

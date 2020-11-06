@@ -1,6 +1,4 @@
 # KJPlayer
-![coverImage](https://upload-images.jianshu.io/upload_images/1933747-b7e843a01999b9a9.jpg?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240)
-
 ----------------------------------------
 ### 框架整体介绍
 * [作者信息](#作者信息)
@@ -29,31 +27,6 @@ KJPlayer 是一款视频播放器，AVPlayer的封装，继承UIView
 11.免费试看几分钟  
 12.音频功能  
 13.音频和视频混合播放  
-
-----------------------------------------
-#### 温馨提示
-#####1、使用第三方库Xcode报错  
-Cannot synthesize weak property because the current deployment target does not support weak references  
-可在`Podfile`文件底下加入下面的代码，'8.0'是对应的部署目标（deployment target） 删除库重新Pod  
-不支持用weak修饰属性，而weak在使用ARC管理引用计数项目中才可使用  
-遍历每个develop target，将target支持版本统一设成一个支持ARC的版本
-
-```
-##################加入代码##################
-# 使用第三方库xcode报错Cannot synthesize weak property because the current deployment target does not support weak references
-post_install do |installer|
-installer.pods_project.targets.each do |target|
-target.build_configurations.each do |config|
-config.build_settings['IPHONEOS_DEPLOYMENT_TARGET'] = '8.0'
-end
-end
-end
-##################加入代码##################
-```
-#####2、若搜索不到库
-- 方案1：可执行pod repo update
-- 方案2：使用 rm ~/Library/Caches/CocoaPods/search_index.json 移除本地索引然后再执行安装
-- 方案3：更新一下 CocoaPods 版本
 
 ----------------------------------------
 
@@ -109,9 +82,6 @@ pod 'KJWorkbox/CommonBox'
 *********************************************************************************
 */
 ```
-
-##### Issue
-如果您在使用中有好的需求及建议，或者遇到什么bug，欢迎随时issue，我会及时的回复，有空也会不断优化更新这些库
 
 #### <a id="使用方法(支持cocoapods/carthage安装)"></a>Pod使用方法
 ```
@@ -205,15 +175,12 @@ playerLayer.frame = view.bounds;
 - (void)kj_player:(nonnull KJPlayer *)player LoadedProgress:(CGFloat)loadedProgress LoadComplete:(BOOL)complete SaveSuccess:(BOOL)saveSuccess {
     NSLog(@"Load:%.2f==%d==%d",loadedProgress,complete,saveSuccess);
 }
-
 - (void)kj_player:(nonnull KJPlayer *)player Progress:(CGFloat)progress CurrentTime:(CGFloat)currentTime DurationTime:(CGFloat)durationTime {
     NSLog(@"Time:%.2f==%.2f==%.2f",progress,currentTime,durationTime);
 }
-
 - (void)kj_player:(nonnull KJPlayer *)player State:(KJPlayerState)state ErrorCode:(KJPlayerErrorCode)errorCode {
     NSLog(@"State:%ld==%ld",state,errorCode);
 }
-
 - (void)butAction:(UIButton*)sender{
     PlayViewController *vc = [PlayViewController new];
     vc.view.backgroundColor = UIColor.whiteColor;
@@ -259,7 +226,6 @@ playerLayer.frame = view.bounds;
         name;
     });
 }
-
 static inline NSString * kj_getPlayURL(NSString*x,NSString*y,NSString*z){
     return (x || y) == 0 ? z : (x?:y);
 }
@@ -339,6 +305,8 @@ static inline NSString * kj_getPlayURL(NSString*x,NSString*y,NSString*z){
     
 }
 ```
+
+----------------------------------------
 
 #### <a id="打赏作者"></a>打赏作者
 * 如果你觉得有帮助，还请为我Star

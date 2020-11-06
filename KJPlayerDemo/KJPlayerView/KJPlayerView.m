@@ -4,19 +4,19 @@
 //
 //  Created by 杨科军 on 2019/7/22.
 //  Copyright © 2019 杨科军. All rights reserved.
-//
+//  https://github.com/yangKJ/KJPlayerDemo
 
 #import "KJPlayerView.h"
-#import <MediaPlayer/MPVolumeView.h> /// 控制系统音量
+#import <MediaPlayer/MPVolumeView.h> 
 #import <QuartzCore/QuartzCore.h>
 
 @interface KJPlayerView ()<KJPlayerDelegate,UIGestureRecognizerDelegate>
 @property (nonatomic,strong) id videoURL;
 @property (nonatomic,strong) NSTimer *timer;//定时器
-@property (nonatomic,strong) KJPlayer *player; ///播放器
+@property (nonatomic,strong) KJPlayer *player;//播放器
 @property (nonatomic,strong) KJPlayerViewConfiguration *configuration;
 
-/*************** 记录视图初始位置 ***************/
+/* ************* 记录视图初始位置 ***************/
 /** 父视图 */
 @property (nonatomic,assign) CGRect superViewFrame;
 /** 底部操作工具栏 */
@@ -575,16 +575,13 @@
     UITouch *touchEvent = [[event allTouches]anyObject];
     switch(touchEvent.phase) {
         case UITouchPhaseBegan:
-            //            NSLog(@"开始拖动");
             [self.player kj_playerPause];
             self.playOrPauseButton.selected = NO;
             break;
         case UITouchPhaseMoved:
-            //            NSLog(@"正在拖动");
             self.leftTimeLabel.text = [KJPlayerTool kj_playerConvertTime:slider.value];
             break;
         case UITouchPhaseEnded:
-            //            NSLog(@"结束拖动");
             [self.player kj_playerResume];
             self.playOrPauseButton.selected = YES;
             CGFloat second = slider.value;
@@ -632,15 +629,11 @@
 
 #pragma mark - touches
 - (void)touchesBegan:(NSSet*)touches withEvent:(UIEvent*)event{
-//    NSLog(@"touchesBegan");
-    // 这个是用来判断, 如果有多个手指点击则不做出响应
     UITouch *touch = (UITouch *)touches.anyObject;
     if (touches.count > 1 || [touch tapCount] > 1 || event.allTouches.count > 1) {
         return;
     }
-    // 这个是用来判断, 手指点击的是不是本视图, 如果不是则不做出响应
-    if (![[(UITouch *)touches.anyObject view] isEqual:self.contentView] &&
-        ![[(UITouch *)touches.anyObject view] isEqual:self]) {
+    if (![[(UITouch *)touches.anyObject view] isEqual:self.contentView] && ![[(UITouch *)touches.anyObject view] isEqual:self]) {
         return;
     }
     [super touchesBegan:touches withEvent:event];
@@ -661,8 +654,7 @@
     if (touches.count > 1 || [touch tapCount] > 1  || event.allTouches.count > 1) {
         return;
     }
-    if (![[(UITouch *)touches.anyObject view] isEqual:self.contentView] &&
-        ![[(UITouch *)touches.anyObject view] isEqual:self]) {
+    if (![[(UITouch *)touches.anyObject view] isEqual:self.contentView] && ![[(UITouch *)touches.anyObject view] isEqual:self]) {
         return;
     }
     [super touchesMoved:touches withEvent:event];
@@ -726,7 +718,6 @@
 }
 /// 触摸结束
 - (void)touchesEnded:(NSSet *)touches withEvent:(UIEvent *)event{
-//    NSLog(@"touchesEnded");
     [super touchesEnded:touches withEvent:event];
     self.fastView.moveGestureFast = NO;
     self.lightView.changeLightValue = NO;
@@ -773,27 +764,25 @@
     
     // 单击的 Recognizer
     UITapGestureRecognizer *singleTap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(handleSingleTap:)];
-    singleTap.numberOfTapsRequired = 1; // 单击
+    singleTap.numberOfTapsRequired = 1;
     singleTap.numberOfTouchesRequired = 1;
     [self addGestureRecognizer:singleTap];
     
     // 双击的 Recognizer
     UITapGestureRecognizer* doubleTap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(handleDoubleTap:)];
-    doubleTap.numberOfTouchesRequired = 1; //手指数
-    doubleTap.numberOfTapsRequired = 2; // 双击
+    doubleTap.numberOfTouchesRequired = 1;
+    doubleTap.numberOfTapsRequired = 2;
     [self addGestureRecognizer:doubleTap];
     
-    // 解决点击当前view时候响应其他控件事件
     [singleTap setDelaysTouchesBegan:YES];
     [doubleTap setDelaysTouchesBegan:YES];
-    [singleTap requireGestureRecognizerToFail:doubleTap];//如果双击成立，则取消单击手势（双击的时候不回走单击事件）
+    [singleTap requireGestureRecognizerToFail:doubleTap];
 }
 
 #pragma mark - lazy
 - (UIView*)contentView{
     if (!_contentView) {
         _contentView = [[UIView alloc]initWithFrame:self.bounds];
-        /** 父视图 */
         self.superViewFrame = self.frame;
     }
     return _contentView;
@@ -819,9 +808,8 @@
 }
 - (UISlider*)volumeSlider{
     if (!_volumeSlider) {
-        /// 声音滑块
         MPVolumeView *volumeView = [[MPVolumeView alloc]init];
-        volumeView.transform = CGAffineTransformMakeRotation(M_PI/2);//旋转一下即可 -_-!!
+        volumeView.transform = CGAffineTransformMakeRotation(M_PI/2);
         for (UIControl *view in volumeView.subviews) {
             if ([view.superclass isSubclassOfClass:[UISlider class]]) {
                 _volumeSlider = (UISlider*)view;
@@ -834,8 +822,7 @@
     if (!_lightView) {
         _lightView = [[KJLightView alloc] initWithFrame:CGRectMake(PLAYER_SCREEN_HEIGHT - 30 - 20, 50 + 20, 30, PLAYER_SCREEN_WIDTH - 100 - 40)];
         _lightView.changeLightValue = NO;
-        /// 获取当前屏幕的亮度
-        CGFloat value = [UIScreen mainScreen].brightness;
+        CGFloat value = [UIScreen mainScreen].brightness;/// 获取当前屏幕的亮度
         [_lightView kj_updateLightValue:value];
     }
     return _lightView;
@@ -874,7 +861,7 @@
         [_playOrPauseButton addTarget:self action:@selector(playOrPauseAction:) forControlEvents:UIControlEventTouchUpInside];
         [_playOrPauseButton setImage:PLAYER_GET_BUNDLE_IMAGE(@"kj_player_播放-全屏") forState:UIControlStateNormal];
         [_playOrPauseButton setImage:PLAYER_GET_BUNDLE_IMAGE(@"kj_player_暂停-全屏") forState:UIControlStateSelected];
-        _playOrPauseButton.selected = YES;//默认状态，即默认是不自动播放
+        _playOrPauseButton.selected = YES;
         self.playOrPauseButtonFrame = _playOrPauseButton.frame;
     }
     return _playOrPauseButton;
@@ -888,10 +875,8 @@
         [_playScheduleSlider setThumbImage:PLAYER_GET_BUNDLE_IMAGE(@"kj_player_dot")  forState:UIControlStateNormal];
         _playScheduleSlider.minimumTrackTintColor = self.configuration.mainColor;
         _playScheduleSlider.maximumTrackTintColor = [UIColor clearColor];
-        _playScheduleSlider.value = 0.0;//指定初始值
-        //进度条的拖拽事件
+        _playScheduleSlider.value = 0.0;
         [_playScheduleSlider addTarget:self action:@selector(sliderValueChanged:forEvent:) forControlEvents:UIControlEventValueChanged];
-        //给进度条添加单击手势
         UITapGestureRecognizer *tap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(tapGestureForSlider:)];
         tap.delegate = self;
         [_playScheduleSlider addGestureRecognizer:tap];
@@ -905,7 +890,7 @@
         _loadingProgress = [[UIProgressView alloc] initWithProgressViewStyle:UIProgressViewStyleDefault];
         _loadingProgress.frame = CGRectMake(x, self.bottomView.frame.size.height/2-1, self.bottomView.frame.size.width-2*x, 2);
         _loadingProgress.trackTintColor = UIColor.lightGrayColor;
-        _loadingProgress.progressTintColor = UIColor.whiteColor;//[self.configuration.mainColor colorWithAlphaComponent:0.2];
+        _loadingProgress.progressTintColor = UIColor.whiteColor;
         [_loadingProgress setProgress:0.0 animated:NO];
         self.loadingProgressFrame = _loadingProgress.frame;
     }
@@ -918,7 +903,7 @@
         _leftTimeLabel.textAlignment = NSTextAlignmentLeft;
         _leftTimeLabel.textColor = [UIColor whiteColor];
         _leftTimeLabel.font = [UIFont systemFontOfSize:11];
-        _leftTimeLabel.text = [KJPlayerTool kj_playerConvertTime:0.0];//设置默认值
+        _leftTimeLabel.text = [KJPlayerTool kj_playerConvertTime:0.0];
         self.leftTimeLabelFrame = _leftTimeLabel.frame;
     }
     return _leftTimeLabel;
@@ -930,7 +915,7 @@
         _rightTimeLabel.textAlignment = NSTextAlignmentRight;
         _rightTimeLabel.textColor = [UIColor whiteColor];
         _rightTimeLabel.font = [UIFont systemFontOfSize:11];
-        _rightTimeLabel.text = [KJPlayerTool kj_playerConvertTime:0.0];//设置默认值
+        _rightTimeLabel.text = [KJPlayerTool kj_playerConvertTime:0.0];
         self.rightTimeLabelFrame = _rightTimeLabel.frame;
     }
     return _rightTimeLabel;
@@ -979,9 +964,8 @@
         _topTitleLabel.font = [UIFont boldSystemFontOfSize:(16)];
         _topTitleLabel.text = self.configuration.backString;
         _topTitleLabel.userInteractionEnabled = YES;
-        // 单击的 Recognizer
         UITapGestureRecognizer *singleTap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(topTitleSingleTap:)];
-        singleTap.numberOfTapsRequired = 1; // 单击
+        singleTap.numberOfTapsRequired = 1;
         singleTap.numberOfTouchesRequired = 1;
         [_topTitleLabel addGestureRecognizer:singleTap];
         self.topTitleLabelFrame = _topTitleLabel.frame;
@@ -1001,7 +985,7 @@
         _collectButton.hidden = YES;
         [_collectButton addTarget:self action:@selector(kBottomButtonAction:) forControlEvents:(UIControlEventTouchUpInside)];
         [self.bottomView addSubview:_collectButton];
-        _collectButton.touchAreaInsets = UIEdgeInsetsMake(10., .0, 10., .0); /// 扩大点击域
+        _collectButton.touchAreaInsets = UIEdgeInsetsMake(10., .0, 10., .0); 
     }
     return _collectButton;
 }

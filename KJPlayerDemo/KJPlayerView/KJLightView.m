@@ -4,7 +4,7 @@
 //
 //  Created by 杨科军 on 2019/7/23.
 //  Copyright © 2019 杨科军. All rights reserved.
-//
+//  https://github.com/yangKJ/KJPlayerDemo
 
 #import "KJLightView.h"
 #import "KJPlayerViewConfiguration.h"
@@ -39,7 +39,6 @@
 }
 /// 设置数据
 - (void)kj_updateLightValue:(CGFloat)value{
-    /// 判断控制一下, 不能超出 0~1
     value = MIN(MAX(0, value), 1);
     /// 改变屏幕亮度
     [UIScreen mainScreen].brightness = value;

@@ -4,7 +4,7 @@
 //
 //  Created by 杨科军 on 2019/9/4.
 //  Copyright © 2019 杨科军. All rights reserved.
-//
+//  https://github.com/yangKJ/KJPlayerDemo
 
 #import "NSObject+KJBackgroundMonitoring.h"
 
@@ -39,9 +39,7 @@
 #pragma mark - private
 - (void)setupgroundNotificationCenter {
     dispatch_async(dispatch_get_main_queue(), ^{
-        // app从后台进入前台都会调用这个方法
         [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(applicationBecomeActive) name:UIApplicationWillEnterForegroundNotification object:nil];
-        // 添加检测app进入后台的观察者
         [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(applicationEnterBackground) name: UIApplicationDidEnterBackgroundNotification object:nil];
     });
 }

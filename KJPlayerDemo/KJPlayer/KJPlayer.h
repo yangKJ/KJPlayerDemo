@@ -4,6 +4,7 @@
 //
 //  Created by 杨科军 on 2019/7/20.
 //  Copyright © 2019 杨科军. All rights reserved.
+//  https://github.com/yangKJ/KJPlayerDemo
 //  播放器功能区
 
 #import <Foundation/Foundation.h>
@@ -25,7 +26,7 @@ typedef NS_ENUM(NSInteger, KJPlayerErrorCode) {
 };
 /// 播放器的几种状态
 typedef NS_ENUM(NSInteger, KJPlayerState) {
-    KJPlayerStateLoading = 1, /// 加载中 缓存数据
+    KJPlayerStateLoading = 1, /// 加载中缓存数据
     KJPlayerStatePlaying = 2, /// 播放中
     KJPlayerStatePlayEnd = 3, /// 播放结束
     KJPlayerStateStopped = 4, /// 停止
@@ -33,7 +34,7 @@ typedef NS_ENUM(NSInteger, KJPlayerState) {
     KJPlayerStateError   = 6, /// 播放错误
 };
 /// 枚举映射字符串
-static NSString  * const _Nonnull KJPlayerStateStringMap[] = {
+static NSString * const _Nonnull KJPlayerStateStringMap[] = {
     [KJPlayerStateLoading] = @"loading",
     [KJPlayerStatePlaying] = @"playing",
     [KJPlayerStatePlayEnd] = @"end",
@@ -62,7 +63,7 @@ typedef void (^KJPlayerSeekBeginPlayBlock)(void);
 @property (nonatomic,assign) BOOL stopWhenAppEnterBackground;
 /* 是否开启退出后台暂停和返回播放功能，默认yes */
 @property (nonatomic,assign) BOOL useOpenAppEnterBackground;
-/** 委托 */
+/* 委托 */
 @property (nonatomic,weak) id <KJPlayerDelegate> delegate;
 
 /* 设置开始播放时间，默认为0 */
@@ -80,7 +81,7 @@ typedef void (^KJPlayerSeekBeginPlayBlock)(void);
 /* 停止 */
 - (void)kj_playerStop;
 
-#pragma mark - 回调事件处理 *************************/
+#pragma mark - 回调事件处理
 /* 当前播放器状态 */
 @property (nonatomic,readwrite,copy) void (^kPlayerStateBlcok)(KJPlayer *player, KJPlayerState state, KJPlayerErrorCode errorCode);
 /* 播放进度 */

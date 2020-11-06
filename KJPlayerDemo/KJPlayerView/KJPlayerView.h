@@ -4,6 +4,7 @@
 //
 //  Created by 杨科军 on 2019/7/22.
 //  Copyright © 2019 杨科军. All rights reserved.
+//  https://github.com/yangKJ/KJPlayerDemo
 //  播放器展示层
 
 #import <UIKit/UIKit.h>
@@ -47,7 +48,7 @@ NS_ASSUME_NONNULL_BEGIN
 /** 跳转播放时间,默认为0 */
 @property (nonatomic,assign) CGFloat seekTime;
 
-/************************ 布局视图 ************************/
+/* ********************** 布局视图 ************************/
 /** 播放器展示Layer */
 @property (nonatomic,strong) AVPlayerLayer *playerLayer;
 /** 显示播放器 */

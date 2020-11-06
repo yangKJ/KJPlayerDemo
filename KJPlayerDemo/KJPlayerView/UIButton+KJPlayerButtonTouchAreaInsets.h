@@ -4,6 +4,7 @@
 //
 //  Created by 杨科军 on 2020/1/6.
 //  Copyright © 2020 杨科军. All rights reserved.
+//  https://github.com/yangKJ/KJPlayerDemo
 //  改变UIButton的响应区域 - 扩大Button点击域
 
 #import <UIKit/UIKit.h>

@@ -4,6 +4,7 @@
 //
 //  Created by 杨科军 on 2019/9/9.
 //  Copyright © 2019 杨科军. All rights reserved.
+//  https://github.com/yangKJ/KJPlayerDemo
 //  清晰度面板
 
 #import <UIKit/UIKit.h>
