@@ -45,10 +45,12 @@
 }
 /// 进入前台
 - (void)applicationBecomeActive {
+    if (!self.needGround) return;
     !self.xxblock?:self.xxblock(KJApplicationTypeActive);
 }
 /// 进入后台
 - (void)applicationEnterBackground {
+    if (!self.needGround) return;
     !self.xxblock?:self.xxblock(KJApplicationTypeBackground);
 }
 #pragma mark - geter/seter

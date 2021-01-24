@@ -9,7 +9,6 @@
 
 #import <UIKit/UIKit.h>
 #import "KJPlayerViewModel.h"
-#import "KJPlayerViewHeader.h"
 #import "KJPlayerViewConfiguration.h"
 
 NS_ASSUME_NONNULL_BEGIN

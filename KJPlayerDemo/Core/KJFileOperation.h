@@ -12,7 +12,6 @@
 NS_ASSUME_NONNULL_BEGIN
 
 @interface KJFileOperation : NSObject
-
 /// 判断存放视频的文件夹是否存在，不存在则创建对应文件夹
 + (BOOL)kj_fileNewFileWithPath:(NSString*)path;
 /// 删除文件夹下的所有文件

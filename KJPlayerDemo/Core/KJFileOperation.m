@@ -9,7 +9,6 @@
 #import "KJFileOperation.h"
 
 @implementation KJFileOperation
-
 // 判断存放视频的文件夹是否存在，不存在则创建对应文件夹
 + (BOOL)kj_fileNewFileWithPath:(NSString*)path{
     NSMutableString *string = [[NSMutableString alloc] init];

@@ -45,9 +45,8 @@
 }
 
 - (void)kj_updateFastValue:(CGFloat)value TotalTime:(CGFloat)time{
-    CGFloat x = value / time;
-    [self.progressView setProgress:x animated:YES];
-    self.timeLabel.text = [NSString stringWithFormat:@"%@ / %@", [KJPlayerTool kj_playerConvertTime:value], [KJPlayerTool kj_playerConvertTime:time]];
+    [self.progressView setProgress:value/time animated:YES];
+    self.timeLabel.text = [NSString stringWithFormat:@"%@ / %@", kPlayerConvertTime(value), kPlayerConvertTime(time)];
 }
 
 @end

@@ -15,12 +15,10 @@ NS_ASSUME_NONNULL_BEGIN
 
 @property(nonatomic,strong) UIProgressView *progressView;
 @property(nonatomic,strong) UILabel *timeLabel;
-
 //记录触摸开始时的视频播放的时间
 @property (nonatomic,assign) CGFloat touchBeginValue;
 //正在手势滑动快进快退
 @property (nonatomic,assign) BOOL moveGestureFast;
-
 /// 设置数据
 - (void)kj_updateFastValue:(CGFloat)value TotalTime:(CGFloat)time;
 

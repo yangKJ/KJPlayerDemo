@@ -23,13 +23,13 @@
         self.openGravitySensing = YES;
         self.playProgressGesture = YES;
         self.gestureSliderMinX = 3;
-        self.hasMoved = NO;
-        self.videoImage = PLAYER_GET_BUNDLE_IMAGE(@"kj_player_background");
-        self.currentTime = 0.0;
         self.useCacheFunction = NO;
         self.useCustomDefinition = YES;
         self.stopWhenAppEnterBackground = YES;
         self.continuePlayWhenAppReception = YES;
+        self.hasMoved = NO;
+        self.currentTime = 0.0;
+        self.speed = 1.;
     }
     return self;
 }

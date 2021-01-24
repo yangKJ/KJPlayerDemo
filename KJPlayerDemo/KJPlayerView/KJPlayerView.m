@@ -9,11 +9,14 @@
 #import "KJPlayerView.h"
 #import <MediaPlayer/MPVolumeView.h> 
 #import <QuartzCore/QuartzCore.h>
-
+#import "UIButton+KJPlayerAreaInsets.h"
+/// 设置图片
+#define PLAYER_GET_BUNDLE_IMAGE(imageName) \
+([UIImage imageNamed:[@"KJPlayerView.bundle" stringByAppendingPathComponent:(imageName)]])
 @interface KJPlayerView ()<KJPlayerDelegate,UIGestureRecognizerDelegate>
 @property (nonatomic,strong) id videoURL;
 @property (nonatomic,strong) NSTimer *timer;//定时器
-@property (nonatomic,strong) KJPlayer *player;//播放器
+@property (nonatomic,strong) KJOldPlayer *player;//播放器
 @property (nonatomic,strong) KJPlayerViewConfiguration *configuration;
 
 /* ************* 记录视图初始位置 ***************/
@@ -88,9 +91,9 @@
     return self;
 }
 #pragma mark - getter/setter
-- (KJPlayer*)player{
+- (KJOldPlayer*)player{
     if (!_player) {
-        _player = [KJPlayer sharedInstance];
+        _player = [KJOldPlayer sharedInstance];
         _player.delegate = self;
         _player.stopWhenAppEnterBackground = self.configuration.stopWhenAppEnterBackground;
         _player.useCacheFunction = self.configuration.useCacheFunction;
@@ -177,7 +180,7 @@
     if (self.configuration.haveFristImage) {
         dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
             /// 获取视频第一帧图片
-            weakself.configuration.videoImage = [KJPlayerTool kj_playerFristImageWithURL:weakself.configuration.url];
+            weakself.configuration.videoImage = [self kj_playerFristImageWithURL:weakself.configuration.url];
             dispatch_async(dispatch_get_main_queue(), ^{
                 weakself.coverImageView.image = weakself.configuration.videoImage ?: PLAYER_GET_BUNDLE_IMAGE(@"kj_player_background");
             });
@@ -187,29 +190,41 @@
     // 视频的默认填充模式，AVLayerVideoGravityResizeAspect
     self.playerLayer.videoGravity = self.configuration.videoGravity;
     self.configuration.totalTime  = self.player.videoTotalTime;
-    self.leftTimeLabel.text  = [KJPlayerTool kj_playerConvertTime:self.configuration.currentTime];
-    self.rightTimeLabel.text = [KJPlayerTool kj_playerConvertTime:self.configuration.totalTime];
+    self.leftTimeLabel.text  = kPlayerConvertTime(self.configuration.currentTime);
+    self.rightTimeLabel.text = kPlayerConvertTime(self.configuration.totalTime);
     [self.loadingProgress setProgress:self.player.videoIsLocalityData?1.0:0.0 animated:YES];
     self.playScheduleSlider.maximumValue = self.configuration.totalTime;
     self.playScheduleSlider.value = self.configuration.currentTime;//指定初始值
     self.playOrPauseButton.selected = YES;
     self.configuration.hasMoved = self.fastView.moveGestureFast = NO;
 }
+// 获取视频第一帧图片
+- (UIImage*)kj_playerFristImageWithURL:(NSURL*)url{
+    NSDictionary *opts = [NSDictionary dictionaryWithObject:[NSNumber numberWithBool:NO] forKey:AVURLAssetPreferPreciseDurationAndTimingKey];
+    AVURLAsset *urlAsset = [AVURLAsset URLAssetWithURL:url options:opts];
+    AVAssetImageGenerator *generator = [AVAssetImageGenerator assetImageGeneratorWithAsset:urlAsset];
+    generator.appliesPreferredTrackTransform = YES;
+    NSError *error = nil;
+    CGImageRef image = [generator copyCGImageAtTime:CMTimeMake(0, 10) actualTime:NULL error:&error];
+    UIImage *videoImage = [UIImage imageWithCGImage:image];
+    CGImageRelease(image);
+    return videoImage;
+}
 
 #pragma mark - KJPlayerDelegate
-- (void)kj_player:(KJPlayer *)player LoadedProgress:(CGFloat)loadedProgress LoadComplete:(BOOL)complete SaveSuccess:(BOOL)saveSuccess {
+- (void)kj_player:(KJOldPlayer *)player LoadedProgress:(CGFloat)loadedProgress LoadComplete:(BOOL)complete SaveSuccess:(BOOL)saveSuccess {
 //    NSLog(@"PlayerLoad:%.2f",loadedProgress);
     [self.loadingProgress setProgress:loadedProgress animated:YES];
 }
-- (void)kj_player:(KJPlayer *)player Progress:(CGFloat)progress CurrentTime:(CGFloat)currentTime DurationTime:(CGFloat)durationTime {
+- (void)kj_player:(KJOldPlayer *)player Progress:(CGFloat)progress CurrentTime:(CGFloat)currentTime DurationTime:(CGFloat)durationTime {
 //        NSLog(@"Time:%.2f==%.2f==%.2f",progress,currentTime,durationTime);
     if (self.fastView.moveGestureFast == NO) {
-        self.leftTimeLabel.text = [KJPlayerTool kj_playerConvertTime:currentTime];
+        self.leftTimeLabel.text = kPlayerConvertTime(currentTime);
         self.playScheduleSlider.value = currentTime;//指定初始值
         self.configuration.currentTime = currentTime;
     }
 }
-- (void)kj_player:(KJPlayer *)player State:(KJPlayerState)state ErrorCode:(KJPlayerErrorCode)errorCode {
+- (void)kj_player:(KJOldPlayer *)player State:(KJPlayerState)state ErrorCode:(KJPlayerErrorCode)errorCode {
     self.configuration.state = state;
     NSLog(@"\nKJPlayer:%@", KJPlayerStateStringMap[state]);
     switch (state) {
@@ -579,7 +594,7 @@
             self.playOrPauseButton.selected = NO;
             break;
         case UITouchPhaseMoved:
-            self.leftTimeLabel.text = [KJPlayerTool kj_playerConvertTime:slider.value];
+            self.leftTimeLabel.text = kPlayerConvertTime(slider.value);
             break;
         case UITouchPhaseEnded:
             [self.player kj_playerResume];
@@ -695,7 +710,7 @@
         /// 设置快进数据
         self.fastView.moveGestureFast = YES;
         [self.fastView kj_updateFastValue:value TotalTime:self.configuration.totalTime];
-        self.leftTimeLabel.text = [KJPlayerTool kj_playerConvertTime:value];
+        self.leftTimeLabel.text = kPlayerConvertTime(value);
         [self.playScheduleSlider setValue:value animated:YES];
     }else if(self.configuration.gestureType == KJPlayerGestureTypeVoice){ //如果是音量手势
         if (self.configuration.fullScreen) {//全屏的时候才开启音量的手势调节
@@ -903,7 +918,7 @@
         _leftTimeLabel.textAlignment = NSTextAlignmentLeft;
         _leftTimeLabel.textColor = [UIColor whiteColor];
         _leftTimeLabel.font = [UIFont systemFontOfSize:11];
-        _leftTimeLabel.text = [KJPlayerTool kj_playerConvertTime:0.0];
+        _leftTimeLabel.text = kPlayerConvertTime(0.0);
         self.leftTimeLabelFrame = _leftTimeLabel.frame;
     }
     return _leftTimeLabel;
@@ -915,7 +930,7 @@
         _rightTimeLabel.textAlignment = NSTextAlignmentRight;
         _rightTimeLabel.textColor = [UIColor whiteColor];
         _rightTimeLabel.font = [UIFont systemFontOfSize:11];
-        _rightTimeLabel.text = [KJPlayerTool kj_playerConvertTime:0.0];
+        _rightTimeLabel.text = kPlayerConvertTime(0.0);
         self.rightTimeLabelFrame = _rightTimeLabel.frame;
     }
     return _rightTimeLabel;
@@ -985,7 +1000,7 @@
         _collectButton.hidden = YES;
         [_collectButton addTarget:self action:@selector(kBottomButtonAction:) forControlEvents:(UIControlEventTouchUpInside)];
         [self.bottomView addSubview:_collectButton];
-        _collectButton.touchAreaInsets = UIEdgeInsetsMake(10., .0, 10., .0); 
+        _collectButton.touchAreaInsets = UIEdgeInsetsMake(10., .0, 10., .0);
     }
     return _collectButton;
 }

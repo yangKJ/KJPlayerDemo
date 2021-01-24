@@ -1,5 +1,5 @@
 //
-//  UIButton+KJPlayerButtonTouchAreaInsets.h
+//  UIButton+KJPlayerAreaInsets.h
 //  KJPlayerDemo
 //
 //  Created by 杨科军 on 2020/1/6.
@@ -11,7 +11,7 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
-@interface UIButton (KJPlayerButtonTouchAreaInsets)
+@interface UIButton (KJPlayerAreaInsets)
 /// 设置按钮额外热区 - 扩大按钮点击域
 @property (nonatomic, assign) UIEdgeInsets touchAreaInsets;
 

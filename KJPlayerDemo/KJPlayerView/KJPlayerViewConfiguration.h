@@ -8,34 +8,9 @@
 
 #import <Foundation/Foundation.h>
 #import <UIKit/UIKit.h>
-#import <AVFoundation/AVFoundation.h>
-#import "KJPlayerViewHeader.h"
-#import "KJPlayer.h"
+#import "KJPlayerType.h"
 
 NS_ASSUME_NONNULL_BEGIN
-
-//手势操作的类型
-typedef NS_ENUM(NSUInteger,KJPlayerGestureType) {
-    KJPlayerGestureTypeProgress = 0, //视频进度调节操作
-    KJPlayerGestureTypeVoice    = 1, //声音调节操作
-    KJPlayerGestureTypeLight    = 2, //屏幕亮度调节操作
-    KJPlayerGestureTypeNone     = 3, //无任何操作
-};
-//播放类型
-typedef NS_ENUM(NSUInteger,KJPlayerPlayType) {
-    KJPlayerPlayTypeReplay = 0, //重复播放
-    KJPlayerPlayTypeOrder  = 1, //顺序播放
-    KJPlayerPlayTypeRandom = 2, //随机播放
-    KJPlayerPlayTypeOnce   = 3, //仅播放一次
-};
-//手机方向
-typedef NS_ENUM(NSUInteger,KJPlayerDeviceDirection) {
-    KJPlayerDeviceDirectionCustom,//其他
-    KJPlayerDeviceDirectionTop,   //上
-    KJPlayerDeviceDirectionBottom,//下
-    KJPlayerDeviceDirectionLeft,  //左
-    KJPlayerDeviceDirectionRight, //右
-};
 
 @interface KJPlayerViewConfiguration : NSObject
 /* 主色调 */
@@ -44,9 +19,9 @@ typedef NS_ENUM(NSUInteger,KJPlayerDeviceDirection) {
 @property (nonatomic,assign) CGFloat autoHideTime;
 /* 设置播放类型，默认 KJPlayerPlayTypeReplay 重复播放 */
 @property (nonatomic,assign) KJPlayerPlayType playType;
-/* 视频的显示模式,默认按原视频比例显示,多余两边留黑 AVLayerVideoGravityResizeAspect */
+/* 视频的显示模式，默认按原视频比例显示多余两边留黑 AVLayerVideoGravityResizeAspect */
 @property (nonatomic,assign) AVLayerVideoGravity videoGravity;
-/* 返回标题文字，默认 正在播放 */
+/* 返回标题文字，默认正在播放 */
 @property (nonatomic,strong) NSString *backString;
 /* 是否用视频第一帧显示为占位背景，默认NO */
 @property (nonatomic,assign) BOOL haveFristImage;
@@ -68,9 +43,10 @@ typedef NS_ENUM(NSUInteger,KJPlayerDeviceDirection) {
 @property (nonatomic,assign) BOOL stopWhenAppEnterBackground;
 /* 后台返回继续播放功能，默认yes */
 @property (nonatomic,assign) BOOL continuePlayWhenAppReception;
+/* 播放速度 */
+@property (nonatomic,assign) CGFloat speed;
 
-
-#pragma mark - 内部使用 可以获取,但是别乱改数据
+#pragma mark - 内部只读数据
 @property (nonatomic,assign) KJPlayerState state;//播放器状态
 @property (nonatomic,assign) CGFloat totalTime;//视频总时间
 @property (nonatomic,assign) CGFloat currentTime;//视频当前播放时间

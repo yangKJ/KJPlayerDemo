@@ -8,13 +8,12 @@
 
 #import "ViewController.h"
 #import "KJPlayerView.h"
-
+#import "KJPlayer.h"
 @interface ViewController ()<KJPlayerViewDelegate>
 @property(nonatomic,strong) KJPlayerView *playerView;
 @end
 
 @implementation ViewController
-
 /// 电池状态栏管理
 - (BOOL)prefersStatusBarHidden{
     if (self.playerView) {
@@ -23,7 +22,6 @@
         return NO;
     }
 }
-
 - (void)viewDidLoad {
     [super viewDidLoad];
     
@@ -36,9 +34,10 @@
         KJPlayerViewConfiguration *configuration = [[KJPlayerViewConfiguration alloc]init];
         configuration.autoHideTime = 0.0;
         configuration.haveFristImage = YES;
-//        configuration.useCacheFunction = YES;
+        configuration.useCacheFunction = NO;
+        configuration.speed = 3;
         configuration.playType = KJPlayerPlayTypeOrder;
-        KJPlayerView *view = [[KJPlayerView alloc] initWithFrame:CGRectMake(0, 20, [UIScreen mainScreen].bounds.size.width, [UIScreen mainScreen].bounds.size.width*9/16) Configuration:configuration];
+        KJPlayerView *view = [[KJPlayerView alloc] initWithFrame:CGRectMake(0, 20, PLAYER_SCREEN_WIDTH, PLAYER_SCREEN_WIDTH*9/16) Configuration:configuration];
         _playerView = view;
         view.backgroundColor = UIColor.blackColor;
         view.delegate = self;
