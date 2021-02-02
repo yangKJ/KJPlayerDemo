@@ -45,9 +45,9 @@ static NSString * const _Nonnull KJPlayerStateStringMap[] = {
 };
 /// 几种错误的code
 typedef NS_ENUM(NSInteger, KJPlayerErrorCode) {
-    KJPlayerErrorCodeNoError = 0, /// 正常播放
+    KJPlayerErrorCodeNormal = 0, /// 正常播放
     KJPlayerErrorCodeOtherSituations = 1, /// 其他情况
-    KJPlayerErrorCodeVideoUrlError = 100, /// 视频地址不正确
+    KJPlayerErrorCodeVideoURLError = 100, /// 视频地址不正确
     KJPlayerErrorCodeNetworkOvertime = -1001, /// 请求超时：-1001
     KJPlayerErrorCodeServerNotFound  = -1003, /// 找不到服务器：-1003
     KJPlayerErrorCodeServerInternalError = -1004, /// 服务器内部错误：-1004
@@ -60,7 +60,12 @@ typedef NS_ENUM(NSInteger, KJPlayerLoadState) {
     KJPlayerLoadStateLoading, /// 缓存数据中
     KJPlayerLoadStateComplete,/// 缓存结束
     KJPlayerLoadStateError,   /// 缓存失败
-    KJPlayerLoadStateSaveSuccess, /// 缓存成功
+};
+static NSString * const _Nonnull KJPlayerLoadStateStringMap[] = {
+    [KJPlayerLoadStateNone]     = @"没有缓存",
+    [KJPlayerLoadStateLoading]  = @"缓存数据中",
+    [KJPlayerLoadStateComplete] = @"缓存结束",
+    [KJPlayerLoadStateError]    = @"缓存失败",
 };
 /// 手势操作的类型
 typedef NS_ENUM(NSUInteger, KJPlayerGestureType) {
@@ -84,39 +89,13 @@ typedef NS_ENUM(NSUInteger, KJPlayerDeviceDirection) {
     KJPlayerDeviceDirectionLeft,  //左
     KJPlayerDeviceDirectionRight, //右
 };
+/// 播放器充满类型
+typedef NS_ENUM(NSUInteger, KJPlayerVideoGravity) {
+    KJPlayerVideoGravityResizeAspect = 0,//最大边等比充满
+    KJPlayerVideoGravityResizeAspectFill,//拉伸充满
+    KJPlayerVideoGravityResizeOriginal,  //原始尺寸
+};
 typedef void (^KJPlayerSeekBeginPlayBlock)(void);
-
-// 判断是否含有视频轨道
-NS_INLINE bool kPlayerHaveTracks(NSURL *url){
-    AVURLAsset *asset = [AVURLAsset URLAssetWithURL:url options:nil];
-    NSArray *tracks = [asset tracksWithMediaType:AVMediaTypeVideo];
-    return [tracks count] > 0;
-}
-// 判断是否是URL，谓词方式
-NS_INLINE bool kPlayerURLUsable(NSURL *url){
-    if(url == nil) return false;
-    NSString *string = [url absoluteString];
-    NSString *regex = @"(https|http|ftp|rtsp|igmp|file|rtspt|rtspu)://((((25[0-5]|2[0-4]\\d|1?\\d?\\d)\\.){3}(25[0-5]|2[0-4]\\d|1?\\d?\\d))|([0-9a-z_!~*'()-]*\\.?))([0-9a-z][0-9a-z-]{0,61})?[0-9a-z]\\.([a-z]{2,6})(:[0-9]{1,4})?([a-zA-Z/?_=]*)\\.\\w{1,5}";
-    NSPredicate *predicate = [NSPredicate predicateWithFormat:@"SELF MATCHES %@", regex];
-    return [predicate evaluateWithObject:string];
-}
-// 判断当前URL是否可用，信号量方式
-NS_INLINE bool kPlayerValidate(NSURL *url){
-    __block BOOL boo = false;
-    dispatch_queue_t queue = dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0);
-    dispatch_semaphore_t sem = dispatch_semaphore_create(0);
-    dispatch_group_async(dispatch_group_create(), queue, ^{
-        NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:url];
-        [request setHTTPMethod:@"HEAD"];
-        NSURLSession *session = [NSURLSession sessionWithConfiguration:[NSURLSessionConfiguration defaultSessionConfiguration]];
-        [[session dataTaskWithRequest:request completionHandler:^(NSData*data,NSURLResponse*response,NSError*error) {
-            boo = error ? false : true;
-            dispatch_semaphore_signal(sem);
-        }] resume];
-    });
-    dispatch_semaphore_wait(sem, DISPATCH_TIME_FOREVER);
-    return boo;
-}
 // MD5加密
 NS_INLINE NSString * kPlayerMD5(NSString *string){
     const char *str = [string UTF8String];
@@ -135,8 +114,7 @@ NS_INLINE NSString * kPlayerIntactPath(NSURL *url){
     NSString *name = array.count > 1 ? array[1] : urlString;
     NSString *videoName = [kPlayerMD5(name) stringByAppendingString:@".mp4"];
     NSString *document = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory,NSUserDomainMask,YES).lastObject;
-    NSString *filePath = [document stringByAppendingPathComponent:videoName];
-    return filePath;
+    return [document stringByAppendingPathComponent:videoName];
 }
 // 获取当前的旋转状态
 NS_INLINE CGAffineTransform kPlayerDeviceOrientation(void){
@@ -160,6 +138,26 @@ NS_INLINE NSString * kPlayerConvertTime(CGFloat second){
         [dateFormatter setDateFormat:@"mm:ss"];
     }
     return [dateFormatter stringFromDate:[NSDate dateWithTimeIntervalSince1970:second]];
+}
+NS_INLINE void kGCD_player_async(dispatch_block_t _Nonnull block) {
+    dispatch_queue_t queue = dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0);
+    if (strcmp(dispatch_queue_get_label(DISPATCH_CURRENT_QUEUE_LABEL), dispatch_queue_get_label(queue)) == 0) {
+        block();
+    }else{
+        dispatch_async(queue, block);
+    }
+}
+NS_INLINE void kGCD_player_main(dispatch_block_t _Nonnull block) {
+    dispatch_queue_t queue = dispatch_get_main_queue();
+    if (strcmp(dispatch_queue_get_label(DISPATCH_CURRENT_QUEUE_LABEL), dispatch_queue_get_label(queue)) == 0) {
+        block();
+    }else{
+        if ([[NSThread currentThread] isMainThread]) {
+            dispatch_async(queue, block);
+        }else{
+            dispatch_sync(queue, block);
+        }
+    }
 }
 
 #endif /* KJPlayerType_h */

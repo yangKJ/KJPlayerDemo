@@ -10,7 +10,6 @@
 #import <MobileCoreServices/MobileCoreServices.h>
 
 NSString * const kMIMEType = @"video/mp4";
-#define maxCacheRange 300
 @interface KJURLConnection ()
 @property (nonatomic,strong) NSMutableArray *loadingRequestTemps;
 @property (nonatomic,strong) KJRequestTask *task;
@@ -43,44 +42,35 @@ NSString * const kMIMEType = @"video/mp4";
 /// 在所有请求的数组中移除已经完成的
 - (void)kj_processPendingRequests{
     NSMutableArray *temp = [NSMutableArray array];
-    //1.每次下载一块数据都是一次请求，把这些请求放到数组，遍历数组
     [self.loadingRequestTemps enumerateObjectsUsingBlock:^(id  _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
         AVAssetResourceLoadingRequest *loadingRequest = (AVAssetResourceLoadingRequest*)obj;
         [self kj_fillInContentInformation:loadingRequest.contentInformationRequest];
-        //2.判断此次请求的数据是否处理完全
         if ([self kj_respondDataWithRequest:loadingRequest.dataRequest]) {
             [temp addObject:loadingRequest];
             [loadingRequest finishLoading];
             *stop = YES;
         }
     }];
-    //在所有请求的数组中移除已经完成的
     [self.loadingRequestTemps removeObjectsInArray:temp];
 }
 /// 判断此次请求的数据是否处理完
 - (BOOL)kj_respondDataWithRequest:(AVAssetResourceLoadingDataRequest *)dataRequest{
     long long offset;
     if (dataRequest.currentOffset != 0) {
-        // 在资源中的下一个字节的资源中的位置，该位置位于先前通过调用-respondWithData提供的字节之后
         offset = dataRequest.currentOffset;
     }else{
-        // 请求的第一个字节在资源中的位置
         offset = dataRequest.requestedOffset;
     }
-    // 无数据下载
     if ((self.task.currentOffset + self.task.downLoadOffset) < offset || offset < self.task.currentOffset){
         return NO;
     }
     NSData *data = [NSData dataWithContentsOfURL:[NSURL fileURLWithPath:PLAYER_TEMP_PATH] options:NSDataReadingMappedIfSafe error:nil];
-    // 未播放的数据
-    NSUInteger unreadBytes = _task.downLoadOffset - ((NSInteger)offset-_task.currentOffset);
-    // 剩余的字节
+    NSUInteger unreadBytes = self.task.downLoadOffset - ((NSInteger)offset-self.task.currentOffset);
     NSUInteger residueBytes = MIN((NSUInteger)dataRequest.requestedLength, unreadBytes);
-    NSData *__data = [data subdataWithRange:NSMakeRange((NSUInteger)offset-_task.currentOffset, residueBytes)];
-    // 下载剩余数据
+    NSData *__data = [data subdataWithRange:NSMakeRange((NSUInteger)offset-self.task.currentOffset, residueBytes)];
     [dataRequest respondWithData:__data];
     
-    return (_task.currentOffset+_task.downLoadOffset) >= (offset+dataRequest.requestedLength);
+    return (self.task.currentOffset+self.task.downLoadOffset) >= (offset+dataRequest.requestedLength);
 }
 /// 处理本次请求
 - (void)kj_dealWithLoadingRequest:(AVAssetResourceLoadingRequest *)loadingRequest{
@@ -97,7 +87,7 @@ NSString * const kMIMEType = @"video/mp4";
         }else{
             //1.如果新的rang的起始位置比当前缓存的位置还大300k，则重新按照range请求数据
             //2.如果往回拖也重新请求
-            if (self.task.currentOffset + self.task.downLoadOffset + 1024 * maxCacheRange < range.location ||
+            if (self.task.currentOffset + self.task.downLoadOffset + 1024 * self.maxCacheRange < range.location ||
                 range.location < self.task.currentOffset) {
                 [self.task kj_startLoadWithUrl:interceptedURL Offset:range.location];
             }

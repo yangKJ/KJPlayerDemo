@@ -37,8 +37,6 @@ NS_ASSUME_NONNULL_BEGIN
 @property (nonatomic,assign) CGFloat gestureSliderMinX;
 /* 是否使用默认的清晰度面板，默认yes */
 @property (nonatomic,assign) BOOL useCustomDefinition;
-/* 是否使用缓存功能，默认NO */
-@property (nonatomic,assign) BOOL useCacheFunction;
 /* 进入后台是否停止播放，默认yes */
 @property (nonatomic,assign) BOOL stopWhenAppEnterBackground;
 /* 后台返回继续播放功能，默认yes */

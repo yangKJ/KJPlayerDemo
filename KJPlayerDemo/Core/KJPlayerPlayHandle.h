@@ -11,33 +11,46 @@
 #import "KJPlayerType.h"
 
 NS_ASSUME_NONNULL_BEGIN
-
+@protocol KJPlayerDelegate;
 @protocol KJPlayerPlayHandle <NSObject>
 @required
-/* 是否使用缓存功能，默认yes */
+/* 委托代理 */
+@property (nonatomic,weak) id <KJPlayerDelegate> delegate;
+/* 播放器载体 */
+@property (nonatomic,strong) UIView *playerView;
+/* 视频地址 */
+@property (nonatomic,strong) NSURL *assetURL;
+/* 视频请求头 */
+@property (nonatomic,strong) NSDictionary *requestHeader;
+/* 是否使用缓存功能，默认no */
 @property (nonatomic,assign) BOOL useCacheFunction;
 /* 是否开启退出后台暂停和返回播放功能，默认yes */
 @property (nonatomic,assign) BOOL useOpenAppEnterBackground;
 /* 进入后台是否停止播放，默认yes */
 @property (nonatomic,assign) BOOL stopWhenAppEnterBackground;
-/* 视频地址 */
-@property (nonatomic,strong) NSURL *assetURL;
-/* 播放器状态 */
-@property (nonatomic,assign,readonly) KJPlayerState state;
-/* 播放失败 */
-@property (nonatomic,assign,readonly) KJPlayerErrorCode errorCode;
-/* 缓存状态 */
-@property (nonatomic,assign,readonly) KJPlayerLoadState loadState;
+/* 播放速度，默认1倍速 */
+@property (nonatomic,assign) CGFloat speed;
+/* 缓存达到多少秒才能播放，默认5秒 */
+@property (nonatomic,assign) NSTimeInterval cacheTime;
+/* 背景颜色，默认黑色 */
+@property (nonatomic,assign) CGColorRef background;
+/* 时间刻度，默认1秒 */
+@property (nonatomic,assign) NSTimeInterval timeSpace;
+/* 占位图 */
+@property (nonatomic,strong) UIImage *placeholder;
+/* 视频显示模式，默认KJPlayerVideoGravityResizeAspect */
+@property (nonatomic,assign) KJPlayerVideoGravity videoGravity;
+
 /* 是否为本地资源 */
 @property (nonatomic,assign,readonly) BOOL localityData;
-/* 播放速度 */
-@property (nonatomic,assign,readonly) CGFloat speed;
 /* 是否正在播放 */
 @property (nonatomic,assign,readonly) BOOL isPlaying;
 /* 当前播放时间 */
 @property (nonatomic,assign,readonly) NSTimeInterval currentTime;
-/* 视频总时长 */
-@property (nonatomic,copy,readwrite) void(^kTotleTime)(NSTimeInterval time);
+/* 播放失败 */
+@property (nonatomic,assign,readonly) KJPlayerErrorCode errorCode;
+/* 获取指定时间视频帧图片 */
+@property (nonatomic,copy,readonly) UIImage * (^kPlayerTimeImage)(NSTimeInterval);
 
 /* 创建单例 */
 + (instancetype)kj_sharedInstance;
@@ -54,10 +67,20 @@ NS_ASSUME_NONNULL_BEGIN
 /* 停止 */
 - (void)kj_playerStop;
 /* 设置开始播放时间 */
-- (void)kj_playerSeekToTime:(CGFloat)seconds;
-/* 切换倍速 */
-- (void)kj_playerSwitchingTimesSpeed:(CGFloat)speed;
+- (void)kj_playerSeekTime:(NSTimeInterval)seconds completionHandler:(void(^_Nullable)(BOOL finished))completionHandler;
 
 @end
+/// 委托代理
+@protocol KJPlayerDelegate <NSObject>
+@optional;
+/* 当前播放器状态 */
+- (void)kj_player:(id<KJPlayerPlayHandle>)player state:(KJPlayerState)state;
+/* 播放进度 */
+- (void)kj_player:(id<KJPlayerPlayHandle>)player currentTime:(NSTimeInterval)time totalTime:(NSTimeInterval)total;
+/* 缓存状态 */
+- (void)kj_player:(id<KJPlayerPlayHandle>)player loadstate:(KJPlayerLoadState)state;
+/* 缓存进度 */
+- (void)kj_player:(id<KJPlayerPlayHandle>)player loadProgress:(CGFloat)progress;
 
+@end
 NS_ASSUME_NONNULL_END

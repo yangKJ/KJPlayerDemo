@@ -57,7 +57,7 @@
 - (void)config{
     _stopWhenAppEnterBackground = YES;
     _state = KJPlayerStateStopped;
-    _errorCode = KJPlayerErrorCodeNoError;
+    _errorCode = KJPlayerErrorCodeNormal;
     _loadedProgress = 0.0;
     _videoTotalTime = 0.0;
     _current  = 0.0;
@@ -65,7 +65,6 @@
     _userPause = YES;
     _loadComplete = NO;
     _videoIsLocalityData = NO;
-    _useCacheFunction = YES;
 }
 - (instancetype)init{
     if (self == [super init]) {
@@ -98,51 +97,15 @@
     //播放前的准备工作
     [self kPlayBeforePreparationWithURL:url];
     
-    //是否使用缓存功能
-    if (self.useCacheFunction) {
-        //1.判断本地是否有缓存
-        NSString *path = kPlayerIntactPath(url);
-        self.videoIsLocalityData = [[NSFileManager defaultManager] fileExistsAtPath:path];
-        //4.判断版本和是否为本地资源
-        AVURLAsset *asset;
-        if (self.videoIsLocalityData) {
-            // 本地文件不设置 KJPlayerStateLoading 状态
-            self.state = KJPlayerStatePlaying;
-            url = [NSURL fileURLWithPath:path];
-            asset = [AVURLAsset URLAssetWithURL:url options:nil];
-            NSArray *tracks = [asset tracksWithMediaType:AVMediaTypeVideo];
-            BOOL hasVideoTrack = [tracks count] > 0;
-            if (hasVideoTrack == NO) {
-                self.errorCode = KJPlayerErrorCodeVideoUrlError;
-                self.state = KJPlayerStateError;
-                return nil;
-            }
-        } else {
-            self.state = KJPlayerStateLoading;
-            self.connection = [[KJURLConnection alloc] init];
-            [self kj_dealBlock];
-            asset = [AVURLAsset URLAssetWithURL:[self.connection kj_setComponentsWithURL:url] options:nil];
-            [asset.resourceLoader setDelegate:self.connection queue:dispatch_get_main_queue()];
-        }
-        
-        self.playerItem = [AVPlayerItem playerItemWithAsset:asset];
-        if (!self.videoPlayer) {
-            self.videoPlayer = [AVPlayer playerWithPlayerItem:self.playerItem];
-        } else {
-            [self.videoPlayer replaceCurrentItemWithPlayerItem:self.playerItem];
-        }
-        self.videoPlayerLayer = [AVPlayerLayer playerLayerWithPlayer:self.videoPlayer];
+    AVURLAsset *urlAsset = [AVURLAsset assetWithURL:url];
+    self.playerItem = [AVPlayerItem playerItemWithAsset:urlAsset];
+    if (self.videoPlayer == nil) {
+        self.videoPlayer = [AVPlayer playerWithPlayerItem:self.playerItem];
+        self.videoPlayer.usesExternalPlaybackWhileExternalScreenIsActive = YES;
     }else{
-        AVURLAsset *urlAsset = [AVURLAsset assetWithURL:url];
-        self.playerItem = [AVPlayerItem playerItemWithAsset:urlAsset];
-        if (self.videoPlayer == nil) {
-            self.videoPlayer = [AVPlayer playerWithPlayerItem:self.playerItem];
-            self.videoPlayer.usesExternalPlaybackWhileExternalScreenIsActive = YES;
-        }else{
-            [self.videoPlayer replaceCurrentItemWithPlayerItem:self.playerItem];
-        }
-        self.videoPlayerLayer = [AVPlayerLayer playerLayerWithPlayer:self.videoPlayer];
+        [self.videoPlayer replaceCurrentItemWithPlayerItem:self.playerItem];
     }
+    self.videoPlayerLayer = [AVPlayerLayer playerLayerWithPlayer:self.videoPlayer];
     
     //5.设置通知和kvo
     [self kSetNotificationAndKvo];

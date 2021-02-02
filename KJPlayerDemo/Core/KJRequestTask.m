@@ -35,7 +35,6 @@
 - (instancetype)init{
     if (self == [super init]) {
         [self config];
-        self.taskTemps = [NSMutableArray array];
         self.tempPath = PLAYER_TEMP_PATH;
         if ([[NSFileManager defaultManager] fileExistsAtPath:_tempPath]) {
             [[NSFileManager defaultManager] removeItemAtPath:_tempPath error:nil];
@@ -45,6 +44,12 @@
         }
     }
     return self;
+}
+- (NSMutableArray*)taskTemps{
+    if (!_taskTemps) {
+        _taskTemps = [NSMutableArray array];
+    }
+    return _taskTemps;
 }
 
 #pragma mark - public methods
@@ -133,8 +138,8 @@
  第二个参数data：本次接收到的服务端返回的二进制数据（可能是片段）
  */
 - (void)connection:(nonnull NSURLConnection *)connection didReceiveData:(nonnull NSData *)data{
-    [self.fileHandle seekToEndOfFile];// 跳到文件末尾
-    [self.fileHandle writeData:data];// 写入数据
+    [self.fileHandle seekToEndOfFile];
+    [self.fileHandle writeData:data];
     self.downLoadOffset += data.length;
     if (self.kRequestTaskDidReceiveDataBlcok) {
         self.kRequestTaskDidReceiveDataBlcok(self,data);
@@ -149,7 +154,7 @@
     if (self.taskTemps.count < 2) {
         _completeLoad = YES;
         isSuccess = [[NSFileManager defaultManager] copyItemAtPath:_tempPath toPath:kPlayerIntactPath(self.videoURL) error:nil];
-        if (isSuccess) [self.fileHandle closeFile];// 关闭写入 输入文件
+        if (isSuccess) [self.fileHandle closeFile];
     }
     if (self.kRequestTaskDidFinishLoadingAndSaveFileBlcok) {
         self.kRequestTaskDidFinishLoadingAndSaveFileBlcok(self,isSuccess);

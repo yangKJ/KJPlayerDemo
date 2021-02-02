@@ -23,7 +23,6 @@
         self.openGravitySensing = YES;
         self.playProgressGesture = YES;
         self.gestureSliderMinX = 3;
-        self.useCacheFunction = NO;
         self.useCustomDefinition = YES;
         self.stopWhenAppEnterBackground = YES;
         self.continuePlayWhenAppReception = YES;

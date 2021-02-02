@@ -8,10 +8,11 @@
 //  老版本AVPlayer内核
 
 #import <Foundation/Foundation.h>
+#import <AVFoundation/AVFoundation.h>
 #import "KJPlayerType.h"
 NS_ASSUME_NONNULL_BEGIN
 
-@protocol KJPlayerDelegate;
+@protocol KJOldPlayerDelegate;
 @interface KJOldPlayer : NSObject
 /* 单例 */
 + (instancetype)sharedInstance;
@@ -24,14 +25,12 @@ NS_ASSUME_NONNULL_BEGIN
 /* 是否为本地资源 */
 @property (nonatomic,assign,readonly) BOOL videoIsLocalityData;
 
-/* 是否使用缓存功能，默认yes */
-@property (nonatomic,assign) BOOL useCacheFunction;
 /* 进入后台是否停止播放，默认yes */
 @property (nonatomic,assign) BOOL stopWhenAppEnterBackground;
 /* 是否开启退出后台暂停和返回播放功能，默认yes */
 @property (nonatomic,assign) BOOL useOpenAppEnterBackground;
 /* 委托 */
-@property (nonatomic,weak) id <KJPlayerDelegate> delegate;
+@property (nonatomic,weak) id <KJOldPlayerDelegate> delegate;
 
 /* 设置开始播放时间，默认为0 */
 @property (nonatomic,assign) CGFloat startPlayTime;
@@ -58,7 +57,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 @end
 /// 委托代理
-@protocol KJPlayerDelegate <NSObject>
+@protocol KJOldPlayerDelegate <NSObject>
 @optional;
 /* 当前播放器状态 */
 - (void)kj_player:(KJOldPlayer*)player State:(KJPlayerState)state ErrorCode:(KJPlayerErrorCode)errorCode;

@@ -13,7 +13,7 @@
 /// 设置图片
 #define PLAYER_GET_BUNDLE_IMAGE(imageName) \
 ([UIImage imageNamed:[@"KJPlayerView.bundle" stringByAppendingPathComponent:(imageName)]])
-@interface KJPlayerView ()<KJPlayerDelegate,UIGestureRecognizerDelegate>
+@interface KJPlayerView ()<KJOldPlayerDelegate,UIGestureRecognizerDelegate>
 @property (nonatomic,strong) id videoURL;
 @property (nonatomic,strong) NSTimer *timer;//定时器
 @property (nonatomic,strong) KJOldPlayer *player;//播放器
@@ -96,7 +96,6 @@
         _player = [KJOldPlayer sharedInstance];
         _player.delegate = self;
         _player.stopWhenAppEnterBackground = self.configuration.stopWhenAppEnterBackground;
-        _player.useCacheFunction = self.configuration.useCacheFunction;
         _player.useOpenAppEnterBackground = self.configuration.continuePlayWhenAppReception;
     }
     return _player;
