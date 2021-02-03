@@ -17,11 +17,9 @@ NS_ASSUME_NONNULL_BEGIN
 FOUNDATION_EXPORT NSString *const kMIMEType;
 @interface KJURLConnection : NSURLConnection<AVAssetResourceLoaderDelegate>
 @property(nonatomic,assign) CGFloat maxCacheRange;
-- (NSURL*)kj_setComponentsWithURL:(NSURL*)url;
-
-/* *********************** 事件处理 *************************/
+- (NSURL * (^)(NSURL * URL))kj_createSchemeURL;
 /* 当服务端返回的数据接收完毕之后会调用 */
-@property (nonatomic,copy,readwrite) void (^kURLConnectionDidFinishLoadingAndSaveFileBlcok)(BOOL complete, BOOL saveSuccess);
+@property (nonatomic,copy,readwrite) void (^kURLConnectionDidFinishLoadingAndSaveFileBlcok)(BOOL saveSuccess);
 /* 当请求错误的时候调用 */
 @property (nonatomic,copy,readwrite) void (^kURLConnectiondidFailWithErrorCodeBlcok)(NSInteger code);
 

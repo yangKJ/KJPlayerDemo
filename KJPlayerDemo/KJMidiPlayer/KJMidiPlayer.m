@@ -4,7 +4,7 @@
 //
 //  Created by 杨科军 on 2021/2/2.
 //  Copyright © 2021 杨科军. All rights reserved.
-//
+//  https://github.com/yangKJ/KJPlayerDemo
 
 #import "KJMidiPlayer.h"
 @interface KJMidiPlayer()
@@ -18,48 +18,18 @@
     AudioUnit remoteIOUnit;/// 属性值的音频单元
     MusicSequence sequence;/// 音乐序列
 }
-@synthesize delegate = _delegate;
-@synthesize useCacheFunction = _useCacheFunction;
-@synthesize useOpenAppEnterBackground = _useOpenAppEnterBackground;
-@synthesize stopWhenAppEnterBackground = _stopWhenAppEnterBackground;
-@synthesize playerView = _playerView;
-@synthesize assetURL = _assetURL;
-@synthesize speed = _speed;
-@synthesize cacheTime = _cacheTime;
-@synthesize currentTime = _currentTime;
-@synthesize errorCode = _errorCode;
-@synthesize localityData = _localityData;
-@synthesize background = _background;
-@synthesize timeSpace = _timeSpace;
-@synthesize kPlayerTimeImage = _kPlayerTimeImage;
-@synthesize placeholder = _placeholder;
-@synthesize videoGravity = _videoGravity;
-@synthesize requestHeader = _requestHeader;
-static KJMidiPlayer *_instance = nil;
-static dispatch_once_t onceToken;
-+ (instancetype)kj_sharedInstance{
-    dispatch_once(&onceToken, ^{
-        if (_instance == nil) {
-            _instance = [[self alloc] init];
-        }
-    });
-    return _instance;
-}
-+ (void)kj_attempDealloc{
-    onceToken = 0;
-    _instance = nil;
-}
+PLAYER_COMMON_PROPERTY PLAYER_SHARED
 - (void)dealloc {
     [self kj_playerStop];
 }
 #pragma mark - setter/getter
-- (void)setAssetURL:(NSURL *)assetURL{
-    _assetURL = assetURL;
+- (void)setVideoURL:(NSURL *)videoURL{
+    _videoURL = videoURL;
     [self createGraph];
     [self loadAudioUnitSetProperty];
-    [self loadMusicSequenceFileWithURL:assetURL];
+    [self loadMusicSequenceFileWithURL:videoURL];
 }
-- (void)setSpeed:(CGFloat)speed{
+- (void)setSpeed:(float)speed{
     _speed = speed;
     if (_musicPlayer) MusicPlayerSetPlayRateScalar(_musicPlayer,speed);
 }
@@ -90,10 +60,10 @@ static dispatch_once_t onceToken;
 }
 /* 停止 */
 - (void)kj_playerStop{
+    [self stopGraph];
     MusicPlayerStop(_musicPlayer);
     DisposeMusicPlayer(_musicPlayer);
     DisposeMusicSequence(sequence);
-    [self stopGraph];
     DisposeAUGraph(graph);
     _musicPlayer = nil;
 }
@@ -154,6 +124,7 @@ static dispatch_once_t onceToken;
     MusicTimeStamp time;
     MusicPlayerGetTime(_musicPlayer, &time);
     self.totalTime = time;
+    NSLog(@"totalTime:%.2f",time);
 }
 /// 开启音频处理图
 - (void)startGraph{

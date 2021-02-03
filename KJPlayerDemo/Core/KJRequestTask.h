@@ -21,7 +21,7 @@ NS_ASSUME_NONNULL_BEGIN
 NSString *document = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES).lastObject;\
 NSString *tempPath = [document stringByAppendingPathComponent:@"tempVideo.mp4"];\
 (tempPath);})
-
+#define kCustomVideoScheme @"streaming"
 @interface KJRequestTask : NSObject
 /* 视频地址 */
 @property (nonatomic,strong,readonly) NSURL *videoURL;
@@ -31,8 +31,6 @@ NSString *tempPath = [document stringByAppendingPathComponent:@"tempVideo.mp4"];
 @property (nonatomic,assign,readonly) NSUInteger downLoadOffset;
 /* 视频长度 */
 @property (nonatomic,assign,readonly) NSUInteger videoLength;
-/* 是否下载完成 */
-@property (nonatomic,assign,readonly) BOOL completeLoad;
 /* 开始下载 */
 - (void)kj_startLoadWithUrl:(NSURL*)url Offset:(NSUInteger)offset;
 /* 取消网络请求 */

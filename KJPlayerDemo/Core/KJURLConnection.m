@@ -23,14 +23,13 @@ NSString * const kMIMEType = @"video/mp4";
     }
     return self;
 }
-
-#pragma mark - public methods
-- (NSURL*)kj_setComponentsWithURL:(NSURL*)url{
-    NSURLComponents *components = [[NSURLComponents alloc] initWithURL:url resolvingAgainstBaseURL:NO];
-    components.scheme = @"streaming";
-    return [components URL];
+- (NSURL * (^)(NSURL *))kj_createSchemeURL{
+    return ^(NSURL * URL){
+        NSURLComponents *components = [[NSURLComponents alloc]initWithURL:URL resolvingAgainstBaseURL:NO];
+        components.scheme = kCustomVideoScheme;
+        return components.URL;
+    };
 }
-
 #pragma mark - privately methods
 /// 对每次请求加上长度，文件类型等信息
 - (void)kj_fillInContentInformation:(AVAssetResourceLoadingContentInformationRequest *)cRequest{
@@ -127,7 +126,7 @@ NSString * const kMIMEType = @"video/mp4";
     };
     self.task.kRequestTaskDidFinishLoadingAndSaveFileBlcok = ^(KJRequestTask * _Nonnull task, BOOL saveSuccess) {
         if (weakself.kURLConnectionDidFinishLoadingAndSaveFileBlcok) {
-            weakself.kURLConnectionDidFinishLoadingAndSaveFileBlcok(task.completeLoad,saveSuccess);
+            weakself.kURLConnectionDidFinishLoadingAndSaveFileBlcok(saveSuccess);
         }
     };
     self.task.kRequestTaskdidFailWithErrorCodeBlcok = ^(KJRequestTask * _Nonnull task, NSInteger errorCode) {

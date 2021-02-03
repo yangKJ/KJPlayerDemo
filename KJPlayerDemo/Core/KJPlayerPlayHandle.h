@@ -19,17 +19,21 @@ NS_ASSUME_NONNULL_BEGIN
 /* 播放器载体 */
 @property (nonatomic,strong) UIView *playerView;
 /* 视频地址 */
-@property (nonatomic,strong) NSURL *assetURL;
+@property (nonatomic,strong) NSURL *videoURL;
 /* 视频请求头 */
 @property (nonatomic,strong) NSDictionary *requestHeader;
 /* 是否使用缓存功能，默认no */
 @property (nonatomic,assign) BOOL useCacheFunction;
-/* 是否开启退出后台暂停和返回播放功能，默认yes */
-@property (nonatomic,assign) BOOL useOpenAppEnterBackground;
-/* 进入后台是否停止播放，默认yes */
-@property (nonatomic,assign) BOOL stopWhenAppEnterBackground;
+/* 返回前台继续播放，默认no */
+@property (nonatomic,assign) BOOL roregroundResume;
+/* 进入后台暂停播放，默认no */
+@property (nonatomic,assign) BOOL backgroundPause;
+/* 是否开启自动播放，默认yes */
+@property (nonatomic,assign) BOOL autoPlay;
 /* 播放速度，默认1倍速 */
-@property (nonatomic,assign) CGFloat speed;
+@property (nonatomic,assign) float speed;
+/* 播放音量 */
+@property (nonatomic,assign) float volume;
 /* 缓存达到多少秒才能播放，默认5秒 */
 @property (nonatomic,assign) NSTimeInterval cacheTime;
 /* 背景颜色，默认黑色 */
@@ -50,8 +54,12 @@ NS_ASSUME_NONNULL_BEGIN
 /* 播放失败 */
 @property (nonatomic,assign,readonly) KJPlayerErrorCode errorCode;
 /* 获取指定时间视频帧图片 */
-@property (nonatomic,copy,readonly) UIImage * (^kPlayerTimeImage)(NSTimeInterval);
+@property (nonatomic,copy,readonly) UIImage * (^kPlayerTimeImage)(NSTimeInterval time);
+/* 获取视频大小 */
+@property (nonatomic,copy,readwrite) void (^kVideoSize)(CGSize size);
 
+/* 单例属性 */
+@property (nonatomic,strong,class,readonly,getter=kj_sharedInstance) id shared;
 /* 创建单例 */
 + (instancetype)kj_sharedInstance;
 /* 销毁单例 */

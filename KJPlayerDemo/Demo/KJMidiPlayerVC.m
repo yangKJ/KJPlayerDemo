@@ -18,12 +18,13 @@
 @property (weak, nonatomic) IBOutlet UISlider *slider;
 @property (weak, nonatomic) IBOutlet UITextField *textField;
 @property (nonatomic,strong) NSArray *temps;
-@property (nonatomic,strong) KJMidiPlayer *player;
 
 @end
 
 @implementation KJMidiPlayerVC
-
+- (void)dealloc{
+    [KJMidiPlayer kj_attempDealloc];
+}
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view.
@@ -33,38 +34,32 @@
     self.pickerView.dataSource = self;
     self.pickerView.delegate = self;
     self.label.text = [NSString stringWithFormat:@"midi音源：%@",self.temps[[self.pickerView selectedRowInComponent:0]]];
-    self.player = [KJMidiPlayer kj_sharedInstance];
 }
 - (IBAction)play:(id)sender {
-    NSURL *URL = [[NSBundle mainBundle] URLForResource:self.temps[index] withExtension:@""];
-    self.player.assetURL = URL;
-    [self.player kj_playerPlay];
+    NSURL *URL = [[NSBundle mainBundle] URLForResource:self.temps[index] withExtension:@"mid"];
+    KJMidiPlayer.shared.videoURL = URL;
+    [KJMidiPlayer.shared kj_playerPlay];
 }
 - (IBAction)pause:(id)sender {
-    [self.player kj_playerPause];
+    [KJMidiPlayer.shared kj_playerPause];
 }
 - (IBAction)repause:(id)sender {
-//    [[KJMIDIPlayer sharedInstance] kj_setPlayerPlaySeek:20];
-    [self.player kj_playerResume];
+    [KJMidiPlayer.shared kj_playerResume];
 }
 - (IBAction)stop:(id)sender {
-    [self.player kj_playerStop];
+    [KJMidiPlayer.shared kj_playerStop];
 }
 - (IBAction)slider:(UISlider *)sender {
     NSLog(@"----%f",sender.value);
 }
 - (IBAction)seekPlay:(UIButton *)sender {
     CGFloat seek = [self.textField.text floatValue];
-    if (![self.player isPlaying]) {
-        NSString *string = [self.label.text substringFromIndex:9];
-        NSArray *array = [string componentsSeparatedByString:@"."];
-        NSString *name = [NSString stringWithFormat:@"%@",array[0]];
-        NSURL *URL = [[NSBundle mainBundle] URLForResource:name withExtension:@"mid"];
-        self.player.assetURL = URL;
-        [self.player kj_playerPlay];
+    if (![KJMidiPlayer.shared isPlaying]) {
+        NSURL *URL = [[NSBundle mainBundle] URLForResource:self.temps[index] withExtension:@"mid"];
+        KJMidiPlayer.shared.videoURL = URL;
+        [KJMidiPlayer.shared kj_playerPlay];
     }
-    [self.player kj_playerSeekTime:seek completionHandler:nil];
-//    [self.player kj_setPlayerPlaySeek:seek];
+    [KJMidiPlayer.shared kj_playerSeekTime:seek completionHandler:nil];
 }
 
 #pragma mark - UIPickerViewDataSource
@@ -85,14 +80,7 @@
 #pragma mark - lazy
 - (NSArray *)temps{
     if (!_temps) {
-        NSString *bundlePath = [[NSBundle mainBundle] pathForResource:@"MidiFile" ofType:@"bundle"];
-        NSDirectoryEnumerator *enumerator = [[NSFileManager defaultManager] enumeratorAtPath:bundlePath];
-        NSMutableArray *temps = [NSMutableArray array];
-        NSString *imageName;
-        while((imageName = [enumerator nextObject]) != nil) {
-            [temps addObject:imageName];
-        }
-        _temps = temps.mutableCopy;
+        _temps = @[@"绮想轮旋曲",@"命运交响曲第一章",@"埃克赛斯舞曲",@"致爱丽丝"];
     }
     return _temps;
 }

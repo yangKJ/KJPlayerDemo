@@ -17,16 +17,19 @@
     [super viewDidLoad];
     // Do any additional setup after loading the view.
     self.view.backgroundColor = UIColor.whiteColor;
-    KJPlayer *player = [KJPlayer kj_sharedInstance];
-    player.playerView = self.view;
-    player.delegate = self;
-    player.assetURL = [NSURL URLWithString:@"https://mp4.vjshi.com/2018-03-30/1f36dd9819eeef0bc508414494d34ad9.mp4"];
-    player.speed = 1.;
-//    [player kj_playerPlay];
-    [player kj_playerSeekTime:200 completionHandler:^(BOOL finished) {
-        NSLog(@"xxxxxxxxx");
-    }];
-//    UIImage *image = player.kPlayerTimeImage(0);
+    KJPlayer.shared.playerView = self.view;
+    KJPlayer.shared.delegate = self;
+    KJPlayer.shared.useCacheFunction = YES;
+    KJPlayer.shared.videoURL = [NSURL URLWithString:@"https://mp4.vjshi.com/2018-03-30/1f36dd9819eeef0bc508414494d34ad9.mp4"];
+    KJPlayer.shared.speed = 1.;
+//    KJPlayer.shared.autoPlay = NO;
+//    [KJPlayer.shared kj_playerSeekTime:200 completionHandler:^(BOOL finished) {
+//        NSLog(@"xxxxxxxxx");
+//    }];
+//    UIImage *image = KJPlayer.shared.kPlayerTimeImage(0);
+    KJPlayer.shared.kVideoSize = ^(CGSize size) {
+        NSLog(@"%.2f,%.2f",size.width,size.height);
+    };
 }
 - (void)dealloc{
     [KJPlayer kj_attempDealloc];
@@ -36,10 +39,9 @@
 - (void)kj_player:(id<KJPlayerPlayHandle>)player state:(KJPlayerState)state{
     NSLog(@"---当前播放器状态:%@",KJPlayerStateStringMap[state]);
     if (state == KJPlayerStatePlayEnd) {
-        player.useCacheFunction = YES;
-        player.assetURL = [NSURL URLWithString:@"http://appit.winpow.com/attached/media/MP4/1567585643618.mp4"];
-//        [player kj_playerSeekTime:20 completionHandler:nil];
-        [player kj_playerPlay];
+        player.useCacheFunction = NO;
+        player.videoURL = [NSURL URLWithString:@"http://appit.winpow.com/attached/media/MP4/1567585643618.mp4"];
+        [player kj_playerSeekTime:100 completionHandler:nil];
         player.timeSpace = 2.0;
         player.speed = 1.0;
         player.videoGravity = KJPlayerVideoGravityResizeAspect;

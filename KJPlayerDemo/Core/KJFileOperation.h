@@ -9,13 +9,30 @@
 
 #ifndef KJFileOperation_h
 #define KJFileOperation_h
+
+#ifdef __OBJC__
+#import <UIKit/UIKit.h>
 #import <Foundation/Foundation.h>
+
+NS_ASSUME_NONNULL_BEGIN
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wdeprecated-declarations"
 
 //根据时间得到随机文件名
 NS_INLINE NSString * kPlayerRandomFilesName(void){
     NSDateFormatter *formatter = [[NSDateFormatter alloc] init];
     formatter.dateFormat = @"yyyyMMddHHmmssSSS";
     return [formatter stringFromDate:[NSDate date]];
+}
+//获取目录下的全部文件
+NS_INLINE NSArray * kPlayerTargetPathFiles(NSString * path){
+    NSDirectoryEnumerator *enumerator = [[NSFileManager defaultManager] enumeratorAtPath:path];
+    NSMutableArray *temps = [NSMutableArray array];
+    NSString *imageName;
+    while((imageName = [enumerator nextObject]) != nil) {
+        [temps addObject:imageName];
+    }
+    return temps.mutableCopy;
 }
 //判断存放视频的文件夹是否存在，不存在则创建对应文件夹
 NS_INLINE BOOL kPlayerNewFile(NSString * path){
@@ -30,11 +47,11 @@ NS_INLINE BOOL kPlayerNewFile(NSString * path){
     return YES;
 }
 //删除文件夹下的所有文件
-NS_INLINE BOOL kPlayerRemoveAllFile(NSString * path){
+NS_INLINE BOOL kPlayerRemoveTotalFiles(NSString * path){
     NSArray *contents = [[NSFileManager defaultManager] contentsOfDirectoryAtPath:[NSTemporaryDirectory() stringByAppendingPathComponent:path] error:NULL];
-    NSEnumerator *e = [contents objectEnumerator];
+    NSEnumerator *enumerator = [contents objectEnumerator];
     NSString *filename;
-    while ((filename = [e nextObject])) {
+    while ((filename = [enumerator nextObject])) {
         [[NSFileManager defaultManager] removeItemAtPath:[NSString stringWithFormat:@"%@/%@/%@",NSTemporaryDirectory(),path,filename] error:NULL];
     }
     return YES;
@@ -56,5 +73,9 @@ NS_INLINE BOOL kPlayerRemoveFile(NSString * path){
     }
     return NO;
 }
+
+#pragma clang diagnostic pop
+NS_ASSUME_NONNULL_END
+#endif
 
 #endif /* KJFileOperation_h */

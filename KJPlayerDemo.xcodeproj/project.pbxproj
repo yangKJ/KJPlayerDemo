@@ -32,13 +32,12 @@
 		68B2554625C99061008515F4 /* KJMidiPlayerVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 68B2554425C99061008515F4 /* KJMidiPlayerVC.m */; };
 		68B2554725C99061008515F4 /* KJMidiPlayerVC.xib in Resources */ = {isa = PBXBuildFile; fileRef = 68B2554525C99061008515F4 /* KJMidiPlayerVC.xib */; };
 		68B2554D25C990B8008515F4 /* KJMidiPlayer.m in Sources */ = {isa = PBXBuildFile; fileRef = 68B2554C25C990B8008515F4 /* KJMidiPlayer.m */; };
-		68B2557325C9981F008515F4 /* MidiFile.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 68B2557225C9981F008515F4 /* MidiFile.bundle */; };
 		68B2557825C999DB008515F4 /* KJMidiSource.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 68B2557725C999DB008515F4 /* KJMidiSource.bundle */; };
-		68B2558625C99DEE008515F4 /* 命运交响曲第一章.mid in Resources */ = {isa = PBXBuildFile; fileRef = 68B2558225C99DED008515F4 /* 命运交响曲第一章.mid */; };
-		68B2558725C99DEE008515F4 /* 绮想轮旋曲.mid in Resources */ = {isa = PBXBuildFile; fileRef = 68B2558325C99DED008515F4 /* 绮想轮旋曲.mid */; };
-		68B2558825C99DEE008515F4 /* 致爱丽丝.mid in Resources */ = {isa = PBXBuildFile; fileRef = 68B2558425C99DEE008515F4 /* 致爱丽丝.mid */; };
-		68B2558925C99DEE008515F4 /* 埃克赛斯舞曲.mid in Resources */ = {isa = PBXBuildFile; fileRef = 68B2558525C99DEE008515F4 /* 埃克赛斯舞曲.mid */; };
 		68C4AE8D22E5A86000E9E806 /* KJFastView.m in Sources */ = {isa = PBXBuildFile; fileRef = 68C4AE8C22E5A86000E9E806 /* KJFastView.m */; };
+		68C54EE925CA34C6004A89AA /* 绮想轮旋曲.mid in Resources */ = {isa = PBXBuildFile; fileRef = 68C54EE525CA34C6004A89AA /* 绮想轮旋曲.mid */; };
+		68C54EEA25CA34C6004A89AA /* 命运交响曲第一章.mid in Resources */ = {isa = PBXBuildFile; fileRef = 68C54EE625CA34C6004A89AA /* 命运交响曲第一章.mid */; };
+		68C54EEB25CA34C6004A89AA /* 埃克赛斯舞曲.mid in Resources */ = {isa = PBXBuildFile; fileRef = 68C54EE725CA34C6004A89AA /* 埃克赛斯舞曲.mid */; };
+		68C54EEC25CA34C6004A89AA /* 致爱丽丝.mid in Resources */ = {isa = PBXBuildFile; fileRef = 68C54EE825CA34C6004A89AA /* 致爱丽丝.mid */; };
 		68D143C425C6917900800F9F /* KJTestPlayerVC1.m in Sources */ = {isa = PBXBuildFile; fileRef = 68D143C325C6917900800F9F /* KJTestPlayerVC1.m */; };
 		68D143CD25C697B000800F9F /* KJTestPlayerVC2.m in Sources */ = {isa = PBXBuildFile; fileRef = 68D143CC25C697B000800F9F /* KJTestPlayerVC2.m */; };
 /* End PBXBuildFile section */
@@ -108,14 +107,13 @@
 		68B2554525C99061008515F4 /* KJMidiPlayerVC.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = KJMidiPlayerVC.xib; sourceTree = "<group>"; };
 		68B2554B25C990B8008515F4 /* KJMidiPlayer.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = KJMidiPlayer.h; sourceTree = "<group>"; };
 		68B2554C25C990B8008515F4 /* KJMidiPlayer.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = KJMidiPlayer.m; sourceTree = "<group>"; };
-		68B2557225C9981F008515F4 /* MidiFile.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = MidiFile.bundle; sourceTree = "<group>"; };
 		68B2557725C999DB008515F4 /* KJMidiSource.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = KJMidiSource.bundle; sourceTree = "<group>"; };
-		68B2558225C99DED008515F4 /* 命运交响曲第一章.mid */ = {isa = PBXFileReference; lastKnownFileType = audio.midi; path = "命运交响曲第一章.mid"; sourceTree = "<group>"; };
-		68B2558325C99DED008515F4 /* 绮想轮旋曲.mid */ = {isa = PBXFileReference; lastKnownFileType = audio.midi; path = "绮想轮旋曲.mid"; sourceTree = "<group>"; };
-		68B2558425C99DEE008515F4 /* 致爱丽丝.mid */ = {isa = PBXFileReference; lastKnownFileType = audio.midi; path = "致爱丽丝.mid"; sourceTree = "<group>"; };
-		68B2558525C99DEE008515F4 /* 埃克赛斯舞曲.mid */ = {isa = PBXFileReference; lastKnownFileType = audio.midi; path = "埃克赛斯舞曲.mid"; sourceTree = "<group>"; };
 		68C4AE8B22E5A86000E9E806 /* KJFastView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = KJFastView.h; sourceTree = "<group>"; };
 		68C4AE8C22E5A86000E9E806 /* KJFastView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = KJFastView.m; sourceTree = "<group>"; };
+		68C54EE525CA34C6004A89AA /* 绮想轮旋曲.mid */ = {isa = PBXFileReference; lastKnownFileType = audio.midi; path = "绮想轮旋曲.mid"; sourceTree = "<group>"; };
+		68C54EE625CA34C6004A89AA /* 命运交响曲第一章.mid */ = {isa = PBXFileReference; lastKnownFileType = audio.midi; path = "命运交响曲第一章.mid"; sourceTree = "<group>"; };
+		68C54EE725CA34C6004A89AA /* 埃克赛斯舞曲.mid */ = {isa = PBXFileReference; lastKnownFileType = audio.midi; path = "埃克赛斯舞曲.mid"; sourceTree = "<group>"; };
+		68C54EE825CA34C6004A89AA /* 致爱丽丝.mid */ = {isa = PBXFileReference; lastKnownFileType = audio.midi; path = "致爱丽丝.mid"; sourceTree = "<group>"; };
 		68D143C225C6917900800F9F /* KJTestPlayerVC1.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = KJTestPlayerVC1.h; sourceTree = "<group>"; };
 		68D143C325C6917900800F9F /* KJTestPlayerVC1.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = KJTestPlayerVC1.m; sourceTree = "<group>"; };
 		68D143CB25C697B000800F9F /* KJTestPlayerVC2.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = KJTestPlayerVC2.h; sourceTree = "<group>"; };
@@ -168,12 +166,7 @@
 		6887897F22E82BC40087597D /* Res */ = {
 			isa = PBXGroup;
 			children = (
-				68B2558525C99DEE008515F4 /* 埃克赛斯舞曲.mid */,
-				68B2558225C99DED008515F4 /* 命运交响曲第一章.mid */,
-				68B2558325C99DED008515F4 /* 绮想轮旋曲.mid */,
-				68B2558425C99DEE008515F4 /* 致爱丽丝.mid */,
 				6887897D22E82BC00087597D /* Heiyaya.mp4 */,
-				68B2557225C9981F008515F4 /* MidiFile.bundle */,
 			);
 			path = Res;
 			sourceTree = "<group>";
@@ -232,6 +225,7 @@
 		689D5AA822E3011E00DE33FC /* Demo */ = {
 			isa = PBXGroup;
 			children = (
+				68C54EE425CA34C6004A89AA /* midi */,
 				6887897F22E82BC40087597D /* Res */,
 				689D5A7622E3011200DE33FC /* AppDelegate.h */,
 				689D5A7722E3011200DE33FC /* AppDelegate.m */,
@@ -295,6 +289,17 @@
 			);
 			path = KJMidiPlayer;
 			sourceTree = "<group>";
+		};
+		68C54EE425CA34C6004A89AA /* midi */ = {
+			isa = PBXGroup;
+			children = (
+				68C54EE525CA34C6004A89AA /* 绮想轮旋曲.mid */,
+				68C54EE625CA34C6004A89AA /* 命运交响曲第一章.mid */,
+				68C54EE725CA34C6004A89AA /* 埃克赛斯舞曲.mid */,
+				68C54EE825CA34C6004A89AA /* 致爱丽丝.mid */,
+			);
+			path = midi;
+			sourceTree = SOURCE_ROOT;
 		};
 /* End PBXGroup section */
 
@@ -400,17 +405,16 @@
 			buildActionMask = 2147483647;
 			files = (
 				68231D8F22E59E5F00A333DC /* KJPlayerView.bundle in Resources */,
-				68B2558725C99DEE008515F4 /* 绮想轮旋曲.mid in Resources */,
-				68B2558625C99DEE008515F4 /* 命运交响曲第一章.mid in Resources */,
+				68C54EEA25CA34C6004A89AA /* 命运交响曲第一章.mid in Resources */,
+				68C54EE925CA34C6004A89AA /* 绮想轮旋曲.mid in Resources */,
 				6887897E22E82BC00087597D /* Heiyaya.mp4 in Resources */,
 				689D5A8322E3011400DE33FC /* LaunchScreen.storyboard in Resources */,
 				6819B5C1231F4DE700552AF2 /* README.md in Resources */,
+				68C54EEB25CA34C6004A89AA /* 埃克赛斯舞曲.mid in Resources */,
+				68C54EEC25CA34C6004A89AA /* 致爱丽丝.mid in Resources */,
 				68B2557825C999DB008515F4 /* KJMidiSource.bundle in Resources */,
-				68B2558825C99DEE008515F4 /* 致爱丽丝.mid in Resources */,
 				689D5A8022E3011400DE33FC /* Assets.xcassets in Resources */,
 				68B2554725C99061008515F4 /* KJMidiPlayerVC.xib in Resources */,
-				68B2558925C99DEE008515F4 /* 埃克赛斯舞曲.mid in Resources */,
-				68B2557325C9981F008515F4 /* MidiFile.bundle in Resources */,
 				6819B5C0231F4DE700552AF2 /* KJPlayer.podspec in Resources */,
 				689D5A7E22E3011200DE33FC /* Main.storyboard in Resources */,
 			);

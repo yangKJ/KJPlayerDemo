@@ -24,6 +24,44 @@ NS_ASSUME_NONNULL_BEGIN
 #define PLAYER_SCREEN_HEIGHT ([UIScreen mainScreen].bounds.size.height)
 // 颜色
 #define PLAYER_UIColorFromHEXA(hex,a) [UIColor colorWithRed:((hex&0xFF0000)>>16)/255.0f green:((hex&0xFF00)>>8)/255.0f blue:(hex&0xFF)/255.0f alpha:a]
+// 公共ivar
+#define PLAYER_COMMON_PROPERTY \
+@synthesize delegate = _delegate;\
+@synthesize useCacheFunction = _useCacheFunction;\
+@synthesize roregroundResume = _roregroundResume;\
+@synthesize backgroundPause = _backgroundPause;\
+@synthesize playerView = _playerView;\
+@synthesize videoURL = _videoURL;\
+@synthesize speed = _speed;\
+@synthesize volume = _volume;\
+@synthesize cacheTime = _cacheTime;\
+@synthesize currentTime = _currentTime;\
+@synthesize errorCode = _errorCode;\
+@synthesize localityData = _localityData;\
+@synthesize background = _background;\
+@synthesize timeSpace = _timeSpace;\
+@synthesize kPlayerTimeImage = _kPlayerTimeImage;\
+@synthesize placeholder = _placeholder;\
+@synthesize videoGravity = _videoGravity;\
+@synthesize requestHeader = _requestHeader;\
+@synthesize autoPlay = _autoPlay;\
+@synthesize kVideoSize = _kVideoSize;\
+// 单例
+#define PLAYER_SHARED \
+static id _instance = nil;\
+static dispatch_once_t onceToken;\
++ (instancetype)kj_sharedInstance{\
+    dispatch_once(&onceToken, ^{\
+        if (_instance == nil) {\
+            _instance = [[self alloc] init];\
+        }\
+    });\
+    return _instance;\
+}\
++ (void)kj_attempDealloc{\
+    onceToken = 0;\
+    _instance = nil;\
+}\
 
 /// 播放器的几种状态
 typedef NS_ENUM(NSInteger, KJPlayerState) {

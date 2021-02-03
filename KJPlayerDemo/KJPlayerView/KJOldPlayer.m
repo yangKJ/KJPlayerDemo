@@ -19,7 +19,6 @@
 @property (nonatomic,assign) CGFloat current;//当前播放时间
 @property (nonatomic,assign) CGFloat progress;
 @property (nonatomic,assign) CGFloat loadedProgress;
-@property (nonatomic,strong) KJURLConnection *connection;
 @property (nonatomic,strong) AVPlayerItem *playerItem;
 @property (nonatomic,strong) NSObject *periodicTimeObserver;//观察者
 @property (nonatomic,assign) BOOL userPause;//是否被用户暂停
@@ -81,7 +80,6 @@
     self.current = 0;
     self.userPause = NO;
     self.loadComplete = NO;
-    /// 视频总时间
     self.videoTotalTime = [self kj_playerVideoTotalTimeWithURL:url];
 }
 // 获取视频总时间
@@ -316,10 +314,9 @@
 #pragma mark - kvo
 - (void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary *)change context:(void *)context{
     AVPlayerItem *playerItem = (AVPlayerItem *)object;
-    /// 播放器状态
     if ([keyPath isEqualToString:@"status"]) {
         if ([playerItem status] == AVPlayerStatusReadyToPlay) {
-            [self kDealPlayWithItem:playerItem];// 播放处理
+            [self kDealPlayWithItem:playerItem];
         } else if ([playerItem status] == AVPlayerStatusFailed || [playerItem status] == AVPlayerStatusUnknown) {
             [self kj_playerStop];
         }
@@ -334,32 +331,6 @@
         // seekToTime后,可以正常播放，相当于readyToPlay，一般拖动滑竿菊花转，到了这个这个状态菊花隐藏
         !self.seekBeginPlayBlock?:self.seekBeginPlayBlock();
     }
-}
-
-#pragma mark - block
-- (void)kj_dealBlock{
-    PLAYER_WEAKSELF;
-    self.connection.kURLConnectionDidFinishLoadingAndSaveFileBlcok = ^(BOOL completeLoad, BOOL saveSuccess) {
-        CGFloat xx = completeLoad ? 1.0 : 0.0;
-        weakself.loadComplete = completeLoad;
-        weakself.videoIsLocalityData = saveSuccess;
-        if ([weakself.delegate respondsToSelector:@selector(kj_player:LoadedProgress:LoadComplete:SaveSuccess:)]) {
-            [weakself.delegate kj_player:weakself LoadedProgress:xx LoadComplete:completeLoad SaveSuccess:saveSuccess];
-        }
-        if (weakself.kPlayerLoadingBlcok) {
-            weakself.kPlayerLoadingBlcok(weakself,xx,completeLoad,saveSuccess);
-        }
-    };
-    self.connection.kURLConnectiondidFailWithErrorCodeBlcok = ^(NSInteger errorCode) {
-        switch (errorCode) {
-            case -1001:weakself.errorCode = KJPlayerErrorCodeNetworkOvertime;break;
-            case -1003:weakself.errorCode = KJPlayerErrorCodeServerNotFound;break;
-            case -1004:weakself.errorCode = KJPlayerErrorCodeServerInternalError;break;
-            case -1005:weakself.errorCode = KJPlayerErrorCodeNetworkInterruption;break;
-            case -1009:weakself.errorCode = KJPlayerErrorCodeNetworkNoConnection;break;
-            default:weakself.errorCode = KJPlayerErrorCodeOtherSituations;break;
-        }
-    };
 }
 
 @end
