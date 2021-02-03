@@ -18,7 +18,7 @@ NS_ASSUME_NONNULL_BEGIN
 // vedio文件目录
 #define DOCUMENTS_FOLDER_VEDIO  @"playerVedio"
 // 弱引用
-#define PLAYER_WEAKSELF __weak typeof(self) weakself = self
+#define PLAYER_WEAKSELF __weak __typeof(&*self) weakself = self
 // 屏幕尺寸
 #define PLAYER_SCREEN_WIDTH  ([UIScreen mainScreen].bounds.size.width)
 #define PLAYER_SCREEN_HEIGHT ([UIScreen mainScreen].bounds.size.height)
@@ -46,6 +46,7 @@ NS_ASSUME_NONNULL_BEGIN
 @synthesize requestHeader = _requestHeader;\
 @synthesize autoPlay = _autoPlay;\
 @synthesize kVideoSize = _kVideoSize;\
+@synthesize kVideoTotalTime = _kVideoTotalTime;\
 // 单例
 #define PLAYER_SHARED \
 static id _instance = nil;\

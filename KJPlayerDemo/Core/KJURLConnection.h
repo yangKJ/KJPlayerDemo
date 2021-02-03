@@ -6,15 +6,12 @@
 //  Copyright © 2019 杨科军. All rights reserved.
 //  https://github.com/yangKJ/KJPlayerDemo
 /*  KJURLConnection 主要功能：
- *  把网络请求缓存到本地的临时数据 offset 和 videoLength 传递给播放器
+ *  把网络请求缓存到本地的临时数据 offset 传递给播放器
  */
 
 #import <Foundation/Foundation.h>
 #import "KJRequestTask.h"
-
 NS_ASSUME_NONNULL_BEGIN
-
-FOUNDATION_EXPORT NSString *const kMIMEType;
 @interface KJURLConnection : NSURLConnection<AVAssetResourceLoaderDelegate>
 @property(nonatomic,assign) CGFloat maxCacheRange;
 - (NSURL * (^)(NSURL * URL))kj_createSchemeURL;

@@ -196,7 +196,7 @@ static NSString * const kPlaybackLikelyToKeepUp = @"playbackLikelyToKeepUp";
         }
         if (weakself.currentTime >= weakself.totalTime && weakself.totalTime != 0) {
             weakself.state = KJPlayerStatePlayEnd;
-        }else{
+        }else if (weakself.userPause == NO) {
             weakself.state = KJPlayerStatePlaying;
         }
     }];
@@ -252,6 +252,9 @@ NS_INLINE NSString * kPlayerVideoGravity(KJPlayerVideoGravity videoGravity){
     PLAYER_WEAKSELF;
     if (!kPlayerHaveTracks(videoURL, ^(AVURLAsset * asset) {
         weakself.totalTime = ceil(asset.duration.value / asset.duration.timescale);
+        if (weakself.kVideoTotalTime) {
+            weakself.kVideoTotalTime(weakself.totalTime);
+        }
         if (weakself.useCacheFunction && !weakself.localityData) {
             weakself.state = KJPlayerStateLoading;
             weakself.loadState = KJPlayerLoadStateNone;
@@ -322,7 +325,7 @@ NS_INLINE NSString * kPlayerVideoGravity(KJPlayerVideoGravity videoGravity){
 
 #pragma mark - getter
 - (BOOL)isPlaying{
-    return self.player.status == AVPlayerStatusReadyToPlay;
+    return self.player.currentItem.status == AVPlayerStatusReadyToPlay;
 }
 - (UIImage * _Nonnull (^)(NSTimeInterval))kPlayerTimeImage{
     PLAYER_WEAKSELF;
@@ -356,7 +359,7 @@ NS_INLINE NSString * kPlayerVideoGravity(KJPlayerVideoGravity videoGravity){
 - (KJURLConnection *)connection{
     if (!_connection) {
         _connection = [[KJURLConnection alloc] init];
-        _connection.maxCacheRange = 300;
+        _connection.maxCacheRange = 300 * 1024;
         PLAYER_WEAKSELF;
         _connection.kURLConnectionDidFinishLoadingAndSaveFileBlcok = ^(BOOL saveSuccess) {
             if (saveSuccess) {

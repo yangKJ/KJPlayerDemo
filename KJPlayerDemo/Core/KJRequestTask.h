@@ -23,14 +23,12 @@ NSString *tempPath = [document stringByAppendingPathComponent:@"tempVideo.mp4"];
 (tempPath);})
 #define kCustomVideoScheme @"streaming"
 @interface KJRequestTask : NSObject
-/* 视频地址 */
-@property (nonatomic,strong,readonly) NSURL *videoURL;
 /* 当前偏移量 */
 @property (nonatomic,assign,readonly) NSUInteger currentOffset;
 /* 下载偏移量 */
 @property (nonatomic,assign,readonly) NSUInteger downLoadOffset;
-/* 视频长度 */
-@property (nonatomic,assign,readonly) NSUInteger videoLength;
+/* 总偏移量 */
+@property (nonatomic,assign,readonly) NSUInteger totalOffset;
 /* 开始下载 */
 - (void)kj_startLoadWithUrl:(NSURL*)url Offset:(NSUInteger)offset;
 /* 取消网络请求 */
@@ -41,8 +39,6 @@ NSString *tempPath = [document stringByAppendingPathComponent:@"tempVideo.mp4"];
 - (void)kj_clearTempLoadDatas;
 
 /* *********************** 事件处理 *************************/
-/* 当接收到服务器响应的时候调用 */
-@property (nonatomic,copy,readwrite) void (^kRequestTaskDidReceiveVideoLengthBlcok)(KJRequestTask *task, NSUInteger videoLength);
 /* 当接收到数据的时候调用，该方法会被调用多次 返回接收到的服务端二进制数据 NSData */
 @property (nonatomic,copy,readwrite) void (^kRequestTaskDidReceiveDataBlcok)(KJRequestTask *task, NSData *data);
 /* 当服务端返回的数据接收完毕之后会调用 */

@@ -8,13 +8,11 @@
 
 #import "KJURLConnection.h"
 #import <MobileCoreServices/MobileCoreServices.h>
-
 NSString * const kMIMEType = @"video/mp4";
 @interface KJURLConnection ()
 @property (nonatomic,strong) NSMutableArray *loadingRequestTemps;
 @property (nonatomic,strong) KJRequestTask *task;
 @end
-
 @implementation KJURLConnection
 #pragma mark - init methods
 - (instancetype)init{
@@ -36,12 +34,13 @@ NSString * const kMIMEType = @"video/mp4";
     CFStringRef type = UTTypeCreatePreferredIdentifierForTag(kUTTagClassMIMEType, (__bridge CFStringRef)(kMIMEType), NULL);
     cRequest.byteRangeAccessSupported = YES;
     cRequest.contentType = CFBridgingRelease(type);
-    cRequest.contentLength = self.task.videoLength;
+    cRequest.contentLength = self.task.totalOffset;
+//    NSLog(@"-----%lu",(unsigned long)self.task.totalOffset/1024);
 }
 /// 在所有请求的数组中移除已经完成的
 - (void)kj_processPendingRequests{
     NSMutableArray *temp = [NSMutableArray array];
-    [self.loadingRequestTemps enumerateObjectsUsingBlock:^(id  _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
+    [self.loadingRequestTemps enumerateObjectsUsingBlock:^(id obj, NSUInteger idx, BOOL * stop) {
         AVAssetResourceLoadingRequest *loadingRequest = (AVAssetResourceLoadingRequest*)obj;
         [self kj_fillInContentInformation:loadingRequest.contentInformationRequest];
         if ([self kj_respondDataWithRequest:loadingRequest.dataRequest]) {
@@ -54,39 +53,38 @@ NSString * const kMIMEType = @"video/mp4";
 }
 /// 判断此次请求的数据是否处理完
 - (BOOL)kj_respondDataWithRequest:(AVAssetResourceLoadingDataRequest *)dataRequest{
-    long long offset;
+    NSInteger offset;
     if (dataRequest.currentOffset != 0) {
         offset = dataRequest.currentOffset;
     }else{
         offset = dataRequest.requestedOffset;
     }
-    if ((self.task.currentOffset + self.task.downLoadOffset) < offset || offset < self.task.currentOffset){
+    if ((self.task.currentOffset + self.task.downLoadOffset) < offset ||
+        offset < self.task.currentOffset) {
         return NO;
     }
     NSData *data = [NSData dataWithContentsOfURL:[NSURL fileURLWithPath:PLAYER_TEMP_PATH] options:NSDataReadingMappedIfSafe error:nil];
-    NSUInteger unreadBytes = self.task.downLoadOffset - ((NSInteger)offset-self.task.currentOffset);
+    NSUInteger unreadBytes = self.task.downLoadOffset + self.task.currentOffset - offset;
     NSUInteger residueBytes = MIN((NSUInteger)dataRequest.requestedLength, unreadBytes);
-    NSData *__data = [data subdataWithRange:NSMakeRange((NSUInteger)offset-self.task.currentOffset, residueBytes)];
+    NSData *__data = [data subdataWithRange:NSMakeRange(offset - self.task.currentOffset, residueBytes)];
     [dataRequest respondWithData:__data];
     
-    return (self.task.currentOffset+self.task.downLoadOffset) >= (offset+dataRequest.requestedLength);
+    return (self.task.currentOffset + self.task.downLoadOffset) >= (offset+dataRequest.requestedLength);
 }
 /// 处理本次请求
 - (void)kj_dealWithLoadingRequest:(AVAssetResourceLoadingRequest *)loadingRequest{
     NSURL *interceptedURL = [loadingRequest.request URL];
-    NSRange range = NSMakeRange((NSUInteger)loadingRequest.dataRequest.currentOffset, NSUIntegerMax);
-    if (self.task.downLoadOffset > 0) {
-        [self kj_processPendingRequests];
-    }
+    NSRange range = NSMakeRange(self.task.downLoadOffset, self.task.totalOffset);
     @synchronized (self.task) {
         if (!_task) {
             self.task = [[KJRequestTask alloc] init];
             [self kj_dealBlock];
-            [self.task kj_startLoadWithUrl:interceptedURL Offset:0];
+            NSLog(@"--------%.2lu",(unsigned long)range.location);
+            [self.task kj_startLoadWithUrl:interceptedURL Offset:range.location];
         }else{
             //1.如果新的rang的起始位置比当前缓存的位置还大300k，则重新按照range请求数据
             //2.如果往回拖也重新请求
-            if (self.task.currentOffset + self.task.downLoadOffset + 1024 * self.maxCacheRange < range.location ||
+            if (self.task.currentOffset + self.task.downLoadOffset + self.maxCacheRange < range.location ||
                 range.location < self.task.currentOffset) {
                 [self.task kj_startLoadWithUrl:interceptedURL Offset:range.location];
             }
@@ -103,6 +101,7 @@ NSString * const kMIMEType = @"video/mp4";
  */
 - (BOOL)resourceLoader:(AVAssetResourceLoader *)resourceLoader shouldWaitForLoadingOfRequestedResource:(AVAssetResourceLoadingRequest *)loadingRequest{
     [self.loadingRequestTemps addObject:loadingRequest];
+    if (self.task.downLoadOffset > 0) [self kj_processPendingRequests];
     [self kj_dealWithLoadingRequest:loadingRequest];
     return YES;
 }

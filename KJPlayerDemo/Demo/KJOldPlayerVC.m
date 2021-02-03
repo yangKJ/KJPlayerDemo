@@ -1,18 +1,18 @@
 //
-//  KJTestPlayerVC1.m
+//  KJOldPlayerVC.m
 //  KJPlayerDemo
 //
 //  Created by 杨科军 on 2021/1/31.
 //  Copyright © 2021 杨科军. All rights reserved.
 //
 
-#import "KJTestPlayerVC1.h"
+#import "KJOldPlayerVC.h"
 #import "KJPlayerView.h"
-@interface KJTestPlayerVC1 ()<KJPlayerViewDelegate>
+@interface KJOldPlayerVC ()<KJPlayerViewDelegate>
 @property(nonatomic,strong) KJPlayerView *playerView;
 @end
 
-@implementation KJTestPlayerVC1
+@implementation KJOldPlayerVC
 
 /// 电池状态栏管理
 - (BOOL)prefersStatusBarHidden{

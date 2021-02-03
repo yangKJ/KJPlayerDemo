@@ -10,14 +10,14 @@
 #import <AVFoundation/AVFoundation.h>
 
 @interface KJRequestTask ()<NSURLConnectionDataDelegate, AVAssetResourceLoaderDelegate>
-@property (nonatomic,strong) NSURL *videoURL;
-@property (nonatomic,assign) NSUInteger videoLength;
+@property (nonatomic,strong) NSMutableArray *taskTemps;
+@property (nonatomic,assign) NSUInteger totalOffset;
 @property (nonatomic,assign) NSUInteger currentOffset;
 @property (nonatomic,assign) NSUInteger downLoadOffset;
-@property (nonatomic,strong) NSMutableArray *taskTemps;
 @property (nonatomic,strong) NSURLConnection *connection;
-@property (nonatomic,strong) NSString *tempPath;
 @property (nonatomic,strong) NSFileHandle *fileHandle;
+@property (nonatomic,strong) NSURL *videoURL;
+@property (nonatomic,strong) NSString *tempPath;
 
 @end
 
@@ -41,7 +41,7 @@
 - (void)kj_setConfig{
     _once = NO;
     self.downLoadOffset = 0;
-    self.videoLength = 0;
+    self.totalOffset = 0;
 }
 #pragma mark - public methods
 - (void)kj_startLoadWithUrl:(NSURL*)url Offset:(NSUInteger)offset{
@@ -78,8 +78,8 @@
     // 3.创建一个请求对象，设置请求体
     NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:[components URL] cachePolicy:NSURLRequestReloadIgnoringCacheData timeoutInterval:20.0];
     // 4.设置请求头
-    if (offset > 0 && self.videoLength > 0) {
-        NSString *range = [NSString stringWithFormat:@"bytes=%lu-%lu", (unsigned long)offset, (unsigned long)self.videoLength];
+    if (offset > 0 && self.totalOffset > 0) {
+        NSString *range = [NSString stringWithFormat:@"bytes=%lu-%lu", (unsigned long)offset, (unsigned long)self.totalOffset];
         [request setValue:range forHTTPHeaderField:@"Range"];
     }
     /* 5.创建NSURLConnection对象并设置代理
@@ -105,19 +105,13 @@
  */
 - (void)connection:(nonnull NSURLConnection *)connection didReceiveResponse:(nonnull NSURLResponse *)response{
     NSHTTPURLResponse *httpResponse = (NSHTTPURLResponse*)response;
-    NSDictionary *dic = (NSDictionary*)[httpResponse allHeaderFields] ;
-    NSString *content = [dic valueForKey:@"Content-Range"];
+    NSString *content = [(NSDictionary*)[httpResponse allHeaderFields] valueForKey:@"Content-Range"];
     NSArray *array = [content componentsSeparatedByString:@"/"];
     NSString *length = array.lastObject;
-    NSUInteger videoLength;
     if ([length integerValue] == 0) {
-        videoLength = (NSUInteger)httpResponse.expectedContentLength;
+        self.totalOffset = (NSUInteger)httpResponse.expectedContentLength;
     }else{
-        videoLength = [length integerValue];
-    }
-    self.videoLength = videoLength;
-    if (self.kRequestTaskDidReceiveVideoLengthBlcok) {
-        self.kRequestTaskDidReceiveVideoLengthBlcok(self,self.videoLength);
+        self.totalOffset = [length integerValue];
     }
     [self.taskTemps addObject:connection];
     self.fileHandle = [NSFileHandle fileHandleForWritingAtPath:_tempPath];

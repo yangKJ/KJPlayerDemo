@@ -1,5 +1,5 @@
 //
-//  KJTestPlayerVC1.h
+//  KJAVPlayerVC.h
 //  KJPlayerDemo
 //
 //  Created by 杨科军 on 2021/1/31.
@@ -10,7 +10,7 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
-@interface KJTestPlayerVC1 : UIViewController
+@interface KJAVPlayerVC : UIViewController
 
 @end
 

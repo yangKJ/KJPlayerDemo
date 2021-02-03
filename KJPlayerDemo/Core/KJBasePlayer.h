@@ -18,8 +18,6 @@ NS_ASSUME_NONNULL_BEGIN
 @property (nonatomic,weak) id <KJPlayerDelegate> delegate;
 /* 播放器载体 */
 @property (nonatomic,strong) UIView *playerView;
-/* 视频地址 */
-@property (nonatomic,strong) NSURL *videoURL;
 /* 视频请求头 */
 @property (nonatomic,strong) NSDictionary *requestHeader;
 /* 是否使用缓存功能，默认no */
@@ -44,7 +42,14 @@ NS_ASSUME_NONNULL_BEGIN
 @property (nonatomic,strong) UIImage *placeholder;
 /* 视频显示模式，默认KJPlayerVideoGravityResizeAspect */
 @property (nonatomic,assign) KJPlayerVideoGravity videoGravity;
+/* 获取视频总时长 */
+@property (nonatomic,copy,readwrite) void (^kVideoTotalTime)(NSTimeInterval time);
 
+/* ************************* 分割线，上述属性需在videoURL之前设置 *****************************/
+/* 视频地址 */
+@property (nonatomic,strong) NSURL *videoURL;
+
+/* ************************* 分割线，下面属性需在videoURL之后获取 *****************************/
 /* 是否为本地资源 */
 @property (nonatomic,assign,readonly) BOOL localityData;
 /* 是否正在播放 */
@@ -55,10 +60,8 @@ NS_ASSUME_NONNULL_BEGIN
 @property (nonatomic,assign,readonly) KJPlayerErrorCode errorCode;
 /* 获取指定时间视频帧图片 */
 @property (nonatomic,copy,readonly) UIImage * (^kPlayerTimeImage)(NSTimeInterval time);
-/* 获取视频大小，请在videoURL后处理 */
+/* 获取视频大小 */
 @property (nonatomic,copy,readwrite) void (^kVideoSize)(CGSize size);
-/* 获取视频总时长，请在videoURL前处理 */
-@property (nonatomic,copy,readwrite) void (^kVideoTotalTime)(NSTimeInterval time);
 
 /* 单例属性 */
 @property (nonatomic,strong,class,readonly,getter=kj_sharedInstance) id shared;

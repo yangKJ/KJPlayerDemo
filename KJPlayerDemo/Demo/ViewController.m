@@ -16,7 +16,7 @@
 @implementation ViewController
 - (void)viewDidLoad {
     [super viewDidLoad];
-    self.title = @"播放器Demo";
+    self.title = @"";
     _tableView = [[UITableView alloc]initWithFrame:self.view.bounds];
     _tableView.delegate = self;
     _tableView.dataSource = self;
@@ -26,8 +26,8 @@
 - (NSArray*)temps{
     if (!_temps) {
         NSMutableArray *temp = [NSMutableArray array];
-        [temp addObject:@{@"VCName":@"KJTestPlayerVC1",@"describeName":@"播放器处理"}];
-        [temp addObject:@{@"VCName":@"KJTestPlayerVC2",@"describeName":@"播放器处理"}];
+        [temp addObject:@{@"VCName":@"KJOldPlayerVC",@"describeName":@"播放器处理"}];
+        [temp addObject:@{@"VCName":@"KJAVPlayerVC",@"describeName":@"AVPlayer内核播放器处理"}];
         [temp addObject:@{@"VCName":@"KJMidiPlayerVC",@"describeName":@"Midi播放器"}];
         _temps = temp.mutableCopy;
     }

@@ -34,6 +34,7 @@ PLAYER_COMMON_PROPERTY PLAYER_SHARED
     if (_musicPlayer) MusicPlayerSetPlayRateScalar(_musicPlayer,speed);
 }
 - (BOOL)isPlaying{
+    if (_musicPlayer == nil) return NO;
     Boolean xxxxx = NO;
     MusicPlayerIsPlaying(_musicPlayer, &xxxxx);
     return xxxxx;
