@@ -36,8 +36,7 @@
     KJPlayer.shared.kVideoTotalTime = ^(NSTimeInterval time) {
         slider.maximumValue = time;
     };
-//    KJPlayer.shared.videoURL = [NSURL URLWithString:@"https://mp4.vjshi.com/2018-03-30/1f36dd9819eeef0bc508414494d34ad9.mp4"];
-    KJPlayer.shared.videoURL = [NSURL URLWithString:@"http://appit.winpow.com/attached/media/MP4/1567585643618.mp4"];
+    KJPlayer.shared.videoURL = [NSURL URLWithString:@"https://mp4.vjshi.com/2018-03-30/1f36dd9819eeef0bc508414494d34ad9.mp4"];
 //    KJPlayer.shared.autoPlay = NO;
     [KJPlayer.shared kj_playerSeekTime:100 completionHandler:^(BOOL finished) {
         NSLog(@"xxxxxxxxx");
@@ -50,7 +49,6 @@
 - (void)dealloc{
     [KJPlayer kj_attempDealloc];
 }
-
 ///进度条的拖拽事件 监听UISlider拖动状态
 - (void)sliderValueChanged:(UISlider*)slider forEvent:(UIEvent*)event {
     UITouch *touchEvent = [[event allTouches]anyObject];
@@ -62,9 +60,8 @@
             break;
         case UITouchPhaseEnded:{
             CGFloat second = slider.value;
-            [KJPlayer.shared kj_playerSeekTime:second completionHandler:^(BOOL finished) {
-                [slider setValue:second animated:YES];
-            }];
+            [slider setValue:second animated:YES];
+            [KJPlayer.shared kj_playerSeekTime:second completionHandler:nil];
         }
             break;
         default:
@@ -77,12 +74,17 @@
 - (void)kj_player:(id<KJBasePlayer>)player state:(KJPlayerState)state{
     NSLog(@"---当前播放器状态:%@",KJPlayerStateStringMap[state]);
     if (state == KJPlayerStatePlayEnd) {
-        player.useCacheFunction = YES;
-        player.videoURL = [NSURL URLWithString:@"http://appit.winpow.com/attached/media/MP4/1567585643618.mp4"];
-//        [player kj_playerSeekTime:10 completionHandler:nil];
-        player.timeSpace = 2.5;
-        player.speed = 1.;
-        player.videoGravity = KJPlayerVideoGravityResizeAspect;
+        NSURL *video = [NSURL URLWithString:@"http://appit.winpow.com/attached/media/MP4/1567585643618.mp4"];
+        if ([player.videoURL.absoluteString isEqualToString:video.absoluteString]) {
+            [player kj_playerReplay];
+        }else{
+            player.useCacheFunction = NO;
+            player.videoURL = video;
+            [player kj_playerSeekTime:100 completionHandler:nil];
+            player.timeSpace = 2.5;
+            player.speed = 1.;
+            player.videoGravity = KJPlayerVideoGravityResizeAspect;
+        }
     }
 }
 /* 播放进度 */
@@ -96,7 +98,7 @@
 }
 /* 缓存进度 */
 - (void)kj_player:(id<KJBasePlayer>)player loadProgress:(CGFloat)progress{
-    NSLog(@"---缓存进度:%.2f",progress);
+    NSLog(@"---缓存进度:%f",progress);
 }
 
 /*

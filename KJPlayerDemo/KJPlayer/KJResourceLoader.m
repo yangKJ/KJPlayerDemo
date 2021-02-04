@@ -1,25 +1,31 @@
 //
-//  KJURLConnection.m
+//  KJResourceLoader.m
 //  KJPlayerDemo
 //
 //  Created by 杨科军 on 2019/7/20.
 //  Copyright © 2019 杨科军. All rights reserved.
 //  https://github.com/yangKJ/KJPlayerDemo
 
-#import "KJURLConnection.h"
+#import "KJResourceLoader.h"
 #import <MobileCoreServices/MobileCoreServices.h>
 NSString * const kMIMEType = @"video/mp4";
-@interface KJURLConnection ()
+#define kCustomVideoScheme @"streaming"
+@interface KJResourceLoader ()
 @property (nonatomic,strong) NSMutableArray *loadingRequestTemps;
 @property (nonatomic,strong) KJRequestTask *task;
 @end
-@implementation KJURLConnection
+@implementation KJResourceLoader
 #pragma mark - init methods
 - (instancetype)init{
     if (self == [super init]) {
         self.loadingRequestTemps = [NSMutableArray array];
     }
     return self;
+}
+- (void)dealloc{
+    if (self.task) {
+        [self.task kj_clearTempLoadDatas];
+    }
 }
 - (NSURL * (^)(NSURL *))kj_createSchemeURL{
     return ^(NSURL * URL){
@@ -30,19 +36,19 @@ NSString * const kMIMEType = @"video/mp4";
 }
 #pragma mark - privately methods
 /// 对每次请求加上长度，文件类型等信息
-- (void)kj_fillInContentInformation:(AVAssetResourceLoadingContentInformationRequest *)cRequest{
+- (void)kj_appendingContentInformation:(AVAssetResourceLoadingContentInformationRequest *)request{
     CFStringRef type = UTTypeCreatePreferredIdentifierForTag(kUTTagClassMIMEType, (__bridge CFStringRef)(kMIMEType), NULL);
-    cRequest.byteRangeAccessSupported = YES;
-    cRequest.contentType = CFBridgingRelease(type);
-    cRequest.contentLength = self.task.totalOffset;
-//    NSLog(@"-----%lu",(unsigned long)self.task.totalOffset/1024);
+    request.byteRangeAccessSupported = YES;
+    request.contentType = CFBridgingRelease(type);
+    request.contentLength = self.task.totalOffset;
+//    request.renewalDate =
 }
 /// 在所有请求的数组中移除已经完成的
 - (void)kj_processPendingRequests{
     NSMutableArray *temp = [NSMutableArray array];
     [self.loadingRequestTemps enumerateObjectsUsingBlock:^(id obj, NSUInteger idx, BOOL * stop) {
         AVAssetResourceLoadingRequest *loadingRequest = (AVAssetResourceLoadingRequest*)obj;
-        [self kj_fillInContentInformation:loadingRequest.contentInformationRequest];
+        [self kj_appendingContentInformation:loadingRequest.contentInformationRequest];
         if ([self kj_respondDataWithRequest:loadingRequest.dataRequest]) {
             [temp addObject:loadingRequest];
             [loadingRequest finishLoading];
@@ -74,22 +80,21 @@ NSString * const kMIMEType = @"video/mp4";
 /// 处理本次请求
 - (void)kj_dealWithLoadingRequest:(AVAssetResourceLoadingRequest *)loadingRequest{
     NSURL *interceptedURL = [loadingRequest.request URL];
-    NSRange range = NSMakeRange(self.task.downLoadOffset, self.task.totalOffset);
-    @synchronized (self.task) {
-        if (!_task) {
-            self.task = [[KJRequestTask alloc] init];
-            [self kj_dealBlock];
-            NSLog(@"--------%.2lu",(unsigned long)range.location);
+    NSRange range = NSMakeRange((NSUInteger)loadingRequest.dataRequest.currentOffset, NSUIntegerMax);
+    if (!_task) {
+        self.task = [[KJRequestTask alloc] init];
+        [self kj_dealBlock];
+        [self.task kj_startLoadWithUrl:interceptedURL Offset:0];
+    }else{
+        //1.如果新的rang的起始位置比当前缓存的位置还大300k，则重新按照range请求数据
+        //2.如果往回拖也重新请求
+        if (self.task.currentOffset + self.task.downLoadOffset + self.maxCacheRange < range.location ||
+            range.location < self.task.currentOffset) {
             [self.task kj_startLoadWithUrl:interceptedURL Offset:range.location];
-        }else{
-            //1.如果新的rang的起始位置比当前缓存的位置还大300k，则重新按照range请求数据
-            //2.如果往回拖也重新请求
-            if (self.task.currentOffset + self.task.downLoadOffset + self.maxCacheRange < range.location ||
-                range.location < self.task.currentOffset) {
-                [self.task kj_startLoadWithUrl:interceptedURL Offset:range.location];
-            }
         }
     }
+//    @synchronized (self.task) {
+//    }
 }
 #pragma mark - AVAssetResourceLoaderDelegate
 /*  连接视频播放和视频断点下载的桥梁
@@ -113,14 +118,20 @@ NSString * const kMIMEType = @"video/mp4";
 - (void)resourceLoader:(AVAssetResourceLoader *)resourceLoader didCancelLoadingRequest:(AVAssetResourceLoadingRequest *)loadingRequest{
     [self.loadingRequestTemps removeObject:loadingRequest];
 }
-/// 当视频播放器播放新的视频时，需要把之前发起的请求全部请求，并发起新的视频请求
+/// 当视频播放器播放新的视频时，需要把之前发起的请求全部清楚，并发起新的视频请求
 - (BOOL)resourceLoader:(AVAssetResourceLoader *)resourceLoader shouldWaitForRenewalOfRequestedResource:(AVAssetResourceRenewalRequest *)renewalRequest{
+//    [self.loadingRequestTemps removeAllObjects];
     return YES;
 }
 #pragma mark - block
 - (void)kj_dealBlock{
     PLAYER_WEAKSELF;
     self.task.kRequestTaskDidReceiveDataBlcok = ^(KJRequestTask * _Nonnull task, NSData * _Nonnull data) {
+        kGCD_player_main(^{
+            if (weakself.kURLConnectionDidReceiveDataBlcok) {
+                weakself.kURLConnectionDidReceiveDataBlcok(data, task.downLoadOffset, task.totalOffset);
+            }
+        });
         [weakself kj_processPendingRequests];
     };
     self.task.kRequestTaskDidFinishLoadingAndSaveFileBlcok = ^(KJRequestTask * _Nonnull task, BOOL saveSuccess) {

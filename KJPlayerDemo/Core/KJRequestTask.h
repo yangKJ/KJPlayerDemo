@@ -21,7 +21,7 @@ NS_ASSUME_NONNULL_BEGIN
 NSString *document = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES).lastObject;\
 NSString *tempPath = [document stringByAppendingPathComponent:@"tempVideo.mp4"];\
 (tempPath);})
-#define kCustomVideoScheme @"streaming"
+
 @interface KJRequestTask : NSObject
 /* 当前偏移量 */
 @property (nonatomic,assign,readonly) NSUInteger currentOffset;

@@ -71,7 +71,7 @@ typedef NS_ENUM(NSInteger, KJPlayerState) {
     KJPlayerStatePlayEnd = 3, /// 播放结束
     KJPlayerStateStopped = 4, /// 停止
     KJPlayerStatePause   = 5, /// 暂停
-    KJPlayerStateError   = 6, /// 播放错误
+    KJPlayerStateFailed  = 6, /// 播放错误
 };
 /// 播放状态
 static NSString * const _Nonnull KJPlayerStateStringMap[] = {
@@ -80,13 +80,13 @@ static NSString * const _Nonnull KJPlayerStateStringMap[] = {
     [KJPlayerStatePlayEnd] = @"end",
     [KJPlayerStateStopped] = @"stop",
     [KJPlayerStatePause]   = @"pause",
-    [KJPlayerStateError]   = @"error",
+    [KJPlayerStateFailed]  = @"failed",
 };
 /// 几种错误的code
 typedef NS_ENUM(NSInteger, KJPlayerErrorCode) {
     KJPlayerErrorCodeNormal = 0, /// 正常播放
     KJPlayerErrorCodeOtherSituations = 1, /// 其他情况
-    KJPlayerErrorCodeVideoURLError = 100, /// 视频地址不正确
+    KJPlayerErrorCodeVideoURLFault = 100, /// 视频地址不正确
     KJPlayerErrorCodeNetworkOvertime = -1001, /// 请求超时：-1001
     KJPlayerErrorCodeServerNotFound  = -1003, /// 找不到服务器：-1003
     KJPlayerErrorCodeServerInternalError = -1004, /// 服务器内部错误：-1004

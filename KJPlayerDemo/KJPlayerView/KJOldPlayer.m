@@ -7,7 +7,7 @@
 //  https://github.com/yangKJ/KJPlayerDemo
 
 #import "KJOldPlayer.h"
-#import "KJURLConnection.h"
+#import "KJResourceLoader.h"
 
 #pragma clang diagnostic push
 #pragma clang diagnostic ignored"-Wdeprecated-declarations"
@@ -80,16 +80,8 @@
     self.current = 0;
     self.userPause = NO;
     self.loadComplete = NO;
-    self.videoTotalTime = [self kj_playerVideoTotalTimeWithURL:url];
+    self.videoTotalTime = 0;
 }
-// 获取视频总时间
-- (NSInteger)kj_playerVideoTotalTimeWithURL:(NSURL*)url{
-    NSDictionary *opts = [NSDictionary dictionaryWithObject:@(NO) forKey:AVURLAssetPreferPreciseDurationAndTimingKey];
-    AVURLAsset *asset = [[AVURLAsset alloc] initWithURL:url options:opts];
-    NSInteger seconds = ceil(asset.duration.value / asset.duration.timescale);
-    return seconds;
-}
-
 #pragma mark - public methods
 - (AVPlayerLayer*)kj_playerPlayWithURL:(NSURL*)url{
     //播放前的准备工作
@@ -253,15 +245,12 @@
 }
 /// 缓存下载进度
 - (void)kDownloadProgressWithItem:(AVPlayerItem *)playerItem{
-    // 获取缓冲区域
     CMTimeRange ranges = [[playerItem loadedTimeRanges].firstObject CMTimeRangeValue];
     CGFloat start    = CMTimeGetSeconds(ranges.start);
     CGFloat duration = CMTimeGetSeconds(ranges.duration);
-    // 计算缓冲总进度
     NSTimeInterval timeInterval = start + duration;
     CMTime durationTime   = playerItem.duration;
     CGFloat totalDuration = CMTimeGetSeconds(durationTime);
-    // 计算缓存进度
     self.loadedProgress = timeInterval / totalDuration;
 }
 /// 提前缓存一点数据
@@ -316,6 +305,8 @@
     AVPlayerItem *playerItem = (AVPlayerItem *)object;
     if ([keyPath isEqualToString:@"status"]) {
         if ([playerItem status] == AVPlayerStatusReadyToPlay) {
+            self.videoTotalTime = CMTimeGetSeconds(playerItem.duration);
+            if (self.kVideoTotalTime) self.kVideoTotalTime(self.videoTotalTime);
             [self kDealPlayWithItem:playerItem];
         } else if ([playerItem status] == AVPlayerStatusFailed || [playerItem status] == AVPlayerStatusUnknown) {
             [self kj_playerStop];

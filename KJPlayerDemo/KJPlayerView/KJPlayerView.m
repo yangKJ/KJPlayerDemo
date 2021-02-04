@@ -188,11 +188,13 @@
     
     // 视频的默认填充模式，AVLayerVideoGravityResizeAspect
     self.playerLayer.videoGravity = self.configuration.videoGravity;
-    self.configuration.totalTime  = self.player.videoTotalTime;
+    self.player.kVideoTotalTime = ^(NSTimeInterval time) {
+        weakself.configuration.totalTime = time;
+        weakself.rightTimeLabel.text = kPlayerConvertTime(time);
+        weakself.playScheduleSlider.maximumValue = time;
+    };
     self.leftTimeLabel.text  = kPlayerConvertTime(self.configuration.currentTime);
-    self.rightTimeLabel.text = kPlayerConvertTime(self.configuration.totalTime);
     [self.loadingProgress setProgress:self.player.videoIsLocalityData?1.0:0.0 animated:YES];
-    self.playScheduleSlider.maximumValue = self.configuration.totalTime;
     self.playScheduleSlider.value = self.configuration.currentTime;//指定初始值
     self.playOrPauseButton.selected = YES;
     self.configuration.hasMoved = self.fastView.moveGestureFast = NO;
@@ -241,7 +243,7 @@
             break;
         case KJPlayerStatePause:
             break;
-        case KJPlayerStateError:
+        case KJPlayerStateFailed:
             NSLog(@"KJPlayerStateError:%ld",errorCode);
             break;
         default:

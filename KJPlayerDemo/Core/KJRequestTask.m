@@ -7,9 +7,7 @@
 //  https://github.com/yangKJ/KJPlayerDemo
 
 #import "KJRequestTask.h"
-#import <AVFoundation/AVFoundation.h>
-
-@interface KJRequestTask ()<NSURLConnectionDataDelegate, AVAssetResourceLoaderDelegate>
+@interface KJRequestTask ()<NSURLConnectionDataDelegate>
 @property (nonatomic,strong) NSMutableArray *taskTemps;
 @property (nonatomic,assign) NSUInteger totalOffset;
 @property (nonatomic,assign) NSUInteger currentOffset;
@@ -18,23 +16,16 @@
 @property (nonatomic,strong) NSFileHandle *fileHandle;
 @property (nonatomic,strong) NSURL *videoURL;
 @property (nonatomic,strong) NSString *tempPath;
-
 @end
-
 @implementation KJRequestTask{
     BOOL _once;
 }
 - (instancetype)init{
     if (self == [super init]) {
-        [self kj_setConfig];
         self.taskTemps = [NSMutableArray array];
         self.tempPath = PLAYER_TEMP_PATH;
-        if ([[NSFileManager defaultManager] fileExistsAtPath:_tempPath]) {
-            [[NSFileManager defaultManager] removeItemAtPath:_tempPath error:nil];
-            [[NSFileManager defaultManager] createFileAtPath:_tempPath contents:nil attributes:nil];
-        } else {
-           [[NSFileManager defaultManager] createFileAtPath:_tempPath contents:nil attributes:nil];
-        }
+        [self kj_setConfig];
+        [self kj_removeAndCreateTempFileManager];
     }
     return self;
 }
@@ -43,14 +34,17 @@
     self.downLoadOffset = 0;
     self.totalOffset = 0;
 }
+- (void)kj_removeAndCreateTempFileManager{
+    if ([[NSFileManager defaultManager] fileExistsAtPath:_tempPath]) {
+        [[NSFileManager defaultManager] removeItemAtPath:_tempPath error:nil];
+    }
+    [[NSFileManager defaultManager] createFileAtPath:_tempPath contents:nil attributes:nil];
+}
 #pragma mark - public methods
 - (void)kj_startLoadWithUrl:(NSURL*)url Offset:(NSUInteger)offset{
     self.videoURL = url;
     self.currentOffset = offset;
-    if (self.taskTemps.count >= 1) {
-        [[NSFileManager defaultManager] removeItemAtPath:_tempPath error:nil];
-        [[NSFileManager defaultManager] createFileAtPath:_tempPath contents:nil attributes:nil];
-    }
+    if (self.taskTemps.count >= 1) [self kj_removeAndCreateTempFileManager];
     [self kj_setConfig];
     [self kj_startUrlRequestWithOffset:offset];
 }
@@ -103,7 +97,7 @@
  第一个参数connection：监听的是哪个NSURLConnection对象
  第二个参数response：接收到的服务器返回的响应头信息
  */
-- (void)connection:(nonnull NSURLConnection *)connection didReceiveResponse:(nonnull NSURLResponse *)response{
+- (void)connection:(NSURLConnection *)connection didReceiveResponse:(NSURLResponse *)response{
     NSHTTPURLResponse *httpResponse = (NSHTTPURLResponse*)response;
     NSString *content = [(NSDictionary*)[httpResponse allHeaderFields] valueForKey:@"Content-Range"];
     NSArray *array = [content componentsSeparatedByString:@"/"];
@@ -121,7 +115,7 @@
  第一个参数connection：监听的是哪个NSURLConnection对象
  第二个参数data：本次接收到的服务端返回的二进制数据（可能是片段）
  */
-- (void)connection:(nonnull NSURLConnection *)connection didReceiveData:(nonnull NSData *)data{
+- (void)connection:(NSURLConnection *)connection didReceiveData:(NSData *)data{
     [self.fileHandle seekToEndOfFile];
     [self.fileHandle writeData:data];
     self.downLoadOffset += data.length;
@@ -133,7 +127,7 @@
  3.当服务端返回的数据接收完毕之后会调用
  通常在该方法中解析服务器返回的数据
  */
-- (void)connectionDidFinishLoading:(nonnull NSURLConnection *)connection{
+- (void)connectionDidFinishLoading:(NSURLConnection *)connection{
     BOOL isSuccess = NO;
     if (self.taskTemps.count < 2) {
         isSuccess = [[NSFileManager defaultManager] copyItemAtPath:_tempPath toPath:kPlayerIntactPath(self.videoURL) error:nil];
@@ -153,7 +147,7 @@
  网络中断：-1005
  无网络连接：-1009
  */
-- (void)connection:(nonnull NSURLConnection *)connection didFailWithError:(nonnull NSError *)error{
+- (void)connection:(NSURLConnection *)connection didFailWithError:(NSError *)error{
     if (error.code == -1001 && !_once) { // 网络超时，重连一次
         dispatch_after(dispatch_time(DISPATCH_TIME_NOW,(int64_t)(NSEC_PER_SEC)),dispatch_get_main_queue(),^{
             [self kj_continueLoading];

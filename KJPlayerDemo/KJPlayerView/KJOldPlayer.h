@@ -20,10 +20,10 @@ NS_ASSUME_NONNULL_BEGIN
 @property (nonatomic,strong,readonly) AVPlayer *videoPlayer;
 /* 播放器Layer */
 @property (nonatomic,strong,readonly) AVPlayerLayer *videoPlayerLayer;
-/* 视频总时间 */
-@property (nonatomic,assign,readonly) CGFloat videoTotalTime;
 /* 是否为本地资源 */
 @property (nonatomic,assign,readonly) BOOL videoIsLocalityData;
+/* 获取视频总时长 */
+@property (nonatomic,copy,readwrite) void (^kVideoTotalTime)(NSTimeInterval time);
 
 /* 进入后台是否停止播放，默认yes */
 @property (nonatomic,assign) BOOL stopWhenAppEnterBackground;
