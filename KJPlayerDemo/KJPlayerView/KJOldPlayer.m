@@ -71,7 +71,6 @@
     }
     return self;
 }
-
 /// 播放前的准备工作
 - (void)kPlayBeforePreparationWithURL:(NSURL*)url{
     [self.videoPlayer pause];
@@ -84,9 +83,7 @@
 }
 #pragma mark - public methods
 - (AVPlayerLayer*)kj_playerPlayWithURL:(NSURL*)url{
-    //播放前的准备工作
     [self kPlayBeforePreparationWithURL:url];
-    
     AVURLAsset *urlAsset = [AVURLAsset assetWithURL:url];
     self.playerItem = [AVPlayerItem playerItemWithAsset:urlAsset];
     if (self.videoPlayer == nil) {
@@ -96,10 +93,7 @@
         [self.videoPlayer replaceCurrentItemWithPlayerItem:self.playerItem];
     }
     self.videoPlayerLayer = [AVPlayerLayer playerLayerWithPlayer:self.videoPlayer];
-    
-    //5.设置通知和kvo
     [self kSetNotificationAndKvo];
-    
     return self.videoPlayerLayer;
 }
 /* 重播放地址 */
@@ -116,31 +110,26 @@
     self.seekBeginPlayBlock = block;
     seconds = MIN(MAX(0, seconds), self.videoTotalTime);
     self.current = seconds;
-    
     [self.videoPlayer pause];
-//    [self.videoPlayer seekToTime:CMTimeMakeWithSeconds(seconds, self.kPlayerItem.currentTime.timescale)];
     [self.videoPlayer seekToTime:CMTimeMakeWithSeconds(seconds, self.playerItem.currentTime.timescale) toleranceBefore:kCMTimeZero toleranceAfter:kCMTimeZero completionHandler:^(BOOL finished) {
         self.userPause = NO;
         [self.videoPlayer play];
         if (!self.playerItem.isPlaybackBufferEmpty) {
-            self.state = KJPlayerStateLoading;
+            self.state = KJPlayerStateBuffering;
         }
     }];
 }
-
 - (void)kj_playerResume{
     if (!self.playerItem) return;
     self.userPause = NO;
     [self.videoPlayer play];
 }
-
 - (void)kj_playerPause{
     if (!self.playerItem) return;
     self.userPause = YES;
-    self.state = KJPlayerStatePause;
+    self.state = KJPlayerStatePausing;
     [self.videoPlayer pause];
 }
-
 - (void)kj_playerStop{
     [self.videoPlayer seekToTime:kCMTimeZero toleranceBefore:kCMTimeZero toleranceAfter:kCMTimeZero completionHandler:^(BOOL finished) {
         if (finished) {
@@ -278,7 +267,7 @@
 - (void)appDidEnterBackground{
     if (self.stopWhenAppEnterBackground) {
         [self kj_playerPause];
-        self.state = KJPlayerStatePause;
+        self.state = KJPlayerStatePausing;
         self.userPause = NO;
     }
 }
@@ -291,7 +280,7 @@
 }
 ///当前视频播放结束
 - (void)playerItemDidPlayToEnd:(NSNotification *)notification{
-    self.state = KJPlayerStatePlayEnd;
+    self.state = KJPlayerStatePlayFinished;
     [self.videoPlayer pause];
 }
 //在监听播放器状态中处理比较准确
@@ -315,7 +304,7 @@
         [self kDownloadProgressWithItem:playerItem];
     }else if ([keyPath isEqualToString:@"playbackBufferEmpty"]) {// 监听播放器在缓冲数据的状态
         if (playerItem.isPlaybackBufferEmpty) {
-            self.state = KJPlayerStateLoading;
+            self.state = KJPlayerStateBuffering;
             [self loadingSomeSecond];
         }
     }else if ([keyPath isEqualToString:@"playbackLikelyToKeepUp"]) {

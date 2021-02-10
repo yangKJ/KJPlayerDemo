@@ -7,6 +7,7 @@
 //  https://github.com/yangKJ/KJPlayerDemo
 
 #import "KJRequestTask.h"
+#import <objc/runtime.h>
 @interface KJRequestTask ()<NSURLConnectionDataDelegate>
 @property (nonatomic,strong) NSMutableArray *taskTemps;
 @property (nonatomic,assign) NSUInteger totalOffset;
@@ -16,15 +17,17 @@
 @property (nonatomic,strong) NSFileHandle *fileHandle;
 @property (nonatomic,strong) NSURL *videoURL;
 @property (nonatomic,strong) NSString *tempPath;
+@property (nonatomic,strong) NSString *format;
 @end
 @implementation KJRequestTask{
     BOOL _once;
 }
-- (instancetype)init{
+- (instancetype)kj_initWithFlieFormat:(NSString*)format{
     if (self == [super init]) {
+        NSString *tempPath = [NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES).lastObject stringByAppendingPathComponent:@"tempVideo"];
+        self.format = format?:@".mp4";
+        self.tempPath = [tempPath stringByAppendingString:self.format];
         self.taskTemps = [NSMutableArray array];
-        self.tempPath = PLAYER_TEMP_PATH;
-        [self kj_setConfig];
         [self kj_removeAndCreateTempFileManager];
     }
     return self;
@@ -32,6 +35,7 @@
 - (void)kj_setConfig{
     _once = NO;
     self.downLoadOffset = 0;
+    self.currentOffset = 0;
     self.totalOffset = 0;
 }
 - (void)kj_removeAndCreateTempFileManager{
@@ -91,6 +95,8 @@
     [self.connection start];
 }
 
+@end
+@implementation KJRequestTask (KJRequestTaskBlock)
 #pragma mark - NSURLConnectionDataDelegate
 /*
  1.当接收到服务器响应的时候调用
@@ -119,8 +125,8 @@
     [self.fileHandle seekToEndOfFile];
     [self.fileHandle writeData:data];
     self.downLoadOffset += data.length;
-    if (self.kRequestTaskDidReceiveDataBlcok) {
-        self.kRequestTaskDidReceiveDataBlcok(self,data);
+    if (self.kRequestTaskReceiveDataBlcok) {
+        self.kRequestTaskReceiveDataBlcok(self,data);
     }
 }
 /*
@@ -130,11 +136,25 @@
 - (void)connectionDidFinishLoading:(NSURLConnection *)connection{
     BOOL isSuccess = NO;
     if (self.taskTemps.count < 2) {
-        isSuccess = [[NSFileManager defaultManager] copyItemAtPath:_tempPath toPath:kPlayerIntactPath(self.videoURL) error:nil];
-        if (isSuccess) [self.fileHandle closeFile];
+        if ([[NSFileManager defaultManager] fileExistsAtPath:self.savePath]) {
+            [[NSFileManager defaultManager] removeItemAtPath:self.savePath error:nil];
+        }
+        isSuccess = [[NSFileManager defaultManager] moveItemAtPath:_tempPath toPath:self.savePath error:nil];
+        if (isSuccess) {
+            [self.fileHandle closeFile];
+            PLAYER_WEAKSELF;
+            [DBPlayerDataInfo kj_insertData:self.fileName Data:^(DBPlayerData * _Nonnull data) {
+                data.dbid = weakself.fileName;
+                data.videoUrl = weakself.videoURL.absoluteString;
+                data.videoFormat = weakself.format;
+                data.sandboxPath = [weakself.fileName stringByAppendingString:weakself.format];
+                data.saveTime = NSDate.date.timeIntervalSince1970;
+//                data.videoData = weakself.fileHandle.availableData;
+            }];
+        }
     }
-    if (self.kRequestTaskDidFinishLoadingAndSaveFileBlcok) {
-        self.kRequestTaskDidFinishLoadingAndSaveFileBlcok(self,isSuccess);
+    if (self.kRequestTaskSaveBlock) {
+        self.kRequestTaskSaveBlock(self,isSuccess);
     }
 }
 /*
@@ -154,9 +174,27 @@
         });
         return;
     }
-    if (self.kRequestTaskdidFailWithErrorCodeBlcok) {    
-        self.kRequestTaskdidFailWithErrorCodeBlcok(self,error.code);
+    if (self.kRequestTaskFailedBlcok) {
+        self.kRequestTaskFailedBlcok(self,error.code);
     }
 }
-
+#pragma mark - Associated
+- (void (^)(KJRequestTask * _Nonnull, NSData * _Nonnull))kRequestTaskReceiveDataBlcok{
+    return objc_getAssociatedObject(self, _cmd);
+}
+- (void (^)(KJRequestTask * _Nonnull, NSInteger))kRequestTaskFailedBlcok{
+    return objc_getAssociatedObject(self, _cmd);
+}
+- (void (^)(KJRequestTask * _Nonnull, BOOL))kRequestTaskSaveBlock{
+    return objc_getAssociatedObject(self, _cmd);
+}
+- (void)setKRequestTaskReceiveDataBlcok:(void (^)(KJRequestTask * _Nonnull, NSData * _Nonnull))kRequestTaskReceiveDataBlcok{
+    objc_setAssociatedObject(self, @selector(kRequestTaskReceiveDataBlcok), kRequestTaskReceiveDataBlcok, OBJC_ASSOCIATION_COPY_NONATOMIC);
+}
+- (void)setKRequestTaskFailedBlcok:(void (^)(KJRequestTask * _Nonnull, NSInteger))kRequestTaskFailedBlcok{
+    objc_setAssociatedObject(self, @selector(kRequestTaskFailedBlcok), kRequestTaskFailedBlcok, OBJC_ASSOCIATION_COPY_NONATOMIC);
+}
+- (void)setKRequestTaskSaveBlock:(void (^)(KJRequestTask * _Nonnull, BOOL))kRequestTaskSaveBlock{
+    objc_setAssociatedObject(self, @selector(kRequestTaskSaveBlock), kRequestTaskSaveBlock, OBJC_ASSOCIATION_COPY_NONATOMIC);
+}
 @end

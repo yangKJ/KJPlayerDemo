@@ -1,6 +1,6 @@
 Pod::Spec.new do |s|
   s.name         = "KJPlayer"
-  s.version      = "1.0.9"
+  s.version      = "1.0.10"
   s.summary      = "A good player made by yangkejun"
   s.homepage     = "https://github.com/yangKJ/KJPlayerDemo"
   s.license      = "MIT"
@@ -19,7 +19,8 @@ Pod::Spec.new do |s|
   s.subspec 'KJPlayer' do |y|
     y.source_files = "KJPlayerDemo/Core/*.{h,m}","KJPlayerDemo/KJPlayer/*.{h,m}"
     y.public_header_files = 'KJPlayerDemo/Core/*.h','KJPlayerDemo/KJPlayer/*.h'
-    y.frameworks = 'MobileCoreServices','AVFoundation'
+    y.resources = "KJPlayerDemo/Core/*.{xcdatamodeld}"
+    y.frameworks = 'Foundation','UIKit','AVFoundation','MobileCoreServices'
   end
 
   s.subspec 'KJPlayerView' do |a|
@@ -30,8 +31,6 @@ Pod::Spec.new do |s|
     a.dependency 'KJPlayer/KJPlayer'
   end
   
-  s.frameworks = 'Foundation','UIKit'
-
 end
 
 

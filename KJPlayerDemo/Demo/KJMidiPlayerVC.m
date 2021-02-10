@@ -59,7 +59,7 @@
         KJMidiPlayer.shared.videoURL = URL;
         [KJMidiPlayer.shared kj_playerPlay];
     }
-    [KJMidiPlayer.shared kj_playerSeekTime:seek completionHandler:nil];
+    KJMidiPlayer.shared.kVideoAdvanceAndReverse(seek,nil);
 }
 
 #pragma mark - UIPickerViewDataSource

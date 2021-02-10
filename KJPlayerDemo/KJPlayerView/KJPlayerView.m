@@ -15,39 +15,39 @@
 ([UIImage imageNamed:[@"KJPlayerView.bundle" stringByAppendingPathComponent:(imageName)]])
 @interface KJPlayerView ()<KJOldPlayerDelegate,UIGestureRecognizerDelegate>
 @property (nonatomic,strong) id videoURL;
-@property (nonatomic,strong) NSTimer *timer;//定时器
-@property (nonatomic,strong) KJOldPlayer *player;//播放器
+@property (nonatomic,strong) NSTimer *timer;
+@property (nonatomic,strong) KJOldPlayer *player;
 @property (nonatomic,strong) KJPlayerViewConfiguration *configuration;
 
 /* ************* 记录视图初始位置 ***************/
-/** 父视图 */
+/* 父视图 */
 @property (nonatomic,assign) CGRect superViewFrame;
-/** 底部操作工具栏 */
+/* 底部操作工具栏 */
 @property (nonatomic,assign) CGRect bottomViewFrame;
-/** 顶部操作工具栏 */
+/* 顶部操作工具栏 */
 @property (nonatomic,assign) CGRect topViewFrame;
-/** 开始播放前背景占位图片 */
+/* 开始播放前背景占位图片 */
 @property (nonatomic,assign) CGRect coverImageViewFrame;
-/** 显示播放视频的title */
+/* 显示播放视频的title */
 @property (nonatomic,assign) CGRect topTitleLabelFrame;
-/** 控制全屏的按钮 */
+/* 控制全屏的按钮 */
 @property (nonatomic,assign) CGRect fullScreenButtonFrame;
-/** 播放暂停按钮 */
+/* 播放暂停按钮 */
 @property (nonatomic,assign) CGRect playOrPauseButtonFrame;
-/** 左上角关闭按钮 */
+/* 左上角关闭按钮 */
 @property (nonatomic,assign) CGRect backButtonFrame;
-/** 右上角功能按钮 */
+/* 右上角功能按钮 */
 @property (nonatomic,assign) CGRect functionButtonFrame;
-/** 菊花（加载框）*/
+/* 菊花（加载框）*/
 @property (nonatomic,assign) CGRect loadingViewFrame;
-/** 快进快退 */
+/* 快进快退 */
 @property (nonatomic,assign) CGRect fastViewFrame;
-/** 显示播放时间的UILabel */
+/* 显示播放时间的UILabel */
 @property (nonatomic,assign) CGRect leftTimeLabelFrame;
 @property (nonatomic,assign) CGRect rightTimeLabelFrame;
-/** 播放进度滑块 */
+/* 播放进度滑块 */
 @property (nonatomic,assign) CGRect playScheduleSliderFrame;
-/** 显示缓冲进度 */
+/* 显示缓冲进度 */
 @property (nonatomic,assign) CGRect loadingProgressFrame;
 
 @end
@@ -55,17 +55,14 @@
 @implementation KJPlayerView
 
 - (void)dealloc{
-    /// 判断是否开启重力感应
     if (self.configuration.openGravitySensing == YES) {
         [[NSNotificationCenter defaultCenter] removeObserver:self];
     }
-    [self invalidateTimer]; /// 清除计时器
+    [self invalidateTimer];
 }
 
 - (void)config{
-    /// 判断是否开启重力感应
     if (self.configuration.openGravitySensing == YES) {
-        //旋转屏幕通知
         [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(onDeviceOrientationChange) name:UIDeviceOrientationDidChangeNotification object:nil];
     }
     self.videoIndex = 0;
@@ -129,35 +126,19 @@
 - (NSString*)kj_getPlayURL:(NSString*)x :(NSString*)y :(NSString*)z{
     return (x || y) == 0 ? z : (x?:y);
 }
-
 - (void)setVideoURL:(id)videoURL{
     _videoURL = videoURL;
     if (![videoURL isKindOfClass:[NSURL class]]) {
         videoURL = [NSURL URLWithString:videoURL];
     }
-//    /// 判断地址是否可用
-//    BOOL boo = [KJPlayerTool kj_playerHaveTracksWithURL:videoURL];
-//    if (boo == NO) {
-//        [self.player kj_playerStop];
-//        [self.contentView.layer.sublayers makeObjectsPerformSelector:@selector(removeFromSuperlayer)];
-//        ///给UIView设置图片
-//        UIImage *image = PLAYER_GET_BUNDLE_IMAGE(@"kj_player_background");
-//        self.contentView.layer.contents = (__bridge id)image.CGImage;
-//        self.contentView.layer.contentsCenter = CGRectMake(0, 0, 1, 1);
-//        return;
-//    }
     self.configuration.url = videoURL;
-    
     if (self.playerLayer == nil) {
-        /// 播放视频
         self.playerLayer = [self.player kj_playerPlayWithURL:videoURL];
         self.playerLayer.frame = self.bounds;
         [self.contentView.layer addSublayer:self.playerLayer];
     }else{
-        /// 播放视频
         [self.player kj_playerReplayWithURL:videoURL];
     }
-    /// 播放的准备工作
     [self kPlayBeforePlan];
 }
 - (void)setSeekTime:(CGFloat)seekTime{
@@ -178,15 +159,12 @@
     PLAYER_WEAKSELF;
     if (self.configuration.haveFristImage) {
         dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
-            /// 获取视频第一帧图片
             weakself.configuration.videoImage = [self kj_playerFristImageWithURL:weakself.configuration.url];
             dispatch_async(dispatch_get_main_queue(), ^{
                 weakself.coverImageView.image = weakself.configuration.videoImage ?: PLAYER_GET_BUNDLE_IMAGE(@"kj_player_background");
             });
         });
     }
-    
-    // 视频的默认填充模式，AVLayerVideoGravityResizeAspect
     self.playerLayer.videoGravity = self.configuration.videoGravity;
     self.player.kVideoTotalTime = ^(NSTimeInterval time) {
         weakself.configuration.totalTime = time;
@@ -195,7 +173,7 @@
     };
     self.leftTimeLabel.text  = kPlayerConvertTime(self.configuration.currentTime);
     [self.loadingProgress setProgress:self.player.videoIsLocalityData?1.0:0.0 animated:YES];
-    self.playScheduleSlider.value = self.configuration.currentTime;//指定初始值
+    self.playScheduleSlider.value = self.configuration.currentTime;
     self.playOrPauseButton.selected = YES;
     self.configuration.hasMoved = self.fastView.moveGestureFast = NO;
 }
@@ -214,37 +192,33 @@
 
 #pragma mark - KJPlayerDelegate
 - (void)kj_player:(KJOldPlayer *)player LoadedProgress:(CGFloat)loadedProgress LoadComplete:(BOOL)complete SaveSuccess:(BOOL)saveSuccess {
-//    NSLog(@"PlayerLoad:%.2f",loadedProgress);
     [self.loadingProgress setProgress:loadedProgress animated:YES];
 }
 - (void)kj_player:(KJOldPlayer *)player Progress:(CGFloat)progress CurrentTime:(CGFloat)currentTime DurationTime:(CGFloat)durationTime {
-//        NSLog(@"Time:%.2f==%.2f==%.2f",progress,currentTime,durationTime);
     if (self.fastView.moveGestureFast == NO) {
         self.leftTimeLabel.text = kPlayerConvertTime(currentTime);
-        self.playScheduleSlider.value = currentTime;//指定初始值
+        self.playScheduleSlider.value = currentTime;
         self.configuration.currentTime = currentTime;
     }
 }
 - (void)kj_player:(KJOldPlayer *)player State:(KJPlayerState)state ErrorCode:(KJPlayerErrorCode)errorCode {
     self.configuration.state = state;
-    NSLog(@"\nKJPlayer:%@", KJPlayerStateStringMap[state]);
     switch (state) {
-        case KJPlayerStateLoading:
+        case KJPlayerStateBuffering:
             [self kStartLoading];
             break;
         case KJPlayerStatePlaying:
             [self kStartPlay];
             break;
-        case KJPlayerStatePlayEnd:
+        case KJPlayerStatePlayFinished:
             [self kPlayEnd];
             break;
         case KJPlayerStateStopped:
             [self kStoppp];
             break;
-        case KJPlayerStatePause:
+        case KJPlayerStatePausing:
             break;
         case KJPlayerStateFailed:
-            NSLog(@"KJPlayerStateError:%ld",errorCode);
             break;
         default:
             break;
@@ -258,14 +232,13 @@
 }
 /// 开始播放的相关操作
 - (void)kStartPlay{
-    /// 隐藏加载
     [self.loadingView stopAnimating];
     self.loadingView.hidden = YES;
     [UIView animateWithDuration:0.2 animations:^{
         self.coverImageView.hidden = YES;
     }];
     self.playOrPauseButton.selected = YES;
-    [self setupTimer]; /// 创建计时器
+    [self setupTimer];
 }
 /// 播放完成playEnd的相关操作
 - (void)kPlayEnd{
@@ -277,24 +250,20 @@
             [self kReplayXXXXX];
             break;
         case KJPlayerPlayTypeOrder:{
-            /// 没数据或者只有一条数据
             if (self.videoModelTemps.count == 0 || self.videoModelTemps.count == 1) {
                 [self kReplayXXXXX];
             }else if(self.videoModelTemps.count > 1){
                 self.videoIndex += 1;
                 self.videoIndex = self.videoIndex >= self.videoModelTemps.count ? 0 : self.videoIndex;
-//                [self kj_setReplayWithURL:self.videoUrlTemps[self.videoIndex] StartTime:self.startTime];
                 self.videoModel = self.videoModelTemps[self.videoIndex];
                 [self kReplayXXXXX];
             }
         }
             break;
         case KJPlayerPlayTypeRandom:{
-            /// 没数据或者只有一条数据
             if (self.videoModelTemps.count == 0 || self.videoModelTemps.count == 1) {
                 [self kReplayXXXXX];
             }else if(self.videoModelTemps.count > 1){
-                /// 生成随机数
                 while (1) {
                     NSInteger idx = arc4random() % (self.videoModelTemps.count);
                     if (self.videoIndex != idx) {
@@ -316,7 +285,7 @@
     self.loadingView.hidden = NO;
     [self.loadingView startAnimating];
     self.coverImageView.hidden = NO;
-    self.playScheduleSlider.value = 0;//指定初始值
+    self.playScheduleSlider.value = 0;
     self.configuration.currentTime = _seekTime = 0.0;
     self.videoURL = self.configuration.url;
 }
@@ -326,7 +295,7 @@
     self.loadingView.hidden = YES;
     self.coverImageView.hidden = NO;
     self.playOrPauseButton.selected = NO;
-    self.playScheduleSlider.value = 0;//指定初始值
+    self.playScheduleSlider.value = 0;
     self.configuration.currentTime = _seekTime = 0.0;
     if (self.bottomView.alpha == 0.0) {
         [self showControlView];
@@ -342,21 +311,19 @@
 }
 /// 创建定时器
 - (void)setupTimer{
-    /// 为0时表示关闭自动隐藏功能
     if (self.configuration.autoHideTime <= 0) return;
-    [self invalidateTimer]; // 创建定时器前先停止定时器,不然会出现僵尸定时器,导致错误
+    [self invalidateTimer];
     NSTimer *timer = [NSTimer timerWithTimeInterval:self.configuration.autoHideTime
                                              target:self
                                            selector:@selector(autoDismissBottomView:)
                                            userInfo:nil
-                                            repeats:YES]; /// 创建只执行一次的计时器
-    /// 放入当前的自动释放池
+                                            repeats:YES];
     [[NSRunLoop currentRunLoop] addTimer:timer forMode:NSDefaultRunLoopMode];
     self.timer = timer;
 }
 ///显示操作栏view
 - (void)showControlView{
-    [self setupTimer]; /// 创建计时器
+    [self setupTimer];
     [UIView animateWithDuration:0.5 animations:^{
         self.bottomView.alpha = 1.0;
         self.topView.alpha = 1.0;
@@ -376,7 +343,7 @@
 - (void)autoDismissBottomView:(NSTimer*)timer{
     if (self.configuration.state == KJPlayerStatePlaying) {
         if (self.bottomView.alpha == 1.0) {
-            [self hiddenControlView];//隐藏操作栏
+            [self hiddenControlView];
             [self invalidateTimer];
         }
     }
@@ -546,7 +513,7 @@
 // 播放和暂停
 - (void)playOrPauseAction:(UIButton*)sender{
     sender.selected = !sender.selected;
-    if (self.configuration.state == KJPlayerStatePause) {
+    if (self.configuration.state == KJPlayerStatePausing) {
         [self.player kj_playerResume];
     } else if(self.configuration.state == KJPlayerStatePlaying){
         [self.player kj_playerPause];
@@ -577,7 +544,7 @@
                 return weakself.videoModel;
             } ModelBlock:^(KJPlayerViewModel * _Nonnull model) {
                 weakself.videoModel = model;
-                weakself.seekTime = weakself.configuration.currentTime;/// 接着播放
+                weakself.seekTime = weakself.configuration.currentTime;
             }];
             return;
         }
@@ -759,7 +726,7 @@
 
 #pragma mark - kSetUI
 - (void)kSetUI{
-    [self addSubview:self.contentView]; /// 显示播放器layer视图层
+    [self addSubview:self.contentView];
     [self addSubview:self.coverImageView];
     [self addSubview:self.loadingView];
     [self addSubview:self.topView];
@@ -838,7 +805,7 @@
     if (!_lightView) {
         _lightView = [[KJLightView alloc] initWithFrame:CGRectMake(PLAYER_SCREEN_HEIGHT - 30 - 20, 50 + 20, 30, PLAYER_SCREEN_WIDTH - 100 - 40)];
         _lightView.changeLightValue = NO;
-        CGFloat value = [UIScreen mainScreen].brightness;/// 获取当前屏幕的亮度
+        CGFloat value = [UIScreen mainScreen].brightness;
         [_lightView kj_updateLightValue:value];
     }
     return _lightView;

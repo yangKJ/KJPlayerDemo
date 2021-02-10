@@ -15,20 +15,22 @@
 #import <Foundation/Foundation.h>
 #import "KJPlayerType.h"
 NS_ASSUME_NONNULL_BEGIN
-/// 临时文件完整路径
-#define PLAYER_TEMP_PATH \
-({\
-NSString *document = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES).lastObject;\
-NSString *tempPath = [document stringByAppendingPathComponent:@"tempVideo.mp4"];\
-(tempPath);})
 
 @interface KJRequestTask : NSObject
+/* 文件名 */
+@property (nonatomic,strong) NSString *fileName;
+/* 存储路径地址 */
+@property (nonatomic,strong) NSString *savePath;
+/* 临时文件完整路径 */
+@property (nonatomic,strong,readonly) NSString *tempPath;
 /* 当前偏移量 */
 @property (nonatomic,assign,readonly) NSUInteger currentOffset;
 /* 下载偏移量 */
 @property (nonatomic,assign,readonly) NSUInteger downLoadOffset;
 /* 总偏移量 */
 @property (nonatomic,assign,readonly) NSUInteger totalOffset;
+/* 初始化文件格式，默认.mp4 */
+- (instancetype)kj_initWithFlieFormat:(NSString*)format;
 /* 开始下载 */
 - (void)kj_startLoadWithUrl:(NSURL*)url Offset:(NSUInteger)offset;
 /* 取消网络请求 */
@@ -38,13 +40,15 @@ NSString *tempPath = [document stringByAppendingPathComponent:@"tempVideo.mp4"];
 /* 清除临时缓存 */
 - (void)kj_clearTempLoadDatas;
 
+@end
 /* *********************** 事件处理 *************************/
+@interface KJRequestTask (KJRequestTaskBlock)
 /* 当接收到数据的时候调用，该方法会被调用多次 返回接收到的服务端二进制数据 NSData */
-@property (nonatomic,copy,readwrite) void (^kRequestTaskDidReceiveDataBlcok)(KJRequestTask *task, NSData *data);
+@property (nonatomic,copy,readwrite) void (^kRequestTaskReceiveDataBlcok)(KJRequestTask *task, NSData *data);
 /* 当服务端返回的数据接收完毕之后会调用 */
-@property (nonatomic,copy,readwrite) void (^kRequestTaskDidFinishLoadingAndSaveFileBlcok)(KJRequestTask *task, BOOL saveSuccess);
+@property (nonatomic,copy,readwrite) void (^kRequestTaskSaveBlock)(KJRequestTask *task, BOOL saveSuccess);
 /*  当请求错误的时候调用 */
-@property (nonatomic,copy,readwrite) void (^kRequestTaskdidFailWithErrorCodeBlcok)(KJRequestTask *task, NSInteger errorCode);
+@property (nonatomic,copy,readwrite) void (^kRequestTaskFailedBlcok)(KJRequestTask *task, NSInteger errorCode);
 
 @end
 

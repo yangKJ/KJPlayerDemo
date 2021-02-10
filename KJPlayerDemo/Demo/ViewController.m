@@ -7,7 +7,7 @@
 //  https://github.com/yangKJ/KJPlayerDemo
 
 #import "ViewController.h"
-
+#import "DBPlayerDataInfo.h"
 @interface ViewController ()<UITableViewDelegate,UITableViewDataSource>
 @property(nonatomic, strong) UITableView *tableView;
 @property(nonatomic, strong) NSArray *temps;
@@ -17,11 +17,32 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     self.title = @"";
-    _tableView = [[UITableView alloc]initWithFrame:self.view.bounds];
+    CGFloat width = self.view.frame.size.width;
+    CGFloat height = self.view.frame.size.height;
+    _tableView = [[UITableView alloc]initWithFrame:CGRectMake(0, 0, width, height-100)];
     _tableView.delegate = self;
     _tableView.dataSource = self;
     _tableView.rowHeight = 44;
     [self.view addSubview:self.tableView];
+    
+    UIButton *button = [UIButton buttonWithType:(UIButtonTypeCustom)];
+    button.frame = CGRectMake(10, height-100, width-20, 100);
+    NSMutableAttributedString *attrStr = [[NSMutableAttributedString alloc] initWithString:@"大家觉得好用还请点个星，遇见什么问题也可issues，持续更新ing.." attributes:@{
+        NSUnderlineStyleAttributeName:@(NSUnderlineStyleSingle),
+        NSForegroundColorAttributeName:UIColor.redColor}];
+    [button setAttributedTitle:attrStr forState:(UIControlStateNormal)];
+    button.titleLabel.numberOfLines = 0;
+    button.titleLabel.textAlignment = 1;
+    [button addTarget:self action:@selector(kj_button) forControlEvents:(UIControlEventTouchUpInside)];
+    [self.view addSubview:button];
+    
+    [self test];
+}
+- (void)kj_button{
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wdeprecated-declarations"
+    [[UIApplication sharedApplication] openURL:[NSURL URLWithString:@"https://github.com/yangKJ/KJPlayerDemo"]];
+#pragma clang diagnostic pop
 }
 - (NSArray*)temps{
     if (!_temps) {
@@ -60,6 +81,17 @@
     UIViewController *vc = [[NSClassFromString(dic[@"VCName"]) alloc]init];
     vc.title = dic[@"describeName"];
     [self.navigationController pushViewController:vc animated:YES];
+}
+
+- (void)test{
+    NSString *document = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory,NSUserDomainMask,YES).lastObject;
+    NSDirectoryEnumerator *enumerator = [[NSFileManager defaultManager] enumeratorAtPath:document];
+    NSMutableArray *temps = [NSMutableArray array];
+    NSString *imageName;
+    while((imageName = [enumerator nextObject]) != nil) {
+        [temps addObject:imageName];
+    }
+    NSLog(@"\n视频文件,%@",temps);
 }
 
 @end

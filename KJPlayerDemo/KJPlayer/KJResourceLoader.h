@@ -15,6 +15,7 @@
 NS_ASSUME_NONNULL_BEGIN
 @interface KJResourceLoader : NSObject<AVAssetResourceLoaderDelegate>
 @property(nonatomic,assign) CGFloat maxCacheRange;
+@property(nonatomic,assign) KJPlayerVideoFromat videoFromat;
 - (NSURL * (^)(NSURL * URL))kj_createSchemeURL;
 /* 当服务端返回的数据时调用 */
 @property (nonatomic,copy,readwrite) void (^kURLConnectionDidReceiveDataBlcok)(NSData *data, NSUInteger downOffect, NSUInteger totalOffect);

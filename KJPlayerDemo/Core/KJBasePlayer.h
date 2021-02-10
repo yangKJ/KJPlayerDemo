@@ -28,12 +28,18 @@ NS_ASSUME_NONNULL_BEGIN
 @property (nonatomic,assign) BOOL backgroundPause;
 /* 是否开启自动播放，默认yes */
 @property (nonatomic,assign) BOOL autoPlay;
+/* 是否为用户暂停，默认no */
+@property (nonatomic,assign) BOOL userPause;
 /* 播放速度，默认1倍速 */
 @property (nonatomic,assign) float speed;
 /* 播放音量 */
 @property (nonatomic,assign) float volume;
+/* 是否静音 */
+@property (nonatomic,assign) BOOL muted;
 /* 缓存达到多少秒才能播放，默认5秒 */
 @property (nonatomic,assign) NSTimeInterval cacheTime;
+/* 指定时间播放（跳过片头）*/
+@property (nonatomic,assign) NSTimeInterval seekTime;
 /* 背景颜色，默认黑色 */
 @property (nonatomic,assign) CGColorRef background;
 /* 时间刻度，默认1秒 */
@@ -44,6 +50,10 @@ NS_ASSUME_NONNULL_BEGIN
 @property (nonatomic,assign) KJPlayerVideoGravity videoGravity;
 /* 获取视频总时长 */
 @property (nonatomic,copy,readwrite) void (^kVideoTotalTime)(NSTimeInterval time);
+/* 获取视频格式 */
+@property (nonatomic,copy,readwrite) void (^kVideoURLFromat)(KJPlayerVideoFromat fromat);
+/* 免费试看时间和试看结束回调，默认0不限制 */
+@property (nonatomic,copy,readonly) void (^kVideoTryLookTime)(void(^_Nullable lookEnd)(bool end), NSTimeInterval time);
 
 /* ************************* 分割线，上述属性需在videoURL之前设置 *****************************/
 /* 视频地址 */
@@ -58,17 +68,13 @@ NS_ASSUME_NONNULL_BEGIN
 @property (nonatomic,assign,readonly) NSTimeInterval currentTime;
 /* 播放失败 */
 @property (nonatomic,assign,readonly) KJPlayerErrorCode errorCode;
+/* 获取视频尺寸大小 */
+@property (nonatomic,copy,readwrite) void (^kVideoSize)(CGSize size);
 /* 获取指定时间视频帧图片 */
 @property (nonatomic,copy,readonly) UIImage * (^kPlayerTimeImage)(NSTimeInterval time);
-/* 获取视频大小 */
-@property (nonatomic,copy,readwrite) void (^kVideoSize)(CGSize size);
+/* 快进或快退 */
+@property (nonatomic,copy,readonly) void (^kVideoAdvanceAndReverse)(NSTimeInterval, void(^_Nullable)(bool finished));
 
-/* 单例属性 */
-@property (nonatomic,strong,class,readonly,getter=kj_sharedInstance) id shared;
-/* 创建单例 */
-+ (instancetype)kj_sharedInstance;
-/* 销毁单例 */
-+ (void)kj_attempDealloc;
 /* 准备播放 */
 - (void)kj_playerPlay;
 /* 重播 */
@@ -79,8 +85,6 @@ NS_ASSUME_NONNULL_BEGIN
 - (void)kj_playerPause;
 /* 停止 */
 - (void)kj_playerStop;
-/* 设置开始播放时间 */
-- (void)kj_playerSeekTime:(NSTimeInterval)seconds completionHandler:(void(^_Nullable)(BOOL finished))completionHandler;
 
 @end
 /// 委托代理

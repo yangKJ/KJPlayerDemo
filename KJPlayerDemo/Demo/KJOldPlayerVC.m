@@ -42,12 +42,12 @@
         view.backgroundColor = UIColor.blackColor;
         view.delegate = self;
         
-        NSArray *temp = @[@"https://apps.winpow.com/attached/media/mp4/1559550527183.mp4",
+        NSArray *temp = @[@"https://mp4.vjshi.com/2018-03-30/1f36dd9819eeef0bc508414494d34ad9.mp4",
                           @"http://appit.winpow.com/attached/media/MP4/1567585643618.mp4",
                           @"https://devstreaming-cdn",
                           @"https://devstreaming-cdn.apple.com/videos/streaming/examples/bipbop_4x3/gear1/prog_index.m3u8",
                           @"https://mp4.vjshi.com/2018-08-31/3ba67e58deb45fefe7f7d3d16dbf2b16.mp4",
-                          @"https://mp4.vjshi.com/2018-03-30/1f36dd9819eeef0bc508414494d34ad9.mp4",
+                          @"https://mp4.vjshi.com/2021-01-13/d37b7bea25b063b4f9d4bdd98bc611e3.mp4",
                           @"https://mp4.vjshi.com/2017-07-02/0cbbf21c6003f7936f4086dd10e7ebf5.mp4",
                           ];
         NSMutableArray *array = [NSMutableArray array];
@@ -55,7 +55,7 @@
             KJPlayerViewModel *model = [KJPlayerViewModel new];
             if (i==0) {
                 model.sd = temp[0];
-                model.cif = temp[5];
+                model.cif= temp[5];
                 model.hd = temp[2];
             }else if (i==1) {
                 model.hd = temp[5];

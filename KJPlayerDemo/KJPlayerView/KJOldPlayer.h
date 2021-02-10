@@ -11,7 +11,7 @@
 #import <AVFoundation/AVFoundation.h>
 #import "KJPlayerType.h"
 NS_ASSUME_NONNULL_BEGIN
-
+typedef void (^KJPlayerSeekBeginPlayBlock)(void);
 @protocol KJOldPlayerDelegate;
 @interface KJOldPlayer : NSObject
 /* 单例 */

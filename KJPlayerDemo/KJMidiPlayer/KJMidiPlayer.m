@@ -18,7 +18,15 @@
     AudioUnit remoteIOUnit;/// 属性值的音频单元
     MusicSequence sequence;/// 音乐序列
 }
-PLAYER_COMMON_PROPERTY PLAYER_SHARED
+PLAYER_COMMON_PROPERTY
+- (instancetype)init{
+    if (self == [super init]) {
+        _speed = 1.;
+        _autoPlay = YES;
+        _timeSpace = 1.;
+    }
+    return self;
+}
 - (void)dealloc {
     [self kj_playerStop];
 }
@@ -121,11 +129,6 @@ PLAYER_COMMON_PROPERTY PLAYER_SHARED
     NewMusicPlayer(&_musicPlayer);
     MusicPlayerSetSequence(_musicPlayer, sequence);
     MusicPlayerPreroll(_musicPlayer);
-    
-    MusicTimeStamp time;
-    MusicPlayerGetTime(_musicPlayer, &time);
-    self.totalTime = time;
-    NSLog(@"totalTime:%.2f",time);
 }
 /// 开启音频处理图
 - (void)startGraph{
