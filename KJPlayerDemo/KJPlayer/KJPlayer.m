@@ -43,7 +43,8 @@ static NSString * const kPresentationSize = @"presentationSize";
 static NSString * const kPlaybackLikelyToKeepUp = @"playbackLikelyToKeepUp";
 static NSString * const kTimeControlStatus = @"timeControlStatus";
 - (instancetype)init{
-    if (self == [super init]) {
+    self = [super init];
+    if (self) {
         _speed = 1.;
         _timeSpace = 1.;
         _autoPlay = YES;
@@ -71,6 +72,7 @@ static CGSize tempSize;
                 if (self.kVideoTotalTime) self.kVideoTotalTime(self.totalTime);
             }
             self.state = KJPlayerStatePreparePlay;
+            [self kj_autoPlay];
         }else if (playerItem.status == AVPlayerItemStatusFailed) {
             self.playError = [DBPlayerDataInfo kj_errorSummarizing:KJPlayerCustomCodeAVPlayerItemStatusFailed];
             self.state = KJPlayerStateFailed;
@@ -247,14 +249,6 @@ static CGSize tempSize;
         self.playerLayer.player = self.player;
     });
     
-    /// 封面图
-    if (self.placeholder) {
-        kGCD_player_main(^{
-            self.playerLayer.contents = (id)self.placeholder.CGImage;
-            self.playerLayer.contentsGravity = kPlayerContentsGravity(self.videoGravity);
-        });
-    }
-    
     if (self.playerItem) {
         NSTimeInterval sec = CMTimeGetSeconds(self.playerItem.duration);
         if (isnan(sec) || sec < 0) sec = 0;
@@ -268,8 +262,10 @@ static CGSize tempSize;
     /// 功能操作
     if (self.recordLastTime) {
         NSString *dbid = kPlayerIntactName(self.originalURL);
-        NSTimeInterval time = [DBPlayerDataInfo kj_getLastTimeDbid:dbid];
-        if (self.totalTime) self.currentTime = time;
+        __block NSTimeInterval time = [DBPlayerDataInfo kj_getLastTimeDbid:dbid];
+        kGCD_player_main(^{
+            if (self.totalTime) self.currentTime = time;
+        });
         self.kVideoAdvanceAndReverse(time,nil);
         if (self.recordTimeBlock) {
             kGCD_player_main(^{
@@ -277,8 +273,11 @@ static CGSize tempSize;
             });
         }
     }else if (self.skipHeadTime) {
-        if (self.totalTime) self.currentTime = self.skipHeadTime;
-        self.kVideoAdvanceAndReverse(self.skipHeadTime,nil);
+        __block NSTimeInterval time = self.skipHeadTime;
+        kGCD_player_main(^{
+            if (self.totalTime) self.currentTime = time;
+        });
+        self.kVideoAdvanceAndReverse(time,nil);
         if (self.skipTimeBlock) {
             kGCD_player_main(^{
                 self.skipTimeBlock(KJPlayerVideoSkipStateHead);
@@ -323,6 +322,14 @@ NS_INLINE NSString * kPlayerContentsGravity(KJPlayerVideoGravity videoGravity){
     }
 }
 #pragma mark - setter
+- (void)setOriginalURL:(NSURL *)originalURL{
+    _originalURL = originalURL;
+    /// 封面图
+    if (self.placeholder) {
+        self.playerLayer.contents = (id)self.placeholder.CGImage;
+        self.playerLayer.contentsGravity = kPlayerContentsGravity(self.videoGravity);
+    }
+}
 - (void)setVideoURL:(NSURL *)videoURL{
     self.originalURL = videoURL;
     self.fromat = kPlayerFromat(videoURL);

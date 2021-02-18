@@ -19,7 +19,8 @@
     [DBPlayerDataInfo.shared kj_removeDownloadURL:self.videoURL];
 }
 - (instancetype)initWithURL:(NSURL*)url cacheManager:(KJFileHandleManager*)manager{
-    if (self == [super init]){
+    self = [super init];
+    if (self) {
         self.saveToCache = YES;
         self.videoURL = url;
         self.cacheManager = manager;

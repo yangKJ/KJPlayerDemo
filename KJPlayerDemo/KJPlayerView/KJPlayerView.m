@@ -89,7 +89,8 @@
 
 /* 初始化 */
 - (instancetype)initWithFrame:(CGRect)frame Configuration:(KJPlayerViewConfiguration*)configuration{
-    if (self==[super initWithFrame:frame]) {
+    self = [super initWithFrame:frame];
+    if (self) {
         self.configuration = configuration;
         [self config];
         [self kSetUI];
@@ -98,7 +99,8 @@
 }
 
 - (instancetype)initWithFrame:(CGRect)frame{
-    if (self==[super initWithFrame:frame]) {
+    self = [super initWithFrame:frame];
+    if (self) {
         self.configuration = [[KJPlayerViewConfiguration alloc] init];
         [self config];
         [self kSetUI];

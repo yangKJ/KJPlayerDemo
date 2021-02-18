@@ -20,7 +20,8 @@
     [self.downloader kj_cancelDownload];
 }
 - (instancetype)initWithVideoURL:(NSURL*)url{
-    if (self == [super init]){
+    self = [super init];
+    if (self) {
         self.videoURL = url;
         self.cacheManager = [[KJFileHandleManager alloc] initWithURL:self.videoURL];
         self.downloader = [[KJDownloader alloc] initWithURL:self.videoURL cacheManager:self.cacheManager];

@@ -156,7 +156,8 @@
 @end
 @implementation KJTableViewCell
 - (instancetype)initWithStyle:(UITableViewCellStyle)style reuseIdentifier:(NSString *)reuseIdentifier{
-    if (self == [super initWithStyle:style reuseIdentifier:reuseIdentifier]){
+    self = [super initWithStyle:style reuseIdentifier:reuseIdentifier];
+    if (self){
         self.videoImageView = [[KJBasePlayerView alloc]initWithFrame:CGRectMake(0, 0, [UIScreen mainScreen].bounds.size.width, [UIScreen mainScreen].bounds.size.width-50)];
         self.videoImageView.userInteractionEnabled = YES;
         self.videoImageView.contentMode = UIViewContentModeScaleAspectFit;
@@ -169,7 +170,7 @@
         UITapGestureRecognizer *tap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(tapVideoPlayer:)];
         [self.videoImageView addGestureRecognizer:tap];
         self.loadingView = [[UIActivityIndicatorView alloc] initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleWhite];
-        _loadingView.center = CGPointMake(self.videoImageView.frame.size.width/2, self.videoImageView.frame.size.height/2);
+        self.loadingView.center = CGPointMake(self.videoImageView.frame.size.width/2, self.videoImageView.frame.size.height/2);
         CGAffineTransform transform = CGAffineTransformMakeScale(1.5, 1.5);
         _loadingView.transform = transform;
         [self.contentView addSubview:self.loadingView];

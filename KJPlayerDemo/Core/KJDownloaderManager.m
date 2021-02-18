@@ -29,7 +29,8 @@
     [self kj_cancelDownloading];
 }
 - (instancetype)initWithCachedFragments:(NSArray*)fragments videoURL:(NSURL*)url cacheManager:(KJFileHandleManager*)manager{
-    if (self == [super init]){
+    self = [super init];
+    if (self) {
         self.canSaveToCache = YES;
         self.fragments = [NSMutableArray arrayWithArray:fragments];
         self.cacheManager = manager;

@@ -42,7 +42,8 @@ static dispatch_once_t onceToken;
     [self kj_saveRecordLastTime];
 }
 - (instancetype)init{
-    if (self == [super init]) {
+    self = [super init];
+    if (self) {
         NSNotificationCenter * defaultCenter = [NSNotificationCenter defaultCenter];
         [defaultCenter addObserver:self selector:@selector(kj_playerAppDidEnterBackground:)
                               name:UIApplicationWillResignActiveNotification object:nil];

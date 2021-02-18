@@ -11,7 +11,8 @@
 @implementation KJPlayerViewConfiguration
 
 - (instancetype)init{
-    if (self==[super init]) {
+    self = [super init];
+    if (self) {
         self.mainColor = PLAYER_UIColorFromHEXA(0xFF1437, 1);
         self.haveFristImage = NO;
         self.enableVolumeGesture = YES;

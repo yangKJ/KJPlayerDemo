@@ -14,14 +14,18 @@ NSString *kPlayerBaseViewChangeKey = @"kPlayerBaseViewKey";
     [[NSNotificationCenter defaultCenter] removeObserver:self];
 }
 - (instancetype)initWithFrame:(CGRect)frame{
-    if (self == [super initWithFrame:frame]) {
-        [self addObserver:self forKeyPath:@"frame" options:NSKeyValueObservingOptionNew context:NULL];
-        [self addObserver:self forKeyPath:@"bounds" options:NSKeyValueObservingOptionNew context:NULL];
-        [self addObserver:self forKeyPath:@"center" options:NSKeyValueObservingOptionNew context:NULL];
+    self = [super initWithFrame:frame];
+    if (self) {
+        [self kj_initializeConfiguration];
     }
     return self;
 }
-
+- (void)kj_initializeConfiguration{
+    self.userInteractionEnabled = YES;
+    [self addObserver:self forKeyPath:@"frame" options:NSKeyValueObservingOptionNew context:NULL];
+    [self addObserver:self forKeyPath:@"bounds" options:NSKeyValueObservingOptionNew context:NULL];
+    [self addObserver:self forKeyPath:@"center" options:NSKeyValueObservingOptionNew context:NULL];
+}
 
 #pragma mark - kvo
 - (void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary *)change context:(void *)context {

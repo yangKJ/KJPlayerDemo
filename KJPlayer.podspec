@@ -1,6 +1,6 @@
 Pod::Spec.new do |s|
   s.name         = "KJPlayer"
-  s.version      = "2.0.0"
+  s.version      = "2.0.2"
   s.summary      = "A good player made by yangkejun"
   s.homepage     = "https://github.com/yangKJ/KJPlayerDemo"
   s.description  = 'https://github.com/yangKJ/KJPlayerDemo/blob/master/README.md'
@@ -19,15 +19,18 @@ Pod::Spec.new do |s|
 
   s.subspec 'KJPlayer' do |y|
     y.source_files = "KJPlayerDemo/Core/*","KJPlayerDemo/KJPlayer/*"
+    y.resources = "KJPlayerDemo/Core/*.{xcdatamodeld}","CHANGELOG.md"
   end
   
   s.subspec 'KJMidiPlayer' do |midi|
     midi.source_files = "KJPlayerDemo/KJMidiPlayer/*"
+    midi.resources = "KJPlayerDemo/KJMidiPlayer/*.{bundle}"
     midi.dependency 'KJPlayer/KJPlayer'
   end
 
   s.subspec 'KJPlayerView' do |a|
     a.source_files = "KJPlayerDemo/KJPlayerView/*"
+    a.resources = "KJPlayerDemo/KJPlayerView/*.{bundle}"
     a.frameworks = 'QuartzCore','Accelerate','CoreGraphics'
     a.dependency 'KJPlayer/KJPlayer'
   end
