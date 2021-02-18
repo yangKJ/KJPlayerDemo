@@ -14,6 +14,8 @@
 #import <CommonCrypto/CommonDigest.h>
 #import <AVFoundation/AVFoundation.h>
 #import "DBPlayerDataInfo.h"
+#import <objc/runtime.h>
+#import <objc/message.h>
 
 NS_ASSUME_NONNULL_BEGIN
 // 弱引用
@@ -23,36 +25,6 @@ NS_ASSUME_NONNULL_BEGIN
 #define PLAYER_SCREEN_HEIGHT ([UIScreen mainScreen].bounds.size.height)
 // 颜色
 #define PLAYER_UIColorFromHEXA(hex,a) [UIColor colorWithRed:((hex&0xFF0000)>>16)/255.0f green:((hex&0xFF00)>>8)/255.0f blue:(hex&0xFF)/255.0f alpha:a]
-// 公共ivar
-#define PLAYER_COMMON_PROPERTY \
-@synthesize delegate = _delegate;\
-@synthesize useCacheFunction = _useCacheFunction;\
-@synthesize roregroundResume = _roregroundResume;\
-@synthesize backgroundPause = _backgroundPause;\
-@synthesize playerView = _playerView;\
-@synthesize videoURL = _videoURL;\
-@synthesize speed = _speed;\
-@synthesize volume = _volume;\
-@synthesize muted = _muted;\
-@synthesize cacheTime = _cacheTime;\
-@synthesize seekTime = _seekTime;\
-@synthesize currentTime = _currentTime;\
-@synthesize errorCode = _errorCode;\
-@synthesize localityData = _localityData;\
-@synthesize background = _background;\
-@synthesize timeSpace = _timeSpace;\
-@synthesize kPlayerTimeImage = _kPlayerTimeImage;\
-@synthesize placeholder = _placeholder;\
-@synthesize videoGravity = _videoGravity;\
-@synthesize requestHeader = _requestHeader;\
-@synthesize autoPlay = _autoPlay;\
-@synthesize userPause = _userPause;\
-@synthesize isPlaying = _isPlaying;\
-@synthesize kVideoSize = _kVideoSize;\
-@synthesize kVideoTotalTime = _kVideoTotalTime;\
-@synthesize kVideoURLFromat = _kVideoURLFromat;\
-@synthesize kVideoTryLookTime = _kVideoTryLookTime;\
-@synthesize kVideoAdvanceAndReverse = _kVideoAdvanceAndReverse;\
 
 /// 播放器的几种状态
 typedef NS_ENUM(NSInteger, KJPlayerState) {
@@ -74,29 +46,21 @@ static NSString * const _Nonnull KJPlayerStateStringMap[] = {
     [KJPlayerStateStopped] = @"stop",
     [KJPlayerStatePlaying] = @"playing",
 };
-/// 几种错误的code
-typedef NS_ENUM(NSInteger, KJPlayerErrorCode) {
-    KJPlayerErrorCodeNormal = 0, /// 正常播放
-    KJPlayerErrorCodeOtherSituations = 1, /// 其他情况
-    KJPlayerErrorCodeVideoURLFault = 100, /// 视频地址不正确
-    KJPlayerErrorCodeNetworkOvertime = -1001, /// 请求超时：-1001
-    KJPlayerErrorCodeServerNotFound  = -1003, /// 找不到服务器：-1003
-    KJPlayerErrorCodeServerInternalError = -1004, /// 服务器内部错误：-1004
-    KJPlayerErrorCodeNetworkInterruption = -1005, /// 网络中断：-1005
-    KJPlayerErrorCodeNetworkNoConnection = -1009, /// 无网络连接：-1009
-};
-/// 缓存状态
-typedef NS_ENUM(NSInteger, KJPlayerLoadState) {
-    KJPlayerLoadStateNone = 0,/// 没有缓存
-    KJPlayerLoadStateLoading, /// 缓存数据中
-    KJPlayerLoadStateComplete,/// 缓存结束
-    KJPlayerLoadStateError,   /// 缓存失败
-};
-static NSString * const _Nonnull KJPlayerLoadStateStringMap[] = {
-    [KJPlayerLoadStateNone]     = @"没有缓存",
-    [KJPlayerLoadStateLoading]  = @"缓存数据中",
-    [KJPlayerLoadStateComplete] = @"缓存结束",
-    [KJPlayerLoadStateError]    = @"缓存失败",
+/// 自定义错误情况
+typedef NS_ENUM(NSInteger, KJPlayerCustomCode) {
+    KJPlayerCustomCodeNormal = 0, /// 正常播放
+    KJPlayerCustomCodeOtherSituations = 1,/// 其他情况
+    KJPlayerCustomCodeCacheNone = 6,/// 没有缓存
+    KJPlayerCustomCodeCachedComplete = 7,/// 缓存完成
+    KJPlayerCustomCodeSaveDatabase = 8,/// 成功存入数据库
+    KJPlayerCustomCodeFinishLoading = 96,/// 取消加载网络
+    KJPlayerCustomCodeAVPlayerItemStatusUnknown = 97,/// playerItem状态未知
+    KJPlayerCustomCodeAVPlayerItemStatusFailed = 98,/// playerItem状态出错
+    KJPlayerCustomCodeVideoURLUnknownFormat = 99,/// 未知视频格式
+    KJPlayerCustomCodeVideoURLFault = 100,/// 视频地址不正确
+    KJPlayerCustomCodeWriteFileFailed = 101,/// 写入缓存文件错误
+    KJPlayerCustomCodeReadCachedDataFailed = 102,/// 读取缓存数据错误
+    KJPlayerCustomCodeSaveDatabaseFailed = 103,/// 存入数据库错误
 };
 /// 手势操作的类型
 typedef NS_ENUM(NSUInteger, KJPlayerGestureType) {
@@ -122,9 +86,9 @@ typedef NS_ENUM(NSUInteger, KJPlayerDeviceDirection) {
 };
 /// 播放器充满类型
 typedef NS_ENUM(NSUInteger, KJPlayerVideoGravity) {
-    KJPlayerVideoGravityResizeAspect = 0,/// 最大边等比充满
-    KJPlayerVideoGravityResizeAspectFill,/// 拉伸充满
-    KJPlayerVideoGravityResizeOriginal,  /// 原始尺寸
+    KJPlayerVideoGravityResizeAspect = 0,/// 最大边等比充满，按比例压缩
+    KJPlayerVideoGravityResizeAspectFill,/// 原始尺寸，视频不会有黑边
+    KJPlayerVideoGravityResizeOriginal,  /// 拉伸充满，视频会变形
 };
 /// 视频格式
 typedef NS_ENUM(NSUInteger, KJPlayerVideoFromat) {
@@ -133,6 +97,11 @@ typedef NS_ENUM(NSUInteger, KJPlayerVideoFromat) {
     KJPlayerVideoFromat_wav,
     KJPlayerVideoFromat_avi,
     KJPlayerVideoFromat_m3u8,
+};
+/// 跳过播放
+typedef NS_ENUM(NSUInteger, KJPlayerVideoSkipState) {
+    KJPlayerVideoSkipStateHead, /// 跳过片头
+    KJPlayerVideoSkipStateFoot, /// 跳过片尾
 };
 static NSString * const _Nonnull KJPlayerVideoFromatStringMap[] = {
     [KJPlayerVideoFromat_mp4]  = @".mp4",
@@ -147,13 +116,13 @@ static NSString * const _Nonnull KJPlayerVideoFromatMimeStringMap[] = {
     [KJPlayerVideoFromat_m3u8] = @"video/m3u8",
 };
 NS_INLINE KJPlayerVideoFromat kPlayerVideoURLFromat(NSString * fromat){
-    if ([fromat isEqualToString:@"mp4"] || [fromat isEqualToString:@"MP4"]) {
+    if ([fromat containsString:@"mp4"] || [fromat containsString:@"MP4"]) {
         return KJPlayerVideoFromat_mp4;
-    }else if ([fromat isEqualToString:@"wav"] || [fromat isEqualToString:@"WAV"]) {
+    }else if ([fromat containsString:@"wav"] || [fromat containsString:@"WAV"]) {
         return KJPlayerVideoFromat_wav;
-    }else if ([fromat isEqualToString:@"avi"] || [fromat isEqualToString:@"AVI"]) {
+    }else if ([fromat containsString:@"avi"] || [fromat containsString:@"AVI"]) {
         return KJPlayerVideoFromat_avi;
-    }else if ([fromat isEqualToString:@"m3u8"]) {
+    }else if ([fromat containsString:@"m3u8"]) {
         return KJPlayerVideoFromat_m3u8;
     }else{
         return KJPlayerVideoFromat_none;
@@ -162,55 +131,15 @@ NS_INLINE KJPlayerVideoFromat kPlayerVideoURLFromat(NSString * fromat){
 // 根据链接获取格式
 NS_INLINE KJPlayerVideoFromat kPlayerFromat(NSURL *url){
     if (url == nil) return KJPlayerVideoFromat_none;
-    NSArray *array = [url.path componentsSeparatedByString:@"."];
+    if (url.pathExtension.length) {
+        return kPlayerVideoURLFromat(url.pathExtension);
+    }
+    NSArray * array = [url.path componentsSeparatedByString:@"."];
     if (array.count == 0) {
         return KJPlayerVideoFromat_none;
     }else{
         return kPlayerVideoURLFromat(array.lastObject);
     }
-}
-// MD5加密
-NS_INLINE NSString * kPlayerMD5(NSString *string){
-    const char *str = [string UTF8String];
-    unsigned char digist[CC_MD5_DIGEST_LENGTH];
-    CC_MD5(str, (uint)strlen(str), digist);
-    NSMutableString *outPutStr = [NSMutableString stringWithCapacity:10];
-    for (int i = 0; i < CC_MD5_DIGEST_LENGTH; i++){
-        [outPutStr appendFormat:@"%02X", digist[i]];
-    }
-    return [outPutStr lowercaseString];
-}
-// 文件名
-NS_INLINE NSString * kPlayerIntactName(NSURL *url){
-    return kPlayerMD5(url.resourceSpecifier?:url.absoluteString);
-}
-// 得到完整的沙盒路径
-NS_INLINE NSString * kPlayerIntactSandboxPath(NSString *videoName){
-    NSString *document = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory,NSUserDomainMask,YES).lastObject;
-    return [document stringByAppendingPathComponent:videoName];
-}
-// 获取当前的旋转状态
-NS_INLINE CGAffineTransform kPlayerDeviceOrientation(void){
-    UIInterfaceOrientation orientation = [UIApplication sharedApplication].statusBarOrientation;
-    if (orientation == UIInterfaceOrientationPortrait) {
-        return CGAffineTransformIdentity;
-    }else if (orientation == UIInterfaceOrientationLandscapeLeft) {
-        return CGAffineTransformMakeRotation(-M_PI_2);
-    }else if (orientation == UIInterfaceOrientationLandscapeRight) {
-        return CGAffineTransformMakeRotation(M_PI_2);
-    }
-    return CGAffineTransformIdentity;
-}
-// 设置时间显示
-NS_INLINE NSString * kPlayerConvertTime(CGFloat second){
-    NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
-    dateFormatter.timeZone = [NSTimeZone timeZoneWithName:@"GMT"];
-    if (second / 3600 >= 1) {
-        [dateFormatter setDateFormat:@"HH:mm:ss"];
-    }else{
-        [dateFormatter setDateFormat:@"mm:ss"];
-    }
-    return [dateFormatter stringFromDate:[NSDate dateWithTimeIntervalSince1970:second]];
 }
 NS_INLINE void kGCD_player_async(dispatch_block_t _Nonnull block) {
     dispatch_queue_t queue = dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0);
@@ -231,6 +160,53 @@ NS_INLINE void kGCD_player_main(dispatch_block_t _Nonnull block) {
             dispatch_sync(queue, block);
         }
     }
+}
+// MD5加密
+NS_INLINE NSString * kPlayerMD5(NSString *string){
+    const char *str = [string UTF8String];
+    unsigned char digist[CC_MD5_DIGEST_LENGTH];
+    CC_MD5(str, (uint)strlen(str), digist);
+    NSMutableString *outPutStr = [NSMutableString stringWithCapacity:10];
+    for (int i = 0; i < CC_MD5_DIGEST_LENGTH; i++){
+        [outPutStr appendFormat:@"%02X", digist[i]];
+    }
+    return [outPutStr lowercaseString];
+}
+// 文件名
+NS_INLINE NSString * kPlayerIntactName(NSURL *url){
+    NSString *name = kPlayerMD5(url.resourceSpecifier?:url.absoluteString);
+    return [@"video_" stringByAppendingString:name];
+}
+// 设置时间显示
+NS_INLINE NSString * kPlayerConvertTime(CGFloat second){
+    NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
+    dateFormatter.timeZone = [NSTimeZone timeZoneWithName:@"GMT"];
+    if (second / 3600 >= 1) {
+        [dateFormatter setDateFormat:@"HH:mm:ss"];
+    }else{
+        [dateFormatter setDateFormat:@"mm:ss"];
+    }
+    return [dateFormatter stringFromDate:[NSDate dateWithTimeIntervalSince1970:second]];
+}
+// 获取当前的旋转状态
+NS_INLINE CGAffineTransform kPlayerDeviceOrientation(void){
+    UIInterfaceOrientation orientation = [UIApplication sharedApplication].statusBarOrientation;
+    if (orientation == UIInterfaceOrientationPortrait) {
+        return CGAffineTransformIdentity;
+    }else if (orientation == UIInterfaceOrientationLandscapeLeft) {
+        return CGAffineTransformMakeRotation(-M_PI_2);
+    }else if (orientation == UIInterfaceOrientationLandscapeRight) {
+        return CGAffineTransformMakeRotation(M_PI_2);
+    }
+    return CGAffineTransformIdentity;
+}
+// 寻找响应者
+NS_INLINE __kindof UIResponder * kPlayerLookupResponder(Class clazz, UIView *view){
+    __kindof UIResponder *_Nullable next = view.nextResponder;
+    while (next != nil && [next isKindOfClass:clazz] == NO) {
+        next = next.nextResponder;
+    }
+    return next;
 }
 
 #endif /* KJPlayerType_h */

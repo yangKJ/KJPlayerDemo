@@ -1,0 +1,41 @@
+//
+//  KJDownloader.h
+//  KJPlayerDemo
+//
+//  Created by 杨科军 on 2021/2/10.
+//  Copyright © 2021 杨科军. All rights reserved.
+//  https://github.com/yangKJ/KJPlayerDemo
+
+#import <Foundation/Foundation.h>
+#import <MobileCoreServices/MobileCoreServices.h>
+#import "KJDownloaderManager.h"
+#import "KJFileHandleManager.h"
+#import "DBPlayerDataInfo.h"
+
+NS_ASSUME_NONNULL_BEGIN
+
+@interface KJDownloader : NSObject
+@property (nonatomic,strong,readonly) NSURL *videoURL;
+@property (nonatomic,strong) NSString *contentType;
+@property (nonatomic,assign) NSUInteger contentLength;
+@property (nonatomic,assign) BOOL saveToCache;
+- (instancetype)initWithURL:(NSURL*)url cacheManager:(KJFileHandleManager*)manager;
+/* 指定下载，是否下载到末尾全部数据 */
+- (void)kj_downloadTaskRange:(NSRange)range whole:(BOOL)whole;
+/* 开始下载全部内容 */
+- (void)kj_startDownload;
+/* 取消下载 */
+- (void)kj_cancelDownload;
+
+@end
+@interface KJDownloader (KJRequestBlock)
+/* 当服务端开始接收数据时调用 */
+@property (nonatomic,copy,readwrite) void (^kDidReceiveResponse)(KJDownloader *downloader, NSURLResponse *response);
+/* 当接收到数据的时候调用，该方法多次被调用返回接收到的服务端二进制数据 */
+@property (nonatomic,copy,readwrite) void (^kDidReceiveData)(KJDownloader *downloader, NSData *data);
+/* 当请求错误的时候调用 */
+@property (nonatomic,copy,readwrite) void (^kDidFinished)(KJDownloader *downloader, NSError *error);
+
+@end
+
+NS_ASSUME_NONNULL_END

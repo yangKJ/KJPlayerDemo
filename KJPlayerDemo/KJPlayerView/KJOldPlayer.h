@@ -49,7 +49,7 @@ typedef void (^KJPlayerSeekBeginPlayBlock)(void);
 
 #pragma mark - 回调事件处理
 /* 当前播放器状态 */
-@property (nonatomic,readwrite,copy) void (^kPlayerStateBlcok)(KJOldPlayer *player, KJPlayerState state, KJPlayerErrorCode errorCode);
+@property (nonatomic,readwrite,copy) void (^kPlayerStateBlcok)(KJOldPlayer *player, KJPlayerState state, KJPlayerCustomCode errorCode);
 /* 播放进度 */
 @property (nonatomic,readwrite,copy) void (^kPlayerPlayProgressBlcok)(KJOldPlayer *player, CGFloat progress, CGFloat currentTime, CGFloat durationTime);
 /* 缓存完成 */
@@ -60,7 +60,7 @@ typedef void (^KJPlayerSeekBeginPlayBlock)(void);
 @protocol KJOldPlayerDelegate <NSObject>
 @optional;
 /* 当前播放器状态 */
-- (void)kj_player:(KJOldPlayer*)player State:(KJPlayerState)state ErrorCode:(KJPlayerErrorCode)errorCode;
+- (void)kj_player:(KJOldPlayer*)player State:(KJPlayerState)state ErrorCode:(KJPlayerCustomCode)errorCode;
 /* 播放进度 */
 - (void)kj_player:(KJOldPlayer*)player Progress:(CGFloat)progress CurrentTime:(CGFloat)currentTime DurationTime:(CGFloat)durationTime;
 /* 缓存完成 */

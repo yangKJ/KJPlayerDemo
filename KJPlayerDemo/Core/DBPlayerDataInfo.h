@@ -8,36 +8,69 @@
 //  本地数据库模型和工具
 
 #import <CoreData/CoreData.h>
+#import "KJPlayerType.h"
 
 NS_ASSUME_NONNULL_BEGIN
-@interface DBPlayerData : NSManagedObject
-@property (nonatomic, retain) NSString *dbid;//唯一id，视频链接去除scheme然后md5
-@property (nonatomic, retain) NSString *videoUrl;//视频链接
-@property (nonatomic, assign) int64_t saveTime;//存储时间戳
-@property (nonatomic, retain) NSString *sandboxPath;//沙盒地址
-@property (nonatomic, retain) NSString *videoFormat;//视频格式
-@property (nonatomic, assign) int64_t videoTime;//视频时间
-@property (nonatomic, retain) NSData *videoData;//视频数据
-@end
 
+@interface DBPlayerData : NSManagedObject
+@property (nonatomic,retain) NSString *dbid;//唯一id，视频链接去除scheme然后md5
+@property (nonatomic,retain) NSString *videoUrl;//视频链接
+@property (nonatomic,assign) int64_t saveTime;//存储时间戳
+@property (nonatomic,retain) NSString *sandboxPath;//沙盒地址
+@property (nonatomic,retain) NSString *videoFormat;//视频格式
+@property (nonatomic,assign) int64_t videoContentLength;//视频内容长度
+@property (nonatomic,assign) Boolean videoIntact;//视频已下载完成
+@property (nonatomic,retain) NSData *videoData;//视频数据
+@property (nonatomic,assign) int64_t videoPlayTime;//视频上次播放时间
+@end
+/// 缓存碎片结构体
+struct KJCacheFragment {
+    NSInteger type;/// 0 -- 本地碎片，1 -- 远端碎片
+    NSRange  range;/// 位置长度
+};typedef struct KJCacheFragment KJCacheFragment;
 @interface DBPlayerDataInfo : NSObject
 /* 单例属性 */
 @property(nonatomic,strong,class,readonly,getter=kj_sharedInstance) DBPlayerDataInfo *shared;
 /* 管理数据 */
 @property(nonatomic,strong,readonly) NSManagedObjectContext *context;
+@property(nonatomic,strong,readonly) NSMutableSet *downloadings;
 /* 插入数据，重复数据替换处理 */
-+ (NSArray<DBPlayerData*>*)kj_insertData:(NSString*)dbid Data:(void(^)(DBPlayerData *data))insert;
++ (NSArray<DBPlayerData*>*)kj_insertData:(NSString*)dbid Data:(void(^)(DBPlayerData *data))insert error:(NSError**)error;
 /* 删除数据 */
 + (NSArray<DBPlayerData*>*)kj_deleteData:(NSString*)dbid;
 /* 新添加数据 */
 + (NSArray<DBPlayerData*>*)kj_addData:(void(^)(DBPlayerData *data))insert;
 /* 更新数据 */
-+ (NSArray<DBPlayerData*>*)kj_updateData:(NSString*)dbid Data:(void(^)(DBPlayerData *data, bool * stop))update;
++ (NSArray<DBPlayerData*>*)kj_updateData:(NSString*)dbid Data:(void(^)(DBPlayerData *data, BOOL * stop))update;
 /* 查询数据，传空传全部数据 */
 + (NSArray<DBPlayerData*>*)kj_checkData:(NSString * _Nullable)dbid;
 /* 指定条件查询，例如查询现在以前的数据 */
 // NSArray *temps = DBPlayerDataInfo.kCheckAppointDatas(NSDate.date.timeIntervalSince1970, @"saveTime < %d");
 @property(nonatomic,copy,class,readonly)NSArray<DBPlayerData*>*(^kCheckAppointDatas)(int64_t, NSString *fromat);
+/* 记录上次播放时间 */
++ (BOOL)kj_recordLastTime:(NSTimeInterval)time dbid:(NSString*)dbid;
+/* 获取上次播放时间 */
++ (NSTimeInterval)kj_getLastTimeDbid:(NSString*)dbid;
+/* 存储记录上次播放时间 */
+void kRecordLastTime(NSTimeInterval time, NSString *dbid);
+
+#pragma mark - 下载地址管理
+/* 新增网址 */
+- (void)kj_addDownloadURL:(NSURL*)url;
+/* 移出网址 */
+- (void)kj_removeDownloadURL:(NSURL*)url;
+/* 是否包含网址 */
+- (BOOL)kj_containsDownloadURL:(NSURL*)url;
+
+#pragma mark - 结构体相关
+/* 缓存碎片结构体转对象 */
++ (NSValue*)kj_cacheFragment:(KJCacheFragment)fragment;
+/* 缓存碎片对象转结构体 */
++ (KJCacheFragment)kj_getCacheFragment:(id)obj;
+
+#pragma mark - 错误提示汇总
+/* 创建指定错误 */
++ (NSError*)kj_errorSummarizing:(NSInteger)code;
 
 @end
 

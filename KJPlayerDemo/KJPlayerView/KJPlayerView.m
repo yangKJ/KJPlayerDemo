@@ -9,10 +9,28 @@
 #import "KJPlayerView.h"
 #import <MediaPlayer/MPVolumeView.h> 
 #import <QuartzCore/QuartzCore.h>
-#import "UIButton+KJPlayerAreaInsets.h"
 /// 设置图片
 #define PLAYER_GET_BUNDLE_IMAGE(imageName) \
 ([UIImage imageNamed:[@"KJPlayerView.bundle" stringByAppendingPathComponent:(imageName)]])
+@implementation UIButton (KJPlayerAreaInsets)
+- (UIEdgeInsets)touchAreaInsets{
+    return [objc_getAssociatedObject(self, @selector(touchAreaInsets)) UIEdgeInsetsValue];
+}
+- (void)setTouchAreaInsets:(UIEdgeInsets)touchAreaInsets{
+    NSValue *value = [NSValue valueWithUIEdgeInsets:touchAreaInsets];
+    objc_setAssociatedObject(self, @selector(touchAreaInsets), value, OBJC_ASSOCIATION_RETAIN_NONATOMIC);
+}
+- (BOOL)pointInside:(CGPoint)point withEvent:(UIEvent *)event{
+    UIEdgeInsets touchAreaInsets = self.touchAreaInsets;
+    CGRect bounds = self.bounds;
+    bounds = CGRectMake(bounds.origin.x - touchAreaInsets.left,
+                        bounds.origin.y - touchAreaInsets.top,
+                        bounds.size.width + touchAreaInsets.left + touchAreaInsets.right,
+                        bounds.size.height + touchAreaInsets.top + touchAreaInsets.bottom);
+    return CGRectContainsPoint(bounds, point);
+}
+@end
+
 @interface KJPlayerView ()<KJOldPlayerDelegate,UIGestureRecognizerDelegate>
 @property (nonatomic,strong) id videoURL;
 @property (nonatomic,strong) NSTimer *timer;
@@ -201,7 +219,7 @@
         self.configuration.currentTime = currentTime;
     }
 }
-- (void)kj_player:(KJOldPlayer *)player State:(KJPlayerState)state ErrorCode:(KJPlayerErrorCode)errorCode {
+- (void)kj_player:(KJOldPlayer *)player State:(KJPlayerState)state ErrorCode:(KJPlayerCustomCode)errorCode {
     self.configuration.state = state;
     switch (state) {
         case KJPlayerStateBuffering:
@@ -515,9 +533,9 @@
     sender.selected = !sender.selected;
     if (self.configuration.state == KJPlayerStatePausing) {
         [self.player kj_playerResume];
-    } else if(self.configuration.state == KJPlayerStatePlaying){
+    }else if (self.configuration.state == KJPlayerStatePlaying){
         [self.player kj_playerPause];
-    } else if (self.configuration.state == KJPlayerStateStopped){
+    }else if (self.configuration.state == KJPlayerStateStopped){
         self.videoURL = self.configuration.url;
     }
 }
@@ -779,9 +797,9 @@
     }
     return _coverImageView;
 }
-- (KJFastView*)fastView{
+- (KJOldFastView*)fastView{
     if (!_fastView) {
-        _fastView = [[KJFastView alloc]initWithFrame:CGRectMake(0, 0, 160, 75)];
+        _fastView = [[KJOldFastView alloc]initWithFrame:CGRectMake(0, 0, 160, 75)];
         _fastView.center = self.contentView.center;
         _fastView.moveGestureFast = NO;
         _fastView.progressView.progressTintColor = self.configuration.mainColor;

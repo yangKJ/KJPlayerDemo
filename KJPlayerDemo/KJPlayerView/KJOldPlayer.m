@@ -7,7 +7,6 @@
 //  https://github.com/yangKJ/KJPlayerDemo
 
 #import "KJOldPlayer.h"
-#import "KJResourceLoader.h"
 
 #pragma clang diagnostic push
 #pragma clang diagnostic ignored"-Wdeprecated-declarations"
@@ -15,29 +14,21 @@
 @interface KJOldPlayer ()
 @property (nonatomic,strong) KJPlayerSeekBeginPlayBlock seekBeginPlayBlock;
 @property (nonatomic,assign) KJPlayerState state;
-@property (nonatomic,assign) KJPlayerErrorCode errorCode;
-@property (nonatomic,assign) CGFloat current;//当前播放时间
+@property (nonatomic,assign) KJPlayerCustomCode errorCode;
+@property (nonatomic,assign) CGFloat current;
 @property (nonatomic,assign) CGFloat progress;
 @property (nonatomic,assign) CGFloat loadedProgress;
 @property (nonatomic,strong) AVPlayerItem *playerItem;
-@property (nonatomic,strong) NSObject *periodicTimeObserver;//观察者
-@property (nonatomic,assign) BOOL userPause;//是否被用户暂停
-@property (nonatomic,assign) BOOL loadComplete;//是否缓存完成
-
-/* ************** 外界需要可以访问的属性 ****************/
-/* 视频总时间 */
+@property (nonatomic,strong) NSObject *periodicTimeObserver;
+@property (nonatomic,assign) BOOL userPause;
+@property (nonatomic,assign) BOOL loadComplete;
 @property (nonatomic,assign) CGFloat videoTotalTime;
-/* 播放器 */
 @property (nonatomic,strong) AVPlayer *videoPlayer;
-/* 播放器Layer */
 @property (nonatomic,strong) AVPlayerLayer *videoPlayerLayer;
-/* 是否为本地资源 */
 @property (nonatomic,assign) BOOL videoIsLocalityData;
-
 @end
 
 @implementation KJOldPlayer
-
 + (instancetype)sharedInstance {
     static dispatch_once_t onceToken;
     static id _sharedInstance;
@@ -56,7 +47,7 @@
 - (void)config{
     _stopWhenAppEnterBackground = YES;
     _state = KJPlayerStateStopped;
-    _errorCode = KJPlayerErrorCodeNormal;
+    _errorCode = KJPlayerCustomCodeNormal;
     _loadedProgress = 0.0;
     _videoTotalTime = 0.0;
     _current  = 0.0;
@@ -196,20 +187,16 @@
     [self.playerItem addObserver:self forKeyPath:@"loadedTimeRanges" options:NSKeyValueObservingOptionNew context:nil];
     [self.playerItem addObserver:self forKeyPath:@"playbackBufferEmpty" options:NSKeyValueObservingOptionNew context:nil];
     [self.playerItem addObserver:self forKeyPath:@"playbackLikelyToKeepUp" options:NSKeyValueObservingOptionNew context:nil];
-    
     if (self.stopWhenAppEnterBackground) {
         [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(appDidEnterBackground) name:UIApplicationWillResignActiveNotification object:nil];
     }
     if (self.useOpenAppEnterBackground) {
         [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(appDidEnterPlayGround) name:UIApplicationDidBecomeActiveNotification object:nil];
     }
-    
-    /// 播放进度
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(playerItemPlaybackStalled:) name:AVPlayerItemPlaybackStalledNotification object:self.playerItem];
     // 添加视频播放结束通知
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(playerItemDidPlayToEnd:) name:AVPlayerItemDidPlayToEndTimeNotification object:self.playerItem];
 }
-
 // 播放处理
 - (void)kDealPlayWithItem:(AVPlayerItem *)playerItem{
     [self.videoPlayer play];
@@ -219,10 +206,8 @@
         if (weakself.userPause == NO) {
             weakself.state = KJPlayerStatePlaying;
         }
-        // 不相等的时候才更新，并回调出去，否则seek时会继续跳动
         if (weakself.current != current) {
             weakself.current = current > weakself.videoTotalTime ? weakself.videoTotalTime : current;
-            /// 播放进度时间处理
             if ([weakself.delegate respondsToSelector:@selector(kj_player:Progress:CurrentTime:DurationTime:)]) {
                 [weakself.delegate kj_player:weakself Progress:weakself.progress CurrentTime:weakself.current DurationTime:weakself.videoTotalTime];
             }
@@ -244,18 +229,14 @@
 }
 /// 提前缓存一点数据
 - (void)loadingSomeSecond{
-    // playbackBufferEmpty会反复进入，因此在bufferingOneSecond延时播放执行完之前再调用bufferingSomeSecond都忽略
     static BOOL kLoading = NO;
     if (kLoading) return;
     kLoading = YES;
-    // 需要先暂停一小会之后再播放，否则网络状况不好的时候时间在走，声音播放不出来
     [self.videoPlayer pause];
     dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(1 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
         kLoading = NO;
-        // 如果此时用户已经暂停了，则不再需要开启播放了
         if (self.userPause) return;
         [self.videoPlayer play];
-        // 如果执行了play还是没有播放则说明还没有缓存好，则再次缓存一段时间
         if (!self.playerItem.isPlaybackLikelyToKeepUp) {
             [self loadingSomeSecond];
         }
@@ -297,18 +278,17 @@
             self.videoTotalTime = CMTimeGetSeconds(playerItem.duration);
             if (self.kVideoTotalTime) self.kVideoTotalTime(self.videoTotalTime);
             [self kDealPlayWithItem:playerItem];
-        } else if ([playerItem status] == AVPlayerStatusFailed || [playerItem status] == AVPlayerStatusUnknown) {
+        }else if ([playerItem status] == AVPlayerStatusFailed || [playerItem status] == AVPlayerStatusUnknown) {
             [self kj_playerStop];
         }
-    }else if ([keyPath isEqualToString:@"loadedTimeRanges"]) {// 监听播放器的下载进度
+    }else if ([keyPath isEqualToString:@"loadedTimeRanges"]) {
         [self kDownloadProgressWithItem:playerItem];
-    }else if ([keyPath isEqualToString:@"playbackBufferEmpty"]) {// 监听播放器在缓冲数据的状态
+    }else if ([keyPath isEqualToString:@"playbackBufferEmpty"]) {
         if (playerItem.isPlaybackBufferEmpty) {
             self.state = KJPlayerStateBuffering;
             [self loadingSomeSecond];
         }
     }else if ([keyPath isEqualToString:@"playbackLikelyToKeepUp"]) {
-        // seekToTime后,可以正常播放，相当于readyToPlay，一般拖动滑竿菊花转，到了这个这个状态菊花隐藏
         !self.seekBeginPlayBlock?:self.seekBeginPlayBlock();
     }
 }

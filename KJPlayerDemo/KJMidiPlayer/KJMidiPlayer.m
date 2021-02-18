@@ -18,7 +18,7 @@
     AudioUnit remoteIOUnit;/// 属性值的音频单元
     MusicSequence sequence;/// 音乐序列
 }
-PLAYER_COMMON_PROPERTY
+PLAYER_COMMON_PROPERTY PLAYER_COMMON_UI_PROPERTY
 - (instancetype)init{
     if (self == [super init]) {
         _speed = 1.;
@@ -28,10 +28,10 @@ PLAYER_COMMON_PROPERTY
     return self;
 }
 - (void)dealloc {
-    [self kj_playerStop];
+    [self kj_stop];
 }
 #pragma mark - setter/getter
-- (void)setVideoURL:(NSURL *)videoURL{
+- (void)setVideoURL:(NSURL*)videoURL{
     _videoURL = videoURL;
     [self createGraph];
     [self loadAudioUnitSetProperty];
@@ -50,25 +50,25 @@ PLAYER_COMMON_PROPERTY
 
 #pragma mark - public method
 /* 准备播放 */
-- (void)kj_playerPlay{
+- (void)kj_play{
     MusicPlayerStart(_musicPlayer);
 }
 /* 重播 */
-- (void)kj_playerReplay{
-    [self kj_playerPlay];
+- (void)kj_replay{
+    [self kj_play];
 }
 /* 继续 */
-- (void)kj_playerResume{
+- (void)kj_resume{
     if (![self isPlaying] && _musicPlayer) MusicPlayerStart(_musicPlayer);
     [self startGraph];
 }
 /* 暂停 */
-- (void)kj_playerPause{
+- (void)kj_pause{
     if ([self isPlaying]) MusicPlayerStop(_musicPlayer);
     [self stopGraph];
 }
 /* 停止 */
-- (void)kj_playerStop{
+- (void)kj_stop{
     [self stopGraph];
     MusicPlayerStop(_musicPlayer);
     DisposeMusicPlayer(_musicPlayer);
@@ -76,15 +76,18 @@ PLAYER_COMMON_PROPERTY
     DisposeAUGraph(graph);
     _musicPlayer = nil;
 }
-/* 设置开始播放时间 */
-- (void)kj_playerSeekTime:(NSTimeInterval)seconds completionHandler:(void(^_Nullable)(BOOL finished))completionHandler{
-    MusicTimeStamp time = seconds;
-    SInt32 xx = MusicPlayerSetTime(_musicPlayer, time);
-    if (completionHandler) completionHandler(xx>=0);
+/* 快进或快退 */
+- (void (^)(NSTimeInterval,void (^_Nullable)(BOOL)))kVideoAdvanceAndReverse{
+    return ^(NSTimeInterval seconds,void (^xxblock)(BOOL)){
+        MusicTimeStamp time = seconds;
+        SInt32 xx = MusicPlayerSetTime(self->_musicPlayer, time);
+        if (xxblock) xxblock(xx>=0);
+    };
 }
+
 #pragma mark - private method
 - (void)createGraph {
-    if (_musicPlayer) [self kj_playerStop];
+    if (_musicPlayer) [self kj_stop];
     NewAUGraph(&graph);
 
     AudioComponentDescription sourceNodeDes;

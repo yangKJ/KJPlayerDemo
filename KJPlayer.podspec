@@ -1,8 +1,9 @@
 Pod::Spec.new do |s|
   s.name         = "KJPlayer"
-  s.version      = "1.0.10"
+  s.version      = "2.0.0"
   s.summary      = "A good player made by yangkejun"
   s.homepage     = "https://github.com/yangKJ/KJPlayerDemo"
+  s.description  = 'https://github.com/yangKJ/KJPlayerDemo/blob/master/README.md'
   s.license      = "MIT"
   s.license      = { :type => "MIT", :file => "LICENSE" }
   s.license      = "Copyright (c) 2019 yangkejun"
@@ -17,19 +18,21 @@ Pod::Spec.new do |s|
   s.ios.source_files = 'KJPlayerDemo/KJPlayerHeader.h' 
 
   s.subspec 'KJPlayer' do |y|
-    y.source_files = "KJPlayerDemo/Core/*.{h,m}","KJPlayerDemo/KJPlayer/*.{h,m}"
-    y.public_header_files = 'KJPlayerDemo/Core/*.h','KJPlayerDemo/KJPlayer/*.h'
-    y.resources = "KJPlayerDemo/Core/*.{xcdatamodeld}"
-    y.frameworks = 'Foundation','UIKit','AVFoundation','MobileCoreServices'
+    y.source_files = "KJPlayerDemo/Core/*","KJPlayerDemo/KJPlayer/*"
+  end
+  
+  s.subspec 'KJMidiPlayer' do |midi|
+    midi.source_files = "KJPlayerDemo/KJMidiPlayer/*"
+    midi.dependency 'KJPlayer/KJPlayer'
   end
 
   s.subspec 'KJPlayerView' do |a|
-    a.source_files = "KJPlayerDemo/KJPlayerView/*.{h,m}" 
-    a.public_header_files = 'KJPlayerDemo/KJPlayerView/*.h'
-    a.resources = "KJPlayerDemo/KJPlayerView/*.{bundle}" 
+    a.source_files = "KJPlayerDemo/KJPlayerView/*"
     a.frameworks = 'QuartzCore','Accelerate','CoreGraphics'
     a.dependency 'KJPlayer/KJPlayer'
   end
+  
+  s.frameworks = 'Foundation','UIKit','AVFoundation','MobileCoreServices'
   
 end
 

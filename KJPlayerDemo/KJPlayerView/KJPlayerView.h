@@ -10,7 +10,7 @@
 #import <UIKit/UIKit.h>
 #import "KJPlayerViewModel.h"
 #import "KJOldPlayer.h"
-#import "KJFastView.h"
+#import "KJOldFastView.h"
 #import "KJLightView.h"
 #import "KJDefinitionView.h"
 #import "KJPlayerViewConfiguration.h"
@@ -75,7 +75,7 @@ NS_ASSUME_NONNULL_BEGIN
 /* 显示缓冲进度 */
 @property (nonatomic,strong) UIProgressView *loadingProgress;
 /* 快进快退 */
-@property (nonatomic,strong) KJFastView *fastView;
+@property (nonatomic,strong) KJOldFastView *fastView;
 /* 声音滑块 */
 @property (nonatomic,strong) UISlider *volumeSlider;
 /* 亮度调节 */
