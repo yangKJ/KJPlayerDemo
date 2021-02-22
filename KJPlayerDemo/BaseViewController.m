@@ -177,29 +177,4 @@
     return NO;
 }
 
-//static dispatch_once_t onceToken;
-//static NSRegularExpression *regex = nil;
-//static NSRegularExpression *ipRegex = nil;
-//static NSArray *supportScheme = nil;
-//dispatch_once(&onceToken, ^{
-//    NSString *regulaStr = @"\\[\\!(\\w+)\\]";
-//    regex = [[NSRegularExpression alloc] initWithPattern:regulaStr options:NSRegularExpressionCaseInsensitive error:NULL];
-//    NSString *ipPattan = @"((http|ftp|https):\\/\\/)?(?:(?:\\d?\\d?\\d?)\\.){3}(?:[0-9]?[0-9][0-9]?)[:]?\\d*";
-//    ipRegex = [NSRegularExpression regularExpressionWithPattern:ipPattan options:0 error:nil];
-//    supportScheme = @[@"http", @"https", @"ftp"];
-//});
-//NSMutableAttributedString *final = [[NSMutableAttributedString alloc]initWithString:string];
-//NSRange matchingRange = NSMakeRange(0, [final length]);
-//[ipRegex enumerateMatchesInString:string options:NSMatchingReportCompletion range:matchingRange usingBlock:^(NSTextCheckingResult * _Nullable result, NSMatchingFlags flags, BOOL * _Nonnull stop) {
-//    NSString *urlString = [string substringWithRange:result.range];
-//    if ([urlString length] > 0) {
-//        NSURL *url = [NSURL URLWithString:urlString];
-//        NSString *scheme = [url scheme];
-//        if (!scheme || ![supportScheme containsObject:scheme]) {
-//            NSString *value = [NSString stringWithFormat:@"http://%@", urlString];
-//            [final addAttribute:NSLinkAttributeName value:value range:result.range];
-//        }
-//    }
-//}];
-
 @end

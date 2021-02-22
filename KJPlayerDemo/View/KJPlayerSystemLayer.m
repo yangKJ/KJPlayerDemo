@@ -58,13 +58,13 @@
     
     CGContextSetLineCap(context, kCGLineCapRound);
     
-    CGContextSetStrokeColorWithColor(context, UIColor.redColor.CGColor);
+    CGContextSetStrokeColorWithColor(context, self.mainColor.CGColor);
     CGContextMoveToPoint(context, sp+mark, y);
     CGContextAddLineToPoint(context, width-sp, y);
     CGContextSetLineWidth(context, 3.5f);
     CGContextStrokePath(context);
     
-    CGContextSetStrokeColorWithColor(context, self.mainColor.CGColor);
+    CGContextSetStrokeColorWithColor(context, self.viceColor.CGColor);
     CGContextMoveToPoint(context, sp+mark, y);
     CGContextAddLineToPoint(context, self.value*(width-mark-2*sp) + sp + mark, y);
     CGContextSetLineWidth(context, 4.0f);

@@ -40,14 +40,14 @@
     CGFloat sp = width/8.0;
     UIGraphicsPushContext(context);
     
-    CGContextSetStrokeColorWithColor(context, UIColor.redColor.CGColor);
+    CGContextSetStrokeColorWithColor(context, self.mainColor.CGColor);
     CGContextMoveToPoint(context, sp, y);
     CGContextAddLineToPoint(context, width-sp, y);
     CGContextSetLineWidth(context, 3.5f);
     CGContextSetLineCap(context, kCGLineCapRound);
     CGContextStrokePath(context);
     
-    CGContextSetStrokeColorWithColor(context, self.mainColor.CGColor);
+    CGContextSetStrokeColorWithColor(context, self.viceColor.CGColor);
     CGContextMoveToPoint(context, sp, y);
     CGContextAddLineToPoint(context, self.value/self.time*(width-2*sp) + sp, y);
     CGContextSetLineWidth(context, 4.0f);

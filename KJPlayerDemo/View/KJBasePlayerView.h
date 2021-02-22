@@ -20,6 +20,8 @@ extern NSString *kPlayerBaseViewChangeKey;
 @interface KJBasePlayerView : UIImageView
 /* 主色调，默认白色 */
 @property (nonatomic,strong) UIColor *mainColor;
+/* 副色调，默认红色 */
+@property (nonatomic,strong) UIColor *viceColor;
 /* 窗口window */
 @property (nonatomic,strong,class,readonly) UIWindow *window;
 /* 委托代理 */

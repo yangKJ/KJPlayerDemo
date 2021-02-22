@@ -20,5 +20,6 @@
 
 #import "KJPlayerHeader.h"
 #import "BaseViewController.h"
+#import "UIViewController+KJNavigationHidden.h"
 
 #endif /* PrefixHeader_pch */

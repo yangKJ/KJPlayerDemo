@@ -7,23 +7,40 @@
 //  https://github.com/yangKJ/KJPlayerDemo
 
 #import "KJDetailPlayerVC.h"
-@interface KJDetailPlayerVC ()
+@interface KJDetailPlayerVC ()<KJPlayerBaseViewDelegate>
 @property(nonatomic,strong)UIView *playerView;
 @end
 
 @implementation KJDetailPlayerVC
-- (void)willMoveToParentViewController:(UIViewController*)parent{
-    [super willMoveToParentViewController:parent];
+/// 电池状态栏管理
+- (BOOL)prefersStatusBarHidden{
+    return YES;
 }
-- (void)didMoveToParentViewController:(UIViewController*)parent{
-    [super didMoveToParentViewController:parent];
-    //侧滑返回监听
-    if(parent == nil){
-        if (self.kBackBlock) {
-            self.kBackBlock();
-        }
-        [self.navigationController popViewControllerAnimated:YES];
-    }
+- (void)viewWillAppear:(BOOL)animated{
+    [super viewWillAppear:animated];
+    self.navigationController.delegate = self;
+}
+- (void)viewDidLoad {
+    [super viewDidLoad];
+    // Do any additional setup after loading the view.
+    self.view.backgroundColor = UIColor.blackColor;
+    
+    KJBasePlayerView *backview = [[KJBasePlayerView alloc]initWithFrame:CGRectMake(0, 0, self.view.frame.size.height, self.view.frame.size.width)];
+    self.view.transform = CGAffineTransformMakeRotation(M_PI_2);
+    backview.image = [UIImage imageNamed:@"20ea53a47eb0447883ed186d9f11e410"];
+    [self.view addSubview:backview];
+    backview.delegate = self;
+    backview.gestureType = KJPlayerGestureTypeAll;
+    
+    self.layer.frame = backview.bounds;
+    [backview.layer addSublayer:self.layer];
+    
+    UIButton *backButton = [[UIButton alloc]initWithFrame:CGRectMake(PLAYER_STATUSBAR_HEIGHT, 10, 35, 35)];
+    [backButton setImage:[UIImage imageNamed:@"Arrow"] forState:UIControlStateNormal];
+    [backButton addTarget:self action:@selector(backItemClick) forControlEvents:UIControlEventTouchUpInside];
+    backButton.backgroundColor = [UIColor.whiteColor colorWithAlphaComponent:0.5];
+    backButton.layer.cornerRadius = backButton.frame.size.width/2;
+    [self.view addSubview:backButton];
 }
 - (void)backItemClick{
     if (self.kBackBlock) {
@@ -31,38 +48,57 @@
     }
     [self.navigationController popViewControllerAnimated:YES];
 }
-- (void)viewDidLoad {
-    [super viewDidLoad];
-    // Do any additional setup after loading the view.
-    self.view.backgroundColor = UIColor.whiteColor;
-    UIButton *backButton = [[UIButton alloc]initWithFrame:CGRectMake(0, 0, 20, 40)];
-    [backButton setImage:[UIImage imageNamed:@"Arrow"] forState:UIControlStateNormal];
-    [backButton addTarget:self action:@selector(backItemClick) forControlEvents:UIControlEventTouchUpInside];
-    UIBarButtonItem *backItem = [[UIBarButtonItem alloc]initWithCustomView:backButton];
-    self.navigationItem.leftBarButtonItem = backItem;
-    
-    [self.view addSubview:self.playerView];
-    if (self.layer) {
-        self.layer.frame = self.playerView.bounds;
-        [self.playerView.layer addSublayer:self.layer];
+#pragma mark - KJPlayerBaseViewDelegate
+/* 单双击手势反馈 */
+- (void)kj_basePlayerView:(KJBasePlayerView*)view isSingleTap:(BOOL)tap{
+    if (tap) {
+        if ([self.player isPlaying]) {
+            [self.player kj_pause];
+        }else{
+            [self.player kj_resume];
+        }
+    }else{
+        
     }
 }
-- (UIView *)playerView{
-    if (!_playerView) {
-        _playerView = [[UIView alloc]initWithFrame:CGRectMake(0, PLAYER_STATUSBAR_NAVIGATION_HEIGHT, self.view.frame.size.width, self.view.frame.size.width*9/16)];
-//        _playerView.center = self.view.center;
-        _playerView.backgroundColor = UIColor.blackColor;
+/* 长按手势反馈 */
+- (void)kj_basePlayerView:(KJBasePlayerView*)view longPress:(UILongPressGestureRecognizer*)longPress{
+    switch (longPress.state) {
+        case UIGestureRecognizerStateBegan: {
+            self.player.speed = 2.;
+            [self.player kj_displayHintText:@"长按快进播放中..." time:0 position:KJPlayerHintPositionTop];
+        }
+            break;
+        case UIGestureRecognizerStateChanged: {
+        }
+            break;
+        case UIGestureRecognizerStateEnded: {
+            self.player.speed = 1.0;
+            [self.player kj_hideHintText];
+        }
+        default:
+            break;
     }
-    return _playerView;
 }
-/*
-#pragma mark - Navigation
+/* 进度手势反馈，是否替换自带UI，范围-1 ～ 1 */
+- (NSArray*)kj_basePlayerView:(KJBasePlayerView*)view progress:(float)progress end:(BOOL)end{
+    if (end) {
+        NSTimeInterval time = self.player.currentTime + progress * self.player.totalTime;
+        NSLog(@"---time:%.2f",time);
+        self.player.kVideoAdvanceAndReverse(time, nil);
+    }
+    return @[@(self.player.currentTime),@(self.player.totalTime)];
+}
+/* 音量手势反馈，是否替换自带UI，范围0 ～ 1 */
+- (BOOL)kj_basePlayerView:(KJBasePlayerView*)view volumeValue:(float)value{
+    NSLog(@"---voiceValue:%.2f",value);
+    return NO;
+}
+/* 亮度手势反馈，是否替换自带UI，范围0 ～ 1 */
+- (BOOL)kj_basePlayerView:(KJBasePlayerView*)view brightnessValue:(float)value{
+    NSLog(@"---lightValue:%.2f",value);
+    return NO;
+}
 
-// In a storyboard-based application, you will often want to do a little preparation before navigation
-- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
-    // Get the new view controller using [segue destinationViewController].
-    // Pass the selected object to the new view controller.
-}
-*/
 
 @end

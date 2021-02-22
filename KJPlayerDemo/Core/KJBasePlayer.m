@@ -11,9 +11,8 @@
 @interface KJBasePlayer ()
 @property (nonatomic,strong) UITableView *bindTableView;
 @property (nonatomic,strong) NSIndexPath *indexPath;
-@property (nonatomic,strong) CAShapeLayer *loadingLayer;
-@property (nonatomic,strong) CATextLayer *hintTextLayer;
-@property (nonatomic,strong) CALayer *backLayer;
+@property (nonatomic,strong) KJPlayerLoadingLayer *loadingLayer;
+@property (nonatomic,strong) KJPlayerHintTextLayer *hintTextLayer;
 @property (nonatomic,assign) CGFloat hintMaxWidth;
 @property (nonatomic,strong) UIColor *hintBackgroundColor;
 @property (nonatomic,strong) UIColor *hintTextColor;
@@ -195,12 +194,12 @@ static dispatch_once_t onceToken;
 }
 
 #pragma mark - Animation
-- (CAShapeLayer *)loadingLayer{
+- (KJPlayerLoadingLayer *)loadingLayer{
     if (!_loadingLayer) {
         CGFloat width = 40;
-        _loadingLayer = [self kj_setAnimationSize:CGSizeMake(width, width) color:UIColor.whiteColor];
+        _loadingLayer = [[KJPlayerLoadingLayer alloc] init];
+        [_loadingLayer kj_setAnimationSize:CGSizeMake(width, width) color:UIColor.whiteColor];
         _loadingLayer.frame = CGRectMake((self.playerView.frame.size.width-width)/2.f, (self.playerView.frame.size.height-width)/2.f, width, width);
-        _loadingLayer.zPosition = KJBasePlayerViewLayerZPositionSecond;
     }
     return _loadingLayer;
 }
@@ -222,51 +221,6 @@ static dispatch_once_t onceToken;
         self.loadingLayer.hidden = YES;
     }];
 }
-/* 圆圈加载动画 */
-- (CAShapeLayer*)kj_setAnimationSize:(CGSize)size color:(UIColor*)color{
-    CGFloat beginTime = 0.5;
-    CGFloat strokeStartDuration = 1.2;
-    CGFloat strokeEndDuration = 0.7;
-    CGFloat width = size.width;
-    CGFloat height = size.height;
-    CGFloat lineWidth = 2.f;
-    
-    CABasicAnimation *rotationAnimation = [CABasicAnimation animationWithKeyPath:@"transform.rotation"];
-    rotationAnimation.byValue = @(M_PI * 2);
-    rotationAnimation.timingFunction = [CAMediaTimingFunction functionWithName:kCAMediaTimingFunctionLinear];
-    
-    CABasicAnimation *strokeEndAnimation = [CABasicAnimation animationWithKeyPath:@"strokeEnd"];
-    strokeEndAnimation.duration = strokeEndDuration;
-    strokeEndAnimation.timingFunction = [CAMediaTimingFunction functionWithControlPoints:0.4:0.0:0.2:1.0];
-    strokeEndAnimation.fromValue = @(0);
-    strokeEndAnimation.toValue = @(1);
-    
-    CABasicAnimation *strokeStartAnimation = [CABasicAnimation animationWithKeyPath:@"strokeStart"];
-    strokeStartAnimation.duration = strokeStartDuration;
-    strokeStartAnimation.timingFunction = [CAMediaTimingFunction functionWithControlPoints:0.4:0.0:0.2:1.0];
-    strokeStartAnimation.fromValue = @(0);
-    strokeStartAnimation.toValue = @(1);
-    strokeStartAnimation.beginTime = beginTime;
-    
-    CAAnimationGroup *groupAnimation = [CAAnimationGroup animation];
-    groupAnimation.animations = @[rotationAnimation, strokeEndAnimation, strokeStartAnimation];
-    groupAnimation.duration = strokeStartDuration + beginTime;
-    groupAnimation.repeatCount = INFINITY;
-    groupAnimation.removedOnCompletion = NO;
-    groupAnimation.fillMode = kCAFillModeForwards;
-    CAShapeLayer *circle = [CAShapeLayer layer];
-    UIBezierPath *path = [UIBezierPath bezierPath];
-    [path addArcWithCenter:CGPointMake(width/2.f,height/2.f) radius:width/2.f startAngle:-M_PI/2.f endAngle:M_PI + M_PI/2.f clockwise:YES];
-    circle.fillColor = nil;
-    circle.strokeColor = color.CGColor;
-    circle.lineWidth = lineWidth;
-    circle.backgroundColor = nil;
-    circle.path = path.CGPath;
-    circle.frame = CGRectMake(0, 0, width, height);
-    [circle addAnimation:groupAnimation forKey:@"animation"];
-    
-    return circle;
-}
 
 #pragma mark - hintText
 - (void (^)(CGFloat, UIColor *, UIColor *, UIFont *))kVideoHintTextProperty{
@@ -277,29 +231,15 @@ static dispatch_once_t onceToken;
         self.hintFont = font;
     };
 }
-- (CALayer *)backLayer{
-    if (!_backLayer) {
-        _backLayer = [CALayer layer];
-        [_backLayer addSublayer:self.hintTextLayer];
-        _backLayer.backgroundColor = self.hintBackgroundColor.CGColor;
-        _backLayer.cornerRadius = 7;
-        _backLayer.zPosition = KJBasePlayerViewLayerZPositionSecond;
-    }
-    return _backLayer;
-}
-- (CATextLayer *)hintTextLayer{
+- (KJPlayerHintTextLayer *)hintTextLayer{
     if (!_hintTextLayer) {
-        CATextLayer * textLayer = [CATextLayer layer];
-        textLayer.font = (__bridge CFTypeRef _Nullable)(self.hintFont.fontName);
-        textLayer.fontSize = self.hintFont.pointSize;
-        textLayer.foregroundColor = self.hintTextColor.CGColor;
-        textLayer.alignmentMode = kCAAlignmentCenter;
-        textLayer.contentsScale = [UIScreen mainScreen].scale;
-        textLayer.wrapped = YES;
-        _hintTextLayer = textLayer;
+        _hintTextLayer = [[KJPlayerHintTextLayer alloc] init];
+        _hintTextLayer.backgroundColor = self.hintBackgroundColor.CGColor;
+        [_hintTextLayer kj_setFont:self.hintFont color:self.hintTextColor];
     }
     return _hintTextLayer;
 }
+
 /* 提示文字 */
 - (void)kj_displayHintText:(id)text{
     [self kj_displayHintText:text max:self.hintMaxWidth];
@@ -322,67 +262,11 @@ static dispatch_once_t onceToken;
             return;
         }        
     });
-    NSString *tempText;
-    if ([text isKindOfClass:[NSAttributedString class]]){
-        tempText = [text string];
-        if (tempText.length == 0) return;
-        self.hintTextLayer.string = text;
-    }else if ([text isKindOfClass:[NSString class]]){
-        if (((NSString*)text).length == 0) return;
-        tempText = text;
-        CGFloat lineHeight = self.hintTextLayer.fontSize;
-        NSMutableParagraphStyle *paragraphStyle = [NSMutableParagraphStyle new];
-        paragraphStyle.maximumLineHeight = lineHeight;
-        paragraphStyle.minimumLineHeight = lineHeight;
-        NSMutableDictionary *attributes = [NSMutableDictionary dictionary];
-        [attributes setObject:paragraphStyle forKey:NSParagraphStyleAttributeName];
-        [attributes setValue:self.hintFont forKey:NSFontAttributeName];
-        [attributes setValue:self.hintTextColor forKey:NSForegroundColorAttributeName];
-        self.hintTextLayer.string = [[NSAttributedString alloc] initWithString:text attributes:attributes];
-    }else{
-        return;
+    [self.hintTextLayer kj_displayHintText:text time:time max:max position:position playerView:self.playerView];
+    if (self.hintTextLayer.superlayer == nil) {
+        [self.playerView.layer addSublayer:self.hintTextLayer];
     }
-    
-    NSMutableParagraphStyle *paragraph = [[NSMutableParagraphStyle alloc] init];
-    paragraph.lineBreakMode = NSLineBreakByCharWrapping;
-    NSDictionary *dict = @{NSFontAttributeName:[UIFont fontWithName:self.hintTextLayer.font size:self.hintTextLayer.fontSize]};
-    CGSize size = [tempText boundingRectWithSize:CGSizeMake(max, MAXFLOAT) options:NSStringDrawingUsesLineFragmentOrigin attributes:dict context:nil].size;
-    CGPoint point = CGPointZero;
-    CGFloat padding = 20;
-    if ([position isKindOfClass:[NSString class]]) {
-        CGFloat w = size.width + padding + padding;
-        CGFloat h = size.height + padding;
-        CGFloat w2 = self.playerView.frame.size.width;
-        CGFloat h2 = self.playerView.frame.size.height;
-        if ([position caseInsensitiveCompare:KJPlayerHintPositionCenter] == NSOrderedSame) {
-            point = CGPointMake((w2-w)/2.f, (h2-h)/2.f);
-        }else if ([position caseInsensitiveCompare:KJPlayerHintPositionBottom] == NSOrderedSame) {
-            point = CGPointMake((w2-w)/2.f, h2-padding-h);
-        }else if ([position caseInsensitiveCompare:KJPlayerHintPositionTop] == NSOrderedSame) {
-            point = CGPointMake((w2-w)/2.f, padding);
-        }else if ([position caseInsensitiveCompare:KJPlayerHintPositionLeftBottom] == NSOrderedSame) {
-            point = CGPointMake(padding, h2-padding-h);
-        }else if ([position caseInsensitiveCompare:KJPlayerHintPositionRightBottom] == NSOrderedSame) {
-            point = CGPointMake(w2-w-padding, h2-padding-h);
-        }else if ([position caseInsensitiveCompare:KJPlayerHintPositionLeftTop] == NSOrderedSame) {
-            point = CGPointMake(padding, padding);
-        }else if ([position caseInsensitiveCompare:KJPlayerHintPositionRightTop] == NSOrderedSame) {
-            point = CGPointMake(w2-w-padding, padding);
-        }else if ([position caseInsensitiveCompare:KJPlayerHintPositionLeftCenter] == NSOrderedSame) {
-            point = CGPointMake(padding, (h2-h)/2.f);
-        }else if ([position caseInsensitiveCompare:KJPlayerHintPositionRightCenter] == NSOrderedSame) {
-            point = CGPointMake(w2-w-padding, (h2-h)/2.f);
-        }
-    }else if ([position isKindOfClass:[NSValue class]]) {
-        point = [position CGPointValue];
-    }
-    
-    self.hintTextLayer.frame = CGRectMake(padding*.5, padding*.5, size.width+padding, 1.5*size.height);
-    self.backLayer.frame = CGRectMake(point.x, point.y, size.width+padding+padding, size.height+padding+3);
-    if (self.backLayer.superlayer == nil) {
-        [self.playerView.layer addSublayer:self.backLayer];
-    }
-    self.backLayer.hidden = NO;
+    self.hintTextLayer.hidden = NO;
     /// 先取消上次的延时执行
     [NSObject cancelPreviousPerformRequestsWithTarget:self selector:@selector(kj_hideHintText) object:nil];
     if (time) {
@@ -391,7 +275,7 @@ static dispatch_once_t onceToken;
 }
 /* 隐藏提示文字 */
 - (void)kj_hideHintText{
-    self.backLayer.hidden = YES;
+    self.hintTextLayer.hidden = YES;
 }
 
 @end

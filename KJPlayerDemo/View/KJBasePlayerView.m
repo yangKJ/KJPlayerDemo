@@ -38,6 +38,7 @@ NSString *kPlayerBaseViewChangeKey = @"kPlayerBaseViewKey";
                           name:UIDeviceOrientationDidChangeNotification object:nil];
     self.longPressTime = 1.;
     self.mainColor = UIColor.whiteColor;
+    self.viceColor = UIColor.redColor;
     self.width = self.frame.size.width;
     self.height = self.frame.size.height;
 }
@@ -280,6 +281,7 @@ static BOOL movingH;
     if (!_fastLayer) {
         KJPlayerFastLayer *layer = [[KJPlayerFastLayer layer] init];
         layer.mainColor = self.mainColor;
+        layer.viceColor = self.viceColor;
         CGFloat w = 150,h = 80;
         [layer kj_setLayerNewFrame:CGRectMake((self.width-w)/2, (self.height-h)/2, w, h)];
         _fastLayer = layer;
@@ -290,6 +292,7 @@ static BOOL movingH;
     if (!_vbLayer) {
         KJPlayerSystemLayer *layer = [[KJPlayerSystemLayer layer] init];
         layer.mainColor = self.mainColor;
+        layer.viceColor = self.viceColor;
         CGFloat w = 150,h = 40;
         [layer kj_setLayerNewFrame:CGRectMake((self.width-w)/2, (self.height-h)/2, w, h)];
         _vbLayer = layer;

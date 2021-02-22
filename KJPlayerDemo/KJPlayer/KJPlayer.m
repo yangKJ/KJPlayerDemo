@@ -538,7 +538,7 @@ NS_INLINE NSString * kPlayerContentsGravity(KJPlayerVideoGravity videoGravity){
         _playerLayer.videoGravity = kPlayerVideoGravity(_videoGravity);
         _playerLayer.backgroundColor = _background;
         _playerLayer.anchorPoint = CGPointMake(0.5, 0.5);
-        _playerLayer.zPosition = KJBasePlayerViewLayerZPositionFrist;
+        _playerLayer.zPosition = KJBasePlayerViewLayerZPositionPlayer;
     }
     return _playerLayer;
 }

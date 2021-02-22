@@ -11,6 +11,7 @@
 #import "KJBaseFunctionPlayer.h"
 #import "KJBaseUIPlayer.h"
 #import "KJCachePlayerManager.h"
+
 NS_ASSUME_NONNULL_BEGIN
 
 @interface KJBasePlayer : NSObject<KJBaseFunctionPlayer,KJBaseUIPlayer>

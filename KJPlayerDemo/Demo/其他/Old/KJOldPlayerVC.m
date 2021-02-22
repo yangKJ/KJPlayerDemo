@@ -28,15 +28,6 @@
     // Do any additional setup after loading the view.
     [self.view addSubview:self.playerView];
     [self.navigationController setNavigationBarHidden:YES animated:YES];
-    [self deal];
-}
-- (void)deal{
-    NSString *document = [NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES).lastObject stringByAppendingPathComponent:@"video"];
-    NSDirectoryEnumerator *enumerator = [[NSFileManager defaultManager] enumeratorAtPath:document];
-    NSString *imageName;
-    while((imageName = [enumerator nextObject]) != nil) {
-        [[NSFileManager defaultManager] removeItemAtPath:[NSString stringWithFormat:@"%@/%@",document,imageName] error:NULL];
-    }
 }
 
 - (KJOldPlayerView*)playerView{

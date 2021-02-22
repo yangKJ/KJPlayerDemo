@@ -13,7 +13,7 @@
     if (self = [super init]) {
         self.cornerRadius = 7;
         self.backgroundColor = [UIColor colorWithWhite:0.f alpha:0.8].CGColor;
-        self.zPosition = KJBasePlayerViewLayerZPositionThird;
+        self.zPosition = KJBasePlayerViewLayerZPositionControl;
     }
     return self;
 }

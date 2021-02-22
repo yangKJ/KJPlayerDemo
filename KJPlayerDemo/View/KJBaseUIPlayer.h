@@ -9,22 +9,19 @@
 
 #import "KJBasePlayerView.h"
 #import "KJPlayerType.h"
+#import "KJPlayerLoadingLayer.h"
+#import "KJPlayerHintTextLayer.h"
 
-static NSString * KJPlayerHintPositionTop = @"KJPlayerHintPositionTop";
-static NSString * KJPlayerHintPositionCenter = @"KJPlayerHintPositionCenter";
-static NSString * KJPlayerHintPositionBottom = @"KJPlayerHintPositionBottom";
-static NSString * KJPlayerHintPositionLeftTop = @"KJPlayerHintPositionLeftTop";
-static NSString * KJPlayerHintPositionRightTop = @"KJPlayerHintPositionRightTop";
-static NSString * KJPlayerHintPositionLeftCenter = @"KJPlayerHintPositionLeftCenter";
-static NSString * KJPlayerHintPositionRightCenter = @"KJPlayerHintPositionRightCenter";
-static NSString * KJPlayerHintPositionLeftBottom = @"KJPlayerHintPositionLeftBottom";
-static NSString * KJPlayerHintPositionRightBottom = @"KJPlayerHintPositionRightBottom";
 @protocol KJBaseUIPlayer <NSObject>
 @required
 /* 播放器载体 */
 @property (nonatomic,strong) KJBasePlayerView *playerView;
 /* 占位图 */
 @property (nonatomic,strong) UIImage *placeholder;
+/* 加载动画层 */
+@property (nonatomic,strong,readonly) KJPlayerLoadingLayer *loadingLayer;
+/* 文本提示框 */
+@property (nonatomic,strong,readonly) KJPlayerHintTextLayer *hintTextLayer;
 /* 背景颜色，默认黑色 */
 @property (nonatomic,assign) CGColorRef background;
 /* 视频显示模式，默认KJPlayerVideoGravityResizeAspect */
@@ -57,6 +54,8 @@ static NSString * KJPlayerHintPositionRightBottom = @"KJPlayerHintPositionRightB
 
 // UI公共ivar
 #define PLAYER_COMMON_UI_PROPERTY \
+@synthesize loadingLayer = _loadingLayer;\
+@synthesize hintTextLayer = _hintTextLayer;\
 @synthesize playerView = _playerView;\
 @synthesize placeholder = _placeholder;\
 @synthesize background = _background;\

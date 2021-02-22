@@ -119,11 +119,12 @@
 }
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
-    if (self.index != indexPath.row) {
+    if (self.index != indexPath.row || !KJPlayer.shared.isPlaying) {
         return;
     }
     KJDetailPlayerVC *vc = [KJDetailPlayerVC new];
     vc.layer = KJPlayer.shared.playerLayer;
+    vc.player = KJPlayer.shared;
     vc.kBackBlock = ^{
         KJTableViewCell *cell = [tableView cellForRowAtIndexPath:[NSIndexPath indexPathForRow:self.index inSection:0]];
         KJPlayer.shared.playerLayer.frame = cell.videoImageView.bounds;

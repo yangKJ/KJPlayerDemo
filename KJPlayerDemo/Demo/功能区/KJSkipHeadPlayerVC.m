@@ -17,9 +17,6 @@
     [super viewDidLoad];
 
     self.basePlayerView.frame = CGRectMake(0, (self.view.frame.size.height-self.view.frame.size.width)/2-32, self.view.frame.size.width, self.view.frame.size.width);
-//    self.basePlayerView.frame = CGRectMake(0, 0, self.view.frame.size.height, self.view.frame.size.width);
-//    self.basePlayerView.center = CGPointMake(self.view.center.x, self.view.center.y);
-//    self.basePlayerView.transform = CGAffineTransformMakeRotation(M_PI_2);
     self.player.delegate = self;
     PLAYER_WEAKSELF;
     self.player.kVideoSkipTime(^(KJPlayerVideoSkipState skipState) {

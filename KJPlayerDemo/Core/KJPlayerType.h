@@ -91,9 +91,9 @@ typedef NS_OPTIONS(NSUInteger, KJPlayerGestureType) {
 };
 /// KJBasePlayerView上面的Layer层次，zPosition改变图层的显示顺序
 typedef NS_ENUM(NSUInteger, KJBasePlayerViewLayerZPosition) {
-    KJBasePlayerViewLayerZPositionFrist  = 0,/// 第一层，播放器的AVPlayerLayer
-    KJBasePlayerViewLayerZPositionSecond = 1,/// 第二层，加载指示器和文本提醒框
-    KJBasePlayerViewLayerZPositionThird  = 2,/// 第三层，快进音量亮度等控件层
+    KJBasePlayerViewLayerZPositionPlayer  = 0,/// 播放器的AVPlayerLayer层
+    KJBasePlayerViewLayerZPositionLoading = 2,/// 加载指示器和文本提醒框
+    KJBasePlayerViewLayerZPositionControl = 3,/// 快进音量亮度等控件层
 };
 /// 播放类型
 typedef NS_ENUM(NSUInteger, KJPlayerPlayType) {
