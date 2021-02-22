@@ -9,10 +9,10 @@
 //  支持视频格式：WMV,AVI,MKV,RMVB,RM,XVID,MP4,3GP,MPG
 
 #import <Foundation/Foundation.h>
-#import "KJBaseCommonPlayer.h"
+#import "KJBasePlayer.h"
 
 NS_ASSUME_NONNULL_BEGIN
-@interface KJPlayer : KJBaseCommonPlayer
+@interface KJPlayer : KJBasePlayer
 @property (nonatomic,strong,readonly) AVPlayerItemVideoOutput *playerOutput;
 @property (nonatomic,strong,readonly) AVPlayerLayer *playerLayer;
 @property (nonatomic,strong,readonly) AVPlayerItem *playerItem;

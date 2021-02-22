@@ -12,10 +12,9 @@ NSString *kPlayerFileHandleInfoNotification = @"kPlayerFileHandleInfoNotificatio
 NSString *kPlayerFileHandleInfoKey = @"kPlayerFileHandleInfoKey";
 @interface KJFileHandleInfo ()
 @property (nonatomic,strong) NSArray *cacheFragments;
-@property (nonatomic,strong) NSArray *downloadInfo;
-@property (nonatomic,strong) NSURL *videoURL;
 @property (nonatomic,strong) NSString *fileName;
 @property (nonatomic,strong) NSString *fileFormat;
+@property (nonatomic,strong) NSURL *videoURL;
 @end
 @implementation KJFileHandleInfo
 #pragma mark - NSCopying
@@ -50,8 +49,7 @@ NSString *kPlayerFileHandleInfoKey = @"kPlayerFileHandleInfoKey";
 }
 /* 解档 */
 - (instancetype)initWithCoder:(NSCoder*)aDecoder{
-    self = [super init];
-    if (self) {
+    if (self = [super init]) {
         unsigned int count = 0;
         Ivar *ivars = class_copyIvarList([self class], &count);
         for (int i = 0; i<count; i++){
@@ -83,17 +81,6 @@ NSString *kPlayerFileHandleInfoKey = @"kPlayerFileHandleInfoKey";
         }
     }
     return bytes;
-}
-- (float)downloadSpeed{
-    long long bytes = 0;
-    NSTimeInterval time = 0;
-    @synchronized (self.downloadInfo){
-        for (NSArray *array in self.downloadInfo){
-            bytes += [array[0] longLongValue];
-            time  += [array[1] doubleValue];
-        }
-    }
-    return bytes / 1024.0 / time;
 }
 - (void)kj_keyedArchiverSave{
     @synchronized (self.cacheFragments){
@@ -157,11 +144,6 @@ NSString *kPlayerFileHandleInfoKey = @"kPlayerFileHandleInfoKey";
             }
         }
         self.cacheFragments = temps.mutableCopy;
-    }
-}
-- (void)kj_downloadedBytes:(int64_t)bytes spentTime:(NSTimeInterval)time{
-    @synchronized (self.downloadInfo){
-        self.downloadInfo = [self.downloadInfo arrayByAddingObject:@[@(bytes), @(time)]];
     }
 }
 

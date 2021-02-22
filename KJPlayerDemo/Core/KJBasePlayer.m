@@ -1,14 +1,14 @@
 //
-//  KJBaseCommonPlayer.m
+//  KJBasePlayer.m
 //  KJPlayerDemo
 //
 //  Created by 杨科军 on 2021/2/10.
 //  Copyright © 2021 杨科军. All rights reserved.
 //  https://github.com/yangKJ/KJPlayerDemo
 
-#import "KJBaseCommonPlayer.h"
+#import "KJBasePlayer.h"
 
-@interface KJBaseCommonPlayer ()
+@interface KJBasePlayer ()
 @property (nonatomic,strong) UITableView *bindTableView;
 @property (nonatomic,strong) NSIndexPath *indexPath;
 @property (nonatomic,strong) CAShapeLayer *loadingLayer;
@@ -20,10 +20,10 @@
 @property (nonatomic,strong) UIFont *hintFont;
 @end
 
-@implementation KJBaseCommonPlayer
+@implementation KJBasePlayer
 PLAYER_COMMON_PROPERTY PLAYER_COMMON_UI_PROPERTY
 @synthesize kVideoCanCacheURL;
-static KJBaseCommonPlayer *_instance = nil;
+static KJBasePlayer *_instance = nil;
 static dispatch_once_t onceToken;
 + (instancetype)kj_sharedInstance{
     dispatch_once(&onceToken, ^{
@@ -40,20 +40,17 @@ static dispatch_once_t onceToken;
 - (void)dealloc{
     [[NSNotificationCenter defaultCenter] removeObserver:self];
     [self kj_saveRecordLastTime];
+    [_playerView performSelectorOnMainThread:@selector(removeFromSuperview) withObject:nil waitUntilDone:YES];
 }
 - (instancetype)init{
-    self = [super init];
-    if (self) {
+    if (self = [super init]) {
         NSNotificationCenter * defaultCenter = [NSNotificationCenter defaultCenter];
-        [defaultCenter addObserver:self selector:@selector(kj_playerAppDidEnterBackground:)
-                              name:UIApplicationWillResignActiveNotification object:nil];
-        [defaultCenter addObserver:self selector:@selector(kj_playerAppWillEnterForeground:)
-                              name:UIApplicationDidBecomeActiveNotification object:nil];
-        [defaultCenter addObserver:self selector:@selector(kj_playerOrientationChange:)
-                              name:UIDeviceOrientationDidChangeNotification object:nil];
-        [defaultCenter addObserver:self selector:@selector(kj_playerBaseViewChange:)
+        [defaultCenter addObserver:self selector:@selector(kj_detectAppEnterBackground:)
+                              name:UIApplicationDidEnterBackgroundNotification object:nil];
+        [defaultCenter addObserver:self selector:@selector(kj_detectAppEnterForeground:)
+                              name:UIApplicationWillEnterForegroundNotification object:nil];
+        [defaultCenter addObserver:self selector:@selector(kj_basePlayerViewChange:)
                               name:kPlayerBaseViewChangeNotification object:nil];
-        
         //kvo
         NSKeyValueObservingOptions options = NSKeyValueObservingOptionOld | NSKeyValueObservingOptionNew;
         [self addObserver:self forKeyPath:@"state" options:options context:nil];
@@ -82,6 +79,7 @@ static dispatch_once_t onceToken;
         }
     }else if ([keyPath isEqualToString:@"progress"]) {
         if ([self.delegate respondsToSelector:@selector(kj_player:loadProgress:)]) {
+            if (self.totalTime<=0) return;
             CGFloat new = [change[@"new"] floatValue];
             CGFloat old = [change[@"old"] floatValue];
             if (new != old || (new == 0 && old == 0)) {
@@ -115,27 +113,23 @@ static dispatch_once_t onceToken;
 
 #pragma mark - NSNotification
 //进入后台
-- (void)kj_playerAppDidEnterBackground:(NSNotification*)notification{
+- (void)kj_detectAppEnterBackground:(NSNotification*)notification{
     if (self.backgroundPause) {
         [self kj_pause];
     }else{
-//        AVAudioSession * session = [AVAudioSession sharedInstance];
-//        [session setCategory:AVAudioSessionCategoryPlayback error:nil];
-//        [session setActive:YES error:nil];
+        AVAudioSession * session = [AVAudioSession sharedInstance];
+        [session setActive:YES error:nil];
+        [session setCategory:AVAudioSessionCategoryPlayback error:nil];
     }
 }
 //进入前台
-- (void)kj_playerAppWillEnterForeground:(NSNotification*)notification{
+- (void)kj_detectAppEnterForeground:(NSNotification*)notification{
     if (self.roregroundResume && self.userPause == NO && ![self isPlaying]) {
         [self kj_resume];
     }
 }
-//屏幕旋转
-- (void)kj_playerOrientationChange:(NSNotification*)notification{
-    
-}
 //KJBasePlayerView位置和尺寸发生变化
-- (void)kj_playerBaseViewChange:(NSNotification*)notification{
+- (void)kj_basePlayerViewChange:(NSNotification*)notification{
     CGFloat width = self.loadingLayer.frame.size.width;
     self.loadingLayer.frame = CGRectMake((self.playerView.frame.size.width-width)/2.f, (self.playerView.frame.size.height-width)/2.f, width, width);
 }
@@ -152,17 +146,6 @@ static dispatch_once_t onceToken;
 - (void)kj_stop{ }
 
 #pragma mark - public method
-+ (UIWindow*)kj_window{
-    return ({
-        UIWindow *window;
-        if (@available(iOS 13.0, *)) {
-            window = [UIApplication sharedApplication].windows.firstObject;
-        }else{
-            window = [UIApplication sharedApplication].keyWindow;
-        }
-        window;
-    });
-}
 - (void)kj_saveRecordLastTime{
     @synchronized (@(self.recordLastTime)) {
         if (self.recordLastTime) {
@@ -217,6 +200,7 @@ static dispatch_once_t onceToken;
         CGFloat width = 40;
         _loadingLayer = [self kj_setAnimationSize:CGSizeMake(width, width) color:UIColor.whiteColor];
         _loadingLayer.frame = CGRectMake((self.playerView.frame.size.width-width)/2.f, (self.playerView.frame.size.height-width)/2.f, width, width);
+        _loadingLayer.zPosition = KJBasePlayerViewLayerZPositionSecond;
     }
     return _loadingLayer;
 }
@@ -299,6 +283,7 @@ static dispatch_once_t onceToken;
         [_backLayer addSublayer:self.hintTextLayer];
         _backLayer.backgroundColor = self.hintBackgroundColor.CGColor;
         _backLayer.cornerRadius = 7;
+        _backLayer.zPosition = KJBasePlayerViewLayerZPositionSecond;
     }
     return _backLayer;
 }

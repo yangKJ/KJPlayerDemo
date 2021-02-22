@@ -14,7 +14,6 @@ static NSInteger const kPackageLength = 204800;
 @property (nonatomic,strong) NSFileHandle *readHandle;
 @property (nonatomic,strong) NSFileHandle *writeHandle;
 @property (nonatomic,strong) NSDate *startDate;
-@property (nonatomic,assign) float writeBytes;
 
 @end
 
@@ -50,7 +49,6 @@ static NSInteger const kPackageLength = 204800;
         @try {
             [self.writeHandle seekToFileOffset:range.location];
             [self.writeHandle writeData:data];
-            self.writeBytes += data.length;
             [self.cacheInfo kj_continueCacheFragmentRange:range];
         }@catch (NSException *exception) {
             *error = [NSError errorWithDomain:exception.name code:KJPlayerCustomCodeWriteFileFailed userInfo:nil];
@@ -65,27 +63,23 @@ static NSInteger const kPackageLength = 204800;
     }
 }
 - (NSArray*)kj_dealwithCachedFragmentsWithRange:(NSRange)range{
-    NSArray *cachedFragments = [self.cacheInfo cacheFragments];
-    NSMutableArray *fragments = [NSMutableArray array];
-    if (range.location == NSNotFound){
-        return [fragments copy];
-    }
+    if (range.location == NSNotFound) return [NSMutableArray array].mutableCopy;
     NSInteger endOffset = range.location + range.length;
-    [cachedFragments enumerateObjectsUsingBlock:^(NSValue *obj, NSUInteger idx, BOOL *stop){
-        NSRange fragmentRange = obj.rangeValue;
-        NSRange intersectionRange = NSIntersectionRange(range, fragmentRange);
-        if (intersectionRange.length > 0){
-            NSInteger package = intersectionRange.length / kPackageLength;
+    NSMutableArray *fragments = [NSMutableArray array];
+    [self.cacheInfo.cacheFragments enumerateObjectsUsingBlock:^(NSValue *obj, NSUInteger idx, BOOL *stop){
+        NSRange inRange = NSIntersectionRange(range, obj.rangeValue);
+        if (inRange.length > 0){
+            NSInteger package = inRange.length / kPackageLength;
             for (NSInteger i = 0; i <= package; i++){
                 KJCacheFragment fragment;
                 fragment.type = 0;
-                NSInteger offset = intersectionRange.location + i * kPackageLength;
-                NSInteger maxLocation = intersectionRange.location + intersectionRange.length;
+                NSInteger offset = inRange.location + i * kPackageLength;
+                NSInteger maxLocation = inRange.location + inRange.length;
                 NSInteger length = (offset + kPackageLength) > maxLocation ? (maxLocation - offset) : kPackageLength;
                 fragment.range = NSMakeRange(offset, length);
                 [fragments addObject:[DBPlayerDataInfo kj_cacheFragment:fragment]];
             }
-        }else if (fragmentRange.location >= endOffset){
+        }else if (obj.rangeValue.location >= endOffset){
             *stop = YES;
         }
     }];
@@ -137,15 +131,10 @@ static NSInteger const kPackageLength = 204800;
 
 - (void)kj_startWritting{
     self.startDate = [NSDate date];
-    self.writeBytes = 0;
 }
 
 - (void)kj_finishWritting{
-    if (self.writeBytes) {
-        NSTimeInterval time = [[NSDate date] timeIntervalSinceDate:self.startDate];
-        [self.cacheInfo kj_downloadedBytes:self.writeBytes spentTime:time];
-        self.writeBytes = 0;
-    }
+    self.cacheInfo.downloadTime = [[NSDate date] timeIntervalSinceDate:self.startDate];
 }
 
 @end

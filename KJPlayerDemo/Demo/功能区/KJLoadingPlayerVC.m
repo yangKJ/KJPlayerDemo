@@ -8,7 +8,7 @@
 
 #import "KJLoadingPlayerVC.h"
 
-@interface KJLoadingPlayerVC ()<KJPlayerDelegate>{
+@interface KJLoadingPlayerVC ()<KJPlayerDelegate,KJPlayerBaseViewDelegate>{
     int index;
 }
 
@@ -18,8 +18,9 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view.
-    self.basePlayerView.frame = CGRectMake(0, 64, self.view.frame.size.width, self.view.frame.size.width*9/16.);
+    self.basePlayerView.frame = CGRectMake(0, PLAYER_STATUSBAR_NAVIGATION_HEIGHT, self.view.frame.size.width, self.view.frame.size.width*9/16.);
     self.player.delegate = self;
+    self.basePlayerView.delegate = self;
     
     self.player.kVideoHintTextProperty(110, [UIColor.greenColor colorWithAlphaComponent:0.3], UIColor.greenColor, [UIFont systemFontOfSize:15]);
     [self.player kj_displayHintText:@"顺便测试一下文本提示框打很长很长的文字提供九种位置选择" time:0 position:KJPlayerHintPositionLeftCenter];
@@ -71,7 +72,7 @@
 
 #pragma mark - KJPlayerDelegate
 /* 当前播放器状态 */
-- (void)kj_player:(KJBaseCommonPlayer*)player state:(KJPlayerState)state{
+- (void)kj_player:(KJBasePlayer*)player state:(KJPlayerState)state{
     NSLog(@"---当前播放器状态:%@",KJPlayerStateStringMap[state]);
     if (state == KJPlayerStateBuffering) {
         [player kj_startAnimation];
@@ -80,17 +81,17 @@
     }
 }
 /* 播放进度 */
-- (void)kj_player:(KJBaseCommonPlayer*)player currentTime:(NSTimeInterval)time{
+- (void)kj_player:(KJBasePlayer*)player currentTime:(NSTimeInterval)time{
     self.slider.value = time;
     self.label.text = kPlayerConvertTime(time);
 }
 /* 缓存进度 */
-- (void)kj_player:(KJBaseCommonPlayer*)player loadProgress:(CGFloat)progress{
+- (void)kj_player:(KJBasePlayer*)player loadProgress:(CGFloat)progress{
     NSLog(@"---缓存进度:%f",progress);
     [self.progressView setProgress:progress animated:YES];
 }
 /* 播放错误 */
-- (void)kj_player:(KJBaseCommonPlayer*)player playFailed:(NSError*)failed{
+- (void)kj_player:(KJBasePlayer*)player playFailed:(NSError*)failed{
     
 }
 

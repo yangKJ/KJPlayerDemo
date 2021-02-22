@@ -19,8 +19,7 @@
     [DBPlayerDataInfo.shared kj_removeDownloadURL:self.videoURL];
 }
 - (instancetype)initWithURL:(NSURL*)url cacheManager:(KJFileHandleManager*)manager{
-    self = [super init];
-    if (self) {
+    if (self = [super init]) {
         self.saveToCache = YES;
         self.videoURL = url;
         self.cacheManager = manager;
@@ -32,7 +31,7 @@
 }
 - (void)kj_createDownloaderManagerWithRange:(NSRange)range{
     NSArray *fragments = [self.cacheManager kj_dealwithCachedFragmentsWithRange:range];
-    self.downloaderManager = [[KJDownloaderManager alloc] initWithCachedFragments:fragments videoURL:self.videoURL cacheManager:self.cacheManager];
+    self.downloaderManager = [[KJDownloaderManager alloc] initWithCachedFragments:fragments videoURL:self.videoURL manager:self.cacheManager];
     self.downloaderManager.canSaveToCache = self.saveToCache;
     self.downloaderManager.delegate = self;
     [self.downloaderManager kj_startDownloading];

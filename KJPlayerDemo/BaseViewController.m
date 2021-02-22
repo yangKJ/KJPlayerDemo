@@ -8,7 +8,7 @@
 
 #import "BaseViewController.h"
 
-@interface BaseViewController ()
+@interface BaseViewController ()<KJPlayerBaseViewDelegate>
 
 @end
 
@@ -49,7 +49,7 @@
     
     UIProgressView *progressView = [[UIProgressView alloc] initWithProgressViewStyle:UIProgressViewStyleDefault];
     self.progressView = progressView;
-    progressView.frame = CGRectMake(10, self.view.bounds.size.height-35, self.view.bounds.size.width-20, 30);
+    progressView.frame = CGRectMake(10, self.view.bounds.size.height-35-PLAYER_BOTTOM_SPACE_HEIGHT, self.view.bounds.size.width-20, 30);
     progressView.progressTintColor = [UIColor.redColor colorWithAlphaComponent:0.8];
     [progressView setProgress:0.0 animated:NO];
     [self.view addSubview:progressView];
@@ -62,28 +62,27 @@
     [self.view addSubview:slider];
     [slider addTarget:self action:@selector(sliderValueChanged:forEvent:) forControlEvents:UIControlEventValueChanged];
     
-    KJBasePlayerView *backview = [[KJBasePlayerView alloc]initWithFrame:CGRectMake(0, 64, self.view.bounds.size.width, self.view.bounds.size.height-138)];
+    KJBasePlayerView *backview = [[KJBasePlayerView alloc]initWithFrame:CGRectMake(0, PLAYER_STATUSBAR_NAVIGATION_HEIGHT, self.view.bounds.size.width, self.view.bounds.size.height-PLAYER_STATUSBAR_NAVIGATION_HEIGHT-PLAYER_BOTTOM_SPACE_HEIGHT-74)];
     backview.image = [UIImage imageNamed:@"20ea53a47eb0447883ed186d9f11e410"];
     self.basePlayerView = backview;
     [self.view addSubview:backview];
-    backview.userInteractionEnabled = YES;
-    UITapGestureRecognizer *tap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(tapPlayerViewAction:)];
-    [backview addGestureRecognizer:tap];
+    backview.delegate = self;
+    backview.gestureType = KJPlayerGestureTypeAll;
     
-    UILabel *label = [[UILabel alloc]initWithFrame:CGRectMake(0, self.view.bounds.size.height-25, self.view.bounds.size.width-10, 20)];
+    UILabel *label = [[UILabel alloc]initWithFrame:CGRectMake(0, self.view.bounds.size.height-25-PLAYER_BOTTOM_SPACE_HEIGHT, self.view.bounds.size.width-10, 20)];
     label.textAlignment = 2;
     label.font = [UIFont systemFontOfSize:14];
     label.textColor = [UIColor.blueColor colorWithAlphaComponent:0.7];
     [self.view addSubview:label];
     
-    UILabel *label2 = [[UILabel alloc]initWithFrame:CGRectMake(10, self.view.bounds.size.height-69, self.view.bounds.size.width-10, 20)];
+    UILabel *label2 = [[UILabel alloc]initWithFrame:CGRectMake(10, self.view.bounds.size.height-69-PLAYER_BOTTOM_SPACE_HEIGHT, self.view.bounds.size.width-10, 20)];
     self.label = label2;
     label2.textAlignment = 0;
     label2.font = [UIFont systemFontOfSize:14];
     label2.textColor = [UIColor.redColor colorWithAlphaComponent:0.7];
     [self.view addSubview:label2];
     
-    UILabel *label3 = [[UILabel alloc]initWithFrame:CGRectMake(0, self.view.bounds.size.height-69, self.view.bounds.size.width-10, 20)];
+    UILabel *label3 = [[UILabel alloc]initWithFrame:CGRectMake(0, self.view.bounds.size.height-69-PLAYER_BOTTOM_SPACE_HEIGHT, self.view.bounds.size.width-10, 20)];
     label3.textAlignment = 2;
     label3.font = [UIFont systemFontOfSize:14];
     label3.textColor = [UIColor.redColor colorWithAlphaComponent:0.7];
@@ -106,15 +105,6 @@
         NSLog(@"%.2f,%.2f",size.width,size.height);
     };
 }
-- (void)tapPlayerViewAction:(UITapGestureRecognizer *)gesture {
-    if (gesture.state == UIGestureRecognizerStateEnded) {
-        if ([self.player isPlaying]) {
-            [self.player kj_pause];
-        }else{
-            [self.player kj_resume];
-        }
-    }
-}
 ///进度条的拖拽事件 监听UISlider拖动状态
 - (void)sliderValueChanged:(UISlider*)slider forEvent:(UIEvent*)event {
     UITouch *touchEvent = [[event allTouches]anyObject];
@@ -134,5 +124,82 @@
             break;
     }
 }
+
+#pragma mark - KJPlayerBaseViewDelegate
+/* 单双击手势反馈 */
+- (void)kj_basePlayerView:(KJBasePlayerView*)view isSingleTap:(BOOL)tap{
+    if (tap) {
+        
+    }else{
+        if ([self.player isPlaying]) {
+            [self.player kj_pause];
+        }else{
+            [self.player kj_resume];
+        }
+    }
+}
+/* 长按手势反馈 */
+- (void)kj_basePlayerView:(KJBasePlayerView*)view longPress:(UILongPressGestureRecognizer*)longPress{
+    switch (longPress.state) {
+        case UIGestureRecognizerStateBegan: {
+            self.player.speed = 2.;
+            [self.player kj_displayHintText:@"长按快进播放中..." time:0 position:KJPlayerHintPositionTop];
+        }
+            break;
+        case UIGestureRecognizerStateChanged: {
+        }
+            break;
+        case UIGestureRecognizerStateEnded: {
+            self.player.speed = 1.0;
+            [self.player kj_hideHintText];
+        }
+        default:
+            break;
+    }
+}
+/* 进度手势反馈，是否替换自带UI，范围-1 ～ 1 */
+- (NSArray*)kj_basePlayerView:(KJBasePlayerView*)view progress:(float)progress end:(BOOL)end{
+    if (end) {
+        NSTimeInterval time = self.player.currentTime + progress * self.player.totalTime;
+        NSLog(@"---time:%.2f",time);
+        self.player.kVideoAdvanceAndReverse(time, nil);
+    }
+    return @[@(self.player.currentTime),@(self.player.totalTime)];
+}
+/* 音量手势反馈，是否替换自带UI，范围0 ～ 1 */
+- (BOOL)kj_basePlayerView:(KJBasePlayerView*)view volumeValue:(float)value{
+    NSLog(@"---voiceValue:%.2f",value);
+    return NO;
+}
+/* 亮度手势反馈，是否替换自带UI，范围0 ～ 1 */
+- (BOOL)kj_basePlayerView:(KJBasePlayerView*)view brightnessValue:(float)value{
+    NSLog(@"---lightValue:%.2f",value);
+    return NO;
+}
+
+//static dispatch_once_t onceToken;
+//static NSRegularExpression *regex = nil;
+//static NSRegularExpression *ipRegex = nil;
+//static NSArray *supportScheme = nil;
+//dispatch_once(&onceToken, ^{
+//    NSString *regulaStr = @"\\[\\!(\\w+)\\]";
+//    regex = [[NSRegularExpression alloc] initWithPattern:regulaStr options:NSRegularExpressionCaseInsensitive error:NULL];
+//    NSString *ipPattan = @"((http|ftp|https):\\/\\/)?(?:(?:\\d?\\d?\\d?)\\.){3}(?:[0-9]?[0-9][0-9]?)[:]?\\d*";
+//    ipRegex = [NSRegularExpression regularExpressionWithPattern:ipPattan options:0 error:nil];
+//    supportScheme = @[@"http", @"https", @"ftp"];
+//});
+//NSMutableAttributedString *final = [[NSMutableAttributedString alloc]initWithString:string];
+//NSRange matchingRange = NSMakeRange(0, [final length]);
+//[ipRegex enumerateMatchesInString:string options:NSMatchingReportCompletion range:matchingRange usingBlock:^(NSTextCheckingResult * _Nullable result, NSMatchingFlags flags, BOOL * _Nonnull stop) {
+//    NSString *urlString = [string substringWithRange:result.range];
+//    if ([urlString length] > 0) {
+//        NSURL *url = [NSURL URLWithString:urlString];
+//        NSString *scheme = [url scheme];
+//        if (!scheme || ![supportScheme containsObject:scheme]) {
+//            NSString *value = [NSString stringWithFormat:@"http://%@", urlString];
+//            [final addAttribute:NSLinkAttributeName value:value range:result.range];
+//        }
+//    }
+//}];
 
 @end

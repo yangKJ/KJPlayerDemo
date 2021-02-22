@@ -125,7 +125,7 @@
 
 #pragma mark - KJPlayerDelegate
 /* 当前播放器状态 */
-- (void)kj_player:(KJBaseCommonPlayer*)player state:(KJPlayerState)state{
+- (void)kj_player:(KJBasePlayer*)player state:(KJPlayerState)state{
     NSLog(@"---当前播放器状态:%@",KJPlayerStateStringMap[state]);
     if (state == KJPlayerStateBuffering) {
         [self.loadingView startAnimating];
@@ -139,12 +139,12 @@
     }
 }
 /* 播放进度 */
-- (void)kj_player:(KJBaseCommonPlayer*)player currentTime:(CGFloat)time{
+- (void)kj_player:(KJBasePlayer*)player currentTime:(CGFloat)time{
 //    NSLog(@"---播放进度:%.2f,%.2f",time,total);
     self.slider.value = time;
 }
 /* 缓存进度 */
-- (void)kj_player:(KJBaseCommonPlayer*)player loadProgress:(CGFloat)progress{
+- (void)kj_player:(KJBasePlayer*)player loadProgress:(CGFloat)progress{
     NSLog(@"---缓存进度:%f",progress);
     [self.progressView setProgress:progress animated:YES];
 }

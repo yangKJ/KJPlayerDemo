@@ -1,5 +1,5 @@
 //
-//  KJPlayerView.h
+//  KJOldPlayerView.h
 //  KJPlayerDemo
 //
 //  Created by 杨科军 on 2019/7/22.
@@ -16,19 +16,19 @@
 #import "KJPlayerViewConfiguration.h"
 
 NS_ASSUME_NONNULL_BEGIN
-@class KJPlayerView;
+@class KJOldPlayerView;
 @protocol KJPlayerViewDelegate <NSObject>
 @optional;
 /// 当前手机方向，是否可以全屏
-- (BOOL)kj_PlayerView:(KJPlayerView*)playerView DeviceDirection:(KJPlayerDeviceDirection)direction;
+- (BOOL)kj_PlayerView:(KJOldPlayerView*)playerView DeviceDirection:(KJPlayerDeviceDirection)direction;
 /// 顶部按钮事件，标签:200返回(左上角)、201功能按钮(右上角)
-- (void)kj_PlayerView:(KJPlayerView*)playerView PlayerState:(KJPlayerState)state TopButton:(UIButton*)sender;
+- (void)kj_PlayerView:(KJOldPlayerView*)playerView PlayerState:(KJPlayerState)state TopButton:(UIButton*)sender;
 /// 全屏底部按钮事件，标签520收藏、521下载、522清晰度
-- (void)kj_PlayerView:(KJPlayerView*)playerView BottomButton:(UIButton*)sender;
+- (void)kj_PlayerView:(KJOldPlayerView*)playerView BottomButton:(UIButton*)sender;
 
 @end
 
-@interface KJPlayerView : UIView
+@interface KJOldPlayerView : UIView
 /* 初始化 */
 - (instancetype)initWithFrame:(CGRect)frame Configuration:(KJPlayerViewConfiguration*)configuration;
 /* 委托 */

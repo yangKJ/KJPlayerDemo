@@ -8,9 +8,9 @@
 //  midi音乐播放器内核
 
 #import <Foundation/Foundation.h>
-#import "KJBaseCommonPlayer.h"
+#import "KJBasePlayer.h"
 NS_ASSUME_NONNULL_BEGIN
-@interface KJMidiPlayer : KJBaseCommonPlayer
+@interface KJMidiPlayer : KJBasePlayer
 @property (nonatomic,assign,readonly) MusicPlayer musicPlayer;
 
 @end

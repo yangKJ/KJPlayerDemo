@@ -18,14 +18,14 @@ Pod::Spec.new do |s|
   s.ios.source_files = 'KJPlayerDemo/KJPlayerHeader.h' 
 
   s.subspec 'KJPlayer' do |y|
-    y.source_files = "KJPlayerDemo/Core/*","KJPlayerDemo/KJPlayer/*"
+    y.source_files = "KJPlayerDemo/Core/*","KJPlayerDemo/KJPlayer/*","KJPlayerDemo/View/*"
     y.resources = "KJPlayerDemo/Core/*.{xcdatamodeld}","CHANGELOG.md"
   end
   
-  s.subspec 'KJMidiPlayer' do |midi|
-    midi.source_files = "KJPlayerDemo/KJMidiPlayer/*"
-    midi.resources = "KJPlayerDemo/KJMidiPlayer/*.{bundle}"
-    midi.dependency 'KJPlayer/KJPlayer'
+  s.subspec 'KJMidiPlayer' do |md|
+    md.source_files = "KJPlayerDemo/KJMidiPlayer/*"
+    md.resources = "KJPlayerDemo/KJMidiPlayer/*.{bundle}"
+    md.dependency 'KJPlayer/KJPlayer'
   end
 
   s.subspec 'KJPlayerView' do |a|

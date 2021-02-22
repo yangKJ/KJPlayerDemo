@@ -86,7 +86,8 @@
     label3.textColor = [UIColor.redColor colorWithAlphaComponent:0.7];
     [self.view addSubview:label3];
     
-    self.temps = @[@"https://mp4.vjshi.com/2018-03-30/1f36dd9819eeef0bc508414494d34ad9.mp4",
+    self.temps = @[@"https://mp4.vjshi.com/2017-11-21/7c2b143eeb27d9f2bf98c4ab03360cfe.mp4",
+                   @"https://mp4.vjshi.com/2018-03-30/1f36dd9819eeef0bc508414494d34ad9.mp4",
                    @"https://mp4.vjshi.com/2020-07-02/c411973c6c8628e94c40cb4e2689e56b.mp4",
                    @"http://appit.winpow.com/attached/media/MP4/1567585643618.mp4",
     ];
@@ -134,7 +135,7 @@
 
 #pragma mark - KJPlayerDelegate
 /* 当前播放器状态 */
-- (void)kj_player:(KJBaseCommonPlayer*)player state:(KJPlayerState)state{
+- (void)kj_player:(KJBasePlayer*)player state:(KJPlayerState)state{
     NSLog(@"---当前播放器状态:%@",KJPlayerStateStringMap[state]);
     if (state == KJPlayerStateBuffering) {
         [player kj_startAnimation];
@@ -171,18 +172,18 @@
     }
 }
 /* 播放进度 */
-- (void)kj_player:(KJBaseCommonPlayer*)player currentTime:(NSTimeInterval)time{
+- (void)kj_player:(KJBasePlayer*)player currentTime:(NSTimeInterval)time{
 //    NSLog(@"---播放进度:%.2f",time);
     self.slider.value = time;
     self.label.text = kPlayerConvertTime(time);
 }
 /* 缓存进度 */
-- (void)kj_player:(KJBaseCommonPlayer*)player loadProgress:(CGFloat)progress{
+- (void)kj_player:(KJBasePlayer*)player loadProgress:(CGFloat)progress{
     NSLog(@"---缓存进度:%f",progress);
     [self.progressView setProgress:progress animated:YES];
 }
 /* 播放错误 */
-- (void)kj_player:(KJBaseCommonPlayer*)player playFailed:(NSError*)failed{
+- (void)kj_player:(KJBasePlayer*)player playFailed:(NSError*)failed{
     NSMutableDictionary *attributes = [NSMutableDictionary dictionary];
     [attributes setValue:[UIFont systemFontOfSize:18] forKey:NSFontAttributeName];
     [attributes setValue:UIColor.whiteColor forKey:NSForegroundColorAttributeName];

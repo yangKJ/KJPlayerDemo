@@ -23,7 +23,7 @@
 
 #pragma mark - KJPlayerDelegate
 /* 当前播放器状态 */
-- (void)kj_player:(KJBaseCommonPlayer*)player state:(KJPlayerState)state{
+- (void)kj_player:(KJBasePlayer*)player state:(KJPlayerState)state{
     NSLog(@"---当前播放器状态:%@",KJPlayerStateStringMap[state]);
     if (state == KJPlayerStateBuffering) {
         [player kj_startAnimation];
@@ -34,17 +34,17 @@
     }
 }
 /* 播放进度 */
-- (void)kj_player:(KJBaseCommonPlayer*)player currentTime:(NSTimeInterval)time{
+- (void)kj_player:(KJBasePlayer*)player currentTime:(NSTimeInterval)time{
     self.slider.value = time;
     self.label.text = kPlayerConvertTime(time);
 }
 /* 缓存进度 */
-- (void)kj_player:(KJBaseCommonPlayer*)player loadProgress:(CGFloat)progress{
+- (void)kj_player:(KJBasePlayer*)player loadProgress:(CGFloat)progress{
     NSLog(@"---缓存进度:%f",progress);
     [self.progressView setProgress:progress animated:YES];
 }
 /* 播放错误 */
-- (void)kj_player:(KJBaseCommonPlayer*)player playFailed:(NSError*)failed{
+- (void)kj_player:(KJBasePlayer*)player playFailed:(NSError*)failed{
     if (failed.code == KJPlayerCustomCodeSaveDatabase) {
         NSLog(@"缓存完成，成功存入数据库");
         NSMutableDictionary *attributes = [NSMutableDictionary dictionary];

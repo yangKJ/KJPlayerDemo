@@ -20,7 +20,7 @@
     self.title = @"KJPlayerDemo 🎷";
     CGFloat width = self.view.frame.size.width;
     CGFloat height = self.view.frame.size.height;
-    _tableView = [[UITableView alloc]initWithFrame:CGRectMake(0, 0, width, height-100)];
+    _tableView = [[UITableView alloc]initWithFrame:CGRectMake(0, 0, width, height-100-PLAYER_BOTTOM_SPACE_HEIGHT)];
     _tableView.delegate = self;
     _tableView.dataSource = self;
     _tableView.rowHeight = 50;
@@ -28,7 +28,7 @@
     [self.view addSubview:self.tableView];
     
     UIButton *button = [UIButton buttonWithType:(UIButtonTypeCustom)];
-    button.frame = CGRectMake(10, height-100, width-20, 100);
+    button.frame = CGRectMake(10, height-100-PLAYER_BOTTOM_SPACE_HEIGHT, width-20, 100);
     NSMutableAttributedString *attrStr = [[NSMutableAttributedString alloc] initWithString:@"大家觉得好用还请点个星，遇见什么问题也可issues，持续更新ing.." attributes:@{
         NSUnderlineStyleAttributeName:@(NSUnderlineStyleSingle),
         NSForegroundColorAttributeName:UIColor.redColor}];

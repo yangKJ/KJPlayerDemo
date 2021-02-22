@@ -35,8 +35,7 @@ static dispatch_once_t onceToken;
     return _instance;
 }
 - (instancetype)init{
-    self = [super init];
-    if (self) {
+    if (self = [super init]) {
         NSURL *modelURL = [[NSBundle mainBundle] URLForResource:@"DBPlayer" withExtension:@"momd"];
         NSManagedObjectModel *model = [[NSManagedObjectModel alloc] initWithContentsOfURL:modelURL];
         NSPersistentStoreCoordinator *store = [[NSPersistentStoreCoordinator alloc] initWithManagedObjectModel:model];

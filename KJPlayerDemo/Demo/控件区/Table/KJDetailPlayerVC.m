@@ -49,7 +49,7 @@
 }
 - (UIView *)playerView{
     if (!_playerView) {
-        _playerView = [[UIView alloc]initWithFrame:CGRectMake(0, 64, self.view.frame.size.width, self.view.frame.size.width*9/16)];
+        _playerView = [[UIView alloc]initWithFrame:CGRectMake(0, PLAYER_STATUSBAR_NAVIGATION_HEIGHT, self.view.frame.size.width, self.view.frame.size.width*9/16)];
 //        _playerView.center = self.view.center;
         _playerView.backgroundColor = UIColor.blackColor;
     }

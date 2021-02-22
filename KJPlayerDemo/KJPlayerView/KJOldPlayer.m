@@ -57,8 +57,7 @@
     _videoIsLocalityData = NO;
 }
 - (instancetype)init{
-    self = [super init];
-    if (self) {
+    if (self = [super init]) {
         [self config];
     }
     return self;

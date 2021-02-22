@@ -20,8 +20,7 @@
 }
 PLAYER_COMMON_PROPERTY PLAYER_COMMON_UI_PROPERTY
 - (instancetype)init{
-    self = [super init];
-    if (self) {
+    if (self = [super init]) {
         self.speed = 1.;
         self.autoPlay = YES;
         self.timeSpace = 1.;

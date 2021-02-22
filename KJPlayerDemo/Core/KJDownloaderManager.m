@@ -28,9 +28,8 @@
 - (void)dealloc{
     [self kj_cancelDownloading];
 }
-- (instancetype)initWithCachedFragments:(NSArray*)fragments videoURL:(NSURL*)url cacheManager:(KJFileHandleManager*)manager{
-    self = [super init];
-    if (self) {
+- (instancetype)initWithCachedFragments:(NSArray*)fragments videoURL:(NSURL*)url manager:(KJFileHandleManager*)manager{
+    if (self = [super init]) {
         self.canSaveToCache = YES;
         self.fragments = [NSMutableArray arrayWithArray:fragments];
         self.cacheManager = manager;
@@ -112,9 +111,7 @@
                 if ([weakself.delegate respondsToSelector:@selector(kj_didReceiveResponse:)]){
                     [weakself.delegate kj_didReceiveResponse:response];
                 }
-                if (weakself.canSaveToCache){
-                    [weakself.cacheManager kj_startWritting];
-                }
+                [weakself.cacheManager kj_startWritting];
                 completionHandler(NSURLSessionResponseAllow);
             }
         };
@@ -141,8 +138,8 @@
             });
         };
         _sessionAgent.kDidFinished = ^(NSError *error) {
+            [weakself.cacheManager kj_finishWritting];
             if (weakself.canSaveToCache){
-                [weakself.cacheManager kj_finishWritting];
                 [weakself.cacheManager kj_writeSave];
             }
             if (weakself.cacheManager.cacheInfo.progress >= 1.0) {

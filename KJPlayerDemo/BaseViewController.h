@@ -9,7 +9,7 @@
 #import <UIKit/UIKit.h>
 
 NS_ASSUME_NONNULL_BEGIN
-
+@class KJPlayer,KJBasePlayerView;
 @interface BaseViewController : UIViewController
 @property(nonatomic,strong)KJPlayer *player;
 @property(nonatomic,strong)KJBasePlayerView *basePlayerView;

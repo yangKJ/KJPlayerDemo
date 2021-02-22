@@ -16,7 +16,7 @@ NS_ASSUME_NONNULL_BEGIN
 @property (nonatomic,weak) id<KJDownloaderManagerDelegate> delegate;
 @property (nonatomic,assign) BOOL canSaveToCache;
 /* 初始化 */
-- (instancetype)initWithCachedFragments:(NSArray*)fragments videoURL:(NSURL*)url cacheManager:(KJFileHandleManager*)manager;
+- (instancetype)initWithCachedFragments:(NSArray*)fragments videoURL:(NSURL*)url manager:(KJFileHandleManager*)manager;
 /* 开始下载，处理碎片 */
 - (void)kj_startDownloading;
 /* 取消下载 */

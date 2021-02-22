@@ -12,7 +12,6 @@
 NS_ASSUME_NONNULL_BEGIN
 
 @interface KJOldFastView : UIView
-
 @property(nonatomic,strong) UIProgressView *progressView;
 @property(nonatomic,strong) UILabel *timeLabel;
 //记录触摸开始时的视频播放的时间

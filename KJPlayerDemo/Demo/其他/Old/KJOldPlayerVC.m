@@ -7,9 +7,9 @@
 //  https://github.com/yangKJ/KJPlayerDemo
 
 #import "KJOldPlayerVC.h"
-#import "KJPlayerView.h"
+#import "KJOldPlayerView.h"
 @interface KJOldPlayerVC ()<KJPlayerViewDelegate>
-@property(nonatomic,strong) KJPlayerView *playerView;
+@property(nonatomic,strong) KJOldPlayerView *playerView;
 @end
 
 @implementation KJOldPlayerVC
@@ -39,14 +39,14 @@
     }
 }
 
-- (KJPlayerView*)playerView{
+- (KJOldPlayerView*)playerView{
     if (!_playerView) {
         KJPlayerViewConfiguration *configuration = [[KJPlayerViewConfiguration alloc]init];
         configuration.autoHideTime = 0.0;
         configuration.haveFristImage = YES;
         configuration.speed = 3;
         configuration.playType = KJPlayerPlayTypeOrder;
-        KJPlayerView *view = [[KJPlayerView alloc] initWithFrame:CGRectMake(0, 20, PLAYER_SCREEN_WIDTH, PLAYER_SCREEN_WIDTH*9/16) Configuration:configuration];
+        KJOldPlayerView *view = [[KJOldPlayerView alloc] initWithFrame:CGRectMake(0, 20, PLAYER_SCREEN_WIDTH, PLAYER_SCREEN_WIDTH*9/16) Configuration:configuration];
         _playerView = view;
         view.backgroundColor = UIColor.blackColor;
         view.delegate = self;
@@ -81,7 +81,7 @@
 }
 
 #pragma mark - KJPlayerViewDelegate
-- (BOOL)kj_PlayerView:(KJPlayerView *)playerView DeviceDirection:(KJPlayerDeviceDirection)direction{
+- (BOOL)kj_PlayerView:(KJOldPlayerView *)playerView DeviceDirection:(KJPlayerDeviceDirection)direction{
     /// 重置电池状态
     [self setNeedsStatusBarAppearanceUpdate];
     if (direction == KJPlayerDeviceDirectionTop || direction == KJPlayerDeviceDirectionBottom) {
@@ -92,10 +92,10 @@
     return NO;
 }
 /// Bottom按钮事件  tag:520收藏、521下载、522清晰度
-- (void)kj_PlayerView:(KJPlayerView*)playerView BottomButton:(UIButton*)sender{
+- (void)kj_PlayerView:(KJOldPlayerView*)playerView BottomButton:(UIButton*)sender{
     
 }
-- (void)kj_PlayerView:(KJPlayerView*)playerView PlayerState:(KJPlayerState)state TopButton:(UIButton*)sender{
+- (void)kj_PlayerView:(KJOldPlayerView*)playerView PlayerState:(KJPlayerState)state TopButton:(UIButton*)sender{
     if (sender.tag == 200) {
         [self.navigationController popViewControllerAnimated:YES];
         [self.navigationController setNavigationBarHidden:NO animated:YES];

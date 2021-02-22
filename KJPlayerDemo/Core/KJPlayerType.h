@@ -23,6 +23,21 @@ NS_ASSUME_NONNULL_BEGIN
 // 屏幕尺寸
 #define PLAYER_SCREEN_WIDTH  ([UIScreen mainScreen].bounds.size.width)
 #define PLAYER_SCREEN_HEIGHT ([UIScreen mainScreen].bounds.size.height)
+// 判断是否为iPhone X 系列
+#define PLAYER_iPhoneX \
+({BOOL isPhoneX = NO;\
+if (@available(iOS 13.0, *)) {\
+isPhoneX = [UIApplication sharedApplication].windows.firstObject.safeAreaInsets.bottom > 0.0;\
+}else if (@available(iOS 11.0, *)) {\
+isPhoneX = [[UIApplication sharedApplication] delegate].window.safeAreaInsets.bottom > 0.0;\
+}\
+(isPhoneX);})
+// statusBar height
+#define PLAYER_STATUSBAR_HEIGHT (PLAYER_iPhoneX ? 44.0f : 20.f)
+// (navigationBar + statusBar) height
+#define PLAYER_STATUSBAR_NAVIGATION_HEIGHT (PLAYER_iPhoneX ? 88.0f : 64.f)
+// tabar距底边高度
+#define PLAYER_BOTTOM_SPACE_HEIGHT (PLAYER_iPhoneX ? 34.0f : 0.0f)
 // 颜色
 #define PLAYER_UIColorFromHEXA(hex,a) [UIColor colorWithRed:((hex&0xFF0000)>>16)/255.0f green:((hex&0xFF00)>>8)/255.0f blue:(hex&0xFF)/255.0f alpha:a]
 
@@ -63,11 +78,22 @@ typedef NS_ENUM(NSInteger, KJPlayerCustomCode) {
     KJPlayerCustomCodeSaveDatabaseFailed = 103,/// 存入数据库错误
 };
 /// 手势操作的类型
-typedef NS_ENUM(NSUInteger, KJPlayerGestureType) {
-    KJPlayerGestureTypeProgress = 0, /// 视频进度调节操作
-    KJPlayerGestureTypeVoice    = 1, /// 声音调节操作
-    KJPlayerGestureTypeLight    = 2, /// 屏幕亮度调节操作
-    KJPlayerGestureTypeNone     = 3, /// 无任何操作
+typedef NS_OPTIONS(NSUInteger, KJPlayerGestureType) {
+    KJPlayerGestureTypeSingleTap = 1 << 1,/// 单击手势
+    KJPlayerGestureTypeDoubleTap = 1 << 2,/// 双击手势
+    KJPlayerGestureTypeLong   = 1 << 3,/// 长按操作
+    KJPlayerGestureTypeProgress = 1 << 4,/// 视频进度调节操作
+    KJPlayerGestureTypeVolume  = 1 << 5,/// 声音调节操作
+    KJPlayerGestureTypeBrightness  = 1 << 6,/// 屏幕亮度调节操作
+    
+    KJPlayerGestureTypePan = KJPlayerGestureTypeProgress | KJPlayerGestureTypeVolume | KJPlayerGestureTypeBrightness,
+    KJPlayerGestureTypeAll = KJPlayerGestureTypeSingleTap | KJPlayerGestureTypeDoubleTap | KJPlayerGestureTypeLong | KJPlayerGestureTypePan, 
+};
+/// KJBasePlayerView上面的Layer层次，zPosition改变图层的显示顺序
+typedef NS_ENUM(NSUInteger, KJBasePlayerViewLayerZPosition) {
+    KJBasePlayerViewLayerZPositionFrist  = 0,/// 第一层，播放器的AVPlayerLayer
+    KJBasePlayerViewLayerZPositionSecond = 1,/// 第二层，加载指示器和文本提醒框
+    KJBasePlayerViewLayerZPositionThird  = 2,/// 第三层，快进音量亮度等控件层
 };
 /// 播放类型
 typedef NS_ENUM(NSUInteger, KJPlayerPlayType) {

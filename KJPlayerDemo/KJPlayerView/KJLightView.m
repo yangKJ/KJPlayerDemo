@@ -12,8 +12,7 @@
 @implementation KJLightView
 
 - (instancetype)initWithFrame:(CGRect)frame{
-    self = [super initWithFrame:frame];
-    if (self) {
+    if (self = [super initWithFrame:frame]) {
         [self kSetUI];
 //        //设置屏幕常亮
 //        [UIApplication sharedApplication].idleTimerDisabled = YES;

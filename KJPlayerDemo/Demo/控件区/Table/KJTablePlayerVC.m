@@ -30,11 +30,18 @@
     [super viewDidLoad];
     // Do any additional setup after loading the view.
     self.view.backgroundColor = UIColor.whiteColor;
-    NSArray *temps = @[@"http://hls.cntv.myalicdn.com/asp/hls/2000/0303000a/3/default/bca293257d954934afadfaa96d865172/2000.m3u8",
+    NSArray *temps = @[@"https://mp4.vjshi.com/2017-11-21/7c2b143eeb27d9f2bf98c4ab03360cfe.mp4",
+                       @"https://mp4.vjshi.com/2020-12-01/bc8b1a8d9166d2040bd8946ad6447235.mp4",
+                       @"https://mp4.vjshi.com/2020-09-27/542926a8c2a99808fc981d46c1dc6aef.mp4",
+                       @"https://mp4.vjshi.com/2017-05-12/f7f9ecfebb7d5fe78f4f768c86b3a552.mp4",
                        @"https://mp4.vjshi.com/2021-01-13/d37b7bea25b063b4f9d4bdd98bc611e3.mp4",
+                       @"https://mp4.vjshi.com/2017-06-03/076f1b8201773231ca2f65e38c34033c.mp4",
+                       @"https://mp4.vjshi.com/2021-01-13/ac721f0590f0b0509092afea52d55a90.mp4",
                        @"https://mp4.vjshi.com/2018-03-30/1f36dd9819eeef0bc508414494d34ad9.mp4",
-                       @"https://mp4.vjshi.com/2020-07-02/c411973c6c8628e94c40cb4e2689e56b.mp4",
-                       @"http://appit.winpow.com/attached/media/MP4/1567585643618.mp4"];
+                       @"https://mp4.vjshi.com/2016-09-03/72808b798d42dbca8d901b97e3bb54f4.mp4",
+                       @"https://mp4.vjshi.com/2020-07-05/ef748e3a0077c8cc7c3d9a529d201beb.mp4",
+                       @"http://appit.winpow.com/attached/media/MP4/1567585643618.mp4",
+    ];
     NSMutableArray *array = [NSMutableArray arrayWithCapacity:temps.count];
     for (NSString *url in temps) {
         KJTableViewInfo *info = [KJTableViewInfo new];
@@ -45,12 +52,12 @@
 //    [KJCachePlayerManager kj_clearAllVideoCoverImage];
     
     self.temps = array.mutableCopy;
-    UILabel *label = [[UILabel alloc]initWithFrame:CGRectMake(0, 64, self.view.bounds.size.width, 40)];
+    UILabel *label = [[UILabel alloc]initWithFrame:CGRectMake(0, PLAYER_STATUSBAR_NAVIGATION_HEIGHT, self.view.bounds.size.width, 40)];
     [self.view addSubview:label];
     label.textAlignment = 1;
     label.text = @"点击网址无缝衔接跳转至详情页面控制器";
     label.textColor = [UIColor.redColor colorWithAlphaComponent:0.7];
-    UITableView *tableView = [[UITableView alloc]initWithFrame:CGRectMake(0, 40+64, self.view.bounds.size.width, self.view.bounds.size.height-40-64) style:UITableViewStylePlain];
+    UITableView *tableView = [[UITableView alloc]initWithFrame:CGRectMake(0, 40+PLAYER_STATUSBAR_NAVIGATION_HEIGHT, self.view.bounds.size.width, self.view.bounds.size.height-40-PLAYER_STATUSBAR_NAVIGATION_HEIGHT-PLAYER_BOTTOM_SPACE_HEIGHT) style:UITableViewStylePlain];
     self.tableView = tableView;
     tableView.delegate = self;
     tableView.dataSource = self;
@@ -103,7 +110,7 @@
         }
         weakself.index = index;
         KJPlayer.shared.playerView = item.videoImageView;
-        [item.loadingView startAnimating];
+        KJPlayer.shared.placeholder = item.videoImageView.image;
         KJPlayer.shared.delegate = weakself;
         KJPlayer.shared.cacheTime = 0;
         KJPlayer.shared.videoURL = [NSURL URLWithString:item.label.text];
@@ -132,7 +139,7 @@
 }
 #pragma mark - KJPlayerDelegate
 /* 当前播放器状态 */
-- (void)kj_player:(KJBaseCommonPlayer*)player state:(KJPlayerState)state{
+- (void)kj_player:(KJBasePlayer*)player state:(KJPlayerState)state{
     NSLog(@"---当前播放器状态:%@",KJPlayerStateStringMap[state]);
     if (state == KJPlayerStatePlayFinished) {
         [player kj_replay];
@@ -145,11 +152,11 @@
     }
 }
 /* 播放进度 */
-- (void)kj_player:(KJBaseCommonPlayer*)player currentTime:(NSTimeInterval)time{
+- (void)kj_player:(KJBasePlayer*)player currentTime:(NSTimeInterval)time{
 //    NSLog(@"---播放进度:%.2f,%.2f",time,total);
 }
 /* 缓存进度 */
-- (void)kj_player:(KJBaseCommonPlayer*)player loadProgress:(CGFloat)progress{
+- (void)kj_player:(KJBasePlayer*)player loadProgress:(CGFloat)progress{
     NSLog(@"---缓存进度:%f",progress);
 }
 

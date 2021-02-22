@@ -1,6 +1,6 @@
 # KJPlayer
 
-好消息，音视频播放器重新大改版2.0.0～
+好消息，音视频播放器重新大改版2.0～
 
 ### <a id="功能介绍"></a>功能介绍
 动态切换内核，支持边下边播的播放器方案   
@@ -36,13 +36,13 @@ pod 'KJPlayer/KJPlayerView' # 自带展示界面
 
 ### <a id="效果图"></a>效果图
 横屏展示效果图：
-![培训活动-视频全屏](https://upload-images.jianshu.io/upload_images/1933747-3d64de1b9d073891.png)
+![](https://upload-images.jianshu.io/upload_images/1933747-3d64de1b9d073891.png)
 
 竖屏目前展示效果：
-![WechatIMG10.jpeg](https://upload-images.jianshu.io/upload_images/1933747-537dbd09082b0153.jpeg)
+![](https://upload-images.jianshu.io/upload_images/1933747-537dbd09082b0153.jpeg)
 
 ## 模块介绍
-### KJBasePlayer播放器协议
+### KJBaseFunctionPlayer播放器协议
 所有播放器壳子都是基于该基础做处理，提取公共部分
 
 |   API & Property   |  类型  |  功能  | 
@@ -75,6 +75,18 @@ pod 'KJPlayer/KJPlayerView' # 自带展示界面
 | kj_pause | Instance | 暂停 |
 | kj_stop | Instance | 停止 |
 
+#### KJPlayerDelegate委托代理
+```
+/* 当前播放器状态 */
+- (void)kj_player:(KJBasePlayer*)player state:(KJPlayerState)state;
+/* 播放进度 */
+- (void)kj_player:(KJBasePlayer*)player currentTime:(NSTimeInterval)time;
+/* 缓存进度 */
+- (void)kj_player:(KJBasePlayer*)player loadProgress:(CGFloat)progress;
+/* 播放错误 */
+- (void)kj_player:(KJBasePlayer*)player playFailed:(NSError*)failed;
+```
+
 ### KJBaseUIPlayer播放器协议
 播放器UI相关协议
 
@@ -87,16 +99,39 @@ pod 'KJPlayer/KJPlayerView' # 自带展示界面
 | kVideoSize | Property | 获取视频尺寸大小 |
 | kVideoTimeScreenshots | Property | 获取当前截屏 |
 
-#### KJPlayerDelegate委托代理
+### KJBasePlayerView播放器视图基类，播放器控件父类
 ```
-/* 当前播放器状态 */
-- (void)kj_player:(KJCommonPlayer*)player state:(KJPlayerState)state;
-/* 播放进度 */
-- (void)kj_player:(KJCommonPlayer*)player currentTime:(NSTimeInterval)time;
-/* 缓存进度 */
-- (void)kj_player:(KJCommonPlayer*)player loadProgress:(CGFloat)progress;
-/* 播放错误 */
-- (void)kj_player:(KJCommonPlayer*)player playFailed:(NSError*)failed;
+/* 主色调，默认白色 */
+@property (nonatomic,strong) UIColor *mainColor;
+/* 窗口window */
+@property (nonatomic,strong,class,readonly) UIWindow *window;
+/* 委托代理 */
+@property (nonatomic,weak) id <KJPlayerBaseViewDelegate> delegate;
+/* 支持手势，支持多枚举 */
+@property (nonatomic,assign) KJPlayerGestureType gestureType;
+/* 长按执行时间，默认1秒 */
+@property (nonatomic,assign) NSTimeInterval longPressTime;
+
+#pragma mark - 控件
+/* 快进快退进度控件 */
+@property (nonatomic,strong) KJPlayerFastLayer *fastLayer;
+/* 音量亮度控件 */
+@property (nonatomic,strong) KJPlayerSystemLayer *vbLayer;
+
+```
+#### KJPlayerBaseViewDelegate控件载体协议
+```
+/* 单双击手势反馈 */
+- (void)kj_basePlayerView:(KJBasePlayerView*)view isSingleTap:(BOOL)tap;
+/* 长按手势反馈 */
+- (void)kj_basePlayerView:(KJBasePlayerView*)view longPress:(UILongPressGestureRecognizer*)longPress;
+/* 进度手势反馈，不替换UI请返回当前时间和总时间，范围-1 ～ 1 */
+- (NSArray*)kj_basePlayerView:(KJBasePlayerView*)view progress:(float)progress end:(BOOL)end;
+/* 音量手势反馈，是否替换自带UI，范围0 ～ 1 */
+- (BOOL)kj_basePlayerView:(KJBasePlayerView*)view volumeValue:(float)value;
+/* 亮度手势反馈，是否替换自带UI，范围0 ～ 1 */
+- (BOOL)kj_basePlayerView:(KJBasePlayerView*)view brightnessValue:(float)value;
+
 ```
 
 ### KJPlayerType

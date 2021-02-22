@@ -4,20 +4,21 @@
 //
 //  Created by 杨科军 on 2021/2/16.
 //  Copyright © 2021 杨科军. All rights reserved.
-//
-          
+//  https://github.com/yangKJ/KJPlayerDemo
+//  播放器UI协议
+
 #import "KJBasePlayerView.h"
 #import "KJPlayerType.h"
 
 static NSString * KJPlayerHintPositionTop = @"KJPlayerHintPositionTop";
 static NSString * KJPlayerHintPositionCenter = @"KJPlayerHintPositionCenter";
 static NSString * KJPlayerHintPositionBottom = @"KJPlayerHintPositionBottom";
-static NSString * KJPlayerHintPositionLeftBottom = @"KJPlayerHintPositionLeftBottom";
-static NSString * KJPlayerHintPositionRightBottom = @"KJPlayerHintPositionRightBottom";
 static NSString * KJPlayerHintPositionLeftTop = @"KJPlayerHintPositionLeftTop";
 static NSString * KJPlayerHintPositionRightTop = @"KJPlayerHintPositionRightTop";
 static NSString * KJPlayerHintPositionLeftCenter = @"KJPlayerHintPositionLeftCenter";
 static NSString * KJPlayerHintPositionRightCenter = @"KJPlayerHintPositionRightCenter";
+static NSString * KJPlayerHintPositionLeftBottom = @"KJPlayerHintPositionLeftBottom";
+static NSString * KJPlayerHintPositionRightBottom = @"KJPlayerHintPositionRightBottom";
 @protocol KJBaseUIPlayer <NSObject>
 @required
 /* 播放器载体 */

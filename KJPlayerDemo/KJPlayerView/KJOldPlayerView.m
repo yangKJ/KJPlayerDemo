@@ -1,12 +1,12 @@
 //
-//  KJPlayerView.m
+//  KJOldPlayerView.m
 //  KJPlayerDemo
 //
 //  Created by 杨科军 on 2019/7/22.
 //  Copyright © 2019 杨科军. All rights reserved.
 //  https://github.com/yangKJ/KJPlayerDemo
 
-#import "KJPlayerView.h"
+#import "KJOldPlayerView.h"
 #import <MediaPlayer/MPVolumeView.h> 
 #import <QuartzCore/QuartzCore.h>
 /// 设置图片
@@ -31,7 +31,7 @@
 }
 @end
 
-@interface KJPlayerView ()<KJOldPlayerDelegate,UIGestureRecognizerDelegate>
+@interface KJOldPlayerView ()<KJOldPlayerDelegate,UIGestureRecognizerDelegate>
 @property (nonatomic,strong) id videoURL;
 @property (nonatomic,strong) NSTimer *timer;
 @property (nonatomic,strong) KJOldPlayer *player;
@@ -70,7 +70,7 @@
 
 @end
 
-@implementation KJPlayerView
+@implementation KJOldPlayerView
 
 - (void)dealloc{
     if (self.configuration.openGravitySensing == YES) {
@@ -89,8 +89,7 @@
 
 /* 初始化 */
 - (instancetype)initWithFrame:(CGRect)frame Configuration:(KJPlayerViewConfiguration*)configuration{
-    self = [super initWithFrame:frame];
-    if (self) {
+    if (self = [super initWithFrame:frame]) {
         self.configuration = configuration;
         [self config];
         [self kSetUI];
@@ -99,8 +98,7 @@
 }
 
 - (instancetype)initWithFrame:(CGRect)frame{
-    self = [super initWithFrame:frame];
-    if (self) {
+    if (self = [super initWithFrame:frame]) {
         self.configuration = [[KJPlayerViewConfiguration alloc] init];
         [self config];
         [self kSetUI];
@@ -679,16 +677,15 @@
     }else if(tan > sqrt(3)){  //当滑动角度大于60度的时候, 声音和亮度
         //判断是在屏幕的左半边还是右半边滑动, 左侧控制为亮度, 右侧控制音量
         if (self.configuration.touchBeginPoint.x < self.bounds.size.width*0.5) {
-            self.configuration.gestureType = KJPlayerGestureTypeLight;
+            self.configuration.gestureType = KJPlayerGestureTypeBrightness;
             self.lightView.changeLightValue = YES;
         }else{
-            self.configuration.gestureType = KJPlayerGestureTypeVoice;
+            self.configuration.gestureType = KJPlayerGestureTypeVolume;
         }
         if (!self.configuration.enableVolumeGesture) {
             return;
         }
     }else{ //如果是其他角度则不是任何控制
-        self.configuration.gestureType = KJPlayerGestureTypeNone;
         return;
     }
     
@@ -700,7 +697,7 @@
         [self.fastView kj_updateFastValue:value TotalTime:self.configuration.totalTime];
         self.leftTimeLabel.text = kPlayerConvertTime(value);
         [self.playScheduleSlider setValue:value animated:YES];
-    }else if(self.configuration.gestureType == KJPlayerGestureTypeVoice){ //如果是音量手势
+    }else if(self.configuration.gestureType == KJPlayerGestureTypeVolume){ //如果是音量手势
         if (self.configuration.fullScreen) {//全屏的时候才开启音量的手势调节
             //根据触摸开始时的音量和触摸开始时的点去计算出现在滑动到的音量
             CGFloat value = self.configuration.touchBeginVoiceValue - ((tempPoint.y - self.configuration.touchBeginPoint.y)/self.bounds.size.height);
@@ -708,7 +705,7 @@
             value = MIN(MAX(0, value), 1);
             self.volumeSlider.value = value;
         }
-    }else if(self.configuration.gestureType == KJPlayerGestureTypeLight){ //如果是亮度手势
+    }else if(self.configuration.gestureType == KJPlayerGestureTypeBrightness){ //如果是亮度手势
         if (self.configuration.fullScreen) {
             //根据触摸开始时的亮度, 和触摸开始时的点来计算出现在的亮度
             CGFloat value = self.lightView.touchBeginLightValue - ((tempPoint.y - self.configuration.touchBeginPoint.y)/self.bounds.size.height);

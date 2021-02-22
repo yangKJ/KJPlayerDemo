@@ -16,7 +16,7 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
 
-    UIImageView *imageView = [[UIImageView alloc]initWithFrame:CGRectMake(0, self.view.frame.size.height-80-self.view.frame.size.width*9/16, self.view.frame.size.width, self.view.frame.size.width*9/16)];
+    UIImageView *imageView = [[UIImageView alloc]initWithFrame:CGRectMake(0, self.view.frame.size.height-80-self.view.frame.size.width*9/16-PLAYER_BOTTOM_SPACE_HEIGHT, self.view.frame.size.width, self.view.frame.size.width*9/16)];
     self.imageView = imageView;
     [self.view addSubview:imageView];
     imageView.backgroundColor = [UIColor.greenColor colorWithAlphaComponent:0.5];
@@ -41,26 +41,27 @@
         [button addTarget:self action:@selector(buttonAction2:) forControlEvents:(UIControlEventTouchUpInside)];
     }
     
-    self.basePlayerView.frame = CGRectMake(0, 64, self.view.frame.size.width, self.view.frame.size.width*9/16);
+    self.basePlayerView.frame = CGRectMake(0, PLAYER_STATUSBAR_NAVIGATION_HEIGHT, self.view.frame.size.width, self.view.frame.size.width*9/16);
     self.player.delegate = self;
-    self.player.videoURL = [NSURL URLWithString:@"http://hls.cntv.myalicdn.com/asp/hls/2000/0303000a/3/default/bca293257d954934afadfaa96d865172/2000.m3u8"];
+    self.player.videoURL = [NSURL URLWithString:@"https://mp4.vjshi.com/2020-09-27/542926a8c2a99808fc981d46c1dc6aef.mp4"];
 }
 - (void)buttonAction:(UIButton*)sender{
+    PLAYER_WEAKSELF;
     self.player.kVideoTimeScreenshots(^(UIImage *image) {
-        self.imageView.image = image;
+        weakself.imageView.image = image;
     });
 }
 - (void)buttonAction2:(UIButton*)sender{
     sender.selected = !sender.selected;
     if (sender.selected) {
-        self.player.videoURL = [NSURL URLWithString:@"https://mp4.vjshi.com/2018-03-30/1f36dd9819eeef0bc508414494d34ad9.mp4"];
-    }else{
         self.player.videoURL = [NSURL URLWithString:@"http://hls.cntv.myalicdn.com/asp/hls/2000/0303000a/3/default/bca293257d954934afadfaa96d865172/2000.m3u8"];
+    }else{
+        self.player.videoURL = [NSURL URLWithString:@"https://mp4.vjshi.com/2020-09-27/542926a8c2a99808fc981d46c1dc6aef.mp4"];
     }
 }
 #pragma mark - KJPlayerDelegate
 /* 当前播放器状态 */
-- (void)kj_player:(KJBaseCommonPlayer*)player state:(KJPlayerState)state{
+- (void)kj_player:(KJBasePlayer*)player state:(KJPlayerState)state{
     NSLog(@"---当前播放器状态:%@",KJPlayerStateStringMap[state]);
     if (state == KJPlayerStateBuffering) {
         [player kj_startAnimation];
@@ -73,17 +74,17 @@
     }
 }
 /* 播放进度 */
-- (void)kj_player:(KJBaseCommonPlayer*)player currentTime:(NSTimeInterval)time{
+- (void)kj_player:(KJBasePlayer*)player currentTime:(NSTimeInterval)time{
     self.slider.value = time;
     self.label.text = kPlayerConvertTime(time);
 }
 /* 缓存进度 */
-- (void)kj_player:(KJBaseCommonPlayer*)player loadProgress:(CGFloat)progress{
+- (void)kj_player:(KJBasePlayer*)player loadProgress:(CGFloat)progress{
     NSLog(@"---缓存进度:%f",progress);
     [self.progressView setProgress:progress animated:YES];
 }
 /* 播放错误 */
-- (void)kj_player:(KJBaseCommonPlayer*)player playFailed:(NSError*)failed{
+- (void)kj_player:(KJBasePlayer*)player playFailed:(NSError*)failed{
     
 }
 
