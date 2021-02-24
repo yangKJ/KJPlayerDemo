@@ -10,7 +10,7 @@
 #import <Foundation/Foundation.h>
 #import "KJBaseFunctionPlayer.h"
 #import "KJBaseUIPlayer.h"
-#import "KJCachePlayerManager.h"
+#import "KJRotateManager.h"
 
 NS_ASSUME_NONNULL_BEGIN
 

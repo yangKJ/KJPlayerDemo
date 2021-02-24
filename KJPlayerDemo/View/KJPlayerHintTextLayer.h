@@ -19,7 +19,15 @@ static NSString * KJPlayerHintPositionLeftCenter = @"KJPlayerHintPositionLeftCen
 static NSString * KJPlayerHintPositionRightCenter = @"KJPlayerHintPositionRightCenter";
 static NSString * KJPlayerHintPositionLeftBottom = @"KJPlayerHintPositionLeftBottom";
 static NSString * KJPlayerHintPositionRightBottom = @"KJPlayerHintPositionRightBottom";
+@interface KJPlayerHintInfo : NSObject
+@property (nonatomic,assign) CGFloat maxWidth;
+@property (nonatomic,strong) UIColor *background;
+@property (nonatomic,strong) UIColor *textColor;
+@property (nonatomic,strong) UIFont *font;
+@end
 @interface KJPlayerHintTextLayer : CALayer
+@property (nonatomic,assign) KJPlayerVideoScreenState screenState;
+@property (nonatomic,assign) CGFloat maxWidth;
 /* 设置属性 */
 - (void)kj_setFont:(UIFont*)font color:(UIColor*)color;
 /* 显示文本框 */

@@ -48,8 +48,8 @@
         info.url = url;
         [array addObject:info];
     }
-//    [KJCachePlayerManager kj_clearVideoCoverImageWithURL:[NSURL URLWithString:temps[1]]];
-//    [KJCachePlayerManager kj_clearAllVideoCoverImage];
+//    [KJCacheManager kj_clearVideoCoverImageWithURL:[NSURL URLWithString:temps[1]]];
+//    [KJCacheManager kj_clearAllVideoCoverImage];
     
     self.temps = array.mutableCopy;
     UILabel *label = [[UILabel alloc]initWithFrame:CGRectMake(0, PLAYER_STATUSBAR_NAVIGATION_HEIGHT, self.view.bounds.size.width, 40)];

@@ -7,11 +7,17 @@
 //  https://github.com/yangKJ/KJPlayerDemo
 //  快进快退进度控件
 
-#import "KJBasePlayerLayer.h"
+#import <QuartzCore/QuartzCore.h>
+#import "KJPlayerType.h"
 
 NS_ASSUME_NONNULL_BEGIN
 
-@interface KJPlayerFastLayer : KJBasePlayerLayer
+@interface KJPlayerFastLayer : CALayer
+@property (nonatomic,assign) KJPlayerVideoScreenState screenState;
+@property (nonatomic,strong) UIColor *mainColor;
+@property (nonatomic,strong) UIColor *viceColor;
+/// 重置尺寸
+- (void)kj_setLayerNewFrame:(CGRect)rect;
 /// 设置数据
 - (void)kj_updateFastValue:(CGFloat)value TotalTime:(CGFloat)time;
 

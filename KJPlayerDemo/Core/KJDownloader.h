@@ -5,24 +5,22 @@
 //  Created by 杨科军 on 2021/2/10.
 //  Copyright © 2021 杨科军. All rights reserved.
 //  https://github.com/yangKJ/KJPlayerDemo
+//  下载管理器
 
 #import <Foundation/Foundation.h>
 #import <MobileCoreServices/MobileCoreServices.h>
-#import "KJDownloaderManager.h"
 #import "KJFileHandleManager.h"
-#import "DBPlayerDataInfo.h"
 
 NS_ASSUME_NONNULL_BEGIN
 
 @interface KJDownloader : NSObject
 @property (nonatomic,strong,readonly) NSURL *videoURL;
-@property (nonatomic,strong) NSString *contentType;
-@property (nonatomic,assign) NSUInteger contentLength;
+@property (nonatomic,strong,readonly) KJFileHandleManager *fileHandleManager;
 @property (nonatomic,assign) BOOL saveToCache;
-- (instancetype)initWithURL:(NSURL*)url cacheManager:(KJFileHandleManager*)manager;
+- (instancetype)initWithURL:(NSURL*)url fileHandleManager:(KJFileHandleManager*)manager;
 /* 指定下载，是否下载到末尾全部数据 */
 - (void)kj_downloadTaskRange:(NSRange)range whole:(BOOL)whole;
-/* 开始下载全部内容 */
+/* 开始下载 */
 - (void)kj_startDownload;
 /* 取消下载 */
 - (void)kj_cancelDownload;

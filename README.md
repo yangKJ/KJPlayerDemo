@@ -28,7 +28,8 @@
 ### <a id="使用方法"></a>Pod使用方法
 ```
 pod 'KJPlayer' # 播放器功能区
-pod 'KJPlayer/KJPlayerView' # 自带展示界面
+pod 'KJPlayer/AVPlayer' # AVPlayer内核播放器
+pod 'KJPlayer/midi' # midi内核
 ```
 
 ### <a id="更新日志"></a>更新日志
@@ -100,6 +101,7 @@ pod 'KJPlayer/KJPlayerView' # 自带展示界面
 | kVideoTimeScreenshots | Property | 获取当前截屏 |
 
 ### KJBasePlayerView播放器视图基类，播放器控件父类
+只要子控件没有涉及到手势交互，我均采用Layer的方式来处理，然后根据`zPosition`来区分控件的上下层级关系
 ```
 /* 主色调，默认白色 */
 @property (nonatomic,strong) UIColor *mainColor;

@@ -1,5 +1,5 @@
 //
-//  KJCachePlayerManager.h
+//  KJCacheManager.h
 //  KJPlayerDemo
 //
 //  Created by 杨科军 on 2021/2/10.
@@ -14,7 +14,7 @@ NS_ASSUME_NONNULL_BEGIN
 #define kCacheVideoDirectory [NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES).lastObject stringByAppendingPathComponent:@"videos"]
 #define kCacheImageDirectory [NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES).lastObject stringByAppendingPathComponent:@"videoImages"]
 #define kTempReadName @"player.temp.read"
-@interface KJCachePlayerManager : NSObject
+@interface KJCacheManager : NSObject
 #pragma mark - NSFileManager
 /* 删除指定文件 */
 + (BOOL)kj_removeFilePath:(NSString*)path;

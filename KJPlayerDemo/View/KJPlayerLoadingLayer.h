@@ -12,8 +12,11 @@
 NS_ASSUME_NONNULL_BEGIN
 
 @interface KJPlayerLoadingLayer : CAShapeLayer
+@property (nonatomic,assign) KJPlayerVideoScreenState screenState;
 /* 圆圈加载动画 */
 - (void)kj_setAnimationSize:(CGSize)size color:(UIColor*)color;
+/// 重置尺寸
+- (void)kj_setLayerNewFrame:(CGRect)rect;
 
 @end
 

@@ -9,26 +9,29 @@
 
 #import <Foundation/Foundation.h>
 #import "DBPlayerDataInfo.h"
-#import "KJCachePlayerManager.h"
+#import "KJCacheManager.h"
 /* 缓存相关信息通知 */
 extern NSString *kPlayerFileHandleInfoNotification;
 /* 缓存相关信息接收key */
 extern NSString *kPlayerFileHandleInfoKey;
 @interface KJFileHandleInfo : NSObject <NSCopying>
-@property (nonatomic,strong) NSString *contentType;
-@property (nonatomic,strong,readonly) NSArray *cacheFragments;
 @property (nonatomic,strong,readonly) NSURL *videoURL;
 @property (nonatomic,strong,readonly) NSString *fileName;
 @property (nonatomic,strong,readonly) NSString *fileFormat;
-/* 文件大小 */
-@property (nonatomic,assign) NSUInteger contentLength;
+/* 已缓存分片 */
+@property (nonatomic,strong,readonly) NSArray *cacheFragments;
 /* 已下载长度 */
 @property (nonatomic,assign,readonly) int64_t downloadedBytes;
 /* 下载进度 */
 @property (nonatomic,assign,readonly) float progress;
 /* 下载耗时 */
 @property (nonatomic,assign) NSTimeInterval downloadTime;
-/* 初始化 */
+/* 文件类型 */
+@property (nonatomic,strong) NSString *contentType;
+/* 文件大小总长度 */
+@property (nonatomic,assign) NSUInteger contentLength;
+
+/* 初始化，优先读取归档数据 */
 + (instancetype)kj_createFileHandleInfoWithURL:(NSURL*)url;
 /* 归档存储 */
 - (void)kj_keyedArchiverSave;

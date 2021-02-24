@@ -27,7 +27,7 @@
 - (void)kj_judgeHaveCacheWithVideoURL:(NSURL * _Nonnull __strong * _Nonnull)videoURL{
     self.locality = NO;
     self.asset = nil;
-    KJCachePlayerManager.kJudgeHaveCacheURL(^(BOOL locality) {
+    KJCacheManager.kJudgeHaveCacheURL(^(BOOL locality) {
         self.locality = locality;
         if (locality) {
             self.playError = [DBPlayerDataInfo kj_errorSummarizing:KJPlayerCustomCodeCachedComplete];

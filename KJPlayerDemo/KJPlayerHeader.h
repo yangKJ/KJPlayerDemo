@@ -23,6 +23,19 @@
  *  视频可以边下边播，把播放器播放过的数据流缓存到本地
  *  支持断点续载续播，下次直接优先从缓冲读取播放
  */
-#import "KJPlayer.h"
+/* AVPlayer内核 */
+//#if __has_include(<KJPlayer/KJPlayer.h>)
+//#import <KJPlayer/KJPlayer.h>
+//#else
+//#import "KJPlayer.h"
+//#endif
+
+
+/* midi内核 */
+//#if __has_include(<KJPlayer/KJMidiPlayer.h>)
+//#import <KJPlayer/KJMidiPlayer.h>
+//#else
+//#import "KJMidiPlayer.h"
+//#endif
 
 #endif /* KJPlayerHeader_h */

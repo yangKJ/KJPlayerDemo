@@ -41,11 +41,12 @@
     // Do any additional setup after loading the view.
     self.view.backgroundColor = PLAYER_UIColorFromHEXA(0xf5f5f5, 1);
     
-    UIButton *backButton = [[UIButton alloc]initWithFrame:CGRectMake(0, 0, 20, 40)];
-    [backButton setImage:[UIImage imageNamed:@"Arrow"] forState:UIControlStateNormal];
+    UIButton *backButton = [UIButton buttonWithType:(UIButtonTypeCustom)];
+    [backButton setTitle:@"\U0000e697" forState:(UIControlStateNormal)];
+    [backButton setTitleColor:UIColor.blueColor forState:(UIControlStateNormal)];
+    backButton.titleLabel.font = [UIFont fontWithName:@"iconfont" size:38];
     [backButton addTarget:self action:@selector(backItemClick) forControlEvents:UIControlEventTouchUpInside];
-    UIBarButtonItem *backItem = [[UIBarButtonItem alloc]initWithCustomView:backButton];
-    self.navigationItem.leftBarButtonItem = backItem;
+    self.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc]initWithCustomView:backButton];
     
     UIProgressView *progressView = [[UIProgressView alloc] initWithProgressViewStyle:UIProgressViewStyleDefault];
     self.progressView = progressView;

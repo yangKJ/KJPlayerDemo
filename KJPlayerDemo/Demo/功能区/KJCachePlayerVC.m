@@ -18,14 +18,14 @@
     // Do any additional setup after loading the view.
     
     self.player.delegate = self;
-    self.player.kVideoCanCacheURL([NSURL URLWithString:@"https://mp4.vjshi.com/2018-03-30/1f36dd9819eeef0bc508414494d34ad9.mp4"], YES);
+    self.player.kVideoCanCacheURL([NSURL URLWithString:@"https://mp4.vjshi.com/2016-10-31/a553917787e52c0a077e3fb8548fae69.mp4"], YES);
 }
 
 #pragma mark - KJPlayerDelegate
 /* 当前播放器状态 */
 - (void)kj_player:(KJBasePlayer*)player state:(KJPlayerState)state{
     NSLog(@"---当前播放器状态:%@",KJPlayerStateStringMap[state]);
-    if (state == KJPlayerStateBuffering) {
+    if (state == KJPlayerStateBuffering || state == KJPlayerStatePausing) {
         [player kj_startAnimation];
     }else if (state == KJPlayerStatePreparePlay || state == KJPlayerStatePlaying) {
         [player kj_stopAnimation];

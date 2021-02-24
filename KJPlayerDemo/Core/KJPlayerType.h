@@ -20,6 +20,15 @@
 NS_ASSUME_NONNULL_BEGIN
 // 弱引用
 #define PLAYER_WEAKSELF __weak __typeof(&*self) weakself = self
+// 窗口
+#define PLAYER_KeyWindow \
+({UIWindow *window;\
+if (@available(iOS 13.0, *)) {\
+window = [UIApplication sharedApplication].windows.firstObject;\
+}else{\
+window = [UIApplication sharedApplication].keyWindow;\
+}\
+window;})
 // 屏幕尺寸
 #define PLAYER_SCREEN_WIDTH  ([UIScreen mainScreen].bounds.size.width)
 #define PLAYER_SCREEN_HEIGHT ([UIScreen mainScreen].bounds.size.height)
@@ -41,6 +50,26 @@ isPhoneX = [[UIApplication sharedApplication] delegate].window.safeAreaInsets.bo
 // 颜色
 #define PLAYER_UIColorFromHEXA(hex,a) [UIColor colorWithRed:((hex&0xFF0000)>>16)/255.0f green:((hex&0xFF00)>>8)/255.0f blue:(hex&0xFF)/255.0f alpha:a]
 
+/// 视频格式
+typedef NS_ENUM(NSUInteger, KJPlayerVideoFromat) {
+    KJPlayerVideoFromat_none, /// 未知格式
+    KJPlayerVideoFromat_mp4,
+    KJPlayerVideoFromat_wav,
+    KJPlayerVideoFromat_avi,
+    KJPlayerVideoFromat_m3u8,
+};
+static NSString * const _Nonnull KJPlayerVideoFromatStringMap[] = {
+    [KJPlayerVideoFromat_mp4]  = @".mp4",
+    [KJPlayerVideoFromat_wav]  = @".wav",
+    [KJPlayerVideoFromat_avi]  = @".avi",
+    [KJPlayerVideoFromat_m3u8] = @".m3u8",
+};
+static NSString * const _Nonnull KJPlayerVideoFromatMimeStringMap[] = {
+    [KJPlayerVideoFromat_mp4]  = @"video/mp4",
+    [KJPlayerVideoFromat_wav]  = @"video/wav",
+    [KJPlayerVideoFromat_avi]  = @"video/avi",
+    [KJPlayerVideoFromat_m3u8] = @"video/m3u8",
+};
 /// 播放器的几种状态
 typedef NS_ENUM(NSInteger, KJPlayerState) {
     KJPlayerStateFailed = 0,/// 播放错误
@@ -92,8 +121,9 @@ typedef NS_OPTIONS(NSUInteger, KJPlayerGestureType) {
 /// KJBasePlayerView上面的Layer层次，zPosition改变图层的显示顺序
 typedef NS_ENUM(NSUInteger, KJBasePlayerViewLayerZPosition) {
     KJBasePlayerViewLayerZPositionPlayer  = 0,/// 播放器的AVPlayerLayer层
-    KJBasePlayerViewLayerZPositionLoading = 2,/// 加载指示器和文本提醒框
-    KJBasePlayerViewLayerZPositionControl = 3,/// 快进音量亮度等控件层
+    KJBasePlayerViewLayerZPositionLoading = 1,/// 加载指示器和文本提醒框
+    KJBasePlayerViewLayerZPositionDisplayLayer = 2,/// 快进音量亮度等控件层
+    KJBasePlayerViewLayerZPositionInteraction = 3,/// 支持交互的控件，例如锁定屏幕，返回等
 };
 /// 播放类型
 typedef NS_ENUM(NSUInteger, KJPlayerPlayType) {
@@ -116,31 +146,18 @@ typedef NS_ENUM(NSUInteger, KJPlayerVideoGravity) {
     KJPlayerVideoGravityResizeAspectFill,/// 原始尺寸，视频不会有黑边
     KJPlayerVideoGravityResizeOriginal,  /// 拉伸充满，视频会变形
 };
-/// 视频格式
-typedef NS_ENUM(NSUInteger, KJPlayerVideoFromat) {
-    KJPlayerVideoFromat_none, /// 未知格式
-    KJPlayerVideoFromat_mp4,
-    KJPlayerVideoFromat_wav,
-    KJPlayerVideoFromat_avi,
-    KJPlayerVideoFromat_m3u8,
-};
 /// 跳过播放
 typedef NS_ENUM(NSUInteger, KJPlayerVideoSkipState) {
     KJPlayerVideoSkipStateHead, /// 跳过片头
     KJPlayerVideoSkipStateFoot, /// 跳过片尾
 };
-static NSString * const _Nonnull KJPlayerVideoFromatStringMap[] = {
-    [KJPlayerVideoFromat_mp4]  = @".mp4",
-    [KJPlayerVideoFromat_wav]  = @".wav",
-    [KJPlayerVideoFromat_avi]  = @".avi",
-    [KJPlayerVideoFromat_m3u8] = @".m3u8",
+/// 当前屏幕状态
+typedef NS_ENUM(NSUInteger, KJPlayerVideoScreenState) {
+    KJPlayerVideoScreenStateSmallScreen, /// 小屏
+    KJPlayerVideoScreenStateFullScreen, /// 全屏
+    KJPlayerVideoScreenStateFloatingWindow,/// 浮窗
 };
-static NSString * const _Nonnull KJPlayerVideoFromatMimeStringMap[] = {
-    [KJPlayerVideoFromat_mp4]  = @"video/mp4",
-    [KJPlayerVideoFromat_wav]  = @"video/wav",
-    [KJPlayerVideoFromat_avi]  = @"video/avi",
-    [KJPlayerVideoFromat_m3u8] = @"video/m3u8",
-};
+
 NS_INLINE KJPlayerVideoFromat kPlayerVideoURLFromat(NSString * fromat){
     if ([fromat containsString:@"mp4"] || [fromat containsString:@"MP4"]) {
         return KJPlayerVideoFromat_mp4;

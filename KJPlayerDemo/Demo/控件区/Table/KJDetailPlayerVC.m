@@ -7,15 +7,13 @@
 //  https://github.com/yangKJ/KJPlayerDemo
 
 #import "KJDetailPlayerVC.h"
+
 @interface KJDetailPlayerVC ()<KJPlayerBaseViewDelegate>
-@property(nonatomic,strong)UIView *playerView;
+@property(nonatomic,strong)KJBasePlayerView *playerView;
+
 @end
 
 @implementation KJDetailPlayerVC
-/// 电池状态栏管理
-- (BOOL)prefersStatusBarHidden{
-    return YES;
-}
 - (void)viewWillAppear:(BOOL)animated{
     [super viewWillAppear:animated];
     self.navigationController.delegate = self;
@@ -23,24 +21,26 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view.
-    self.view.backgroundColor = UIColor.blackColor;
+    self.view.backgroundColor = UIColor.whiteColor;
     
-    KJBasePlayerView *backview = [[KJBasePlayerView alloc]initWithFrame:CGRectMake(0, 0, self.view.frame.size.height, self.view.frame.size.width)];
-    self.view.transform = CGAffineTransformMakeRotation(M_PI_2);
+    KJBasePlayerView *backview = [[KJBasePlayerView alloc]initWithFrame:CGRectMake(0, PLAYER_STATUSBAR_NAVIGATION_HEIGHT, self.view.frame.size.width, self.view.frame.size.width)];
     backview.image = [UIImage imageNamed:@"20ea53a47eb0447883ed186d9f11e410"];
     [self.view addSubview:backview];
+    self.playerView = backview;
     backview.delegate = self;
     backview.gestureType = KJPlayerGestureTypeAll;
-    
+    backview.smallScreenHiddenBackButton = NO;
+    PLAYER_WEAKSELF;
+    backview.kVideoClickButtonBack = ^(KJBasePlayerView *view){
+        if (view.isFullScreen) {
+            view.isFullScreen = NO;
+        }else{
+            view.smallScreenHiddenBackButton = YES;
+            [weakself backItemClick];
+        }
+    };
     self.layer.frame = backview.bounds;
     [backview.layer addSublayer:self.layer];
-    
-    UIButton *backButton = [[UIButton alloc]initWithFrame:CGRectMake(PLAYER_STATUSBAR_HEIGHT, 10, 35, 35)];
-    [backButton setImage:[UIImage imageNamed:@"Arrow"] forState:UIControlStateNormal];
-    [backButton addTarget:self action:@selector(backItemClick) forControlEvents:UIControlEventTouchUpInside];
-    backButton.backgroundColor = [UIColor.whiteColor colorWithAlphaComponent:0.5];
-    backButton.layer.cornerRadius = backButton.frame.size.width/2;
-    [self.view addSubview:backButton];
 }
 - (void)backItemClick{
     if (self.kBackBlock) {
@@ -52,13 +52,15 @@
 /* 单双击手势反馈 */
 - (void)kj_basePlayerView:(KJBasePlayerView*)view isSingleTap:(BOOL)tap{
     if (tap) {
+        self.playerView.isFullScreen = !self.playerView.isFullScreen;
+    }else{
         if ([self.player isPlaying]) {
             [self.player kj_pause];
+            [self.player kj_startAnimation];
         }else{
             [self.player kj_resume];
+            [self.player kj_stopAnimation];
         }
-    }else{
-        
     }
 }
 /* 长按手势反馈 */
@@ -99,6 +101,5 @@
     NSLog(@"---lightValue:%.2f",value);
     return NO;
 }
-
 
 @end

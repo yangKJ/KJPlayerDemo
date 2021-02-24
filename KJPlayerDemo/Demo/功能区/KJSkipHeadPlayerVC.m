@@ -25,8 +25,12 @@
         }
     }, 18, 0);
     self.player.videoURL = [NSURL URLWithString:@"https://mp4.vjshi.com/2020-12-27/a86e0cb5d0ea55cd4864a6fc7609dce8.mp4"];
-//    self.player.kVideoCanCacheURL([NSURL URLWithString:@"https://mp4.vjshi.com/2018-03-30/1f36dd9819eeef0bc508414494d34ad9.mp4"], YES);
-    self.player.kVideoHintTextProperty(200, [UIColor.greenColor colorWithAlphaComponent:0.3], UIColor.greenColor, [UIFont systemFontOfSize:15]);
+    self.basePlayerView.kVideoHintTextInfo(^(KJPlayerHintInfo * _Nonnull info) {
+        info.maxWidth = 200;
+        info.background = [UIColor.greenColor colorWithAlphaComponent:0.3];
+        info.textColor = UIColor.greenColor;
+        info.font = [UIFont systemFontOfSize:15];
+    });
 }
 
 #pragma mark - KJPlayerDelegate

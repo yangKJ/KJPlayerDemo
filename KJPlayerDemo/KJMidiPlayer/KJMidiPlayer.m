@@ -12,9 +12,9 @@
 @property (nonatomic,assign) NSTimeInterval currentTime,totalTime;
 @end
 @implementation KJMidiPlayer{
-    AUGraph graph; /// 音频处理图
-    AUNode sourceNode; /// 输入节点
-    AUNode destNode; /// 输出节点
+    AUGraph graph;/// 音频处理图
+    AUNode sourceNode;/// 输入节点
+    AUNode destNode;/// 输出节点
     AudioUnit remoteIOUnit;/// 属性值的音频单元
     MusicSequence sequence;/// 音乐序列
 }
@@ -141,6 +141,5 @@ PLAYER_COMMON_PROPERTY PLAYER_COMMON_UI_PROPERTY
 - (void)stopGraph{
     if (graph && [self isPlaying]) AUGraphStop(graph);
 }
-
 
 @end

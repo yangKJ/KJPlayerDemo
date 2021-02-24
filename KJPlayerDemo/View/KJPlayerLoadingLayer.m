@@ -15,7 +15,13 @@
     }
     return self;
 }
-
+/// 重置Layer
+- (void)kj_setLayerNewFrame:(CGRect)rect{
+    self.frame = rect;
+    if (self.screenState == KJPlayerVideoScreenStateFullScreen) {
+        self.position = CGPointMake(self.position.y, self.position.x);
+    }
+}
 /* 圆圈加载动画 */
 - (void)kj_setAnimationSize:(CGSize)size color:(UIColor*)color{
     CGFloat beginTime = 0.5;

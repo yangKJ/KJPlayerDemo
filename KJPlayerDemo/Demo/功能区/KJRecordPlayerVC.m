@@ -42,7 +42,7 @@
 /* 当前播放器状态 */
 - (void)kj_player:(KJBasePlayer*)player state:(KJPlayerState)state{
     NSLog(@"---当前播放器状态:%@",KJPlayerStateStringMap[state]);
-    if (state == KJPlayerStateBuffering) {
+    if (state == KJPlayerStateBuffering || state == KJPlayerStatePausing) {
         [player kj_startAnimation];
     }else if (state == KJPlayerStatePreparePlay || state == KJPlayerStatePlaying) {
         [player kj_stopAnimation];

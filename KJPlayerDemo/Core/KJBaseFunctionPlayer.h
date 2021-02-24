@@ -58,8 +58,6 @@ NS_ASSUME_NONNULL_BEGIN
 /* ************************* 分割线，下面属性需在videoURL之后获取 *****************************/
 /* 播放失败 */
 @property (nonatomic,strong) NSError *playError;
-/* 是否为全屏 */
-@property (nonatomic,assign,readonly) BOOL isFullScreen;
 /* 是否正在播放 */
 @property (nonatomic,assign,readonly) BOOL isPlaying;
 /* 是否为用户暂停 */
@@ -120,7 +118,6 @@ NS_ASSUME_NONNULL_BEGIN
 @synthesize autoPlay = _autoPlay;\
 @synthesize openAdvanceCache = _openAdvanceCache;\
 @synthesize recordLastTime = _recordLastTime;\
-@synthesize isFullScreen = _isFullScreen;\
 @synthesize isPlaying = _isPlaying;\
 @synthesize userPause = _userPause;\
 @synthesize kVideoTotalTime = _kVideoTotalTime;\

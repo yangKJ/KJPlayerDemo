@@ -26,8 +26,8 @@ static NSInteger const kPackageLength = 204800;
 }
 - (instancetype)initWithURL:(NSURL*)url{
     if (self = [super init]){
-        NSString *filePath = [KJCachePlayerManager kj_createVideoCachedPath:url];
-        [KJCachePlayerManager kj_createFilePath:filePath];
+        NSString *filePath = [KJCacheManager kj_createVideoCachedPath:url];
+        [KJCacheManager kj_createFilePath:filePath];
         if (![[NSFileManager defaultManager] fileExistsAtPath:filePath]){
             [[NSFileManager defaultManager] createFileAtPath:filePath contents:nil attributes:nil];
         }
@@ -39,30 +39,16 @@ static NSInteger const kPackageLength = 204800;
     }
     return self;
 }
+/* 进入后台 */
 - (void)applicationDidEnterBackground:(NSNotification*)notification{
     [self kj_writeSave];
 }
-
-/* 写入数据至播放路径文件 */
-- (void)kj_writeCacheData:(NSData*)data Range:(NSRange)range error:(NSError **)error{
-    @synchronized(self.writeHandle) {
-        @try {
-            [self.writeHandle seekToFileOffset:range.location];
-            [self.writeHandle writeData:data];
-            [self.cacheInfo kj_continueCacheFragmentRange:range];
-        }@catch (NSException *exception) {
-            *error = [NSError errorWithDomain:exception.name code:KJPlayerCustomCodeWriteFileFailed userInfo:nil];
-        }@finally { }
-    }
+- (void)kj_setWriteHandleContentLenght:(NSUInteger)contentLength{
+    [self.writeHandle truncateFileAtOffset:contentLength];
+    [self.writeHandle synchronizeFile];
 }
-/* 读取播放路径文件数据 */
-- (NSData*)kj_readCachedDataWithRange:(NSRange)range{
-    @synchronized(self.readHandle) {
-        [self.readHandle seekToFileOffset:range.location];
-        return [self.readHandle readDataOfLength:range.length];
-    }
-}
-- (NSArray*)kj_dealwithCachedFragmentsWithRange:(NSRange)range{
+/* 获取指定区间已经缓存的碎片 */
+- (NSArray*)kj_getCachedFragmentsWithRange:(NSRange)range{
     if (range.location == NSNotFound) return [NSMutableArray array].mutableCopy;
     NSInteger endOffset = range.location + range.length;
     NSMutableArray *fragments = [NSMutableArray array];
@@ -114,14 +100,25 @@ static NSInteger const kPackageLength = 204800;
     }
     return [fragments copy];
 }
-
-- (void)kj_setContentLenght:(NSUInteger)contentLength contentType:(NSString*)contentType{
-    self.cacheInfo.contentLength = contentLength;
-    self.cacheInfo.contentType = contentType;
-    [self.writeHandle truncateFileAtOffset:contentLength];
-    [self.writeHandle synchronizeFile];
+/* 写入数据至播放路径文件 */
+- (void)kj_writeCacheData:(NSData*)data Range:(NSRange)range error:(NSError **)error{
+    @synchronized(self.writeHandle) {
+        @try {
+            [self.writeHandle seekToFileOffset:range.location];
+            [self.writeHandle writeData:data];
+            [self.cacheInfo kj_continueCacheFragmentRange:range];
+        }@catch (NSException *exception) {
+            *error = [NSError errorWithDomain:exception.name code:KJPlayerCustomCodeWriteFileFailed userInfo:nil];
+        }@finally { }
+    }
 }
-
+/* 读取播放路径文件数据 */
+- (NSData*)kj_readCachedDataWithRange:(NSRange)range{
+    @synchronized(self.readHandle) {
+        [self.readHandle seekToFileOffset:range.location];
+        return [self.readHandle readDataOfLength:range.length];
+    }
+}
 - (void)kj_writeSave{
     @synchronized (self.writeHandle){
         [self.writeHandle synchronizeFile];

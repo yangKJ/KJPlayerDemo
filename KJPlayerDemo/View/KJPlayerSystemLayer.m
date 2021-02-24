@@ -9,6 +9,21 @@
 #import "KJPlayerSystemLayer.h"
 
 @implementation KJPlayerSystemLayer
+- (instancetype)init{
+    if (self = [super init]) {
+        self.cornerRadius = 7;
+        self.backgroundColor = [UIColor colorWithWhite:0.f alpha:0.8].CGColor;
+        self.zPosition = KJBasePlayerViewLayerZPositionDisplayLayer;
+    }
+    return self;
+}
+/// 重置Layer
+- (void)kj_setLayerNewFrame:(CGRect)rect{
+    self.frame = rect;
+    if (self.screenState == KJPlayerVideoScreenStateFullScreen) {
+        self.position = CGPointMake(self.position.y, self.position.x);
+    }
+}
 - (void)setValue:(float)value{
     _value = MIN(MAX(0, value), 1);
     [self setNeedsDisplay];

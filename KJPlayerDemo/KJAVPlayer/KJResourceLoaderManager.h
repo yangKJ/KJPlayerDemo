@@ -8,8 +8,6 @@
 
 #import <Foundation/Foundation.h>
 #import <AVFoundation/AVFoundation.h>
-#import "KJDownloader.h"
-#import "KJFileHandleManager.h"
 
 @protocol KJResourceLoaderManagerDelegate;
 @interface KJResourceLoaderManager : NSObject

@@ -21,8 +21,13 @@
     self.basePlayerView.frame = CGRectMake(0, PLAYER_STATUSBAR_NAVIGATION_HEIGHT, self.view.frame.size.width, self.view.frame.size.width*9/16.);
     self.player.delegate = self;
     self.basePlayerView.delegate = self;
+    self.basePlayerView.kVideoHintTextInfo(^(KJPlayerHintInfo * _Nonnull info) {
+        info.maxWidth = 110;
+        info.background = [UIColor.greenColor colorWithAlphaComponent:0.3];
+        info.textColor = UIColor.greenColor;
+        info.font = [UIFont systemFontOfSize:15];
+    });
     
-    self.player.kVideoHintTextProperty(110, [UIColor.greenColor colorWithAlphaComponent:0.3], UIColor.greenColor, [UIFont systemFontOfSize:15]);
     [self.player kj_displayHintText:@"顺便测试一下文本提示框打很长很长的文字提供九种位置选择" time:0 position:KJPlayerHintPositionLeftCenter];
     {
         UIButton *button = [UIButton buttonWithType:(UIButtonTypeCustom)];
@@ -43,7 +48,38 @@
         [self.view addSubview:button];
         [button addTarget:self action:@selector(buttonAction2:) forControlEvents:(UIControlEventTouchUpInside)];
     }
+    UILabel *label = [[UILabel alloc] initWithFrame:CGRectMake(0, 0, 120, 120)];
+    label.center = CGPointMake(self.view.frame.size.width/2, self.view.frame.size.height/4*3);
+    label.textAlignment = NSTextAlignmentCenter;
+    label.backgroundColor = [UIColor.greenColor colorWithAlphaComponent:0.5];
+    UIColor *color = [self kj_gradientColor:UIColor.redColor,UIColor.orangeColor,UIColor.yellowColor,UIColor.greenColor,UIColor.cyanColor,UIColor.blueColor,UIColor.purpleColor,nil](CGSizeMake(label.frame.size.width, 1));
+    label.textColor = color;
+    label.font = [UIFont fontWithName:@"iconfont" size:100];
+    label.text = @"\U0000e82b";
+    [self.view addSubview:label];
 }
+- (UIColor*(^)(CGSize))kj_gradientColor:(UIColor*)color,...{
+    NSMutableArray * colors = [NSMutableArray arrayWithObjects:(id)color.CGColor,nil];
+    va_list args;UIColor * arg;
+    va_start(args, color);
+    while ((arg = va_arg(args, UIColor *))) {
+        [colors addObject:(id)arg.CGColor];
+    }
+    va_end(args);
+    return ^UIColor*(CGSize size){
+        UIGraphicsBeginImageContextWithOptions(size, NO, [UIScreen mainScreen].scale);
+        CGContextRef context = UIGraphicsGetCurrentContext();
+        CGColorSpaceRef colorspace = CGColorSpaceCreateDeviceRGB();
+        CGGradientRef gradient = CGGradientCreateWithColors(colorspace, (__bridge CFArrayRef)colors, NULL);
+        CGContextDrawLinearGradient(context, gradient, CGPointZero, CGPointMake(size.width, size.height), 0);
+        UIImage *image = UIGraphicsGetImageFromCurrentImageContext();
+        CGGradientRelease(gradient);
+        CGColorSpaceRelease(colorspace);
+        UIGraphicsEndImageContext();
+        return [UIColor colorWithPatternImage:image];
+    };
+}
+
 - (void)buttonAction:(UIButton*)sender{
     sender.selected = !sender.selected;
     if (sender.selected) {

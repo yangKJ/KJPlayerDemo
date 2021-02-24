@@ -7,7 +7,7 @@
 //  https://github.com/yangKJ/KJPlayerDemo
 
 #import "KJListPlayerVC.h"
-#import "KJCachePlayerManager.h"
+#import "KJCacheManager.h"
 #import "KJVideoPlayVC.h"
 @interface KJListPlayerVC ()<UITableViewDataSource, UITableViewDelegate>
 @property(nonatomic,strong)UITableView *tableView;
@@ -39,7 +39,7 @@
             [weakself.tableView reloadData];            
         });
     });
-    NSLog(@"\n全部文件：%@\n文件大小：%lld",[KJCachePlayerManager kj_videoAllFileNames],[KJCachePlayerManager kj_videoCachedSize]);
+    NSLog(@"\n全部文件：%@\n文件大小：%lld",[KJCacheManager kj_videoAllFileNames],[KJCacheManager kj_videoCachedSize]);
 }
 #pragma mark - UITableViewDataSource
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView{
@@ -103,7 +103,7 @@
 - (UISwipeActionsConfiguration*)tableView:(UITableView *)tableView trailingSwipeActionsConfigurationForRowAtIndexPath:(NSIndexPath *)indexPath {
     UIContextualAction *deleteRowAction = [UIContextualAction contextualActionWithStyle:UIContextualActionStyleDestructive title:@"删除" handler:^(UIContextualAction * _Nonnull action, __kindof UIView * _Nonnull sourceView, void (^ _Nonnull completionHandler)(BOOL)) {
         DBPlayerData *data = self.temps[indexPath.row];
-        if ([KJCachePlayerManager kj_crearVideoCachedAndDatabase:data]) {
+        if ([KJCacheManager kj_crearVideoCachedAndDatabase:data]) {
             NSLog(@"删除成功!!");
         }else{
             return;

@@ -63,7 +63,7 @@ NSString *kPlayerFileHandleInfoKey = @"kPlayerFileHandleInfoKey";
     return self;
 }
 + (instancetype)kj_createFileHandleInfoWithURL:(NSURL*)url{
-    KJFileHandleInfo *info = [NSKeyedUnarchiver unarchiveObjectWithFile:[KJCachePlayerManager kj_appendingVideoTempPath:url]];
+    KJFileHandleInfo *info = [NSKeyedUnarchiver unarchiveObjectWithFile:[KJCacheManager kj_appendingVideoTempPath:url]];
     if (info == nil) info = [[KJFileHandleInfo alloc] init];
     info.videoURL = url;
     info.fileName = kPlayerIntactName(url);
@@ -84,7 +84,7 @@ NSString *kPlayerFileHandleInfoKey = @"kPlayerFileHandleInfoKey";
 }
 - (void)kj_keyedArchiverSave{
     @synchronized (self.cacheFragments){
-        [NSKeyedArchiver archiveRootObject:self toFile:[KJCachePlayerManager kj_appendingVideoTempPath:self.videoURL]];
+        [NSKeyedArchiver archiveRootObject:self toFile:[KJCacheManager kj_appendingVideoTempPath:self.videoURL]];
     }
 }
 - (void)kj_continueCacheFragmentRange:(NSRange)range{

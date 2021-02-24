@@ -43,7 +43,7 @@
     
     self.basePlayerView.frame = CGRectMake(0, PLAYER_STATUSBAR_NAVIGATION_HEIGHT, self.view.frame.size.width, self.view.frame.size.width*9/16);
     self.player.delegate = self;
-    self.player.videoURL = [NSURL URLWithString:@"https://mp4.vjshi.com/2020-09-27/542926a8c2a99808fc981d46c1dc6aef.mp4"];
+    self.player.videoURL = [NSURL URLWithString:@"https://mp4.vjshi.com/2018-03-30/1f36dd9819eeef0bc508414494d34ad9.mp4"];
 }
 - (void)buttonAction:(UIButton*)sender{
     PLAYER_WEAKSELF;
@@ -63,11 +63,9 @@
 /* 当前播放器状态 */
 - (void)kj_player:(KJBasePlayer*)player state:(KJPlayerState)state{
     NSLog(@"---当前播放器状态:%@",KJPlayerStateStringMap[state]);
-    if (state == KJPlayerStateBuffering) {
+    if (state == KJPlayerStateBuffering || state == KJPlayerStatePausing) {
         [player kj_startAnimation];
-    }else if (state == KJPlayerStatePreparePlay) {
-        [player kj_stopAnimation];
-    }else if (state == KJPlayerStatePlaying) {
+    }else if (state == KJPlayerStatePreparePlay || state == KJPlayerStatePlaying) {
         [player kj_stopAnimation];
     }else if (state == KJPlayerStatePlayFinished) {
         [player kj_replay];

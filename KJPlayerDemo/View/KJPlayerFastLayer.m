@@ -17,13 +17,19 @@
 @implementation KJPlayerFastLayer
 - (instancetype)init{
     if (self = [super init]) {
+        self.cornerRadius = 7;
+        self.backgroundColor = [UIColor colorWithWhite:0.f alpha:0.8].CGColor;
+        self.zPosition = KJBasePlayerViewLayerZPositionDisplayLayer;
         [self addSublayer:self.textLayer];
     }
     return self;
 }
 /// 重置Layer
 - (void)kj_setLayerNewFrame:(CGRect)rect{
-    [super kj_setLayerNewFrame:rect];
+    self.frame = rect;
+    if (self.screenState == KJPlayerVideoScreenStateFullScreen) {
+        self.position = CGPointMake(self.position.y, self.position.x);
+    }
     _textLayer.frame = CGRectMake(0, rect.size.height/4, rect.size.width, rect.size.height/4);
 }
 /// 设置数据

@@ -7,10 +7,12 @@
 //  https://github.com/yangKJ/KJPlayerDemo
 
 #import "KJResourceLoaderManager.h"
+#import "KJDownloader.h"
+#import "KJFileHandleManager.h"
 
 @interface KJResourceLoaderManager ()
 @property (nonatomic,strong, readwrite) NSURL *videoURL;
-@property (nonatomic,strong) KJFileHandleManager *cacheManager;
+@property (nonatomic,strong) KJFileHandleManager *fileHandleManager;
 @property (nonatomic,strong) KJDownloader *downloader;
 @property (nonatomic,strong) NSMutableSet<AVAssetResourceLoadingRequest*>*requests;
 @end
@@ -22,15 +24,15 @@
 - (instancetype)initWithVideoURL:(NSURL*)url{
     if (self = [super init]) {
         self.videoURL = url;
-        self.cacheManager = [[KJFileHandleManager alloc] initWithURL:self.videoURL];
-        self.downloader = [[KJDownloader alloc] initWithURL:self.videoURL cacheManager:self.cacheManager];
+        self.fileHandleManager = [[KJFileHandleManager alloc] initWithURL:self.videoURL];
+        self.downloader = [[KJDownloader alloc] initWithURL:self.videoURL fileHandleManager:self.fileHandleManager];
     }
     return self;
 }
 - (void)kj_addRequest:(AVAssetResourceLoadingRequest*)request{
     KJDownloader *downloader;
     if (self.requests.count){
-        downloader = [[KJDownloader alloc]initWithURL:self.videoURL cacheManager:self.cacheManager];
+        downloader = [[KJDownloader alloc]initWithURL:self.videoURL fileHandleManager:self.fileHandleManager];
     }else{
         downloader = self.downloader;
     }
@@ -115,16 +117,16 @@ NS_INLINE void kStartDownloading(KJDownloader *downloader, AVAssetResourceLoadin
     [downloader kj_downloadTaskRange:NSMakeRange((NSUInteger)offset, length) whole:NO];
 }
 /* 对请求加上长度，文件类型等信息，必须设置正确否则会报播放器Failed */
-NS_INLINE void kSetDownloadConfiguration(KJDownloader *downloader,AVAssetResourceLoadingRequest *loadingRequest){
+NS_INLINE void kSetDownloadConfiguration(KJDownloader *downloader, AVAssetResourceLoadingRequest *loadingRequest){
     AVAssetResourceLoadingContentInformationRequest *request = loadingRequest.contentInformationRequest;
-    if (downloader.contentType) {
-        request.contentType = downloader.contentType;
+    if (downloader.fileHandleManager.cacheInfo.contentType) {
+        request.contentType = downloader.fileHandleManager.cacheInfo.contentType;
     }else{
         CFStringRef type = UTTypeCreatePreferredIdentifierForTag(kUTTagClassMIMEType, (__bridge CFStringRef)(@"video/mp4"), NULL);
         request.contentType = CFBridgingRelease(type);
     }
     request.byteRangeAccessSupported = YES;
-    request.contentLength = downloader.contentLength;
+    request.contentLength = downloader.fileHandleManager.cacheInfo.contentLength;
 }
 
 @end

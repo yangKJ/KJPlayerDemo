@@ -8,15 +8,19 @@
 
 #import "KJBasePlayerView.h"
 #import <MediaPlayer/MPVolumeView.h>
+#import "KJRotateManager.h"
 NSString *kPlayerBaseViewChangeNotification = @"kPlayerBaseViewNotification";
 NSString *kPlayerBaseViewChangeKey = @"kPlayerBaseViewKey";
 @interface KJBasePlayerView ()<UIGestureRecognizerDelegate>
+@property (nonatomic,assign) KJPlayerVideoScreenState screenState;
 @property (nonatomic,assign) NSInteger width,height;
 @property (nonatomic,assign) BOOL haveVolume;
 @property (nonatomic,assign) BOOL haveBrightness;
 @property (nonatomic,assign) float lastValue;
 @property (nonatomic,strong) UIPanGestureRecognizer *pan;
 @property (nonatomic,strong) UISlider *systemVolumeSlider;
+@property (nonatomic,strong) KJPlayerHintInfo *hintInfo;
+@property (nonatomic,strong) UIButton *backButton;
 @end
 @implementation KJBasePlayerView
 - (void)dealloc{
@@ -32,15 +36,16 @@ NSString *kPlayerBaseViewChangeKey = @"kPlayerBaseViewKey";
 }
 - (void)kj_initializeConfiguration{
     self.userInteractionEnabled = YES;
-    [self addObserver:self forKeyPath:@"frame"  options:NSKeyValueObservingOptionNew context:NULL];
+    [self addObserver:self forKeyPath:@"frame" options:NSKeyValueObservingOptionNew context:NULL];
     [self addObserver:self forKeyPath:@"bounds" options:NSKeyValueObservingOptionNew context:NULL];
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(kj_orientationChange:)
-                          name:UIDeviceOrientationDidChangeNotification object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(kj_orientationChange:) name:UIDeviceOrientationDidChangeNotification object:nil];
     self.longPressTime = 1.;
     self.mainColor = UIColor.whiteColor;
     self.viceColor = UIColor.redColor;
     self.width = self.frame.size.width;
     self.height = self.frame.size.height;
+    self.hintInfo = [KJPlayerHintInfo new];
+    self.smallScreenHiddenBackButton = YES;
 }
 #pragma mark - NSNotification
 //屏幕旋转
@@ -53,9 +58,22 @@ NSString *kPlayerBaseViewChangeKey = @"kPlayerBaseViewKey";
     if ([keyPath isEqualToString:@"frame"] || [keyPath isEqualToString:@"bounds"]) {
         if ([object valueForKeyPath:keyPath] != [NSNull null]) {
             [[NSNotificationCenter defaultCenter] postNotificationName:kPlayerBaseViewChangeNotification object:self userInfo:@{kPlayerBaseViewChangeKey:[object valueForKeyPath:keyPath]}];
+            CGRect rect = [[object valueForKeyPath:keyPath] CGRectValue];
+            self.width = rect.size.width;self.height = rect.size.height;
+            if (_loadingLayer) {
+                CGFloat width = 40;
+                [_loadingLayer kj_setLayerNewFrame:CGRectMake((self.width-width)/2.f, (self.height-width)/2.f, width, width)];
+            }
         }
     }
 }
+#pragma mark - getter
+- (void (^)(void(^)(KJPlayerHintInfo*)))kVideoHintTextInfo{
+    return ^(void(^xxblock)(KJPlayerHintInfo*)){
+        if (xxblock) xxblock(self.hintInfo);
+    };
+}
+
 #pragma mark - setter
 - (void)setGestureType:(KJPlayerGestureType)gestureType{
     if (gestureType != _gestureType) {
@@ -97,6 +115,48 @@ NSString *kPlayerBaseViewChangeKey = @"kPlayerBaseViewKey";
         self.haveBrightness = YES;
         if (self.pan) { }
     }
+}
+- (void)setIsFullScreen:(BOOL)isFullScreen{
+    if (isFullScreen == _isFullScreen) return;
+    _isFullScreen = isFullScreen;
+    if (isFullScreen) {
+        [KJRotateManager kj_rotateFullScreenBasePlayerView:self];
+        self.screenState = KJPlayerVideoScreenStateFullScreen;
+        self.backButton.hidden = self.fullScreenHiddenBackButton;
+    }else{
+        [KJRotateManager kj_rotateSmallScreenBasePlayerView:self];
+        self.screenState = KJPlayerVideoScreenStateSmallScreen;
+        self.backButton.hidden = self.smallScreenHiddenBackButton;
+    }
+    if (self.kVideoChangeScreenState) {
+        self.kVideoChangeScreenState(self.screenState);
+    }
+    if (_fastLayer) {
+        CGFloat w = 150,h = 80;
+        [_fastLayer kj_setLayerNewFrame:CGRectMake((self.width-w)/2, (self.height-h)/2, w, h)];
+    }
+    if (_vbLayer) {
+        CGFloat w = 150,h = 40;
+        [_vbLayer kj_setLayerNewFrame:CGRectMake((self.width-w)/2, (self.height-h)/2, w, h)];
+    }
+    if (_loadingLayer) {
+        CGFloat width = 40;
+        [_loadingLayer kj_setLayerNewFrame:CGRectMake((self.width-width)/2.f, (self.height-width)/2.f, width, width)];
+    }
+}
+- (void)setFullScreenHiddenBackButton:(BOOL)fullScreenHiddenBackButton{
+    _fullScreenHiddenBackButton = fullScreenHiddenBackButton;
+    if (self.backButton.superview == nil) {
+        [self addSubview:self.backButton];
+    }
+    self.backButton.hidden = fullScreenHiddenBackButton;
+}
+- (void)setSmallScreenHiddenBackButton:(BOOL)smallScreenHiddenBackButton{
+    _smallScreenHiddenBackButton = smallScreenHiddenBackButton;
+    if (self.backButton.superview == nil) {
+        [self addSubview:self.backButton];
+    }
+    self.backButton.hidden = smallScreenHiddenBackButton;
 }
 
 #pragma maek - UIGestureRecognizer
@@ -242,17 +302,14 @@ static BOOL movingH;
     }
 }
 
-#pragma mark - public method
-+ (UIWindow*)window{
-    return ({
-        UIWindow *window;
-        if (@available(iOS 13.0, *)) {
-            window = [UIApplication sharedApplication].windows.firstObject;
-        }else{
-            window = [UIApplication sharedApplication].keyWindow;
-        }
-        window;
-    });
+#pragma mark - method
+/* 隐藏操作面板，是否隐藏返回按钮 */
+- (void)kj_hiddenHandleControlAndBackButton:(BOOL)hide{
+    //TODO:
+}
+/* 显示操作面板 */
+- (void)kj_displayHandleControl{
+    //TODO:
 }
 
 #pragma mark - lazy
@@ -279,7 +336,7 @@ static BOOL movingH;
 }
 - (KJPlayerFastLayer *)fastLayer{
     if (!_fastLayer) {
-        KJPlayerFastLayer *layer = [[KJPlayerFastLayer layer] init];
+        KJPlayerFastLayer *layer = [KJPlayerFastLayer layer];
         layer.mainColor = self.mainColor;
         layer.viceColor = self.viceColor;
         CGFloat w = 150,h = 80;
@@ -290,7 +347,7 @@ static BOOL movingH;
 }
 - (KJPlayerSystemLayer *)vbLayer{
     if (!_vbLayer) {
-        KJPlayerSystemLayer *layer = [[KJPlayerSystemLayer layer] init];
+        KJPlayerSystemLayer *layer = [KJPlayerSystemLayer layer];
         layer.mainColor = self.mainColor;
         layer.viceColor = self.viceColor;
         CGFloat w = 150,h = 40;
@@ -298,6 +355,48 @@ static BOOL movingH;
         _vbLayer = layer;
     }
     return _vbLayer;
+}
+- (KJPlayerLoadingLayer *)loadingLayer{
+    if (!_loadingLayer) {
+        CGFloat width = 40;
+        KJPlayerLoadingLayer *layer = [KJPlayerLoadingLayer layer];
+        [layer kj_setAnimationSize:CGSizeMake(width, width) color:self.mainColor];
+        [layer kj_setLayerNewFrame:CGRectMake((self.width-width)/2.f, (self.height-width)/2.f, width, width)];
+        _loadingLayer = layer;
+    }
+    return _loadingLayer;
+}
+- (KJPlayerHintTextLayer *)hintTextLayer{
+    if (!_hintTextLayer) {
+        KJPlayerHintTextLayer *layer = [KJPlayerHintTextLayer layer];
+        layer.maxWidth = self.hintInfo.maxWidth;
+        layer.backgroundColor = self.hintInfo.background.CGColor;
+        [layer kj_setFont:self.hintInfo.font color:self.hintInfo.textColor];
+        _hintTextLayer = layer;
+    }
+    return _hintTextLayer;
+}
+- (UIButton *)backButton{
+    if (!_backButton) {
+        UIButton *button = [[UIButton alloc]initWithFrame:CGRectMake(10, 10, 36, 36)];
+        button.layer.cornerRadius = 18;
+        [button addTarget:self action:@selector(backItemClick) forControlEvents:UIControlEventTouchUpInside];
+        button.backgroundColor = [UIColor.blackColor colorWithAlphaComponent:0.5];
+        [button setTitle:@"\U0000e697" forState:(UIControlStateNormal)];
+        [button setTitleColor:self.mainColor forState:(UIControlStateNormal)];
+        button.titleLabel.font = [UIFont fontWithName:@"iconfont" size:32];
+        button.layer.zPosition = KJBasePlayerViewLayerZPositionInteraction;
+        _backButton = button;
+    }
+    return _backButton;
+}
+- (void)backItemClick{
+    if (self.screenState == KJPlayerVideoScreenStateFullScreen) {
+        self.isFullScreen = NO;
+    }
+    if (self.kVideoClickButtonBack) {
+        self.kVideoClickButtonBack(self);
+    }
 }
 
 @end

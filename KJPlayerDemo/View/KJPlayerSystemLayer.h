@@ -7,13 +7,19 @@
 //  https://github.com/yangKJ/KJPlayerDemo
 //  音量亮度系统控件
 
-#import "KJBasePlayerLayer.h"
+#import <QuartzCore/QuartzCore.h>
+#import "KJPlayerType.h"
 
 NS_ASSUME_NONNULL_BEGIN
 
-@interface KJPlayerSystemLayer : KJBasePlayerLayer
-@property(nonatomic,assign)BOOL isBrightness;
-@property(nonatomic,assign)float value;
+@interface KJPlayerSystemLayer : CALayer
+@property (nonatomic,assign) KJPlayerVideoScreenState screenState;
+@property (nonatomic,strong) UIColor *mainColor;
+@property (nonatomic,strong) UIColor *viceColor;
+@property (nonatomic,assign) BOOL isBrightness;
+@property (nonatomic,assign) float value;
+/// 重置尺寸
+- (void)kj_setLayerNewFrame:(CGRect)rect;
 
 @end
 

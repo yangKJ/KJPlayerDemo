@@ -99,3 +99,14 @@
 }
 
 @end
+@implementation KJPlayerHintInfo
+- (instancetype)init{
+    if (self = [super init]) {
+        self.maxWidth = 250;
+        self.background = [UIColor.blackColor colorWithAlphaComponent:.6];
+        self.textColor = UIColor.whiteColor;
+        self.font = [UIFont systemFontOfSize:16];
+    }
+    return self;
+}
+@end

@@ -7,16 +7,10 @@
 //  https://github.com/yangKJ/KJPlayerDemo
 
 #import "KJBasePlayer.h"
-
+#import "KJCacheManager.h"
 @interface KJBasePlayer ()
 @property (nonatomic,strong) UITableView *bindTableView;
 @property (nonatomic,strong) NSIndexPath *indexPath;
-@property (nonatomic,strong) KJPlayerLoadingLayer *loadingLayer;
-@property (nonatomic,strong) KJPlayerHintTextLayer *hintTextLayer;
-@property (nonatomic,assign) CGFloat hintMaxWidth;
-@property (nonatomic,strong) UIColor *hintBackgroundColor;
-@property (nonatomic,strong) UIColor *hintTextColor;
-@property (nonatomic,strong) UIFont *hintFont;
 @end
 
 @implementation KJBasePlayer
@@ -40,6 +34,7 @@ static dispatch_once_t onceToken;
     [[NSNotificationCenter defaultCenter] removeObserver:self];
     [self kj_saveRecordLastTime];
     [_playerView performSelectorOnMainThread:@selector(removeFromSuperview) withObject:nil waitUntilDone:YES];
+    _playerView = nil;
 }
 - (instancetype)init{
     if (self = [super init]) {
@@ -56,12 +51,6 @@ static dispatch_once_t onceToken;
         [self addObserver:self forKeyPath:@"progress" options:options context:nil];
         [self addObserver:self forKeyPath:@"playError" options:options context:nil];
         [self addObserver:self forKeyPath:@"currentTime" options:options context:nil];
-        
-        //提示框默认值
-        self.hintMaxWidth = 250;
-        self.hintBackgroundColor = [UIColor.blackColor colorWithAlphaComponent:.6];
-        self.hintTextColor = UIColor.whiteColor;
-        self.hintFont = [UIFont systemFontOfSize:16];
     }
     return self;
 }
@@ -128,10 +117,7 @@ static dispatch_once_t onceToken;
     }
 }
 //KJBasePlayerView位置和尺寸发生变化
-- (void)kj_basePlayerViewChange:(NSNotification*)notification{
-    CGFloat width = self.loadingLayer.frame.size.width;
-    self.loadingLayer.frame = CGRectMake((self.playerView.frame.size.width-width)/2.f, (self.playerView.frame.size.height-width)/2.f, width, width);
-}
+- (void)kj_basePlayerViewChange:(NSNotification*)notification{ }
 #pragma mark - child method（子类实现处理）
 /* 准备播放 */
 - (void)kj_play{ }
@@ -165,7 +151,7 @@ static dispatch_once_t onceToken;
 - (void (^)(void(^)(UIImage *image),NSURL *,NSTimeInterval))kVideoPlaceholderImage{
     return ^(void(^xxblock)(UIImage*),NSURL *videoURL,NSTimeInterval time){
         kGCD_player_async(^{
-            UIImage *image = [KJCachePlayerManager kj_getVideoCoverImageWithURL:videoURL];
+            UIImage *image = [KJCacheManager kj_getVideoCoverImageWithURL:videoURL];
             if (image) {
                 kGCD_player_main(^{
                     if (xxblock) xxblock(image);
@@ -187,62 +173,35 @@ static dispatch_once_t onceToken;
             kGCD_player_main(^{
                 if (xxblock) xxblock(videoImage);
             });
-            [KJCachePlayerManager kj_saveVideoCoverImage:videoImage VideoURL:videoURL];
+            [KJCacheManager kj_saveVideoCoverImage:videoImage VideoURL:videoURL];
             CGImageRelease(cgimage);
         });
     };
 }
 
 #pragma mark - Animation
-- (KJPlayerLoadingLayer *)loadingLayer{
-    if (!_loadingLayer) {
-        CGFloat width = 40;
-        _loadingLayer = [[KJPlayerLoadingLayer alloc] init];
-        [_loadingLayer kj_setAnimationSize:CGSizeMake(width, width) color:UIColor.whiteColor];
-        _loadingLayer.frame = CGRectMake((self.playerView.frame.size.width-width)/2.f, (self.playerView.frame.size.height-width)/2.f, width, width);
-    }
-    return _loadingLayer;
-}
 /* 圆圈加载动画 */
 - (void)kj_startAnimation{
-    if (CGRectEqualToRect(CGRectZero, self.playerView.frame)) {
-        return;
-    }
-    if (self.loadingLayer.superlayer == nil) {
-        [self.playerView.layer addSublayer:self.loadingLayer];
-    }
-    if (self.loadingLayer.isHidden) {
-        self.loadingLayer.hidden = NO;
+    kGCD_player_main(^{
+        if (CGRectEqualToRect(CGRectZero, self.playerView.frame)) {
+            return;
+        }
+    });
+    if (self.playerView.loadingLayer.superlayer == nil) {
+        [self.playerView.layer addSublayer:self.playerView.loadingLayer];
     }
 }
 /* 停止动画 */
 - (void)kj_stopAnimation{
     [UIView animateWithDuration:1.f animations:^{
-        self.loadingLayer.hidden = YES;
+        [self.playerView.loadingLayer removeFromSuperlayer];
     }];
 }
 
 #pragma mark - hintText
-- (void (^)(CGFloat, UIColor *, UIColor *, UIFont *))kVideoHintTextProperty{
-    return ^(CGFloat maxWidth, UIColor *background, UIColor *textColor, UIFont *font){
-        self.hintMaxWidth = maxWidth;
-        self.hintBackgroundColor = background;
-        self.hintTextColor = textColor;
-        self.hintFont = font;
-    };
-}
-- (KJPlayerHintTextLayer *)hintTextLayer{
-    if (!_hintTextLayer) {
-        _hintTextLayer = [[KJPlayerHintTextLayer alloc] init];
-        _hintTextLayer.backgroundColor = self.hintBackgroundColor.CGColor;
-        [_hintTextLayer kj_setFont:self.hintFont color:self.hintTextColor];
-    }
-    return _hintTextLayer;
-}
-
 /* 提示文字 */
 - (void)kj_displayHintText:(id)text{
-    [self kj_displayHintText:text max:self.hintMaxWidth];
+    [self kj_displayHintText:text max:self.playerView.hintTextLayer.maxWidth];
 }
 - (void)kj_displayHintText:(id)text max:(float)max{
     [self kj_displayHintText:text time:1.f max:max position:KJPlayerHintPositionCenter];
@@ -254,7 +213,7 @@ static dispatch_once_t onceToken;
     [self kj_displayHintText:text time:time position:KJPlayerHintPositionCenter];
 }
 - (void)kj_displayHintText:(id)text time:(NSTimeInterval)time position:(id)position{
-    [self kj_displayHintText:text time:time max:self.hintMaxWidth position:position];
+    [self kj_displayHintText:text time:time max:self.playerView.hintTextLayer.maxWidth position:position];
 }
 - (void)kj_displayHintText:(id)text time:(NSTimeInterval)time max:(float)max position:(id)position{
     kGCD_player_main(^{
@@ -262,11 +221,10 @@ static dispatch_once_t onceToken;
             return;
         }        
     });
-    [self.hintTextLayer kj_displayHintText:text time:time max:max position:position playerView:self.playerView];
-    if (self.hintTextLayer.superlayer == nil) {
-        [self.playerView.layer addSublayer:self.hintTextLayer];
+    [self.playerView.hintTextLayer kj_displayHintText:text time:time max:max position:position playerView:self.playerView];
+    if (self.playerView.hintTextLayer.superlayer == nil) {
+        [self.playerView.layer addSublayer:self.playerView.hintTextLayer];
     }
-    self.hintTextLayer.hidden = NO;
     /// 先取消上次的延时执行
     [NSObject cancelPreviousPerformRequestsWithTarget:self selector:@selector(kj_hideHintText) object:nil];
     if (time) {
@@ -275,7 +233,7 @@ static dispatch_once_t onceToken;
 }
 /* 隐藏提示文字 */
 - (void)kj_hideHintText{
-    self.hintTextLayer.hidden = YES;
+    [self.playerView.hintTextLayer removeFromSuperlayer];
 }
 
 @end

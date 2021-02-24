@@ -243,9 +243,8 @@ static CGSize tempSize;
         self.player.usesExternalPlaybackWhileExternalScreenIsActive = YES;
     }
     [self kj_addTimeObserver];
-    PLAYER_WEAKSELF;
     kGCD_player_main(^{
-        weakself.playerLayer.player = weakself.player;
+        self.playerLayer.player = self.player;
     });
     NSTimeInterval sec = 0.0;
     if (self.asset) {
@@ -258,7 +257,7 @@ static CGSize tempSize;
     self.progress = self.locality ? 1.0 : 0.0;
     if (self.totalTime && self.kVideoTotalTime) {
         kGCD_player_main(^{
-            weakself.kVideoTotalTime(weakself.totalTime);
+            self.kVideoTotalTime(self.totalTime);
         });
     }
     /// 功能操作
@@ -266,19 +265,19 @@ static CGSize tempSize;
         NSString *dbid = kPlayerIntactName(self.originalURL);
         NSTimeInterval time = [DBPlayerDataInfo kj_getLastTimeDbid:dbid];
         kGCD_player_main(^{
-            if (weakself.totalTime) weakself.currentTime = time;
+            if (self.totalTime) self.currentTime = time;
         });
         self.kVideoAdvanceAndReverse(time,nil);
         if (self.recordTimeBlock) {
             kGCD_player_main(^{
-                weakself.recordTimeBlock(time);
+                self.recordTimeBlock(time);
             });
         }
     }else if (self.skipHeadTime) {
-        self.kVideoAdvanceAndReverse(weakself.skipHeadTime,nil);
+        self.kVideoAdvanceAndReverse(self.skipHeadTime,nil);
         if (self.skipTimeBlock) {
             kGCD_player_main(^{
-                weakself.skipTimeBlock(KJPlayerVideoSkipStateHead);
+                self.skipTimeBlock(KJPlayerVideoSkipStateHead);
             });
         }
     }else{
@@ -424,7 +423,7 @@ NS_INLINE NSString * kPlayerContentsGravity(KJPlayerVideoGravity videoGravity){
         __block NSTimeInterval time = seconds;
         dispatch_group_notify(weakself.group, dispatch_get_main_queue(), ^{
             CMTime seekTime;
-            if (weakself.recordLastTime == NO && weakself.openAdvanceCache && weakself.locality == NO) {
+            if (weakself.openAdvanceCache && weakself.locality == NO) {
                 if (weakself.totalTime) {
                     NSTimeInterval _time = weakself.progress * weakself.totalTime;
                     if (time + weakself.cacheTime >= _time) time = _time - weakself.cacheTime;
