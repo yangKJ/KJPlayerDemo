@@ -36,7 +36,7 @@ extern NSString *kPlayerBaseViewChangeKey;
 @property (nonatomic,assign) BOOL smallScreenHiddenBackButton;
 /* 全屏状态下是否显示返回按钮，默认显示 */
 @property (nonatomic,assign) BOOL fullScreenHiddenBackButton;
-/* 是否为全屏 */
+/* 是否为全屏，名字别乱改后面kvc有使用 */
 @property (nonatomic,assign) BOOL isFullScreen;
 /* 当前屏幕状态 */
 @property (nonatomic,assign,readonly) KJPlayerVideoScreenState screenState;
@@ -79,6 +79,5 @@ extern NSString *kPlayerBaseViewChangeKey;
 - (BOOL)kj_basePlayerView:(KJBasePlayerView*)view brightnessValue:(float)value;
 
 @end
-
 
 NS_ASSUME_NONNULL_END

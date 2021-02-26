@@ -64,12 +64,59 @@ static NSString * const _Nonnull KJPlayerVideoFromatStringMap[] = {
     [KJPlayerVideoFromat_avi]  = @".avi",
     [KJPlayerVideoFromat_m3u8] = @".m3u8",
 };
-static NSString * const _Nonnull KJPlayerVideoFromatMimeStringMap[] = {
-    [KJPlayerVideoFromat_mp4]  = @"video/mp4",
-    [KJPlayerVideoFromat_wav]  = @"video/wav",
-    [KJPlayerVideoFromat_avi]  = @"video/avi",
-    [KJPlayerVideoFromat_m3u8] = @"video/m3u8",
+
+/* HLS介绍：https://blog.csdn.net/u011857683/article/details/84863250 */
+/// Asset类型
+typedef NS_ENUM(NSUInteger, KJPlayerAssetType) {
+    KJPlayerAssetTypeOTHER,/// 其他类型
+    KJPlayerAssetTypeFILE, /// 文件类型，
+    KJPlayerAssetTypeHLS,  /// m3u8
 };
+// 根据链接获取Asset类型
+NS_INLINE KJPlayerAssetType kPlayerVideoAesstType(NSURL *url){
+    if (url == nil) return KJPlayerAssetTypeOTHER;
+    if (url.pathExtension.length) {
+        if ([url.pathExtension containsString:@"m3u8"] || [url.pathExtension containsString:@"ts"]) {
+            return KJPlayerAssetTypeHLS;
+        }
+    }
+    NSArray * array = [url.path componentsSeparatedByString:@"."];
+    if (array.count == 0) {
+        return KJPlayerAssetTypeOTHER;
+    }else{
+        if ([array.lastObject containsString:@"m3u8"] || [array.lastObject containsString:@"ts"]) {
+            return KJPlayerAssetTypeHLS;
+        }
+    }
+    return KJPlayerAssetTypeFILE;
+}
+
+NS_INLINE KJPlayerVideoFromat kPlayerVideoURLFromat(NSString * fromat){
+    if ([fromat containsString:@"mp4"] || [fromat containsString:@"MP4"]) {
+        return KJPlayerVideoFromat_mp4;
+    }else if ([fromat containsString:@"wav"] || [fromat containsString:@"WAV"]) {
+        return KJPlayerVideoFromat_wav;
+    }else if ([fromat containsString:@"avi"] || [fromat containsString:@"AVI"]) {
+        return KJPlayerVideoFromat_avi;
+    }else if ([fromat containsString:@"m3u8"]) {
+        return KJPlayerVideoFromat_m3u8;
+    }else{
+        return KJPlayerVideoFromat_none;
+    }
+}
+// 根据链接获取格式
+NS_INLINE KJPlayerVideoFromat kPlayerFromat(NSURL *url){
+    if (url == nil) return KJPlayerVideoFromat_none;
+    if (url.pathExtension.length) {
+        return kPlayerVideoURLFromat(url.pathExtension);
+    }
+    NSArray * array = [url.path componentsSeparatedByString:@"."];
+    if (array.count == 0) {
+        return KJPlayerVideoFromat_none;
+    }else{
+        return kPlayerVideoURLFromat(array.lastObject);
+    }
+}
 /// 播放器的几种状态
 typedef NS_ENUM(NSInteger, KJPlayerState) {
     KJPlayerStateFailed = 0,/// 播放错误
@@ -82,7 +129,7 @@ typedef NS_ENUM(NSInteger, KJPlayerState) {
 };
 /// 播放状态
 static NSString * const _Nonnull KJPlayerStateStringMap[] = {
-    [KJPlayerStateFailed]  = @"failed",
+    [KJPlayerStateFailed] = @"failed",
     [KJPlayerStateBuffering] = @"buffering",
     [KJPlayerStatePreparePlay] = @"preparePlay",
     [KJPlayerStatePausing] = @"pausing",
@@ -92,7 +139,7 @@ static NSString * const _Nonnull KJPlayerStateStringMap[] = {
 };
 /// 自定义错误情况
 typedef NS_ENUM(NSInteger, KJPlayerCustomCode) {
-    KJPlayerCustomCodeNormal = 0, /// 正常播放
+    KJPlayerCustomCodeNormal = 0,/// 正常播放
     KJPlayerCustomCodeOtherSituations = 1,/// 其他情况
     KJPlayerCustomCodeCacheNone = 6,/// 没有缓存
     KJPlayerCustomCodeCachedComplete = 7,/// 缓存完成
@@ -110,10 +157,10 @@ typedef NS_ENUM(NSInteger, KJPlayerCustomCode) {
 typedef NS_OPTIONS(NSUInteger, KJPlayerGestureType) {
     KJPlayerGestureTypeSingleTap = 1 << 1,/// 单击手势
     KJPlayerGestureTypeDoubleTap = 1 << 2,/// 双击手势
-    KJPlayerGestureTypeLong   = 1 << 3,/// 长按操作
+    KJPlayerGestureTypeLong = 1 << 3,/// 长按操作
     KJPlayerGestureTypeProgress = 1 << 4,/// 视频进度调节操作
-    KJPlayerGestureTypeVolume  = 1 << 5,/// 声音调节操作
-    KJPlayerGestureTypeBrightness  = 1 << 6,/// 屏幕亮度调节操作
+    KJPlayerGestureTypeVolume = 1 << 5,/// 声音调节操作
+    KJPlayerGestureTypeBrightness = 1 << 6,/// 屏幕亮度调节操作
     
     KJPlayerGestureTypePan = KJPlayerGestureTypeProgress | KJPlayerGestureTypeVolume | KJPlayerGestureTypeBrightness,
     KJPlayerGestureTypeAll = KJPlayerGestureTypeSingleTap | KJPlayerGestureTypeDoubleTap | KJPlayerGestureTypeLong | KJPlayerGestureTypePan, 
@@ -157,33 +204,6 @@ typedef NS_ENUM(NSUInteger, KJPlayerVideoScreenState) {
     KJPlayerVideoScreenStateFullScreen, /// 全屏
     KJPlayerVideoScreenStateFloatingWindow,/// 浮窗
 };
-
-NS_INLINE KJPlayerVideoFromat kPlayerVideoURLFromat(NSString * fromat){
-    if ([fromat containsString:@"mp4"] || [fromat containsString:@"MP4"]) {
-        return KJPlayerVideoFromat_mp4;
-    }else if ([fromat containsString:@"wav"] || [fromat containsString:@"WAV"]) {
-        return KJPlayerVideoFromat_wav;
-    }else if ([fromat containsString:@"avi"] || [fromat containsString:@"AVI"]) {
-        return KJPlayerVideoFromat_avi;
-    }else if ([fromat containsString:@"m3u8"]) {
-        return KJPlayerVideoFromat_m3u8;
-    }else{
-        return KJPlayerVideoFromat_none;
-    }
-}
-// 根据链接获取格式
-NS_INLINE KJPlayerVideoFromat kPlayerFromat(NSURL *url){
-    if (url == nil) return KJPlayerVideoFromat_none;
-    if (url.pathExtension.length) {
-        return kPlayerVideoURLFromat(url.pathExtension);
-    }
-    NSArray * array = [url.path componentsSeparatedByString:@"."];
-    if (array.count == 0) {
-        return KJPlayerVideoFromat_none;
-    }else{
-        return kPlayerVideoURLFromat(array.lastObject);
-    }
-}
 NS_INLINE void kGCD_player_async(dispatch_block_t _Nonnull block) {
     dispatch_queue_t queue = dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0);
     if (strcmp(dispatch_queue_get_label(DISPATCH_CURRENT_QUEUE_LABEL), dispatch_queue_get_label(queue)) == 0) {

@@ -29,7 +29,7 @@
 ```
 pod 'KJPlayer' # 播放器功能区
 pod 'KJPlayer/AVPlayer' # AVPlayer内核播放器
-pod 'KJPlayer/midi' # midi内核
+pod 'KJPlayer/MIDIPlayer' # midi内核
 ```
 
 ### <a id="更新日志"></a>更新日志
@@ -175,8 +175,8 @@ videoData：视频数据
 
 ### KJDownloader
 *  网络请求数据，并把数据写入到 NSDocumentDirectory
-*  如果数据完整，则把数据缓存到指定的路径，储存起来
-*  如果不完整，则采用归档方式存储，下次继续加载
+*  支持视频边下边播，把播放器播放过的数据流缓存到本地
+*  支持断点续载续播，下次直接优先从缓冲读取播放
  
 核心功能其实就是实现`NSURLSessionDelegate`协议方法
 

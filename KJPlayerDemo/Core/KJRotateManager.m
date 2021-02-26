@@ -7,29 +7,30 @@
 //  https://github.com/yangKJ/KJPlayerDemo
 
 #import "KJRotateManager.h"
-#import "KJBasePlayerView.h"
+#define kRotate_KeyWindow \
+({UIWindow *window;\
+if (@available(iOS 13.0, *)) {\
+window = [UIApplication sharedApplication].windows.firstObject;\
+}else{\
+window = [UIApplication sharedApplication].keyWindow;\
+}\
+window;})
 //旋转中间控制器
 @interface KJRotateViewController : UIViewController
 @property (nonatomic, assign) UIInterfaceOrientationMask interfaceOrientationMask;
 @end
 
 @interface KJRotateManager ()
-@property(nonatomic,strong,class)UIView *superView;
 @property(nonatomic,assign,class)CGRect originalFrame;
 @end
 @implementation KJRotateManager
 /* 切换到全屏 */
-+ (void)kj_rotateFullScreenBasePlayerView:(KJBasePlayerView*)baseView{
-    self.superView = baseView.superview;
++ (void)kj_rotateFullScreenBasePlayerView:(UIView*)baseView{
     self.originalFrame = baseView.frame;
-    CGRect rectInWindow = [baseView convertRect:baseView.bounds toView:PLAYER_KeyWindow];
-    baseView.frame = rectInWindow;
-    [baseView removeFromSuperview];
-    [PLAYER_KeyWindow addSubview:baseView];
     id<KJPlayerRotateAppDelegate> delegate = (id<KJPlayerRotateAppDelegate>)[[UIApplication sharedApplication] delegate];
     NSAssert([delegate conformsToProtocol:@protocol(KJPlayerRotateAppDelegate)], @"Please see the usage documentation!!!");
     [delegate kj_transmitCurrentRotateOrientation:UIInterfaceOrientationMaskLandscape];
-    
+
     KJRotateViewController *vc = [[KJRotateViewController alloc] init];
     vc.interfaceOrientationMask = UIInterfaceOrientationMaskLandscape;
     UIWindow *videoWindow = [[UIWindow alloc] initWithFrame:[UIScreen mainScreen].bounds];
@@ -38,14 +39,14 @@
         baseView.transform = CGAffineTransformMakeRotation(M_PI_2);
         baseView.bounds = [UIScreen mainScreen].bounds;
         baseView.center = baseView.superview.center;
-        baseView.isFullScreen = YES;
+        [baseView setValue:@(YES) forKey:@"isFullScreen"];
     } completion:^(BOOL finished) {
         id<KJPlayerRotateAppDelegate> delegate = (id<KJPlayerRotateAppDelegate>)[[UIApplication sharedApplication] delegate];
         [delegate kj_transmitCurrentRotateOrientation:UIInterfaceOrientationMaskPortrait];
     }];
 }
 /* 切换到小屏 */
-+ (void)kj_rotateSmallScreenBasePlayerView:(KJBasePlayerView*)baseView{
++ (void)kj_rotateSmallScreenBasePlayerView:(UIView*)baseView{
     id<KJPlayerRotateAppDelegate> delegate = (id<KJPlayerRotateAppDelegate>)[[UIApplication sharedApplication] delegate];
     NSAssert([delegate conformsToProtocol:@protocol(KJPlayerRotateAppDelegate)], @"Please see the usage documentation!!!");
     [delegate kj_transmitCurrentRotateOrientation:UIInterfaceOrientationMaskPortrait];
@@ -54,35 +55,52 @@
     vc.interfaceOrientationMask = UIInterfaceOrientationMaskPortrait;
     UIWindow *videoWindow = [[UIWindow alloc] initWithFrame:[UIScreen mainScreen].bounds];
     videoWindow.rootViewController = vc;
-    [PLAYER_KeyWindow addSubview:baseView];
     [UIView animateWithDuration:0.3f animations:^{
         baseView.transform = CGAffineTransformIdentity;
         baseView.frame = self.originalFrame;
-        baseView.isFullScreen = NO;
-    } completion:^(BOOL finished) {
-        [baseView removeFromSuperview];
-        [self.superView addSubview:baseView];
+        [baseView setValue:@(NO) forKey:@"isFullScreen"];
     }];
 }
 /* 切换到浮窗屏 */
-+ (void)kj_rotateFloatingWindowBasePlayerView:(KJBasePlayerView*)baseView{
++ (void)kj_rotateFloatingWindowBasePlayerView:(UIView*)baseView{
     // TODO:
 }
 
 #pragma mark - getter/setter
-static UIView *_superView = nil;
-+ (UIView*)superView{
-    return _superView;
-}
-+ (void)setSuperView:(UIView *)superView{
-    _superView = superView;
-}
 static CGRect _originalFrame;
 + (CGRect)originalFrame{
     return _originalFrame;
 }
 + (void)setOriginalFrame:(CGRect)originalFrame{
     _originalFrame = originalFrame;
+}
++ (UIViewController*)topViewController{
+    UIViewController *result = nil;
+    UIWindow * window = kRotate_KeyWindow;
+    if (window.windowLevel != UIWindowLevelNormal){
+        NSArray *windows = [[UIApplication sharedApplication] windows];
+        for(UIWindow * tmpWin in windows){
+            if (tmpWin.windowLevel == UIWindowLevelNormal){
+                window = tmpWin;
+                break;
+            }
+        }
+    }
+    UIViewController *vc = window.rootViewController;
+    while (vc.presentedViewController) {
+        vc = vc.presentedViewController;
+    }
+    if ([vc isKindOfClass:[UITabBarController class]]){
+        UITabBarController * tabbar = (UITabBarController *)vc;
+        UINavigationController * nav = (UINavigationController *)tabbar.viewControllers[tabbar.selectedIndex];
+        result = nav.childViewControllers.lastObject;
+    }else if ([vc isKindOfClass:[UINavigationController class]]){
+        UIViewController * nav = (UIViewController *)vc;
+        result = nav.childViewControllers.lastObject;
+    }else{
+        result = vc;
+    }
+    return result;
 }
 
 @end

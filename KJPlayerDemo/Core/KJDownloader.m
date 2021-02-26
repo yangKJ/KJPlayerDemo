@@ -191,7 +191,6 @@
         return;
     }
     KJCacheFragment fragment = [DBPlayerDataInfo kj_getCacheFragment:self.fragments.firstObject];
-    [self.fragments removeObjectAtIndex:0];
     if (fragment.type){// 远端碎片，即开始下载
         NSUInteger fromOffset = fragment.range.location;
         NSUInteger endOffset  = fragment.range.location + fragment.range.length - 1;
@@ -207,6 +206,18 @@
         if (self.once == NO && data == nil) {
             self.once = YES;
             data = [self.fileHandleManager kj_readCachedDataWithRange:fragment.range];
+            if (data == nil) {
+                fragment.type = 1;
+                NSUInteger fromOffset = fragment.range.location;
+                NSUInteger endOffset  = fragment.range.location + fragment.range.length - 1;
+                NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:self.videoURL];
+                request.cachePolicy = NSURLRequestReloadIgnoringLocalAndRemoteCacheData;
+                NSString *range = [NSString stringWithFormat:@"bytes=%lu-%lu", fromOffset, endOffset];
+                [request setValue:range forHTTPHeaderField:@"Range"];
+                self.startOffset = fragment.range.location;
+                self.task = [self.session dataTaskWithRequest:request];
+                [self.task resume];
+            }
         }
         if (data) {
             if ([self.delegate respondsToSelector:@selector(kj_didReceiveData:cached:)]) {
@@ -220,6 +231,7 @@
             }
         }
     }
+    [self.fragments removeObjectAtIndex:0];
 }
 
 #pragma mark - lazy

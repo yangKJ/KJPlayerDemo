@@ -100,7 +100,7 @@ static NSInteger const kPackageLength = 204800;
     }
     return [fragments copy];
 }
-/* 写入数据至播放路径文件 */
+/* 写入已下载分片数据 */
 - (void)kj_writeCacheData:(NSData*)data Range:(NSRange)range error:(NSError **)error{
     @synchronized(self.writeHandle) {
         @try {
@@ -112,7 +112,7 @@ static NSInteger const kPackageLength = 204800;
         }@finally { }
     }
 }
-/* 读取播放路径文件数据 */
+/* 读取已下载分片缓存数据 */
 - (NSData*)kj_readCachedDataWithRange:(NSRange)range{
     @synchronized(self.readHandle) {
         [self.readHandle seekToFileOffset:range.location];

@@ -20,10 +20,10 @@
 @property (nonatomic,assign) CGColorRef background;
 /* 视频显示模式，默认KJPlayerVideoGravityResizeAspect */
 @property (nonatomic,assign) KJPlayerVideoGravity videoGravity;
-/* 获取视频尺寸大小 */
-@property (nonatomic,copy,readwrite) void (^kVideoSize)(CGSize size);
 /* 获取当前截屏 */
 @property (nonatomic,copy,readonly) void (^kVideoTimeScreenshots)(void(^)(UIImage *image));
+/* 获取视频尺寸大小 */
+@property (nonatomic,copy,readwrite) void (^kVideoSize)(CGSize size);
 
 #pragma mark - method
 /* 列表上播放绑定tableView */

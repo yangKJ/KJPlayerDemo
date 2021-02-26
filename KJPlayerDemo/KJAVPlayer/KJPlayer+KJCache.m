@@ -44,7 +44,7 @@
         if (self.fromat == KJPlayerVideoFromat_m3u8) {
             self.locality = NO;
             self.asset = nil;
-            dispatch_group_async(weakself.group, dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
+            dispatch_group_async(self.group, dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
                 [weakself kj_performSelString:@"kj_initPreparePlayer"];
             });
             return NO;

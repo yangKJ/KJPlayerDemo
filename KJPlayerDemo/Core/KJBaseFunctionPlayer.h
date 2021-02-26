@@ -24,7 +24,7 @@ NS_ASSUME_NONNULL_BEGIN
 @property (nonatomic,assign) BOOL backgroundPause;
 /* 是否开启自动播放，默认yes */
 @property (nonatomic,assign) BOOL autoPlay;
-/* 是否开启只允许快进到已缓存位置，优先级低于上次播放时间，默认no */
+/* 是否开启只允许快进到已缓存位置，默认no */
 @property (nonatomic,assign) BOOL openAdvanceCache;
 /* 播放速度，默认1倍速 */
 @property (nonatomic,assign) float speed;
@@ -36,16 +36,18 @@ NS_ASSUME_NONNULL_BEGIN
 @property (nonatomic,assign) NSTimeInterval cacheTime;
 /* 时间刻度，默认1秒 */
 @property (nonatomic,assign) NSTimeInterval timeSpace;
+/* 是否开启记录播放 */
+@property (nonatomic,assign,readonly) BOOL recordLastTime;
+/* 获取记录上次观看时间 */
+@property (nonatomic,copy,readonly) void (^kVideoRecordLastTime)(void(^)(NSTimeInterval time), BOOL record);
+/* 免费试看时间和试看结束回调，默认0不限制 */
+@property (nonatomic,copy,readonly) void (^kVideoTryLookTime)(void(^_Nullable)(void), NSTimeInterval time);
+/* 跳过片头和片尾回调，优先级低于记录上次播放时间 */
+@property (nonatomic,copy,readonly) void (^kVideoSkipTime)(void(^)(KJPlayerVideoSkipState skipState), NSTimeInterval headTime, NSTimeInterval footTime);
 /* 获取视频总时长 */
 @property (nonatomic,copy,readwrite) void (^kVideoTotalTime)(NSTimeInterval time);
 /* 获取视频格式 */
 @property (nonatomic,copy,readwrite) void (^kVideoURLFromat)(KJPlayerVideoFromat fromat);
-/* 免费试看时间和试看结束回调，默认0不限制 */
-@property (nonatomic,copy,readonly) void (^kVideoTryLookTime)(void(^_Nullable)(void), NSTimeInterval time);
-/* 获取记录上次观看时间 */
-@property (nonatomic,copy,readonly) void (^kVideoRecordLastTime)(void(^)(NSTimeInterval time), BOOL record);
-/* 跳过片头和片尾回调，优先级低于记录上次播放时间 */
-@property (nonatomic,copy,readonly) void (^kVideoSkipTime)(void(^)(KJPlayerVideoSkipState skipState), NSTimeInterval headTime, NSTimeInterval footTime);
 
 /* ************************* 分割线，上述属性需在videoURL之前设置 *****************************/
 /* 视频地址，这个和下面的方法互斥，支持m3u8 */
@@ -62,8 +64,6 @@ NS_ASSUME_NONNULL_BEGIN
 @property (nonatomic,assign,readonly) BOOL isPlaying;
 /* 是否为用户暂停 */
 @property (nonatomic,assign,readonly) BOOL userPause;
-/* 是否开启记录播放 */
-@property (nonatomic,assign,readonly) BOOL recordLastTime;
 /* 当前播放时间 */
 @property (nonatomic,assign,readonly) NSTimeInterval currentTime;
 /* 视频总时间 */

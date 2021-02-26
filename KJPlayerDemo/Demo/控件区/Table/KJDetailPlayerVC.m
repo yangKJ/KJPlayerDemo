@@ -18,6 +18,10 @@
     [super viewWillAppear:animated];
     self.navigationController.delegate = self;
 }
+- (void)viewDidDisappear:(BOOL)animated{
+    [super viewDidDisappear:animated];
+    [self backItemClick];
+}
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view.
@@ -35,7 +39,7 @@
         if (view.isFullScreen) {
             view.isFullScreen = NO;
         }else{
-            view.smallScreenHiddenBackButton = YES;
+//            view.smallScreenHiddenBackButton = YES;
             [weakself backItemClick];
         }
     };

@@ -96,7 +96,7 @@
         if (temps.count) {
             DBPlayerData *data = temps.firstObject;
             NSString *path = data.sandboxPath;
-            if (data.videoIntact && [self kj_haveFileSandboxPath:&path]) {
+            if (data.videoIntact && [KJCacheManager kj_haveFileSandboxPath:&path]) {
                 //移出之前的临时文件
                 NSString *tempPath = [path stringByAppendingPathExtension:kTempReadName];
                 [[NSFileManager defaultManager] removeItemAtPath:tempPath error:NULL];

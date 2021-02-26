@@ -18,9 +18,9 @@
 - (void)kj_setWriteHandleContentLenght:(NSUInteger)contentLength;
 /* 获取指定区间已经缓存的碎片 */
 - (NSArray*)kj_getCachedFragmentsWithRange:(NSRange)range;
-/* 写入数据至播放路径文件 */
+/* 写入已下载分片数据 */
 - (void)kj_writeCacheData:(NSData*)data Range:(NSRange)range error:(NSError **)error;
-/* 读取分片文件数据，传递给播放器 */
+/* 读取已下载分片缓存数据 */
 - (NSData*)kj_readCachedDataWithRange:(NSRange)range;
 /* 写入存储 */
 - (void)kj_writeSave;

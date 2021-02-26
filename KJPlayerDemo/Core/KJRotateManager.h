@@ -20,11 +20,11 @@ NS_ASSUME_NONNULL_BEGIN
 @class KJBasePlayerView;
 @interface KJRotateManager : NSObject
 /* 切换到全屏 */
-+ (void)kj_rotateFullScreenBasePlayerView:(KJBasePlayerView*)baseView;
++ (void)kj_rotateFullScreenBasePlayerView:(UIView*)baseView;
 /* 切换到小屏 */
-+ (void)kj_rotateSmallScreenBasePlayerView:(KJBasePlayerView*)baseView;
++ (void)kj_rotateSmallScreenBasePlayerView:(UIView*)baseView;
 /* 切换到浮窗屏 */
-+ (void)kj_rotateFloatingWindowBasePlayerView:(KJBasePlayerView*)baseView;
++ (void)kj_rotateFloatingWindowBasePlayerView:(UIView*)baseView;
 
 @end
 
