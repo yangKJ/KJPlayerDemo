@@ -191,6 +191,7 @@
         return;
     }
     KJCacheFragment fragment = [DBPlayerDataInfo kj_getCacheFragment:self.fragments.firstObject];
+    [self.fragments removeObjectAtIndex:0];
     if (fragment.type){// 远端碎片，即开始下载
         NSUInteger fromOffset = fragment.range.location;
         NSUInteger endOffset  = fragment.range.location + fragment.range.length - 1;
@@ -231,7 +232,6 @@
             }
         }
     }
-    [self.fragments removeObjectAtIndex:0];
 }
 
 #pragma mark - lazy

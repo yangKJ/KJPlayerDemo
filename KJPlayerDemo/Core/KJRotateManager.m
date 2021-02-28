@@ -19,14 +19,28 @@ window;})
 @interface KJRotateViewController : UIViewController
 @property (nonatomic, assign) UIInterfaceOrientationMask interfaceOrientationMask;
 @end
+@implementation KJRotateViewController
+- (BOOL)shouldAutorotate{
+    return YES;
+}
+- (UIInterfaceOrientationMask)supportedInterfaceOrientations{
+    return self.interfaceOrientationMask;
+}
+@end
+
+/* ************************* 黄金分割线 ***************************/
 
 @interface KJRotateManager ()
 @property(nonatomic,assign,class)CGRect originalFrame;
+@property(nonatomic,strong,class)UIColor *superViewColor;
 @end
 @implementation KJRotateManager
 /* 切换到全屏 */
 + (void)kj_rotateFullScreenBasePlayerView:(UIView*)baseView{
     self.originalFrame = baseView.frame;
+    self.superViewColor = baseView.superview.backgroundColor;
+    baseView.superview.backgroundColor = UIColor.blackColor;
+    baseView.layer.zPosition = 1;
     id<KJPlayerRotateAppDelegate> delegate = (id<KJPlayerRotateAppDelegate>)[[UIApplication sharedApplication] delegate];
     NSAssert([delegate conformsToProtocol:@protocol(KJPlayerRotateAppDelegate)], @"Please see the usage documentation!!!");
     [delegate kj_transmitCurrentRotateOrientation:UIInterfaceOrientationMaskLandscape];
@@ -35,6 +49,7 @@ window;})
     vc.interfaceOrientationMask = UIInterfaceOrientationMaskLandscape;
     UIWindow *videoWindow = [[UIWindow alloc] initWithFrame:[UIScreen mainScreen].bounds];
     videoWindow.rootViewController = vc;
+
     [UIView animateWithDuration:0.3f animations:^{
         baseView.transform = CGAffineTransformMakeRotation(M_PI_2);
         baseView.bounds = [UIScreen mainScreen].bounds;
@@ -47,6 +62,9 @@ window;})
 }
 /* 切换到小屏 */
 + (void)kj_rotateSmallScreenBasePlayerView:(UIView*)baseView{
+    baseView.superview.backgroundColor = self.superViewColor;
+    baseView.layer.zPosition = 0;
+    _superViewColor = nil;
     id<KJPlayerRotateAppDelegate> delegate = (id<KJPlayerRotateAppDelegate>)[[UIApplication sharedApplication] delegate];
     NSAssert([delegate conformsToProtocol:@protocol(KJPlayerRotateAppDelegate)], @"Please see the usage documentation!!!");
     [delegate kj_transmitCurrentRotateOrientation:UIInterfaceOrientationMaskPortrait];
@@ -55,11 +73,9 @@ window;})
     vc.interfaceOrientationMask = UIInterfaceOrientationMaskPortrait;
     UIWindow *videoWindow = [[UIWindow alloc] initWithFrame:[UIScreen mainScreen].bounds];
     videoWindow.rootViewController = vc;
-    [UIView animateWithDuration:0.3f animations:^{
-        baseView.transform = CGAffineTransformIdentity;
-        baseView.frame = self.originalFrame;
-        [baseView setValue:@(NO) forKey:@"isFullScreen"];
-    }];
+    baseView.transform = CGAffineTransformIdentity;
+    baseView.frame = self.originalFrame;
+    [baseView setValue:@(NO) forKey:@"isFullScreen"];
 }
 /* 切换到浮窗屏 */
 + (void)kj_rotateFloatingWindowBasePlayerView:(UIView*)baseView{
@@ -73,6 +89,13 @@ static CGRect _originalFrame;
 }
 + (void)setOriginalFrame:(CGRect)originalFrame{
     _originalFrame = originalFrame;
+}
+static UIColor *_superViewColor = nil;
++ (UIColor *)superViewColor{
+    return _superViewColor;
+}
++ (void)setSuperViewColor:(UIColor *)superViewColor{
+    _superViewColor = superViewColor;
 }
 + (UIViewController*)topViewController{
     UIViewController *result = nil;
@@ -101,22 +124,6 @@ static CGRect _originalFrame;
         result = vc;
     }
     return result;
-}
-
-@end
-
-/* ************************* 黄金分割线 ***************************/
-
-@implementation KJRotateViewController
-/// 电池状态栏管理
-- (BOOL)prefersStatusBarHidden{
-    return YES;
-}
-- (BOOL)shouldAutorotate{
-    return YES;
-}
-- (UIInterfaceOrientationMask)supportedInterfaceOrientations{
-    return self.interfaceOrientationMask;
 }
 
 @end

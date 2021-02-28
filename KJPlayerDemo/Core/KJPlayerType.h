@@ -13,9 +13,9 @@
 #import <Foundation/Foundation.h>
 #import <CommonCrypto/CommonDigest.h>
 #import <AVFoundation/AVFoundation.h>
-#import "DBPlayerDataInfo.h"
 #import <objc/runtime.h>
 #import <objc/message.h>
+#import "DBPlayerDataInfo.h"
 
 NS_ASSUME_NONNULL_BEGIN
 // 弱引用
@@ -50,31 +50,16 @@ isPhoneX = [[UIApplication sharedApplication] delegate].window.safeAreaInsets.bo
 // 颜色
 #define PLAYER_UIColorFromHEXA(hex,a) [UIColor colorWithRed:((hex&0xFF0000)>>16)/255.0f green:((hex&0xFF00)>>8)/255.0f blue:(hex&0xFF)/255.0f alpha:a]
 
-/// 视频格式
-typedef NS_ENUM(NSUInteger, KJPlayerVideoFromat) {
-    KJPlayerVideoFromat_none, /// 未知格式
-    KJPlayerVideoFromat_mp4,
-    KJPlayerVideoFromat_wav,
-    KJPlayerVideoFromat_avi,
-    KJPlayerVideoFromat_m3u8,
-};
-static NSString * const _Nonnull KJPlayerVideoFromatStringMap[] = {
-    [KJPlayerVideoFromat_mp4]  = @".mp4",
-    [KJPlayerVideoFromat_wav]  = @".wav",
-    [KJPlayerVideoFromat_avi]  = @".avi",
-    [KJPlayerVideoFromat_m3u8] = @".m3u8",
-};
-
 /* HLS介绍：https://blog.csdn.net/u011857683/article/details/84863250 */
 /// Asset类型
 typedef NS_ENUM(NSUInteger, KJPlayerAssetType) {
-    KJPlayerAssetTypeOTHER,/// 其他类型
-    KJPlayerAssetTypeFILE, /// 文件类型，
-    KJPlayerAssetTypeHLS,  /// m3u8
+    KJPlayerAssetTypeNONE,/// 其他类型
+    KJPlayerAssetTypeFILE,/// 文件类型，mp4等
+    KJPlayerAssetTypeHLS, /// 流媒体，m3u8
 };
-// 根据链接获取Asset类型
+/// 根据链接获取Asset类型
 NS_INLINE KJPlayerAssetType kPlayerVideoAesstType(NSURL *url){
-    if (url == nil) return KJPlayerAssetTypeOTHER;
+    if (url == nil) return KJPlayerAssetTypeNONE;
     if (url.pathExtension.length) {
         if ([url.pathExtension containsString:@"m3u8"] || [url.pathExtension containsString:@"ts"]) {
             return KJPlayerAssetTypeHLS;
@@ -82,40 +67,13 @@ NS_INLINE KJPlayerAssetType kPlayerVideoAesstType(NSURL *url){
     }
     NSArray * array = [url.path componentsSeparatedByString:@"."];
     if (array.count == 0) {
-        return KJPlayerAssetTypeOTHER;
+        return KJPlayerAssetTypeNONE;
     }else{
         if ([array.lastObject containsString:@"m3u8"] || [array.lastObject containsString:@"ts"]) {
             return KJPlayerAssetTypeHLS;
         }
     }
     return KJPlayerAssetTypeFILE;
-}
-
-NS_INLINE KJPlayerVideoFromat kPlayerVideoURLFromat(NSString * fromat){
-    if ([fromat containsString:@"mp4"] || [fromat containsString:@"MP4"]) {
-        return KJPlayerVideoFromat_mp4;
-    }else if ([fromat containsString:@"wav"] || [fromat containsString:@"WAV"]) {
-        return KJPlayerVideoFromat_wav;
-    }else if ([fromat containsString:@"avi"] || [fromat containsString:@"AVI"]) {
-        return KJPlayerVideoFromat_avi;
-    }else if ([fromat containsString:@"m3u8"]) {
-        return KJPlayerVideoFromat_m3u8;
-    }else{
-        return KJPlayerVideoFromat_none;
-    }
-}
-// 根据链接获取格式
-NS_INLINE KJPlayerVideoFromat kPlayerFromat(NSURL *url){
-    if (url == nil) return KJPlayerVideoFromat_none;
-    if (url.pathExtension.length) {
-        return kPlayerVideoURLFromat(url.pathExtension);
-    }
-    NSArray * array = [url.path componentsSeparatedByString:@"."];
-    if (array.count == 0) {
-        return KJPlayerVideoFromat_none;
-    }else{
-        return kPlayerVideoURLFromat(array.lastObject);
-    }
 }
 /// 播放器的几种状态
 typedef NS_ENUM(NSInteger, KJPlayerState) {
@@ -167,10 +125,12 @@ typedef NS_OPTIONS(NSUInteger, KJPlayerGestureType) {
 };
 /// KJBasePlayerView上面的Layer层次，zPosition改变图层的显示顺序
 typedef NS_ENUM(NSUInteger, KJBasePlayerViewLayerZPosition) {
-    KJBasePlayerViewLayerZPositionPlayer  = 0,/// 播放器的AVPlayerLayer层
-    KJBasePlayerViewLayerZPositionLoading = 1,/// 加载指示器和文本提醒框
-    KJBasePlayerViewLayerZPositionDisplayLayer = 2,/// 快进音量亮度等控件层
-    KJBasePlayerViewLayerZPositionInteraction = 3,/// 支持交互的控件，例如锁定屏幕，返回等
+    KJBasePlayerViewLayerZPositionPlayer = 0,/// 播放器的AVPlayerLayer层
+    /* 1被全屏时刻的KJBasePlayerView占用 */
+    KJBasePlayerViewLayerZPositionInteraction = 2,/// 支持交互的控件，例如顶部底部操作面板
+    KJBasePlayerViewLayerZPositionLoading = 3,/// 加载指示器和文本提醒框
+    KJBasePlayerViewLayerZPositionBackButton = 4,/// 锁定屏幕，返回等控件
+    KJBasePlayerViewLayerZPositionDisplayLayer = 5,/// 快进音量亮度等控件层
 };
 /// 播放类型
 typedef NS_ENUM(NSUInteger, KJPlayerPlayType) {
@@ -223,6 +183,11 @@ NS_INLINE void kGCD_player_main(dispatch_block_t _Nonnull block) {
             dispatch_sync(queue, block);
         }
     }
+}
+// 网址转义，中文空格字符解码
+NS_INLINE NSURL * kPlayerURLCharacters(NSString * urlString){
+    NSString * encodedString = [urlString stringByAddingPercentEncodingWithAllowedCharacters:[NSCharacterSet URLQueryAllowedCharacterSet]];
+    return [NSURL URLWithString:encodedString];
 }
 // MD5加密
 NS_INLINE NSString * kPlayerMD5(NSString *string){

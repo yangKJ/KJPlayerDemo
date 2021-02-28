@@ -26,8 +26,7 @@ static NSString * KJPlayerHintPositionRightBottom = @"KJPlayerHintPositionRightB
 @property (nonatomic,strong) UIFont *font;
 @end
 @interface KJPlayerHintTextLayer : CALayer
-@property (nonatomic,assign) KJPlayerVideoScreenState screenState;
-@property (nonatomic,assign) CGFloat maxWidth;
+@property (nonatomic,assign,readonly) CGFloat maxWidth;
 /* 设置属性 */
 - (void)kj_setFont:(UIFont*)font color:(UIColor*)color;
 /* 显示文本框 */

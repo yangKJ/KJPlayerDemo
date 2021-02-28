@@ -9,9 +9,11 @@
 #import "KJPlayerHintTextLayer.h"
 
 @interface KJPlayerHintTextLayer()
+@property (nonatomic,assign) KJPlayerVideoScreenState screenState;
 @property (nonatomic,strong) CATextLayer *hintTextLayer;
 @property (nonatomic,strong) UIColor *hintTextColor;
 @property (nonatomic,strong) UIFont *hintFont;
+@property (nonatomic,assign) CGFloat maxWidth;
 @end
 @implementation KJPlayerHintTextLayer
 - (instancetype)init{
@@ -68,8 +70,14 @@
     if ([position isKindOfClass:[NSString class]]) {
         CGFloat w = size.width + padding + padding;
         CGFloat h = size.height + padding;
-        CGFloat w2 = playerView.frame.size.width;
-        CGFloat h2 = playerView.frame.size.height;
+        CGFloat w2,h2;
+        if (self.screenState == KJPlayerVideoScreenStateFullScreen) {
+             w2 = playerView.frame.size.height;
+             h2 = playerView.frame.size.width;
+        }else{
+             w2 = playerView.frame.size.width;
+             h2 = playerView.frame.size.height;
+        }
         if ([position caseInsensitiveCompare:KJPlayerHintPositionCenter] == NSOrderedSame) {
             point = CGPointMake((w2-w)/2.f, (h2-h)/2.f);
         }else if ([position caseInsensitiveCompare:KJPlayerHintPositionBottom] == NSOrderedSame) {

@@ -35,7 +35,7 @@
         [string setAttributes:attributes2 range:NSMakeRange(timeString.length-4, 4)];
         [self.player kj_displayHintText:string time:5 position:KJPlayerHintPositionCenter];
     }, YES);
-    self.player.videoURL = [NSURL URLWithString:@"https://mp4.vjshi.com/2016-10-31/a553917787e52c0a077e3fb8548fae69.mp4"];
+    self.player.videoURL = kPlayerURLCharacters(@"https://mp4.vjshi.com/2016-10-31/a553917787e52c0a077e3fb8548fae69.mp4?测试中文转义abc");
 }
 
 #pragma mark - KJPlayerDelegate

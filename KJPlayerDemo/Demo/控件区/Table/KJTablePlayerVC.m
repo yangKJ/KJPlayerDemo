@@ -30,17 +30,18 @@
     [super viewDidLoad];
     // Do any additional setup after loading the view.
     self.view.backgroundColor = UIColor.whiteColor;
+    
     NSArray *temps = @[@"https://mp4.vjshi.com/2017-11-21/7c2b143eeb27d9f2bf98c4ab03360cfe.mp4",
                        @"https://mp4.vjshi.com/2020-12-01/bc8b1a8d9166d2040bd8946ad6447235.mp4",
-                       @"https://mp4.vjshi.com/2020-09-27/542926a8c2a99808fc981d46c1dc6aef.mp4",
-                       @"https://mp4.vjshi.com/2017-05-12/f7f9ecfebb7d5fe78f4f768c86b3a552.mp4",
                        @"https://mp4.vjshi.com/2021-01-13/d37b7bea25b063b4f9d4bdd98bc611e3.mp4",
-                       @"https://mp4.vjshi.com/2017-06-03/076f1b8201773231ca2f65e38c34033c.mp4",
                        @"https://mp4.vjshi.com/2021-01-13/ac721f0590f0b0509092afea52d55a90.mp4",
+                       @"https://mp4.vjshi.com/2017-06-03/076f1b8201773231ca2f65e38c34033c.mp4",
                        @"https://mp4.vjshi.com/2018-03-30/1f36dd9819eeef0bc508414494d34ad9.mp4",
                        @"https://mp4.vjshi.com/2016-09-03/72808b798d42dbca8d901b97e3bb54f4.mp4",
                        @"https://mp4.vjshi.com/2020-07-05/ef748e3a0077c8cc7c3d9a529d201beb.mp4",
                        @"http://appit.winpow.com/attached/media/MP4/1567585643618.mp4",
+                       @"https://mp4.vjshi.com/2020-09-27/542926a8c2a99808fc981d46c1dc6aef.mp4",
+                       @"https://mp4.vjshi.com/2017-05-12/f7f9ecfebb7d5fe78f4f768c86b3a552.mp4",
     ];
     NSMutableArray *array = [NSMutableArray arrayWithCapacity:temps.count];
     for (NSString *url in temps) {
@@ -164,8 +165,8 @@
 @end
 @implementation KJTableViewCell
 - (instancetype)initWithStyle:(UITableViewCellStyle)style reuseIdentifier:(NSString *)reuseIdentifier{
-    self = [super initWithStyle:style reuseIdentifier:reuseIdentifier];
-    if (self){
+    if (self = [super initWithStyle:style reuseIdentifier:reuseIdentifier]){
+        self.backgroundColor = UIColor.whiteColor;
         self.videoImageView = [[KJBasePlayerView alloc]initWithFrame:CGRectMake(0, 0, [UIScreen mainScreen].bounds.size.width, [UIScreen mainScreen].bounds.size.width-50)];
         self.videoImageView.userInteractionEnabled = YES;
         self.videoImageView.contentMode = UIViewContentModeScaleAspectFit;
@@ -179,8 +180,8 @@
         [self.videoImageView addGestureRecognizer:tap];
         self.loadingView = [[UIActivityIndicatorView alloc] initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleWhite];
         self.loadingView.center = CGPointMake(self.videoImageView.frame.size.width/2, self.videoImageView.frame.size.height/2);
-        CGAffineTransform transform = CGAffineTransformMakeScale(1.5, 1.5);
-        _loadingView.transform = transform;
+        _loadingView.transform = CGAffineTransformMakeScale(1.5, 1.5);
+//        _loadingView.layer.zPosition = 2;
         [self.contentView addSubview:self.loadingView];
     }
     return self;

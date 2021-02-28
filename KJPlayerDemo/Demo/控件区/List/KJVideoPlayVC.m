@@ -86,9 +86,6 @@
         slider.maximumValue = time;
         NSLog(@"time:%@",kPlayerConvertTime(time));
     };
-    player.kVideoURLFromat = ^(KJPlayerVideoFromat fromat) {
-        NSLog(@"fromat:%@",KJPlayerVideoFromatStringMap[fromat]);
-    };
     player.videoURL = self.url;
     player.kVideoSize = ^(CGSize size) {
         NSLog(@"%.2f,%.2f",size.width,size.height);

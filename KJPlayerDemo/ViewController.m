@@ -18,6 +18,19 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     self.title = @"KJPlayerDemo 🎷";
+    //暗黑模式
+    if (@available(iOS 13.0, *)) {
+        self.view.backgroundColor = [UIColor colorWithDynamicProvider:^UIColor * _Nonnull(UITraitCollection * _Nonnull trainCollection) {
+            if ([trainCollection userInterfaceStyle] == UIUserInterfaceStyleLight) {
+                return UIColor.whiteColor;
+            }else{
+                return UIColor.blackColor;
+            }
+        }];
+    }else{
+        self.view.backgroundColor = UIColor.whiteColor;
+    }
+    
     CGFloat width = self.view.frame.size.width;
     CGFloat height = self.view.frame.size.height;
     _tableView = [[UITableView alloc]initWithFrame:CGRectMake(0, 0, width, height-100-PLAYER_BOTTOM_SPACE_HEIGHT)];
@@ -56,6 +69,7 @@
         [temp1 addObject:@{@"VCName":@"KJLoadingPlayerVC",@"describeName":@"加载动画和提示框测试"}];
         
         NSMutableArray *temp0 = [NSMutableArray array];
+        [temp0 addObject:@{@"VCName":@"KJScreenPlayerVC",@"describeName":@"全屏播放测试"}];
         [temp0 addObject:@{@"VCName":@"KJRecordPlayerVC",@"describeName":@"记录上次播放时间测试"}];
         [temp0 addObject:@{@"VCName":@"KJCachePlayerVC",@"describeName":@"断点续载续播缓存测试"}];
         [temp0 addObject:@{@"VCName":@"KJTryLookPlayerVC",@"describeName":@"试看时间播放测试"}];

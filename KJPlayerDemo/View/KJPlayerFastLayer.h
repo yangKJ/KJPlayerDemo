@@ -13,11 +13,8 @@
 NS_ASSUME_NONNULL_BEGIN
 
 @interface KJPlayerFastLayer : CALayer
-@property (nonatomic,assign) KJPlayerVideoScreenState screenState;
 @property (nonatomic,strong) UIColor *mainColor;
 @property (nonatomic,strong) UIColor *viceColor;
-/// 重置尺寸
-- (void)kj_setLayerNewFrame:(CGRect)rect;
 /// 设置数据
 - (void)kj_updateFastValue:(CGFloat)value TotalTime:(CGFloat)time;
 

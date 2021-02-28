@@ -1,65 +1,57 @@
 //
-//  KJDetailPlayerVC.m
+//  KJScreenPlayerVC.m
 //  KJPlayerDemo
 //
-//  Created by 杨科军 on 2021/2/9.
+//  Created by 杨科军 on 2021/2/21.
 //  Copyright © 2021 杨科军. All rights reserved.
 //  https://github.com/yangKJ/KJPlayerDemo
 
-#import "KJDetailPlayerVC.h"
+#import "KJScreenPlayerVC.h"
 
-@interface KJDetailPlayerVC ()<KJPlayerBaseViewDelegate>
+@interface KJScreenPlayerVC ()<KJPlayerDelegate,KJPlayerBaseViewDelegate>
 @property(nonatomic,strong)KJBasePlayerView *playerView;
-
+@property(nonatomic,strong)KJPlayer *player;
 @end
 
-@implementation KJDetailPlayerVC
-- (void)viewDidDisappear:(BOOL)animated{
-    [super viewDidDisappear:animated];
-    [self.navigationController setNavigationBarHidden:NO animated:YES];
+@implementation KJScreenPlayerVC
+- (void)viewWillAppear:(BOOL)animated{
+    [super viewWillAppear:animated];
+    [self.navigationController setNavigationBarHidden:YES animated:NO];
 }
 - (void)viewWillDisappear:(BOOL)animated{
     [super viewWillDisappear:animated];
-    if (self.kBackBlock) {
-        self.kBackBlock();
-    }
-}
-- (void)backItemClick{
-    if (self.kBackBlock) {
-        self.kBackBlock();
-    }
-    [self.navigationController popViewControllerAnimated:YES];
+    [self.navigationController setNavigationBarHidden:NO animated:YES];
 }
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view.
-    
     self.view.backgroundColor = UIColor.whiteColor;
-    
-    KJBasePlayerView *backview = [[KJBasePlayerView alloc]initWithFrame:CGRectMake(0, PLAYER_STATUSBAR_NAVIGATION_HEIGHT, self.view.frame.size.width, self.view.frame.size.width)];
-    backview.image = [UIImage imageNamed:@"20ea53a47eb0447883ed186d9f11e410"];
+    KJBasePlayerView *backview = [[KJBasePlayerView alloc]initWithFrame:CGRectMake(0, PLAYER_STATUSBAR_HEIGHT, self.view.frame.size.width, self.view.frame.size.width)];
     [self.view addSubview:backview];
     self.playerView = backview;
     backview.delegate = self;
     backview.gestureType = KJPlayerGestureTypeAll;
+    backview.smallScreenHiddenBackButton = NO;
+    backview.autoHideTime = 3;
     PLAYER_WEAKSELF;
     backview.kVideoClickButtonBack = ^(KJBasePlayerView *view){
         if (view.isFullScreen) {
             view.isFullScreen = NO;
         }else{
-            [weakself backItemClick];
-        }
-    };
-    backview.kVideoChangeScreenState = ^(KJPlayerVideoScreenState state) {
-        if (state == KJPlayerVideoScreenStateFullScreen) {
-            [weakself.navigationController setNavigationBarHidden:YES animated:YES];
-        }else{
+            [weakself.player kj_stop];
+            self->_player = nil;
             [weakself.navigationController setNavigationBarHidden:NO animated:YES];
+            [weakself.navigationController popViewControllerAnimated:YES];
         }
     };
     
-    self.layer.frame = backview.bounds;
-    [backview.layer addSublayer:self.layer];
+    KJPlayer *player = [[KJPlayer alloc]init];
+    self.player = player;
+    player.delegate = self;
+    player.placeholder = [UIImage imageNamed:@"20ea53a47eb0447883ed186d9f11e410"];
+    player.playerView = backview;
+    player.videoURL = [NSURL URLWithString:@"https://mp4.vjshi.com/2017-11-21/7c2b143eeb27d9f2bf98c4ab03360cfe.mp4"];
+    
     UIButton *button = [UIButton buttonWithType:(UIButtonTypeCustom)];
     button.frame = CGRectMake((self.view.frame.size.width-100)/2, self.view.frame.size.height - 150, 100, 50);
     button.backgroundColor = [UIColor.greenColor colorWithAlphaComponent:0.5];
@@ -70,6 +62,31 @@
 }
 - (void)buttonAction{
     self.playerView.isFullScreen = YES;
+}
+
+#pragma mark - KJPlayerDelegate
+/* 当前播放器状态 */
+- (void)kj_player:(KJBasePlayer*)player state:(KJPlayerState)state{
+    NSLog(@"---当前播放器状态:%@",KJPlayerStateStringMap[state]);
+    if (state == KJPlayerStateBuffering || state == KJPlayerStatePausing) {
+        [player kj_startAnimation];
+    }else if (state == KJPlayerStatePreparePlay || state == KJPlayerStatePlaying) {
+        [player kj_stopAnimation];
+    }else if (state == KJPlayerStatePlayFinished) {
+        [player kj_replay];
+    }
+}
+/* 播放进度 */
+- (void)kj_player:(KJBasePlayer*)player currentTime:(NSTimeInterval)time{
+    
+}
+/* 缓存进度 */
+- (void)kj_player:(KJBasePlayer*)player loadProgress:(CGFloat)progress{
+    NSLog(@"---缓存进度:%f",progress);
+}
+/* 播放错误 */
+- (void)kj_player:(KJBasePlayer*)player playFailed:(NSError*)failed{
+    
 }
 
 #pragma mark - KJPlayerBaseViewDelegate

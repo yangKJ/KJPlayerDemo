@@ -8,18 +8,23 @@
 
 #import "KJLoadingPlayerVC.h"
 
-@interface KJLoadingPlayerVC ()<KJPlayerDelegate,KJPlayerBaseViewDelegate>{
+@interface KJLoadingPlayerVC ()<KJPlayerBaseViewDelegate>{
     int index;
 }
-
+@property(nonatomic,strong)KJPlayer *player;
+@property(nonatomic,strong)KJBasePlayerView *basePlayerView;
 @end
 
 @implementation KJLoadingPlayerVC
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view.
-    self.basePlayerView.frame = CGRectMake(0, PLAYER_STATUSBAR_NAVIGATION_HEIGHT, self.view.frame.size.width, self.view.frame.size.width*9/16.);
-    self.player.delegate = self;
+    self.view.backgroundColor = UIColor.whiteColor;
+    
+    KJBasePlayerView *backview = [[KJBasePlayerView alloc]initWithFrame:CGRectMake(0, PLAYER_STATUSBAR_NAVIGATION_HEIGHT, self.view.frame.size.width, self.view.frame.size.width*9/16.)];
+    self.basePlayerView = backview;
+    [self.view addSubview:backview];
+    backview.gestureType = KJPlayerGestureTypeAll;
     self.basePlayerView.delegate = self;
     self.basePlayerView.kVideoHintTextInfo(^(KJPlayerHintInfo * _Nonnull info) {
         info.maxWidth = 110;
@@ -27,8 +32,21 @@
         info.textColor = UIColor.greenColor;
         info.font = [UIFont systemFontOfSize:15];
     });
+    PLAYER_WEAKSELF;
+    self.basePlayerView.kVideoChangeScreenState = ^(KJPlayerVideoScreenState state) {
+        if (state == KJPlayerVideoScreenStateFullScreen) {
+            [weakself.navigationController setNavigationBarHidden:YES animated:YES];
+        }else{
+            [weakself.navigationController setNavigationBarHidden:NO animated:YES];
+        }
+    };
     
-    [self.player kj_displayHintText:@"顺便测试一下文本提示框打很长很长的文字提供九种位置选择" time:0 position:KJPlayerHintPositionLeftCenter];
+    KJPlayer *player = [[KJPlayer alloc]init];
+    self.player = player;
+    player.playerView = backview;
+    [player kj_startAnimation];
+    
+    [self.player kj_displayHintText:@"顺便测试文本提示框长文字" time:0 position:KJPlayerHintPositionBottom];
     {
         UIButton *button = [UIButton buttonWithType:(UIButtonTypeCustom)];
         button.frame = CGRectMake(30, 350, 100, 50);
@@ -106,29 +124,16 @@
     [self.player kj_displayHintText:@"两秒后消失!!" time:2 position:temps[index]];
 }
 
-#pragma mark - KJPlayerDelegate
-/* 当前播放器状态 */
-- (void)kj_player:(KJBasePlayer*)player state:(KJPlayerState)state{
-    NSLog(@"---当前播放器状态:%@",KJPlayerStateStringMap[state]);
-    if (state == KJPlayerStateBuffering) {
-        [player kj_startAnimation];
-    }else if (state == KJPlayerStatePreparePlay || state == KJPlayerStatePlaying) {
-        [player kj_stopAnimation];
+#pragma mark - KJPlayerBaseViewDelegate
+/* 单双击手势反馈 */
+- (void)kj_basePlayerView:(KJBasePlayerView*)view isSingleTap:(BOOL)tap{
+    if (tap) {
+        if (view.displayOperation) {
+            [view kj_hiddenOperationView];
+        }else{
+            [view kj_displayOperationView];
+        }
     }
-}
-/* 播放进度 */
-- (void)kj_player:(KJBasePlayer*)player currentTime:(NSTimeInterval)time{
-    self.slider.value = time;
-    self.label.text = kPlayerConvertTime(time);
-}
-/* 缓存进度 */
-- (void)kj_player:(KJBasePlayer*)player loadProgress:(CGFloat)progress{
-    NSLog(@"---缓存进度:%f",progress);
-    [self.progressView setProgress:progress animated:YES];
-}
-/* 播放错误 */
-- (void)kj_player:(KJBasePlayer*)player playFailed:(NSError*)failed{
-    
 }
 
 @end

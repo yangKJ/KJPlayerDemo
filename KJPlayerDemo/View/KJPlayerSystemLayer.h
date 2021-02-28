@@ -13,13 +13,10 @@
 NS_ASSUME_NONNULL_BEGIN
 
 @interface KJPlayerSystemLayer : CALayer
-@property (nonatomic,assign) KJPlayerVideoScreenState screenState;
 @property (nonatomic,strong) UIColor *mainColor;
 @property (nonatomic,strong) UIColor *viceColor;
 @property (nonatomic,assign) BOOL isBrightness;
 @property (nonatomic,assign) float value;
-/// 重置尺寸
-- (void)kj_setLayerNewFrame:(CGRect)rect;
 
 @end
 

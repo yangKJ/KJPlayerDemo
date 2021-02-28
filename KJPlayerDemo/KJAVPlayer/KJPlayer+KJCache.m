@@ -12,7 +12,6 @@
 #import <objc/runtime.h>
 
 @interface KJPlayer ()
-@property (nonatomic,assign) KJPlayerVideoFromat fromat;
 @property (nonatomic,strong) KJResourceLoader *connection;
 @property (nonatomic,assign) KJPlayerState state;
 @property (nonatomic,strong) KJFileHandleInfo *cacheInfo;
@@ -26,7 +25,6 @@
 /* 判断当前资源文件是否有缓存，修改为指定链接地址 */
 - (void)kj_judgeHaveCacheWithVideoURL:(NSURL * _Nonnull __strong * _Nonnull)videoURL{
     self.locality = NO;
-    self.asset = nil;
     KJCacheManager.kJudgeHaveCacheURL(^(BOOL locality) {
         self.locality = locality;
         if (locality) {
@@ -38,12 +36,15 @@
 - (BOOL (^)(NSURL * _Nonnull, BOOL))kVideoCanCacheURL{
     return ^BOOL(NSURL * videoURL, BOOL cache){
         self.originalURL = videoURL;
-        self.fromat = kPlayerFromat(videoURL);
-        if (self.kVideoURLFromat) self.kVideoURLFromat(self.fromat);
+        self.cache = cache;
+        self.asset = nil;
+        self.locality = NO;
         PLAYER_WEAKSELF;
-        if (self.fromat == KJPlayerVideoFromat_m3u8) {
-            self.locality = NO;
-            self.asset = nil;
+        if (kPlayerVideoAesstType(videoURL) == KJPlayerAssetTypeNONE) {
+            self.playError = [DBPlayerDataInfo kj_errorSummarizing:KJPlayerCustomCodeVideoURLUnknownFormat];
+            if (self.player) [self kj_stop];
+            return NO;
+        }else if (kPlayerVideoAesstType(videoURL) == KJPlayerAssetTypeHLS) {
             dispatch_group_async(self.group, dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
                 [weakself kj_performSelString:@"kj_initPreparePlayer"];
             });
@@ -52,7 +53,6 @@
         if (objc_getAssociatedObject(self, &connectionKey)) {
             objc_setAssociatedObject(self, &connectionKey, nil, OBJC_ASSOCIATION_RETAIN);
         }
-        self.cache = cache;
         __block NSURL *tempURL = videoURL;
         dispatch_group_async(self.group, dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
             [weakself kj_judgeHaveCacheWithVideoURL:&tempURL];
@@ -87,7 +87,7 @@
     }
 }
 // 判断是否含有视频轨道
-NS_INLINE BOOL kPlayerHaveTracks(NSURL *videoURL, void(^assetblock)(AVURLAsset *), NSDictionary *requestHeader){
+BOOL kPlayerHaveTracks(NSURL *videoURL, void(^assetblock)(AVURLAsset *), NSDictionary *requestHeader){
     if (videoURL == nil) return NO;
     AVURLAsset *asset = [AVURLAsset URLAssetWithURL:videoURL options:requestHeader];
     if (assetblock) assetblock(asset);

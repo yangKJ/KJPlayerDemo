@@ -102,23 +102,60 @@ pod 'KJPlayer/MIDIPlayer' # midi内核
 
 ### KJBasePlayerView播放器视图基类，播放器控件父类
 只要子控件没有涉及到手势交互，我均采用Layer的方式来处理，然后根据`zPosition`来区分控件的上下层级关系
+
 ```
-/* 主色调，默认白色 */
-@property (nonatomic,strong) UIColor *mainColor;
-/* 窗口window */
-@property (nonatomic,strong,class,readonly) UIWindow *window;
 /* 委托代理 */
 @property (nonatomic,weak) id <KJPlayerBaseViewDelegate> delegate;
+/* 主色调，默认白色 */
+@property (nonatomic,strong) UIColor *mainColor;
+/* 副色调，默认红色 */
+@property (nonatomic,strong) UIColor *viceColor;
 /* 支持手势，支持多枚举 */
 @property (nonatomic,assign) KJPlayerGestureType gestureType;
 /* 长按执行时间，默认1秒 */
 @property (nonatomic,assign) NSTimeInterval longPressTime;
+/* 操作面板自动隐藏时间，默认2秒然后为零表示不隐藏 */
+@property (nonatomic,assign) NSTimeInterval autoHideTime;
+/* 操作面板高度，默认60px */
+@property (nonatomic,assign) CGFloat operationViewHeight;
+/* 当前操作面板状态 */
+@property (nonatomic,assign,readonly) BOOL displayOperation;
+/* 隐藏操作面板时是否隐藏返回按钮，默认yes */
+@property (nonatomic,assign) BOOL isHiddenBackButton;
+/* 小屏状态下是否显示返回按钮，默认yes */
+@property (nonatomic,assign) BOOL smallScreenHiddenBackButton;
+/* 全屏状态下是否显示返回按钮，默认no */
+@property (nonatomic,assign) BOOL fullScreenHiddenBackButton;
+/* 是否为全屏，名字别乱改后面kvc有使用 */
+@property (nonatomic,assign) BOOL isFullScreen;
+/* 当前屏幕状态，名字别乱改后面kvc有使用 */
+@property (nonatomic,assign,readonly) KJPlayerVideoScreenState screenState;
+/* 当前屏幕状态发生改变 */
+@property (nonatomic,copy,readwrite) void (^kVideoChangeScreenState)(KJPlayerVideoScreenState state);
+/* 返回回调 */
+@property (nonatomic,copy,readwrite) void (^kVideoClickButtonBack)(KJBasePlayerView *view);
+/* 提示文字面板属性，默认最大宽度250px */
+@property (nonatomic,copy,readonly) void (^kVideoHintTextInfo)(void(^)(KJPlayerHintInfo *info));
 
 #pragma mark - 控件
 /* 快进快退进度控件 */
 @property (nonatomic,strong) KJPlayerFastLayer *fastLayer;
 /* 音量亮度控件 */
 @property (nonatomic,strong) KJPlayerSystemLayer *vbLayer;
+/* 加载动画层 */
+@property (nonatomic,strong) KJPlayerLoadingLayer *loadingLayer;
+/* 文本提示框 */
+@property (nonatomic,strong) KJPlayerHintTextLayer *hintTextLayer;
+/* 顶部操作面板 */
+@property (nonatomic,strong) KJPlayerOperationView *topView;
+/* 底部操作面板 */
+@property (nonatomic,strong) KJPlayerOperationView *bottomView;
+
+#pragma mark - method
+/* 隐藏操作面板，是否隐藏返回按钮 */
+- (void)kj_hiddenOperationView;
+/* 显示操作面板 */
+- (void)kj_displayOperationView;
 
 ```
 #### KJPlayerBaseViewDelegate控件载体协议
@@ -173,56 +210,31 @@ videoData：视频数据
 | kj_checkData: | 查询数据，传空传全部数据 |
 | kCheckAppointDatas | 指定条件查询 |
 
-### KJDownloader
-*  网络请求数据，并把数据写入到 NSDocumentDirectory
-*  支持视频边下边播，把播放器播放过的数据流缓存到本地
-*  支持断点续载续播，下次直接优先从缓冲读取播放
- 
-核心功能其实就是实现`NSURLSessionDelegate`协议方法
-
-接收到数据的时刻写入`NSFileHandle`当中
-
-```
-[self.writeHandle seekToFileOffset:range.location];
-[self.writeHandle writeData:data];
-self.writeBytes += data.length;
-```
-接收完成，数据完整将数据移动到指定路径，
-
-```
-[[NSFileManager defaultManager] moveItemAtPath:_tempPath toPath:self.savePath error:nil];
-```
-同时存储信息在数据库当中
-
-```
-[DBPlayerDataInfo kj_insertData:self.fileName Data:^(DBPlayerData * _Nonnull data) {
-    data.dbid = weakself.fileName;
-    data.videoUrl = weakself.videoURL.absoluteString;
-    data.videoFormat = weakself.format;
-    data.sandboxPath = [weakself.fileName stringByAppendingString:weakself.format];
-    data.saveTime = NSDate.date.timeIntervalSince1970;
-}];
-```
-
 ### KJResourceLoader
 中间桥梁作用，把网络请求缓存到本地的临时数据传递给播放器
 
 ### KJPlayer - AVPlayer播放器内核
 工作流程：  
-1、获取视频格式，根据网址来确定，目前没找到更好的方式（知道的朋友可以指点一下）
+1、获取视频类型，根据网址来确定，目前没找到更好的方式（知道的朋友可以指点一下）
 
 ```
-NS_INLINE KJPlayerVideoFromat kPlayerFromat(NSURL *url){
-    if (url == nil) return KJPlayerVideoFromat_none;
+/// 根据链接获取Asset类型
+NS_INLINE KJPlayerAssetType kPlayerVideoAesstType(NSURL *url){
+    if (url == nil) return KJPlayerAssetTypeNONE;
     if (url.pathExtension.length) {
-        return kPlayerVideoURLFromat(url.pathExtension);
+        if ([url.pathExtension containsString:@"m3u8"] || [url.pathExtension containsString:@"ts"]) {
+            return KJPlayerAssetTypeHLS;
+        }
     }
     NSArray * array = [url.path componentsSeparatedByString:@"."];
     if (array.count == 0) {
-        return KJPlayerVideoFromat_none;
+        return KJPlayerAssetTypeNONE;
     }else{
-        return kPlayerVideoURLFromat(array.lastObject);
+        if ([array.lastObject containsString:@"m3u8"] || [array.lastObject containsString:@"ts"]) {
+            return KJPlayerAssetTypeHLS;
+        }
     }
+    return KJPlayerAssetTypeFILE;
 }
 ```
 
@@ -244,17 +256,40 @@ dispatch_group_async(group, dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DE
 3、处理视频链接地址，这里分两种情况，使用缓存就从缓存当中读取
 
 ```
-NSString *dbid = kPlayerIntactName(*videoURL);
-NSArray<DBPlayerData*>*temps = [DBPlayerDataInfo kj_checkData:dbid];
-if (temps.count) {
-    NSString * path = kPlayerIntactSandboxPath(temps.firstObject.sandboxPath);
-    self.localityData = [[NSFileManager defaultManager] fileExistsAtPath:path];
-    if (self.localityData) {
-        self.progress = 1.0;
-        *videoURL = [NSURL fileURLWithPath:path];
-    }else{
-        [DBPlayerDataInfo kj_deleteData:dbid];
-    }
+/* 判断当前资源文件是否有缓存，修改为指定链接地址 */
+- (void)kj_judgeHaveCacheWithVideoURL:(NSURL * _Nonnull __strong * _Nonnull)videoURL{
+    self.locality = NO;
+    KJCacheManager.kJudgeHaveCacheURL(^(BOOL locality) {
+        self.locality = locality;
+        if (locality) {
+            self.playError = [DBPlayerDataInfo kj_errorSummarizing:KJPlayerCustomCodeCachedComplete];
+        }
+    }, videoURL);
+}
+```
+获取数据库当中的数据
+
+```
+/* 判断是否有缓存，返回缓存链接 */
++ (void(^)(void(^)(BOOL),NSURL * _Nonnull __strong * _Nonnull))kJudgeHaveCacheURL{
+    return ^(void(^locality)(BOOL),NSURL * _Nonnull __strong * _Nonnull videoURL){
+        NSArray<DBPlayerData*>*temps = [DBPlayerDataInfo kj_checkData:kPlayerIntactName(*videoURL)];
+        BOOL boo = NO;
+        if (temps.count) {
+            DBPlayerData *data = temps.firstObject;
+            NSString *path = data.sandboxPath;
+            if (data.videoIntact && [KJCacheManager kj_haveFileSandboxPath:&path]) {
+                //移出之前的临时文件
+                NSString *tempPath = [path stringByAppendingPathExtension:kTempReadName];
+                [[NSFileManager defaultManager] removeItemAtPath:tempPath error:NULL];
+                *videoURL = [NSURL fileURLWithPath:path];
+                boo = YES;
+            }
+        }
+        kGCD_player_main(^{
+            if (locality) locality(boo);
+        });
+    };
 }
 ```
 4、判断地址是否可用，添加下载和播放桥梁
@@ -262,10 +297,6 @@ if (temps.count) {
 ```
 PLAYER_WEAKSELF;
 if (!kPlayerHaveTracks(*videoURL, ^(AVURLAsset * asset) {
-    weakself.totalTime = ceil(asset.duration.value/asset.duration.timescale);
-    kGCD_player_main(^{
-        if (weakself.kVideoTotalTime) weakself.kVideoTotalTime(weakself.totalTime);
-    });
     if (weakself.useCacheFunction && !weakself.localityData) {
         weakself.state = KJPlayerStateBuffering;
         weakself.loadState = KJPlayerLoadStateNone;
@@ -286,28 +317,30 @@ if (!kPlayerHaveTracks(*videoURL, ^(AVURLAsset * asset) {
 5、播放准备操作，设置`playerItem`，然后初始化`player`，添加时间观察，处理播放
 
 ```
-if (weakself.currentTime >= weakself.totalTime) {
-    [weakself.player pause];
-    weakself.state = KJPlayerStatePlayFinished;
-    if ([weakself.delegate respondsToSelector:@selector(kj_player:currentTime:totalTime:)]) {
-        [weakself.delegate kj_player:weakself currentTime:weakself.totalTime totalTime:weakself.totalTime];
+self.timeObserver = [self.player addPeriodicTimeObserverForInterval:CMTimeMakeWithSeconds(_timeSpace, NSEC_PER_SEC) queue:dispatch_queue_create("kj.player.time.queue", NULL) usingBlock:^(CMTime time) {
+    NSTimeInterval sec = CMTimeGetSeconds(time);
+    if (isnan(sec) || sec < 0) sec = 0;
+    if (weakself.totalTime <= 0) return;
+    if ((NSInteger)sec >= (NSInteger)weakself.totalTime) {
+        [weakself.player pause];
+        weakself.state = KJPlayerStatePlayFinished;
+        weakself.currentTime = 0;
+    }else if (weakself.userPause == NO && weakself.buffered) {
+        weakself.state = KJPlayerStatePlaying;
+        weakself.currentTime = sec;
     }
-    weakself.currentTime = 0;
-}else if (weakself.userPause == NO && weakself.buffered) {
-    weakself.state = KJPlayerStatePlaying;
-    if ([weakself.delegate respondsToSelector:@selector(kj_player:currentTime:totalTime:)]) {
-        [weakself.delegate kj_player:weakself currentTime:weakself.currentTime totalTime:weakself.totalTime];
+    if (sec > weakself.tryTime && weakself.tryTime) {
+        [weakself kj_pause];
+        if (!weakself.tryLooked) {
+            weakself.tryLooked = YES;
+            kGCD_player_main(^{
+                if (weakself.tryTimeBlock) weakself.tryTimeBlock();
+            });
+        }
+    }else{
+        weakself.tryLooked = NO;
     }
-}
-if (weakself.currentTime > weakself.tryTime && weakself.tryTime) {
-    if (!weakself.tryLooked) {
-        weakself.tryLooked = YES;
-        if (weakself.tryTimeBlock) weakself.tryTimeBlock(true);
-    }
-    [weakself kj_playerPause];
-}else{
-    weakself.tryLooked = NO;
-}
+}];
 ```
 
 6、处理视频状态，kvo监听播放器五种状态 
@@ -315,8 +348,7 @@ if (weakself.currentTime > weakself.tryTime && weakself.tryTime) {
 - `status`：播放器状态  
 - `loadedTimeRanges`：监听播放器的下载进度 
 - `presentationSize`：获取播放视频尺寸  
-- `playbackBufferEmpty`：监听播放器在缓冲数据的状态  
-- `playbackLikelyToKeepUp`：是否在播放  
+- `playbackBufferEmpty`和`playbackLikelyToKeepUp`：监听播放器在缓冲数据的状态  
 
 大致流程就差不多这样子，Demo也写的很详细，可以自己去看看
 

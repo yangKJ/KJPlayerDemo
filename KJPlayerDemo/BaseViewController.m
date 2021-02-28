@@ -24,29 +24,12 @@
     [self.player kj_stop];
     [self.navigationController popViewControllerAnimated:YES];
 }
-- (void)viewWillDisappear:(BOOL)animated{
-    [super viewWillDisappear:animated];
-    if ([self.navigationController respondsToSelector:@selector(interactivePopGestureRecognizer)]) {
-        self.navigationController.interactivePopGestureRecognizer.enabled = YES;
-    }
-}
-- (void)viewDidAppear:(BOOL)animated{
-    [super viewDidAppear:animated];
-    if ([self.navigationController respondsToSelector:@selector(interactivePopGestureRecognizer)]) {
-        self.navigationController.interactivePopGestureRecognizer.enabled = NO;
-    }
-}
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view.
     self.view.backgroundColor = PLAYER_UIColorFromHEXA(0xf5f5f5, 1);
     
-    UIButton *backButton = [UIButton buttonWithType:(UIButtonTypeCustom)];
-    [backButton setTitle:@"\U0000e697" forState:(UIControlStateNormal)];
-    [backButton setTitleColor:UIColor.blueColor forState:(UIControlStateNormal)];
-    backButton.titleLabel.font = [UIFont fontWithName:@"iconfont" size:38];
-    [backButton addTarget:self action:@selector(backItemClick) forControlEvents:UIControlEventTouchUpInside];
-    self.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc]initWithCustomView:backButton];
+    self.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc]initWithTitle:@"ㄑ" style:(UIBarButtonItemStyleDone) target:self action:@selector(backItemClick)];
     
     UIProgressView *progressView = [[UIProgressView alloc] initWithProgressViewStyle:UIProgressViewStyleDefault];
     self.progressView = progressView;
@@ -98,9 +81,6 @@
     player.kVideoTotalTime = ^(NSTimeInterval time) {
         slider.maximumValue = time;
         label3.text = kPlayerConvertTime(time);
-    };
-    player.kVideoURLFromat = ^(KJPlayerVideoFromat fromat) {
-        NSLog(@"fromat:%@",KJPlayerVideoFromatStringMap[fromat]);
     };
     player.kVideoSize = ^(CGSize size) {
         NSLog(@"%.2f,%.2f",size.width,size.height);

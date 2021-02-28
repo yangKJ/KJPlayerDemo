@@ -35,6 +35,7 @@
 * 支持切换不同分辨率视频
 
 ### 文档信息介绍
+* 更新日志文档，https://github.com/yangKJ/KJPlayerDemo/blob/master/CHANGELOG.md
 * 全屏/半屏使用，https://github.com/yangKJ/KJPlayerDemo/blob/master/Document/旋转方案.md
 * 边下边播边存方案，https://github.com/yangKJ/KJPlayerDemo/blob/master/Document/边下边播.md
 

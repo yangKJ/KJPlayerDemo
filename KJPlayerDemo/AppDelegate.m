@@ -25,7 +25,10 @@
     }
 }
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
-    // Override point for customization after application launch.
+    self.window.backgroundColor = [UIColor whiteColor];
+    
+    UIBarButtonItem *barButtonItem = [UIBarButtonItem appearance];
+    [barButtonItem setTitleTextAttributes:[NSDictionary dictionaryWithObjectsAndKeys:[UIFont systemFontOfSize:18], NSFontAttributeName, nil] forState:UIControlStateNormal];
     return YES;
 }
 

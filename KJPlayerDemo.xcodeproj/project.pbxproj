@@ -35,6 +35,10 @@
 		687DF93525BD7A4000222AFD /* KJPlayer.m in Sources */ = {isa = PBXBuildFile; fileRef = 687DF93425BD7A4000222AFD /* KJPlayer.m */; };
 		6887897C22E7E6C30087597D /* KJPlayerViewModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 6887897B22E7E6C30087597D /* KJPlayerViewModel.m */; };
 		6887897E22E82BC00087597D /* Heiyaya.mp4 in Resources */ = {isa = PBXBuildFile; fileRef = 6887897D22E82BC00087597D /* Heiyaya.mp4 */; };
+		6890052425EA8115001AEF82 /* KJPlayerOperationView.m in Sources */ = {isa = PBXBuildFile; fileRef = 6890052325EA8115001AEF82 /* KJPlayerOperationView.m */; };
+		6890052A25EA8377001AEF82 /* KJScreenPlayerVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 6890052925EA8377001AEF82 /* KJScreenPlayerVC.m */; };
+		689506AD25EA27D9008A0554 /* 边下边播.md in Resources */ = {isa = PBXBuildFile; fileRef = 689506AB25EA27D9008A0554 /* 边下边播.md */; };
+		689506AE25EA27D9008A0554 /* 旋转方案.md in Resources */ = {isa = PBXBuildFile; fileRef = 689506AC25EA27D9008A0554 /* 旋转方案.md */; };
 		689D5A7822E3011200DE33FC /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 689D5A7722E3011200DE33FC /* AppDelegate.m */; };
 		689D5A7B22E3011200DE33FC /* ViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 689D5A7A22E3011200DE33FC /* ViewController.m */; };
 		689D5A7E22E3011200DE33FC /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 689D5A7C22E3011200DE33FC /* Main.storyboard */; };
@@ -47,7 +51,6 @@
 		68A46BF825E177B9006EF5FD /* KJPlayerSystemLayer.m in Sources */ = {isa = PBXBuildFile; fileRef = 68A46BF725E177B9006EF5FD /* KJPlayerSystemLayer.m */; };
 		68A7D96725E53B1C009636B0 /* iconfont.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 68A7D96025E53914009636B0 /* iconfont.ttf */; };
 		68A7D97625E53F14009636B0 /* KJRotateManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 68A7D97525E53F14009636B0 /* KJRotateManager.m */; };
-		68A7D97C25E53F9E009636B0 /* UIViewController+KJNavigationHidden.m in Sources */ = {isa = PBXBuildFile; fileRef = 68A7D97B25E53F9E009636B0 /* UIViewController+KJNavigationHidden.m */; };
 		68B0253125DE699F001018F4 /* KJPlayer.podspec in Resources */ = {isa = PBXBuildFile; fileRef = 68B0253025DE699F001018F4 /* KJPlayer.podspec */; };
 		68B2554625C99061008515F4 /* KJMidiPlayerVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 68B2554425C99061008515F4 /* KJMidiPlayerVC.m */; };
 		68B2554725C99061008515F4 /* KJMidiPlayerVC.xib in Resources */ = {isa = PBXBuildFile; fileRef = 68B2554525C99061008515F4 /* KJMidiPlayerVC.xib */; };
@@ -143,6 +146,12 @@
 		6887897A22E7E6C30087597D /* KJPlayerViewModel.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = KJPlayerViewModel.h; sourceTree = "<group>"; };
 		6887897B22E7E6C30087597D /* KJPlayerViewModel.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = KJPlayerViewModel.m; sourceTree = "<group>"; };
 		6887897D22E82BC00087597D /* Heiyaya.mp4 */ = {isa = PBXFileReference; lastKnownFileType = file; path = Heiyaya.mp4; sourceTree = "<group>"; };
+		6890052225EA8115001AEF82 /* KJPlayerOperationView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = KJPlayerOperationView.h; sourceTree = "<group>"; };
+		6890052325EA8115001AEF82 /* KJPlayerOperationView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = KJPlayerOperationView.m; sourceTree = "<group>"; };
+		6890052825EA8377001AEF82 /* KJScreenPlayerVC.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = KJScreenPlayerVC.h; sourceTree = "<group>"; };
+		6890052925EA8377001AEF82 /* KJScreenPlayerVC.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = KJScreenPlayerVC.m; sourceTree = "<group>"; };
+		689506AB25EA27D9008A0554 /* 边下边播.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = net.daringfireball.markdown; path = "边下边播.md"; sourceTree = "<group>"; };
+		689506AC25EA27D9008A0554 /* 旋转方案.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = net.daringfireball.markdown; path = "旋转方案.md"; sourceTree = "<group>"; };
 		689D5A7322E3011200DE33FC /* KJPlayerDemo.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = KJPlayerDemo.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		689D5A7622E3011200DE33FC /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
 		689D5A7722E3011200DE33FC /* AppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
@@ -167,8 +176,6 @@
 		68A7D96025E53914009636B0 /* iconfont.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = iconfont.ttf; sourceTree = "<group>"; };
 		68A7D97425E53F14009636B0 /* KJRotateManager.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = KJRotateManager.h; sourceTree = "<group>"; };
 		68A7D97525E53F14009636B0 /* KJRotateManager.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = KJRotateManager.m; sourceTree = "<group>"; };
-		68A7D97A25E53F9E009636B0 /* UIViewController+KJNavigationHidden.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "UIViewController+KJNavigationHidden.h"; sourceTree = "<group>"; };
-		68A7D97B25E53F9E009636B0 /* UIViewController+KJNavigationHidden.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = "UIViewController+KJNavigationHidden.m"; sourceTree = "<group>"; };
 		68B0253025DE699F001018F4 /* KJPlayer.podspec */ = {isa = PBXFileReference; lastKnownFileType = text; path = KJPlayer.podspec; sourceTree = SOURCE_ROOT; };
 		68B2554325C99061008515F4 /* KJMidiPlayerVC.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = KJMidiPlayerVC.h; sourceTree = "<group>"; };
 		68B2554425C99061008515F4 /* KJMidiPlayerVC.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = KJMidiPlayerVC.m; sourceTree = "<group>"; };
@@ -320,6 +327,8 @@
 				682AFD4C25E3E49800BEC876 /* KJPlayerLoadingLayer.m */,
 				682AFD6C25E3EBEF00BEC876 /* KJPlayerHintTextLayer.h */,
 				682AFD6D25E3EBEF00BEC876 /* KJPlayerHintTextLayer.m */,
+				6890052225EA8115001AEF82 /* KJPlayerOperationView.h */,
+				6890052325EA8115001AEF82 /* KJPlayerOperationView.m */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -357,6 +366,15 @@
 			);
 			path = Res;
 			sourceTree = "<group>";
+		};
+		689506AA25EA27D9008A0554 /* Document */ = {
+			isa = PBXGroup;
+			children = (
+				689506AB25EA27D9008A0554 /* 边下边播.md */,
+				689506AC25EA27D9008A0554 /* 旋转方案.md */,
+			);
+			path = Document;
+			sourceTree = SOURCE_ROOT;
 		};
 		689D5A6A22E3011200DE33FC = {
 			isa = PBXGroup;
@@ -396,8 +414,6 @@
 				689D5A7A22E3011200DE33FC /* ViewController.m */,
 				68E17A7925DB6FC1008DC2BC /* BaseViewController.h */,
 				68E17A7A25DB6FC1008DC2BC /* BaseViewController.m */,
-				68A7D97A25E53F9E009636B0 /* UIViewController+KJNavigationHidden.h */,
-				68A7D97B25E53F9E009636B0 /* UIViewController+KJNavigationHidden.m */,
 				689D5A7C22E3011200DE33FC /* Main.storyboard */,
 				689D5A8122E3011400DE33FC /* LaunchScreen.storyboard */,
 				689D5A7F22E3011400DE33FC /* Assets.xcassets */,
@@ -407,6 +423,7 @@
 				68B0253025DE699F001018F4 /* KJPlayer.podspec */,
 				68180D1025DE7025009B9947 /* CHANGELOG.md */,
 				68180D0B25DE6FFC009B9947 /* README.md */,
+				689506AA25EA27D9008A0554 /* Document */,
 			);
 			path = KJPlayerDemo;
 			sourceTree = "<group>";
@@ -516,6 +533,8 @@
 				680D560A25DC2F50002A72E0 /* KJSkipHeadPlayerVC.m */,
 				6848DA6C25DD7A78007AEC85 /* KJScreenshotsPlayerVC.h */,
 				6848DA6D25DD7A78007AEC85 /* KJScreenshotsPlayerVC.m */,
+				6890052825EA8377001AEF82 /* KJScreenPlayerVC.h */,
+				6890052925EA8377001AEF82 /* KJScreenPlayerVC.m */,
 			);
 			path = "功能区";
 			sourceTree = "<group>";
@@ -655,7 +674,9 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				689506AD25EA27D9008A0554 /* 边下边播.md in Resources */,
 				68A7D96725E53B1C009636B0 /* iconfont.ttf in Resources */,
+				689506AE25EA27D9008A0554 /* 旋转方案.md in Resources */,
 				68231D8F22E59E5F00A333DC /* KJPlayerView.bundle in Resources */,
 				68C54EEA25CA34C6004A89AA /* 命运交响曲第一章.mid in Resources */,
 				68C54EE925CA34C6004A89AA /* 绮想轮旋曲.mid in Resources */,
@@ -787,6 +808,7 @@
 				68F47AA025D0196200A53101 /* DBPlayerDataInfo.m in Sources */,
 				68B2554625C99061008515F4 /* KJMidiPlayerVC.m in Sources */,
 				6887897C22E7E6C30087597D /* KJPlayerViewModel.m in Sources */,
+				6890052425EA8115001AEF82 /* KJPlayerOperationView.m in Sources */,
 				68E902F925CFFEB9003FB88D /* DBPlayer.xcdatamodeld in Sources */,
 				6846A03E22E6A3FA0086C16F /* KJLightView.m in Sources */,
 				682AFD4D25E3E49800BEC876 /* KJPlayerLoadingLayer.m in Sources */,
@@ -795,7 +817,6 @@
 				6825922B25E347E1009751D4 /* KJPlayerFastLayer.m in Sources */,
 				68F451EB25D526C500F719F9 /* KJPlayer+KJCache.m in Sources */,
 				68643A5B22E6F63A0065F787 /* KJPlayerViewConfiguration.m in Sources */,
-				68A7D97C25E53F9E009636B0 /* UIViewController+KJNavigationHidden.m in Sources */,
 				68C0892625D98928002B0A71 /* KJVideoPlayVC.m in Sources */,
 				680D560B25DC2F50002A72E0 /* KJSkipHeadPlayerVC.m in Sources */,
 				68D143C425C6917900800F9F /* KJOldPlayerVC.m in Sources */,
@@ -806,6 +827,7 @@
 				682399BD25D81D830086965B /* KJResourceLoader.m in Sources */,
 				68C4AE8D22E5A86000E9E806 /* KJOldFastView.m in Sources */,
 				68068C4725DCB4AF00D7D3E2 /* KJCacheManager.m in Sources */,
+				6890052A25EA8377001AEF82 /* KJScreenPlayerVC.m in Sources */,
 				689D5AAC22E30EDA00DE33FC /* KJOldPlayer.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

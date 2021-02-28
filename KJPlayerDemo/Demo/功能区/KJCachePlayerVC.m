@@ -18,7 +18,7 @@
     // Do any additional setup after loading the view.
     
     self.player.delegate = self;
-    self.player.kVideoCanCacheURL([NSURL URLWithString:@"https://mp4.vjshi.com/2016-10-31/a553917787e52c0a077e3fb8548fae69.mp4"], YES);
+    self.player.kVideoCanCacheURL([NSURL URLWithString:@"https://mp4.vjshi.com/2018-03-30/1f36dd9819eeef0bc508414494d34ad9.mp4"], YES);
 }
 
 #pragma mark - KJPlayerDelegate

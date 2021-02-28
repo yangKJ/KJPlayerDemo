@@ -19,6 +19,8 @@ NS_ASSUME_NONNULL_BEGIN
 
 /* 判断当前资源文件是否有缓存，修改为指定链接地址 */
 - (void)kj_judgeHaveCacheWithVideoURL:(NSURL * _Nonnull __strong * _Nonnull)videoURL;
+// 判断是否含有视频轨道
+BOOL kPlayerHaveTracks(NSURL *videoURL, void(^assetblock)(AVURLAsset *), NSDictionary *requestHeader);
 
 @end
 

@@ -46,8 +46,6 @@ NS_ASSUME_NONNULL_BEGIN
 @property (nonatomic,copy,readonly) void (^kVideoSkipTime)(void(^)(KJPlayerVideoSkipState skipState), NSTimeInterval headTime, NSTimeInterval footTime);
 /* 获取视频总时长 */
 @property (nonatomic,copy,readwrite) void (^kVideoTotalTime)(NSTimeInterval time);
-/* 获取视频格式 */
-@property (nonatomic,copy,readwrite) void (^kVideoURLFromat)(KJPlayerVideoFromat fromat);
 
 /* ************************* 分割线，上述属性需在videoURL之前设置 *****************************/
 /* 视频地址，这个和下面的方法互斥，支持m3u8 */
@@ -121,7 +119,6 @@ NS_ASSUME_NONNULL_BEGIN
 @synthesize isPlaying = _isPlaying;\
 @synthesize userPause = _userPause;\
 @synthesize kVideoTotalTime = _kVideoTotalTime;\
-@synthesize kVideoURLFromat = _kVideoURLFromat;\
 @synthesize kVideoTryLookTime = _kVideoTryLookTime;\
 @synthesize kVideoAdvanceAndReverse = _kVideoAdvanceAndReverse;\
 @synthesize kVideoRecordLastTime = _kVideoRecordLastTime;\

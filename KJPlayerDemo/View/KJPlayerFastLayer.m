@@ -24,14 +24,6 @@
     }
     return self;
 }
-/// 重置Layer
-- (void)kj_setLayerNewFrame:(CGRect)rect{
-    self.frame = rect;
-    if (self.screenState == KJPlayerVideoScreenStateFullScreen) {
-        self.position = CGPointMake(self.position.y, self.position.x);
-    }
-    _textLayer.frame = CGRectMake(0, rect.size.height/4, rect.size.width, rect.size.height/4);
-}
 /// 设置数据
 - (void)kj_updateFastValue:(CGFloat)value TotalTime:(CGFloat)time{
     self.value = MIN(MAX(0, value), time);

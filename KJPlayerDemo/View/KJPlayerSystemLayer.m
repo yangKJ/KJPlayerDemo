@@ -17,13 +17,6 @@
     }
     return self;
 }
-/// 重置Layer
-- (void)kj_setLayerNewFrame:(CGRect)rect{
-    self.frame = rect;
-    if (self.screenState == KJPlayerVideoScreenStateFullScreen) {
-        self.position = CGPointMake(self.position.y, self.position.x);
-    }
-}
 - (void)setValue:(float)value{
     _value = MIN(MAX(0, value), 1);
     [self setNeedsDisplay];
