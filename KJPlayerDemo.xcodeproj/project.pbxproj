@@ -32,13 +32,10 @@
 		684F00BC25D3BEB600CCC718 /* KJBasePlayer.m in Sources */ = {isa = PBXBuildFile; fileRef = 684F00BB25D3BEB600CCC718 /* KJBasePlayer.m */; };
 		68643A5B22E6F63A0065F787 /* KJPlayerViewConfiguration.m in Sources */ = {isa = PBXBuildFile; fileRef = 68643A5A22E6F63A0065F787 /* KJPlayerViewConfiguration.m */; };
 		687AA4CB2326357900C8EFF7 /* KJDefinitionView.m in Sources */ = {isa = PBXBuildFile; fileRef = 687AA4CA2326357900C8EFF7 /* KJDefinitionView.m */; };
-		687DF93525BD7A4000222AFD /* KJPlayer.m in Sources */ = {isa = PBXBuildFile; fileRef = 687DF93425BD7A4000222AFD /* KJPlayer.m */; };
+		687DF93525BD7A4000222AFD /* KJAVPlayer.m in Sources */ = {isa = PBXBuildFile; fileRef = 687DF93425BD7A4000222AFD /* KJAVPlayer.m */; };
 		6887897C22E7E6C30087597D /* KJPlayerViewModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 6887897B22E7E6C30087597D /* KJPlayerViewModel.m */; };
-		6887897E22E82BC00087597D /* Heiyaya.mp4 in Resources */ = {isa = PBXBuildFile; fileRef = 6887897D22E82BC00087597D /* Heiyaya.mp4 */; };
 		6890052425EA8115001AEF82 /* KJPlayerOperationView.m in Sources */ = {isa = PBXBuildFile; fileRef = 6890052325EA8115001AEF82 /* KJPlayerOperationView.m */; };
 		6890052A25EA8377001AEF82 /* KJScreenPlayerVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 6890052925EA8377001AEF82 /* KJScreenPlayerVC.m */; };
-		689506AD25EA27D9008A0554 /* 边下边播.md in Resources */ = {isa = PBXBuildFile; fileRef = 689506AB25EA27D9008A0554 /* 边下边播.md */; };
-		689506AE25EA27D9008A0554 /* 旋转方案.md in Resources */ = {isa = PBXBuildFile; fileRef = 689506AC25EA27D9008A0554 /* 旋转方案.md */; };
 		689D5A7822E3011200DE33FC /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 689D5A7722E3011200DE33FC /* AppDelegate.m */; };
 		689D5A7B22E3011200DE33FC /* ViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 689D5A7A22E3011200DE33FC /* ViewController.m */; };
 		689D5A7E22E3011200DE33FC /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 689D5A7C22E3011200DE33FC /* Main.storyboard */; };
@@ -54,7 +51,7 @@
 		68B0253125DE699F001018F4 /* KJPlayer.podspec in Resources */ = {isa = PBXBuildFile; fileRef = 68B0253025DE699F001018F4 /* KJPlayer.podspec */; };
 		68B2554625C99061008515F4 /* KJMidiPlayerVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 68B2554425C99061008515F4 /* KJMidiPlayerVC.m */; };
 		68B2554725C99061008515F4 /* KJMidiPlayerVC.xib in Resources */ = {isa = PBXBuildFile; fileRef = 68B2554525C99061008515F4 /* KJMidiPlayerVC.xib */; };
-		68B2554D25C990B8008515F4 /* KJMidiPlayer.m in Sources */ = {isa = PBXBuildFile; fileRef = 68B2554C25C990B8008515F4 /* KJMidiPlayer.m */; };
+		68B2554D25C990B8008515F4 /* KJMIDIPlayer.m in Sources */ = {isa = PBXBuildFile; fileRef = 68B2554C25C990B8008515F4 /* KJMIDIPlayer.m */; };
 		68B2557825C999DB008515F4 /* KJMidiSource.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 68B2557725C999DB008515F4 /* KJMidiSource.bundle */; };
 		68C0892025D97C82002B0A71 /* KJListPlayerVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 68C0891F25D97C82002B0A71 /* KJListPlayerVC.m */; };
 		68C0892625D98928002B0A71 /* KJVideoPlayVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 68C0892525D98928002B0A71 /* KJVideoPlayVC.m */; };
@@ -70,7 +67,9 @@
 		68E17A6F25DB6E99008DC2BC /* KJRecordPlayerVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 68E17A6E25DB6E99008DC2BC /* KJRecordPlayerVC.m */; };
 		68E17A7B25DB6FC1008DC2BC /* BaseViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 68E17A7A25DB6FC1008DC2BC /* BaseViewController.m */; };
 		68E902F925CFFEB9003FB88D /* DBPlayer.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 68E902F725CFFEB9003FB88D /* DBPlayer.xcdatamodeld */; };
-		68F451EB25D526C500F719F9 /* KJPlayer+KJCache.m in Sources */ = {isa = PBXBuildFile; fileRef = 68F451EA25D526C500F719F9 /* KJPlayer+KJCache.m */; };
+		68EB637C25EC89ED00D7C420 /* KJIJKPlayer.m in Sources */ = {isa = PBXBuildFile; fileRef = 68EB637B25EC89ED00D7C420 /* KJIJKPlayer.m */; };
+		68EB639325EC93B700D7C420 /* KJIJKPlayer+KJCache.m in Sources */ = {isa = PBXBuildFile; fileRef = 68EB639225EC93B700D7C420 /* KJIJKPlayer+KJCache.m */; };
+		68F451EB25D526C500F719F9 /* KJAVPlayer+KJCache.m in Sources */ = {isa = PBXBuildFile; fileRef = 68F451EA25D526C500F719F9 /* KJAVPlayer+KJCache.m */; };
 		68F47AA025D0196200A53101 /* DBPlayerDataInfo.m in Sources */ = {isa = PBXBuildFile; fileRef = 68F47A9F25D0196200A53101 /* DBPlayerDataInfo.m */; };
 		68F6309B25D6AB9E00AAEFCF /* KJTablePlayerVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 68F6309A25D6AB9E00AAEFCF /* KJTablePlayerVC.m */; };
 		B500094B2C6B8DF274A1D74C /* Pods_KJPlayerDemo.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7FEF462326AB2D48A4290908 /* Pods_KJPlayerDemo.framework */; };
@@ -141,17 +140,14 @@
 		68643A5A22E6F63A0065F787 /* KJPlayerViewConfiguration.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = KJPlayerViewConfiguration.m; sourceTree = "<group>"; };
 		687AA4C92326357900C8EFF7 /* KJDefinitionView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = KJDefinitionView.h; sourceTree = "<group>"; };
 		687AA4CA2326357900C8EFF7 /* KJDefinitionView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = KJDefinitionView.m; sourceTree = "<group>"; };
-		687DF93325BD7A4000222AFD /* KJPlayer.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = KJPlayer.h; sourceTree = "<group>"; };
-		687DF93425BD7A4000222AFD /* KJPlayer.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = KJPlayer.m; sourceTree = "<group>"; };
+		687DF93325BD7A4000222AFD /* KJAVPlayer.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = KJAVPlayer.h; sourceTree = "<group>"; };
+		687DF93425BD7A4000222AFD /* KJAVPlayer.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = KJAVPlayer.m; sourceTree = "<group>"; };
 		6887897A22E7E6C30087597D /* KJPlayerViewModel.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = KJPlayerViewModel.h; sourceTree = "<group>"; };
 		6887897B22E7E6C30087597D /* KJPlayerViewModel.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = KJPlayerViewModel.m; sourceTree = "<group>"; };
-		6887897D22E82BC00087597D /* Heiyaya.mp4 */ = {isa = PBXFileReference; lastKnownFileType = file; path = Heiyaya.mp4; sourceTree = "<group>"; };
 		6890052225EA8115001AEF82 /* KJPlayerOperationView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = KJPlayerOperationView.h; sourceTree = "<group>"; };
 		6890052325EA8115001AEF82 /* KJPlayerOperationView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = KJPlayerOperationView.m; sourceTree = "<group>"; };
 		6890052825EA8377001AEF82 /* KJScreenPlayerVC.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = KJScreenPlayerVC.h; sourceTree = "<group>"; };
 		6890052925EA8377001AEF82 /* KJScreenPlayerVC.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = KJScreenPlayerVC.m; sourceTree = "<group>"; };
-		689506AB25EA27D9008A0554 /* 边下边播.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = net.daringfireball.markdown; path = "边下边播.md"; sourceTree = "<group>"; };
-		689506AC25EA27D9008A0554 /* 旋转方案.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = net.daringfireball.markdown; path = "旋转方案.md"; sourceTree = "<group>"; };
 		689D5A7322E3011200DE33FC /* KJPlayerDemo.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = KJPlayerDemo.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		689D5A7622E3011200DE33FC /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
 		689D5A7722E3011200DE33FC /* AppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
@@ -180,8 +176,8 @@
 		68B2554325C99061008515F4 /* KJMidiPlayerVC.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = KJMidiPlayerVC.h; sourceTree = "<group>"; };
 		68B2554425C99061008515F4 /* KJMidiPlayerVC.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = KJMidiPlayerVC.m; sourceTree = "<group>"; };
 		68B2554525C99061008515F4 /* KJMidiPlayerVC.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = KJMidiPlayerVC.xib; sourceTree = "<group>"; };
-		68B2554B25C990B8008515F4 /* KJMidiPlayer.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = KJMidiPlayer.h; sourceTree = "<group>"; };
-		68B2554C25C990B8008515F4 /* KJMidiPlayer.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = KJMidiPlayer.m; sourceTree = "<group>"; };
+		68B2554B25C990B8008515F4 /* KJMIDIPlayer.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = KJMIDIPlayer.h; sourceTree = "<group>"; };
+		68B2554C25C990B8008515F4 /* KJMIDIPlayer.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = KJMIDIPlayer.m; sourceTree = "<group>"; };
 		68B2557725C999DB008515F4 /* KJMidiSource.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = KJMidiSource.bundle; sourceTree = "<group>"; };
 		68C0891E25D97C82002B0A71 /* KJListPlayerVC.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = KJListPlayerVC.h; sourceTree = "<group>"; };
 		68C0891F25D97C82002B0A71 /* KJListPlayerVC.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = KJListPlayerVC.m; sourceTree = "<group>"; };
@@ -207,9 +203,14 @@
 		68E17A7925DB6FC1008DC2BC /* BaseViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = BaseViewController.h; sourceTree = "<group>"; };
 		68E17A7A25DB6FC1008DC2BC /* BaseViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = BaseViewController.m; sourceTree = "<group>"; };
 		68E902F825CFFEB9003FB88D /* DBPlayer.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = DBPlayer.xcdatamodel; sourceTree = "<group>"; };
+		68EB637225EC834100D7C420 /* KJPlayerProtocol.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = KJPlayerProtocol.h; sourceTree = "<group>"; };
+		68EB637A25EC89ED00D7C420 /* KJIJKPlayer.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = KJIJKPlayer.h; sourceTree = "<group>"; };
+		68EB637B25EC89ED00D7C420 /* KJIJKPlayer.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = KJIJKPlayer.m; sourceTree = "<group>"; };
+		68EB639125EC93B700D7C420 /* KJIJKPlayer+KJCache.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "KJIJKPlayer+KJCache.h"; sourceTree = "<group>"; };
+		68EB639225EC93B700D7C420 /* KJIJKPlayer+KJCache.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = "KJIJKPlayer+KJCache.m"; sourceTree = "<group>"; };
 		68EC0D762360025D00867AAB /* KJPlayerHeader.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = KJPlayerHeader.h; sourceTree = "<group>"; };
-		68F451E925D526C500F719F9 /* KJPlayer+KJCache.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "KJPlayer+KJCache.h"; sourceTree = "<group>"; };
-		68F451EA25D526C500F719F9 /* KJPlayer+KJCache.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = "KJPlayer+KJCache.m"; sourceTree = "<group>"; };
+		68F451E925D526C500F719F9 /* KJAVPlayer+KJCache.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "KJAVPlayer+KJCache.h"; sourceTree = "<group>"; };
+		68F451EA25D526C500F719F9 /* KJAVPlayer+KJCache.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = "KJAVPlayer+KJCache.m"; sourceTree = "<group>"; };
 		68F47A9E25D0196200A53101 /* DBPlayerDataInfo.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DBPlayerDataInfo.h; sourceTree = "<group>"; };
 		68F47A9F25D0196200A53101 /* DBPlayerDataInfo.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = DBPlayerDataInfo.m; sourceTree = "<group>"; };
 		68F6309925D6AB9E00AAEFCF /* KJTablePlayerVC.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = KJTablePlayerVC.h; sourceTree = "<group>"; };
@@ -352,29 +353,13 @@
 				682399A325D81D820086965B /* KJFileHandleInfo.m */,
 				682399A625D81D820086965B /* KJFileHandleManager.h */,
 				6823999F25D81D820086965B /* KJFileHandleManager.m */,
+				68EB637225EC834100D7C420 /* KJPlayerProtocol.h */,
 				6842658325A989420038FFCF /* KJPlayerType.h */,
 				68A7D97425E53F14009636B0 /* KJRotateManager.h */,
 				68A7D97525E53F14009636B0 /* KJRotateManager.m */,
 			);
 			path = Core;
 			sourceTree = "<group>";
-		};
-		6887897F22E82BC40087597D /* Res */ = {
-			isa = PBXGroup;
-			children = (
-				6887897D22E82BC00087597D /* Heiyaya.mp4 */,
-			);
-			path = Res;
-			sourceTree = "<group>";
-		};
-		689506AA25EA27D9008A0554 /* Document */ = {
-			isa = PBXGroup;
-			children = (
-				689506AB25EA27D9008A0554 /* 边下边播.md */,
-				689506AC25EA27D9008A0554 /* 旋转方案.md */,
-			);
-			path = Document;
-			sourceTree = SOURCE_ROOT;
 		};
 		689D5A6A22E3011200DE33FC = {
 			isa = PBXGroup;
@@ -406,6 +391,7 @@
 				6842659125A9908A0038FFCF /* Core */,
 				689D5AA922E3012E00DE33FC /* KJAVPlayer */,
 				68B2552B25C98EF7008515F4 /* KJMidiPlayer */,
+				68EB637925EC898E00D7C420 /* KJIJKPlayer */,
 				689D5AB122E3305700DE33FC /* KJPlayerView */,
 				689D5AA822E3011E00DE33FC /* Demo */,
 				689D5A7622E3011200DE33FC /* AppDelegate.h */,
@@ -423,7 +409,6 @@
 				68B0253025DE699F001018F4 /* KJPlayer.podspec */,
 				68180D1025DE7025009B9947 /* CHANGELOG.md */,
 				68180D0B25DE6FFC009B9947 /* README.md */,
-				689506AA25EA27D9008A0554 /* Document */,
 			);
 			path = KJPlayerDemo;
 			sourceTree = "<group>";
@@ -453,7 +438,6 @@
 				68D7BDA625DC050C00CFE789 /* 控件区 */,
 				68D7BDA725DC051300CFE789 /* 其他 */,
 				68C54EE425CA34C6004A89AA /* midi */,
-				6887897F22E82BC40087597D /* Res */,
 			);
 			path = Demo;
 			sourceTree = "<group>";
@@ -461,10 +445,10 @@
 		689D5AA922E3012E00DE33FC /* KJAVPlayer */ = {
 			isa = PBXGroup;
 			children = (
-				687DF93325BD7A4000222AFD /* KJPlayer.h */,
-				687DF93425BD7A4000222AFD /* KJPlayer.m */,
-				68F451E925D526C500F719F9 /* KJPlayer+KJCache.h */,
-				68F451EA25D526C500F719F9 /* KJPlayer+KJCache.m */,
+				687DF93325BD7A4000222AFD /* KJAVPlayer.h */,
+				687DF93425BD7A4000222AFD /* KJAVPlayer.m */,
+				68F451E925D526C500F719F9 /* KJAVPlayer+KJCache.h */,
+				68F451EA25D526C500F719F9 /* KJAVPlayer+KJCache.m */,
 				682399AC25D81D830086965B /* KJResourceLoader.h */,
 				682399B225D81D830086965B /* KJResourceLoader.m */,
 				682399AF25D81D830086965B /* KJResourceLoaderManager.h */,
@@ -499,8 +483,8 @@
 			isa = PBXGroup;
 			children = (
 				68B2557725C999DB008515F4 /* KJMidiSource.bundle */,
-				68B2554B25C990B8008515F4 /* KJMidiPlayer.h */,
-				68B2554C25C990B8008515F4 /* KJMidiPlayer.m */,
+				68B2554B25C990B8008515F4 /* KJMIDIPlayer.h */,
+				68B2554C25C990B8008515F4 /* KJMIDIPlayer.m */,
 			);
 			path = KJMidiPlayer;
 			sourceTree = "<group>";
@@ -556,6 +540,17 @@
 				680D3D7025DBE87C00D21574 /* MIDI */,
 			);
 			path = "其他";
+			sourceTree = "<group>";
+		};
+		68EB637925EC898E00D7C420 /* KJIJKPlayer */ = {
+			isa = PBXGroup;
+			children = (
+				68EB637A25EC89ED00D7C420 /* KJIJKPlayer.h */,
+				68EB637B25EC89ED00D7C420 /* KJIJKPlayer.m */,
+				68EB639125EC93B700D7C420 /* KJIJKPlayer+KJCache.h */,
+				68EB639225EC93B700D7C420 /* KJIJKPlayer+KJCache.m */,
+			);
+			path = KJIJKPlayer;
 			sourceTree = "<group>";
 		};
 		E7E958B8FD442A1FF229C22F /* Frameworks */ = {
@@ -674,13 +669,10 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				689506AD25EA27D9008A0554 /* 边下边播.md in Resources */,
 				68A7D96725E53B1C009636B0 /* iconfont.ttf in Resources */,
-				689506AE25EA27D9008A0554 /* 旋转方案.md in Resources */,
 				68231D8F22E59E5F00A333DC /* KJPlayerView.bundle in Resources */,
 				68C54EEA25CA34C6004A89AA /* 命运交响曲第一章.mid in Resources */,
 				68C54EE925CA34C6004A89AA /* 绮想轮旋曲.mid in Resources */,
-				6887897E22E82BC00087597D /* Heiyaya.mp4 in Resources */,
 				68180D0C25DE6FFC009B9947 /* README.md in Resources */,
 				68180D1125DE7025009B9947 /* CHANGELOG.md in Resources */,
 				689D5A8322E3011400DE33FC /* LaunchScreen.storyboard in Resources */,
@@ -786,7 +778,7 @@
 			files = (
 				682399BA25D81D830086965B /* KJResourceLoaderManager.m in Sources */,
 				68068C4D25DCBEB100D7D3E2 /* KJLoadingPlayerVC.m in Sources */,
-				687DF93525BD7A4000222AFD /* KJPlayer.m in Sources */,
+				687DF93525BD7A4000222AFD /* KJAVPlayer.m in Sources */,
 				682399BB25D81D830086965B /* KJDownloader.m in Sources */,
 				6823993825D7779F0086965B /* KJDetailPlayerVC.m in Sources */,
 				68D143CD25C697B000800F9F /* KJAVPlayerVC.m in Sources */,
@@ -798,6 +790,7 @@
 				68C0892025D97C82002B0A71 /* KJListPlayerVC.m in Sources */,
 				6848DA6E25DD7A78007AEC85 /* KJScreenshotsPlayerVC.m in Sources */,
 				689D5A8622E3011400DE33FC /* main.m in Sources */,
+				68EB637C25EC89ED00D7C420 /* KJIJKPlayer.m in Sources */,
 				68F6309B25D6AB9E00AAEFCF /* KJTablePlayerVC.m in Sources */,
 				68A7D97625E53F14009636B0 /* KJRotateManager.m in Sources */,
 				682AFD6E25E3EBEF00BEC876 /* KJPlayerHintTextLayer.m in Sources */,
@@ -813,9 +806,10 @@
 				6846A03E22E6A3FA0086C16F /* KJLightView.m in Sources */,
 				682AFD4D25E3E49800BEC876 /* KJPlayerLoadingLayer.m in Sources */,
 				680D3D6B25DBE7B100D21574 /* KJCachePlayerVC.m in Sources */,
-				68B2554D25C990B8008515F4 /* KJMidiPlayer.m in Sources */,
+				68B2554D25C990B8008515F4 /* KJMIDIPlayer.m in Sources */,
 				6825922B25E347E1009751D4 /* KJPlayerFastLayer.m in Sources */,
-				68F451EB25D526C500F719F9 /* KJPlayer+KJCache.m in Sources */,
+				68EB639325EC93B700D7C420 /* KJIJKPlayer+KJCache.m in Sources */,
+				68F451EB25D526C500F719F9 /* KJAVPlayer+KJCache.m in Sources */,
 				68643A5B22E6F63A0065F787 /* KJPlayerViewConfiguration.m in Sources */,
 				68C0892625D98928002B0A71 /* KJVideoPlayVC.m in Sources */,
 				680D560B25DC2F50002A72E0 /* KJSkipHeadPlayerVC.m in Sources */,
@@ -1005,7 +999,14 @@
 				CLANG_ENABLE_OBJC_WEAK = NO;
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = 6E658L6H38;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)/KJPlayerDemo/KJIJKPlayer",
+					"$(PROJECT_DIR)",
+					"$(PROJECT_DIR)/KJPlayerDemo",
+				);
 				GCC_PREFIX_HEADER = "$(SRCROOT)/KJPlayerDemo/PrefixHeader.pch";
+				HEADER_SEARCH_PATHS = "\"$(PROJECT_DIR)/KJPlayerDemo/KJIJKPlayer/IJKMediaFramework.framework/Headers\"";
 				INFOPLIST_FILE = "$(SRCROOT)/KJPlayerDemo/Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
 				LD_RUNPATH_SEARCH_PATHS = (
@@ -1026,7 +1027,14 @@
 				CLANG_ENABLE_OBJC_WEAK = NO;
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = 6E658L6H38;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)/KJPlayerDemo/KJIJKPlayer",
+					"$(PROJECT_DIR)",
+					"$(PROJECT_DIR)/KJPlayerDemo",
+				);
 				GCC_PREFIX_HEADER = "$(SRCROOT)/KJPlayerDemo/PrefixHeader.pch";
+				HEADER_SEARCH_PATHS = "\"$(PROJECT_DIR)/KJPlayerDemo/KJIJKPlayer/IJKMediaFramework.framework/Headers\"";
 				INFOPLIST_FILE = "$(SRCROOT)/KJPlayerDemo/Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
 				LD_RUNPATH_SEARCH_PATHS = (

@@ -7,9 +7,9 @@
 //  https://github.com/yangKJ/KJPlayerDemo
 
 #import "KJVideoPlayVC.h"
-#import "KJPlayer.h"
+#import "KJAVPlayer.h"
 @interface KJVideoPlayVC ()<KJPlayerDelegate>
-@property(nonatomic,strong)KJPlayer *player;
+@property(nonatomic,strong)KJAVPlayer *player;
 @property(nonatomic,strong)UISlider *slider;
 @property(nonatomic,strong)UIProgressView *progressView;
 @property(nonatomic,assign)NSInteger index;
@@ -74,7 +74,7 @@
     [_loadingView startAnimating];
     [self.view addSubview:self.loadingView];
     
-    KJPlayer *player = [[KJPlayer alloc]init];
+    KJAVPlayer *player = [[KJAVPlayer alloc]init];
     self.player = player;
     player.playerView = backview;
     player.delegate = self;

@@ -7,10 +7,10 @@
 //  https://github.com/yangKJ/KJPlayerDemo
 
 #import "KJAVPlayerVC.h"
-#import "KJPlayer.h"
+#import "KJAVPlayer.h"
 
 @interface KJAVPlayerVC ()<KJPlayerDelegate>
-@property(nonatomic,strong)KJPlayer *player;
+@property(nonatomic,strong)KJAVPlayer *player;
 @property(nonatomic,strong)UISlider *slider;
 @property(nonatomic,strong)UILabel *label;
 @property(nonatomic,strong)UIProgressView *progressView;
@@ -92,7 +92,7 @@
                    @"http://appit.winpow.com/attached/media/MP4/1567585643618.mp4",
     ];
     
-    KJPlayer *player = [[KJPlayer alloc]init];
+    KJAVPlayer *player = [[KJAVPlayer alloc]init];
     self.player = player;
     player.playerView = backview;
     [player kj_startAnimation];

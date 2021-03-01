@@ -24,7 +24,7 @@
 
 #pragma mark - draw
 - (void)drawInContext:(CGContextRef)context{
-    CGFloat width  = self.frame.size.width;
+    CGFloat width = self.frame.size.width;
     CGFloat y = self.frame.size.height / 2;
     CGFloat sp = width/8.0;
     CGFloat mark = self.frame.size.height-sp;

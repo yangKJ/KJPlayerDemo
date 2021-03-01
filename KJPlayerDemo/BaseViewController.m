@@ -72,7 +72,7 @@
     label3.textColor = [UIColor.redColor colorWithAlphaComponent:0.7];
     [self.view addSubview:label3];
     
-    KJPlayer *player = [[KJPlayer alloc]init];
+    KJAVPlayer *player = [[KJAVPlayer alloc]init];
     self.player = player;
     player.placeholder = backview.image;
     player.playerView = backview;

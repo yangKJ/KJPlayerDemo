@@ -70,32 +70,31 @@
     if ([position isKindOfClass:[NSString class]]) {
         CGFloat w = size.width + padding + padding;
         CGFloat h = size.height + padding;
-        CGFloat w2,h2;
+        CGFloat width = playerView.frame.size.width;
+        CGFloat height = playerView.frame.size.height;
         if (self.screenState == KJPlayerVideoScreenStateFullScreen) {
-             w2 = playerView.frame.size.height;
-             h2 = playerView.frame.size.width;
-        }else{
-             w2 = playerView.frame.size.width;
-             h2 = playerView.frame.size.height;
+            CGFloat temp = width;
+            width = height;
+            height = temp;
         }
         if ([position caseInsensitiveCompare:KJPlayerHintPositionCenter] == NSOrderedSame) {
-            point = CGPointMake((w2-w)/2.f, (h2-h)/2.f);
+            point = CGPointMake((width-w)/2.f, (height-h)/2.f);
         }else if ([position caseInsensitiveCompare:KJPlayerHintPositionBottom] == NSOrderedSame) {
-            point = CGPointMake((w2-w)/2.f, h2-padding-h);
+            point = CGPointMake((width-w)/2.f, height-padding-h);
         }else if ([position caseInsensitiveCompare:KJPlayerHintPositionTop] == NSOrderedSame) {
-            point = CGPointMake((w2-w)/2.f, padding);
+            point = CGPointMake((width-w)/2.f, padding);
         }else if ([position caseInsensitiveCompare:KJPlayerHintPositionLeftBottom] == NSOrderedSame) {
-            point = CGPointMake(padding, h2-padding-h);
+            point = CGPointMake(padding, height-padding-h);
         }else if ([position caseInsensitiveCompare:KJPlayerHintPositionRightBottom] == NSOrderedSame) {
-            point = CGPointMake(w2-w-padding, h2-padding-h);
+            point = CGPointMake(width-w-padding, height-padding-h);
         }else if ([position caseInsensitiveCompare:KJPlayerHintPositionLeftTop] == NSOrderedSame) {
             point = CGPointMake(padding, padding);
         }else if ([position caseInsensitiveCompare:KJPlayerHintPositionRightTop] == NSOrderedSame) {
-            point = CGPointMake(w2-w-padding, padding);
+            point = CGPointMake(width-w-padding, padding);
         }else if ([position caseInsensitiveCompare:KJPlayerHintPositionLeftCenter] == NSOrderedSame) {
-            point = CGPointMake(padding, (h2-h)/2.f);
+            point = CGPointMake(padding, (height-h)/2.f);
         }else if ([position caseInsensitiveCompare:KJPlayerHintPositionRightCenter] == NSOrderedSame) {
-            point = CGPointMake(w2-w-padding, (h2-h)/2.f);
+            point = CGPointMake(width-w-padding, (height-h)/2.f);
         }
     }else if ([position isKindOfClass:[NSValue class]]) {
         point = [position CGPointValue];

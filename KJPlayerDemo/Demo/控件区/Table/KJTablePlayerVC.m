@@ -7,7 +7,7 @@
 //  https://github.com/yangKJ/KJPlayerDemo
 
 #import "KJTablePlayerVC.h"
-#import "KJPlayer.h"
+#import "KJAVPlayer.h"
 #import "KJDetailPlayerVC.h"
 @interface KJTableViewInfo : NSObject
 @property(nonatomic,strong)NSString *url;
@@ -68,8 +68,8 @@
 }
 
 - (void)dealloc{
-    [KJPlayer.shared kj_stop];
-    [KJPlayer kj_attempDealloc];
+    [KJAVPlayer.shared kj_stop];
+    [KJAVPlayer kj_attempDealloc];
 }
 #pragma mark - UITableViewDataSource
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView{
@@ -85,7 +85,7 @@
     cell.label.text = info.url;
     cell.videoImageView.tag = 520 + indexPath.row;
     if (info.image == nil) {
-        KJPlayer.shared.kVideoPlaceholderImage(^(UIImage * _Nonnull image) {
+        KJAVPlayer.shared.kVideoPlaceholderImage(^(UIImage * _Nonnull image) {
             if (image == nil) {
                 image = [UIImage imageNamed:@"20ea53a47eb0447883ed186d9f11e410"];
             }
@@ -94,42 +94,42 @@
         }, [NSURL URLWithString:cell.label.text], 8);
     }else{
         if (self.index == indexPath.row) {
-            [cell.videoImageView.layer addSublayer:KJPlayer.shared.playerLayer];
+            [cell.videoImageView.layer addSublayer:KJAVPlayer.shared.playerLayer];
         }
         cell.videoImageView.image = info.image;
     }
     PLAYER_WEAKSELF;
     cell.kTabBlock = ^(KJTableViewCell *item, NSInteger index) {
         if (weakself.index == index) {
-            if (KJPlayer.shared.isPlaying) {
-                [KJPlayer.shared kj_pause];
+            if (KJAVPlayer.shared.isPlaying) {
+                [KJAVPlayer.shared kj_pause];
                 return;
-            }else if (KJPlayer.shared.userPause) {
-                [KJPlayer.shared kj_resume];
+            }else if (KJAVPlayer.shared.userPause) {
+                [KJAVPlayer.shared kj_resume];
                 return;
             }
         }
         weakself.index = index;
-        KJPlayer.shared.playerView = item.videoImageView;
-        KJPlayer.shared.placeholder = item.videoImageView.image;
-        KJPlayer.shared.delegate = weakself;
-        KJPlayer.shared.cacheTime = 0;
-        KJPlayer.shared.videoURL = [NSURL URLWithString:item.label.text];
+        KJAVPlayer.shared.playerView = item.videoImageView;
+        KJAVPlayer.shared.placeholder = item.videoImageView.image;
+        KJAVPlayer.shared.delegate = weakself;
+        KJAVPlayer.shared.cacheTime = 0;
+        KJAVPlayer.shared.videoURL = [NSURL URLWithString:item.label.text];
     };
     return cell;
 }
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
-    if (self.index != indexPath.row || !KJPlayer.shared.isPlaying) {
+    if (self.index != indexPath.row || !KJAVPlayer.shared.isPlaying) {
         return;
     }
     KJDetailPlayerVC *vc = [KJDetailPlayerVC new];
-    vc.layer = KJPlayer.shared.playerLayer;
-    vc.player = KJPlayer.shared;
+    vc.layer = KJAVPlayer.shared.playerLayer;
+    vc.player = KJAVPlayer.shared;
     vc.kBackBlock = ^{
         KJTableViewCell *cell = [tableView cellForRowAtIndexPath:[NSIndexPath indexPathForRow:self.index inSection:0]];
-        KJPlayer.shared.playerLayer.frame = cell.videoImageView.bounds;
-        [cell.videoImageView.layer addSublayer:KJPlayer.shared.playerLayer];
+        KJAVPlayer.shared.playerLayer.frame = cell.videoImageView.bounds;
+        [cell.videoImageView.layer addSublayer:KJAVPlayer.shared.playerLayer];
     };
     [self.navigationController pushViewController:vc animated:YES];
 }

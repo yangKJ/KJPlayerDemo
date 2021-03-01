@@ -10,18 +10,20 @@
 #import "KJBasePlayerView.h"
 @interface KJPlayerOperationView ()
 @property (nonatomic,strong) UIButton *fullButton;
+@property (nonatomic,assign) CGRect lastRect;
 @end
 
 @implementation KJPlayerOperationView
 /* 初始化 */
 - (instancetype)initWithFrame:(CGRect)frame OperationType:(KJPlayerOperationViewType)type{
     if (self = [super initWithFrame:frame]) {
+        self.lastRect = frame;
         CGFloat height = frame.size.height;
         if (type == KJPlayerOperationViewTypeTop) {
             self.backgroundColor = [self kj_gradientColor:[UIColor.blackColor colorWithAlphaComponent:0.8],[UIColor.blackColor colorWithAlphaComponent:0.],nil](CGSizeMake(1, height));
         }else{
             self.backgroundColor = [self kj_gradientColor:[UIColor.blackColor colorWithAlphaComponent:0.],[UIColor.blackColor colorWithAlphaComponent:0.8],nil](CGSizeMake(1, height));
-            UIButton *button = [[UIButton alloc]initWithFrame:CGRectMake(frame.size.width-height, height/5, height, height)];
+            UIButton *button = [[UIButton alloc]initWithFrame:CGRectMake(frame.size.width-height, 0, height, height)];
             self.fullButton = button;
             [button addTarget:self action:@selector(fullItemClick:) forControlEvents:UIControlEventTouchUpInside];
             [button setTitle:@"\U0000e6aa" forState:(UIControlStateNormal)];
@@ -38,10 +40,20 @@
     KJBasePlayerView *view = (KJBasePlayerView*)self.superview;
     view.isFullScreen = !view.isFullScreen;
 }
-/* 刷新UI */
-- (void)kj_reloadUI{
-    CGFloat height = self.frame.size.height;
-    self.fullButton.frame = CGRectMake(self.frame.size.width-(height/2)-height/4, (height-(height/2))/2, (height/2), (height/2));
+- (void)layoutSubviews{
+    [super layoutSubviews];
+    if (CGRectEqualToRect(self.lastRect, self.frame)) {
+        return;
+    }
+    self.lastRect = self.frame;
+    if (_fullButton) {
+        CGFloat height = self.frame.size.height;
+        self.fullButton.frame = CGRectMake(self.frame.size.width-height, 0, height, height);
+        self.fullButton.titleLabel.font = [UIFont fontWithName:@"iconfont" size:height/5*2];
+    }
+    if (self.kVideoOperationViewChanged) {
+        self.kVideoOperationViewChanged(self);
+    }
 }
 - (UIColor*(^)(CGSize))kj_gradientColor:(UIColor*)color,...{
     NSMutableArray * colors = [NSMutableArray arrayWithObjects:(id)color.CGColor,nil];

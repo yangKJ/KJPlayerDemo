@@ -33,7 +33,7 @@
 }
 #pragma mark - draw
 - (void)drawInContext:(CGContextRef)context{
-    CGFloat width  = self.frame.size.width;
+    CGFloat width = self.frame.size.width;
     CGFloat y = self.frame.size.height / 4 * 3;
     CGFloat sp = width/8.0;
     UIGraphicsPushContext(context);

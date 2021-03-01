@@ -11,7 +11,7 @@
 @interface KJLoadingPlayerVC ()<KJPlayerBaseViewDelegate>{
     int index;
 }
-@property(nonatomic,strong)KJPlayer *player;
+@property(nonatomic,strong)KJAVPlayer *player;
 @property(nonatomic,strong)KJBasePlayerView *basePlayerView;
 @end
 
@@ -41,7 +41,7 @@
         }
     };
     
-    KJPlayer *player = [[KJPlayer alloc]init];
+    KJAVPlayer *player = [[KJAVPlayer alloc]init];
     self.player = player;
     player.playerView = backview;
     [player kj_startAnimation];

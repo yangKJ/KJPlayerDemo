@@ -9,7 +9,7 @@
 #import <Foundation/Foundation.h>
 #import <AVFoundation/AVFoundation.h>
 
-@interface KJResourceLoader : NSObject <AVAssetResourceLoaderDelegate>
+@interface KJResourceLoader : NSObject<AVAssetResourceLoaderDelegate>
 /* 返回时是否继续下载缓存 */
 @property(nonatomic,assign) BOOL backCancelLoading;
 /* 设置特殊区分的链接地址 */

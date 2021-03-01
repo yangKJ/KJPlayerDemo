@@ -19,7 +19,7 @@
 
 @implementation KJResourceLoaderManager
 - (void)dealloc{
-    [self.downloader kj_cancelDownload];
+    [self kj_cancelLoading];
 }
 - (instancetype)initWithVideoURL:(NSURL*)url{
     if (self = [super init]) {
@@ -61,14 +61,6 @@
     [DBPlayerDataInfo.shared kj_removeDownloadURL:self.videoURL];
 }
 
-#pragma mark - lazy
-- (NSMutableSet<AVAssetResourceLoadingRequest *> *)requests{
-    if (!_requests) {
-        _requests = [NSMutableSet set];
-    }
-    return _requests;
-}
-
 #pragma mark - private method
 /* 处理下载器数据 */
 - (void)kj_addDownloader:(KJDownloader*)downloader request:(AVAssetResourceLoadingRequest*)request{
@@ -105,16 +97,16 @@
 /* 开始请求下载数据 */
 NS_INLINE void kStartDownloading(KJDownloader *downloader, AVAssetResourceLoadingRequest *request){
     AVAssetResourceLoadingDataRequest *dataRequest = request.dataRequest;
-    long long offset = dataRequest.requestedOffset;
+    NSInteger offset = (NSInteger)dataRequest.requestedOffset;
     NSInteger length = dataRequest.requestedLength;
     if (dataRequest.currentOffset != 0) offset = dataRequest.currentOffset;
     if (@available(iOS 9.0, *)) {
         if (dataRequest.requestsAllDataToEndOfResource) {
-            [downloader kj_downloadTaskRange:NSMakeRange((NSUInteger)offset, length) whole:YES];
+            [downloader kj_downloadTaskRange:NSMakeRange(offset, length) whole:YES];
             return;
         }
     }
-    [downloader kj_downloadTaskRange:NSMakeRange((NSUInteger)offset, length) whole:NO];
+    [downloader kj_downloadTaskRange:NSMakeRange(offset, length) whole:NO];
 }
 /* 对请求加上长度，文件类型等信息，必须设置正确否则会报播放器Failed */
 NS_INLINE void kSetDownloadConfiguration(KJDownloader *downloader, AVAssetResourceLoadingRequest *loadingRequest){
@@ -127,6 +119,14 @@ NS_INLINE void kSetDownloadConfiguration(KJDownloader *downloader, AVAssetResour
     }
     request.byteRangeAccessSupported = YES;
     request.contentLength = downloader.fileHandleManager.cacheInfo.contentLength;
+}
+
+#pragma mark - lazy
+- (NSMutableSet<AVAssetResourceLoadingRequest *> *)requests{
+    if (!_requests) {
+        _requests = [NSMutableSet set];
+    }
+    return _requests;
 }
 
 @end

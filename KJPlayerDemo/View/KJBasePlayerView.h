@@ -14,6 +14,7 @@
 #import "KJPlayerLoadingLayer.h"
 #import "KJPlayerHintTextLayer.h"
 #import "KJPlayerOperationView.h"
+
 NS_ASSUME_NONNULL_BEGIN
 /* 控件位置和大小发生改变信息通知 */
 extern NSString *kPlayerBaseViewChangeNotification;
@@ -73,21 +74,6 @@ extern NSString *kPlayerBaseViewChangeKey;
 - (void)kj_hiddenOperationView;
 /* 显示操作面板 */
 - (void)kj_displayOperationView;
-
-@end
-/// 委托代理
-@protocol KJPlayerBaseViewDelegate <NSObject>
-@optional;
-/* 单双击手势反馈 */
-- (void)kj_basePlayerView:(KJBasePlayerView*)view isSingleTap:(BOOL)tap;
-/* 长按手势反馈 */
-- (void)kj_basePlayerView:(KJBasePlayerView*)view longPress:(UILongPressGestureRecognizer*)longPress;
-/* 进度手势反馈，不替换UI请返回当前时间和总时间，范围-1 ～ 1 */
-- (NSArray*)kj_basePlayerView:(KJBasePlayerView*)view progress:(float)progress end:(BOOL)end;
-/* 音量手势反馈，是否替换自带UI，范围0 ～ 1 */
-- (BOOL)kj_basePlayerView:(KJBasePlayerView*)view volumeValue:(float)value;
-/* 亮度手势反馈，是否替换自带UI，范围0 ～ 1 */
-- (BOOL)kj_basePlayerView:(KJBasePlayerView*)view brightnessValue:(float)value;
 
 @end
 

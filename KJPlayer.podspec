@@ -33,6 +33,12 @@ Pod::Spec.new do |s|
     md.resources = "KJPlayerDemo/KJMidiPlayer/*.{bundle}"
     md.dependency 'KJPlayer/_resource'
   end
+  
+  s.subspec 'IJKPlayer' do |ijk|
+    ijk.source_files = "KJPlayerDemo/KJIJKPlayer/*"
+    ijk.dependency 'KJPlayer/_resource'
+    ijk.dependency 'IJKMediaFramework'
+  end
 
   s.subspec 'KJPlayerView' do |a|
     a.source_files = "KJPlayerDemo/KJPlayerView/*"

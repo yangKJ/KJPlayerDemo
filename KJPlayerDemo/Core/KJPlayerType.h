@@ -15,7 +15,6 @@
 #import <AVFoundation/AVFoundation.h>
 #import <objc/runtime.h>
 #import <objc/message.h>
-#import "DBPlayerDataInfo.h"
 
 NS_ASSUME_NONNULL_BEGIN
 // 弱引用
@@ -63,6 +62,8 @@ NS_INLINE KJPlayerAssetType kPlayerVideoAesstType(NSURL *url){
     if (url.pathExtension.length) {
         if ([url.pathExtension containsString:@"m3u8"] || [url.pathExtension containsString:@"ts"]) {
             return KJPlayerAssetTypeHLS;
+        }else{
+            return KJPlayerAssetTypeFILE;
         }
     }
     NSArray * array = [url.path componentsSeparatedByString:@"."];
@@ -164,6 +165,8 @@ typedef NS_ENUM(NSUInteger, KJPlayerVideoScreenState) {
     KJPlayerVideoScreenStateFullScreen, /// 全屏
     KJPlayerVideoScreenStateFloatingWindow,/// 浮窗
 };
+
+#pragma mark - 简单公共函数，这里只适合放简单的函数
 NS_INLINE void kGCD_player_async(dispatch_block_t _Nonnull block) {
     dispatch_queue_t queue = dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0);
     if (strcmp(dispatch_queue_get_label(DISPATCH_CURRENT_QUEUE_LABEL), dispatch_queue_get_label(queue)) == 0) {
@@ -228,13 +231,14 @@ NS_INLINE CGAffineTransform kPlayerDeviceOrientation(void){
     }
     return CGAffineTransformIdentity;
 }
-// 寻找响应者
-NS_INLINE __kindof UIResponder * kPlayerLookupResponder(Class clazz, UIView *view){
-    __kindof UIResponder *_Nullable next = view.nextResponder;
-    while (next != nil && [next isKindOfClass:clazz] == NO) {
-        next = next.nextResponder;
+// 获取图片显示模式
+NS_INLINE NSString * kPlayerContentsGravity(KJPlayerVideoGravity videoGravity){
+    switch (videoGravity) {
+        case KJPlayerVideoGravityResizeAspect:return @"resizeAspect";
+        case KJPlayerVideoGravityResizeAspectFill:return @"resizeAspectFill";
+        case KJPlayerVideoGravityResizeOriginal:return @"resize";
+        default:break;
     }
-    return next;
 }
 
 #endif /* KJPlayerType_h */

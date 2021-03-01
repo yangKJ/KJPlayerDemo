@@ -5,7 +5,7 @@
 //  Created by 杨科军 on 2021/1/8.
 //  Copyright © 2021 杨科军. All rights reserved.
 //  https://github.com/yangKJ/KJPlayerDemo
-//  播放器协议
+//  播放器协议，功能区
 
 #import <Foundation/Foundation.h>
 #import "KJPlayerType.h"
@@ -82,23 +82,9 @@ NS_ASSUME_NONNULL_BEGIN
 - (void)kj_stop;
 
 @end
-/// 委托代理
-@class KJBasePlayer;
-@protocol KJPlayerDelegate <NSObject>
-@optional;
-/* 当前播放器状态 */
-- (void)kj_player:(KJBasePlayer*)player state:(KJPlayerState)state;
-/* 播放进度 */
-- (void)kj_player:(KJBasePlayer*)player currentTime:(NSTimeInterval)time;
-/* 缓存进度 */
-- (void)kj_player:(KJBasePlayer*)player loadProgress:(CGFloat)progress;
-/* 播放错误 */
-- (void)kj_player:(KJBasePlayer*)player playFailed:(NSError*)failed;
-
-@end
 
 // 公共ivar
-#define PLAYER_COMMON_PROPERTY \
+#define PLAYER_COMMON_FUNCTION_PROPERTY \
 @synthesize delegate = _delegate;\
 @synthesize roregroundResume = _roregroundResume;\
 @synthesize backgroundPause = _backgroundPause;\

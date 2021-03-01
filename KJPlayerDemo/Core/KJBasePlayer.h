@@ -11,7 +11,9 @@
 #import "KJBaseFunctionPlayer.h"
 #import "KJBaseUIPlayer.h"
 #import "KJRotateManager.h"
-
+#import "KJPlayerProtocol.h"
+#import "DBPlayerDataInfo.h"
+#import "KJCacheManager.h"
 NS_ASSUME_NONNULL_BEGIN
 
 @interface KJBasePlayer : NSObject<KJBaseFunctionPlayer,KJBaseUIPlayer>
@@ -23,8 +25,6 @@ NS_ASSUME_NONNULL_BEGIN
 + (void)kj_attempDealloc;
 /* 主动存储当前播放记录 */
 - (void)kj_saveRecordLastTime;
-/* 子线程获取封面图，图片会存储在磁盘 */
-@property (nonatomic,copy,readonly) void(^kVideoPlaceholderImage)(void(^)(UIImage *image),NSURL *,NSTimeInterval);
 
 #pragma mark - NSNotification
 /* 进入后台 */
@@ -35,5 +35,31 @@ NS_ASSUME_NONNULL_BEGIN
 - (void)kj_basePlayerViewChange:(NSNotification*)notification;
 
 @end
+
+/// 公共属性区域
+#define PLAYER_COMMON_EXTENSION_PROPERTY \
+@property (nonatomic,copy,readwrite) void(^tryTimeBlock)(void);\
+@property (nonatomic,copy,readwrite) void(^recordTimeBlock)(NSTimeInterval time);\
+@property (nonatomic,copy,readwrite) void(^skipTimeBlock)(KJPlayerVideoSkipState skipState);\
+@property (nonatomic,assign) NSTimeInterval tryTime;\
+@property (nonatomic,assign) NSTimeInterval skipHeadTime;\
+@property (nonatomic,assign) NSTimeInterval currentTime,totalTime;\
+@property (nonatomic,assign) KJPlayerState state;\
+@property (nonatomic,assign) float progress;\
+@property (nonatomic,assign) BOOL cache;\
+@property (nonatomic,assign) BOOL userPause;\
+@property (nonatomic,assign) BOOL tryLooked;\
+@property (nonatomic,assign) BOOL recordLastTime;\
+@property (nonatomic,strong) NSURL *originalURL;\
+@property (nonatomic,retain) dispatch_group_t group;\
+
+/// 缓存相关公共区域
+#define PLAYER_CACHE_COMMON_EXTENSION_PROPERTY \
+@property (nonatomic,assign) KJPlayerState state;\
+@property (nonatomic,strong) NSURL *originalURL;\
+@property (nonatomic,retain) dispatch_group_t group;\
+@property (nonatomic,assign) float progress;\
+@property (nonatomic,assign) BOOL cache;\
+@property (nonatomic,assign) BOOL locality;\
 
 NS_ASSUME_NONNULL_END

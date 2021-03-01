@@ -7,6 +7,11 @@
 ### 版本更新日志
 ```
 ####版本更新日志:
+#### Add 2.1.2
+1.TODO:// 新增KJIJKPlayer内核，完善基本播放功能
+2.分离委托协议至 KJPlayerProtocol
+3.修复 KJAVPlayer 内核当中的截取HLS图片失败问题
+
 #### Add 2.1.1
 1.优化 AVPlayer内核播放FILE类型
 2.修复全屏控件坐标错位问题
@@ -27,7 +32,7 @@
 6.分离加载动画和文本提示框
 
 #### Add 2.0.1
-1.分离缓存播放 KJPlayer+KJCache
+1.分离缓存播放 KJAVPlayer+KJCache
 2.修改重写网络请求板块，实现断点续载续播功能
 3.新增播放器控件基类 KJBasePlayerView
 4.数据库新增上次播放时间，缓存完成与否等字段
@@ -37,12 +42,12 @@
 8.新增试看
 
 #### Add 1.0.10
-1.新增midi内核 KJMidiPlayer
+1.新增midi内核 KJMIDIPlayer
 2.完善KJPlayer
 
 #### Add 1.0.9
 1.重新整理，移除不再使用数据
-2.重写播放器内核 KJPlayer
+2.重写播放器内核 KJAVPlayer
 
 #### Add 1.0.8
 1.引入头文件 KJPlayerHeader

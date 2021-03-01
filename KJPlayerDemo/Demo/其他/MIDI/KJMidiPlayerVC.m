@@ -7,7 +7,7 @@
 //  https://github.com/yangKJ/KJPlayerDemo
 
 #import "KJMidiPlayerVC.h"
-#import "KJMidiPlayer.h"
+#import "KJMIDIPlayer.h"
 @interface KJMidiPlayerVC ()<UIPickerViewDataSource, UIPickerViewDelegate>{
     NSInteger index;
 }
@@ -23,7 +23,7 @@
 
 @implementation KJMidiPlayerVC
 - (void)dealloc{
-    [KJMidiPlayer kj_attempDealloc];
+    [KJMIDIPlayer kj_attempDealloc];
 }
 - (void)viewDidLoad {
     [super viewDidLoad];
@@ -37,29 +37,29 @@
 }
 - (IBAction)play:(id)sender {
     NSURL *URL = [[NSBundle mainBundle] URLForResource:self.temps[index] withExtension:@"mid"];
-    KJMidiPlayer.shared.videoURL = URL;
-    [KJMidiPlayer.shared kj_play];
+    KJMIDIPlayer.shared.videoURL = URL;
+    [KJMIDIPlayer.shared kj_play];
 }
 - (IBAction)pause:(id)sender {
-    [KJMidiPlayer.shared kj_pause];
+    [KJMIDIPlayer.shared kj_pause];
 }
 - (IBAction)repause:(id)sender {
-    [KJMidiPlayer.shared kj_resume];
+    [KJMIDIPlayer.shared kj_resume];
 }
 - (IBAction)stop:(id)sender {
-    [KJMidiPlayer.shared kj_stop];
+    [KJMIDIPlayer.shared kj_stop];
 }
 - (IBAction)slider:(UISlider*)sender {
     NSLog(@"----%f",sender.value);
 }
 - (IBAction)seekPlay:(UIButton*)sender {
     CGFloat seek = [self.textField.text floatValue];
-    if (![KJMidiPlayer.shared isPlaying]) {
+    if (![KJMIDIPlayer.shared isPlaying]) {
         NSURL *URL = [[NSBundle mainBundle] URLForResource:self.temps[index] withExtension:@"mid"];
-        KJMidiPlayer.shared.videoURL = URL;
-        [KJMidiPlayer.shared kj_play];
+        KJMIDIPlayer.shared.videoURL = URL;
+        [KJMIDIPlayer.shared kj_play];
     }
-    KJMidiPlayer.shared.kVideoAdvanceAndReverse(seek,nil);
+    KJMIDIPlayer.shared.kVideoAdvanceAndReverse(seek,nil);
 }
 
 #pragma mark - UIPickerViewDataSource

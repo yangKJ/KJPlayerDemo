@@ -76,11 +76,9 @@ NSString *kPlayerBaseViewChangeKey = @"kPlayerBaseViewKey";
     self.loadingLayer.position = CGPointMake(self.width/2, self.height/2);
     self.fastLayer.position = CGPointMake(self.width/2, self.height/2);
     self.vbLayer.position = CGPointMake(self.width/2, self.height/2);
-    if (_hintTextLayer) [_hintTextLayer setValue:@(self.screenState) forKey:@"screenState"];
+    [self.hintTextLayer setValue:@(self.screenState) forKey:@"screenState"];
     self.topView.frame = CGRectMake(0, 0, self.width, self.operationViewHeight);
     self.bottomView.frame = CGRectMake(0, self.height-self.operationViewHeight, self.width, self.operationViewHeight);
-    [self.topView kj_reloadUI];
-    [self.bottomView kj_reloadUI];
 }
 
 #pragma mark - getter
@@ -192,7 +190,7 @@ static BOOL movingH;
 - (void)panAction:(UIPanGestureRecognizer*)pan{
     PLAYER_WEAKSELF;
     void (^kSetBrightness)(float) = ^(float value){
-        float brightness = weakself.lastValue - value / (weakself.height/2);
+        float brightness = weakself.lastValue - value / (weakself.height >> 1);
         if (isnan(brightness)) return;
         brightness = MIN(MAX(0, brightness), 1);
         [UIScreen mainScreen].brightness = brightness;
@@ -211,7 +209,7 @@ static BOOL movingH;
         });
     };
     void (^kSetVolume)(float) = ^(float value){
-        float volume = weakself.lastValue - value / (weakself.height/2);
+        float volume = weakself.lastValue - value / (weakself.height >> 1);
         if (isnan(volume)) return;
         volume = MIN(MAX(0, volume), 1);
         kGCD_player_main(^{
@@ -254,7 +252,7 @@ static BOOL movingH;
             break;
         case UIGestureRecognizerStateChanged:{
             if (movingH) {
-                float value = translate.x / (self.width>>1);
+                float value = translate.x / (self.width >> 1);
                 value = MIN(MAX(-1, value), 1);
                 if ([self.delegate respondsToSelector:@selector(kj_basePlayerView:progress:end:)]) {
                     NSArray *array = [self.delegate kj_basePlayerView:self progress:value end:NO];
@@ -290,7 +288,7 @@ static BOOL movingH;
         case UIGestureRecognizerStateFailed:{
             if (movingH) {
                 if ([self.delegate respondsToSelector:@selector(kj_basePlayerView:progress:end:)]) {
-                    float value = translate.x / (self.width>>1);
+                    float value = translate.x / (self.width >> 1);
                     value = MIN(MAX(-1, value), 1);
                     [self.delegate kj_basePlayerView:self progress:value end:YES];
                     if (_fastLayer) _fastLayer.hidden = YES;

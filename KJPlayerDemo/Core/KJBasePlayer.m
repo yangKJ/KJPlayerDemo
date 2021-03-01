@@ -14,7 +14,7 @@
 @end
 
 @implementation KJBasePlayer
-PLAYER_COMMON_PROPERTY PLAYER_COMMON_UI_PROPERTY
+PLAYER_COMMON_FUNCTION_PROPERTY PLAYER_COMMON_UI_PROPERTY
 @synthesize kVideoCanCacheURL;
 static KJBasePlayer *_instance = nil;
 static dispatch_once_t onceToken;
@@ -144,39 +144,6 @@ static dispatch_once_t onceToken;
 - (void)kj_bindTableView:(UITableView*)tableView indexPath:(NSIndexPath*)indexPath{
     self.bindTableView = tableView;
     self.indexPath = indexPath;
-}
-
-#pragma mark - getter
-@dynamic kVideoPlaceholderImage;
-- (void (^)(void(^)(UIImage *image),NSURL *,NSTimeInterval))kVideoPlaceholderImage{
-    return ^(void(^xxblock)(UIImage*),NSURL *videoURL,NSTimeInterval time){
-        kGCD_player_async(^{
-            UIImage *image = [KJCacheManager kj_getVideoCoverImageWithURL:videoURL];
-            if (image) {
-                kGCD_player_main(^{
-                    if (xxblock) xxblock(image);
-                });
-                return;
-            }
-            AVURLAsset *asset = [AVURLAsset URLAssetWithURL:videoURL options:self.requestHeader];
-            if ([asset tracksWithMediaType:AVMediaTypeVideo].count == 0) {
-                kGCD_player_main(^{
-                    if (xxblock) xxblock(nil);
-                });
-            }
-            AVAssetImageGenerator *generator = [[AVAssetImageGenerator alloc] initWithAsset:asset];
-            generator.appliesPreferredTrackTransform = YES;
-            generator.requestedTimeToleranceAfter = kCMTimeZero;
-            generator.requestedTimeToleranceBefore = kCMTimeZero;
-            CGImageRef cgimage = [generator copyCGImageAtTime:CMTimeMakeWithSeconds(time, NSEC_PER_SEC) actualTime:nil error:nil];
-            UIImage *videoImage = [[UIImage alloc] initWithCGImage:cgimage];
-            kGCD_player_main(^{
-                if (xxblock) xxblock(videoImage);
-            });
-            [KJCacheManager kj_saveVideoCoverImage:videoImage VideoURL:videoURL];
-            CGImageRelease(cgimage);
-        });
-    };
 }
 
 #pragma mark - Animation

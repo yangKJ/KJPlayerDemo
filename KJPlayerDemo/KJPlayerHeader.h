@@ -43,18 +43,26 @@
 **********************************************************************************/
 
 /* ****************  AVPlayer内核  ****************/
-#if __has_include(<KJPlayer/KJPlayer.h>)
-#import <KJPlayer/KJPlayer.h>
-#elif __has_include("KJPlayer.h")
-#import "KJPlayer.h"
+#if __has_include(<KJPlayer/KJAVPlayer.h>)
+#import <KJPlayer/KJAVPlayer.h>
+#elif __has_include("KJAVPlayer.h")
+#import "KJAVPlayer.h"
 #else
 #endif
 
 /* ****************  MIDI内核  ****************/
-#if __has_include(<KJPlayer/KJMidiPlayer.h>)
-#import <KJPlayer/KJMidiPlayer.h>
-#elif __has_include("KJMidiPlayer.h")
-#import "KJMidiPlayer.h"
+#if __has_include(<KJPlayer/KJMIDIPlayer.h>)
+#import <KJPlayer/KJMIDIPlayer.h>
+#elif __has_include("KJMIDIPlayer.h")
+#import "KJMIDIPlayer.h"
+#else
+#endif
+
+/* ****************  IJKPlayer内核  ****************/
+#if __has_include(<KJPlayer/KJIJKPlayer.h>)
+#import <KJPlayer/KJIJKPlayer.h>
+#elif __has_include("KJIJKPlayer.h")
+#import "KJIJKPlayer.h"
 #else
 #endif
 

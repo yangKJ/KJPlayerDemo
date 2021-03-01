@@ -10,7 +10,7 @@
 
 @interface KJScreenPlayerVC ()<KJPlayerDelegate,KJPlayerBaseViewDelegate>
 @property(nonatomic,strong)KJBasePlayerView *playerView;
-@property(nonatomic,strong)KJPlayer *player;
+@property(nonatomic,strong)KJAVPlayer *player;
 @end
 
 @implementation KJScreenPlayerVC
@@ -45,7 +45,7 @@
         }
     };
     
-    KJPlayer *player = [[KJPlayer alloc]init];
+    KJAVPlayer *player = [[KJAVPlayer alloc]init];
     self.player = player;
     player.delegate = self;
     player.placeholder = [UIImage imageNamed:@"20ea53a47eb0447883ed186d9f11e410"];

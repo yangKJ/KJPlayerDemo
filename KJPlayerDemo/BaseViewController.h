@@ -9,9 +9,9 @@
 #import <UIKit/UIKit.h>
 
 NS_ASSUME_NONNULL_BEGIN
-@class KJPlayer,KJBasePlayerView;
+@class KJAVPlayer,KJBasePlayerView;
 @interface BaseViewController : UIViewController
-@property(nonatomic,strong)KJPlayer *player;
+@property(nonatomic,strong)KJAVPlayer *player;
 @property(nonatomic,strong)KJBasePlayerView *basePlayerView;
 @property(nonatomic,strong)UISlider *slider;
 @property(nonatomic,strong)UILabel *label;

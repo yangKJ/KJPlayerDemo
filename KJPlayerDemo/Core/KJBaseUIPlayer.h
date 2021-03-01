@@ -22,6 +22,8 @@
 @property (nonatomic,assign) KJPlayerVideoGravity videoGravity;
 /* 获取当前截屏 */
 @property (nonatomic,copy,readonly) void (^kVideoTimeScreenshots)(void(^)(UIImage *image));
+/* 子线程获取封面图，图片会存储在磁盘 */
+@property (nonatomic,copy,readonly) void(^kVideoPlaceholderImage)(void(^)(UIImage *image),NSURL *,NSTimeInterval);
 /* 获取视频尺寸大小 */
 @property (nonatomic,copy,readwrite) void (^kVideoSize)(CGSize size);
 
@@ -52,3 +54,4 @@
 @synthesize videoGravity = _videoGravity;\
 @synthesize kVideoSize = _kVideoSize;\
 @dynamic kVideoTimeScreenshots;\
+@dynamic kVideoPlaceholderImage;\
