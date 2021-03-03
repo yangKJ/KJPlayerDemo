@@ -21,10 +21,14 @@ NS_ASSUME_NONNULL_BEGIN
 @property (nonatomic,strong,class,readonly,getter=kj_sharedInstance) id shared;
 /* 创建单例 */
 + (instancetype)kj_sharedInstance;
+/* 切换内核之前的核名 */
+@property (nonatomic,strong,readonly) NSString *lastSourceName;
 /* 销毁单例 */
 + (void)kj_attempDealloc;
 /* 主动存储当前播放记录 */
 - (void)kj_saveRecordLastTime;
+/* 动态切换播放内核 */
+- (void)kj_dynamicChangeSourcePlayer:(Class)clazz;
 
 #pragma mark - NSNotification
 /* 进入后台 */
@@ -33,6 +37,12 @@ NS_ASSUME_NONNULL_BEGIN
 - (void)kj_detectAppEnterForeground:(NSNotification*)notification;
 /* KJBasePlayerView位置和尺寸发生变化，子类重写需调用父类 */
 - (void)kj_basePlayerViewChange:(NSNotification*)notification;
+
+/* *********************  内部使用  *********************/
+/* 是否进行过动态切换内核 */
+@property (nonatomic,copy,readonly) BOOL (^kPlayerDynamicChangeSource)(void);
+/* 当前播放器内核名 */
+NSString * kPlayerCurrentSourceName(KJBasePlayer *bp);
 
 @end
 
@@ -45,17 +55,22 @@ NS_ASSUME_NONNULL_BEGIN
 @property (nonatomic,assign) NSTimeInterval skipHeadTime;\
 @property (nonatomic,assign) NSTimeInterval currentTime,totalTime;\
 @property (nonatomic,assign) KJPlayerState state;\
+@property (nonatomic,strong) NSError *playError;\
 @property (nonatomic,assign) float progress;\
 @property (nonatomic,assign) BOOL cache;\
 @property (nonatomic,assign) BOOL userPause;\
 @property (nonatomic,assign) BOOL tryLooked;\
 @property (nonatomic,assign) BOOL recordLastTime;\
+@property (nonatomic,assign) BOOL locality;\
+@property (nonatomic,assign) BOOL isLiveStreaming;\
 @property (nonatomic,strong) NSURL *originalURL;\
 @property (nonatomic,retain) dispatch_group_t group;\
+@property (nonatomic,assign) CGSize tempSize;\
 
 /// 缓存相关公共区域
 #define PLAYER_CACHE_COMMON_EXTENSION_PROPERTY \
 @property (nonatomic,assign) KJPlayerState state;\
+@property (nonatomic,strong) NSError *playError;\
 @property (nonatomic,strong) NSURL *originalURL;\
 @property (nonatomic,retain) dispatch_group_t group;\
 @property (nonatomic,assign) float progress;\

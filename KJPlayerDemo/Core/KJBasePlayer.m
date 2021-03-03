@@ -11,6 +11,7 @@
 @interface KJBasePlayer ()
 @property (nonatomic,strong) UITableView *bindTableView;
 @property (nonatomic,strong) NSIndexPath *indexPath;
+@property (nonatomic,strong) NSString *lastSourceName;
 @end
 
 @implementation KJBasePlayer
@@ -38,21 +39,24 @@ static dispatch_once_t onceToken;
 }
 - (instancetype)init{
     if (self = [super init]) {
-        NSNotificationCenter * defaultCenter = [NSNotificationCenter defaultCenter];
-        [defaultCenter addObserver:self selector:@selector(kj_detectAppEnterBackground:)
-                              name:UIApplicationDidEnterBackgroundNotification object:nil];
-        [defaultCenter addObserver:self selector:@selector(kj_detectAppEnterForeground:)
-                              name:UIApplicationWillEnterForegroundNotification object:nil];
-        [defaultCenter addObserver:self selector:@selector(kj_basePlayerViewChange:)
-                              name:kPlayerBaseViewChangeNotification object:nil];
-        //kvo
-        NSKeyValueObservingOptions options = NSKeyValueObservingOptionOld | NSKeyValueObservingOptionNew;
-        [self addObserver:self forKeyPath:@"state" options:options context:nil];
-        [self addObserver:self forKeyPath:@"progress" options:options context:nil];
-        [self addObserver:self forKeyPath:@"playError" options:options context:nil];
-        [self addObserver:self forKeyPath:@"currentTime" options:options context:nil];
+        [self kj_addNotificationCenter];
     }
     return self;
+}
+- (void)kj_addNotificationCenter{
+    NSNotificationCenter * defaultCenter = [NSNotificationCenter defaultCenter];
+    [defaultCenter addObserver:self selector:@selector(kj_detectAppEnterBackground:)
+                          name:UIApplicationDidEnterBackgroundNotification object:nil];
+    [defaultCenter addObserver:self selector:@selector(kj_detectAppEnterForeground:)
+                          name:UIApplicationWillEnterForegroundNotification object:nil];
+    [defaultCenter addObserver:self selector:@selector(kj_basePlayerViewChange:)
+                          name:kPlayerBaseViewChangeNotification object:nil];
+    //kvo
+    NSKeyValueObservingOptions options = NSKeyValueObservingOptionOld | NSKeyValueObservingOptionNew;
+    [self addObserver:self forKeyPath:@"state" options:options context:nil];
+    [self addObserver:self forKeyPath:@"progress" options:options context:nil];
+    [self addObserver:self forKeyPath:@"playError" options:options context:nil];
+    [self addObserver:self forKeyPath:@"currentTime" options:options context:nil];
 }
 #pragma mark - kvo
 - (void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary *)change context:(void *)context{
@@ -129,14 +133,48 @@ static dispatch_once_t onceToken;
 - (void)kj_pause{ }
 /* 停止 */
 - (void)kj_stop{ }
+/* 判断是否为本地缓存视频，如果是则修改为指定链接地址 */
+- (void)kj_judgeHaveCacheWithVideoURL:(NSURL * _Nonnull __strong * _Nonnull)videoURL{ }
 
 #pragma mark - public method
+/* 主动存储当前播放记录 */
 - (void)kj_saveRecordLastTime{
     @synchronized (@(self.recordLastTime)) {
         if (self.recordLastTime) {
             kRecordLastTime(self.currentTime, kPlayerIntactName(self.originalURL));
         }
     }
+}
+/* 动态切换播放内核 */
+- (void)kj_dynamicChangeSourcePlayer:(Class)clazz{
+    self.lastSourceName = NSStringFromClass([self class]);
+    SEL sel = NSSelectorFromString(@"kj_changeSourceCleanJobs");
+    if ([self respondsToSelector:sel]) {
+        ((void(*)(id, SEL))(void*)objc_msgSend)((id)self, sel);
+    }
+    object_setClass(self, clazz);
+}
+/* 是否进行过动态切换内核 */
+- (BOOL (^)(void))kPlayerDynamicChangeSource{
+    return ^BOOL{
+        if (self.lastSourceName == nil || !self.lastSourceName.length) {
+            return NO;
+        }
+        return ![self.lastSourceName isEqualToString:NSStringFromClass([self class])];
+    };
+}
+NSString * kPlayerCurrentSourceName(KJBasePlayer *bp){
+    NSString *name = NSStringFromClass([bp class]);
+    if ([name isEqualToString:@"KJAVPlayer"]) {
+        return @"AVPlayer";
+    }
+    if ([name isEqualToString:@"KJIJKPlayer"]) {
+        return @"ijkplayer";
+    }
+    if ([name isEqualToString:@"KJMIDIPlayer"]) {
+        return @"midi";
+    }
+    return @"None";
 }
 
 #pragma mark - table

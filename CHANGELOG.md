@@ -8,12 +8,13 @@
 ```
 ####版本更新日志:
 #### Add 2.1.2
-1.TODO:// 新增KJIJKPlayer内核，完善基本播放功能
+1.新增 KJIJKPlayer内核，完善基本播放流媒体功能
 2.分离委托协议至 KJPlayerProtocol
 3.修复 KJAVPlayer 内核当中的截取HLS图片失败问题
+4.初步完成动态切换内核操作，kj_changeSourcePlayer:
 
 #### Add 2.1.1
-1.优化 AVPlayer内核播放FILE类型
+1.优化 AVPlayer内核播放文件类型
 2.修复全屏控件坐标错位问题
 3.新增顶部底部操作面板，自动隐藏和手势隐藏操功能
 4.优化全屏/半屏

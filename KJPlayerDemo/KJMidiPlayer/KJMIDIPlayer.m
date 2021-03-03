@@ -119,16 +119,6 @@ PLAYER_COMMON_FUNCTION_PROPERTY PLAYER_COMMON_UI_PROPERTY
         }
     });
 }
-- (void)setVolume:(float)volume{
-    _volume = MIN(MAX(0, volume), 1);
-//    if (self.player) self.player.volume = volume;
-}
-- (void)setMuted:(BOOL)muted{
-    if (self.player && _muted != muted) {
-//        self.player.muted = muted;
-    }
-    _muted = muted;
-}
 - (void)setSpeed:(float)speed{
     if (self.player && _speed != speed) {
         if (speed <= 0) {
@@ -139,26 +129,6 @@ PLAYER_COMMON_FUNCTION_PROPERTY PLAYER_COMMON_UI_PROPERTY
         MusicPlayerSetPlayRateScalar(self.player,speed);
     }
     _speed = speed;
-}
-- (void)setBackground:(CGColorRef)background{
-//    if (_playerLayer && _background != background) {
-//        _playerLayer.backgroundColor = background;
-//    }
-    _background = background;
-}
-- (void)setTimeSpace:(NSTimeInterval)timeSpace{
-    if (_timeSpace != timeSpace) {
-        _timeSpace = timeSpace;
-//        [self kj_addTimeObserver];
-    }
-}
-- (void)setPlayerView:(KJBasePlayerView *)playerView{
-    if (playerView == nil) return;
-    _playerView = playerView;
-//    self.playerLayer.frame = playerView.bounds;
-//    if (self.playerLayer.superlayer == nil) {
-//        [playerView.layer addSublayer:self.playerLayer];
-//    }
 }
 
 #pragma mark - getter

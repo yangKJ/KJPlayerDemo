@@ -29,7 +29,8 @@
 ```
 pod 'KJPlayer' # 播放器功能区
 pod 'KJPlayer/AVPlayer' # AVPlayer内核播放器
-pod 'KJPlayer/MIDIPlayer' # midi内核
+pod 'KJPlayer/MIDI' # midi内核
+pod 'KJPlayer/IJKPlayer' # ijkplayer内核
 ```
 
 ### <a id="更新日志"></a>更新日志

@@ -32,7 +32,7 @@ NS_ASSUME_NONNULL_BEGIN
 @property (nonatomic,assign) float volume;
 /* 是否静音 */
 @property (nonatomic,assign) BOOL muted;
-/* 缓存达到多少秒才能播放，默认0秒 */
+/* 缓存达到多少秒才能播放，默认零秒 */
 @property (nonatomic,assign) NSTimeInterval cacheTime;
 /* 时间刻度，默认1秒 */
 @property (nonatomic,assign) NSTimeInterval timeSpace;
@@ -57,11 +57,15 @@ NS_ASSUME_NONNULL_BEGIN
 
 /* ************************* 分割线，下面属性需在videoURL之后获取 *****************************/
 /* 播放失败 */
-@property (nonatomic,strong) NSError *playError;
+@property (nonatomic,strong,readonly) NSError *playError;
+/* 本地资源 */
+@property (nonatomic,assign,readonly) BOOL locality;
 /* 是否正在播放 */
 @property (nonatomic,assign,readonly) BOOL isPlaying;
 /* 是否为用户暂停 */
 @property (nonatomic,assign,readonly) BOOL userPause;
+/* 是否为直播流媒体，直播时总时间无效 */
+@property (nonatomic,assign,readonly) BOOL isLiveStreaming;
 /* 当前播放时间 */
 @property (nonatomic,assign,readonly) NSTimeInterval currentTime;
 /* 视频总时间 */
@@ -80,6 +84,8 @@ NS_ASSUME_NONNULL_BEGIN
 - (void)kj_pause;
 /* 停止 */
 - (void)kj_stop;
+/* 判断是否为本地缓存视频，如果是则修改为指定链接地址 */
+- (void)kj_judgeHaveCacheWithVideoURL:(NSURL * _Nonnull __strong * _Nonnull)videoURL;
 
 @end
 
@@ -103,7 +109,9 @@ NS_ASSUME_NONNULL_BEGIN
 @synthesize openAdvanceCache = _openAdvanceCache;\
 @synthesize recordLastTime = _recordLastTime;\
 @synthesize isPlaying = _isPlaying;\
+@synthesize locality = _locality;\
 @synthesize userPause = _userPause;\
+@synthesize isLiveStreaming = _isLiveStreaming;\
 @synthesize kVideoTotalTime = _kVideoTotalTime;\
 @synthesize kVideoTryLookTime = _kVideoTryLookTime;\
 @synthesize kVideoAdvanceAndReverse = _kVideoAdvanceAndReverse;\

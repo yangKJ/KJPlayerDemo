@@ -12,13 +12,9 @@
 NS_ASSUME_NONNULL_BEGIN
 
 @interface KJAVPlayer (KJCache)
-/* 本地资源 */
-@property (nonatomic,assign,readonly) BOOL locality;
 /* 媒体数据 */
 @property (nonatomic,strong) AVURLAsset *_Nullable asset;
 
-/* 判断当前资源文件是否有缓存，修改为指定链接地址 */
-- (void)kj_judgeHaveCacheWithVideoURL:(NSURL * _Nonnull __strong * _Nonnull)videoURL;
 // 判断是否含有视频轨道
 BOOL kPlayerHaveTracks(NSURL *videoURL, void(^assetblock)(AVURLAsset *), NSDictionary *requestHeader);
 

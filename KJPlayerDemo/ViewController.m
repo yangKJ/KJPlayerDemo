@@ -53,7 +53,7 @@
     
     [self test];
     
-    self.setemps = @[@"控件区",@"功能区",@"其他"];
+    self.setemps = @[@"流媒体专区",@"控件区",@"功能区",@"其他"];
 }
 - (void)kj_button{
 #pragma clang diagnostic push
@@ -63,7 +63,12 @@
 }
 - (NSArray*)temps{
     if (!_temps) {
+        NSMutableArray *temp = [NSMutableArray array];
+        [temp addObject:@{@"VCName":@"KJLivePlayerVC",@"describeName":@"直播流媒体测试"}];
+        [temp addObject:@{@"VCName":@"KJM3u8PlayerVC",@"describeName":@"AVPlayer播放m3u8格式"}];
+        
         NSMutableArray *temp1 = [NSMutableArray array];
+        [temp1 addObject:@{@"VCName":@"KJChangeSourceVC",@"describeName":@"动态切换内核播放测试"}];
         [temp1 addObject:@{@"VCName":@"KJTablePlayerVC",@"describeName":@"无缝衔接列表播放"}];
         [temp1 addObject:@{@"VCName":@"KJListPlayerVC",@"describeName":@"缓存视频列表"}];
         [temp1 addObject:@{@"VCName":@"KJLoadingPlayerVC",@"describeName":@"加载动画和提示框测试"}];
@@ -75,14 +80,13 @@
         [temp0 addObject:@{@"VCName":@"KJTryLookPlayerVC",@"describeName":@"试看时间播放测试"}];
         [temp0 addObject:@{@"VCName":@"KJSkipHeadPlayerVC",@"describeName":@"跳过片头播放测试"}];
         [temp0 addObject:@{@"VCName":@"KJScreenshotsPlayerVC",@"describeName":@"视频截图测试"}];
-        [temp0 addObject:@{@"VCName":@"KJM3u8PlayerVC",@"describeName":@"m3u8格式播放"}];
         
         NSMutableArray *temp2 = [NSMutableArray array];
         [temp2 addObject:@{@"VCName":@"KJAVPlayerVC",@"describeName":@"AVPlayer内核播放器"}];
         [temp2 addObject:@{@"VCName":@"KJMidiPlayerVC",@"describeName":@"Midi播放器"}];
         [temp2 addObject:@{@"VCName":@"KJOldPlayerVC",@"describeName":@"老版本播放器"}];
         
-        _temps = @[temp1,temp0,temp2];
+        _temps = @[temp,temp1,temp0,temp2];
     }
     return _temps;
 }

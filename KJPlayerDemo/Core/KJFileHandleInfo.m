@@ -8,6 +8,9 @@
 
 #import "KJFileHandleInfo.h"
 
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored"-Wdeprecated-declarations"
+
 NSString *kPlayerFileHandleInfoNotification = @"kPlayerFileHandleInfoNotification";
 NSString *kPlayerFileHandleInfoKey = @"kPlayerFileHandleInfoKey";
 @interface KJFileHandleInfo ()
@@ -148,3 +151,4 @@ NSString *kPlayerFileHandleInfoKey = @"kPlayerFileHandleInfoKey";
 }
 
 @end
+#pragma clang diagnostic pop

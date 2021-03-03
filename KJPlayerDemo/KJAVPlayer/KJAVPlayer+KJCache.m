@@ -17,16 +17,6 @@ PLAYER_CACHE_COMMON_EXTENSION_PROPERTY
 @property (nonatomic,strong) KJFileHandleInfo *cacheInfo;
 @end
 @implementation KJAVPlayer (KJCache)
-/* 判断当前资源文件是否有缓存，修改为指定链接地址 */
-- (void)kj_judgeHaveCacheWithVideoURL:(NSURL * _Nonnull __strong * _Nonnull)videoURL{
-    self.locality = NO;
-    KJCacheManager.kJudgeHaveCacheURL(^(BOOL locality) {
-        self.locality = locality;
-        if (locality) {
-            self.playError = [DBPlayerDataInfo kj_errorSummarizing:KJPlayerCustomCodeCachedComplete];
-        }
-    }, videoURL);
-}
 /* 使用边播边缓存，m3u8暂不支持 */
 - (BOOL (^)(NSURL * _Nonnull, BOOL))kVideoCanCacheURL{
     return ^BOOL(NSURL * videoURL, BOOL cache){
@@ -91,12 +81,6 @@ BOOL kPlayerHaveTracks(NSURL *videoURL, void(^assetblock)(AVURLAsset *), NSDicti
 }
 
 #pragma mark - associated
-- (BOOL)locality{
-    return [objc_getAssociatedObject(self, _cmd) boolValue];
-}
-- (void)setLocality:(BOOL)locality{
-    objc_setAssociatedObject(self, @selector(locality), @(locality), OBJC_ASSOCIATION_RETAIN_NONATOMIC);
-}
 - (AVURLAsset *)asset{
     return objc_getAssociatedObject(self, _cmd);
 }

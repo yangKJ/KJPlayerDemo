@@ -5,6 +5,9 @@ target 'KJPlayerDemo' do
   # Comment the next line if you don't want to use dynamic frameworks
   use_frameworks!
 
+#  pod 'RealReachability/Ping' # 网络监测
+  pod 'IJKMediaFramework' 
+
   # Pods for KJPlayerDemo
 
   target 'KJPlayerDemoTests' do

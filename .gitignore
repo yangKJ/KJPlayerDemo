@@ -18,6 +18,8 @@ DerivedData
 *.xcuserstate
 UserInterfaceState.xcuserstate
 
+Pods/IJKMediaFramework
+
 # CocoaPods
 #
 # We recommend against adding the Pods directory to your .gitignore. However

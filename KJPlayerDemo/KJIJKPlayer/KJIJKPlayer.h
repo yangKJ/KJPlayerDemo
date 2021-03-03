@@ -8,10 +8,10 @@
 //  IJKPlayer播放器内核
 
 #import "KJBasePlayer.h"
-
-NS_ASSUME_NONNULL_BEGIN
 #if __has_include(<IJKMediaFramework/IJKMediaFramework.h>)
 #import <IJKMediaFramework/IJKMediaFramework.h>
+
+NS_ASSUME_NONNULL_BEGIN
 
 @interface KJIJKPlayer : KJBasePlayer
 @property (nonatomic,strong,readonly) IJKFFMoviePlayerController *player;
@@ -19,5 +19,5 @@ NS_ASSUME_NONNULL_BEGIN
 
 @end
 
-#endif
 NS_ASSUME_NONNULL_END
+#endif

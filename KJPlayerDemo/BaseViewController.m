@@ -142,7 +142,6 @@
 - (NSArray*)kj_basePlayerView:(KJBasePlayerView*)view progress:(float)progress end:(BOOL)end{
     if (end) {
         NSTimeInterval time = self.player.currentTime + progress * self.player.totalTime;
-        NSLog(@"---time:%.2f",time);
         self.player.kVideoAdvanceAndReverse(time, nil);
     }
     return @[@(self.player.currentTime),@(self.player.totalTime)];
@@ -150,6 +149,7 @@
 /* 音量手势反馈，是否替换自带UI，范围0 ～ 1 */
 - (BOOL)kj_basePlayerView:(KJBasePlayerView*)view volumeValue:(float)value{
     NSLog(@"---voiceValue:%.2f",value);
+    self.player.volume = value;
     return NO;
 }
 /* 亮度手势反馈，是否替换自带UI，范围0 ～ 1 */

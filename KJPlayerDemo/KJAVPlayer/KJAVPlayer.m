@@ -42,12 +42,10 @@ static NSString * const kTimeControlStatus = @"timeControlStatus";
     return self;
 }
 - (void)dealloc {
-    [self kj_destroyPlayer];
-    if (_playerView) [self.playerLayer removeFromSuperlayer];
+    [self kj_changeSourceCleanJobs];
 }
 
 #pragma mark - kvo
-static CGSize tempSize;
 - (void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary *)change context:(void *)context{
     AVPlayerItem *playerItem = (AVPlayerItem *)object;
     if ([keyPath isEqualToString:kStatus]) {//监听播放器状态
@@ -67,20 +65,35 @@ static CGSize tempSize;
             self.state = KJPlayerStateFailed;
         }
     }else if ([keyPath isEqualToString:kLoadedTimeRanges]) {//监听播放器缓冲进度
+        CGFloat total = CMTimeGetSeconds(playerItem.duration);
+        if (isnan(total) || total <= 0) {//直播流媒体
+            self.isLiveStreaming = YES;
+            CMTimeRange ranges = [[playerItem loadedTimeRanges].firstObject CMTimeRangeValue];
+            CGFloat start = CMTimeGetSeconds(ranges.start);
+            CGFloat duration = CMTimeGetSeconds(ranges.duration);
+            if (isnan(duration) || duration < 0) duration = 0;
+            if (isnan(start) || start < 0) start = 0;
+            if (duration <= self.cacheTime || start == 0) {
+                [self.player pause];
+                self.state = KJPlayerStateBuffering;
+            }else{
+                [self kj_autoPlay];
+            }
+            return;
+        }
+        self.isLiveStreaming = NO;
         if ((self.locality || self.cache) && self.progress != 0) return;
         CMTimeRange ranges = [[playerItem loadedTimeRanges].firstObject CMTimeRangeValue];
         CGFloat start = CMTimeGetSeconds(ranges.start);
         CGFloat duration = CMTimeGetSeconds(ranges.duration);
-        CGFloat totalDuration = CMTimeGetSeconds(playerItem.duration);
-        self.progress = MIN((start + duration) / totalDuration, 1);
+        self.progress = MIN((start + duration) / total, 1);
         if (self.cacheTime == 0) {
             if (self.userPause == NO && self.isPlaying == NO) {
                 [self kj_autoPlay];
             }
             return;
         }
-        if ((start + duration - self.cacheTime) >= self.currentTime ||
-            (totalDuration - self.currentTime) <= self.cacheTime) {
+        if ((start + duration - self.cacheTime) >= self.currentTime || (total - self.currentTime) <= self.cacheTime) {
             [self kj_autoPlay];
         }else{
             [self.player pause];
@@ -90,9 +103,9 @@ static CGSize tempSize;
         if (self.playerLayer.contents) {
             self.playerLayer.contents = nil;
         }
-        if (!CGSizeEqualToSize(playerItem.presentationSize, tempSize)) {
-            tempSize = playerItem.presentationSize;
-            if (self.kVideoSize) self.kVideoSize(tempSize);
+        if (!CGSizeEqualToSize(playerItem.presentationSize, self.tempSize)) {
+            self.tempSize = playerItem.presentationSize;
+            if (self.kVideoSize) self.kVideoSize(self.tempSize);
         }
     }else if ([keyPath isEqualToString:kPlaybackBufferEmpty]) {//监听缓存不够的情况
         if (playerItem.playbackBufferEmpty) {
@@ -111,15 +124,16 @@ static CGSize tempSize;
         [super observeValueForKeyPath:keyPath ofObject:object change:change context:context];
     }
 }
-//自动播放
-- (void)kj_autoPlay{
-    if (self.autoPlay && self.userPause == NO) {
-        [self kj_play];
-    }
-}
+
 #pragma mark - 定时器
+- (void)updateEvent{
+    //解决ijkplayer内核切换时刻找不到方法崩溃
+}
 //监听时间变化
 - (void)kj_addTimeObserver{
+    if (self.kPlayerDynamicChangeSource()) {
+        _timeObserver = nil;
+    }
     if (self.player == nil) return;
     if (self.timeObserver) {
         [self.player removeTimeObserver:self.timeObserver];
@@ -193,6 +207,16 @@ static CGSize tempSize;
     [self kj_destroyPlayer];
     self.state = KJPlayerStateStopped;
 }
+/* 判断是否为本地缓存视频，如果是则修改为指定链接地址 */
+- (void)kj_judgeHaveCacheWithVideoURL:(NSURL * _Nonnull __strong * _Nonnull)videoURL{
+    self.locality = NO;
+    KJCacheManager.kJudgeHaveCacheURL(^(BOOL locality) {
+        self.locality = locality;
+        if (locality) {
+            self.playError = [DBPlayerDataInfo kj_errorSummarizing:KJPlayerCustomCodeCachedComplete];
+        }
+    }, videoURL);
+}
 /* 圆圈加载动画 */
 - (void)kj_startAnimation{
     [super kj_startAnimation];
@@ -203,11 +227,20 @@ static CGSize tempSize;
 }
 
 #pragma mark - private method
+// 切换内核时的清理工作（名字不能改，动态继承时有使用）
+- (void)kj_changeSourceCleanJobs{
+    [self kj_destroyPlayer];
+    if (_playerView) [self.playerLayer removeFromSuperlayer];
+}
+//自动播放
+- (void)kj_autoPlay{
+    if (self.autoPlay && self.userPause == NO) {
+        [self kj_play];
+    }
+}
 /// 销毁播放（名字不能乱改，KJCache当中有使用）
 - (void)kj_destroyPlayer{
-    if (self.player) {
-        [self.player pause];
-    }
+    if (self.player) [self.player pause];
     [self kj_removePlayerItem];
     [self.player.currentItem cancelPendingSeeks];
     [self.player.currentItem.asset cancelLoading];
@@ -245,6 +278,11 @@ static CGSize tempSize;
     if (isnan(sec) || sec < 0) sec = 0;
     self.totalTime = sec;
     self.progress = self.locality ? 1.0 : 0.0;
+    if (sec == 0) {
+        self.isLiveStreaming = YES;
+        [self kj_autoPlay];
+        return;
+    }
     if (self.totalTime && self.kVideoTotalTime) {
         kGCD_player_main(^{
             self.kVideoTotalTime(self.totalTime);
@@ -276,23 +314,12 @@ static CGSize tempSize;
 }
 //初始化开始播放时配置信息
 - (void)kj_initializeBeginPlayConfiguration{
-    if (self.player) {
-        [self.player pause];
-    }
-    tempSize = CGSizeZero;
+    if (self.player) [self.player pause];
+    self.tempSize = CGSizeZero;
     self.currentTime = self.totalTime = 0.0;
     self.userPause = NO;
     self.tryLooked = NO;
     self.buffered = NO;
-}
-// 获取视频显示模式
-NS_INLINE NSString * kPlayerVideoGravity(KJPlayerVideoGravity videoGravity){
-    switch (videoGravity) {
-        case KJPlayerVideoGravityResizeAspect:return AVLayerVideoGravityResizeAspect;
-        case KJPlayerVideoGravityResizeAspectFill:return AVLayerVideoGravityResizeAspectFill;
-        case KJPlayerVideoGravityResizeOriginal:return AVLayerVideoGravityResize;
-        default:break;
-    }
 }
 
 #pragma mark - setter
@@ -339,7 +366,10 @@ NS_INLINE NSString * kPlayerVideoGravity(KJPlayerVideoGravity videoGravity){
             }
         }
         [weakself kj_judgeHaveCacheWithVideoURL:&tempURL];
-        if (![tempURL.absoluteString isEqualToString:self->_videoURL.absoluteString]) {
+        if (weakself.kPlayerDynamicChangeSource()) {
+            self->_videoURL = tempURL;
+            [weakself kj_initPreparePlayer];
+        }else if (![tempURL.absoluteString isEqualToString:self->_videoURL.absoluteString]) {
             self->_videoURL = tempURL;
             [weakself kj_initPreparePlayer];
         }else{
@@ -373,6 +403,15 @@ NS_INLINE NSString * kPlayerVideoGravity(KJPlayerVideoGravity videoGravity){
         _playerLayer.videoGravity = kPlayerVideoGravity(videoGravity);
     }
     _videoGravity = videoGravity;
+}
+// 获取视频显示模式
+NS_INLINE NSString * kPlayerVideoGravity(KJPlayerVideoGravity videoGravity){
+    switch (videoGravity) {
+        case KJPlayerVideoGravityResizeAspect:return AVLayerVideoGravityResizeAspect;
+        case KJPlayerVideoGravityResizeAspectFill:return AVLayerVideoGravityResizeAspectFill;
+        case KJPlayerVideoGravityResizeOriginal:return AVLayerVideoGravityResize;
+        default:break;
+    }
 }
 - (void)setBackground:(CGColorRef)background{
     if (_playerLayer && _background != background) {
@@ -413,7 +452,6 @@ NS_INLINE NSString * kPlayerVideoGravity(KJPlayerVideoGravity videoGravity){
         PLAYER_WEAKSELF;
         __block NSTimeInterval time = seconds;
         dispatch_group_notify(self.group, dispatch_get_main_queue(), ^{
-            CMTime seekTime;
             if (weakself.openAdvanceCache && weakself.locality == NO) {
                 if (weakself.totalTime) {
                     NSTimeInterval _time = weakself.progress * weakself.totalTime;
@@ -425,8 +463,7 @@ NS_INLINE NSString * kPlayerVideoGravity(KJPlayerVideoGravity videoGravity){
             if (weakself.totalTime) {
                 weakself.currentTime = time;
             }
-            seekTime = CMTimeMakeWithSeconds(time, NSEC_PER_SEC);
-            [weakself.player seekToTime:seekTime toleranceBefore:kCMTimeZero toleranceAfter:kCMTimeZero completionHandler:^(BOOL finished) {
+            [weakself.player seekToTime:CMTimeMakeWithSeconds(time, NSEC_PER_SEC) toleranceBefore:kCMTimeZero toleranceAfter:kCMTimeZero completionHandler:^(BOOL finished) {
                 if (finished) [weakself kj_play];
                 if (xxblock) xxblock(finished);
             }];
@@ -535,7 +572,6 @@ NS_INLINE NSString * kPlayerVideoGravity(KJPlayerVideoGravity videoGravity){
             _playerItem = [AVPlayerItem playerItemWithAsset:self.asset];
         }else{
             _playerItem = [AVPlayerItem playerItemWithURL:self.videoURL];
-            self.asset = [_playerItem.asset copy];
         }
         [_playerItem addObserver:self forKeyPath:kStatus
                          options:NSKeyValueObservingOptionNew context:nil];
@@ -571,6 +607,11 @@ NS_INLINE NSString * kPlayerVideoGravity(KJPlayerVideoGravity videoGravity){
     return _playerItem;
 }
 - (void)kj_removePlayerItem{
+    if (self.kPlayerDynamicChangeSource()) {
+        if (_playerItem) {//解决过度释放崩溃
+            _playerItem = nil;
+        }
+    }
     if (_playerItem == nil) return;
     [self.playerItem removeObserver:self forKeyPath:kStatus];
     [self.playerItem removeObserver:self forKeyPath:kLoadedTimeRanges];

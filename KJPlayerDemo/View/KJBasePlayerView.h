@@ -9,6 +9,7 @@
 
 #import <UIKit/UIKit.h>
 #import "KJPlayerType.h"
+#import "KJPlayerProtocol.h"
 #import "KJPlayerSystemLayer.h"
 #import "KJPlayerFastLayer.h"
 #import "KJPlayerLoadingLayer.h"
