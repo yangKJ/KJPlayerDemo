@@ -9,6 +9,8 @@
 #import "KJBasePlayerView.h"
 #import <MediaPlayer/MPVolumeView.h>
 #import "KJRotateManager.h"
+#define kLockWidth (40)
+#define kCenterPlayWidth (60)
 NSString *kPlayerBaseViewChangeNotification = @"kPlayerBaseViewNotification";
 NSString *kPlayerBaseViewChangeKey = @"kPlayerBaseViewKey";
 @interface KJBasePlayerView ()<UIGestureRecognizerDelegate>
@@ -18,16 +20,16 @@ NSString *kPlayerBaseViewChangeKey = @"kPlayerBaseViewKey";
 @property (nonatomic,assign) BOOL haveBrightness;
 @property (nonatomic,assign) float lastValue;
 @property (nonatomic,strong) UIPanGestureRecognizer *pan;
-@property (nonatomic,strong) UISlider *systemVolumeSlider;
 @property (nonatomic,strong) KJPlayerHintInfo *hintInfo;
-@property (nonatomic,strong) UIButton *backButton;
 @property (nonatomic,assign) BOOL displayOperation;
 @end
-@implementation KJBasePlayerView
+@implementation KJBasePlayerView{
+    BOOL movingH;
+}
 - (void)dealloc{
     [[NSNotificationCenter defaultCenter] removeObserver:self];
-    [self.systemVolumeSlider removeFromSuperview];
-    _systemVolumeSlider = nil;
+    [self removeObserver:self forKeyPath:@"frame"];
+    [self removeObserver:self forKeyPath:@"bounds"];
 }
 - (instancetype)initWithFrame:(CGRect)frame{
     if (self = [super initWithFrame:frame]) {
@@ -49,8 +51,11 @@ NSString *kPlayerBaseViewChangeKey = @"kPlayerBaseViewKey";
     self.hintInfo = [KJPlayerHintInfo new];
     self.operationViewHeight = 60;
     self.isHiddenBackButton = YES;
+    self.autoRotate = YES;
     [self addSubview:self.topView];
     [self addSubview:self.bottomView];
+    [self addSubview:self.lockButton];
+    [self addSubview:self.centerPlayButton];
     self.smallScreenHiddenBackButton = YES;
     self.displayOperation = YES;
     [self kj_hiddenOperationView];
@@ -58,7 +63,9 @@ NSString *kPlayerBaseViewChangeKey = @"kPlayerBaseViewKey";
 #pragma mark - NSNotification
 //屏幕旋转
 - (void)kj_orientationChange:(NSNotification*)notification{
-    
+    if (self.autoRotate) {
+        [KJRotateManager kj_rotateAutoFullScreenBasePlayerView:self];
+    }
 }
 
 #pragma mark - kvo
@@ -79,6 +86,8 @@ NSString *kPlayerBaseViewChangeKey = @"kPlayerBaseViewKey";
     [self.hintTextLayer setValue:@(self.screenState) forKey:@"screenState"];
     self.topView.frame = CGRectMake(0, 0, self.width, self.operationViewHeight);
     self.bottomView.frame = CGRectMake(0, self.height-self.operationViewHeight, self.width, self.operationViewHeight);
+    self.lockButton.frame = CGRectMake(10, (self.height-kLockWidth)/2, kLockWidth, kLockWidth);
+    self.centerPlayButton.frame = CGRectMake((self.width-kCenterPlayWidth)/2, (self.height-kCenterPlayWidth)/2, kCenterPlayWidth, kCenterPlayWidth);
 }
 
 #pragma mark - getter
@@ -133,6 +142,7 @@ NSString *kPlayerBaseViewChangeKey = @"kPlayerBaseViewKey";
 - (void)setIsFullScreen:(BOOL)isFullScreen{
     if (isFullScreen == _isFullScreen) return;
     _isFullScreen = isFullScreen;
+    self.lockButton.hidden = !isFullScreen;
     if (isFullScreen) {
         [KJRotateManager kj_rotateFullScreenBasePlayerView:self];
         self.screenState = KJPlayerVideoScreenStateFullScreen;
@@ -149,23 +159,35 @@ NSString *kPlayerBaseViewChangeKey = @"kPlayerBaseViewKey";
 }
 - (void)setFullScreenHiddenBackButton:(BOOL)fullScreenHiddenBackButton{
     _fullScreenHiddenBackButton = fullScreenHiddenBackButton;
-    if (self.backButton.superview == nil) {
-        [self addSubview:self.backButton];
+    if (fullScreenHiddenBackButton) {
+        if (_backButton.superview == nil) {
+            [self addSubview:self.backButton];
+        }
     }
-    self.backButton.hidden = fullScreenHiddenBackButton;
+    _backButton.hidden = fullScreenHiddenBackButton;
 }
 - (void)setSmallScreenHiddenBackButton:(BOOL)smallScreenHiddenBackButton{
     _smallScreenHiddenBackButton = smallScreenHiddenBackButton;
-    if (self.backButton.superview == nil) {
-        [self addSubview:self.backButton];
+    if (smallScreenHiddenBackButton) {
+        if (_backButton.superview == nil) {
+            [self addSubview:self.backButton];
+        }
     }
-    self.backButton.hidden = smallScreenHiddenBackButton;
+    _backButton.hidden = smallScreenHiddenBackButton;
 }
 
 #pragma maek - UIGestureRecognizer
 //单击手势
 - (void)tapAction:(UITapGestureRecognizer*)gesture{
     if (gesture.state == UIGestureRecognizerStateEnded) {
+        if (self.lockButton.isLocked) {
+            if (self.lockButton.isHidden) {
+                [self.lockButton kj_hiddenLockButton];
+            }else{
+                self.lockButton.hidden = YES;
+            }
+            return;
+        }
         if ([self.delegate respondsToSelector:@selector(kj_basePlayerView:isSingleTap:)]) {
             [self.delegate kj_basePlayerView:self isSingleTap:YES];
         }
@@ -174,6 +196,7 @@ NSString *kPlayerBaseViewChangeKey = @"kPlayerBaseViewKey";
 //双击手势
 - (void)doubleAction:(UITapGestureRecognizer*)gesture{
     if (gesture.state == UIGestureRecognizerStateEnded) {
+        if (self.lockButton.isLocked) return;
         if ([self.delegate respondsToSelector:@selector(kj_basePlayerView:isSingleTap:)]) {
             [self.delegate kj_basePlayerView:self isSingleTap:NO];
         }
@@ -181,19 +204,17 @@ NSString *kPlayerBaseViewChangeKey = @"kPlayerBaseViewKey";
 }
 //长按手势
 - (void)longAction:(UILongPressGestureRecognizer*)longPress{
+    if (self.lockButton.isLocked) return;
     if ([self.delegate respondsToSelector:@selector(kj_basePlayerView:longPress:)]) {
         [self.delegate kj_basePlayerView:self longPress:longPress];
     }
 }
 //音量手势，亮度手势，快进倒退进度手势
-static BOOL movingH;
 - (void)panAction:(UIPanGestureRecognizer*)pan{
+    if (self.lockButton.isLocked) return;
     PLAYER_WEAKSELF;
     void (^kSetBrightness)(float) = ^(float value){
         float brightness = weakself.lastValue - value / (weakself.height >> 1);
-        if (isnan(brightness)) return;
-        brightness = MIN(MAX(0, brightness), 1);
-        [UIScreen mainScreen].brightness = brightness;
         kGCD_player_main(^{
             if ([weakself.delegate respondsToSelector:@selector(kj_basePlayerView:brightnessValue:)]) {
                 if (![weakself.delegate kj_basePlayerView:weakself brightnessValue:brightness]) {
@@ -210,10 +231,7 @@ static BOOL movingH;
     };
     void (^kSetVolume)(float) = ^(float value){
         float volume = weakself.lastValue - value / (weakself.height >> 1);
-        if (isnan(volume)) return;
-        volume = MIN(MAX(0, volume), 1);
         kGCD_player_main(^{
-            [weakself.systemVolumeSlider setValue:volume animated:NO];
             if ([weakself.delegate respondsToSelector:@selector(kj_basePlayerView:volumeValue:)]) {
                 if (![weakself.delegate kj_basePlayerView:weakself volumeValue:volume]) {
                     if (!weakself.vbLayer.superlayer) {
@@ -259,7 +277,7 @@ static BOOL movingH;
                     if (array.count == 2) {
                         NSTimeInterval totalTime = [array[1] floatValue];
                         if (totalTime <= 0) return;
-                        if (!self.fastLayer.superlayer) {
+                        if (self.fastLayer.superlayer == nil) {
                             [self.layer addSublayer:self.fastLayer];
                         }else{
                             self.fastLayer.hidden = NO;
@@ -306,58 +324,15 @@ static BOOL movingH;
 #pragma mark - method
 /* 隐藏操作面板，是否隐藏返回按钮 */
 - (void)kj_hiddenOperationView{
-    _displayOperation = NO;
-//    CGFloat y1 = self.topView.frame.origin.y;
-//    CGFloat y2 = self.bottomView.frame.origin.y;
-    [UIView animateWithDuration:0.5f animations:^{
-//        if (self.screenState == KJPlayerVideoScreenStateFullScreen) {
-//            self.topView.frame = CGRectMake(self.topView.frame.origin.x, -self.topView.frame.size.height, self.topView.frame.size.width, self.topView.frame.size.height);
-//            self.bottomView.frame = CGRectMake(self.bottomView.frame.origin.x, y2+self.bottomView.frame.size.height, self.bottomView.frame.size.width, self.bottomView.frame.size.height);
-//        }else{
-        self.topView.hidden = YES;
-        self.bottomView.hidden = YES;
-        if (self.screenState == KJPlayerVideoScreenStateFullScreen) {
-            self.backButton.hidden = self.isHiddenBackButton;
-        }else if (self.smallScreenHiddenBackButton) {
-            self.backButton.hidden = YES;
-        }
-//        }
-    } completion:^(BOOL finished) {
-//        if (self.screenState == KJPlayerVideoScreenStateFullScreen) {
-//            self.topView.hidden = YES;
-//            self.bottomView.hidden = YES;
-//        }
-//        self.topView.frame = CGRectMake(self.topView.frame.origin.x, y1, self.topView.frame.size.width, self.topView.frame.size.height);
-//        self.bottomView.frame = CGRectMake(self.bottomView.frame.origin.x, y2, self.bottomView.frame.size.width, self.bottomView.frame.size.height);
-    }];
+    [KJRotateManager kj_operationViewHiddenBasePlayerView:self];
 }
 /* 显示操作面板 */
 - (void)kj_displayOperationView{
-    _displayOperation = YES;
-    [UIView animateWithDuration:0.3f animations:^{
-        self.topView.hidden = NO;
-        self.bottomView.hidden = NO;
-        if (self.screenState == KJPlayerVideoScreenStateFullScreen) {
-            self.backButton.hidden = self.fullScreenHiddenBackButton;
-        }else if (self.smallScreenHiddenBackButton == NO) {
-            self.backButton.hidden = NO;
-        }
-    } completion:^(BOOL finished) {
-        if (self.autoHideTime) {
-            [self.class cancelPreviousPerformRequestsWithTarget:self selector:@selector(kj_hiddenOperationView) object:nil];
-            [self performSelector:@selector(kj_hiddenOperationView) withObject:nil afterDelay:self.autoHideTime];
-        }
-    }];
+    [KJRotateManager kj_operationViewDisplayBasePlayerView:self];
 }
-
-#pragma mark - action
-- (void)backItemClick{
-    if (self.screenState == KJPlayerVideoScreenStateFullScreen) {
-        self.isFullScreen = NO;
-    }
-    if (self.kVideoClickButtonBack) {
-        self.kVideoClickButtonBack(self);
-    }
+/* 取消收起操作面板，可用于滑动滑杆时刻不自动隐藏 */
+- (void)kj_cancelHiddenOperationView{
+    [NSObject cancelPreviousPerformRequestsWithTarget:self selector:@selector(kj_hiddenOperationView) object:nil];
 }
 
 #pragma mark - lazy
@@ -369,18 +344,6 @@ static BOOL movingH;
         _pan = pan;
     }
     return _pan;
-}
-- (UISlider *)systemVolumeSlider{
-    if (!_systemVolumeSlider) {
-        MPVolumeView *volumeView = [[MPVolumeView alloc] init];
-        for (UIView *subview in volumeView.subviews) {
-            if ([subview.class.description isEqualToString:@"MPVolumeSlider"]) {
-                _systemVolumeSlider = (UISlider*)subview;
-                break;
-            }
-        }
-    }
-    return _systemVolumeSlider;
 }
 - (KJPlayerFastLayer *)fastLayer{
     if (!_fastLayer) {
@@ -427,21 +390,6 @@ static BOOL movingH;
     }
     return _hintTextLayer;
 }
-- (UIButton *)backButton{
-    if (!_backButton) {
-        CGFloat width = self.operationViewHeight - 20;
-        UIButton *button = [[UIButton alloc]initWithFrame:CGRectMake(10, 10, width, width)];
-        button.layer.cornerRadius = width/2;
-        button.backgroundColor = [UIColor.blackColor colorWithAlphaComponent:0.5];
-        [button addTarget:self action:@selector(backItemClick) forControlEvents:UIControlEventTouchUpInside];
-        [button setTitle:@"\U0000e697" forState:(UIControlStateNormal)];
-        [button setTitleColor:self.mainColor forState:(UIControlStateNormal)];
-        button.titleLabel.font = [UIFont fontWithName:@"iconfont" size:width];
-        button.layer.zPosition = KJBasePlayerViewLayerZPositionBackButton;
-        _backButton = button;
-    }
-    return _backButton;
-}
 - (KJPlayerOperationView *)topView{
     if (!_topView) {
         _topView = [[KJPlayerOperationView alloc] initWithFrame:CGRectMake(0, 0, self.width, self.operationViewHeight) OperationType:(KJPlayerOperationViewTypeTop)];
@@ -455,6 +403,31 @@ static BOOL movingH;
         _bottomView.mainColor = self.mainColor;
     }
     return _bottomView;
+}
+- (KJPlayerButton *)backButton{
+    if (!_backButton) {
+        CGFloat width = self.operationViewHeight - 20;
+        _backButton = [[KJPlayerButton alloc]initWithFrame:CGRectMake(10, 10, width, width)];
+        _backButton.mainColor = self.mainColor;
+        _backButton.type = KJPlayerButtonTypeBack;
+    }
+    return _backButton;
+}
+- (KJPlayerButton *)lockButton{
+    if (!_lockButton) {
+        _lockButton = [[KJPlayerButton alloc]initWithFrame:CGRectMake(10, (self.height-kLockWidth)/2, kLockWidth, kLockWidth)];
+        _lockButton.mainColor = self.mainColor;
+        _lockButton.type = KJPlayerButtonTypeLock;
+    }
+    return _lockButton;
+}
+- (KJPlayerButton *)centerPlayButton{
+    if (!_centerPlayButton) {
+        _centerPlayButton = [[KJPlayerButton alloc]initWithFrame:CGRectMake((self.width-kCenterPlayWidth)/2, (self.height-kCenterPlayWidth)/2, kCenterPlayWidth, kCenterPlayWidth)];
+        _centerPlayButton.mainColor = self.mainColor;
+        _centerPlayButton.type = KJPlayerButtonTypeCenterPlay;
+    }
+    return _centerPlayButton;
 }
 
 @end

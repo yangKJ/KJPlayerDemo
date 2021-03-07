@@ -8,7 +8,7 @@
 * 支持音/视频播放，midi文件播放  
 * 支持在线播放/本地播放
 * 支持后台播放，音频提取播放  
-* 支持视频边下边播，把播放器播放过的数据流缓存到本地
+* 支持视频边下边播，分片下载播放存储
 * 支持断点续载续播，下次直接优先从缓冲读取播放
 * 支持缓存管理，清除时间段缓存
 * 支持试看，自动跳过片头
@@ -17,7 +17,9 @@
 * 支持随机/重复/顺序播放
 * 支持重力感应，全屏/半屏切换
 * 支持基本手势操作，进度音量等
-* 支持切换不同分辨率视频
+* 支持切换不同分辨率视频  
+* 支持直播流媒体播放  
+* 持续更新ing...
 
 ----------------------------------------
 > 视频支持格式：mp4、m3u8、wav、avi  
@@ -29,6 +31,7 @@
 ```
 pod 'KJPlayer' # 播放器功能区
 pod 'KJPlayer/AVPlayer' # AVPlayer内核播放器
+pod 'KJPlayer/AVDownloader'  # AVPlayer附加边播边下边存分支 
 pod 'KJPlayer/MIDI' # midi内核
 pod 'KJPlayer/IJKPlayer' # ijkplayer内核
 ```
@@ -38,9 +41,11 @@ pod 'KJPlayer/IJKPlayer' # ijkplayer内核
 
 ### <a id="效果图"></a>效果图
 横屏展示效果图：
+
 ![](https://upload-images.jianshu.io/upload_images/1933747-3d64de1b9d073891.png)
 
 竖屏目前展示效果：
+
 ![](https://upload-images.jianshu.io/upload_images/1933747-537dbd09082b0153.jpeg)
 
 ## 模块介绍
@@ -315,7 +320,7 @@ if (!kPlayerHaveTracks(*videoURL, ^(AVURLAsset * asset) {
 }
 ```
 
-5、播放准备操作，设置`playerItem`，然后初始化`player`，添加时间观察，处理播放
+5、播放准备操作设置`playerItem`，然后初始化`player`，添加时间观察者处理播放
 
 ```
 self.timeObserver = [self.player addPeriodicTimeObserverForInterval:CMTimeMakeWithSeconds(_timeSpace, NSEC_PER_SEC) queue:dispatch_queue_create("kj.player.time.queue", NULL) usingBlock:^(CMTime time) {
@@ -346,10 +351,11 @@ self.timeObserver = [self.player addPeriodicTimeObserverForInterval:CMTimeMakeWi
 
 6、处理视频状态，kvo监听播放器五种状态 
  
-- `status`：播放器状态  
-- `loadedTimeRanges`：监听播放器的下载进度 
-- `presentationSize`：获取播放视频尺寸  
-- `playbackBufferEmpty`和`playbackLikelyToKeepUp`：监听播放器在缓冲数据的状态  
+- `status`：监听播放器状态 
+- `loadedTimeRanges`：监听播放器缓冲进度 
+- `presentationSize`：监听视频尺寸  
+- `playbackBufferEmpty`：监听缓存不够的情况
+- `playbackLikelyToKeepUp`：监听缓存足够  
 
 大致流程就差不多这样子，Demo也写的很详细，可以自己去看看
 
@@ -360,6 +366,6 @@ self.timeObserver = [self.player addPeriodicTimeObserverForInterval:CMTimeMakeWi
 </p>
 
 #### **总结：先把基本的壳子完善，后面再慢慢来补充其他的内核，如若觉得有帮助请帮忙点个星，有什么问题和需求也可以Issues**
-也可以通过以下方式联系我，邮箱地址：ykj310@126.com
+**也可以通过以下方式联系我，邮箱地址：ykj310@126.com**
 
 **[Github地址](https://github.com/yangKJ) 、[简书地址](https://www.jianshu.com/u/c84c00476ab6) 、[博客地址](https://blog.csdn.net/qq_34534179)、[掘金地址](https://juejin.cn/user/1987535102554472/posts)**

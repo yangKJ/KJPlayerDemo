@@ -51,7 +51,7 @@
     [button addTarget:self action:@selector(kj_button) forControlEvents:(UIControlEventTouchUpInside)];
     [self.view addSubview:button];
     
-    [self test];
+//    [self test];
     
     self.setemps = @[@"流媒体专区",@"控件区",@"功能区",@"其他"];
 }
@@ -65,12 +65,13 @@
     if (!_temps) {
         NSMutableArray *temp = [NSMutableArray array];
         [temp addObject:@{@"VCName":@"KJLivePlayerVC",@"describeName":@"直播流媒体测试"}];
-        [temp addObject:@{@"VCName":@"KJM3u8PlayerVC",@"describeName":@"AVPlayer播放m3u8格式"}];
+        [temp addObject:@{@"VCName":@"KJM3u8PlayerVC",@"describeName":@"AVPlayer流媒体播放"}];
+        [temp addObject:@{@"VCName":@"KJIJKPlayerVC",@"describeName":@"IJKPlayer流媒体播放"}];
         
         NSMutableArray *temp1 = [NSMutableArray array];
-        [temp1 addObject:@{@"VCName":@"KJChangeSourceVC",@"describeName":@"动态切换内核播放测试"}];
         [temp1 addObject:@{@"VCName":@"KJTablePlayerVC",@"describeName":@"无缝衔接列表播放"}];
         [temp1 addObject:@{@"VCName":@"KJListPlayerVC",@"describeName":@"缓存视频列表"}];
+        [temp1 addObject:@{@"VCName":@"KJChangeSourceVC",@"describeName":@"动态切换内核播放测试"}];
         [temp1 addObject:@{@"VCName":@"KJLoadingPlayerVC",@"describeName":@"加载动画和提示框测试"}];
         
         NSMutableArray *temp0 = [NSMutableArray array];

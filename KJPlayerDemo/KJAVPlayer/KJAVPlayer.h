@@ -17,6 +17,10 @@ NS_ASSUME_NONNULL_BEGIN
 @property (nonatomic,strong,readonly) AVPlayerLayer *playerLayer;
 @property (nonatomic,strong,readonly) AVPlayerItem *playerItem;
 @property (nonatomic,strong,readonly) AVPlayer *player;
+@property (nonatomic,strong) AVURLAsset *_Nullable asset;
+
+// 判断是否含有视频轨道
+BOOL kPlayerHaveTracks(NSURL *videoURL, void(^assetblock)(AVURLAsset *), NSDictionary *requestHeader);
 
 @end
 

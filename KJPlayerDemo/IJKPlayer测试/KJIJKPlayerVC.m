@@ -1,20 +1,20 @@
 //
-//  KJLivePlayerVC.m
+//  KJIJKPlayerVC.m
 //  KJPlayerDemo
 //
-//  Created by 杨科军 on 2021/3/3.
+//  Created by 杨科军 on 2021/3/7.
 //  Copyright © 2021 杨科军. All rights reserved.
-//  https://github.com/yangKJ/KJPlayerDemo
+//
 
-#import "KJLivePlayerVC.h"
+#import "KJIJKPlayerVC.h"
 
-@interface KJLivePlayerVC ()<KJPlayerDelegate,KJPlayerBaseViewDelegate>
+@interface KJIJKPlayerVC ()<KJPlayerDelegate,KJPlayerBaseViewDelegate>
 @property(nonatomic,strong)KJIJKPlayer *player;
 @property(nonatomic,strong)KJBasePlayerView *basePlayerView;
 @property(nonatomic,strong)NSArray *temps;
 @end
 
-@implementation KJLivePlayerVC
+@implementation KJIJKPlayerVC
 - (void)viewDidDisappear:(BOOL)animated{
     [super viewDidDisappear:animated];
     if (_player) {
@@ -63,23 +63,12 @@
     label.text = @"直播流媒体测试，仅供测试参考!!!";
     [self.view addSubview:label];
     
-    self.temps = @[@"http://ivi.bupt.edu.cn/hls/hunanhd.m3u8",
-                   @"http://ivi.bupt.edu.cn/hls/gdhd.m3u8",
-                   @"http://ivi.bupt.edu.cn/hls/tjhd.m3u8",
-                   @"http://ivi.bupt.edu.cn/hls/cctv1hd.m3u8",
-                   @"http://ivi.bupt.edu.cn/hls/cctv2hd.m3u8",
-                   @"http://ivi.bupt.edu.cn/hls/cctv3hd.m3u8",
-                   @"http://ivi.bupt.edu.cn/hls/cctv4hd.m3u8",
-                   @"http://ivi.bupt.edu.cn/hls/cctv5phd.m3u8",
-                   @"http://ivi.bupt.edu.cn/hls/cctv6hd.m3u8",
-                   @"http://ivi.bupt.edu.cn/hls/cctv7hd.m3u8",
-                   @"http://ivi.bupt.edu.cn/hls/cctv8hd.m3u8",
-                   @"http://ivi.bupt.edu.cn/hls/cctv9hd.m3u8",
-                   @"http://ivi.bupt.edu.cn/hls/cctv10hd.m3u8",
-                   @"http://ivi.bupt.edu.cn/hls/cctv12hd.m3u8",
-                   @"http://ivi.bupt.edu.cn/hls/cctv14hd.m3u8",
+    self.temps = @[@"http://hls.cntv.myalicdn.com/asp/hls/450/0303000a/3/default/bca293257d954934afadfaa96d865172/450.m3u8",
+                   @"http://hls.cntv.myalicdn.com/asp/hls/850/0303000a/3/default/bca293257d954934afadfaa96d865172/850.m3u8",
+                   @"http://hls.cntv.myalicdn.com/asp/hls/1200/0303000a/3/default/bca293257d954934afadfaa96d865172/1200.m3u8",
+                   @"http://hls.cntv.myalicdn.com/asp/hls/2000/0303000a/3/default/bca293257d954934afadfaa96d865172/2000.m3u8"
     ];
-    NSArray *names = @[@"湖南高清",@"广东高清",@"天津高清",@"CCTV1综合",@"CCTV2财经",@"CCTV3综艺",@"CCTV4中文国际",@"CCTV5体育",@"CCTV6电影",@"CCTV7国防军事",@"CCTV8电视剧",@"CCTV9纪录",@"CCTV10科教",@"CCTV12社会与法",@"CCTV14少儿"];
+    NSArray *names = @[@"流畅",@"高清",@"超清",@"蓝光"];
     CGFloat w = (self.view.frame.size.width-80)/3;
     CGFloat h = w/2.5;
     CGFloat y = CGRectGetMaxY(label.frame)+20;
@@ -95,7 +84,7 @@
         [button addTarget:self action:@selector(buttonAction:) forControlEvents:(UIControlEventTouchUpInside)];
     }
     
-    self.player.videoURL = [NSURL URLWithString:self.temps[5]];
+    self.player.videoURL = [NSURL URLWithString:self.temps[3]];
 }
 - (void)buttonAction:(UIButton*)sender{
     self.player.videoURL = [NSURL URLWithString:self.temps[sender.tag-520]];

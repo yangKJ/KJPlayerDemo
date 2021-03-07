@@ -31,7 +31,7 @@ PLAYER_CACHE_COMMON_EXTENSION_PROPERTY
             return NO;
         }else if (kPlayerVideoAesstType(videoURL) == KJPlayerAssetTypeHLS) {
             dispatch_group_async(self.group, dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
-                [weakself kj_performSelString:@"kj_initPreparePlayer"];
+                kPlayerPerformSel(weakself, @"kj_initPreparePlayer");
             });
             return NO;
         }
@@ -54,39 +54,16 @@ PLAYER_CACHE_COMMON_EXTENSION_PROPERTY
             }, weakself.requestHeader)) {
                 weakself.playError = [DBPlayerDataInfo kj_errorSummarizing:KJPlayerCustomCodeVideoURLFault];
                 weakself.state = KJPlayerStateFailed;
-                [weakself kj_performSelString:@"kj_destroyPlayer"];
+                kPlayerPerformSel(weakself, @"kj_destroyPlayer");
             }else{
-                [weakself kj_performSelString:@"kj_initPreparePlayer"];
+                kPlayerPerformSel(weakself, @"kj_initPreparePlayer");
             }
         });
         return YES;
     };
 }
 
-#pragma mark - private method
-// 隐式调用
-- (void)kj_performSelString:(NSString*)name{
-    SEL sel = NSSelectorFromString(name);
-    if ([self respondsToSelector:sel]) {
-        ((void(*)(id, SEL))(void*)objc_msgSend)((id)self, sel);
-    }
-}
-// 判断是否含有视频轨道
-BOOL kPlayerHaveTracks(NSURL *videoURL, void(^assetblock)(AVURLAsset *), NSDictionary *requestHeader){
-    if (videoURL == nil) return NO;
-    AVURLAsset *asset = [AVURLAsset URLAssetWithURL:videoURL options:requestHeader];
-    if (assetblock) assetblock(asset);
-    NSArray *tracks = [asset tracksWithMediaType:AVMediaTypeVideo];
-    return [tracks count] > 0;
-}
-
 #pragma mark - associated
-- (AVURLAsset *)asset{
-    return objc_getAssociatedObject(self, _cmd);
-}
-- (void)setAsset:(AVURLAsset *)asset{
-    objc_setAssociatedObject(self, @selector(asset), asset, OBJC_ASSOCIATION_RETAIN_NONATOMIC);
-}
 - (KJFileHandleInfo *)cacheInfo{
     return objc_getAssociatedObject(self, _cmd);
 }

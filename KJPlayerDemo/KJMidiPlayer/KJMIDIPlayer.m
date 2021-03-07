@@ -45,6 +45,7 @@ PLAYER_COMMON_FUNCTION_PROPERTY PLAYER_COMMON_UI_PROPERTY
     PLAYER_WEAKSELF;
     dispatch_group_notify(self.group, dispatch_get_main_queue(), ^{
         if (weakself.player == nil || weakself.tryLooked) return;
+        [super kj_play];
         MusicPlayerStart(weakself.player);
         weakself.userPause = NO;
     });
@@ -56,21 +57,22 @@ PLAYER_COMMON_FUNCTION_PROPERTY PLAYER_COMMON_UI_PROPERTY
 /* 继续 */
 - (void)kj_resume{
     if (self.player == nil) return;
-    self.state = KJPlayerStatePausing;
-    self.userPause = YES;
+    [super kj_resume];
     if (![self isPlaying] && self.player) MusicPlayerStart(self.player);
     [self startGraph];
 }
 /* 暂停 */
 - (void)kj_pause{
     if (self.player == nil) return;
-    self.state = KJPlayerStatePausing;
-    self.userPause = YES;
+    [super kj_pause];
     if ([self isPlaying]) MusicPlayerStop(self.player);
     [self stopGraph];
+    self.state = KJPlayerStatePausing;
+    self.userPause = YES;
 }
 /* 停止 */
 - (void)kj_stop{
+    [super kj_stop];
     [self stopGraph];
     if (self.player) {
         MusicPlayerStop(self.player);
@@ -141,8 +143,11 @@ PLAYER_COMMON_FUNCTION_PROPERTY PLAYER_COMMON_UI_PROPERTY
 /* 快进或快退 */
 - (void (^)(NSTimeInterval,void (^_Nullable)(BOOL)))kVideoAdvanceAndReverse{
     return ^(NSTimeInterval seconds,void (^xxblock)(BOOL)){
-       PLAYER_WEAKSELF;
-        __block  MusicTimeStamp time = seconds;
+        if (!self.player) {
+            if (xxblock) xxblock(NO);
+        }
+        PLAYER_WEAKSELF;
+        __block MusicTimeStamp time = seconds;
         dispatch_group_notify(self.group, dispatch_get_main_queue(), ^{
             if (weakself.totalTime) {
                 weakself.currentTime = time;
@@ -227,6 +232,13 @@ PLAYER_COMMON_FUNCTION_PROPERTY PLAYER_COMMON_UI_PROPERTY
 /// 停止音频处理图
 - (void)stopGraph{
     if (graph && [self isPlaying]) AUGraphStop(graph);
+}
+- (void)updateEvent{
+    //解决ijkplayer内核切换时刻找不到方法崩溃
+}
+// 切换内核时的清理工作（名字不能改，动态切换时有使用）
+- (void)kj_changeSourceCleanJobs{
+    [self kj_stop];
 }
 
 @end

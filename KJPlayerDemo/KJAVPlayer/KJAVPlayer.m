@@ -7,7 +7,7 @@
 //  https://github.com/yangKJ/KJPlayerDemo
 
 #import "KJAVPlayer.h"
-#import "KJAVPlayer+KJCache.h"
+//#import "KJAVPlayer+KJCache.h"
 
 #pragma clang diagnostic push
 #pragma clang diagnostic ignored"-Wdeprecated-declarations"
@@ -20,7 +20,6 @@ PLAYER_COMMON_EXTENSION_PROPERTY
 @property (nonatomic,strong) AVPlayer *player;
 @property (nonatomic,strong) AVPlayerItemVideoOutput *playerOutput;
 @property (nonatomic,strong) AVAssetImageGenerator *imageGenerator;
-@property (nonatomic,assign) BOOL buffered;
 @end
 @implementation KJAVPlayer
 PLAYER_COMMON_FUNCTION_PROPERTY PLAYER_COMMON_UI_PROPERTY
@@ -50,9 +49,17 @@ static NSString * const kTimeControlStatus = @"timeControlStatus";
     AVPlayerItem *playerItem = (AVPlayerItem *)object;
     if ([keyPath isEqualToString:kStatus]) {//监听播放器状态
         if (playerItem.status == AVPlayerStatusReadyToPlay) {
+            if (self.playerLayer.contents) {
+                self.playerLayer.contents = nil;
+            }
+            NSTimeInterval sec = CMTimeGetSeconds(playerItem.duration);
+            if (isnan(sec) || sec < 0) sec = 0;
+            if (sec) {
+                self.isLiveStreaming = NO;
+            }else{
+                self.isLiveStreaming = YES;
+            }
             if (self.totalTime <= 0) {
-                NSTimeInterval sec = CMTimeGetSeconds(playerItem.duration);
-                if (isnan(sec) || sec < 0) sec = 0;
                 self.totalTime = sec;
                 if (self.kVideoTotalTime) self.kVideoTotalTime(self.totalTime);
             }
@@ -65,9 +72,7 @@ static NSString * const kTimeControlStatus = @"timeControlStatus";
             self.state = KJPlayerStateFailed;
         }
     }else if ([keyPath isEqualToString:kLoadedTimeRanges]) {//监听播放器缓冲进度
-        CGFloat total = CMTimeGetSeconds(playerItem.duration);
-        if (isnan(total) || total <= 0) {//直播流媒体
-            self.isLiveStreaming = YES;
+        if (self.isLiveStreaming) {//直播流媒体
             CMTimeRange ranges = [[playerItem loadedTimeRanges].firstObject CMTimeRangeValue];
             CGFloat start = CMTimeGetSeconds(ranges.start);
             CGFloat duration = CMTimeGetSeconds(ranges.duration);
@@ -81,28 +86,25 @@ static NSString * const kTimeControlStatus = @"timeControlStatus";
             }
             return;
         }
-        self.isLiveStreaming = NO;
         if ((self.locality || self.cache) && self.progress != 0) return;
         CMTimeRange ranges = [[playerItem loadedTimeRanges].firstObject CMTimeRangeValue];
         CGFloat start = CMTimeGetSeconds(ranges.start);
         CGFloat duration = CMTimeGetSeconds(ranges.duration);
-        self.progress = MIN((start + duration) / total, 1);
+        self.progress = MIN((start + duration) / self.totalTime, 1);
         if (self.cacheTime == 0) {
             if (self.userPause == NO && self.isPlaying == NO) {
                 [self kj_autoPlay];
             }
             return;
         }
-        if ((start + duration - self.cacheTime) >= self.currentTime || (total - self.currentTime) <= self.cacheTime) {
+        if ((start + duration - self.cacheTime) >= self.currentTime ||
+            (self.totalTime - self.currentTime) <= self.cacheTime) {
             [self kj_autoPlay];
         }else{
             [self.player pause];
             self.state = KJPlayerStateBuffering;
         }
     }else if ([keyPath isEqualToString:kPresentationSize]) {//监听视频尺寸
-        if (self.playerLayer.contents) {
-            self.playerLayer.contents = nil;
-        }
         if (!CGSizeEqualToSize(playerItem.presentationSize, self.tempSize)) {
             self.tempSize = playerItem.presentationSize;
             if (self.kVideoSize) self.kVideoSize(self.tempSize);
@@ -113,7 +115,7 @@ static NSString * const kTimeControlStatus = @"timeControlStatus";
             [self.player pause];
             self.state = KJPlayerStateBuffering;
         }
-    }else if ([keyPath isEqualToString:kPlaybackLikelyToKeepUp]) {////监听缓存足够
+    }else if ([keyPath isEqualToString:kPlaybackLikelyToKeepUp]) {//监听缓存足够
         if (playerItem.playbackLikelyToKeepUp) {
             self.buffered = YES;
             [self kj_autoPlay];
@@ -125,15 +127,16 @@ static NSString * const kTimeControlStatus = @"timeControlStatus";
     }
 }
 
-#pragma mark - 定时器
-- (void)updateEvent{
-    //解决ijkplayer内核切换时刻找不到方法崩溃
+#pragma mark - Notification
+/* 监控播放完成通知 */
+- (void)kj_playbackFinished:(NSNotification*)notification{
+    self.state = KJPlayerStatePlayFinished;
+    self.currentTime = 0;
 }
+
+#pragma mark - 定时器
 //监听时间变化
 - (void)kj_addTimeObserver{
-    if (self.kPlayerDynamicChangeSource()) {
-        _timeObserver = nil;
-    }
     if (self.player == nil) return;
     if (self.timeObserver) {
         [self.player removeTimeObserver:self.timeObserver];
@@ -141,45 +144,28 @@ static NSString * const kTimeControlStatus = @"timeControlStatus";
     }
     PLAYER_WEAKSELF;
     self.timeObserver = [self.player addPeriodicTimeObserverForInterval:CMTimeMakeWithSeconds(_timeSpace, NSEC_PER_SEC) queue:dispatch_queue_create("kj.player.time.queue", NULL) usingBlock:^(CMTime time) {
+        if (weakself.isLiveStreaming) return;
         NSTimeInterval sec = CMTimeGetSeconds(time);
         if (isnan(sec) || sec < 0) sec = 0;
-        if (weakself.totalTime <= 0) return;
-        if ((NSInteger)sec >= (NSInteger)weakself.totalTime) {
-            [weakself.player pause];
-            weakself.state = KJPlayerStatePlayFinished;
-            weakself.currentTime = 0;
-        }else if (weakself.userPause == NO && weakself.buffered) {
+        if (weakself.userPause == NO && weakself.buffered) {
             weakself.state = KJPlayerStatePlaying;
-            weakself.currentTime = sec;
         }
-        if (sec > weakself.tryTime && weakself.tryTime) {
+        if ([weakself kj_tryLook:sec]) {
             [weakself kj_pause];
-            if (!weakself.tryLooked) {
-                weakself.tryLooked = YES;
-                kGCD_player_main(^{
-                    if (weakself.tryTimeBlock) weakself.tryTimeBlock();
-                });
-            }
         }else{
-            weakself.tryLooked = NO;
+            weakself.currentTime = sec;
         }
     }];
 }
-
-#pragma mark - super method
-- (void)kj_basePlayerViewChange:(NSNotification*)notification{
-    [super kj_basePlayerViewChange:notification];
-    CGRect rect = [notification.userInfo[kPlayerBaseViewChangeKey] CGRectValue];
-    self.playerLayer.frame = CGRectMake(0, 0, rect.size.width, rect.size.height);
-    if (self.playerLayer.superlayer == nil) {
-        [self.playerView.layer addSublayer:self.playerLayer];
-    }
+- (void)updateEvent{
+    //解决ijkplayer内核切换时刻找不到方法崩溃
 }
 
 #pragma mark - public method
 /* 准备播放 */
 - (void)kj_play{
     if (self.player == nil || self.tryLooked) return;
+    [super kj_play];
     [self.player play];
     self.player.muted = self.muted;
     self.player.rate = self.speed;
@@ -187,35 +173,34 @@ static NSString * const kTimeControlStatus = @"timeControlStatus";
 }
 /* 重播 */
 - (void)kj_replay{
+    [super kj_replay];
     [self.player seekToTime:CMTimeMakeWithSeconds(self.skipHeadTime, NSEC_PER_SEC) toleranceBefore:kCMTimeZero toleranceAfter:kCMTimeZero completionHandler:^(BOOL finished) {
         if (finished) [self kj_play];
     }];
 }
 /* 继续 */
 - (void)kj_resume{
+    [super kj_resume];
     [self kj_play];
 }
 /* 暂停 */
 - (void)kj_pause{
     if (self.player == nil) return;
+    [super kj_pause];
     [self.player pause];
     self.state = KJPlayerStatePausing;
     self.userPause = YES;
 }
 /* 停止 */
 - (void)kj_stop{
+    [super kj_stop];
     [self kj_destroyPlayer];
     self.state = KJPlayerStateStopped;
 }
 /* 判断是否为本地缓存视频，如果是则修改为指定链接地址 */
-- (void)kj_judgeHaveCacheWithVideoURL:(NSURL * _Nonnull __strong * _Nonnull)videoURL{
-    self.locality = NO;
-    KJCacheManager.kJudgeHaveCacheURL(^(BOOL locality) {
-        self.locality = locality;
-        if (locality) {
-            self.playError = [DBPlayerDataInfo kj_errorSummarizing:KJPlayerCustomCodeCachedComplete];
-        }
-    }, videoURL);
+- (BOOL)kj_judgeHaveCacheWithVideoURL:(NSURL * _Nonnull __strong * _Nonnull)videoURL{
+    self.locality = [super kj_judgeHaveCacheWithVideoURL:videoURL];
+    return self.locality;
 }
 /* 圆圈加载动画 */
 - (void)kj_startAnimation{
@@ -227,16 +212,25 @@ static NSString * const kTimeControlStatus = @"timeControlStatus";
 }
 
 #pragma mark - private method
-// 切换内核时的清理工作（名字不能改，动态继承时有使用）
+/// 切换内核时的清理工作（名字不能改，动态切换时有使用）
 - (void)kj_changeSourceCleanJobs{
     [self kj_destroyPlayer];
     if (_playerView) [self.playerLayer removeFromSuperlayer];
+    _playerLayer = nil;
+    _playerItem = nil;
+    _playerOutput = nil;
+    if (_imageGenerator) _imageGenerator = nil;
 }
-//自动播放
-- (void)kj_autoPlay{
-    if (self.autoPlay && self.userPause == NO) {
-        [self kj_play];
+//加载视屏流视图（名字不能乱改，父类有调用）
+- (void)kj_displayPictureWithSize:(CGSize)size{
+    if (_playerView == nil) return;
+    if (_playerLayer.superlayer == nil) {
+        [self.playerView.layer addSublayer:self.playerLayer];
     }
+    if (CGSizeEqualToSize(size, self.playerLayer.frame.size)) {
+        return;
+    }
+    self.playerLayer.frame = CGRectMake(0, 0, size.width, size.height);
 }
 /// 销毁播放（名字不能乱改，KJCache当中有使用）
 - (void)kj_destroyPlayer{
@@ -248,7 +242,9 @@ static NSString * const kTimeControlStatus = @"timeControlStatus";
     [self.player replaceCurrentItemWithPlayerItem:nil];
     _timeObserver = nil;
     _player = nil;
-    self.asset = nil;
+    _asset = nil;
+    _playerLayer = nil;
+    kPlayerPerformSel(self, @"kj_closePingTimer");
 }
 /// 播放准备（名字不能乱改，KJCache当中有使用）
 - (void)kj_initPreparePlayer{
@@ -288,26 +284,22 @@ static NSString * const kTimeControlStatus = @"timeControlStatus";
             self.kVideoTotalTime(self.totalTime);
         });
     }
-    /// 功能操作
+#pragma mark - 记录播放/跳过片头
     if (self.recordLastTime) {
-        NSString *dbid = kPlayerIntactName(self.originalURL);
-        NSTimeInterval time = [DBPlayerDataInfo kj_getLastTimeDbid:dbid];
-        kGCD_player_main(^{
-            if (self.totalTime) self.currentTime = time;
-        });
-        self.kVideoAdvanceAndReverse(time,nil);
+        NSTimeInterval time = [DBPlayerDataInfo kj_getLastTimeDbid:kPlayerIntactName(self.originalURL)];
         if (self.recordTimeBlock) {
             kGCD_player_main(^{
                 self.recordTimeBlock(time);
             });
         }
+        self.kVideoAdvanceAndReverse(time,nil);
     }else if (self.skipHeadTime) {
-        self.kVideoAdvanceAndReverse(self.skipHeadTime,nil);
         if (self.skipTimeBlock) {
             kGCD_player_main(^{
                 self.skipTimeBlock(KJPlayerVideoSkipStateHead);
             });
         }
+        self.kVideoAdvanceAndReverse(self.skipHeadTime,nil);
     }else{
         [self kj_autoPlay];
     }
@@ -321,26 +313,66 @@ static NSString * const kTimeControlStatus = @"timeControlStatus";
     self.tryLooked = NO;
     self.buffered = NO;
 }
+//自动播放
+- (void)kj_autoPlay{
+    if (self.autoPlay && self.userPause == NO) {
+        [self kj_play];
+    }
+}
+//试看处理
+- (BOOL)kj_tryLook:(NSTimeInterval)time{
+    if (!self.totalTime) {
+        self.currentTime = 0;
+        self.tryLooked = NO;
+        return NO;
+    }
+    if (time >= self.tryTime && self.tryTime) {
+        self.currentTime = self.tryTime;
+        if (self.tryLooked == NO) {
+            self.tryLooked = YES;
+            kGCD_player_main(^{
+                if (self.tryTimeBlock) self.tryTimeBlock();
+            });
+        }
+    }else{
+        self.currentTime = time;
+        self.tryLooked = NO;
+    }
+    return self.tryLooked;
+}
+//判断是否含有视频轨道
+BOOL kPlayerHaveTracks(NSURL *videoURL, void(^assetblock)(AVURLAsset *), NSDictionary *requestHeader){
+    if (videoURL == nil) return NO;
+    AVURLAsset *asset = [AVURLAsset URLAssetWithURL:videoURL options:requestHeader];
+    if (assetblock) assetblock(asset);
+    NSArray *tracks = [asset tracksWithMediaType:AVMediaTypeVideo];
+    return [tracks count] > 0;
+}
 
 #pragma mark - setter
 - (void)setOriginalURL:(NSURL *)originalURL{
     _originalURL = originalURL;
-    kGCD_player_main(^{
-        self.state = KJPlayerStateBuffering;
-        if (self->_playerLayer.superlayer) {
-            [self.playerLayer removeFromSuperlayer];
-            self->_playerLayer = nil;
+    self.state = KJPlayerStateBuffering;
+    if (_playerLayer.superlayer) {
+        [_playerLayer removeFromSuperlayer];
+        _playerLayer = nil;
+    }
+    [self kj_displayPictureWithSize:self.playerView.frame.size];
+    if (self.placeholder) {
+        self.playerLayer.contents = (id)self.placeholder.CGImage;
+        switch (self.videoGravity) {
+            case KJPlayerVideoGravityResizeAspect:
+                self.playerLayer.contentsGravity = @"resizeAspect";
+                break;
+            case KJPlayerVideoGravityResizeAspectFill:
+                self.playerLayer.contentsGravity = @"resizeAspectFill";
+                break;
+            case KJPlayerVideoGravityResizeOriginal:
+                self.playerLayer.contentsGravity = @"resize";
+                break;
+            default:break;
         }
-        if (self.playerLayer.superlayer == nil && self.playerView) {
-            self.playerLayer.frame = self.playerView.bounds;
-            [self.playerView.layer addSublayer:self.playerLayer];
-        }
-        /// 封面图
-        if (self.placeholder) {
-            self.playerLayer.contents = (id)self.placeholder.CGImage;
-            self.playerLayer.contentsGravity = kPlayerContentsGravity(self.videoGravity);
-        }
-    });
+    }
 }
 - (void)setVideoURL:(NSURL *)videoURL{
     self.originalURL = videoURL;
@@ -400,18 +432,20 @@ static NSString * const kTimeControlStatus = @"timeControlStatus";
 }
 - (void)setVideoGravity:(KJPlayerVideoGravity)videoGravity{
     if (_playerLayer && _videoGravity != videoGravity) {
-        _playerLayer.videoGravity = kPlayerVideoGravity(videoGravity);
+        switch (videoGravity) {
+            case KJPlayerVideoGravityResizeAspect:
+                _playerLayer.videoGravity = AVLayerVideoGravityResizeAspect;
+                break;
+            case KJPlayerVideoGravityResizeAspectFill:
+                _playerLayer.videoGravity = AVLayerVideoGravityResizeAspectFill;
+                break;
+            case KJPlayerVideoGravityResizeOriginal:
+                _playerLayer.videoGravity = AVLayerVideoGravityResize;
+                break;
+            default:break;
+        }
     }
     _videoGravity = videoGravity;
-}
-// 获取视频显示模式
-NS_INLINE NSString * kPlayerVideoGravity(KJPlayerVideoGravity videoGravity){
-    switch (videoGravity) {
-        case KJPlayerVideoGravityResizeAspect:return AVLayerVideoGravityResizeAspect;
-        case KJPlayerVideoGravityResizeAspectFill:return AVLayerVideoGravityResizeAspectFill;
-        case KJPlayerVideoGravityResizeOriginal:return AVLayerVideoGravityResize;
-        default:break;
-    }
 }
 - (void)setBackground:(CGColorRef)background{
     if (_playerLayer && _background != background) {
@@ -428,10 +462,7 @@ NS_INLINE NSString * kPlayerVideoGravity(KJPlayerVideoGravity videoGravity){
 - (void)setPlayerView:(KJBasePlayerView *)playerView{
     if (playerView == nil) return;
     _playerView = playerView;
-    self.playerLayer.frame = playerView.bounds;
-    if (self.playerLayer.superlayer == nil) {
-        [playerView.layer addSublayer:self.playerLayer];
-    }
+    [self kj_displayPictureWithSize:playerView.frame.size];
 }
 
 #pragma mark - getter
@@ -445,9 +476,12 @@ NS_INLINE NSString * kPlayerVideoGravity(KJPlayerVideoGravity videoGravity){
 /* 快进或快退 */
 - (void (^)(NSTimeInterval,void (^_Nullable)(BOOL)))kVideoAdvanceAndReverse{
     return ^(NSTimeInterval seconds, void (^xxblock)(BOOL)){
+        if (self.isLiveStreaming) return;
         if (self.player) {
             [self.player pause];
             [self.player.currentItem cancelPendingSeeks];
+        }else{
+            if (xxblock) xxblock(NO);
         }
         PLAYER_WEAKSELF;
         __block NSTimeInterval time = seconds;
@@ -460,7 +494,12 @@ NS_INLINE NSString * kPlayerVideoGravity(KJPlayerVideoGravity videoGravity){
                     time = weakself.currentTime;
                 }
             }
-            if (weakself.totalTime) {
+            if ([weakself kj_tryLook:time]) {
+                [weakself.player seekToTime:CMTimeMakeWithSeconds(weakself.tryTime, NSEC_PER_SEC) toleranceBefore:kCMTimeZero toleranceAfter:kCMTimeZero completionHandler:^(BOOL finished) {
+                    [weakself kj_pause];
+                }];
+                return;
+            }else{
                 weakself.currentTime = time;
             }
             [weakself.player seekToTime:CMTimeMakeWithSeconds(time, NSEC_PER_SEC) toleranceBefore:kCMTimeZero toleranceAfter:kCMTimeZero completionHandler:^(BOOL finished) {
@@ -553,18 +592,12 @@ NS_INLINE NSString * kPlayerVideoGravity(KJPlayerVideoGravity videoGravity){
 - (AVPlayerLayer *)playerLayer{
     if (!_playerLayer) {
         _playerLayer = [[AVPlayerLayer alloc] init];
-        _playerLayer.videoGravity = kPlayerVideoGravity(_videoGravity);
         _playerLayer.backgroundColor = _background;
         _playerLayer.anchorPoint = CGPointMake(0.5, 0.5);
         _playerLayer.zPosition = KJBasePlayerViewLayerZPositionPlayer;
+        [self setVideoGravity:_videoGravity];
     }
     return _playerLayer;
-}
-- (AVPlayerItemVideoOutput *)playerOutput{
-    if (!_playerOutput) {
-        _playerOutput = [[AVPlayerItemVideoOutput alloc] init];
-    }
-    return _playerOutput;
 }
 - (AVPlayerItem *)playerItem{
     if (!_playerItem) {
@@ -585,16 +618,16 @@ NS_INLINE NSString * kPlayerVideoGravity(KJPlayerVideoGravity videoGravity){
                          options:NSKeyValueObservingOptionNew context:nil];
         [_playerItem addObserver:self forKeyPath:kTimeControlStatus
                          options:NSKeyValueObservingOptionNew context:nil];
+        //监控播放完成通知
+        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(kj_playbackFinished:) name:AVPlayerItemDidPlayToEndTimeNotification object:_playerItem];
         if (@available(iOS 9.0, *)) {
             _playerItem.canUseNetworkResourcesForLiveStreamingWhilePaused = NO;
         }
         if (@available(iOS 10.0, *)) {
             _playerItem.preferredForwardBufferDuration = 5;
         }
-        if ([_playerItem respondsToSelector:@selector(setCanUseNetworkResourcesForLiveStreamingWhilePaused:)]) {
-            _playerItem.canUseNetworkResourcesForLiveStreamingWhilePaused = YES;
-        }
-        [_playerItem addOutput:self.playerOutput];
+        _playerOutput = [[AVPlayerItemVideoOutput alloc] init];
+        [_playerItem addOutput:_playerOutput];
         
         if (self.asset) {
             AVAssetImageGenerator *generator = [[AVAssetImageGenerator alloc] initWithAsset:self.asset];
@@ -607,11 +640,6 @@ NS_INLINE NSString * kPlayerVideoGravity(KJPlayerVideoGravity videoGravity){
     return _playerItem;
 }
 - (void)kj_removePlayerItem{
-    if (self.kPlayerDynamicChangeSource()) {
-        if (_playerItem) {//解决过度释放崩溃
-            _playerItem = nil;
-        }
-    }
     if (_playerItem == nil) return;
     [self.playerItem removeObserver:self forKeyPath:kStatus];
     [self.playerItem removeObserver:self forKeyPath:kLoadedTimeRanges];
@@ -619,6 +647,7 @@ NS_INLINE NSString * kPlayerVideoGravity(KJPlayerVideoGravity videoGravity){
     [self.playerItem removeObserver:self forKeyPath:kPlaybackBufferEmpty];
     [self.playerItem removeObserver:self forKeyPath:kPlaybackLikelyToKeepUp];
     [self.playerItem removeObserver:self forKeyPath:kTimeControlStatus];
+    [[NSNotificationCenter defaultCenter] removeObserver:self name:AVPlayerItemDidPlayToEndTimeNotification object:_playerItem];
     _playerItem = nil;
 }
 

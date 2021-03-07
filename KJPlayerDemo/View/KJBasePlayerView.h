@@ -15,6 +15,7 @@
 #import "KJPlayerLoadingLayer.h"
 #import "KJPlayerHintTextLayer.h"
 #import "KJPlayerOperationView.h"
+#import "KJPlayerButton.h"
 
 NS_ASSUME_NONNULL_BEGIN
 /* 控件位置和大小发生改变信息通知 */
@@ -45,6 +46,8 @@ extern NSString *kPlayerBaseViewChangeKey;
 @property (nonatomic,assign) BOOL smallScreenHiddenBackButton;
 /* 全屏状态下是否显示返回按钮，默认no */
 @property (nonatomic,assign) BOOL fullScreenHiddenBackButton;
+/* 是否开启自动旋转，默认yes */
+@property (nonatomic,assign) BOOL autoRotate;
 /* 是否为全屏，名字别乱改后面kvc有使用 */
 @property (nonatomic,assign) BOOL isFullScreen;
 /* 当前屏幕状态，名字别乱改后面kvc有使用 */
@@ -69,12 +72,20 @@ extern NSString *kPlayerBaseViewChangeKey;
 @property (nonatomic,strong) KJPlayerOperationView *topView;
 /* 底部操作面板 */
 @property (nonatomic,strong) KJPlayerOperationView *bottomView;
+/* 返回按钮 */
+@property (nonatomic,strong) KJPlayerButton *backButton;
+/* 锁屏按钮 */
+@property (nonatomic,strong) KJPlayerButton *lockButton;
+/* 播放按钮 */
+@property (nonatomic,strong) KJPlayerButton *centerPlayButton;
 
 #pragma mark - method
 /* 隐藏操作面板，是否隐藏返回按钮 */
 - (void)kj_hiddenOperationView;
 /* 显示操作面板 */
 - (void)kj_displayOperationView;
+/* 取消收起操作面板，可用于滑动滑杆时刻不自动隐藏 */
+- (void)kj_cancelHiddenOperationView;
 
 @end
 

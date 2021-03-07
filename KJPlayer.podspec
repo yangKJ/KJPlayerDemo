@@ -28,6 +28,12 @@ Pod::Spec.new do |s|
     av.dependency 'KJPlayer/Common'
   end
   
+  s.subspec 'AVDownloader' do |do|
+    do.source_files = "KJPlayerDemo/KJAVDownloader/*"
+    do.dependency 'KJPlayer/AVPlayer'
+    do.frameworks = 'MobileCoreServices'
+  end
+  
   s.subspec 'MIDI' do |md|
     md.source_files = "KJPlayerDemo/KJMidiPlayer/*"
     md.resources = "KJPlayerDemo/KJMidiPlayer/*.{bundle}"
@@ -37,13 +43,6 @@ Pod::Spec.new do |s|
   s.subspec 'IJKPlayer' do |ijk|
     ijk.source_files = "KJPlayerDemo/KJIJKPlayer/*"
     ijk.dependency 'KJPlayer/Common'
-  end
-
-  s.subspec 'KJPlayerView' do |a|
-    a.source_files = "KJPlayerDemo/KJPlayerView/*"
-    a.resources = "KJPlayerDemo/KJPlayerView/*.{bundle}"
-    a.frameworks = 'QuartzCore','Accelerate','CoreGraphics'
-    a.dependency 'KJPlayer/Common'
   end
   
 end

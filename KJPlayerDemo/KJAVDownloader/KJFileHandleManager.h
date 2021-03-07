@@ -19,7 +19,7 @@
 /* 获取指定区间已经缓存的碎片 */
 - (NSArray*)kj_getCachedFragmentsWithRange:(NSRange)range;
 /* 写入已下载分片数据 */
-- (void)kj_writeCacheData:(NSData*)data Range:(NSRange)range error:(NSError **)error;
+- (NSError*)kj_writeCacheData:(NSData*)data Range:(NSRange)range;
 /* 读取已下载分片缓存数据 */
 - (NSData*)kj_readCachedDataWithRange:(NSRange)range;
 /* 写入存储 */

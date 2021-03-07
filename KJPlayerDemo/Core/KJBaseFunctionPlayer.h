@@ -50,12 +50,12 @@ NS_ASSUME_NONNULL_BEGIN
 /* ************************* 分割线，上述属性需在videoURL之前设置 *****************************/
 /* 视频地址，这个和下面的方法互斥，支持m3u8 */
 @property (nonatomic,strong) NSURL *videoURL;
-/* 使用边播边缓存，m3u8暂不支持 */
-@property (nonatomic,copy,readonly) BOOL (^kVideoCanCacheURL)(NSURL *videoURL, BOOL cache);
-/* 原始视频地址，用于出错重播和记录上次播放 */
-@property (nonatomic,strong,readonly) NSURL *originalURL;
+/* 使用边播边缓存 */
+//@property (nonatomic,copy,readonly) BOOL (^kVideoCanCacheURL)(NSURL *videoURL, BOOL cache);
 
 /* ************************* 分割线，下面属性需在videoURL之后获取 *****************************/
+/* 原始视频地址，用于出错重播和记录上次播放 */
+@property (nonatomic,strong,readonly) NSURL *originalURL;
 /* 播放失败 */
 @property (nonatomic,strong,readonly) NSError *playError;
 /* 本地资源 */
@@ -66,6 +66,8 @@ NS_ASSUME_NONNULL_BEGIN
 @property (nonatomic,assign,readonly) BOOL userPause;
 /* 是否为直播流媒体，直播时总时间无效 */
 @property (nonatomic,assign,readonly) BOOL isLiveStreaming;
+/* 是否试看结束 */
+@property (nonatomic,assign,readonly) BOOL tryLooked;
 /* 当前播放时间 */
 @property (nonatomic,assign,readonly) NSTimeInterval currentTime;
 /* 视频总时间 */
@@ -85,7 +87,7 @@ NS_ASSUME_NONNULL_BEGIN
 /* 停止 */
 - (void)kj_stop;
 /* 判断是否为本地缓存视频，如果是则修改为指定链接地址 */
-- (void)kj_judgeHaveCacheWithVideoURL:(NSURL * _Nonnull __strong * _Nonnull)videoURL;
+- (BOOL)kj_judgeHaveCacheWithVideoURL:(NSURL * _Nonnull __strong * _Nonnull)videoURL;
 
 @end
 
@@ -109,6 +111,7 @@ NS_ASSUME_NONNULL_BEGIN
 @synthesize openAdvanceCache = _openAdvanceCache;\
 @synthesize recordLastTime = _recordLastTime;\
 @synthesize isPlaying = _isPlaying;\
+@synthesize tryLooked = _tryLooked;\
 @synthesize locality = _locality;\
 @synthesize userPause = _userPause;\
 @synthesize isLiveStreaming = _isLiveStreaming;\

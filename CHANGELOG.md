@@ -7,6 +7,12 @@
 ### 版本更新日志
 ```
 ####版本更新日志:
+#### Add 2.1.3
+1.继续完善IJKPlyer内核，修复问题
+2.分离AVPlayer内核的边下边播边存分支，请使用 pod 'KJPlayer/AVDownloader'
+3.整理删除重复和无用代码，优化试看逻辑处理
+4.异步子线程获取上次播放时间，优化性能
+
 #### Add 2.1.2
 1.新增 KJIJKPlayer内核，完善基本播放流媒体功能
 2.分离委托协议至 KJPlayerProtocol

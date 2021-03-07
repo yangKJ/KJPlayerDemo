@@ -142,7 +142,6 @@
 }
 /* 缓存进度 */
 - (void)kj_player:(KJBasePlayer*)player loadProgress:(CGFloat)progress{
-    NSLog(@"---缓存进度:%f",progress);
     [self.progressView setProgress:progress animated:YES];
 }
 

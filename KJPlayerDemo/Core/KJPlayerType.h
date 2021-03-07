@@ -130,7 +130,7 @@ typedef NS_ENUM(NSUInteger, KJBasePlayerViewLayerZPosition) {
     /* 1被全屏时刻的KJBasePlayerView占用 */
     KJBasePlayerViewLayerZPositionInteraction = 2,/// 支持交互的控件，例如顶部底部操作面板
     KJBasePlayerViewLayerZPositionLoading = 3,/// 加载指示器和文本提醒框
-    KJBasePlayerViewLayerZPositionBackButton = 4,/// 锁定屏幕，返回等控件
+    KJBasePlayerViewLayerZPositionButton = 4,/// 锁定屏幕，返回等控件
     KJBasePlayerViewLayerZPositionDisplayLayer = 5,/// 快进音量亮度等控件层
 };
 /// 播放类型
@@ -139,14 +139,6 @@ typedef NS_ENUM(NSUInteger, KJPlayerPlayType) {
     KJPlayerPlayTypeOrder  = 1, /// 顺序播放
     KJPlayerPlayTypeRandom = 2, /// 随机播放
     KJPlayerPlayTypeOnce   = 3, /// 仅播放一次
-};
-/// 手机方向
-typedef NS_ENUM(NSUInteger, KJPlayerDeviceDirection) {
-    KJPlayerDeviceDirectionCustom,/// 其他
-    KJPlayerDeviceDirectionTop,   /// 上
-    KJPlayerDeviceDirectionBottom,/// 下
-    KJPlayerDeviceDirectionLeft,  /// 左
-    KJPlayerDeviceDirectionRight, /// 右
 };
 /// 播放器充满类型
 typedef NS_ENUM(NSUInteger, KJPlayerVideoGravity) {
@@ -161,10 +153,22 @@ typedef NS_ENUM(NSUInteger, KJPlayerVideoSkipState) {
 };
 /// 当前屏幕状态
 typedef NS_ENUM(NSUInteger, KJPlayerVideoScreenState) {
-    KJPlayerVideoScreenStateSmallScreen, /// 小屏
+    KJPlayerVideoScreenStateSmallScreen,/// 小屏
     KJPlayerVideoScreenStateFullScreen, /// 全屏
     KJPlayerVideoScreenStateFloatingWindow,/// 浮窗
 };
+/// 心跳包状态
+typedef NS_ENUM(NSUInteger, KJPlayerVideoPingTimerState) {
+    KJPlayerVideoPingTimerStateFailed = 0,/// 心跳死亡
+    KJPlayerVideoPingTimerStatePing, /// 正常心跳当中
+    KJPlayerVideoPingTimerStateReconnect,/// 重新连接
+};
+/// 缓存碎片结构体
+struct KJCacheFragment {
+    NSInteger type;/// 0 -- 本地碎片，1 -- 远端碎片
+    NSRange range;/// 位置长度
+};
+typedef struct KJCacheFragment KJCacheFragment;
 
 #pragma mark - 简单公共函数，这里只适合放简单的函数
 NS_INLINE void kGCD_player_async(dispatch_block_t _Nonnull block) {
@@ -219,25 +223,11 @@ NS_INLINE NSString * kPlayerConvertTime(CGFloat second){
     }
     return [dateFormatter stringFromDate:[NSDate dateWithTimeIntervalSince1970:second]];
 }
-// 获取当前的旋转状态
-NS_INLINE CGAffineTransform kPlayerDeviceOrientation(void){
-    UIInterfaceOrientation orientation = [UIApplication sharedApplication].statusBarOrientation;
-    if (orientation == UIInterfaceOrientationPortrait) {
-        return CGAffineTransformIdentity;
-    }else if (orientation == UIInterfaceOrientationLandscapeLeft) {
-        return CGAffineTransformMakeRotation(-M_PI_2);
-    }else if (orientation == UIInterfaceOrientationLandscapeRight) {
-        return CGAffineTransformMakeRotation(M_PI_2);
-    }
-    return CGAffineTransformIdentity;
-}
-// 获取图片显示模式
-NS_INLINE NSString * kPlayerContentsGravity(KJPlayerVideoGravity videoGravity){
-    switch (videoGravity) {
-        case KJPlayerVideoGravityResizeAspect:return @"resizeAspect";
-        case KJPlayerVideoGravityResizeAspectFill:return @"resizeAspectFill";
-        case KJPlayerVideoGravityResizeOriginal:return @"resize";
-        default:break;
+// 隐士调用
+NS_INLINE void kPlayerPerformSel(id target, NSString *selName){
+    SEL sel = NSSelectorFromString(selName);
+    if ([target respondsToSelector:sel]) {
+        ((void(*)(id, SEL))(void*)objc_msgSend)((id)target, sel);
     }
 }
 

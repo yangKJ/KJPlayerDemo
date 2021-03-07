@@ -8,7 +8,17 @@
 
 #import "KJPlayerSystemLayer.h"
 
+@interface KJPlayerSystemLayer ()
+@property (nonatomic,strong) UISlider *systemVolumeSlider;
+@end
+
 @implementation KJPlayerSystemLayer
+- (void)dealloc{
+    if (_systemVolumeSlider) {
+        [self.systemVolumeSlider removeFromSuperview];
+        _systemVolumeSlider = nil;
+    }
+}
 - (instancetype)init{
     if (self = [super init]) {
         self.cornerRadius = 7;
@@ -19,6 +29,11 @@
 }
 - (void)setValue:(float)value{
     _value = MIN(MAX(0, value), 1);
+    if (self.isBrightness) {
+        [UIScreen mainScreen].brightness = _value;
+    }else{
+        [self.systemVolumeSlider setValue:_value animated:NO];
+    }
     [self setNeedsDisplay];
 }
 
@@ -83,6 +98,20 @@
 //计算度转弧度
 static inline float radians(double degrees) {
     return degrees * M_PI / 180;
+}
+
+#pragma mark - lazy
+- (UISlider *)systemVolumeSlider{
+    if (!_systemVolumeSlider) {
+        MPVolumeView *volumeView = [[MPVolumeView alloc] init];
+        for (UIView *subview in volumeView.subviews) {
+            if ([subview.class.description isEqualToString:@"MPVolumeSlider"]) {
+                _systemVolumeSlider = (UISlider*)subview;
+                break;
+            }
+        }
+    }
+    return _systemVolumeSlider;
 }
 
 @end

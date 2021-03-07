@@ -159,6 +159,21 @@ static NSString * const kDBPlayerData = @"DBPlayerData";
     DBPlayerData *data = temps.firstObject;
     return data.videoPlayTime;
 }
+/* 异步获取上次播放时间 */
++ (void)kj_gainLastTimeDbid:(NSString*)dbid Time:(void(^)(NSTimeInterval time))block{
+    NSThread *thread = [[NSThread alloc] initWithBlock:^{
+        if (block) {
+            NSArray *temps = [DBPlayerDataInfo kj_checkData:dbid];
+            if (temps.count == 0) {
+                block(0);
+            }else{
+                DBPlayerData *data = temps.firstObject;
+                block(data.videoPlayTime);
+            }
+        }
+    }];
+    [thread start];
+}
 /* 存储记录上次播放时间 */
 void kRecordLastTime(NSTimeInterval time, NSString *dbid){
     kGCD_player_async(^{

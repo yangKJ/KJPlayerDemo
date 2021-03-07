@@ -23,11 +23,7 @@ NS_ASSUME_NONNULL_BEGIN
 @property (nonatomic,retain) NSData *videoData;//视频数据
 @property (nonatomic,assign) int64_t videoPlayTime;//视频上次播放时间
 @end
-/// 缓存碎片结构体
-struct KJCacheFragment {
-    NSInteger type;/// 0 -- 本地碎片，1 -- 远端碎片
-    NSRange  range;/// 位置长度
-};typedef struct KJCacheFragment KJCacheFragment;
+
 @interface DBPlayerDataInfo : NSObject
 /* 单例属性 */
 @property(nonatomic,strong,class,readonly,getter=kj_sharedInstance) DBPlayerDataInfo *shared;
@@ -51,6 +47,8 @@ struct KJCacheFragment {
 + (BOOL)kj_recordLastTime:(NSTimeInterval)time dbid:(NSString*)dbid;
 /* 获取上次播放时间 */
 + (NSTimeInterval)kj_getLastTimeDbid:(NSString*)dbid;
+/* 异步获取上次播放时间 */
++ (void)kj_gainLastTimeDbid:(NSString*)dbid Time:(void(^)(NSTimeInterval time))block;
 /* 存储记录上次播放时间 */
 void kRecordLastTime(NSTimeInterval time, NSString *dbid);
 

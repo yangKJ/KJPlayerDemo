@@ -8,8 +8,9 @@
 
 #import "KJFileHandleManager.h"
 
-static NSInteger const kPackageLength = 204800;
-@interface KJFileHandleManager ()
+@interface KJFileHandleManager (){
+    NSInteger kPackageLength;
+}
 @property (nonatomic,strong) KJFileHandleInfo *cacheInfo;
 @property (nonatomic,strong) NSFileHandle *readHandle;
 @property (nonatomic,strong) NSFileHandle *writeHandle;
@@ -26,6 +27,7 @@ static NSInteger const kPackageLength = 204800;
 }
 - (instancetype)initWithURL:(NSURL*)url{
     if (self = [super init]){
+        kPackageLength = 204800;
         NSString *filePath = [KJCacheManager kj_createVideoCachedPath:url];
         [KJCacheManager kj_createFilePath:filePath];
         if (![[NSFileManager defaultManager] fileExistsAtPath:filePath]){
@@ -101,15 +103,18 @@ static NSInteger const kPackageLength = 204800;
     return [fragments copy];
 }
 /* 写入已下载分片数据 */
-- (void)kj_writeCacheData:(NSData*)data Range:(NSRange)range error:(NSError **)error{
+- (NSError*)kj_writeCacheData:(NSData*)data Range:(NSRange)range{
     @synchronized(self.writeHandle) {
+        NSError *error;
         @try {
             [self.writeHandle seekToFileOffset:range.location];
             [self.writeHandle writeData:data];
             [self.cacheInfo kj_continueCacheFragmentRange:range];
         }@catch (NSException *exception) {
-            *error = [NSError errorWithDomain:exception.name code:KJPlayerCustomCodeWriteFileFailed userInfo:nil];
-        }@finally { }
+            error = [NSError errorWithDomain:exception.name code:KJPlayerCustomCodeWriteFileFailed userInfo:nil];
+        }@finally {
+            return error;
+        }
     }
 }
 /* 读取已下载分片缓存数据 */

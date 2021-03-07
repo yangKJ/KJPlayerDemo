@@ -16,13 +16,10 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
 
-//@"http://hls.cntv.myalicdn.com/asp/hls/450/0303000a/3/default/bca293257d954934afadfaa96d865172/450.m3u8"
-//@"http://hls.cntv.myalicdn.com/asp/hls/850/0303000a/3/default/bca293257d954934afadfaa96d865172/850.m3u8"
-//@"http://hls.cntv.myalicdn.com/asp/hls/1200/0303000a/3/default/bca293257d954934afadfaa96d865172/1200.m3u8"
-    
     self.basePlayerView.frame = CGRectMake(0, PLAYER_STATUSBAR_NAVIGATION_HEIGHT+40, self.view.frame.size.width, self.view.frame.size.width*9/16.);
     self.player.delegate = self;
-    self.player.videoURL = [NSURL URLWithString:@"http://hls.cntv.myalicdn.com/asp/hls/2000/0303000a/3/default/bca293257d954934afadfaa96d865172/2000.m3u8"];
+    NSString *string = @"http://hls.cntv.myalicdn.com/asp/hls/2000/0303000a/3/default/bca293257d954934afadfaa96d865172/2000.m3u8";
+    self.player.videoURL = [NSURL URLWithString:string];
 }
 
 #pragma mark - KJPlayerDelegate
@@ -44,7 +41,6 @@
 }
 /* 缓存进度 */
 - (void)kj_player:(KJBasePlayer*)player loadProgress:(CGFloat)progress{
-    NSLog(@"---缓存进度:%f",progress);
     [self.progressView setProgress:progress animated:YES];
 }
 /* 播放错误 */

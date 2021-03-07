@@ -14,6 +14,7 @@
 #import "KJPlayerProtocol.h"
 #import "DBPlayerDataInfo.h"
 #import "KJCacheManager.h"
+
 NS_ASSUME_NONNULL_BEGIN
 
 @interface KJBasePlayer : NSObject<KJBaseFunctionPlayer,KJBaseUIPlayer>
@@ -21,8 +22,6 @@ NS_ASSUME_NONNULL_BEGIN
 @property (nonatomic,strong,class,readonly,getter=kj_sharedInstance) id shared;
 /* 创建单例 */
 + (instancetype)kj_sharedInstance;
-/* 切换内核之前的核名 */
-@property (nonatomic,strong,readonly) NSString *lastSourceName;
 /* 销毁单例 */
 + (void)kj_attempDealloc;
 /* 主动存储当前播放记录 */
@@ -35,8 +34,6 @@ NS_ASSUME_NONNULL_BEGIN
 - (void)kj_detectAppEnterBackground:(NSNotification*)notification;
 /* 进入前台 */
 - (void)kj_detectAppEnterForeground:(NSNotification*)notification;
-/* KJBasePlayerView位置和尺寸发生变化，子类重写需调用父类 */
-- (void)kj_basePlayerViewChange:(NSNotification*)notification;
 
 /* *********************  内部使用  *********************/
 /* 是否进行过动态切换内核 */
@@ -58,14 +55,15 @@ NSString * kPlayerCurrentSourceName(KJBasePlayer *bp);
 @property (nonatomic,strong) NSError *playError;\
 @property (nonatomic,assign) float progress;\
 @property (nonatomic,assign) BOOL cache;\
-@property (nonatomic,assign) BOOL userPause;\
 @property (nonatomic,assign) BOOL tryLooked;\
 @property (nonatomic,assign) BOOL recordLastTime;\
 @property (nonatomic,assign) BOOL locality;\
+@property (nonatomic,assign) BOOL userPause;\
 @property (nonatomic,assign) BOOL isLiveStreaming;\
 @property (nonatomic,strong) NSURL *originalURL;\
 @property (nonatomic,retain) dispatch_group_t group;\
 @property (nonatomic,assign) CGSize tempSize;\
+@property (nonatomic,assign) BOOL buffered;\
 
 /// 缓存相关公共区域
 #define PLAYER_CACHE_COMMON_EXTENSION_PROPERTY \

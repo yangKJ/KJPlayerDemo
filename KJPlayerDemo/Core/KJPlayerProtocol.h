@@ -25,7 +25,7 @@
 @end
 
 /// 控件相关委托代理
-@class KJBasePlayerView;
+@class KJBasePlayerView,KJPlayerButton;
 @protocol KJPlayerBaseViewDelegate <NSObject>
 @optional;
 /* 单双击手势反馈 */
@@ -38,5 +38,7 @@
 - (BOOL)kj_basePlayerView:(KJBasePlayerView*)view volumeValue:(float)value;
 /* 亮度手势反馈，是否替换自带UI，范围0 ～ 1 */
 - (BOOL)kj_basePlayerView:(KJBasePlayerView*)view brightnessValue:(float)value;
+/* 是否锁屏，根据KJPlayerButton的type来确定当前按钮类型 */
+- (void)kj_basePlayerView:(KJBasePlayerView*)view PlayerButton:(KJPlayerButton*)button;
 
 @end

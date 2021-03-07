@@ -97,16 +97,13 @@
             DBPlayerData *data = temps.firstObject;
             NSString *path = data.sandboxPath;
             if (data.videoIntact && [KJCacheManager kj_haveFileSandboxPath:&path]) {
-                //移出之前的临时文件
                 NSString *tempPath = [path stringByAppendingPathExtension:kTempReadName];
                 [[NSFileManager defaultManager] removeItemAtPath:tempPath error:NULL];
                 *videoURL = [NSURL fileURLWithPath:path];
                 boo = YES;
             }
         }
-        kGCD_player_main(^{
-            if (locality) locality(boo);
-        });
+        if (locality) locality(boo);
     };
 }
 /* 创建缓存文件完整路径 */

@@ -129,5 +129,8 @@
     NSLog(@"---lightValue:%.2f",value);
     return NO;
 }
+- (void)kj_basePlayerView:(KJBasePlayerView *)view{
+    
+}
 
 @end

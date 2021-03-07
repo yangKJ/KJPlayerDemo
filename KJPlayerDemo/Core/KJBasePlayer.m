@@ -8,15 +8,17 @@
 
 #import "KJBasePlayer.h"
 #import "KJCacheManager.h"
+#import "KJBasePlayer+KJPingTimer.h"
+
 @interface KJBasePlayer ()
 @property (nonatomic,strong) UITableView *bindTableView;
 @property (nonatomic,strong) NSIndexPath *indexPath;
 @property (nonatomic,strong) NSString *lastSourceName;
+@property (nonatomic,strong) NSError *playError;
 @end
 
 @implementation KJBasePlayer
 PLAYER_COMMON_FUNCTION_PROPERTY PLAYER_COMMON_UI_PROPERTY
-@synthesize kVideoCanCacheURL;
 static KJBasePlayer *_instance = nil;
 static dispatch_once_t onceToken;
 + (instancetype)kj_sharedInstance{
@@ -33,9 +35,17 @@ static dispatch_once_t onceToken;
 }
 - (void)dealloc{
     [[NSNotificationCenter defaultCenter] removeObserver:self];
+    [self removeObserver:self forKeyPath:@"state"];
+    [self removeObserver:self forKeyPath:@"progress"];
+    [self removeObserver:self forKeyPath:@"playError"];
+    [self removeObserver:self forKeyPath:@"currentTime"];
     [self kj_saveRecordLastTime];
     [_playerView performSelectorOnMainThread:@selector(removeFromSuperview) withObject:nil waitUntilDone:YES];
     _playerView = nil;
+    [self kj_stop];
+#ifdef DEBUG
+    NSLog(@"------- 🎈 %@已销毁 🎈 -------\n", self);
+#endif
 }
 - (instancetype)init{
     if (self = [super init]) {
@@ -58,15 +68,34 @@ static dispatch_once_t onceToken;
     [self addObserver:self forKeyPath:@"playError" options:options context:nil];
     [self addObserver:self forKeyPath:@"currentTime" options:options context:nil];
 }
+
 #pragma mark - kvo
 - (void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary *)change context:(void *)context{
     if ([keyPath isEqualToString:@"state"]) {
         if ([self.delegate respondsToSelector:@selector(kj_player:state:)]) {
             if ([change[@"new"] intValue] != [change[@"old"] intValue]) {
+                KJPlayerState state = (KJPlayerState)[change[@"new"] intValue];
                 kGCD_player_main(^{
-                    KJPlayerState state = (KJPlayerState)[change[@"new"] intValue];
                     [self.delegate kj_player:self state:state];
                 });
+                if (self.openPing) {
+                    if (state == KJPlayerStatePreparePlay) {
+                        kPlayerPerformSel(self, @"kj_resumePingTimer");
+                        PLAYER_WEAKSELF;
+                        self.kVideoPingTimerState = ^(KJPlayerVideoPingTimerState state) {
+                            if (state == KJPlayerVideoPingTimerStateReconnect) {
+                                weakself.kVideoAdvanceAndReverse(weakself.currentTime, nil);
+                                kPlayerPerformSel(weakself, @"kj_resumePingTimer");
+                            }else if (state == KJPlayerVideoPingTimerStatePing) {
+                                kPlayerPerformSel(weakself, @"updateEvent");
+                            }
+                        };
+                    }else if (state == KJPlayerStateStopped ||
+                              state == KJPlayerStatePlayFinished ||
+                              state == KJPlayerStateFailed) {
+                        kPlayerPerformSel(self, @"kj_closePingTimer");
+                    }
+                }
             }
         }
     }else if ([keyPath isEqualToString:@"progress"]) {
@@ -120,21 +149,47 @@ static dispatch_once_t onceToken;
         [self kj_resume];
     }
 }
-//KJBasePlayerView位置和尺寸发生变化
-- (void)kj_basePlayerViewChange:(NSNotification*)notification{ }
+//控件载体位置和尺寸发生变化
+- (void)kj_basePlayerViewChange:(NSNotification*)notification{
+    CGRect rect = [notification.userInfo[kPlayerBaseViewChangeKey] CGRectValue];
+    SEL sel = NSSelectorFromString(@"kj_displayPictureWithSize:");
+    if ([self respondsToSelector:sel]) {
+        ((void(*)(id, SEL, CGSize))(void*)objc_msgSend)((id)self, sel, rect.size);
+    }
+}
+
 #pragma mark - child method（子类实现处理）
 /* 准备播放 */
-- (void)kj_play{ }
+- (void)kj_play{
+    kPlayerPerformSel(self, @"kj_resumePingTimer");
+}
 /* 重播 */
-- (void)kj_replay{ }
+- (void)kj_replay{
+    kPlayerPerformSel(self, @"kj_resumePingTimer");
+}
 /* 继续 */
-- (void)kj_resume{ }
+- (void)kj_resume{
+    kPlayerPerformSel(self, @"kj_resumePingTimer");
+}
 /* 暂停 */
-- (void)kj_pause{ }
+- (void)kj_pause{
+    kPlayerPerformSel(self, @"kj_pausePingTimer");
+}
 /* 停止 */
-- (void)kj_stop{ }
+- (void)kj_stop{
+    kPlayerPerformSel(self, @"kj_closePingTimer");
+}
 /* 判断是否为本地缓存视频，如果是则修改为指定链接地址 */
-- (void)kj_judgeHaveCacheWithVideoURL:(NSURL * _Nonnull __strong * _Nonnull)videoURL{ }
+- (BOOL)kj_judgeHaveCacheWithVideoURL:(NSURL * _Nonnull __strong * _Nonnull)videoURL{
+    __block BOOL boo = NO;
+    KJCacheManager.kJudgeHaveCacheURL(^(BOOL locality) {
+        boo = locality;
+        if (locality) {
+            self.playError = [DBPlayerDataInfo kj_errorSummarizing:KJPlayerCustomCodeCachedComplete];
+        }
+    }, videoURL);
+    return boo;
+}
 
 #pragma mark - public method
 /* 主动存储当前播放记录 */
@@ -147,12 +202,23 @@ static dispatch_once_t onceToken;
 }
 /* 动态切换播放内核 */
 - (void)kj_dynamicChangeSourcePlayer:(Class)clazz{
-    self.lastSourceName = NSStringFromClass([self class]);
-    SEL sel = NSSelectorFromString(@"kj_changeSourceCleanJobs");
-    if ([self respondsToSelector:sel]) {
-        ((void(*)(id, SEL))(void*)objc_msgSend)((id)self, sel);
-    }
+    NSString *__name = NSStringFromClass([self class]);
+    kPlayerPerformSel(self, @"kj_changeSourceCleanJobs");
     object_setClass(self, clazz);
+    if ([__name isEqualToString:self.lastSourceName]) {
+        return;
+    }else{
+        self.lastSourceName = __name;
+    }
+    if ([__name isEqualToString:@"KJAVPlayer"]) {
+        [self setValue:nil forKey:@"timer"];
+        [self setValue:nil forKey:@"tempView"];
+    }else if ([__name isEqualToString:@"KJIJKPlayer"]) {
+        [self setValue:nil forKey:@"playerOutput"];
+        [self setValue:nil forKey:@"playerLayer"];
+    }else if ([__name isEqualToString:@"KJMIDIPlayer"]) {
+        
+    }
 }
 /* 是否进行过动态切换内核 */
 - (BOOL (^)(void))kPlayerDynamicChangeSource{
@@ -169,12 +235,12 @@ NSString * kPlayerCurrentSourceName(KJBasePlayer *bp){
         return @"AVPlayer";
     }
     if ([name isEqualToString:@"KJIJKPlayer"]) {
-        return @"ijkplayer";
+        return @"IJKPlayer";
     }
     if ([name isEqualToString:@"KJMIDIPlayer"]) {
         return @"midi";
     }
-    return @"None";
+    return @"Unknown";
 }
 
 #pragma mark - table
@@ -240,5 +306,7 @@ NSString * kPlayerCurrentSourceName(KJBasePlayer *bp){
 - (void)kj_hideHintText{
     [self.playerView.hintTextLayer removeFromSuperlayer];
 }
+
+#pragma mark - 心跳包板块
 
 @end

@@ -52,6 +52,7 @@
     [self.view addSubview:backview];
     backview.delegate = self;
     backview.gestureType = KJPlayerGestureTypeAll;
+    backview.autoRotate = NO;
     
     UILabel *label = [[UILabel alloc]initWithFrame:CGRectMake(0, self.view.bounds.size.height-25-PLAYER_BOTTOM_SPACE_HEIGHT, self.view.bounds.size.width-10, 20)];
     label.textAlignment = 2;
@@ -76,6 +77,7 @@
     self.player = player;
     player.placeholder = backview.image;
     player.playerView = backview;
+//    player.openPing = YES;
     [player kj_startAnimation];
     player.roregroundResume = YES;
     player.kVideoTotalTime = ^(NSTimeInterval time) {

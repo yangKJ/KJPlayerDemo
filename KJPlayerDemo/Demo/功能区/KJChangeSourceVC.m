@@ -4,7 +4,7 @@
 //
 //  Created by 杨科军 on 2021/3/3.
 //  Copyright © 2021 杨科军. All rights reserved.
-//
+//  https://github.com/yangKJ/KJPlayerDemo
 
 #import "KJChangeSourceVC.h"
 
@@ -23,13 +23,21 @@
     UILabel *label = [[UILabel alloc]initWithFrame:CGRectMake(20, CGRectGetMaxY(self.basePlayerView.frame)+30, self.view.bounds.size.width-40, 20)];
     self.sourceLabel = label;
     label.textAlignment = NSTextAlignmentLeft;
-    label.font = [UIFont systemFontOfSize:18];
-    label.textColor = [UIColor.blueColor colorWithAlphaComponent:0.7];
+    label.font = [UIFont systemFontOfSize:15];
+    label.textColor = [UIColor.blueColor colorWithAlphaComponent:0.8];
     label.text = [@"当前播放器内核 -- " stringByAppendingFormat:@"%@",kPlayerCurrentSourceName(self.player)];
     [self.view addSubview:label];
     {
+        UILabel *label = [[UILabel alloc]initWithFrame:CGRectMake(20, CGRectGetMaxY(self.sourceLabel.frame)+30, self.view.bounds.size.width-40, 20)];
+        label.textAlignment = NSTextAlignmentLeft;
+        label.font = [UIFont systemFontOfSize:15];
+        label.textColor = [UIColor.blueColor colorWithAlphaComponent:0.8];
+        label.text = @"暂时还有不少的问题，待我调试修改一番!!!";
+        [self.view addSubview:label];
+    }
+    {
         UIButton *button = [UIButton buttonWithType:(UIButtonTypeCustom)];
-        button.frame = CGRectMake((self.view.frame.size.width-100)/2, self.view.frame.size.height-180, 100, 50);
+        button.frame = CGRectMake((self.view.frame.size.width-100)/2, self.view.frame.size.height-150, 100, 50);
         button.backgroundColor = [UIColor.greenColor colorWithAlphaComponent:0.5];
         [button setTitleColor:UIColor.blueColor forState:(UIControlStateNormal)];
         [button setTitle:@"切换内核" forState:(UIControlStateNormal)];
@@ -37,7 +45,7 @@
         [button addTarget:self action:@selector(buttonAction:) forControlEvents:(UIControlEventTouchUpInside)];
     }{
         UIButton *button = [UIButton buttonWithType:(UIButtonTypeCustom)];
-        button.frame = CGRectMake((self.view.frame.size.width-100)/2, self.view.frame.size.height-250, 100, 50);
+        button.frame = CGRectMake((self.view.frame.size.width-100)/2, self.view.frame.size.height-230, 100, 50);
         button.backgroundColor = [UIColor.greenColor colorWithAlphaComponent:0.5];
         [button setTitleColor:UIColor.blueColor forState:(UIControlStateNormal)];
         [button setTitle:@"切换视频" forState:(UIControlStateNormal)];
@@ -87,7 +95,6 @@
 }
 /* 缓存进度 */
 - (void)kj_player:(KJBasePlayer*)player loadProgress:(CGFloat)progress{
-    NSLog(@"---缓存进度:%f",progress);
     [self.progressView setProgress:progress animated:YES];
 }
 /* 播放错误 */

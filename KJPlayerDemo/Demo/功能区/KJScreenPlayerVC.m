@@ -39,7 +39,6 @@
             view.isFullScreen = NO;
         }else{
             [weakself.player kj_stop];
-            self->_player = nil;
             [weakself.navigationController setNavigationBarHidden:NO animated:YES];
             [weakself.navigationController popViewControllerAnimated:YES];
         }
@@ -82,7 +81,7 @@
 }
 /* 缓存进度 */
 - (void)kj_player:(KJBasePlayer*)player loadProgress:(CGFloat)progress{
-    NSLog(@"---缓存进度:%f",progress);
+    
 }
 /* 播放错误 */
 - (void)kj_player:(KJBasePlayer*)player playFailed:(NSError*)failed{

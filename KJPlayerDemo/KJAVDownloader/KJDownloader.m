@@ -265,8 +265,7 @@
             if (weakself.cancelLoading) return;
             if (weakself.canSaveToCache){
                 NSRange range = NSMakeRange(weakself.startOffset, data.length);
-                NSError *error;
-                [weakself.fileHandleManager kj_writeCacheData:data Range:range error:&error];
+                NSError *error = [weakself.fileHandleManager kj_writeCacheData:data Range:range];
                 if (error) {
                     if ([weakself.delegate respondsToSelector:@selector(kj_didFinishWithError:)]) {
                         [weakself.delegate kj_didFinishWithError:error];
