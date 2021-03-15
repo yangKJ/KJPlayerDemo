@@ -10,6 +10,7 @@
 
 #import <Foundation/Foundation.h>
 #import "KJBasePlayer.h"
+#import "KJBasePlayer+KJPingTimer.h"
 
 NS_ASSUME_NONNULL_BEGIN
 @interface KJAVPlayer : KJBasePlayer

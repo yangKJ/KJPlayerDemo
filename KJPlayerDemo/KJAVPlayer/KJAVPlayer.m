@@ -185,8 +185,8 @@ static NSString * const kTimeControlStatus = @"timeControlStatus";
 }
 /* 暂停 */
 - (void)kj_pause{
-    if (self.player == nil) return;
     [super kj_pause];
+    if (self.player == nil) return;
     [self.player pause];
     self.state = KJPlayerStatePausing;
     self.userPause = YES;
@@ -215,11 +215,6 @@ static NSString * const kTimeControlStatus = @"timeControlStatus";
 /// 切换内核时的清理工作（名字不能改，动态切换时有使用）
 - (void)kj_changeSourceCleanJobs{
     [self kj_destroyPlayer];
-    if (_playerView) [self.playerLayer removeFromSuperlayer];
-    _playerLayer = nil;
-    _playerItem = nil;
-    _playerOutput = nil;
-    if (_imageGenerator) _imageGenerator = nil;
 }
 //加载视屏流视图（名字不能乱改，父类有调用）
 - (void)kj_displayPictureWithSize:(CGSize)size{
@@ -240,15 +235,19 @@ static NSString * const kTimeControlStatus = @"timeControlStatus";
     [self.player.currentItem.asset cancelLoading];
     [self.player removeTimeObserver:self.timeObserver];
     [self.player replaceCurrentItemWithPlayerItem:nil];
+    if (_playerLayer) {
+        [self.playerLayer removeFromSuperlayer];
+        _playerLayer = nil;
+    }
     _timeObserver = nil;
     _player = nil;
     _asset = nil;
-    _playerLayer = nil;
-    kPlayerPerformSel(self, @"kj_closePingTimer");
+    _playerItem = nil;
+    _playerOutput = nil;
+    _imageGenerator = nil;
 }
 /// 播放准备（名字不能乱改，KJCache当中有使用）
 - (void)kj_initPreparePlayer{
-    [self kj_initializeBeginPlayConfiguration];
     [self kj_removePlayerItem];
     if (self.player) {
         [self.player replaceCurrentItemWithPlayerItem:self.playerItem];
@@ -304,7 +303,7 @@ static NSString * const kTimeControlStatus = @"timeControlStatus";
         [self kj_autoPlay];
     }
 }
-//初始化开始播放时配置信息
+//初始化开始播放时配置信息（名字不能乱改，KJCache当中有使用）
 - (void)kj_initializeBeginPlayConfiguration{
     if (self.player) [self.player pause];
     self.tempSize = CGSizeZero;
@@ -312,6 +311,10 @@ static NSString * const kTimeControlStatus = @"timeControlStatus";
     self.userPause = NO;
     self.tryLooked = NO;
     self.buffered = NO;
+    self.cache = NO;
+    self.asset = nil;
+    self.locality = NO;
+    self.isLiveStreaming = NO;
 }
 //自动播放
 - (void)kj_autoPlay{
@@ -373,17 +376,17 @@ BOOL kPlayerHaveTracks(NSURL *videoURL, void(^assetblock)(AVURLAsset *), NSDicti
             default:break;
         }
     }
+    
 }
 - (void)setVideoURL:(NSURL *)videoURL{
-    self.originalURL = videoURL;
-    self.cache = NO;
-    self.asset = nil;
+    [self kj_initializeBeginPlayConfiguration];
     if (kPlayerVideoAesstType(videoURL) == KJPlayerAssetTypeNONE) {
-        _videoURL = videoURL;
         self.playError = [DBPlayerDataInfo kj_errorSummarizing:KJPlayerCustomCodeVideoURLUnknownFormat];
         if (self.player) [self kj_stop];
+        _videoURL = videoURL;
         return;
     }
+    self.originalURL = videoURL;
     PLAYER_WEAKSELF;
     __block NSURL *tempURL = videoURL;
     dispatch_group_async(self.group, dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{

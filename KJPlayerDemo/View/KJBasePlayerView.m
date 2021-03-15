@@ -7,7 +7,6 @@
 //  https://github.com/yangKJ/KJPlayerDemo
 
 #import "KJBasePlayerView.h"
-#import <MediaPlayer/MPVolumeView.h>
 #import "KJRotateManager.h"
 #define kLockWidth (40)
 #define kCenterPlayWidth (60)
@@ -339,7 +338,11 @@ NSString *kPlayerBaseViewChangeKey = @"kPlayerBaseViewKey";
 - (UIPanGestureRecognizer *)pan{
     if (!_pan) {
         UIPanGestureRecognizer *pan = [[UIPanGestureRecognizer alloc]initWithTarget:self action:@selector(panAction:)];
+        pan.delegate = self;
+        [pan setMaximumNumberOfTouches:1];
         [pan setDelaysTouchesBegan:YES];
+        [pan setDelaysTouchesEnded:YES];
+        [pan setCancelsTouchesInView:YES];
         [self addGestureRecognizer:pan];
         _pan = pan;
     }

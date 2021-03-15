@@ -18,6 +18,10 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     self.title = @"KJPlayerDemo 🎷";
+    
+    //开启日志打印
+    [DBPlayerDataInfo kj_openLogRankType:(KJPlayerVideoRankTypeOne)];
+    
     //暗黑模式
     if (@available(iOS 13.0, *)) {
         self.view.backgroundColor = [UIColor colorWithDynamicProvider:^UIColor * _Nonnull(UITraitCollection * _Nonnull trainCollection) {

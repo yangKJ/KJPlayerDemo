@@ -32,6 +32,7 @@ PLAYER_COMMON_FUNCTION_PROPERTY PLAYER_COMMON_UI_PROPERTY
         _autoPlay = YES;
         _videoGravity = KJPlayerVideoGravityResizeAspect;
         _background = UIColor.blackColor.CGColor;
+        self.group = dispatch_group_create();
         [self setValue:@(YES) forKey:@"openPing"];
         [IJKFFMoviePlayerController checkIfFFmpegVersionMatch:YES];
     }
@@ -175,10 +176,6 @@ PLAYER_COMMON_FUNCTION_PROPERTY PLAYER_COMMON_UI_PROPERTY
 }
 
 #pragma mark - 定时器
-//销毁定时器
-- (void)kj_cleanTimer{
-    kPlayerPerformSel(self, @"kj_closePingTimer");
-}
 - (void)updateEvent{
     if (self.totalTime) {
         self.progress = self.player.playableDuration / self.totalTime;
@@ -216,21 +213,21 @@ PLAYER_COMMON_FUNCTION_PROPERTY PLAYER_COMMON_UI_PROPERTY
         [self removeMovieNotificationObservers];
         _player = nil;
     }
-    [self kj_cleanTimer];
 }
 /// 播放准备（名字不能乱改，KJCache当中有使用）
 - (void)kj_initPreparePlayer{
-    [self kj_initializeBeginPlayConfiguration];
-    self.player = [[IJKFFMoviePlayerController alloc] initWithContentURL:_videoURL withOptions:self.options];
-    [self setVideoGravity:_videoGravity];
-    self.player.shouldAutoplay = self.autoPlay;//是否自动播放，需在 prepareToPlay 之前设置
-    [self.player prepareToPlay];
+    kGCD_player_main(^{
+        self.player = [[IJKFFMoviePlayerController alloc] initWithContentURL:self.videoURL withOptions:self.options];
+        self.tempView = self.player.view;
+        [self kj_displayPictureWithSize:self.playerView.frame.size];
+        self.player.shouldAutoplay = self.autoPlay;//是否自动播放，需在 prepareToPlay 之前设置
+        [self.player prepareToPlay];
+    });
     [self installMovieNotificationObservers];
-    self.tempView = self.player.view;
-    [self kj_displayPictureWithSize:self.playerView.frame.size];
+    [self setVideoGravity:_videoGravity];
     self.progress = self.locality ? 1.0 : 0.0;
 }
-//初始化开始播放时配置信息
+//初始化开始播放时配置信息（名字不能乱改，KJCache当中有使用）
 - (void)kj_initializeBeginPlayConfiguration{
     if (self.player) {
         [self.player pause];
@@ -241,7 +238,9 @@ PLAYER_COMMON_FUNCTION_PROPERTY PLAYER_COMMON_UI_PROPERTY
     self.userPause = NO;
     self.tryLooked = NO;
     self.buffered = NO;
-    [self kj_cleanTimer];
+    self.cache = NO;
+    self.locality = NO;
+    self.isLiveStreaming = NO;
 }
 //自动播放
 - (void)kj_autoPlay{
@@ -318,7 +317,6 @@ PLAYER_COMMON_FUNCTION_PROPERTY PLAYER_COMMON_UI_PROPERTY
 /* 停止 */
 - (void)kj_stop{
     [super kj_stop];
-    [self kj_cleanTimer];
     [self.player stop];
     [self.player shutdown];
     [self kj_destroyPlayer];
@@ -364,17 +362,26 @@ PLAYER_COMMON_FUNCTION_PROPERTY PLAYER_COMMON_UI_PROPERTY
     }
 }
 - (void)setVideoURL:(NSURL *)videoURL{
-    self.originalURL = videoURL;
-    self.cache = NO;
-    if (self.kPlayerDynamicChangeSource()) {
+    [self kj_initializeBeginPlayConfiguration];
+    if (kPlayerVideoAesstType(videoURL) == KJPlayerAssetTypeNONE) {
+        self.playError = [DBPlayerDataInfo kj_errorSummarizing:KJPlayerCustomCodeVideoURLUnknownFormat];
+        if (self.player) [self kj_stop];
         _videoURL = videoURL;
-        [self kj_initPreparePlayer];
-    }else if (![videoURL.absoluteString isEqualToString:_videoURL.absoluteString]) {
-        _videoURL = videoURL;
-        [self kj_initPreparePlayer];
-    }else{
-        [self kj_replay];
+        return;
     }
+    self.originalURL = videoURL;
+    PLAYER_WEAKSELF;
+    dispatch_group_async(self.group, dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
+        if (self.kPlayerDynamicChangeSource()) {
+            self->_videoURL = videoURL;
+            [weakself kj_initPreparePlayer];
+        }else if (![videoURL.absoluteString isEqualToString:self->_videoURL.absoluteString]) {
+            self->_videoURL = videoURL;
+            [weakself kj_initPreparePlayer];
+        }else{
+            [weakself kj_replay];
+        }
+    });
 }
 - (void)setVolume:(float)volume{
     _volume = MIN(MAX(0, volume), 1);

@@ -53,7 +53,9 @@ NSString * kPlayerCurrentSourceName(KJBasePlayer *bp);
 @property (nonatomic,assign) NSTimeInterval currentTime,totalTime;\
 @property (nonatomic,assign) KJPlayerState state;\
 @property (nonatomic,strong) NSError *playError;\
+@property (nonatomic,assign) CGSize tempSize;\
 @property (nonatomic,assign) float progress;\
+@property (nonatomic,assign) BOOL buffered;\
 @property (nonatomic,assign) BOOL cache;\
 @property (nonatomic,assign) BOOL tryLooked;\
 @property (nonatomic,assign) BOOL recordLastTime;\
@@ -61,16 +63,14 @@ NSString * kPlayerCurrentSourceName(KJBasePlayer *bp);
 @property (nonatomic,assign) BOOL userPause;\
 @property (nonatomic,assign) BOOL isLiveStreaming;\
 @property (nonatomic,strong) NSURL *originalURL;\
-@property (nonatomic,retain) dispatch_group_t group;\
-@property (nonatomic,assign) CGSize tempSize;\
-@property (nonatomic,assign) BOOL buffered;\
+@property (nonatomic,strong) dispatch_group_t group;\
 
 /// 缓存相关公共区域
 #define PLAYER_CACHE_COMMON_EXTENSION_PROPERTY \
 @property (nonatomic,assign) KJPlayerState state;\
 @property (nonatomic,strong) NSError *playError;\
 @property (nonatomic,strong) NSURL *originalURL;\
-@property (nonatomic,retain) dispatch_group_t group;\
+@property (nonatomic,strong) dispatch_group_t group;\
 @property (nonatomic,assign) float progress;\
 @property (nonatomic,assign) BOOL cache;\
 @property (nonatomic,assign) BOOL locality;\

@@ -7,7 +7,7 @@
 //  https://github.com/yangKJ/KJPlayerDemo
 
 #import "KJPlayerSystemLayer.h"
-
+#import <MediaPlayer/MPVolumeView.h>
 @interface KJPlayerSystemLayer ()
 @property (nonatomic,strong) UISlider *systemVolumeSlider;
 @end

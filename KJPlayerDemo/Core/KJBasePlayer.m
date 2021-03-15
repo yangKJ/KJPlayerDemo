@@ -54,6 +54,9 @@ static dispatch_once_t onceToken;
     return self;
 }
 - (void)kj_addNotificationCenter{
+    //手机静音下也可播放声音
+    [[AVAudioSession sharedInstance] setCategory:AVAudioSessionCategoryPlayback error:nil];
+    
     NSNotificationCenter * defaultCenter = [NSNotificationCenter defaultCenter];
     [defaultCenter addObserver:self selector:@selector(kj_detectAppEnterBackground:)
                           name:UIApplicationDidEnterBackgroundNotification object:nil];
@@ -75,6 +78,7 @@ static dispatch_once_t onceToken;
         if ([self.delegate respondsToSelector:@selector(kj_player:state:)]) {
             if ([change[@"new"] intValue] != [change[@"old"] intValue]) {
                 KJPlayerState state = (KJPlayerState)[change[@"new"] intValue];
+                PLAYERLogOneInfo(@"-- 🎷当前播放器状态 - %@",KJPlayerStateStringMap[state]);
                 kGCD_player_main(^{
                     [self.delegate kj_player:self state:state];
                 });
@@ -85,7 +89,6 @@ static dispatch_once_t onceToken;
                         self.kVideoPingTimerState = ^(KJPlayerVideoPingTimerState state) {
                             if (state == KJPlayerVideoPingTimerStateReconnect) {
                                 weakself.kVideoAdvanceAndReverse(weakself.currentTime, nil);
-                                kPlayerPerformSel(weakself, @"kj_resumePingTimer");
                             }else if (state == KJPlayerVideoPingTimerStatePing) {
                                 kPlayerPerformSel(weakself, @"updateEvent");
                             }
@@ -101,9 +104,9 @@ static dispatch_once_t onceToken;
     }else if ([keyPath isEqualToString:@"progress"]) {
         if ([self.delegate respondsToSelector:@selector(kj_player:loadProgress:)]) {
             if (self.totalTime<=0) return;
-            CGFloat new = [change[@"new"] floatValue];
-            CGFloat old = [change[@"old"] floatValue];
+            CGFloat new = [change[@"new"] floatValue], old = [change[@"old"] floatValue];
             if (new != old || (new == 0 && old == 0)) {
+                PLAYERLogTwoInfo(@"-- 😪当前播放进度:%.2f",new);
                 kGCD_player_main(^{
                     [self.delegate kj_player:self loadProgress:new];
                 });
@@ -119,9 +122,9 @@ static dispatch_once_t onceToken;
         }
     }else if ([keyPath isEqualToString:@"currentTime"]) {
         if ([self.delegate respondsToSelector:@selector(kj_player:currentTime:)]) {
-            CGFloat new = [change[@"new"] floatValue];
-            CGFloat old = [change[@"old"] floatValue];
+            CGFloat new = [change[@"new"] floatValue], old = [change[@"old"] floatValue];
             if (new != old || (new == 0 && old == 0)) {
+                PLAYERLogTwoInfo(@"-- 🥁当前播放时间:%.2f",new);
                 kGCD_player_main(^{
                     [self.delegate kj_player:self currentTime:new];
                 });
@@ -137,10 +140,9 @@ static dispatch_once_t onceToken;
 - (void)kj_detectAppEnterBackground:(NSNotification*)notification{
     if (self.backgroundPause) {
         [self kj_pause];
+        [[AVAudioSession sharedInstance] setActive:NO error:nil];
     }else{
-        AVAudioSession * session = [AVAudioSession sharedInstance];
-        [session setActive:YES error:nil];
-        [session setCategory:AVAudioSessionCategoryPlayback error:nil];
+        [[AVAudioSession sharedInstance] setActive:YES error:nil];
     }
 }
 //进入前台
@@ -161,16 +163,12 @@ static dispatch_once_t onceToken;
 #pragma mark - child method（子类实现处理）
 /* 准备播放 */
 - (void)kj_play{
-    kPlayerPerformSel(self, @"kj_resumePingTimer");
+//    kPlayerPerformSel(self, @"kj_resumePingTimer");
 }
 /* 重播 */
-- (void)kj_replay{
-    kPlayerPerformSel(self, @"kj_resumePingTimer");
-}
+- (void)kj_replay{ }
 /* 继续 */
-- (void)kj_resume{
-    kPlayerPerformSel(self, @"kj_resumePingTimer");
-}
+- (void)kj_resume{ }
 /* 暂停 */
 - (void)kj_pause{
     kPlayerPerformSel(self, @"kj_pausePingTimer");
@@ -196,7 +194,7 @@ static dispatch_once_t onceToken;
 - (void)kj_saveRecordLastTime{
     @synchronized (@(self.recordLastTime)) {
         if (self.recordLastTime) {
-            kRecordLastTime(self.currentTime, kPlayerIntactName(self.originalURL));
+            [DBPlayerDataInfo kj_saveRecordLastTime:self.currentTime dbid:kPlayerIntactName(self.originalURL)];
         }
     }
 }

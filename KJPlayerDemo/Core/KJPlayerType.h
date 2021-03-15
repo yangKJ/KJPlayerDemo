@@ -15,6 +15,8 @@
 #import <AVFoundation/AVFoundation.h>
 #import <objc/runtime.h>
 #import <objc/message.h>
+#import "KJProxyManager.h"
+#import "KJGCDTimer.h"
 
 NS_ASSUME_NONNULL_BEGIN
 // 弱引用
@@ -163,6 +165,14 @@ typedef NS_ENUM(NSUInteger, KJPlayerVideoPingTimerState) {
     KJPlayerVideoPingTimerStatePing, /// 正常心跳当中
     KJPlayerVideoPingTimerStateReconnect,/// 重新连接
 };
+/// 日志打印级别
+typedef NS_OPTIONS(NSUInteger, KJPlayerVideoRankType) {
+    KJPlayerVideoRankTypeNone = 1 << 0,/// 不打印
+    KJPlayerVideoRankTypeOne = 1 << 1, /// 一级，
+    KJPlayerVideoRankTypeTwo = 1 << 2,/// 二级
+    
+    KJPlayerVideoRankTypeAll = KJPlayerVideoRankTypeOne | KJPlayerVideoRankTypeTwo,
+};
 /// 缓存碎片结构体
 struct KJCacheFragment {
     NSInteger type;/// 0 -- 本地碎片，1 -- 远端碎片
@@ -171,26 +181,6 @@ struct KJCacheFragment {
 typedef struct KJCacheFragment KJCacheFragment;
 
 #pragma mark - 简单公共函数，这里只适合放简单的函数
-NS_INLINE void kGCD_player_async(dispatch_block_t _Nonnull block) {
-    dispatch_queue_t queue = dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0);
-    if (strcmp(dispatch_queue_get_label(DISPATCH_CURRENT_QUEUE_LABEL), dispatch_queue_get_label(queue)) == 0) {
-        block();
-    }else{
-        dispatch_async(queue, block);
-    }
-}
-NS_INLINE void kGCD_player_main(dispatch_block_t _Nonnull block) {
-    dispatch_queue_t queue = dispatch_get_main_queue();
-    if (strcmp(dispatch_queue_get_label(DISPATCH_CURRENT_QUEUE_LABEL), dispatch_queue_get_label(queue)) == 0) {
-        block();
-    }else{
-        if ([[NSThread currentThread] isMainThread]) {
-            dispatch_async(queue, block);
-        }else{
-            dispatch_sync(queue, block);
-        }
-    }
-}
 // 网址转义，中文空格字符解码
 NS_INLINE NSURL * kPlayerURLCharacters(NSString * urlString){
     NSString * encodedString = [urlString stringByAddingPercentEncodingWithAllowedCharacters:[NSCharacterSet URLQueryAllowedCharacterSet]];

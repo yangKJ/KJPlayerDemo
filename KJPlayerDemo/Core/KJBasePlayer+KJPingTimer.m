@@ -12,18 +12,79 @@
 
 @interface KJBasePlayer ()
 @property (nonatomic,assign) NSTimeInterval lastTime;
-@property (nonatomic,strong) NSTimer *pingTimer;//心跳包
+@property (nonatomic,strong) NSString *taskName;
 @end
 
 @implementation KJBasePlayer (KJPingTimer)
+//关闭心跳包（名字别乱改）
+- (void)kj_closePingTimer{
+    if (!self.openPing) return;
+    NSString *task = objc_getAssociatedObject(self, &taskNameKey);
+    if (task) {
+        [KJGCDTimer kj_cancelTimer:task];
+        objc_setAssociatedObject(self, &taskNameKey, nil, OBJC_ASSOCIATION_RETAIN_NONATOMIC);
+    }
+}
+//继续心跳（名字别乱改）
+- (void)kj_resumePingTimer{
+    if (!self.openPing) return;
+    NSString *task = objc_getAssociatedObject(self, &taskNameKey);
+    if (task) {
+        [KJGCDTimer kj_resumeTimer:task];
+    }else if (self.taskName) {
+        PLAYERLogOneInfo(@"--- 🎉🎉 成功创建心跳包 ---");
+    }
+}
+//暂停心跳（名字别乱改）
+- (void)kj_pausePingTimer{
+    if (!self.openPing) return;
+    NSString *task = objc_getAssociatedObject(self, &taskNameKey);
+    if (task) {
+        [KJGCDTimer kj_pauseTimer:task];
+    }
+}
+
+#pragma mark - 心跳包
+- (void)pingInvoke{
+    if (self.userPause || self.tryLooked || self.isLiveStreaming) {// 用户暂停和试看时间已到，直播流媒体
+        return;
+    }
+    PLAYERLogOneInfo(@"--- 🚗 心跳包 🚗 ---:%.2f",self.currentTime);
+    static int xxxx;
+    KJPlayerVideoPingTimerState state;
+    if (self.currentTime > self.lastTime) {
+        xxxx = 0;
+        self.lastTime = self.currentTime;
+        state = KJPlayerVideoPingTimerStatePing;
+    }else{
+        xxxx++;
+        if (xxxx > self.maxConnect) {
+            xxxx = 0;
+            self.lastTime = 0;
+            [self kj_closePingTimer];
+            state = KJPlayerVideoPingTimerStateFailed;
+        }else{
+            state = KJPlayerVideoPingTimerStateReconnect;
+        }
+    }
+    if (self.kVideoPingTimerState) {
+        self.kVideoPingTimerState(state);
+    }
+}
+
+#pragma mark - lazy
+static char taskNameKey;
+- (NSString *)taskName{
+    NSString *task = objc_getAssociatedObject(self, &taskNameKey);
+    if (task == nil) {
+        if (!self.maxConnect) self.maxConnect = 3;
+        task = [KJGCDTimer kj_createTimerWithTarget:self selector:@selector(pingInvoke) start:0 interval:self.timeSpace repeats:YES async:YES];
+        objc_setAssociatedObject(self, &taskNameKey, task, OBJC_ASSOCIATION_RETAIN_NONATOMIC);
+    }
+    return task;
+}
+
 #pragma mark - Associated
-static char pingTimerKey;
-- (NSTimer *)pingTimer{
-    return objc_getAssociatedObject(self, &pingTimerKey);
-}
-- (void)setPingTimer:(NSTimer *)pingTimer{
-    objc_setAssociatedObject(self, &pingTimerKey, pingTimer, OBJC_ASSOCIATION_RETAIN_NONATOMIC);
-}
 - (NSTimeInterval)lastTime{
     return [objc_getAssociatedObject(self, _cmd) floatValue];
 }
@@ -47,70 +108,6 @@ static char pingTimerKey;
 }
 - (void)setOpenPing:(BOOL)openPing{
     objc_setAssociatedObject(self, @selector(openPing), @(openPing), OBJC_ASSOCIATION_RETAIN_NONATOMIC);
-}
-
-//关闭心跳包（名字别乱改）
-- (void)kj_closePingTimer{
-    if (!self.openPing) return;
-    NSTimer *timer = objc_getAssociatedObject(self, &pingTimerKey);
-    if (timer) {
-        [timer invalidate];
-        objc_setAssociatedObject(self, &pingTimerKey, nil, OBJC_ASSOCIATION_RETAIN_NONATOMIC);
-    }
-}
-//继续心跳（名字别乱改）
-- (void)kj_resumePingTimer{
-    if (!self.openPing) return;
-    if (self.pingTimer) {
-        [self.pingTimer setFireDate:[NSDate date]];
-    }else{
-        if (!self.maxConnect) self.maxConnect = 3;
-        [self kj_closePingTimer];
-        PLAYER_WEAKSELF;
-        @autoreleasepool {
-            NSThread *thread = [[NSThread alloc] initWithBlock:^{
-                weakself.pingTimer = [NSTimer timerWithTimeInterval:weakself.timeSpace target:weakself selector:@selector(pingInvoke) userInfo:nil repeats:YES];
-                [[NSRunLoop currentRunLoop] addTimer:weakself.pingTimer forMode:NSRunLoopCommonModes];
-                [[NSRunLoop currentRunLoop] run];
-            }];
-            [thread start];
-            thread = nil;
-        }
-    }
-}
-//暂停心跳（名字别乱改）
-- (void)kj_pausePingTimer{
-    if (!self.openPing) return;
-    if (self.pingTimer) {
-        [self.pingTimer setFireDate:[NSDate distantFuture]];
-    }
-}
-
-#pragma mark - 心跳包
-- (void)pingInvoke{
-    if (self.userPause || self.tryLooked || self.isLiveStreaming) {// 用户暂停和试看时间已到，直播流媒体
-        return;
-    }
-#ifdef DEBUG
-    NSLog(@"---心跳包---%.2f",self.currentTime);
-#endif
-    static int xx;
-    if (self.currentTime > self.lastTime) {
-        self.lastTime = self.currentTime;
-        xx = 0;
-        if (self.kVideoPingTimerState) self.kVideoPingTimerState(KJPlayerVideoPingTimerStatePing);
-    }else{
-        xx++;
-        if (xx > self.maxConnect) {
-            xx = 0;
-            self.lastTime = 0;
-            [self kj_closePingTimer];
-            if (self.kVideoPingTimerState) self.kVideoPingTimerState(KJPlayerVideoPingTimerStateFailed);
-        }else{
-            [self.pingTimer setFireDate:[NSDate distantFuture]];
-            if (self.kVideoPingTimerState) self.kVideoPingTimerState(KJPlayerVideoPingTimerStateReconnect);
-        }
-    }
 }
 
 @end

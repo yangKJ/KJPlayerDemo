@@ -22,6 +22,7 @@
 @interface DBPlayerDataInfo()
 @property(nonatomic,strong) NSManagedObjectContext *context;
 @property(nonatomic,strong) NSMutableSet *downloadings;
+@property(nonatomic,assign) KJPlayerVideoRankType rankType;
 @end
 @implementation DBPlayerDataInfo
 static DBPlayerDataInfo *_instance = nil;
@@ -161,24 +162,28 @@ static NSString * const kDBPlayerData = @"DBPlayerData";
 }
 /* 异步获取上次播放时间 */
 + (void)kj_gainLastTimeDbid:(NSString*)dbid Time:(void(^)(NSTimeInterval time))block{
-    NSThread *thread = [[NSThread alloc] initWithBlock:^{
-        if (block) {
-            NSArray *temps = [DBPlayerDataInfo kj_checkData:dbid];
-            if (temps.count == 0) {
-                block(0);
-            }else{
-                DBPlayerData *data = temps.firstObject;
-                block(data.videoPlayTime);
+    @autoreleasepool {
+        NSThread *thread = [[NSThread alloc] initWithBlock:^{
+            if (block) {
+                NSArray *temps = [DBPlayerDataInfo kj_checkData:dbid];
+                if (temps.count == 0) {
+                    block(0);
+                }else{
+                    DBPlayerData *data = temps.firstObject;
+                    block(data.videoPlayTime);
+                }
             }
-        }
-    }];
-    [thread start];
+        }];
+        [thread start];
+        thread = nil;
+    }
 }
 /* 存储记录上次播放时间 */
-void kRecordLastTime(NSTimeInterval time, NSString *dbid){
++ (void)kj_saveRecordLastTime:(NSTimeInterval)time dbid:(NSString*)dbid{
     kGCD_player_async(^{
         if (![DBPlayerDataInfo kj_recordLastTime:time dbid:dbid]) {
             [DBPlayerDataInfo kj_recordLastTime:time dbid:dbid];
+            return;
         }
     });
 }
@@ -260,6 +265,34 @@ void kRecordLastTime(NSTimeInterval time, NSString *dbid){
             break;
     }
     return [NSError errorWithDomain:domain code:code userInfo:userInfo];
+}
+#pragma mark - 日志打印
+/* 打开几级日志打印，多枚举 */
++ (void)kj_openLogRankType:(KJPlayerVideoRankType)type{
+    DBPlayerDataInfo.shared.rankType = type;
+}
+/* 按级别打印日志 */
++ (void)kj_log:(KJPlayerVideoRankType)type format:(NSString*)format,...{
+#ifdef DEBUG
+    if (DBPlayerDataInfo.shared.rankType == KJPlayerVideoRankTypeNone) {
+        return;
+    }
+    va_list args;
+    va_start(args, format);
+    if (DBPlayerDataInfo.shared.rankType == 1 || (DBPlayerDataInfo.shared.rankType & KJPlayerVideoRankTypeOne)) {
+        if (type == KJPlayerVideoRankTypeOne) {
+            NSLogv([@"\n一级打印内容 " stringByAppendingString:format], args);
+        }
+        return;
+    }
+    if (DBPlayerDataInfo.shared.rankType == 2 || (DBPlayerDataInfo.shared.rankType & KJPlayerVideoRankTypeTwo)) {
+        if (type == KJPlayerVideoRankTypeTwo) {
+            NSLogv([@"\n二级打印内容 " stringByAppendingString:format], args);
+        }
+        return;
+    }
+    va_end(args);
+#endif
 }
 
 @end

@@ -7,6 +7,7 @@
 //  https://github.com/yangKJ/KJPlayerDemo
 
 #import <UIKit/UIKit.h>
+#import "KJRotateManager.h"
 
 NS_ASSUME_NONNULL_BEGIN
 typedef NS_ENUM(NSUInteger, KJPlayerButtonType) {

@@ -12,6 +12,9 @@
 @property(nonatomic,strong)KJIJKPlayer *player;
 @property(nonatomic,strong)KJBasePlayerView *basePlayerView;
 @property(nonatomic,strong)NSArray *temps;
+@property(nonatomic,strong)UISlider *slider;
+@property(nonatomic,strong)UILabel *label;
+@property(nonatomic,strong)UIProgressView *progressView;
 @end
 
 @implementation KJIJKPlayerVC
@@ -25,6 +28,40 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     self.view.backgroundColor = PLAYER_UIColorFromHEXA(0xf5f5f5, 1);
+    
+    UIProgressView *progressView = [[UIProgressView alloc] initWithProgressViewStyle:UIProgressViewStyleDefault];
+    self.progressView = progressView;
+    progressView.frame = CGRectMake(10, self.view.bounds.size.height-35-PLAYER_BOTTOM_SPACE_HEIGHT, self.view.bounds.size.width-20, 30);
+    progressView.progressTintColor = [UIColor.redColor colorWithAlphaComponent:0.8];
+    [progressView setProgress:0.0 animated:NO];
+    [self.view addSubview:progressView];
+    
+    UISlider *slider = [[UISlider alloc]initWithFrame:CGRectMake(7, 0, self.view.bounds.size.width-14, 30)];
+    self.slider = slider;
+    slider.backgroundColor = UIColor.clearColor;
+    slider.center = _progressView.center;
+    slider.minimumValue = 0.0;
+    [self.view addSubview:slider];
+    [slider addTarget:self action:@selector(sliderValueChanged:forEvent:) forControlEvents:UIControlEventValueChanged];
+    
+    UILabel *label1 = [[UILabel alloc]initWithFrame:CGRectMake(0, self.view.bounds.size.height-25-PLAYER_BOTTOM_SPACE_HEIGHT, self.view.bounds.size.width-10, 20)];
+    label1.textAlignment = 2;
+    label1.font = [UIFont systemFontOfSize:14];
+    label1.textColor = [UIColor.blueColor colorWithAlphaComponent:0.7];
+    [self.view addSubview:label1];
+    
+    UILabel *label2 = [[UILabel alloc]initWithFrame:CGRectMake(10, self.view.bounds.size.height-69-PLAYER_BOTTOM_SPACE_HEIGHT, self.view.bounds.size.width-10, 20)];
+    self.label = label2;
+    label2.textAlignment = 0;
+    label2.font = [UIFont systemFontOfSize:14];
+    label2.textColor = [UIColor.redColor colorWithAlphaComponent:0.7];
+    [self.view addSubview:label2];
+    
+    UILabel *label3 = [[UILabel alloc]initWithFrame:CGRectMake(0, self.view.bounds.size.height-69-PLAYER_BOTTOM_SPACE_HEIGHT, self.view.bounds.size.width-10, 20)];
+    label3.textAlignment = 2;
+    label3.font = [UIFont systemFontOfSize:14];
+    label3.textColor = [UIColor.redColor colorWithAlphaComponent:0.7];
+    [self.view addSubview:label3];
     
     KJBasePlayerView *backview = [[KJBasePlayerView alloc]initWithFrame:CGRectMake(0, PLAYER_STATUSBAR_NAVIGATION_HEIGHT, self.view.frame.size.width, self.view.frame.size.width*9/16.)];
     self.basePlayerView = backview;
@@ -55,6 +92,13 @@
     player.playerView = backview;
     player.cacheTime = 5;
     player.delegate = self;
+    player.kVideoTotalTime = ^(NSTimeInterval time) {
+        slider.maximumValue = time;
+        label3.text = kPlayerConvertTime(time);
+    };
+    player.kVideoSize = ^(CGSize size) {
+        NSLog(@"%.2f,%.2f",size.width,size.height);
+    };
     
     UILabel *label = [[UILabel alloc]initWithFrame:CGRectMake(20, CGRectGetMaxY(self.basePlayerView.frame)+30, self.view.bounds.size.width-40, 20)];
     label.textAlignment = NSTextAlignmentLeft;
@@ -89,11 +133,28 @@
 - (void)buttonAction:(UIButton*)sender{
     self.player.videoURL = [NSURL URLWithString:self.temps[sender.tag-520]];
 }
-
+///进度条的拖拽事件 监听UISlider拖动状态
+- (void)sliderValueChanged:(UISlider*)slider forEvent:(UIEvent*)event {
+    UITouch *touchEvent = [[event allTouches]anyObject];
+    switch(touchEvent.phase) {
+        case UITouchPhaseBegan:
+            [self.player kj_pause];
+            break;
+        case UITouchPhaseMoved:
+            break;
+        case UITouchPhaseEnded:{
+            CGFloat second = slider.value;
+            [slider setValue:second animated:YES];
+            self.player.kVideoAdvanceAndReverse(second,nil);
+        }
+            break;
+        default:
+            break;
+    }
+}
 #pragma mark - KJPlayerDelegate
 /* 当前播放器状态 */
 - (void)kj_player:(KJBasePlayer*)player state:(KJPlayerState)state{
-    NSLog(@"---当前播放器状态:%@",KJPlayerStateStringMap[state]);
     if (state == KJPlayerStateBuffering || state == KJPlayerStatePausing) {
         [player kj_startAnimation];
     }else if (state == KJPlayerStatePreparePlay || state == KJPlayerStatePlaying) {

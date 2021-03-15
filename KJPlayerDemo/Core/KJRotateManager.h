@@ -9,6 +9,7 @@
 
 #import <Foundation/Foundation.h>
 #import <UIKit/UIKit.h>
+#import "KJBasePlayerView.h"
 
 NS_ASSUME_NONNULL_BEGIN
 /* 必须在Appdelegate当中实现该协议 */
@@ -16,7 +17,6 @@ NS_ASSUME_NONNULL_BEGIN
 /* 传递当前旋转方向 */
 - (void)kj_transmitCurrentRotateOrientation:(UIInterfaceOrientationMask)rotateOrientation;
 @end
-@class KJBasePlayerView;
 @interface KJRotateManager : NSObject
 /* 切换到全屏 */
 + (void)kj_rotateFullScreenBasePlayerView:(KJBasePlayerView *)baseView;

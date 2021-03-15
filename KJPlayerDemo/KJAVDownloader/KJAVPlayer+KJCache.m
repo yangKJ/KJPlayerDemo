@@ -20,10 +20,9 @@ PLAYER_CACHE_COMMON_EXTENSION_PROPERTY
 /* 使用边播边缓存，m3u8暂不支持 */
 - (BOOL (^)(NSURL * _Nonnull, BOOL))kVideoCanCacheURL{
     return ^BOOL(NSURL * videoURL, BOOL cache){
+        kPlayerPerformSel(self, @"kj_initializeBeginPlayConfiguration");
         self.originalURL = videoURL;
         self.cache = cache;
-        self.asset = nil;
-        self.locality = NO;
         PLAYER_WEAKSELF;
         if (kPlayerVideoAesstType(videoURL) == KJPlayerAssetTypeNONE) {
             self.playError = [DBPlayerDataInfo kj_errorSummarizing:KJPlayerCustomCodeVideoURLUnknownFormat];
@@ -47,7 +46,7 @@ PLAYER_CACHE_COMMON_EXTENSION_PROPERTY
                     weakself.playError = [DBPlayerDataInfo kj_errorSummarizing:KJPlayerCustomCodeCacheNone];
                     NSURL * URL = weakself.connection.kj_createSchemeURL(tempURL);
                     weakself.asset = [AVURLAsset URLAssetWithURL:URL options:weakself.requestHeader];
-                    [weakself.asset.resourceLoader setDelegate:weakself.connection queue:dispatch_get_main_queue()];
+                    [weakself.asset.resourceLoader setDelegate:weakself.connection queue:dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0)];
                 }else{
                     weakself.asset = asset;
                 }

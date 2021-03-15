@@ -26,9 +26,9 @@
             UIButton *button = [[UIButton alloc]initWithFrame:CGRectMake(frame.size.width-height, 0, height, height)];
             self.fullButton = button;
             [button addTarget:self action:@selector(fullItemClick:) forControlEvents:UIControlEventTouchUpInside];
-            [button setTitle:@"\U0000e6aa" forState:(UIControlStateNormal)];
+            [button setTitle:@"\U0000e627" forState:(UIControlStateNormal)];
             [button setTitleColor:self.mainColor forState:(UIControlStateNormal)];
-            button.titleLabel.font = [UIFont fontWithName:@"iconfont" size:height/5*2];
+            button.titleLabel.font = [UIFont fontWithName:@"KJPlayerfont" size:height/5*2];
             [self addSubview:button];
         }
         self.layer.zPosition = KJBasePlayerViewLayerZPositionInteraction;
@@ -49,7 +49,7 @@
     if (_fullButton) {
         CGFloat height = self.frame.size.height;
         self.fullButton.frame = CGRectMake(self.frame.size.width-height, 0, height, height);
-        self.fullButton.titleLabel.font = [UIFont fontWithName:@"iconfont" size:height/5*2];
+        self.fullButton.titleLabel.font = [UIFont fontWithName:@"KJPlayerfont" size:height/5*2];
     }
     if (self.kVideoOperationViewChanged) {
         self.kVideoOperationViewChanged(self);

@@ -8,6 +8,39 @@
 
 #ifndef KJPlayerHeader_h
 #define KJPlayerHeader_h
+/* ****************  AVPlayer内核  ****************/
+#if __has_include(<KJPlayer/KJAVPlayer.h>)
+#import <KJPlayer/KJAVPlayer.h>
+#elif __has_include("KJAVPlayer.h")
+#import "KJAVPlayer.h"
+#else
+#endif
+
+/* ****************  AVPlayer内核边下边播边缓存分支  ****************/
+#if __has_include(<KJPlayer/KJAVPlayer+KJCache.h>)
+#import <KJPlayer/KJAVPlayer+KJCache.h>
+#elif __has_include("KJAVPlayer+KJCache.h")
+#import "KJAVPlayer+KJCache.h"
+#else
+#endif
+
+/* ****************  MIDI内核  ****************/
+#if __has_include(<KJPlayer/KJMIDIPlayer.h>)
+#import <KJPlayer/KJMIDIPlayer.h>
+#elif __has_include("KJMIDIPlayer.h")
+#import "KJMIDIPlayer.h"
+#else
+#endif
+
+/* ****************  IJKPlayer内核  ****************/
+#if __has_include(<KJPlayer/KJIJKPlayer.h>)
+#import <KJPlayer/KJIJKPlayer.h>
+#elif __has_include("KJIJKPlayer.h")
+#import "KJIJKPlayer.h"
+#else
+#endif
+
+#endif /* KJPlayerHeader_h */
 /*  作者信息
  *  Github地址：https://github.com/yangKJ
  *  简书地址：https://www.jianshu.com/u/c84c00476ab6
@@ -50,37 +83,3 @@ pod 'KJPlayer/IJKPlayer' # ijkplayer内核
 
 * 备注：快捷打开浏览器命令，command + shift + 鼠标左键
 **********************************************************************************/
-
-/* ****************  AVPlayer内核  ****************/
-#if __has_include(<KJPlayer/KJAVPlayer.h>)
-#import <KJPlayer/KJAVPlayer.h>
-#elif __has_include("KJAVPlayer.h")
-#import "KJAVPlayer.h"
-#else
-#endif
-
-/* ****************  AVPlayer内核边下边播边缓存分支  ****************/
-#if __has_include(<KJPlayer/KJAVPlayer+KJCache.h>)
-#import <KJPlayer/KJAVPlayer+KJCache.h>
-#elif __has_include("KJAVPlayer+KJCache.h")
-#import "KJAVPlayer+KJCache.h"
-#else
-#endif
-
-/* ****************  MIDI内核  ****************/
-#if __has_include(<KJPlayer/KJMIDIPlayer.h>)
-#import <KJPlayer/KJMIDIPlayer.h>
-#elif __has_include("KJMIDIPlayer.h")
-#import "KJMIDIPlayer.h"
-#else
-#endif
-
-/* ****************  IJKPlayer内核  ****************/
-#if __has_include(<KJPlayer/KJIJKPlayer.h>)
-#import <KJPlayer/KJIJKPlayer.h>
-#elif __has_include("KJIJKPlayer.h")
-#import "KJIJKPlayer.h"
-#else
-#endif
-
-#endif /* KJPlayerHeader_h */

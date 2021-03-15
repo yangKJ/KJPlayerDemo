@@ -123,7 +123,6 @@
 #pragma mark - KJPlayerDelegate
 /* 当前播放器状态 */
 - (void)kj_player:(KJBasePlayer*)player state:(KJPlayerState)state{
-    NSLog(@"---当前播放器状态:%@",KJPlayerStateStringMap[state]);
     if (state == KJPlayerStateBuffering) {
         [self.loadingView startAnimating];
     }else if (state == KJPlayerStatePreparePlay || state == KJPlayerStatePlaying) {

@@ -72,7 +72,7 @@
     label.backgroundColor = [UIColor.greenColor colorWithAlphaComponent:0.5];
     UIColor *color = [self kj_gradientColor:UIColor.redColor,UIColor.orangeColor,UIColor.yellowColor,UIColor.greenColor,UIColor.cyanColor,UIColor.blueColor,UIColor.purpleColor,nil](CGSizeMake(label.frame.size.width, 1));
     label.textColor = color;
-    label.font = [UIFont fontWithName:@"iconfont" size:100];
+    label.font = [UIFont fontWithName:@"KJPlayerfont" size:100];
     label.text = @"\U0000e82b";
     [self.view addSubview:label];
 }
