@@ -25,7 +25,7 @@
     label.textAlignment = NSTextAlignmentLeft;
     label.font = [UIFont systemFontOfSize:15];
     label.textColor = [UIColor.blueColor colorWithAlphaComponent:0.8];
-    label.text = [@"当前播放器内核 -- " stringByAppendingFormat:@"%@",kPlayerCurrentSourceName(self.player)];
+    label.text = [@"当前播放器内核 -- " stringByAppendingFormat:@"%@",self.player.kPlayerCurrentSourceName()];
     [self.view addSubview:label];
     {
         UILabel *label = [[UILabel alloc]initWithFrame:CGRectMake(20, CGRectGetMaxY(self.sourceLabel.frame)+30, self.view.bounds.size.width-40, 20)];
@@ -60,7 +60,7 @@
     }else{
         [self.player kj_dynamicChangeSourcePlayer:[KJAVPlayer class]];
     }
-    self.sourceLabel.text = [@"当前播放器内核 -- " stringByAppendingFormat:@"%@",kPlayerCurrentSourceName(self.player)];
+    self.sourceLabel.text = [@"当前播放器内核 -- " stringByAppendingFormat:@"%@",self.player.kPlayerCurrentSourceName()];
     NSString *string = [NSString stringWithFormat:@"当前内核%@",NSStringFromClass([self.player class])];
     NSLog(@"---xx---%@",string);
     [self.player kj_displayHintText:string time:5 position:KJPlayerHintPositionTop];

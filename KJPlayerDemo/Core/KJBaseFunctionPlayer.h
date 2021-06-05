@@ -117,8 +117,8 @@ NS_ASSUME_NONNULL_BEGIN
 @synthesize isLiveStreaming = _isLiveStreaming;\
 @synthesize kVideoTotalTime = _kVideoTotalTime;\
 @synthesize kVideoTryLookTime = _kVideoTryLookTime;\
-@synthesize kVideoAdvanceAndReverse = _kVideoAdvanceAndReverse;\
 @synthesize kVideoRecordLastTime = _kVideoRecordLastTime;\
 @synthesize kVideoSkipTime = _kVideoSkipTime;\
+@synthesize kVideoAdvanceAndReverse = _kVideoAdvanceAndReverse;\
 
 NS_ASSUME_NONNULL_END

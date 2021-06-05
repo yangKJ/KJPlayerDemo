@@ -8,6 +8,7 @@
 
 #ifndef KJPlayerHeader_h
 #define KJPlayerHeader_h
+
 /* ****************  AVPlayer内核  ****************/
 #if __has_include(<KJPlayer/KJAVPlayer.h>)
 #import <KJPlayer/KJAVPlayer.h>

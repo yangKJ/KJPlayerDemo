@@ -7,13 +7,11 @@
 //  https://github.com/yangKJ/KJPlayerDemo
 
 #import "KJBasePlayer.h"
-#import "KJCacheManager.h"
 #import "KJBasePlayer+KJPingTimer.h"
 
 @interface KJBasePlayer ()
 @property (nonatomic,strong) UITableView *bindTableView;
 @property (nonatomic,strong) NSIndexPath *indexPath;
-@property (nonatomic,strong) NSString *lastSourceName;
 @property (nonatomic,strong) NSError *playError;
 @end
 
@@ -40,9 +38,9 @@ static dispatch_once_t onceToken;
     [self removeObserver:self forKeyPath:@"playError"];
     [self removeObserver:self forKeyPath:@"currentTime"];
     [self kj_saveRecordLastTime];
-    [_playerView performSelectorOnMainThread:@selector(removeFromSuperview) withObject:nil waitUntilDone:YES];
-    _playerView = nil;
-    [self kj_stop];
+//    [_playerView performSelectorOnMainThread:@selector(removeFromSuperview) withObject:nil waitUntilDone:YES];
+//    _playerView = nil;
+//    [self kj_stop];
 #ifdef DEBUG
     NSLog(@"------- 🎈 %@已销毁 🎈 -------\n", self);
 #endif
@@ -56,6 +54,8 @@ static dispatch_once_t onceToken;
 - (void)kj_addNotificationCenter{
     //手机静音下也可播放声音
     [[AVAudioSession sharedInstance] setCategory:AVAudioSessionCategoryPlayback error:nil];
+    //禁止锁屏
+    [[UIApplication sharedApplication] setIdleTimerDisabled:YES];
     
     NSNotificationCenter * defaultCenter = [NSNotificationCenter defaultCenter];
     [defaultCenter addObserver:self selector:@selector(kj_detectAppEnterBackground:)
@@ -72,7 +72,6 @@ static dispatch_once_t onceToken;
     [self addObserver:self forKeyPath:@"currentTime" options:options context:nil];
 }
 
-#pragma mark - kvo
 - (void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary *)change context:(void *)context{
     if ([keyPath isEqualToString:@"state"]) {
         if ([self.delegate respondsToSelector:@selector(kj_player:state:)]) {
@@ -197,48 +196,6 @@ static dispatch_once_t onceToken;
             [DBPlayerDataInfo kj_saveRecordLastTime:self.currentTime dbid:kPlayerIntactName(self.originalURL)];
         }
     }
-}
-/* 动态切换播放内核 */
-- (void)kj_dynamicChangeSourcePlayer:(Class)clazz{
-    NSString *__name = NSStringFromClass([self class]);
-    kPlayerPerformSel(self, @"kj_changeSourceCleanJobs");
-    object_setClass(self, clazz);
-    if ([__name isEqualToString:self.lastSourceName]) {
-        return;
-    }else{
-        self.lastSourceName = __name;
-    }
-    if ([__name isEqualToString:@"KJAVPlayer"]) {
-        [self setValue:nil forKey:@"timer"];
-        [self setValue:nil forKey:@"tempView"];
-    }else if ([__name isEqualToString:@"KJIJKPlayer"]) {
-        [self setValue:nil forKey:@"playerOutput"];
-        [self setValue:nil forKey:@"playerLayer"];
-    }else if ([__name isEqualToString:@"KJMIDIPlayer"]) {
-        
-    }
-}
-/* 是否进行过动态切换内核 */
-- (BOOL (^)(void))kPlayerDynamicChangeSource{
-    return ^BOOL{
-        if (self.lastSourceName == nil || !self.lastSourceName.length) {
-            return NO;
-        }
-        return ![self.lastSourceName isEqualToString:NSStringFromClass([self class])];
-    };
-}
-NSString * kPlayerCurrentSourceName(KJBasePlayer *bp){
-    NSString *name = NSStringFromClass([bp class]);
-    if ([name isEqualToString:@"KJAVPlayer"]) {
-        return @"AVPlayer";
-    }
-    if ([name isEqualToString:@"KJIJKPlayer"]) {
-        return @"IJKPlayer";
-    }
-    if ([name isEqualToString:@"KJMIDIPlayer"]) {
-        return @"midi";
-    }
-    return @"Unknown";
 }
 
 #pragma mark - table

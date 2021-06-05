@@ -39,7 +39,8 @@
 }
 
 /* 显示文本框 */
-- (void)kj_displayHintText:(id)text time:(NSTimeInterval)time max:(float)max position:(id)position playerView:(UIView*)playerView{
+- (void)kj_displayHintText:(id)text time:(NSTimeInterval)time
+                       max:(float)max position:(id)position playerView:(UIView*)playerView{
     NSString *tempText;
     if ([text isKindOfClass:[NSAttributedString class]]){
         tempText = [text string];

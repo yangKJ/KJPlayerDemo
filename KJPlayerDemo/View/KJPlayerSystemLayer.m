@@ -24,6 +24,7 @@
         self.cornerRadius = 7;
         self.backgroundColor = [UIColor colorWithWhite:0.f alpha:0.8].CGColor;
         self.zPosition = KJBasePlayerViewLayerZPositionDisplayLayer;
+//        self.shouldRasterize = YES;
     }
     return self;
 }

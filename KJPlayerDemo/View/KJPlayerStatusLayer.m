@@ -35,20 +35,13 @@
     CGContextSetStrokeColorWithColor(ctx, lineColor.CGColor);
     CGContextSetFillColorWithColor(ctx, fillColor.CGColor);
     //外框
-    float offsetY = height/20;
-    switch (_textStyle) {
-        case KJPlayerStatusTextStyleTop:
-            offsetY = height/20;
-            break;
-        case KJPlayerStatusTextStyleBottom:
-            offsetY = -height/20;
-            break;
-        case KJPlayerStatusTextStyleHide:
-            offsetY = 0;
-            break;
-        default:
-            offsetY = 0;
-            break;
+    float offsetY;
+    if (_textStyle == KJPlayerStatusTextStyleTop) {
+        offsetY = height/20;
+    }else if (_textStyle == KJPlayerStatusTextStyleBottom) {
+        offsetY = -height/20;
+    }else{
+        offsetY = 0;
     }
     //外框高度
     float heightY = width/2.5;
@@ -95,30 +88,18 @@
     CGContextSetFillColorWithColor(ctx, fillColor.CGColor);
     CGContextSetFillColorWithColor(ctx, fillColor.CGColor);
     NSString *string = [NSString stringWithFormat:@"%0.0f%%",_percent * 100];
-    
     float textHeight = width/4;
-    //字体
     UIFont *font = [UIFont fontWithName:@"Arial" size:textHeight];
-    //文本风格，设置居中
     NSMutableParagraphStyle *paragraphStyle = [[NSParagraphStyle defaultParagraphStyle] mutableCopy];
     [paragraphStyle setAlignment:NSTextAlignmentCenter];
-    //文本位置
-    CGRect iRect = CGRectMake(0, height/2 + offsetY - heightY/2, width, textHeight);
-    switch (_textStyle) {
-        case KJPlayerStatusTextStyleTop:
-           iRect = CGRectMake(0, height/2 + offsetY - heightY/2 - textHeight - lineWidth, width, textHeight);
-            break;
-        case KJPlayerStatusTextStyleBottom:
-            iRect = CGRectMake(0, height/2 + offsetY + heightY/2, width, textHeight);
-            break;
-        case KJPlayerStatusTextStyleHide:
-            return;
-            break;
-        default:
-            return;
-            break;
+    CGRect iRect = CGRectZero;
+    if (_textStyle == KJPlayerStatusTextStyleTop) {
+        iRect = CGRectMake(0, height/2 + offsetY - heightY/2 - textHeight - lineWidth, width, textHeight);
+    }else if (_textStyle == KJPlayerStatusTextStyleTop) {
+        iRect = CGRectMake(0, height/2 + offsetY + heightY/2, width, textHeight);
+    }else{
+        iRect = CGRectMake(0, height/2 + offsetY - heightY/2, width, textHeight);
     }
-    //打印文本
     NSDictionary *dict = @{NSFontAttributeName:font,NSParagraphStyleAttributeName:paragraphStyle,NSForegroundColorAttributeName:fillColor};
     [string drawInRect:iRect withAttributes:dict];
 }

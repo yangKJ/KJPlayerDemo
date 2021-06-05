@@ -15,12 +15,11 @@
 #import <AVFoundation/AVFoundation.h>
 #import <objc/runtime.h>
 #import <objc/message.h>
-#import "KJProxyManager.h"
-#import "KJGCDTimer.h"
 
 NS_ASSUME_NONNULL_BEGIN
 // 弱引用
-#define PLAYER_WEAKSELF __weak __typeof(&*self) weakself = self
+#define PLAYER_WEAKSELF __weak __typeof(self) weakself = self
+#define PLAYER_STRONGSELF __strong __typeof(self) strongself = weakself
 // 窗口
 #define PLAYER_KeyWindow \
 ({UIWindow *window;\
@@ -62,7 +61,8 @@ typedef NS_ENUM(NSUInteger, KJPlayerAssetType) {
 NS_INLINE KJPlayerAssetType kPlayerVideoAesstType(NSURL *url){
     if (url == nil) return KJPlayerAssetTypeNONE;
     if (url.pathExtension.length) {
-        if ([url.pathExtension containsString:@"m3u8"] || [url.pathExtension containsString:@"ts"]) {
+        if ([url.pathExtension containsString:@"m3u8"] ||
+            [url.pathExtension containsString:@"ts"]) {
             return KJPlayerAssetTypeHLS;
         }else{
             return KJPlayerAssetTypeFILE;
@@ -72,7 +72,8 @@ NS_INLINE KJPlayerAssetType kPlayerVideoAesstType(NSURL *url){
     if (array.count == 0) {
         return KJPlayerAssetTypeNONE;
     }else{
-        if ([array.lastObject containsString:@"m3u8"] || [array.lastObject containsString:@"ts"]) {
+        if ([array.lastObject containsString:@"m3u8"] ||
+            [array.lastObject containsString:@"ts"]) {
             return KJPlayerAssetTypeHLS;
         }
     }
@@ -129,7 +130,7 @@ typedef NS_OPTIONS(NSUInteger, KJPlayerGestureType) {
 /// KJBasePlayerView上面的Layer层次，zPosition改变图层的显示顺序
 typedef NS_ENUM(NSUInteger, KJBasePlayerViewLayerZPosition) {
     KJBasePlayerViewLayerZPositionPlayer = 0,/// 播放器的AVPlayerLayer层
-    /* 1被全屏时刻的KJBasePlayerView占用 */
+    /* 1被全屏时刻的KJBasePlayerView 占用 */
     KJBasePlayerViewLayerZPositionInteraction = 2,/// 支持交互的控件，例如顶部底部操作面板
     KJBasePlayerViewLayerZPositionLoading = 3,/// 加载指示器和文本提醒框
     KJBasePlayerViewLayerZPositionButton = 4,/// 锁定屏幕，返回等控件
@@ -169,7 +170,7 @@ typedef NS_ENUM(NSUInteger, KJPlayerVideoPingTimerState) {
 typedef NS_OPTIONS(NSUInteger, KJPlayerVideoRankType) {
     KJPlayerVideoRankTypeNone = 1 << 0,/// 不打印
     KJPlayerVideoRankTypeOne = 1 << 1, /// 一级，
-    KJPlayerVideoRankTypeTwo = 1 << 2,/// 二级
+    KJPlayerVideoRankTypeTwo = 1 << 2, /// 二级
     
     KJPlayerVideoRankTypeAll = KJPlayerVideoRankTypeOne | KJPlayerVideoRankTypeTwo,
 };
@@ -181,6 +182,28 @@ struct KJCacheFragment {
 typedef struct KJCacheFragment KJCacheFragment;
 
 #pragma mark - 简单公共函数，这里只适合放简单的函数
+// 子线程
+NS_INLINE void kGCD_player_async(dispatch_block_t _Nonnull block) {
+    dispatch_queue_t queue = dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0);
+    if (strcmp(dispatch_queue_get_label(DISPATCH_CURRENT_QUEUE_LABEL), dispatch_queue_get_label(queue)) == 0) {
+        block();
+    }else{
+        dispatch_async(queue, block);
+    }
+}
+// 主线程
+NS_INLINE void kGCD_player_main(dispatch_block_t _Nonnull block) {
+    dispatch_queue_t queue = dispatch_get_main_queue();
+    if (strcmp(dispatch_queue_get_label(DISPATCH_CURRENT_QUEUE_LABEL), dispatch_queue_get_label(queue)) == 0) {
+        block();
+    }else{
+        if ([[NSThread currentThread] isMainThread]) {
+            dispatch_async(queue, block);
+        }else{
+            dispatch_sync(queue, block);
+        }
+    }
+}
 // 网址转义，中文空格字符解码
 NS_INLINE NSURL * kPlayerURLCharacters(NSString * urlString){
     NSString * encodedString = [urlString stringByAddingPercentEncodingWithAllowedCharacters:[NSCharacterSet URLQueryAllowedCharacterSet]];

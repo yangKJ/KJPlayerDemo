@@ -265,8 +265,7 @@ NSString *kPlayerBaseViewChangeKey = @"kPlayerBaseViewKey";
                     self.lastValue = [AVAudioSession sharedInstance].outputVolume;
                 }
             }
-        }
-            break;
+        } break;
         case UIGestureRecognizerStateChanged:{
             if (movingH) {
                 float value = translate.x / (self.width >> 1);
@@ -298,8 +297,7 @@ NSString *kPlayerBaseViewChangeKey = @"kPlayerBaseViewKey";
                     kSetVolume(translate.y);
                 }
             }
-        }
-            break;
+        } break;
         case UIGestureRecognizerStateEnded:
         case UIGestureRecognizerStateCancelled:
         case UIGestureRecognizerStateFailed:{
@@ -313,8 +311,7 @@ NSString *kPlayerBaseViewChangeKey = @"kPlayerBaseViewKey";
             }else{
                 if (_vbLayer) _vbLayer.hidden = YES;
             }
-        }
-            break;
+        } break;
         default:
             break;
     }

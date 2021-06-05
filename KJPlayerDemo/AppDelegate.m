@@ -7,6 +7,9 @@
 //  https://github.com/yangKJ/KJPlayerDemo
 
 #import "AppDelegate.h"
+#if __has_include(<DoraemonKit/DoraemonManager.h>)
+#import <DoraemonKit/DoraemonManager.h> // DiDi开发工具
+#endif
 
 @interface AppDelegate ()<KJPlayerRotateAppDelegate>
 @property(nonatomic,assign) UIInterfaceOrientationMask rotateOrientation;
@@ -29,9 +32,21 @@
     
     UIBarButtonItem *barButtonItem = [UIBarButtonItem appearance];
     [barButtonItem setTitleTextAttributes:[NSDictionary dictionaryWithObjectsAndKeys:[UIFont systemFontOfSize:18], NSFontAttributeName, nil] forState:UIControlStateNormal];
+    
+#if __has_include(<DoraemonKit/DoraemonManager.h>)
+    [[DoraemonManager shareInstance] install];
+#endif
+    
     return YES;
 }
-
+- (void)application:(UIApplication *)application didReceiveRemoteNotification:(NSDictionary *)userInfo fetchCompletionHandler:(void (^)(UIBackgroundFetchResult))completionHandler {
+    completionHandler(UIBackgroundFetchResultNewData);
+    /// 后台继续播放音频
+    AVAudioSession *session = [AVAudioSession sharedInstance];
+    [session setActive:YES error:nil];
+    [session setCategory:AVAudioSessionCategoryPlayback error:nil];
+    [[UIApplication sharedApplication] beginReceivingRemoteControlEvents];
+}
 - (void)applicationWillResignActive:(UIApplication *)application {
     // Sent when the application is about to move from active to inactive state. This can occur for certain types of temporary interruptions (such as an incoming phone call or SMS message) or when the user quits the application and it begins the transition to the background state.
     // Use this method to pause ongoing tasks, disable timers, and invalidate graphics rendering callbacks. Games should use this method to pause the game.

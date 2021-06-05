@@ -26,20 +26,12 @@ NS_ASSUME_NONNULL_BEGIN
 + (void)kj_attempDealloc;
 /* 主动存储当前播放记录 */
 - (void)kj_saveRecordLastTime;
-/* 动态切换播放内核 */
-- (void)kj_dynamicChangeSourcePlayer:(Class)clazz;
 
 #pragma mark - NSNotification
 /* 进入后台 */
 - (void)kj_detectAppEnterBackground:(NSNotification*)notification;
 /* 进入前台 */
 - (void)kj_detectAppEnterForeground:(NSNotification*)notification;
-
-/* *********************  内部使用  *********************/
-/* 是否进行过动态切换内核 */
-@property (nonatomic,copy,readonly) BOOL (^kPlayerDynamicChangeSource)(void);
-/* 当前播放器内核名 */
-NSString * kPlayerCurrentSourceName(KJBasePlayer *bp);
 
 @end
 

@@ -8,17 +8,6 @@
 
 #import "DBPlayerDataInfo.h"
 
-@implementation DBPlayerData
-@dynamic dbid;
-@dynamic videoUrl;
-@dynamic saveTime;
-@dynamic sandboxPath;
-@dynamic videoFormat;
-@dynamic videoContentLength;
-@dynamic videoData;
-@dynamic videoIntact;
-@dynamic videoPlayTime;
-@end
 @interface DBPlayerDataInfo()
 @property(nonatomic,strong) NSManagedObjectContext *context;
 @property(nonatomic,strong) NSMutableSet *downloadings;
@@ -43,7 +32,8 @@ static dispatch_once_t onceToken;
         NSString *docStr = [NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES) lastObject];
         NSString *sqlPath = [docStr stringByAppendingPathComponent:@"db_player_video.sqlite"];
         NSError *error = nil;
-        [store addPersistentStoreWithType:NSSQLiteStoreType configuration:nil URL:[NSURL fileURLWithPath:sqlPath] options:nil error:&error];
+        [store addPersistentStoreWithType:NSSQLiteStoreType configuration:nil
+                                      URL:[NSURL fileURLWithPath:sqlPath] options:nil error:&error];
         NSManagedObjectContext *context = [[NSManagedObjectContext alloc] initWithConcurrencyType:NSPrivateQueueConcurrencyType];
         context.persistentStoreCoordinator = store;
         self.context = context;
@@ -60,7 +50,9 @@ static dispatch_once_t onceToken;
 #pragma mark - DB 增删改查板块
 static NSString * const kDBPlayerData = @"DBPlayerData";
 /* 插入数据 */
-+ (NSArray<DBPlayerData*>*)kj_insertData:(NSString*)dbid Data:(void(^)(DBPlayerData *data))insert error:(NSError**)error{
++ (NSArray<DBPlayerData*>*)kj_insertData:(NSString*)dbid
+                                  insert:(void(^)(DBPlayerData *data))insert
+                                   error:(NSError**)error{
     NSFetchRequest *checkRequest = [NSFetchRequest fetchRequestWithEntityName:kDBPlayerData];
     NSPredicate *predicate = [NSPredicate predicateWithFormat:@"dbid = %@", dbid];
     checkRequest.predicate = predicate;
@@ -101,7 +93,8 @@ static NSString * const kDBPlayerData = @"DBPlayerData";
     return resArray;
 }
 /* 更新数据 */
-+ (NSArray<DBPlayerData*>*)kj_updateData:(NSString*)dbid Data:(void(^)(DBPlayerData *data, BOOL * stop))update{
++ (NSArray<DBPlayerData*>*)kj_updateData:(NSString*)dbid
+                                  update:(void(^)(DBPlayerData *data, BOOL * stop))update{
     NSFetchRequest *request = [NSFetchRequest fetchRequestWithEntityName:kDBPlayerData];
     NSPredicate *predicate = [NSPredicate predicateWithFormat:@"dbid = %@", dbid];
     request.predicate = predicate;
@@ -109,7 +102,8 @@ static NSString * const kDBPlayerData = @"DBPlayerData";
     if (update) {
         if (resArray.count == 0) {
             NSMutableArray *temps = [NSMutableArray array];
-            DBPlayerData * data = [NSEntityDescription insertNewObjectForEntityForName:kDBPlayerData inManagedObjectContext:DBPlayerDataInfo.shared.context];
+            DBPlayerData * data = [NSEntityDescription insertNewObjectForEntityForName:kDBPlayerData
+                                                                inManagedObjectContext:DBPlayerDataInfo.shared.context];
             data.dbid = dbid;
             BOOL stop = NO;
             update(data,&stop);
@@ -148,10 +142,9 @@ static NSString * const kDBPlayerData = @"DBPlayerData";
 }
 /* 记录上次播放时间 */
 + (BOOL)kj_recordLastTime:(NSTimeInterval)time dbid:(NSString*)dbid{
-    NSArray *temps = [DBPlayerDataInfo kj_updateData:dbid Data:^(DBPlayerData *data, BOOL * stop) {
+    return [DBPlayerDataInfo kj_updateData:dbid update:^(DBPlayerData *data, BOOL * stop) {
         data.videoPlayTime = time;
-    }];
-    return temps.count;
+    }].count ? YES : NO;
 }
 /* 获取上次播放时间 */
 + (NSTimeInterval)kj_getLastTimeDbid:(NSString*)dbid{
@@ -162,21 +155,17 @@ static NSString * const kDBPlayerData = @"DBPlayerData";
 }
 /* 异步获取上次播放时间 */
 + (void)kj_gainLastTimeDbid:(NSString*)dbid Time:(void(^)(NSTimeInterval time))block{
-    @autoreleasepool {
-        NSThread *thread = [[NSThread alloc] initWithBlock:^{
-            if (block) {
-                NSArray *temps = [DBPlayerDataInfo kj_checkData:dbid];
-                if (temps.count == 0) {
-                    block(0);
-                }else{
-                    DBPlayerData *data = temps.firstObject;
-                    block(data.videoPlayTime);
-                }
+    [[[NSThread alloc] initWithBlock:^{
+        if (block) {
+            NSArray *temps = [DBPlayerDataInfo kj_checkData:dbid];
+            if (temps.count == 0) {
+                block(0);
+            }else{
+                DBPlayerData *data = temps.firstObject;
+                block(data.videoPlayTime);
             }
-        }];
-        [thread start];
-        thread = nil;
-    }
+        }
+    }] start];
 }
 /* 存储记录上次播放时间 */
 + (void)kj_saveRecordLastTime:(NSTimeInterval)time dbid:(NSString*)dbid{
@@ -283,16 +272,27 @@ static NSString * const kDBPlayerData = @"DBPlayerData";
         if (type == KJPlayerVideoRankTypeOne) {
             NSLogv([@"\n一级打印内容 " stringByAppendingString:format], args);
         }
+        va_end(args);
         return;
     }
     if (DBPlayerDataInfo.shared.rankType == 2 || (DBPlayerDataInfo.shared.rankType & KJPlayerVideoRankTypeTwo)) {
         if (type == KJPlayerVideoRankTypeTwo) {
             NSLogv([@"\n二级打印内容 " stringByAppendingString:format], args);
         }
-        return;
     }
     va_end(args);
 #endif
 }
 
+@end
+@implementation DBPlayerData
+@dynamic dbid;
+@dynamic videoUrl;
+@dynamic saveTime;
+@dynamic sandboxPath;
+@dynamic videoFormat;
+@dynamic videoContentLength;
+@dynamic videoData;
+@dynamic videoIntact;
+@dynamic videoPlayTime;
 @end

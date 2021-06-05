@@ -43,7 +43,7 @@ PLAYER_COMMON_FUNCTION_PROPERTY PLAYER_COMMON_UI_PROPERTY
 /* 准备播放 */
 - (void)kj_play{
     PLAYER_WEAKSELF;
-    dispatch_group_notify(self.group, dispatch_get_main_queue(), ^{
+    dispatch_group_notify(self.group, dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
         if (weakself.player == nil || weakself.tryLooked) return;
         [super kj_play];
         MusicPlayerStart(weakself.player);
@@ -109,8 +109,8 @@ PLAYER_COMMON_FUNCTION_PROPERTY PLAYER_COMMON_UI_PROPERTY
         return;
     }
     PLAYER_WEAKSELF;
-    __block NSURL *tempURL = videoURL;
     dispatch_group_async(self.group, dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
+        NSURL *tempURL = videoURL;
         if (![tempURL.absoluteString isEqualToString:self->_videoURL.absoluteString]) {
             self->_videoURL = tempURL;
             [weakself createGraph];
@@ -147,8 +147,8 @@ PLAYER_COMMON_FUNCTION_PROPERTY PLAYER_COMMON_UI_PROPERTY
             if (xxblock) xxblock(NO);
         }
         PLAYER_WEAKSELF;
-        __block MusicTimeStamp time = seconds;
-        dispatch_group_notify(self.group, dispatch_get_main_queue(), ^{
+        dispatch_group_notify(self.group, dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
+            MusicTimeStamp time = seconds;
             if (weakself.totalTime) {
                 weakself.currentTime = time;
             }

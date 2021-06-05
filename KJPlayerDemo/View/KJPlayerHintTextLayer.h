@@ -30,7 +30,11 @@ static NSString * KJPlayerHintPositionRightBottom = @"KJPlayerHintPositionRightB
 /* 设置属性 */
 - (void)kj_setFont:(UIFont*)font color:(UIColor*)color;
 /* 显示文本框 */
-- (void)kj_displayHintText:(id)text time:(NSTimeInterval)time max:(float)max position:(id)position playerView:(UIView*)playerView;
+- (void)kj_displayHintText:(id)text
+                      time:(NSTimeInterval)time
+                       max:(float)max
+                  position:(id)position
+                playerView:(UIView*)playerView;
 
 @end
 

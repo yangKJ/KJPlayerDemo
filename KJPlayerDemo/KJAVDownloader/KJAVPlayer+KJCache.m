@@ -37,8 +37,8 @@ PLAYER_CACHE_COMMON_EXTENSION_PROPERTY
         if (objc_getAssociatedObject(self, &connectionKey)) {
             objc_setAssociatedObject(self, &connectionKey, nil, OBJC_ASSOCIATION_RETAIN);
         }
-        __block NSURL *tempURL = videoURL;
         dispatch_group_async(self.group, dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
+            NSURL *tempURL = videoURL;
             [weakself kj_judgeHaveCacheWithVideoURL:&tempURL];
             if (!kPlayerHaveTracks(tempURL, ^(AVURLAsset * asset) {
                 if (weakself.cache && weakself.locality == NO) {
@@ -110,7 +110,7 @@ static char connectionKey;
 - (BOOL)kj_saveDatabaseVideoIntact:(BOOL)videoIntact{
     PLAYER_WEAKSELF;
     NSError *__error;
-    [DBPlayerDataInfo kj_insertData:self.cacheInfo.fileName Data:^(DBPlayerData * data){
+    [DBPlayerDataInfo kj_insertData:self.cacheInfo.fileName insert:^(DBPlayerData * data){
         data.dbid = weakself.cacheInfo.fileName;
         data.videoUrl = weakself.cacheInfo.videoURL.absoluteString;
         data.videoFormat = weakself.cacheInfo.fileFormat;

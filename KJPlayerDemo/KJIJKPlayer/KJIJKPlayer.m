@@ -34,7 +34,7 @@ PLAYER_COMMON_FUNCTION_PROPERTY PLAYER_COMMON_UI_PROPERTY
         _background = UIColor.blackColor.CGColor;
         self.group = dispatch_group_create();
         [self setValue:@(YES) forKey:@"openPing"];
-        [IJKFFMoviePlayerController checkIfFFmpegVersionMatch:YES];
+//        [IJKFFMoviePlayerController checkIfFFmpegVersionMatch:YES];
     }
     return self;
 }
@@ -195,6 +195,7 @@ PLAYER_COMMON_FUNCTION_PROPERTY PLAYER_COMMON_UI_PROPERTY
     }
     _options = nil;
     _tempView = nil;
+//    free((__bridge void *)(_tempView));
 }
 //加载视屏流视图（名字不能乱改，父类有调用）
 - (void)kj_displayPictureWithSize:(CGSize)size{
@@ -297,8 +298,9 @@ PLAYER_COMMON_FUNCTION_PROPERTY PLAYER_COMMON_UI_PROPERTY
 /* 重播 */
 - (void)kj_replay{
     [super kj_replay];
+    PLAYER_WEAKSELF;
     self.kVideoAdvanceAndReverse(self.skipHeadTime, ^(BOOL finished) {
-        if (finished) [self kj_play];
+        if (finished) [weakself kj_play];
     });
 }
 /* 继续 */
@@ -371,8 +373,8 @@ PLAYER_COMMON_FUNCTION_PROPERTY PLAYER_COMMON_UI_PROPERTY
     }
     self.originalURL = videoURL;
     PLAYER_WEAKSELF;
-    dispatch_group_async(self.group, dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
-        if (self.kPlayerDynamicChangeSource()) {
+//    dispatch_group_async(self.group, dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
+        if (weakself.kPlayerDynamicChangeSource()) {
             self->_videoURL = videoURL;
             [weakself kj_initPreparePlayer];
         }else if (![videoURL.absoluteString isEqualToString:self->_videoURL.absoluteString]) {
@@ -381,7 +383,7 @@ PLAYER_COMMON_FUNCTION_PROPERTY PLAYER_COMMON_UI_PROPERTY
         }else{
             [weakself kj_replay];
         }
-    });
+//    });
 }
 - (void)setVolume:(float)volume{
     _volume = MIN(MAX(0, volume), 1);
@@ -449,14 +451,14 @@ PLAYER_COMMON_FUNCTION_PROPERTY PLAYER_COMMON_UI_PROPERTY
 - (void (^)(NSTimeInterval,void (^_Nullable)(BOOL)))kVideoAdvanceAndReverse{
     return ^(NSTimeInterval seconds, void (^xxblock)(BOOL)){
         if (self.isLiveStreaming) return;
-        if (self.player) {
-            [self.player pause];
-        }else{
-            if (xxblock) xxblock(NO);
-        }
         PLAYER_WEAKSELF;
-        __block NSTimeInterval time = seconds;
-//        dispatch_group_notify(weakself.group, dispatch_get_main_queue(), ^{
+        dispatch_group_notify(self.group, dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
+            if (weakself.player) {
+                [weakself.player pause];
+            }else{
+                if (xxblock) xxblock(NO);
+            }
+            NSTimeInterval time = seconds;
             if (weakself.openAdvanceCache && weakself.locality == NO) {
                 if (weakself.totalTime) {
                     NSTimeInterval _time = weakself.progress * weakself.totalTime;
@@ -470,7 +472,7 @@ PLAYER_COMMON_FUNCTION_PROPERTY PLAYER_COMMON_UI_PROPERTY
                 self.player.currentPlaybackTime = time;
                 if (xxblock) xxblock(YES);
             }
-//        });
+        });
     };
 }
 - (void (^)(void (^ _Nullable)(void), NSTimeInterval))kVideoTryLookTime{
@@ -518,13 +520,20 @@ PLAYER_COMMON_FUNCTION_PROPERTY PLAYER_COMMON_UI_PROPERTY
 - (IJKFFOptions *)options{
     if (!_options) {
         IJKFFOptions *options = [IJKFFOptions optionsByDefault];
-        [options setOptionIntValue:IJK_AVDISCARD_DEFAULT forKey:@"skip_frame" ofCategory:kIJKFFOptionCategoryCodec];
-        [options setOptionIntValue:IJK_AVDISCARD_ALL forKey:@"skip_loop_filter" ofCategory:kIJKFFOptionCategoryCodec];
-        [options setOptionIntValue:1 forKey:@"videotoolbox" ofCategory:kIJKFFOptionCategoryPlayer];
-        [options setOptionIntValue:30 forKey:@"max-fps" ofCategory:kIJKFFOptionCategoryPlayer];
-        [options setOptionIntValue:256 forKey:@"vol" ofCategory:kIJKFFOptionCategoryPlayer];
-        [options setOptionIntValue:1 forKey:@"dns_cache_clear" ofCategory:kIJKFFOptionCategoryFormat];
-        [options setOptionIntValue:1024 forKey:@"probesize" ofCategory:kIJKFFOptionCategoryFormat];
+        [options setOptionIntValue:IJK_AVDISCARD_DEFAULT forKey:@"skip_frame"
+                        ofCategory:kIJKFFOptionCategoryCodec];
+        [options setOptionIntValue:IJK_AVDISCARD_ALL forKey:@"skip_loop_filter"
+                        ofCategory:kIJKFFOptionCategoryCodec];
+        [options setOptionIntValue:1 forKey:@"videotoolbox"
+                        ofCategory:kIJKFFOptionCategoryPlayer];
+        [options setOptionIntValue:30 forKey:@"max-fps"
+                        ofCategory:kIJKFFOptionCategoryPlayer];
+        [options setOptionIntValue:256 forKey:@"vol"
+                        ofCategory:kIJKFFOptionCategoryPlayer];
+        [options setOptionIntValue:1 forKey:@"dns_cache_clear"
+                        ofCategory:kIJKFFOptionCategoryFormat];
+        [options setOptionIntValue:1024 forKey:@"probesize"
+                        ofCategory:kIJKFFOptionCategoryFormat];
         
         _options = options;
     }

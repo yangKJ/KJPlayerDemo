@@ -6,7 +6,12 @@ target 'KJPlayerDemo' do
   use_frameworks!
 
 #  pod 'RealReachability/Ping' # 网络监测
-  pod 'IJKMediaFramework' 
+  pod 'IJKMediaFramework'
+  
+  # DiDi开发工具
+#  pod 'DoraemonKit/Core', :configurations => ['Debug']
+#  pod 'DoraemonKit/WithLoad', :configurations => ['Debug'] # 集成Load耗时检测
+#  pod 'DoraemonKit/WithMLeaksFinder', :configurations => ['Debug'] # 查找内存泄漏
 
   # Pods for KJPlayerDemo
 

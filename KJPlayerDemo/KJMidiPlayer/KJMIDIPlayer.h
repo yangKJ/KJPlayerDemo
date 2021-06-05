@@ -9,7 +9,9 @@
 
 #import <Foundation/Foundation.h>
 #import "KJBasePlayer.h"
+
 NS_ASSUME_NONNULL_BEGIN
+
 @interface KJMIDIPlayer : KJBasePlayer
 @property (nonatomic,assign,readonly) MusicPlayer player;
 

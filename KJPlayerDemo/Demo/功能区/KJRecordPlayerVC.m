@@ -22,6 +22,7 @@
     // Do any additional setup after loading the view.
     self.basePlayerView.frame = CGRectMake(0, PLAYER_STATUSBAR_NAVIGATION_HEIGHT, self.view.frame.size.width, self.view.frame.size.width);
     self.player.delegate = self;
+    PLAYER_WEAKSELF;
     self.player.kVideoRecordLastTime(^(NSTimeInterval time) {
         NSMutableDictionary *attributes = [NSMutableDictionary dictionary];
         [attributes setValue:[UIFont systemFontOfSize:16] forKey:NSFontAttributeName];
@@ -33,7 +34,7 @@
         [attributes2 setValue:UIColor.whiteColor forKey:NSForegroundColorAttributeName];
         [string setAttributes:attributes2 range:NSMakeRange(0, 7)];
         [string setAttributes:attributes2 range:NSMakeRange(timeString.length-4, 4)];
-        [self.player kj_displayHintText:string time:5 position:KJPlayerHintPositionCenter];
+        [weakself.player kj_displayHintText:string time:5 position:KJPlayerHintPositionCenter];
     }, YES);
     self.player.videoURL = kPlayerURLCharacters(@"https://mp4.vjshi.com/2016-10-31/a553917787e52c0a077e3fb8548fae69.mp4?测试中文转义abc");
 }

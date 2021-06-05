@@ -13,6 +13,7 @@
 #import "KJBasePlayer+KJPingTimer.h"
 
 NS_ASSUME_NONNULL_BEGIN
+
 @interface KJAVPlayer : KJBasePlayer
 @property (nonatomic,strong,readonly) AVPlayerItemVideoOutput *playerOutput;
 @property (nonatomic,strong,readonly) AVPlayerLayer *playerLayer;
@@ -21,7 +22,7 @@ NS_ASSUME_NONNULL_BEGIN
 @property (nonatomic,strong) AVURLAsset *_Nullable asset;
 
 // 判断是否含有视频轨道
-BOOL kPlayerHaveTracks(NSURL *videoURL, void(^assetblock)(AVURLAsset *), NSDictionary *requestHeader);
+extern BOOL kPlayerHaveTracks(NSURL *videoURL, void(^assetblock)(AVURLAsset *), NSDictionary *requestHeader);
 
 @end
 

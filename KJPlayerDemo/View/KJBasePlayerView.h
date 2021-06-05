@@ -19,7 +19,7 @@
 
 NS_ASSUME_NONNULL_BEGIN
 /* 控件位置和大小发生改变信息通知 */
-extern NSString *kPlayerBaseViewChangeNotification;
+extern NSString * kPlayerBaseViewChangeNotification;
 /* 控件位置和大小发生改变key */
 extern NSString *kPlayerBaseViewChangeKey;
 @protocol KJPlayerBaseViewDelegate;

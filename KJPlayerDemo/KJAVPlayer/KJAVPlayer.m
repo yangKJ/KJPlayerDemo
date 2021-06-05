@@ -46,6 +46,10 @@ static NSString * const kTimeControlStatus = @"timeControlStatus";
 
 #pragma mark - kvo
 - (void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary *)change context:(void *)context{
+    if (object != _playerItem) {
+        [super observeValueForKeyPath:keyPath ofObject:object change:change context:context];
+        return;
+    }
     AVPlayerItem *playerItem = (AVPlayerItem *)object;
     if ([keyPath isEqualToString:kStatus]) {//监听播放器状态
         if (playerItem.status == AVPlayerStatusReadyToPlay) {
@@ -123,7 +127,7 @@ static NSString * const kTimeControlStatus = @"timeControlStatus";
     }else if ([keyPath isEqualToString:kTimeControlStatus]) {
         NSLog(@"kTimeControlStatus:%@",object);
     }else{
-        [super observeValueForKeyPath:keyPath ofObject:object change:change context:context];
+        
     }
 }
 
@@ -216,7 +220,7 @@ static NSString * const kTimeControlStatus = @"timeControlStatus";
 - (void)kj_changeSourceCleanJobs{
     [self kj_destroyPlayer];
 }
-//加载视屏流视图（名字不能乱改，父类有调用）
+/// 加载视屏流视图（名字不能乱改，父类有调用）
 - (void)kj_displayPictureWithSize:(CGSize)size{
     if (_playerView == nil) return;
     if (_playerLayer.superlayer == nil) {
@@ -303,7 +307,7 @@ static NSString * const kTimeControlStatus = @"timeControlStatus";
         [self kj_autoPlay];
     }
 }
-//初始化开始播放时配置信息（名字不能乱改，KJCache当中有使用）
+/// 初始化开始播放时配置信息（名字不能乱改，KJCache当中有使用）
 - (void)kj_initializeBeginPlayConfiguration{
     if (self.player) [self.player pause];
     self.tempSize = CGSizeZero;
@@ -316,13 +320,13 @@ static NSString * const kTimeControlStatus = @"timeControlStatus";
     self.locality = NO;
     self.isLiveStreaming = NO;
 }
-//自动播放
+/// 自动播放
 - (void)kj_autoPlay{
     if (self.autoPlay && self.userPause == NO) {
         [self kj_play];
     }
 }
-//试看处理
+/// 试看处理
 - (BOOL)kj_tryLook:(NSTimeInterval)time{
     if (!self.totalTime) {
         self.currentTime = 0;
@@ -343,7 +347,7 @@ static NSString * const kTimeControlStatus = @"timeControlStatus";
     }
     return self.tryLooked;
 }
-//判断是否含有视频轨道
+/// 判断是否含有视频轨道
 BOOL kPlayerHaveTracks(NSURL *videoURL, void(^assetblock)(AVURLAsset *), NSDictionary *requestHeader){
     if (videoURL == nil) return NO;
     AVURLAsset *asset = [AVURLAsset URLAssetWithURL:videoURL options:requestHeader];
@@ -376,7 +380,6 @@ BOOL kPlayerHaveTracks(NSURL *videoURL, void(^assetblock)(AVURLAsset *), NSDicti
             default:break;
         }
     }
-    
 }
 - (void)setVideoURL:(NSURL *)videoURL{
     [self kj_initializeBeginPlayConfiguration];
@@ -388,8 +391,8 @@ BOOL kPlayerHaveTracks(NSURL *videoURL, void(^assetblock)(AVURLAsset *), NSDicti
     }
     self.originalURL = videoURL;
     PLAYER_WEAKSELF;
-    __block NSURL *tempURL = videoURL;
     dispatch_group_async(self.group, dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
+        NSURL *tempURL = videoURL;
         if (kPlayerVideoAesstType(videoURL) == KJPlayerAssetTypeFILE) {
             if (!kPlayerHaveTracks(videoURL, ^(AVURLAsset * asset) {
                 weakself.asset = asset;
@@ -480,15 +483,15 @@ BOOL kPlayerHaveTracks(NSURL *videoURL, void(^assetblock)(AVURLAsset *), NSDicti
 - (void (^)(NSTimeInterval,void (^_Nullable)(BOOL)))kVideoAdvanceAndReverse{
     return ^(NSTimeInterval seconds, void (^xxblock)(BOOL)){
         if (self.isLiveStreaming) return;
-        if (self.player) {
-            [self.player pause];
-            [self.player.currentItem cancelPendingSeeks];
-        }else{
-            if (xxblock) xxblock(NO);
-        }
         PLAYER_WEAKSELF;
-        __block NSTimeInterval time = seconds;
-        dispatch_group_notify(self.group, dispatch_get_main_queue(), ^{
+        dispatch_group_notify(self.group, dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
+            if (weakself.player) {
+                [weakself.player pause];
+                [weakself.player.currentItem cancelPendingSeeks];
+            }else{
+                if (xxblock) xxblock(NO);
+            }
+            NSTimeInterval time = seconds;
             if (weakself.openAdvanceCache && weakself.locality == NO) {
                 if (weakself.totalTime) {
                     NSTimeInterval _time = weakself.progress * weakself.totalTime;
@@ -499,14 +502,17 @@ BOOL kPlayerHaveTracks(NSURL *videoURL, void(^assetblock)(AVURLAsset *), NSDicti
             }
             if ([weakself kj_tryLook:time]) {
                 [weakself.player seekToTime:CMTimeMakeWithSeconds(weakself.tryTime, NSEC_PER_SEC) toleranceBefore:kCMTimeZero toleranceAfter:kCMTimeZero completionHandler:^(BOOL finished) {
-                    [weakself kj_pause];
+                    PLAYER_STRONGSELF;
+                    [strongself kj_pause];
                 }];
                 return;
             }else{
                 weakself.currentTime = time;
             }
-            [weakself.player seekToTime:CMTimeMakeWithSeconds(time, NSEC_PER_SEC) toleranceBefore:kCMTimeZero toleranceAfter:kCMTimeZero completionHandler:^(BOOL finished) {
-                if (finished) [weakself kj_play];
+            [self.player seekToTime:CMTimeMakeWithSeconds(time, NSEC_PER_SEC) toleranceBefore:kCMTimeZero toleranceAfter:kCMTimeZero completionHandler:^(BOOL finished) {
+                if (finished) {
+                    [weakself kj_play];
+                }
                 if (xxblock) xxblock(finished);
             }];
         });
@@ -650,7 +656,9 @@ BOOL kPlayerHaveTracks(NSURL *videoURL, void(^assetblock)(AVURLAsset *), NSDicti
     [self.playerItem removeObserver:self forKeyPath:kPlaybackBufferEmpty];
     [self.playerItem removeObserver:self forKeyPath:kPlaybackLikelyToKeepUp];
     [self.playerItem removeObserver:self forKeyPath:kTimeControlStatus];
-    [[NSNotificationCenter defaultCenter] removeObserver:self name:AVPlayerItemDidPlayToEndTimeNotification object:_playerItem];
+    [[NSNotificationCenter defaultCenter] removeObserver:self
+                                                    name:AVPlayerItemDidPlayToEndTimeNotification
+                                                  object:_playerItem];
     _playerItem = nil;
 }
 

@@ -38,7 +38,7 @@
     [progressView setProgress:0.0 animated:NO];
     [self.view addSubview:progressView];
     
-    __block UISlider *slider = [[UISlider alloc]initWithFrame:CGRectMake(7, 0, self.view.bounds.size.width-14, 30)];
+    UISlider *slider = [[UISlider alloc]initWithFrame:CGRectMake(7, 0, self.view.bounds.size.width-14, 30)];
     self.slider = slider;
     slider.backgroundColor = UIColor.clearColor;
     slider.center = _progressView.center;
@@ -59,7 +59,7 @@
     label2.textColor = [UIColor.redColor colorWithAlphaComponent:0.7];
     [self.view addSubview:label2];
     
-    __block UILabel *label3 = [[UILabel alloc]initWithFrame:CGRectMake(0, self.view.bounds.size.height-69-PLAYER_BOTTOM_SPACE_HEIGHT, self.view.bounds.size.width-10, 20)];
+    UILabel *label3 = [[UILabel alloc]initWithFrame:CGRectMake(0, self.view.bounds.size.height-69-PLAYER_BOTTOM_SPACE_HEIGHT, self.view.bounds.size.width-10, 20)];
     label3.textAlignment = 2;
     label3.font = [UIFont systemFontOfSize:14];
     label3.textColor = [UIColor.redColor colorWithAlphaComponent:0.7];
