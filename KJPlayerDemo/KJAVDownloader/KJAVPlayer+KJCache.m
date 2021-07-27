@@ -17,7 +17,7 @@ PLAYER_CACHE_COMMON_EXTENSION_PROPERTY
 @property (nonatomic,strong) KJFileHandleInfo *cacheInfo;
 @end
 @implementation KJAVPlayer (KJCache)
-/* 使用边播边缓存，m3u8暂不支持 */
+/// 使用边播边缓存，m3u8暂不支持 
 - (BOOL (^)(NSURL * _Nonnull, BOOL))kVideoCanCacheURL{
     return ^BOOL(NSURL * videoURL, BOOL cache){
         kPlayerPerformSel(self, @"kj_initializeBeginPlayConfiguration");

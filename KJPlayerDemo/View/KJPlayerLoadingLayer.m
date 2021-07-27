@@ -15,7 +15,7 @@
     }
     return self;
 }
-/* 圆圈加载动画 */
+/// 圆圈加载动画 
 - (void)kj_setAnimationSize:(CGSize)size color:(UIColor*)color{
     CGFloat beginTime = 0.5;
     CGFloat strokeStartDuration = 1.2;

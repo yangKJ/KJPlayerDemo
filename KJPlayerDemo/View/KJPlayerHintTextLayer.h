@@ -27,9 +27,9 @@ static NSString * KJPlayerHintPositionRightBottom = @"KJPlayerHintPositionRightB
 @end
 @interface KJPlayerHintTextLayer : CALayer
 @property (nonatomic,assign,readonly) CGFloat maxWidth;
-/* 设置属性 */
+/// 设置属性 
 - (void)kj_setFont:(UIFont*)font color:(UIColor*)color;
-/* 显示文本框 */
+/// 显示文本框 
 - (void)kj_displayHintText:(id)text
                       time:(NSTimeInterval)time
                        max:(float)max

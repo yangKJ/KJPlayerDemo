@@ -53,7 +53,7 @@
         [baseView.delegate kj_basePlayerView:baseView PlayerButton:sender];
     }
 }
-/* 隐藏锁屏按钮 */
+/// 隐藏锁屏按钮 
 - (void)kj_hiddenLockButton{
     self.hidden = NO;
     self.alpha = 1;

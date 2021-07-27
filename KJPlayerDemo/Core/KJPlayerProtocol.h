@@ -13,13 +13,13 @@
 @class KJBasePlayer;
 @protocol KJPlayerDelegate <NSObject>
 @optional;
-/* 当前播放器状态 */
+/// 当前播放器状态 
 - (void)kj_player:(KJBasePlayer*)player state:(KJPlayerState)state;
-/* 播放进度 */
+/// 播放进度 
 - (void)kj_player:(KJBasePlayer*)player currentTime:(NSTimeInterval)time;
-/* 缓存进度 */
+/// 缓存进度 
 - (void)kj_player:(KJBasePlayer*)player loadProgress:(CGFloat)progress;
-/* 播放错误 */
+/// 播放错误 
 - (void)kj_player:(KJBasePlayer*)player playFailed:(NSError*)failed;
 
 @end
@@ -28,17 +28,17 @@
 @class KJBasePlayerView,KJPlayerButton;
 @protocol KJPlayerBaseViewDelegate <NSObject>
 @optional;
-/* 单双击手势反馈 */
+/// 单双击手势反馈 
 - (void)kj_basePlayerView:(KJBasePlayerView*)view isSingleTap:(BOOL)tap;
-/* 长按手势反馈 */
+/// 长按手势反馈 
 - (void)kj_basePlayerView:(KJBasePlayerView*)view longPress:(UILongPressGestureRecognizer*)longPress;
-/* 进度手势反馈，不替换UI请返回当前时间和总时间，范围-1 ～ 1 */
+/// 进度手势反馈，不替换UI请返回当前时间和总时间，范围-1 ～ 1 
 - (NSArray*)kj_basePlayerView:(KJBasePlayerView*)view progress:(float)progress end:(BOOL)end;
-/* 音量手势反馈，是否替换自带UI，范围0 ～ 1 */
+/// 音量手势反馈，是否替换自带UI，范围0 ～ 1 
 - (BOOL)kj_basePlayerView:(KJBasePlayerView*)view volumeValue:(float)value;
-/* 亮度手势反馈，是否替换自带UI，范围0 ～ 1 */
+/// 亮度手势反馈，是否替换自带UI，范围0 ～ 1 
 - (BOOL)kj_basePlayerView:(KJBasePlayerView*)view brightnessValue:(float)value;
-/* 是否锁屏，根据KJPlayerButton的type来确定当前按钮类型 */
+/// 是否锁屏，根据KJPlayerButton的type来确定当前按钮类型 
 - (void)kj_basePlayerView:(KJBasePlayerView*)view PlayerButton:(KJPlayerButton*)button;
 
 @end

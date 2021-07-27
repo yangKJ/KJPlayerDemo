@@ -50,7 +50,7 @@ isPhoneX = [[UIApplication sharedApplication] delegate].window.safeAreaInsets.bo
 // 颜色
 #define PLAYER_UIColorFromHEXA(hex,a) [UIColor colorWithRed:((hex&0xFF0000)>>16)/255.0f green:((hex&0xFF00)>>8)/255.0f blue:(hex&0xFF)/255.0f alpha:a]
 
-/* HLS介绍：https://blog.csdn.net/u011857683/article/details/84863250 */
+/// HLS介绍：https://blog.csdn.net/u011857683/article/details/84863250 
 /// Asset类型
 typedef NS_ENUM(NSUInteger, KJPlayerAssetType) {
     KJPlayerAssetTypeNONE,/// 其他类型
@@ -130,7 +130,7 @@ typedef NS_OPTIONS(NSUInteger, KJPlayerGestureType) {
 /// KJBasePlayerView上面的Layer层次，zPosition改变图层的显示顺序
 typedef NS_ENUM(NSUInteger, KJBasePlayerViewLayerZPosition) {
     KJBasePlayerViewLayerZPositionPlayer = 0,/// 播放器的AVPlayerLayer层
-    /* 1被全屏时刻的KJBasePlayerView 占用 */
+    /// 1被全屏时刻的KJBasePlayerView 占用 
     KJBasePlayerViewLayerZPositionInteraction = 2,/// 支持交互的控件，例如顶部底部操作面板
     KJBasePlayerViewLayerZPositionLoading = 3,/// 加载指示器和文本提醒框
     KJBasePlayerViewLayerZPositionButton = 4,/// 锁定屏幕，返回等控件
@@ -244,6 +244,6 @@ NS_INLINE void kPlayerPerformSel(id target, NSString *selName){
     }
 }
 
-#endif /* KJPlayerType_h */
+#endif /// KJPlayerType_h 
 
 NS_ASSUME_NONNULL_END

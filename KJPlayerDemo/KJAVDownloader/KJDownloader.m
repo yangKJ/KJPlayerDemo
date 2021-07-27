@@ -13,26 +13,26 @@
 @interface KJDownloadTask : NSObject
 @property (nonatomic,weak) id<KJDownloaderManagerDelegate> delegate;
 @property (nonatomic,assign) BOOL canSaveToCache;
-/* 初始化 */
+/// 初始化 
 - (instancetype)initWithCachedFragments:(NSArray*)fragments videoURL:(NSURL*)url manager:(KJFileHandleManager*)manager;
-/* 开始下载，处理碎片 */
+/// 开始下载，处理碎片 
 - (void)kj_startDownloading;
-/* 取消下载 */
+/// 取消下载 
 - (void)kj_cancelDownloading;
 
 @end
 
 @protocol KJDownloaderManagerDelegate <NSObject>
-/* 开始接收数据，传递配置信息 */
+/// 开始接收数据，传递配置信息 
 - (void)kj_didReceiveResponse:(NSURLResponse*)response;
-/* 接收数据，是否为已经缓存的本地数据 */
+/// 接收数据，是否为已经缓存的本地数据 
 - (void)kj_didReceiveData:(NSData*)data cached:(BOOL)cached;
-/* 接收错误或者接收完成 */
+/// 接收错误或者接收完成 
 - (void)kj_didFinishWithError:(NSError *_Nullable)error;
 
 @end
 
-/* ************************************** 黄金分割线 **********************************************/
+/// ************************************** 黄金分割线 *********************************************
 
 @interface KJDownloader () <KJDownloaderManagerDelegate>
 @property (nonatomic,strong) NSURL *videoURL;
@@ -79,7 +79,7 @@
 }
 
 #pragma mark - KJDownloaderManagerDelegate
-/* 开始接收数据，传递配置信息 */
+/// 开始接收数据，传递配置信息 
 - (void)kj_didReceiveResponse:(NSURLResponse*)response{
     if ([response isKindOfClass:[NSHTTPURLResponse class]]){
         NSHTTPURLResponse *httpResponse = (NSHTTPURLResponse*)response;
@@ -100,13 +100,13 @@
         self.kDidReceiveResponse(self, response);
     }
 }
-/* 接收数据，是否为已经缓存的本地数据 */
+/// 接收数据，是否为已经缓存的本地数据 
 - (void)kj_didReceiveData:(NSData*)data cached:(BOOL)cached{
     if (self.kDidReceiveData) {
         self.kDidReceiveData(self, data);
     }
 }
-/* 接收错误或者接收完成，错误为空表示接收完成 */
+/// 接收错误或者接收完成，错误为空表示接收完成 
 - (void)kj_didFinishWithError:(NSError*_Nullable)error{
     [DBPlayerDataInfo.shared kj_removeDownloadURL:self.videoURL];
     if (self.kDidFinished) {
@@ -138,7 +138,7 @@
 
 @end
 
-/* ************************************** 黄金分割线 **********************************************/
+/// ************************************** 黄金分割线 *********************************************
 
 @interface KJSessionAgent : NSObject<NSURLSessionDelegate>
 @property (nonatomic,copy,readwrite) void (^kDidReceiveResponse)(NSURLResponse *response, void(^completionHandler)(NSURLSessionResponseDisposition));
@@ -180,11 +180,11 @@
     self.cancelLoading = YES;
     self.once = NO;
 }
-/* 下载分片数据 */
+/// 下载分片数据 
 - (void)kj_downlingFragment{
     if (self.cancelLoading) return;
     if (self.fragments.count == 0){
-        /* warning - 此处别乱改要传nil出去，否则会出现播放不起的现象 */
+        /// warning - 此处别乱改要传nil出去，否则会出现播放不起的现象 
         if ([self.delegate respondsToSelector:@selector(kj_didFinishWithError:)]){
             [self.delegate kj_didFinishWithError:nil];
         }
@@ -316,7 +316,7 @@
 
 #pragma mark ------------------ NSURLSession的代理人 ------------------
 @interface KJSessionAgent ()
-/* 设置一个NSMutableData类型的对象, 用于接收返回的数据 */
+/// 设置一个NSMutableData类型的对象, 用于接收返回的数据 
 @property (nonatomic,retain) NSMutableData *bufferData;
 @end
 @implementation KJSessionAgent

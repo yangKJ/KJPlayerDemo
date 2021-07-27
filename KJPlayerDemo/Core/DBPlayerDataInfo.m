@@ -49,7 +49,7 @@ static dispatch_once_t onceToken;
 
 #pragma mark - DB 增删改查板块
 static NSString * const kDBPlayerData = @"DBPlayerData";
-/* 插入数据 */
+/// 插入数据 
 + (NSArray<DBPlayerData*>*)kj_insertData:(NSString*)dbid
                                   insert:(void(^)(DBPlayerData *data))insert
                                    error:(NSError**)error{
@@ -67,7 +67,7 @@ static NSString * const kDBPlayerData = @"DBPlayerData";
     [DBPlayerDataInfo.shared.context save:error];
     return resArray;
 }
-/* 删除数据 */
+/// 删除数据 
 + (NSArray<DBPlayerData*>*)kj_deleteData:(NSString*)dbid{
     NSFetchRequest *deleRequest = [NSFetchRequest fetchRequestWithEntityName:kDBPlayerData];
     NSPredicate *predicate = [NSPredicate predicateWithFormat:@"dbid = %@", dbid];
@@ -82,7 +82,7 @@ static NSString * const kDBPlayerData = @"DBPlayerData";
     [DBPlayerDataInfo.shared.context save:&error];
     return resArray;
 }
-/* 新添加数据 */
+/// 新添加数据 
 + (NSArray<DBPlayerData*>*)kj_addData:(void(^)(DBPlayerData *data))insert{
     DBPlayerData * data = [NSEntityDescription insertNewObjectForEntityForName:kDBPlayerData inManagedObjectContext:DBPlayerDataInfo.shared.context];
     if (insert) insert(data);
@@ -92,7 +92,7 @@ static NSString * const kDBPlayerData = @"DBPlayerData";
     [DBPlayerDataInfo.shared.context save:&error];
     return resArray;
 }
-/* 更新数据 */
+/// 更新数据 
 + (NSArray<DBPlayerData*>*)kj_updateData:(NSString*)dbid
                                   update:(void(^)(DBPlayerData *data, BOOL * stop))update{
     NSFetchRequest *request = [NSFetchRequest fetchRequestWithEntityName:kDBPlayerData];
@@ -121,7 +121,7 @@ static NSString * const kDBPlayerData = @"DBPlayerData";
     [DBPlayerDataInfo.shared.context save:&error];
     return resArray;
 }
-/* 查询数据 */
+/// 查询数据 
 + (NSArray<DBPlayerData*>*)kj_checkData:(NSString*)dbid{
     NSFetchRequest *request = [NSFetchRequest fetchRequestWithEntityName:kDBPlayerData];
     if (dbid != nil && dbid.length != 0 &&  ![dbid isEqualToString:@""]) {
@@ -130,7 +130,7 @@ static NSString * const kDBPlayerData = @"DBPlayerData";
     }
     return [DBPlayerDataInfo.shared.context executeFetchRequest:request error:nil];
 }
-/* 指定条件查询，例如查询现在以前的数据 */
+/// 指定条件查询，例如查询现在以前的数据 
 // NSArray *temps = DBPlayerDataInfo.kCheckAppointDatas(CFAbsoluteTimeGetCurrent(), @"saveTime < %d");
 + (NSArray<DBPlayerData*>*(^)(int64_t, NSString *fromat))kCheckAppointDatas{
     return ^NSArray<DBPlayerData*>*(int64_t ap, NSString *fromat){
@@ -140,20 +140,20 @@ static NSString * const kDBPlayerData = @"DBPlayerData";
         return [DBPlayerDataInfo.shared.context executeFetchRequest:request error:nil];
     };
 }
-/* 记录上次播放时间 */
+/// 记录上次播放时间 
 + (BOOL)kj_recordLastTime:(NSTimeInterval)time dbid:(NSString*)dbid{
     return [DBPlayerDataInfo kj_updateData:dbid update:^(DBPlayerData *data, BOOL * stop) {
         data.videoPlayTime = time;
     }].count ? YES : NO;
 }
-/* 获取上次播放时间 */
+/// 获取上次播放时间 
 + (NSTimeInterval)kj_getLastTimeDbid:(NSString*)dbid{
     NSArray *temps = [DBPlayerDataInfo kj_checkData:dbid];
     if (temps.count == 0) return 0;
     DBPlayerData *data = temps.firstObject;
     return data.videoPlayTime;
 }
-/* 异步获取上次播放时间 */
+/// 异步获取上次播放时间 
 + (void)kj_gainLastTimeDbid:(NSString*)dbid Time:(void(^)(NSTimeInterval time))block{
     [[[NSThread alloc] initWithBlock:^{
         if (block) {
@@ -167,7 +167,7 @@ static NSString * const kDBPlayerData = @"DBPlayerData";
         }
     }] start];
 }
-/* 存储记录上次播放时间 */
+/// 存储记录上次播放时间 
 + (void)kj_saveRecordLastTime:(NSTimeInterval)time dbid:(NSString*)dbid{
     kGCD_player_async(^{
         if (![DBPlayerDataInfo kj_recordLastTime:time dbid:dbid]) {
@@ -194,11 +194,11 @@ static NSString * const kDBPlayerData = @"DBPlayerData";
     }
 }
 #pragma mark - 结构体相关
-/* 缓存碎片结构体转对象 */
+/// 缓存碎片结构体转对象 
 + (NSValue*)kj_cacheFragment:(KJCacheFragment)fragment{
     return [NSValue valueWithBytes:&fragment objCType:@encode(struct KJCacheFragment)];
 }
-/* 缓存碎片对象转结构体 */
+/// 缓存碎片对象转结构体 
 + (KJCacheFragment)kj_getCacheFragment:(id)obj{
     KJCacheFragment fragment;
     [obj getValue:&fragment];
@@ -256,11 +256,11 @@ static NSString * const kDBPlayerData = @"DBPlayerData";
     return [NSError errorWithDomain:domain code:code userInfo:userInfo];
 }
 #pragma mark - 日志打印
-/* 打开几级日志打印，多枚举 */
+/// 打开几级日志打印，多枚举 
 + (void)kj_openLogRankType:(KJPlayerVideoRankType)type{
     DBPlayerDataInfo.shared.rankType = type;
 }
-/* 按级别打印日志 */
+/// 按级别打印日志 
 + (void)kj_log:(KJPlayerVideoRankType)type format:(NSString*)format,...{
 #ifdef DEBUG
     if (DBPlayerDataInfo.shared.rankType == KJPlayerVideoRankTypeNone) {

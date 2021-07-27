@@ -38,7 +38,7 @@ NSString *kPlayerFileHandleInfoKey = @"kPlayerFileHandleInfoKey";
     free(ivars);
     return info;
 }
-/* 归档 */
+/// 归档 
 - (void)encodeWithCoder:(NSCoder*)aCoder{
     unsigned int count = 0;
     Ivar *ivars = class_copyIvarList([self class], &count);
@@ -50,7 +50,7 @@ NSString *kPlayerFileHandleInfoKey = @"kPlayerFileHandleInfoKey";
     }
     free(ivars);
 }
-/* 解档 */
+/// 解档 
 - (instancetype)initWithCoder:(NSCoder*)aDecoder{
     if (self = [super init]) {
         unsigned int count = 0;

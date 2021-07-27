@@ -160,23 +160,23 @@ static dispatch_once_t onceToken;
 }
 
 #pragma mark - child method（子类实现处理）
-/* 准备播放 */
+/// 准备播放 
 - (void)kj_play{
 //    kPlayerPerformSel(self, @"kj_resumePingTimer");
 }
-/* 重播 */
+/// 重播 
 - (void)kj_replay{ }
-/* 继续 */
+/// 继续 
 - (void)kj_resume{ }
-/* 暂停 */
+/// 暂停 
 - (void)kj_pause{
     kPlayerPerformSel(self, @"kj_pausePingTimer");
 }
-/* 停止 */
+/// 停止 
 - (void)kj_stop{
     kPlayerPerformSel(self, @"kj_closePingTimer");
 }
-/* 判断是否为本地缓存视频，如果是则修改为指定链接地址 */
+/// 判断是否为本地缓存视频，如果是则修改为指定链接地址 
 - (BOOL)kj_judgeHaveCacheWithVideoURL:(NSURL * _Nonnull __strong * _Nonnull)videoURL{
     __block BOOL boo = NO;
     KJCacheManager.kJudgeHaveCacheURL(^(BOOL locality) {
@@ -189,7 +189,7 @@ static dispatch_once_t onceToken;
 }
 
 #pragma mark - public method
-/* 主动存储当前播放记录 */
+/// 主动存储当前播放记录 
 - (void)kj_saveRecordLastTime{
     @synchronized (@(self.recordLastTime)) {
         if (self.recordLastTime) {
@@ -199,14 +199,14 @@ static dispatch_once_t onceToken;
 }
 
 #pragma mark - table
-/* 列表上播放绑定tableView */
+/// 列表上播放绑定tableView 
 - (void)kj_bindTableView:(UITableView*)tableView indexPath:(NSIndexPath*)indexPath{
     self.bindTableView = tableView;
     self.indexPath = indexPath;
 }
 
 #pragma mark - Animation
-/* 圆圈加载动画 */
+/// 圆圈加载动画 
 - (void)kj_startAnimation{
     kGCD_player_main(^{
         if (CGRectEqualToRect(CGRectZero, self.playerView.frame)) {
@@ -217,7 +217,7 @@ static dispatch_once_t onceToken;
         [self.playerView.layer addSublayer:self.playerView.loadingLayer];
     }
 }
-/* 停止动画 */
+/// 停止动画 
 - (void)kj_stopAnimation{
     [UIView animateWithDuration:1.f animations:^{
         [self.playerView.loadingLayer removeFromSuperlayer];
@@ -225,7 +225,7 @@ static dispatch_once_t onceToken;
 }
 
 #pragma mark - hintText
-/* 提示文字 */
+/// 提示文字 
 - (void)kj_displayHintText:(id)text{
     [self kj_displayHintText:text max:self.playerView.hintTextLayer.maxWidth];
 }
@@ -257,7 +257,7 @@ static dispatch_once_t onceToken;
         [self performSelector:@selector(kj_hideHintText) withObject:nil afterDelay:time];
     }
 }
-/* 隐藏提示文字 */
+/// 隐藏提示文字 
 - (void)kj_hideHintText{
     [self.playerView.hintTextLayer removeFromSuperlayer];
 }

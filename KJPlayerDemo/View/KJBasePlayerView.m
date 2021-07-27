@@ -318,15 +318,15 @@ NSString *kPlayerBaseViewChangeKey = @"kPlayerBaseViewKey";
 }
 
 #pragma mark - method
-/* 隐藏操作面板，是否隐藏返回按钮 */
+/// 隐藏操作面板，是否隐藏返回按钮 
 - (void)kj_hiddenOperationView{
     [KJRotateManager kj_operationViewHiddenBasePlayerView:self];
 }
-/* 显示操作面板 */
+/// 显示操作面板 
 - (void)kj_displayOperationView{
     [KJRotateManager kj_operationViewDisplayBasePlayerView:self];
 }
-/* 取消收起操作面板，可用于滑动滑杆时刻不自动隐藏 */
+/// 取消收起操作面板，可用于滑动滑杆时刻不自动隐藏 
 - (void)kj_cancelHiddenOperationView{
     [NSObject cancelPreviousPerformRequestsWithTarget:self selector:@selector(kj_hiddenOperationView) object:nil];
 }

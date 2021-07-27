@@ -62,7 +62,7 @@
 }
 
 #pragma mark - private method
-/* 处理下载器数据 */
+/// 处理下载器数据 
 - (void)kj_addDownloader:(KJDownloader*)downloader request:(AVAssetResourceLoadingRequest*)request{
     kSetDownloadConfiguration(downloader, request);
     [self.requests addObject:request];
@@ -94,7 +94,7 @@
     // 开始下载
     kStartDownloading(downloader, request);
 }
-/* 开始请求下载数据 */
+/// 开始请求下载数据 
 NS_INLINE void kStartDownloading(KJDownloader *downloader, AVAssetResourceLoadingRequest *request){
     AVAssetResourceLoadingDataRequest *dataRequest = request.dataRequest;
     NSInteger offset = (NSInteger)dataRequest.requestedOffset;
@@ -108,7 +108,7 @@ NS_INLINE void kStartDownloading(KJDownloader *downloader, AVAssetResourceLoadin
     }
     [downloader kj_downloadTaskRange:NSMakeRange(offset, length) whole:NO];
 }
-/* 对请求加上长度，文件类型等信息，必须设置正确否则会报播放器Failed */
+/// 对请求加上长度，文件类型等信息，必须设置正确否则会报播放器Failed 
 NS_INLINE void kSetDownloadConfiguration(KJDownloader *downloader, AVAssetResourceLoadingRequest *loadingRequest){
     AVAssetResourceLoadingContentInformationRequest *request = loadingRequest.contentInformationRequest;
     if (downloader.fileHandleManager.cacheInfo.contentType) {

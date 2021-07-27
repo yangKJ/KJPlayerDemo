@@ -18,20 +18,20 @@ NS_ASSUME_NONNULL_BEGIN
 @property (nonatomic,strong,readonly) KJFileHandleManager *fileHandleManager;
 @property (nonatomic,assign) BOOL saveToCache;
 - (instancetype)initWithURL:(NSURL*)url fileHandleManager:(KJFileHandleManager*)manager;
-/* 指定下载，是否下载到末尾全部数据 */
+/// 指定下载，是否下载到末尾全部数据 
 - (void)kj_downloadTaskRange:(NSRange)range whole:(BOOL)whole;
-/* 开始下载 */
+/// 开始下载 
 - (void)kj_startDownload;
-/* 取消下载 */
+/// 取消下载 
 - (void)kj_cancelDownload;
 
 @end
 @interface KJDownloader (KJRequestBlock)
-/* 当服务端开始接收数据时调用 */
+/// 当服务端开始接收数据时调用 
 @property (nonatomic,copy,readwrite) void (^kDidReceiveResponse)(KJDownloader *downloader, NSURLResponse *response);
-/* 当接收到数据的时候调用，该方法多次被调用返回接收到的服务端二进制数据 */
+/// 当接收到数据的时候调用，该方法多次被调用返回接收到的服务端二进制数据 
 @property (nonatomic,copy,readwrite) void (^kDidReceiveData)(KJDownloader *downloader, NSData *data);
-/* 当请求错误的时候调用 */
+/// 当请求错误的时候调用 
 @property (nonatomic,copy,readwrite) void (^kDidFinished)(KJDownloader *downloader, NSError *error);
 
 @end

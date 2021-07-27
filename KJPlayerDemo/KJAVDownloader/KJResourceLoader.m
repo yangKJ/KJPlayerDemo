@@ -70,13 +70,13 @@ NS_INLINE NSString * kGetRequestKey(NSURL *requestURL){
 }
 
 #pragma mark - KJResourceLoaderManagerDelegate
-/* 接收数据，是否为已经缓存的本地数据 */
+/// 接收数据，是否为已经缓存的本地数据 
 - (void)kj_resourceLoader:(KJResourceLoaderManager*)manager didReceiveData:(NSData*)data{
     if (self.kDidReceiveData) {
         self.kDidReceiveData(data);
     }
 }
-/* 接收错误或者接收完成，错误为空表示接收完成 */
+/// 接收错误或者接收完成，错误为空表示接收完成 
 - (void)kj_resourceLoader:(KJResourceLoaderManager*)resourceLoader didFinished:(NSError*)error{
     [resourceLoader kj_cancelLoading];
     if (self.kDidFinished) {

@@ -41,7 +41,7 @@
     }
     return self;
 }
-/* 进入后台 */
+/// 进入后台 
 - (void)applicationDidEnterBackground:(NSNotification*)notification{
     [self kj_writeSave];
 }
@@ -49,7 +49,7 @@
     [self.writeHandle truncateFileAtOffset:contentLength];
     [self.writeHandle synchronizeFile];
 }
-/* 获取指定区间已经缓存的碎片 */
+/// 获取指定区间已经缓存的碎片 
 - (NSArray*)kj_getCachedFragmentsWithRange:(NSRange)range{
     if (range.location == NSNotFound) return [NSMutableArray array].mutableCopy;
     NSInteger endOffset = range.location + range.length;
@@ -102,7 +102,7 @@
     }
     return [fragments copy];
 }
-/* 写入已下载分片数据 */
+/// 写入已下载分片数据 
 - (NSError*)kj_writeCacheData:(NSData*)data Range:(NSRange)range{
     @synchronized(self.writeHandle) {
         NSError *error;
@@ -117,7 +117,7 @@
         }
     }
 }
-/* 读取已下载分片缓存数据 */
+/// 读取已下载分片缓存数据 
 - (NSData*)kj_readCachedDataWithRange:(NSRange)range{
     @synchronized(self.readHandle) {
         [self.readHandle seekToFileOffset:range.location];

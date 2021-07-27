@@ -73,7 +73,7 @@
 }
 
 #pragma mark - 动态切换板块
-/* 动态切换播放内核 */
+/// 动态切换播放内核 
 - (void)kj_dynamicChangeSourcePlayer:(Class)clazz{
     NSString *__name = NSStringFromClass([self class]);
     kPlayerPerformSel(self, @"kj_changeSourceCleanJobs");
@@ -92,7 +92,7 @@
 //
 //    }
 }
-/* 是否进行过动态切换内核 */
+/// 是否进行过动态切换内核 
 - (BOOL (^)(void))kPlayerDynamicChangeSource{
     return ^BOOL{
         if (self.lastSourceName == nil || !self.lastSourceName.length) {
@@ -101,7 +101,7 @@
         return ![self.lastSourceName isEqualToString:NSStringFromClass([self class])];
     };
 }
-/* 当前播放器内核名 */
+/// 当前播放器内核名 
 - (NSString * (^)(void))kPlayerCurrentSourceName{
     return ^NSString * {
         NSString *name = NSStringFromClass([self class]);
@@ -163,7 +163,7 @@
 }
 
 #pragma mark - GCD 计时器
-/* 创建异步定时器 */
+/// 创建异步定时器 
 - (dispatch_source_t)kj_playerCreateAsyncTimer:(BOOL)async
                                           Task:(void(^)(void))task
                                          start:(NSTimeInterval)start
@@ -191,7 +191,7 @@
     dispatch_resume(timer);
     return timer;
 }
-/* 取消计时器 */
+/// 取消计时器 
 - (void)kj_playerStopTimer:(dispatch_source_t)timer{
     self.isHangUp = NO;
     if (timer) {
@@ -199,14 +199,14 @@
         timer = NULL;
     }
 }
-/* 暂停计时器 */
+/// 暂停计时器 
 - (void)kj_playerPauseTimer:(dispatch_source_t)timer{
     if (timer) {
         self.isHangUp = YES;
         dispatch_suspend(timer);
     }
 }
-/* 继续计时器 */
+/// 继续计时器 
 - (void)kj_playerResumeTimer:(dispatch_source_t)timer{
     if (timer && self.isHangUp) {
         self.isHangUp = NO;

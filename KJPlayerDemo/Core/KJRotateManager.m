@@ -28,7 +28,7 @@ window;})
 }
 @end
 
-/* ************************* 黄金分割线 ***************************/
+// ************************* 黄金分割线 **************************
 
 @interface KJRotateManager ()
 @property(nonatomic,assign,class)UIView *tempView;
@@ -36,7 +36,7 @@ window;})
 @property(nonatomic,strong,class)UIColor *superViewColor;
 @end
 @implementation KJRotateManager
-/* 切换到全屏 */
+/// 切换到全屏 
 + (void)kj_rotateFullScreenBasePlayerView:(KJBasePlayerView *)baseView{
     self.originalFrame = baseView.frame;
     self.superViewColor = baseView.superview.backgroundColor;
@@ -65,7 +65,7 @@ window;})
         [delegate kj_transmitCurrentRotateOrientation:UIInterfaceOrientationMaskPortrait];
     }];
 }
-/* 切换到小屏 */
+/// 切换到小屏 
 + (void)kj_rotateSmallScreenBasePlayerView:(KJBasePlayerView *)baseView{
     [self.tempView removeFromSuperview];
     baseView.superview.backgroundColor = self.superViewColor;
@@ -88,11 +88,11 @@ window;})
         
     }];
 }
-/* 切换到浮窗屏 */
+/// 切换到浮窗屏 
 + (void)kj_rotateFloatingWindowBasePlayerView:(KJBasePlayerView *)baseView{
     // TODO:
 }
-/* 旋转自动切换屏幕状态 */
+/// 旋转自动切换屏幕状态 
 + (void)kj_rotateAutoFullScreenBasePlayerView:(KJBasePlayerView *)baseView{
     if (baseView.lockButton.isLocked) return;
     switch ((UIInterfaceOrientation)[UIDevice currentDevice].orientation) {
@@ -124,7 +124,7 @@ window;})
 }
 
 #pragma mark - 操作面板相关
-/* 显示操作面板 */
+/// 显示操作面板 
 + (void)kj_operationViewDisplayBasePlayerView:(KJBasePlayerView *)baseView{
     [baseView setValue:@(YES) forKey:@"displayOperation"];
     baseView.topView.alpha = 0;
@@ -147,7 +147,7 @@ window;})
         }
     }];
 }
-/* 隐藏操作面板 */
+/// 隐藏操作面板 
 + (void)kj_operationViewHiddenBasePlayerView:(KJBasePlayerView *)baseView{
     [baseView setValue:@(NO) forKey:@"displayOperation"];
 //    CGFloat y1 = self.topView.frame.origin.y;

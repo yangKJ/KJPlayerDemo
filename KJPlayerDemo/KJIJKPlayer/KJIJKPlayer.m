@@ -286,7 +286,7 @@ PLAYER_COMMON_FUNCTION_PROPERTY PLAYER_COMMON_UI_PROPERTY
 }
 
 #pragma mark - public method
-/* 准备播放 */
+/// 准备播放 
 - (void)kj_play{
     if (self.player == nil || self.tryLooked) return;
     [super kj_play];
@@ -295,7 +295,7 @@ PLAYER_COMMON_FUNCTION_PROPERTY PLAYER_COMMON_UI_PROPERTY
     self.player.playbackRate = self.speed;
     self.userPause = NO;
 }
-/* 重播 */
+/// 重播 
 - (void)kj_replay{
     [super kj_replay];
     PLAYER_WEAKSELF;
@@ -303,12 +303,12 @@ PLAYER_COMMON_FUNCTION_PROPERTY PLAYER_COMMON_UI_PROPERTY
         if (finished) [weakself kj_play];
     });
 }
-/* 继续 */
+/// 继续 
 - (void)kj_resume{
     [super kj_resume];
     [self kj_play];
 }
-/* 暂停 */
+/// 暂停 
 - (void)kj_pause{
     if (self.player == nil) return;
     [super kj_pause];
@@ -316,7 +316,7 @@ PLAYER_COMMON_FUNCTION_PROPERTY PLAYER_COMMON_UI_PROPERTY
     self.state = KJPlayerStatePausing;
     self.userPause = YES;
 }
-/* 停止 */
+/// 停止 
 - (void)kj_stop{
     [super kj_stop];
     [self.player stop];
@@ -324,16 +324,16 @@ PLAYER_COMMON_FUNCTION_PROPERTY PLAYER_COMMON_UI_PROPERTY
     [self kj_destroyPlayer];
     self.state = KJPlayerStateStopped;
 }
-/* 判断当前资源文件是否有缓存，修改为指定链接地址 */
+/// 判断当前资源文件是否有缓存，修改为指定链接地址 
 - (BOOL)kj_judgeHaveCacheWithVideoURL:(NSURL * _Nonnull __strong * _Nonnull)videoURL{
     self.locality = [super kj_judgeHaveCacheWithVideoURL:videoURL];
     return self.locality;
 }
-/* 圆圈加载动画 */
+/// 圆圈加载动画 
 - (void)kj_startAnimation{
     [super kj_startAnimation];
 }
-/* 停止动画 */
+/// 停止动画 
 - (void)kj_stopAnimation{
     [super kj_stopAnimation];
 }
@@ -447,7 +447,7 @@ PLAYER_COMMON_FUNCTION_PROPERTY PLAYER_COMMON_UI_PROPERTY
     if (self.player == nil) return NO;
     return self.player.isPlaying;
 }
-/* 快进或快退 */
+/// 快进或快退 
 - (void (^)(NSTimeInterval,void (^_Nullable)(BOOL)))kVideoAdvanceAndReverse{
     return ^(NSTimeInterval seconds, void (^xxblock)(BOOL)){
         if (self.isLiveStreaming) return;

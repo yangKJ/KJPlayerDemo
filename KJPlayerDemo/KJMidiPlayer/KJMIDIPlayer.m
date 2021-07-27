@@ -40,7 +40,7 @@ PLAYER_COMMON_FUNCTION_PROPERTY PLAYER_COMMON_UI_PROPERTY
 }
 
 #pragma mark - public method
-/* 准备播放 */
+/// 准备播放 
 - (void)kj_play{
     PLAYER_WEAKSELF;
     dispatch_group_notify(self.group, dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
@@ -50,18 +50,18 @@ PLAYER_COMMON_FUNCTION_PROPERTY PLAYER_COMMON_UI_PROPERTY
         weakself.userPause = NO;
     });
 }
-/* 重播 */
+/// 重播 
 - (void)kj_replay{
     [self kj_play];
 }
-/* 继续 */
+/// 继续 
 - (void)kj_resume{
     if (self.player == nil) return;
     [super kj_resume];
     if (![self isPlaying] && self.player) MusicPlayerStart(self.player);
     [self startGraph];
 }
-/* 暂停 */
+/// 暂停 
 - (void)kj_pause{
     if (self.player == nil) return;
     [super kj_pause];
@@ -70,7 +70,7 @@ PLAYER_COMMON_FUNCTION_PROPERTY PLAYER_COMMON_UI_PROPERTY
     self.state = KJPlayerStatePausing;
     self.userPause = YES;
 }
-/* 停止 */
+/// 停止 
 - (void)kj_stop{
     [super kj_stop];
     [self stopGraph];
@@ -83,11 +83,11 @@ PLAYER_COMMON_FUNCTION_PROPERTY PLAYER_COMMON_UI_PROPERTY
     if (graph) DisposeAUGraph(graph);
     self.state = KJPlayerStateStopped;
 }
-/* 圆圈加载动画 */
+/// 圆圈加载动画 
 - (void)kj_startAnimation{
     [super kj_startAnimation];
 }
-/* 停止动画 */
+/// 停止动画 
 - (void)kj_stopAnimation{
     [super kj_stopAnimation];
 }
@@ -140,7 +140,7 @@ PLAYER_COMMON_FUNCTION_PROPERTY PLAYER_COMMON_UI_PROPERTY
     MusicPlayerIsPlaying(self.player, &xxxxx);
     return xxxxx;
 }
-/* 快进或快退 */
+/// 快进或快退 
 - (void (^)(NSTimeInterval,void (^_Nullable)(BOOL)))kVideoAdvanceAndReverse{
     return ^(NSTimeInterval seconds,void (^xxblock)(BOOL)){
         if (!self.player) {

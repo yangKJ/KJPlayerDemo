@@ -18,19 +18,19 @@
 NS_ASSUME_NONNULL_BEGIN
 
 @interface KJBasePlayer : NSObject<KJBaseFunctionPlayer,KJBaseUIPlayer>
-/* 单例属性 */
+/// 单例属性 
 @property (nonatomic,strong,class,readonly,getter=kj_sharedInstance) id shared;
-/* 创建单例 */
+/// 创建单例 
 + (instancetype)kj_sharedInstance;
-/* 销毁单例 */
+/// 销毁单例 
 + (void)kj_attempDealloc;
-/* 主动存储当前播放记录 */
+/// 主动存储当前播放记录 
 - (void)kj_saveRecordLastTime;
 
 #pragma mark - NSNotification
-/* 进入后台 */
+/// 进入后台 
 - (void)kj_detectAppEnterBackground:(NSNotification*)notification;
-/* 进入前台 */
+/// 进入前台 
 - (void)kj_detectAppEnterForeground:(NSNotification*)notification;
 
 @end

@@ -132,7 +132,7 @@ static NSString * const kTimeControlStatus = @"timeControlStatus";
 }
 
 #pragma mark - Notification
-/* 监控播放完成通知 */
+/// 监控播放完成通知 
 - (void)kj_playbackFinished:(NSNotification*)notification{
     self.state = KJPlayerStatePlayFinished;
     self.currentTime = 0;
@@ -166,7 +166,7 @@ static NSString * const kTimeControlStatus = @"timeControlStatus";
 }
 
 #pragma mark - public method
-/* 准备播放 */
+/// 准备播放 
 - (void)kj_play{
     if (self.player == nil || self.tryLooked) return;
     [super kj_play];
@@ -175,19 +175,19 @@ static NSString * const kTimeControlStatus = @"timeControlStatus";
     self.player.rate = self.speed;
     self.userPause = NO;
 }
-/* 重播 */
+/// 重播 
 - (void)kj_replay{
     [super kj_replay];
     [self.player seekToTime:CMTimeMakeWithSeconds(self.skipHeadTime, NSEC_PER_SEC) toleranceBefore:kCMTimeZero toleranceAfter:kCMTimeZero completionHandler:^(BOOL finished) {
         if (finished) [self kj_play];
     }];
 }
-/* 继续 */
+/// 继续 
 - (void)kj_resume{
     [super kj_resume];
     [self kj_play];
 }
-/* 暂停 */
+/// 暂停 
 - (void)kj_pause{
     [super kj_pause];
     if (self.player == nil) return;
@@ -195,22 +195,22 @@ static NSString * const kTimeControlStatus = @"timeControlStatus";
     self.state = KJPlayerStatePausing;
     self.userPause = YES;
 }
-/* 停止 */
+/// 停止 
 - (void)kj_stop{
     [super kj_stop];
     [self kj_destroyPlayer];
     self.state = KJPlayerStateStopped;
 }
-/* 判断是否为本地缓存视频，如果是则修改为指定链接地址 */
+/// 判断是否为本地缓存视频，如果是则修改为指定链接地址 
 - (BOOL)kj_judgeHaveCacheWithVideoURL:(NSURL * _Nonnull __strong * _Nonnull)videoURL{
     self.locality = [super kj_judgeHaveCacheWithVideoURL:videoURL];
     return self.locality;
 }
-/* 圆圈加载动画 */
+/// 圆圈加载动画 
 - (void)kj_startAnimation{
     [super kj_startAnimation];
 }
-/* 停止动画 */
+/// 停止动画 
 - (void)kj_stopAnimation{
     [super kj_stopAnimation];
 }
@@ -479,7 +479,7 @@ BOOL kPlayerHaveTracks(NSURL *videoURL, void(^assetblock)(AVURLAsset *), NSDicti
         return self.player.currentItem.status == AVPlayerStatusReadyToPlay;
     }
 }
-/* 快进或快退 */
+/// 快进或快退 
 - (void (^)(NSTimeInterval,void (^_Nullable)(BOOL)))kVideoAdvanceAndReverse{
     return ^(NSTimeInterval seconds, void (^xxblock)(BOOL)){
         if (self.isLiveStreaming) return;

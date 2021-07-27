@@ -12,7 +12,7 @@
 NS_ASSUME_NONNULL_BEGIN
 
 @interface KJAVPlayer (KJCache)
-/* 使用边播边缓存，与 videoURL 互斥 */
+/// 使用边播边缓存，与 videoURL 互斥 
 @property (nonatomic,copy,readonly) BOOL (^kVideoCanCacheURL)(NSURL *videoURL, BOOL cache);
 
 @end

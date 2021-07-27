@@ -16,9 +16,9 @@ typedef NS_ENUM(NSUInteger, KJPlayerOperationViewType) {
 };
 @interface KJPlayerOperationView : UIView
 @property (nonatomic,strong) UIColor *mainColor;
-/* 控件尺寸发生变化 */
+/// 控件尺寸发生变化 
 @property (nonatomic,copy,readwrite) void (^kVideoOperationViewChanged)(KJPlayerOperationView *view);
-/* 初始化 */
+/// 初始化 
 - (instancetype)initWithFrame:(CGRect)frame OperationType:(KJPlayerOperationViewType)type;
 
 @end

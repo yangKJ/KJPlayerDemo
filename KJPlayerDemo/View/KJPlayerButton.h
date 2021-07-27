@@ -22,13 +22,13 @@ typedef NS_ENUM(NSUInteger, KJPlayerPlayButtonType) {
 };
 @interface KJPlayerButton : UIButton
 @property (nonatomic,strong) UIColor *mainColor;
-/* 按钮类型 */
+/// 按钮类型 
 @property (nonatomic,assign) KJPlayerButtonType type;
-/* 是否为锁屏状态 */
+/// 是否为锁屏状态 
 @property (nonatomic,assign) BOOL isLocked;
-/* 中间播放按钮状态 */
+/// 中间播放按钮状态 
 @property (nonatomic,assign) KJPlayerPlayButtonType playType;
-/* 隐藏锁屏按钮 */
+/// 隐藏锁屏按钮 
 - (void)kj_hiddenLockButton;
 
 @end

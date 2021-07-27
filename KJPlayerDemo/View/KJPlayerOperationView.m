@@ -14,7 +14,7 @@
 @end
 
 @implementation KJPlayerOperationView
-/* 初始化 */
+/// 初始化 
 - (instancetype)initWithFrame:(CGRect)frame OperationType:(KJPlayerOperationViewType)type{
     if (self = [super initWithFrame:frame]) {
         self.lastRect = frame;
@@ -71,6 +71,7 @@
         CGContextDrawLinearGradient(context, gradient, CGPointZero, CGPointMake(size.width, size.height), 0);
         UIImage *image = UIGraphicsGetImageFromCurrentImageContext();
         CGGradientRelease(gradient);
+        
         CGColorSpaceRelease(colorspace);
         UIGraphicsEndImageContext();
         return [UIColor colorWithPatternImage:image];

@@ -12,7 +12,7 @@
 NS_ASSUME_NONNULL_BEGIN
 
 @interface KJPlayerLoadingLayer : CAShapeLayer
-/* 圆圈加载动画 */
+/// 圆圈加载动画 
 - (void)kj_setAnimationSize:(CGSize)size color:(UIColor*)color;
 
 @end

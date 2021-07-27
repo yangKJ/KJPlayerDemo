@@ -23,7 +23,7 @@
     }
     return self;
 }
-/* 设置属性 */
+/// 设置属性 
 - (void)kj_setFont:(UIFont*)font color:(UIColor*)color{
     self.hintFont = font;
     self.hintTextColor = color;
@@ -38,7 +38,7 @@
     [self addSublayer:textLayer];
 }
 
-/* 显示文本框 */
+/// 显示文本框 
 - (void)kj_displayHintText:(id)text time:(NSTimeInterval)time
                        max:(float)max position:(id)position playerView:(UIView*)playerView{
     NSString *tempText;
