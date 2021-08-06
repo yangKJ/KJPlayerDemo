@@ -136,12 +136,6 @@ pod 'KJPlayer/IJKPlayer' # ijkplayer内核
 @property (nonatomic,assign) BOOL isFullScreen;
 /* 当前屏幕状态，名字别乱改后面kvc有使用 */
 @property (nonatomic,assign,readonly) KJPlayerVideoScreenState screenState;
-/* 当前屏幕状态发生改变 */
-@property (nonatomic,copy,readwrite) void (^kVideoChangeScreenState)(KJPlayerVideoScreenState state);
-/* 返回回调 */
-@property (nonatomic,copy,readwrite) void (^kVideoClickButtonBack)(KJBasePlayerView *view);
-/* 提示文字面板属性，默认最大宽度250px */
-@property (nonatomic,copy,readonly) void (^kVideoHintTextInfo)(void(^)(KJPlayerHintInfo *info));
 
 #pragma mark - 控件
 /* 快进快退进度控件 */
@@ -190,20 +184,31 @@ pod 'KJPlayer/IJKPlayer' # ijkplayer内核
 - KJPlayerVideoGravity：播放器充满类型
 - KJPlayerVideoFromat：视频格式
 
-### DBPlayerDataInfo
+### DBPlayerDataManager
 主要包括两部分，数据库模型和增删改查等工具    
 **数据库结构**
 
 ![](https://upload-images.jianshu.io/upload_images/1933747-c1463d2d3ec4f2c4.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/600)
 
 ```
-dbid：唯一id，视频链接去除scheme然后md5
-videoUrl：视频链接  
-saveTime：存储时间戳
-sandboxPath：沙盒地址
-videoFormat：视频格式
-videoTime：视频时间
-videoData：视频数据
+/// 主键ID，视频链接去除SCHEME然后MD5
+@property (nonatomic,retain) NSString * dbid;
+/// 视频链接
+@property (nonatomic,retain) NSString * videoUrl;
+/// 存储时间戳
+@property (nonatomic,assign) int64_t saveTime;
+/// 沙盒地址
+@property (nonatomic,retain) NSString * sandboxPath;
+/// 视频格式
+@property (nonatomic,retain) NSString * videoFormat;
+/// 视频内容长度
+@property (nonatomic,assign) int64_t videoContentLength;
+/// 视频已下载完成
+@property (nonatomic,assign) Boolean videoIntact;
+/// 视频数据
+@property (nonatomic,retain) NSData * videoData;
+/// 视频上次播放时间
+@property (nonatomic,assign) int64_t videoPlayTime;
 ```
 **数据库工具**
 
@@ -214,158 +219,39 @@ videoData：视频数据
 | kj_addData: | 新添加数据 |
 | kj_updateData:Data: | 更新数据 |
 | kj_checkData: | 查询数据，传空传全部数据 |
-| kCheckAppointDatas | 指定条件查询 |
+| kj_checkAppointDatas | 指定条件查询 |
 
 ### KJResourceLoader
 中间桥梁作用，把网络请求缓存到本地的临时数据传递给播放器
 
 ### KJPlayer - AVPlayer播放器内核
-工作流程：  
-1、获取视频类型，根据网址来确定，目前没找到更好的方式（知道的朋友可以指点一下）
+**工作流程：**  
 
-```
-/// 根据链接获取Asset类型
-NS_INLINE KJPlayerAssetType kPlayerVideoAesstType(NSURL *url){
-    if (url == nil) return KJPlayerAssetTypeNONE;
-    if (url.pathExtension.length) {
-        if ([url.pathExtension containsString:@"m3u8"] || [url.pathExtension containsString:@"ts"]) {
-            return KJPlayerAssetTypeHLS;
-        }
-    }
-    NSArray * array = [url.path componentsSeparatedByString:@"."];
-    if (array.count == 0) {
-        return KJPlayerAssetTypeNONE;
-    }else{
-        if ([array.lastObject containsString:@"m3u8"] || [array.lastObject containsString:@"ts"]) {
-            return KJPlayerAssetTypeHLS;
-        }
-    }
-    return KJPlayerAssetTypeFILE;
-}
-```
-
-2、处理视频，这里才用队列组来处理，子线程处理解决第一次加载卡顿问题
-
-```
-dispatch_group_async(group, dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
-    if ([weakself kj_dealVideoURL:&tempURL]) {
-        if (![tempURL.absoluteString isEqualToString:self->_videoURL.absoluteString]) {
-            self->_videoURL = tempURL;
-            [weakself kj_initPreparePlayer];
-        }else{
-            [weakself kj_playerReplay];
-        }
-    }
-});
-```
-
-3、处理视频链接地址，这里分两种情况，使用缓存就从缓存当中读取
-
-```
-/* 判断当前资源文件是否有缓存，修改为指定链接地址 */
-- (void)kj_judgeHaveCacheWithVideoURL:(NSURL * _Nonnull __strong * _Nonnull)videoURL{
-    self.locality = NO;
-    KJCacheManager.kJudgeHaveCacheURL(^(BOOL locality) {
-        self.locality = locality;
-        if (locality) {
-            self.playError = [DBPlayerDataInfo kj_errorSummarizing:KJPlayerCustomCodeCachedComplete];
-        }
-    }, videoURL);
-}
-```
-获取数据库当中的数据
-
-```
-/* 判断是否有缓存，返回缓存链接 */
-+ (void(^)(void(^)(BOOL),NSURL * _Nonnull __strong * _Nonnull))kJudgeHaveCacheURL{
-    return ^(void(^locality)(BOOL),NSURL * _Nonnull __strong * _Nonnull videoURL){
-        NSArray<DBPlayerData*>*temps = [DBPlayerDataInfo kj_checkData:kPlayerIntactName(*videoURL)];
-        BOOL boo = NO;
-        if (temps.count) {
-            DBPlayerData *data = temps.firstObject;
-            NSString *path = data.sandboxPath;
-            if (data.videoIntact && [KJCacheManager kj_haveFileSandboxPath:&path]) {
-                //移出之前的临时文件
-                NSString *tempPath = [path stringByAppendingPathExtension:kTempReadName];
-                [[NSFileManager defaultManager] removeItemAtPath:tempPath error:NULL];
-                *videoURL = [NSURL fileURLWithPath:path];
-                boo = YES;
-            }
-        }
-        kGCD_player_main(^{
-            if (locality) locality(boo);
-        });
-    };
-}
-```
-4、判断地址是否可用，添加下载和播放桥梁
-
-```
-PLAYER_WEAKSELF;
-if (!kPlayerHaveTracks(*videoURL, ^(AVURLAsset * asset) {
-    if (weakself.useCacheFunction && !weakself.localityData) {
-        weakself.state = KJPlayerStateBuffering;
-        weakself.loadState = KJPlayerLoadStateNone;
-        NSURL * tempURL = weakself.connection.kj_createSchemeURL(*videoURL);
-        weakself.asset = [AVURLAsset URLAssetWithURL:tempURL options:weakself.requestHeader];
-        [weakself.asset.resourceLoader setDelegate:weakself.connection queue:dispatch_get_main_queue()];
-    }else{
-        weakself.asset = asset;
-    }
-}, self.requestHeader)) {
-    self.ecode = KJPlayerCustomCodeVideoURLFault;
-    self.state = KJPlayerStateFailed;
-    [self kj_destroyPlayer];
-    return NO;
-}
-```
-
-5、播放准备操作设置`playerItem`，然后初始化`player`，添加时间观察者处理播放
-
-```
-self.timeObserver = [self.player addPeriodicTimeObserverForInterval:CMTimeMakeWithSeconds(_timeSpace, NSEC_PER_SEC) queue:dispatch_queue_create("kj.player.time.queue", NULL) usingBlock:^(CMTime time) {
-    NSTimeInterval sec = CMTimeGetSeconds(time);
-    if (isnan(sec) || sec < 0) sec = 0;
-    if (weakself.totalTime <= 0) return;
-    if ((NSInteger)sec >= (NSInteger)weakself.totalTime) {
-        [weakself.player pause];
-        weakself.state = KJPlayerStatePlayFinished;
-        weakself.currentTime = 0;
-    }else if (weakself.userPause == NO && weakself.buffered) {
-        weakself.state = KJPlayerStatePlaying;
-        weakself.currentTime = sec;
-    }
-    if (sec > weakself.tryTime && weakself.tryTime) {
-        [weakself kj_pause];
-        if (!weakself.tryLooked) {
-            weakself.tryLooked = YES;
-            kGCD_player_main(^{
-                if (weakself.tryTimeBlock) weakself.tryTimeBlock();
-            });
-        }
-    }else{
-        weakself.tryLooked = NO;
-    }
-}];
-```
-
-6、处理视频状态，kvo监听播放器五种状态 
- 
-- `status`：监听播放器状态 
-- `loadedTimeRanges`：监听播放器缓冲进度 
-- `presentationSize`：监听视频尺寸  
-- `playbackBufferEmpty`：监听缓存不够的情况
-- `playbackLikelyToKeepUp`：监听缓存足够  
+- 1、获取视频类型，根据网址来确定，目前没找到更好的方式（知道的朋友可以指点一下）
+- 2、处理视频，这里才用队列组来处理，子线程处理解决第一次加载卡顿问题
+- 3、处理视频链接地址，这里分两种情况，
+    - 使用缓存就从缓存当中读取
+    - 获取数据库当中的数据
+- 4、判断地址是否可用，添加下载和播放桥梁
+- 5、播放准备操作设置`playerItem`，然后初始化`player`，添加时间观察者处理播放
+- 6、处理视频状态，kvo监听播放器五种状态 
+    - `status`：监听播放器状态 
+    - `loadedTimeRanges`：监听播放器缓冲进度 
+    - `presentationSize`：监听视频尺寸  
+    - `playbackBufferEmpty`：监听缓存不够的情况
+    - `playbackLikelyToKeepUp`：监听缓存足够  
 
 大致流程就差不多这样子，Demo也写的很详细，可以自己去看看
-
-### KJMidiPlayer - 播放midi文件的壳子
-
-<p align="left">
-<img src="https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1590984664032&di=f75bbfdf1c76e20749fd40be9c784738&imgtype=0&src=http%3A%2F%2F5b0988e595225.cdn.sohucs.com%2Fimages%2F20181208%2F2e9d5c7277094ace8e7385e018ccc2d4.jpeg" width="777" hspace="1px">
-</p>
 
 #### **总结：先把基本的壳子完善，后面再慢慢来补充其他的内核，如若觉得有帮助请帮忙点个星，有什么问题和需求也可以Issues**
 **也可以通过以下方式联系我，邮箱地址：ykj310@126.com**
 
-**[Github地址](https://github.com/yangKJ) 、[简书地址](https://www.jianshu.com/u/c84c00476ab6) 、[博客地址](https://blog.csdn.net/qq_34534179)、[掘金地址](https://juejin.cn/user/1987535102554472/posts)**
+### 关于作者
+- 🎷**邮箱地址：[ykj310@126.com](ykj310@126.com) 🎷**
+- 🎸**GitHub地址：[yangKJ](https://github.com/yangKJ) 🎸**
+- 🎺**掘金地址：[茶底世界之下](https://juejin.cn/user/1987535102554472/posts) 🎺**
+- 🚴🏻**简书地址：[77___](https://www.jianshu.com/u/c84c00476ab6) 🚴🏻**
+
+#### 救救孩子吧，谢谢各位老板～～～～
+
+-----

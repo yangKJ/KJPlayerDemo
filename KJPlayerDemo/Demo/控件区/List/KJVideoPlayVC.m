@@ -130,7 +130,7 @@
     }else if (state == KJPlayerStatePlayFinished) {
         [player kj_replay];
         player.kVideoTryLookTime(^{
-            [player kj_displayHintText:@"试看结束，请缴费~~" position:KJPlayerHintPositionBottom];
+            [player.playerView.hintTextLayer kj_displayHintText:@"试看结束，请缴费~~" position:KJPlayerHintPositionBottom];
         }, 100);
     }
 }

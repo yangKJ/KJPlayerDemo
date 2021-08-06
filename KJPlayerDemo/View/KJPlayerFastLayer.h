@@ -13,10 +13,16 @@
 NS_ASSUME_NONNULL_BEGIN
 
 @interface KJPlayerFastLayer : CALayer
+
+/// 主色调
 @property (nonatomic,strong) UIColor *mainColor;
+/// 副色调
 @property (nonatomic,strong) UIColor *viceColor;
+
 /// 设置数据
-- (void)kj_updateFastValue:(CGFloat)value TotalTime:(CGFloat)time;
+/// @param value 当前值
+/// @param time 总时间
+- (void)kj_updateFastValue:(CGFloat)value totalTime:(CGFloat)time;
 
 @end
 

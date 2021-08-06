@@ -8,6 +8,10 @@
 
 #import "KJDownloader.h"
 #import <objc/runtime.h>
+#import "KJCustomManager.h"
+#import <MobileCoreServices/MobileCoreServices.h>
+#import "KJFileHandleManager.h"
+#import "KJFileHandleInfo.h"
 
 @protocol KJDownloaderManagerDelegate;
 @interface KJDownloadTask : NSObject
@@ -32,7 +36,7 @@
 
 @end
 
-/// ************************************** 黄金分割线 *********************************************
+// ************************************** 黄金分割线 *********************************************
 
 @interface KJDownloader () <KJDownloaderManagerDelegate>
 @property (nonatomic,strong) NSURL *videoURL;
@@ -43,7 +47,7 @@
 @end
 @implementation KJDownloader
 - (void)dealloc{
-    [DBPlayerDataInfo.shared kj_removeDownloadURL:self.videoURL];
+    [KJCustomManager.shared kj_removeDownloadURL:self.videoURL];
 }
 - (instancetype)initWithURL:(NSURL*)url fileHandleManager:(KJFileHandleManager*)manager{
     if (self = [super init]) {
@@ -52,7 +56,7 @@
         self.fileHandleManager = manager;
         self.contentLength = manager.cacheInfo.contentLength;
         self.contentType = manager.cacheInfo.contentType;
-        [DBPlayerDataInfo.shared kj_addDownloadURL:self.videoURL];
+        [KJCustomManager.shared kj_addDownloadURL:self.videoURL];
     }
     return self;
 }
@@ -73,7 +77,7 @@
 }
 - (void)kj_cancelDownload{
     self.downloadTask.delegate = nil;
-    [DBPlayerDataInfo.shared kj_removeDownloadURL:self.videoURL];
+    [KJCustomManager.shared kj_removeDownloadURL:self.videoURL];
     [self.downloadTask kj_cancelDownloading];
     self.downloadTask = nil;
 }
@@ -87,7 +91,7 @@
         NSString *length = array.lastObject;
         if ([length integerValue] == 0){
             self.contentLength = (NSUInteger)httpResponse.expectedContentLength;
-        }else{
+        } else {
             self.contentLength = [length integerValue];
         }
     }
@@ -108,7 +112,7 @@
 }
 /// 接收错误或者接收完成，错误为空表示接收完成 
 - (void)kj_didFinishWithError:(NSError*_Nullable)error{
-    [DBPlayerDataInfo.shared kj_removeDownloadURL:self.videoURL];
+    [KJCustomManager.shared kj_removeDownloadURL:self.videoURL];
     if (self.kDidFinished) {
         self.kDidFinished(self, error);
     }
@@ -138,7 +142,7 @@
 
 @end
 
-/// ************************************** 黄金分割线 *********************************************
+// ************************************** 黄金分割线 *********************************************
 
 @interface KJSessionAgent : NSObject<NSURLSessionDelegate>
 @property (nonatomic,copy,readwrite) void (^kDidReceiveResponse)(NSURLResponse *response, void(^completionHandler)(NSURLSessionResponseDisposition));
@@ -190,7 +194,7 @@
         }
         return;
     }
-    KJCacheFragment fragment = [DBPlayerDataInfo kj_getCacheFragment:self.fragments.firstObject];
+    KJCacheFragment fragment = [KJCustomManager kj_getCacheFragment:self.fragments.firstObject];
     [self.fragments removeObjectAtIndex:0];
     if (fragment.type){// 远端碎片，即开始下载
         NSUInteger fromOffset = fragment.range.location;
@@ -202,7 +206,7 @@
         self.startOffset = fragment.range.location;
         self.task = [self.session dataTaskWithRequest:request];
         [self.task resume];
-    }else{//本地碎片
+    } else {//本地碎片
         NSData *data = [self.fileHandleManager kj_readCachedDataWithRange:fragment.range];
         if (self.once == NO && data == nil) {
             self.once = YES;
@@ -225,10 +229,10 @@
                 [self.delegate kj_didReceiveData:data cached:YES];
             }
             [self kj_downlingFragment];
-        }else{
+        } else {
             self.once = NO;
             if ([self.delegate respondsToSelector:@selector(kj_didFinishWithError:)]) {
-                [self.delegate kj_didFinishWithError:[DBPlayerDataInfo kj_errorSummarizing:KJPlayerCustomCodeReadCachedDataFailed]];
+                [self.delegate kj_didFinishWithError:[KJCustomManager kj_errorSummarizing:KJPlayerCustomCodeReadCachedDataFailed]];
             }
         }
     }
@@ -238,7 +242,8 @@
 - (NSURLSession*)session{
     if (!_session){
         NSURLSessionConfiguration *configuration = [NSURLSessionConfiguration defaultSessionConfiguration];
-        NSURLSession *session = [NSURLSession sessionWithConfiguration:configuration delegate:self.sessionAgent delegateQueue:nil];
+        NSURLSession *session = [NSURLSession sessionWithConfiguration:configuration
+                                                              delegate:self.sessionAgent delegateQueue:nil];
         _session = session;
     }
     return _session;
@@ -253,7 +258,7 @@
                 [mimeType rangeOfString:@"audio/"].location == NSNotFound &&
                 [mimeType rangeOfString:@"application"].location == NSNotFound){
                 completionHandler(NSURLSessionResponseCancel);
-            }else{
+            } else {
                 if ([weakself.delegate respondsToSelector:@selector(kj_didReceiveResponse:)]){
                     [weakself.delegate kj_didReceiveResponse:response];
                 }
@@ -289,10 +294,11 @@
             }
             if (weakself.fileHandleManager.cacheInfo.progress >= 1.0) {
                 if ([weakself.delegate respondsToSelector:@selector(kj_didFinishWithError:)]){
-                    [weakself.delegate kj_didFinishWithError:[NSError errorWithDomain:@"cache complete" code:KJPlayerCustomCodeCachedComplete userInfo:nil]];
+                    [weakself.delegate kj_didFinishWithError:[NSError errorWithDomain:@"cache complete"
+                                                                                 code:KJPlayerCustomCodeCachedComplete userInfo:nil]];
                 }
                 return;
-            }else{
+            } else {
                 kGCD_player_async(^{
                     [weakself kj_postNotification];
                 });
@@ -301,7 +307,7 @@
                 if ([weakself.delegate respondsToSelector:@selector(kj_didFinishWithError:)]){
                     [weakself.delegate kj_didFinishWithError:error];
                 }
-            }else{
+            } else {
                 [weakself kj_downlingFragment];
             }
         };
@@ -309,7 +315,8 @@
     return _sessionAgent;
 }
 - (void)kj_postNotification{
-    [[NSNotificationCenter defaultCenter] postNotificationName:kPlayerFileHandleInfoNotification object:self userInfo:@{kPlayerFileHandleInfoKey:self.fileHandleManager.cacheInfo}];
+    [[NSNotificationCenter defaultCenter] postNotificationName:kPlayerFileHandleInfoNotification
+                                                        object:self userInfo:@{kPlayerFileHandleInfoKey:self.fileHandleManager.cacheInfo}];
 }
 
 @end
@@ -319,6 +326,7 @@
 /// 设置一个NSMutableData类型的对象, 用于接收返回的数据 
 @property (nonatomic,retain) NSMutableData *bufferData;
 @end
+
 @implementation KJSessionAgent
 #pragma mark - NSURLSessionDataDelegate
 - (void)URLSession:(NSURLSession*)session didReceiveChallenge:(NSURLAuthenticationChallenge*)challenge completionHandler:(void (^)(NSURLSessionAuthChallengeDisposition, NSURLCredential *))completionHandler{

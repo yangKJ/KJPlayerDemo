@@ -12,12 +12,12 @@
 NS_ASSUME_NONNULL_BEGIN
 typedef NS_ENUM(NSInteger,KJPlayerStatusBatteryState) {
     KJPlayerStatusBatteryStateNormal = 0,// 正常状态
-    KJPlayerStatusBatteryStateCharging,// 充电状态
+    KJPlayerStatusBatteryStateCharging,  // 充电状态
 };
 typedef NS_ENUM(NSInteger,KJPlayerStatusTextStyle) {
     KJPlayerStatusTextStyleHide = 0,// 隐藏电量数字
-    KJPlayerStatusTextStyleTop,// 电量数字显示在顶部
-    KJPlayerStatusTextStyleBottom,// 电量数字显示在底部
+    KJPlayerStatusTextStyleTop,     // 电量数字显示在顶部
+    KJPlayerStatusTextStyleBottom,  // 电量数字显示在底部
 };
 @interface KJPlayerStatusLayer : CALayer
 @property (nonatomic,assign) KJPlayerStatusBatteryState batteryState;

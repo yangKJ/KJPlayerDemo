@@ -98,12 +98,12 @@ PLAYER_COMMON_FUNCTION_PROPERTY PLAYER_COMMON_UI_PROPERTY
         if (self.buffered) {
             self.state = KJPlayerStatePreparePlay;
             [self kj_autoPlay];
-        }else{
+        } else {
             [self.player pause];
         }
     }else if ((loadState & IJKMPMovieLoadStateStalled)) {//可能由于网速不好等因素导致暂停
         self.state = KJPlayerStateBuffering;
-    }else{
+    } else {
     
     }
 }
@@ -148,11 +148,10 @@ PLAYER_COMMON_FUNCTION_PROPERTY PLAYER_COMMON_UI_PROPERTY
                         if (self.tryTimeBlock) self.tryTimeBlock();
                     });
                 }
-            }else{
+            } else {
                 self.tryLooked = NO;
             }
-        }
-            break;
+        } break;
         case IJKMPMoviePlaybackStatePaused:
             self.state = KJPlayerStatePausing;
             break;
@@ -179,7 +178,7 @@ PLAYER_COMMON_FUNCTION_PROPERTY PLAYER_COMMON_UI_PROPERTY
 - (void)updateEvent{
     if (self.totalTime) {
         self.progress = self.player.playableDuration / self.totalTime;
-    }else{
+    } else {
         self.progress = 0.f;
     }
 }
@@ -202,7 +201,7 @@ PLAYER_COMMON_FUNCTION_PROPERTY PLAYER_COMMON_UI_PROPERTY
     if (_playerView == nil) return;
     if (self.tempView.superview == nil) {
         [_playerView addSubview:_tempView];
-    }else{
+    } else {
         self.tempView.hidden = NO;
     }
     self.tempView.frame = CGRectMake(0, 0, size.width, size.height);
@@ -263,7 +262,7 @@ PLAYER_COMMON_FUNCTION_PROPERTY PLAYER_COMMON_UI_PROPERTY
     /// 功能操作
     if (self.recordLastTime) {
         NSString *dbid = kPlayerIntactName(self.originalURL);
-        NSTimeInterval time = [DBPlayerDataInfo kj_getLastTimeDbid:dbid];
+        NSTimeInterval time = [DBPlayerData kj_getLastTimeDbid:dbid];
         kGCD_player_main(^{
             if (self.totalTime) self.currentTime = time;
         });
@@ -280,7 +279,7 @@ PLAYER_COMMON_FUNCTION_PROPERTY PLAYER_COMMON_UI_PROPERTY
                 self.skipTimeBlock(KJPlayerVideoSkipStateHead);
             });
         }
-    }else{
+    } else {
         [self kj_autoPlay];
     }
 }
@@ -329,14 +328,6 @@ PLAYER_COMMON_FUNCTION_PROPERTY PLAYER_COMMON_UI_PROPERTY
     self.locality = [super kj_judgeHaveCacheWithVideoURL:videoURL];
     return self.locality;
 }
-/// 圆圈加载动画 
-- (void)kj_startAnimation{
-    [super kj_startAnimation];
-}
-/// 停止动画 
-- (void)kj_stopAnimation{
-    [super kj_stopAnimation];
-}
 
 #pragma mark - setter
 - (void)setOriginalURL:(NSURL *)originalURL{
@@ -366,7 +357,7 @@ PLAYER_COMMON_FUNCTION_PROPERTY PLAYER_COMMON_UI_PROPERTY
 - (void)setVideoURL:(NSURL *)videoURL{
     [self kj_initializeBeginPlayConfiguration];
     if (kPlayerVideoAesstType(videoURL) == KJPlayerAssetTypeNONE) {
-        self.playError = [DBPlayerDataInfo kj_errorSummarizing:KJPlayerCustomCodeVideoURLUnknownFormat];
+        self.playError = [KJCustomManager kj_errorSummarizing:KJPlayerCustomCodeVideoURLUnknownFormat];
         if (self.player) [self kj_stop];
         _videoURL = videoURL;
         return;
@@ -374,13 +365,10 @@ PLAYER_COMMON_FUNCTION_PROPERTY PLAYER_COMMON_UI_PROPERTY
     self.originalURL = videoURL;
     PLAYER_WEAKSELF;
 //    dispatch_group_async(self.group, dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
-        if (weakself.kPlayerDynamicChangeSource()) {
+        if (![videoURL.absoluteString isEqualToString:self->_videoURL.absoluteString]) {
             self->_videoURL = videoURL;
             [weakself kj_initPreparePlayer];
-        }else if (![videoURL.absoluteString isEqualToString:self->_videoURL.absoluteString]) {
-            self->_videoURL = videoURL;
-            [weakself kj_initPreparePlayer];
-        }else{
+        } else {
             [weakself kj_replay];
         }
 //    });
@@ -396,7 +384,7 @@ PLAYER_COMMON_FUNCTION_PROPERTY PLAYER_COMMON_UI_PROPERTY
             self.player.playbackVolume = 0.f;
         }else if (lastVolume) {
             self.player.playbackVolume = lastVolume;
-        }else{
+        } else {
             lastVolume = self.player.playbackVolume;
         }
     }
@@ -455,7 +443,7 @@ PLAYER_COMMON_FUNCTION_PROPERTY PLAYER_COMMON_UI_PROPERTY
         dispatch_group_notify(self.group, dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
             if (weakself.player) {
                 [weakself.player pause];
-            }else{
+            } else {
                 if (xxblock) xxblock(NO);
             }
             NSTimeInterval time = seconds;
@@ -463,7 +451,7 @@ PLAYER_COMMON_FUNCTION_PROPERTY PLAYER_COMMON_UI_PROPERTY
                 if (weakself.totalTime) {
                     NSTimeInterval _time = weakself.progress * weakself.totalTime;
                     if (time + weakself.cacheTime >= _time) time = _time - weakself.cacheTime;
-                }else{
+                } else {
                     time = weakself.currentTime;
                 }
             }
@@ -499,7 +487,7 @@ PLAYER_COMMON_FUNCTION_PROPERTY PLAYER_COMMON_UI_PROPERTY
             if (xxblock) {
                 if (self.player) {
                     xxblock([self.player thumbnailImageAtCurrentTime]);
-                }else{
+                } else {
                     xxblock(nil);
                 }
             }
@@ -581,7 +569,6 @@ PLAYER_COMMON_FUNCTION_PROPERTY PLAYER_COMMON_UI_PROPERTY
     [options setFormatOptionIntValue:0 forKey:@"auto_convert"];
     // 重连次数
     [options setFormatOptionIntValue:1 forKey:@"reconnect"];
-
 }
 
 @end

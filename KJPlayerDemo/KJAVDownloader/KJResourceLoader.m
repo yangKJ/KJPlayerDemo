@@ -36,7 +36,9 @@ NS_INLINE NSString * kGetRequestKey(NSURL *requestURL){
     }
     return nil;
 }
+
 #pragma mark - AVAssetResourceLoaderDelegate
+
 /*  连接视频播放和视频断点下载的桥梁
  *  必须返回Yes，如果返回NO，则resourceLoader将会加载出现故障的数据
  *  这里会出现很多个loadingRequest请求,需要为每一次请求作出处理
@@ -70,6 +72,7 @@ NS_INLINE NSString * kGetRequestKey(NSURL *requestURL){
 }
 
 #pragma mark - KJResourceLoaderManagerDelegate
+
 /// 接收数据，是否为已经缓存的本地数据 
 - (void)kj_resourceLoader:(KJResourceLoaderManager*)manager didReceiveData:(NSData*)data{
     if (self.kDidReceiveData) {
@@ -85,6 +88,7 @@ NS_INLINE NSString * kGetRequestKey(NSURL *requestURL){
 }
 
 #pragma mark - lazy
+
 - (NSMutableDictionary<NSString *,KJResourceLoaderManager *> *)loaderMap{
     if (!_loaderMap) {
         _loaderMap = [NSMutableDictionary dictionary];

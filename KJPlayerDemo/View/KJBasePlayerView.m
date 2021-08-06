@@ -8,23 +8,28 @@
 
 #import "KJBasePlayerView.h"
 #import "KJRotateManager.h"
+
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored"-Wdeprecated-declarations"
+
 #define kLockWidth (40)
 #define kCenterPlayWidth (60)
-NSString *kPlayerBaseViewChangeNotification = @"kPlayerBaseViewNotification";
-NSString *kPlayerBaseViewChangeKey = @"kPlayerBaseViewKey";
-@interface KJBasePlayerView ()<UIGestureRecognizerDelegate>
+
+@interface KJBasePlayerView () <UIGestureRecognizerDelegate>{
+    BOOL movingH;
+}
 @property (nonatomic,assign) KJPlayerVideoScreenState screenState;
 @property (nonatomic,assign) NSInteger width,height;
 @property (nonatomic,assign) BOOL haveVolume;
 @property (nonatomic,assign) BOOL haveBrightness;
 @property (nonatomic,assign) float lastValue;
 @property (nonatomic,strong) UIPanGestureRecognizer *pan;
-@property (nonatomic,strong) KJPlayerHintInfo *hintInfo;
 @property (nonatomic,assign) BOOL displayOperation;
+
 @end
-@implementation KJBasePlayerView{
-    BOOL movingH;
-}
+
+@implementation KJBasePlayerView
+
 - (void)dealloc{
     [[NSNotificationCenter defaultCenter] removeObserver:self];
     [self removeObserver:self forKeyPath:@"frame"];
@@ -40,14 +45,16 @@ NSString *kPlayerBaseViewChangeKey = @"kPlayerBaseViewKey";
     self.userInteractionEnabled = YES;
     [self addObserver:self forKeyPath:@"frame" options:NSKeyValueObservingOptionNew context:NULL];
     [self addObserver:self forKeyPath:@"bounds" options:NSKeyValueObservingOptionNew context:NULL];
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(kj_orientationChange:) name:UIDeviceOrientationDidChangeNotification object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self
+                                             selector:@selector(kj_orientationChange:)
+                                                 name:UIDeviceOrientationDidChangeNotification
+                                               object:nil];
     self.longPressTime = 1.f;
     self.autoHideTime = 2.f;
     self.mainColor = UIColor.whiteColor;
     self.viceColor = UIColor.redColor;
     self.width = self.frame.size.width;
     self.height = self.frame.size.height;
-    self.hintInfo = [KJPlayerHintInfo new];
     self.operationViewHeight = 60;
     self.isHiddenBackButton = YES;
     self.autoRotate = YES;
@@ -71,9 +78,12 @@ NSString *kPlayerBaseViewChangeKey = @"kPlayerBaseViewKey";
 - (void)observeValueForKeyPath:(NSString*)keyPath ofObject:(id)object change:(NSDictionary*)change context:(void*)context{
     if ([keyPath isEqualToString:@"frame"] || [keyPath isEqualToString:@"bounds"]) {
         if ([object valueForKeyPath:keyPath] != [NSNull null]) {
-            [[NSNotificationCenter defaultCenter] postNotificationName:kPlayerBaseViewChangeNotification object:self userInfo:@{kPlayerBaseViewChangeKey:[object valueForKeyPath:keyPath]}];
+            [[NSNotificationCenter defaultCenter] postNotificationName:kPlayerBaseViewChangeNotification
+                                                                object:self
+                                                              userInfo:@{kPlayerBaseViewChangeKey:[object valueForKeyPath:keyPath]}];
             CGRect rect = [[object valueForKeyPath:keyPath] CGRectValue];
-            self.width = rect.size.width;self.height = rect.size.height;
+            self.width = rect.size.width;
+            self.height = rect.size.height;
             [self kj_changeFrame];
         }
     }
@@ -86,20 +96,14 @@ NSString *kPlayerBaseViewChangeKey = @"kPlayerBaseViewKey";
     self.topView.frame = CGRectMake(0, 0, self.width, self.operationViewHeight);
     self.bottomView.frame = CGRectMake(0, self.height-self.operationViewHeight, self.width, self.operationViewHeight);
     self.lockButton.frame = CGRectMake(10, (self.height-kLockWidth)/2, kLockWidth, kLockWidth);
-    self.centerPlayButton.frame = CGRectMake((self.width-kCenterPlayWidth)/2, (self.height-kCenterPlayWidth)/2, kCenterPlayWidth, kCenterPlayWidth);
-}
-
-#pragma mark - getter
-- (void (^)(void(^)(KJPlayerHintInfo*)))kVideoHintTextInfo{
-    return ^(void(^xxblock)(KJPlayerHintInfo*)){
-        if (xxblock) xxblock(self.hintInfo);
-    };
+    CGFloat width = kCenterPlayWidth;
+    self.centerPlayButton.frame = CGRectMake((self.width-width)/2, (self.height-width)/2, width, width);
 }
 
 #pragma mark - setter
 - (void)setGestureType:(KJPlayerGestureType)gestureType{
     if (gestureType != _gestureType) {
-        for (UIGestureRecognizer *gesture in self.gestureRecognizers) {
+        for (UIGestureRecognizer * gesture in self.gestureRecognizers) {
              [self removeGestureRecognizer:gesture];
         }
     }
@@ -107,12 +111,12 @@ NSString *kPlayerBaseViewChangeKey = @"kPlayerBaseViewKey";
     if (_pan) _pan = nil;
     self.haveVolume = self.haveBrightness = NO;
     BOOL haveTap = NO;
-    UITapGestureRecognizer *tapGesture;
+    UITapGestureRecognizer * tapGesture = nil;
     if (gestureType == 1 || (gestureType & KJPlayerGestureTypeSingleTap)) {
-        haveTap = YES;
         tapGesture = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(tapAction:)];
         [tapGesture setDelaysTouchesBegan:YES];
         [self addGestureRecognizer:tapGesture];
+        haveTap = YES;
     }
     if (gestureType == 2 || (gestureType & KJPlayerGestureTypeDoubleTap)) {
         UITapGestureRecognizer *gesture = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(doubleAction:)];
@@ -122,7 +126,8 @@ NSString *kPlayerBaseViewChangeKey = @"kPlayerBaseViewKey";
         if (haveTap) [tapGesture requireGestureRecognizerToFail:gesture];
     }
     if (gestureType == 3 || (gestureType & KJPlayerGestureTypeLong)) {
-        UILongPressGestureRecognizer *longPress = [[UILongPressGestureRecognizer alloc]initWithTarget:self action:@selector(longAction:)];
+        UILongPressGestureRecognizer * longPress =
+        [[UILongPressGestureRecognizer alloc] initWithTarget:self action:@selector(longAction:)];
         longPress.minimumPressDuration = self.longPressTime;
         [self addGestureRecognizer:longPress];
     }
@@ -147,10 +152,13 @@ NSString *kPlayerBaseViewChangeKey = @"kPlayerBaseViewKey";
         self.screenState = KJPlayerVideoScreenStateFullScreen;
         self.backButton.hidden = self.fullScreenHiddenBackButton;
         [self kj_displayOperationView];
-    }else{
+    } else {
         [KJRotateManager kj_rotateSmallScreenBasePlayerView:self];
         self.screenState = KJPlayerVideoScreenStateSmallScreen;
         self.backButton.hidden = self.smallScreenHiddenBackButton;
+    }
+    if ([self.delegate respondsToSelector:@selector(kj_basePlayerView:screenState:)]) {
+        [self.delegate kj_basePlayerView:self screenState:self.screenState];
     }
     if (self.kVideoChangeScreenState) {
         self.kVideoChangeScreenState(self.screenState);
@@ -176,13 +184,14 @@ NSString *kPlayerBaseViewChangeKey = @"kPlayerBaseViewKey";
 }
 
 #pragma maek - UIGestureRecognizer
+
 //单击手势
 - (void)tapAction:(UITapGestureRecognizer*)gesture{
     if (gesture.state == UIGestureRecognizerStateEnded) {
         if (self.lockButton.isLocked) {
             if (self.lockButton.isHidden) {
                 [self.lockButton kj_hiddenLockButton];
-            }else{
+            } else {
                 self.lockButton.hidden = YES;
             }
             return;
@@ -251,12 +260,12 @@ NSString *kPlayerBaseViewChangeKey = @"kPlayerBaseViewKey";
             CGPoint velocity = [pan velocityInView:pan.view];
             if (fabs(velocity.x) > fabs(velocity.y)) {
                 movingH = YES;
-            }else{
+            } else {
                 movingH = NO;
                 if (self.haveBrightness && self.haveVolume) {
                     if ([pan locationInView:self].x > self.width >> 1) {
                         self.lastValue = [AVAudioSession sharedInstance].outputVolume;
-                    }else{
+                    } else {
                         self.lastValue = [UIScreen mainScreen].brightness;
                     }
                 }else if (self.haveBrightness) {
@@ -277,18 +286,18 @@ NSString *kPlayerBaseViewChangeKey = @"kPlayerBaseViewKey";
                         if (totalTime <= 0) return;
                         if (self.fastLayer.superlayer == nil) {
                             [self.layer addSublayer:self.fastLayer];
-                        }else{
+                        } else {
                             self.fastLayer.hidden = NO;
                         }
                         NSTimeInterval time = [array[0] floatValue] + value * totalTime;
-                        [self.fastLayer kj_updateFastValue:time?:0.0 TotalTime:totalTime];
+                        [self.fastLayer kj_updateFastValue:time?:0.0 totalTime:totalTime];
                     }
                 }
-            }else{
+            } else {
                 if (self.haveBrightness && self.haveVolume) {
                     if ([pan locationInView:self].x > self.width >> 1) {
                         kSetVolume(translate.y);
-                    }else{
+                    } else {
                         kSetBrightness(translate.y);
                     }
                 }else if (self.haveBrightness) {
@@ -308,7 +317,7 @@ NSString *kPlayerBaseViewChangeKey = @"kPlayerBaseViewKey";
                     [self.delegate kj_basePlayerView:self progress:value end:YES];
                     if (_fastLayer) _fastLayer.hidden = YES;
                 }
-            }else{
+            } else {
                 if (_vbLayer) _vbLayer.hidden = YES;
             }
         } break;
@@ -332,16 +341,16 @@ NSString *kPlayerBaseViewChangeKey = @"kPlayerBaseViewKey";
 }
 
 #pragma mark - lazy
+
 - (UIPanGestureRecognizer *)pan{
     if (!_pan) {
-        UIPanGestureRecognizer *pan = [[UIPanGestureRecognizer alloc]initWithTarget:self action:@selector(panAction:)];
-        pan.delegate = self;
-        [pan setMaximumNumberOfTouches:1];
-        [pan setDelaysTouchesBegan:YES];
-        [pan setDelaysTouchesEnded:YES];
-        [pan setCancelsTouchesInView:YES];
-        [self addGestureRecognizer:pan];
-        _pan = pan;
+        _pan = [[UIPanGestureRecognizer alloc]initWithTarget:self action:@selector(panAction:)];
+        _pan.delegate = self;
+        [_pan setMaximumNumberOfTouches:1];
+        [_pan setDelaysTouchesBegan:YES];
+        [_pan setDelaysTouchesEnded:YES];
+        [_pan setCancelsTouchesInView:YES];
+        [self addGestureRecognizer:_pan];
     }
     return _pan;
 }
@@ -373,33 +382,34 @@ NSString *kPlayerBaseViewChangeKey = @"kPlayerBaseViewKey";
     if (!_loadingLayer) {
         CGFloat width = 40;
         KJPlayerLoadingLayer *layer = [KJPlayerLoadingLayer layer];
+        [layer setValue:self forKey:@"loadSuperPlayerView"];
         [layer kj_setAnimationSize:CGSizeMake(width, width) color:self.mainColor];
         layer.frame = CGRectMake((self.width-width)/2.f, (self.height-width)/2.f, width, width);
         _loadingLayer = layer;
     }
     return _loadingLayer;
 }
-- (KJPlayerHintTextLayer *)hintTextLayer{
+- (KJPlayerHintLayer *)hintTextLayer{
     if (!_hintTextLayer) {
-        KJPlayerHintTextLayer *layer = [KJPlayerHintTextLayer layer];
-        layer.backgroundColor = self.hintInfo.background.CGColor;
-        [layer setValue:@(self.hintInfo.maxWidth) forKey:@"maxWidth"];
-        [layer setValue:@(self.screenState) forKey:@"screenState"];
-        [layer kj_setFont:self.hintInfo.font color:self.hintInfo.textColor];
-        _hintTextLayer = layer;
+         _hintTextLayer = [KJPlayerHintLayer layer];
+        [_hintTextLayer setValue:self forKey:@"hintSuperPlayerView"];
+        [_hintTextLayer kj_setHintFont:nil textColor:nil background:nil maxWidth:250];
     }
     return _hintTextLayer;
 }
 - (KJPlayerOperationView *)topView{
     if (!_topView) {
-        _topView = [[KJPlayerOperationView alloc] initWithFrame:CGRectMake(0, 0, self.width, self.operationViewHeight) OperationType:(KJPlayerOperationViewTypeTop)];
+        _topView = [[KJPlayerOperationView alloc] initWithFrame:CGRectMake(0, 0, self.width, self.operationViewHeight)
+                                                  operationType:(KJPlayerOperationViewTypeTop)];
         _topView.mainColor = self.mainColor;
     }
     return _topView;
 }
 - (KJPlayerOperationView *)bottomView{
     if (!_bottomView) {
-        _bottomView = [[KJPlayerOperationView alloc] initWithFrame:CGRectMake(0, self.height-self.operationViewHeight, self.width, self.operationViewHeight) OperationType:(KJPlayerOperationViewTypeBottom)];
+        CGFloat height = self.operationViewHeight;
+        _bottomView = [[KJPlayerOperationView alloc] initWithFrame:CGRectMake(0, self.height - height, self.width, height)
+                                                     operationType:(KJPlayerOperationViewTypeBottom)];
         _bottomView.mainColor = self.mainColor;
     }
     return _bottomView;
@@ -423,7 +433,8 @@ NSString *kPlayerBaseViewChangeKey = @"kPlayerBaseViewKey";
 }
 - (KJPlayerButton *)centerPlayButton{
     if (!_centerPlayButton) {
-        _centerPlayButton = [[KJPlayerButton alloc]initWithFrame:CGRectMake((self.width-kCenterPlayWidth)/2, (self.height-kCenterPlayWidth)/2, kCenterPlayWidth, kCenterPlayWidth)];
+        CGFloat width = kCenterPlayWidth;
+        _centerPlayButton = [[KJPlayerButton alloc]initWithFrame:CGRectMake((self.width-width)/2, (self.height-width)/2, width, width)];
         _centerPlayButton.mainColor = self.mainColor;
         _centerPlayButton.type = KJPlayerButtonTypeCenterPlay;
     }
@@ -431,3 +442,5 @@ NSString *kPlayerBaseViewChangeKey = @"kPlayerBaseViewKey";
 }
 
 @end
+
+#pragma clang diagnostic pop

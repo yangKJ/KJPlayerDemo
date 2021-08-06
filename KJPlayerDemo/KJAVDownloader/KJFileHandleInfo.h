@@ -8,15 +8,18 @@
 //  缓存相关信息资源
 
 #import <Foundation/Foundation.h>
-#import "DBPlayerDataInfo.h"
-#import "KJCacheManager.h"
+
+NS_ASSUME_NONNULL_BEGIN
 /// 缓存相关信息通知 
-extern NSString *kPlayerFileHandleInfoNotification;
+extern NSString * kPlayerFileHandleInfoNotification;
 /// 缓存相关信息接收key 
-extern NSString *kPlayerFileHandleInfoKey;
+extern NSString * kPlayerFileHandleInfoKey;
 @interface KJFileHandleInfo : NSObject <NSCopying>
+/// 链接地址
 @property (nonatomic,strong,readonly) NSURL *videoURL;
+/// 文件名
 @property (nonatomic,strong,readonly) NSString *fileName;
+/// 文件信息
 @property (nonatomic,strong,readonly) NSString *fileFormat;
 /// 已缓存分片 
 @property (nonatomic,strong,readonly) NSArray *cacheFragments;
@@ -33,9 +36,13 @@ extern NSString *kPlayerFileHandleInfoKey;
 
 /// 初始化，优先读取归档数据 
 + (instancetype)kj_createFileHandleInfoWithURL:(NSURL*)url;
+
 /// 归档存储 
 - (void)kj_keyedArchiverSave;
+
 /// 继续写入碎片 
 - (void)kj_continueCacheFragmentRange:(NSRange)range;
 
 @end
+
+NS_ASSUME_NONNULL_END

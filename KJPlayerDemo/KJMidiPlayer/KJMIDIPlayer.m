@@ -83,14 +83,6 @@ PLAYER_COMMON_FUNCTION_PROPERTY PLAYER_COMMON_UI_PROPERTY
     if (graph) DisposeAUGraph(graph);
     self.state = KJPlayerStateStopped;
 }
-/// 圆圈加载动画 
-- (void)kj_startAnimation{
-    [super kj_startAnimation];
-}
-/// 停止动画 
-- (void)kj_stopAnimation{
-    [super kj_stopAnimation];
-}
 
 #pragma mark - setter
 - (void)setOriginalURL:(NSURL *)originalURL{
@@ -104,7 +96,7 @@ PLAYER_COMMON_FUNCTION_PROPERTY PLAYER_COMMON_UI_PROPERTY
     self.cache = NO;
     if (kPlayerVideoAesstType(videoURL) == KJPlayerAssetTypeNONE) {
         _videoURL = videoURL;
-        self.playError = [DBPlayerDataInfo kj_errorSummarizing:KJPlayerCustomCodeVideoURLUnknownFormat];
+        self.playError = [KJCustomManager kj_errorSummarizing:KJPlayerCustomCodeVideoURLUnknownFormat];
         if (self.player) [self kj_stop];
         return;
     }
@@ -116,7 +108,7 @@ PLAYER_COMMON_FUNCTION_PROPERTY PLAYER_COMMON_UI_PROPERTY
             [weakself createGraph];
             [weakself loadAudioUnitSetProperty];
             [weakself loadMusicSequenceFileWithURL:tempURL];
-        }else{
+        } else {
             [weakself kj_replay];
         }
     });

@@ -95,7 +95,7 @@
     KJAVPlayer *player = [[KJAVPlayer alloc]init];
     self.player = player;
     player.playerView = backview;
-    [player kj_startAnimation];
+    [player.playerView.loadingLayer kj_startAnimation];
     player.delegate = self;
     player.roregroundResume = YES;
     player.kVideoTotalTime = ^(NSTimeInterval time) {
@@ -137,12 +137,12 @@
 /* 当前播放器状态 */
 - (void)kj_player:(KJBasePlayer*)player state:(KJPlayerState)state{
     if (state == KJPlayerStateBuffering) {
-        [player kj_startAnimation];
+        [player.playerView.loadingLayer kj_startAnimation];
     }else if (state == KJPlayerStatePreparePlay || state == KJPlayerStatePlaying) {
-        [player kj_stopAnimation];
-        [player kj_displayHintText:KJPlayerStateStringMap[state]];
+        [player.playerView.loadingLayer kj_stopAnimation];
+        [player.playerView.hintTextLayer kj_displayHintText:KJPlayerStateStringMap[state]];
     }else{
-        [player kj_displayHintText:KJPlayerStateStringMap[state] position:KJPlayerHintPositionLeftBottom];
+        [player.playerView.hintTextLayer kj_displayHintText:KJPlayerStateStringMap[state] position:KJPlayerHintPositionLeftBottom];
     }
     if (state == KJPlayerStatePlayFinished) {
         self.index++;
@@ -165,7 +165,7 @@
             player.videoURL = video;
             player.kVideoTryLookTime(^{
                 NSLog(@"试看时间已到");
-                [player kj_startAnimation];
+                [player.playerView.loadingLayer kj_startAnimation];
             }, 150);
         }
     }
@@ -190,7 +190,7 @@
     [attributes2 setValue:[UIFont systemFontOfSize:18] forKey:NSFontAttributeName];
     [attributes2 setValue:UIColor.redColor forKey:NSForegroundColorAttributeName];
     [string setAttributes:attributes2 range:NSMakeRange(0, 4)];
-    [player kj_displayHintText:string position:KJPlayerHintPositionBottom];
+    [player.playerView.hintTextLayer kj_displayHintText:string position:KJPlayerHintPositionBottom];
     if (failed.code == KJPlayerCustomCodeCachedComplete) {
         NSLog(@"缓存完成，成功存入数据库");
     }

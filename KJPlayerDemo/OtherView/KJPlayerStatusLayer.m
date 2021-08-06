@@ -40,7 +40,7 @@
         offsetY = height/20;
     }else if (_textStyle == KJPlayerStatusTextStyleBottom) {
         offsetY = -height/20;
-    }else{
+    } else {
         offsetY = 0;
     }
     //外框高度
@@ -97,7 +97,7 @@
         iRect = CGRectMake(0, height/2 + offsetY - heightY/2 - textHeight - lineWidth, width, textHeight);
     }else if (_textStyle == KJPlayerStatusTextStyleTop) {
         iRect = CGRectMake(0, height/2 + offsetY + heightY/2, width, textHeight);
-    }else{
+    } else {
         iRect = CGRectMake(0, height/2 + offsetY - heightY/2, width, textHeight);
     }
     NSDictionary *dict = @{NSFontAttributeName:font,NSParagraphStyleAttributeName:paragraphStyle,NSForegroundColorAttributeName:fillColor};

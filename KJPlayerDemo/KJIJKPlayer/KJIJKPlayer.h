@@ -15,10 +15,12 @@
 NS_ASSUME_NONNULL_BEGIN
 
 @interface KJIJKPlayer : KJBasePlayer
+
 @property (nonatomic,strong,readonly) IJKFFMoviePlayerController *player;
 @property (nonatomic,strong,readonly) IJKFFOptions *options;
 
 @end
 
 NS_ASSUME_NONNULL_END
+
 #endif

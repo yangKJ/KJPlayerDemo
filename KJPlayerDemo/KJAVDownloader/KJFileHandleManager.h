@@ -8,25 +8,43 @@
 //  写入和读取文件管理
 
 #import <Foundation/Foundation.h>
-#import <UIKit/UIKit.h>
-#import "KJFileHandleInfo.h"
 
+NS_ASSUME_NONNULL_BEGIN
+@class KJFileHandleInfo;
 @interface KJFileHandleManager : NSObject
+/// 缓存相关信息资源
 @property (nonatomic,strong,readonly) KJFileHandleInfo *cacheInfo;
-- (instancetype)initWithURL:(NSURL*)url;
-/// 设置需要写入的总长度 
+
+/// 初始化
+/// @param url 链接地址
+- (instancetype)initWithURL:(NSURL *)url;
+
+/// 设置需要写入的总长度
+/// @param contentLength 总长度
 - (void)kj_setWriteHandleContentLenght:(NSUInteger)contentLength;
-/// 获取指定区间已经缓存的碎片 
-- (NSArray*)kj_getCachedFragmentsWithRange:(NSRange)range;
-/// 写入已下载分片数据 
-- (NSError*)kj_writeCacheData:(NSData*)data Range:(NSRange)range;
-/// 读取已下载分片缓存数据 
-- (NSData*)kj_readCachedDataWithRange:(NSRange)range;
+
+/// 获取指定区间已经缓存的碎片
+/// @param range 指定区间
+- (NSArray *)kj_getCachedFragmentsWithRange:(NSRange)range;
+
+/// 写入已下载分片数据
+/// @param data 写入数据
+/// @param range 指定区间
+- (NSError *)kj_writeCacheData:(NSData *)data Range:(NSRange)range;
+
+/// 读取已下载分片缓存数据
+/// @param range 指定区间
+- (NSData *)kj_readCachedDataWithRange:(NSRange)range;
+
 /// 写入存储 
 - (void)kj_writeSave;
-/// 开始写入 
+
+/// 开始写入
 - (void)kj_startWritting;
-/// 结束写入 
+
+/// 结束写入
 - (void)kj_finishWritting;
 
 @end
+
+NS_ASSUME_NONNULL_END

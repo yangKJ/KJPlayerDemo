@@ -10,20 +10,20 @@
 #import <Foundation/Foundation.h>
 #import "KJBaseFunctionPlayer.h"
 #import "KJBaseUIPlayer.h"
-#import "KJRotateManager.h"
 #import "KJPlayerProtocol.h"
-#import "DBPlayerDataInfo.h"
-#import "KJCacheManager.h"
+#import "KJCustomManager.h"
+#import "DBPlayerData.h"
 
 NS_ASSUME_NONNULL_BEGIN
 
-@interface KJBasePlayer : NSObject<KJBaseFunctionPlayer,KJBaseUIPlayer>
+@interface KJBasePlayer : NSObject <KJBaseFunctionPlayer,KJBaseUIPlayer>
 /// 单例属性 
 @property (nonatomic,strong,class,readonly,getter=kj_sharedInstance) id shared;
 /// 创建单例 
 + (instancetype)kj_sharedInstance;
 /// 销毁单例 
 + (void)kj_attempDealloc;
+
 /// 主动存储当前播放记录 
 - (void)kj_saveRecordLastTime;
 

@@ -7,6 +7,8 @@
 //  https://github.com/yangKJ/KJPlayerDemo
 
 #import "KJFileHandleInfo.h"
+#import "KJCacheManager.h"
+#import "DBPlayerData.h"
 
 #pragma clang diagnostic push
 #pragma clang diagnostic ignored"-Wdeprecated-declarations"
@@ -31,7 +33,7 @@ NSString *kPlayerFileHandleInfoKey = @"kPlayerFileHandleInfoKey";
         id value = [self valueForKey:key];
         if ([value respondsToSelector:@selector(copyWithZone:)]) {
             [info setValue:[value copy] forKey:key];
-        }else{
+        } else {
             [info setValue:value forKey:key];
         }
     }
@@ -99,7 +101,7 @@ NSString *kPlayerFileHandleInfoKey = @"kPlayerFileHandleInfoKey";
         NSInteger count = temps.count;
         if (count == 0){
             [temps addObject:[NSValue valueWithRange:range]];
-        }else{
+        } else {
             NSMutableIndexSet *indexSet = [NSMutableIndexSet indexSet];
             [temps enumerateObjectsUsingBlock:^(NSValue *obj, NSUInteger idx, BOOL *stop){
                 NSRange ran = obj.rangeValue;
@@ -137,10 +139,10 @@ NSString *kPlayerFileHandleInfoKey = @"kPlayerFileHandleInfoKey";
                     NSRange combineRange = NSMakeRange(location, endOffset - location);
                     [temps removeObjectAtIndex:indexSet.firstIndex];
                     [temps insertObject:[NSValue valueWithRange:combineRange] atIndex:indexSet.firstIndex];
-                }else{
+                } else {
                     if (firstRange.location > range.location){
                         [temps insertObject:[NSValue valueWithRange:range] atIndex:indexSet.lastIndex];
-                    }else{
+                    } else {
                         [temps insertObject:[NSValue valueWithRange:range] atIndex:indexSet.lastIndex+1];
                     }
                 }

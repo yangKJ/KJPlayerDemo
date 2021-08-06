@@ -8,24 +8,35 @@
 //  下载管理器
 
 #import <Foundation/Foundation.h>
-#import <MobileCoreServices/MobileCoreServices.h>
-#import "KJFileHandleManager.h"
 
 NS_ASSUME_NONNULL_BEGIN
-
+@class KJFileHandleManager;
 @interface KJDownloader : NSObject
+/// 链接
 @property (nonatomic,strong,readonly) NSURL *videoURL;
+/// 写入和读取文件管理
 @property (nonatomic,strong,readonly) KJFileHandleManager *fileHandleManager;
+/// 是否缓存
 @property (nonatomic,assign) BOOL saveToCache;
-- (instancetype)initWithURL:(NSURL*)url fileHandleManager:(KJFileHandleManager*)manager;
-/// 指定下载，是否下载到末尾全部数据 
+
+/// 初始化
+/// @param url 链接
+/// @param manager 写入和读取文件管理
+- (instancetype)initWithURL:(NSURL *)url fileHandleManager:(KJFileHandleManager *)manager;
+
+/// 指定下载，是否下载到末尾全部数据
+/// @param range 指定区间
+/// @param whole 是否下载到末尾
 - (void)kj_downloadTaskRange:(NSRange)range whole:(BOOL)whole;
+
 /// 开始下载 
 - (void)kj_startDownload;
+
 /// 取消下载 
 - (void)kj_cancelDownload;
 
 @end
+
 @interface KJDownloader (KJRequestBlock)
 /// 当服务端开始接收数据时调用 
 @property (nonatomic,copy,readwrite) void (^kDidReceiveResponse)(KJDownloader *downloader, NSURLResponse *response);

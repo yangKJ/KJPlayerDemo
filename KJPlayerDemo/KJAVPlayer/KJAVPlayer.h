@@ -8,9 +8,7 @@
 //  AVPlayer播放器内核
 //  支持视频格式：WMV,AVI,MKV,RMVB,RM,XVID,MP4,3GP,MPG
 
-#import <Foundation/Foundation.h>
 #import "KJBasePlayer.h"
-#import "KJBasePlayer+KJPingTimer.h"
 
 NS_ASSUME_NONNULL_BEGIN
 
@@ -19,10 +17,10 @@ NS_ASSUME_NONNULL_BEGIN
 @property (nonatomic,strong,readonly) AVPlayerLayer *playerLayer;
 @property (nonatomic,strong,readonly) AVPlayerItem *playerItem;
 @property (nonatomic,strong,readonly) AVPlayer *player;
-@property (nonatomic,strong) AVURLAsset *_Nullable asset;
+@property (nonatomic,strong,nullable) AVURLAsset * asset;
 
-// 判断是否含有视频轨道
-extern BOOL kPlayerHaveTracks(NSURL *videoURL, void(^assetblock)(AVURLAsset *), NSDictionary *requestHeader);
+/// 判断是否含有视频轨道
+extern BOOL kPlayerHaveTracks(NSURL * videoURL, void(^assetblock)(AVURLAsset *), NSDictionary * requestHeader);
 
 @end
 

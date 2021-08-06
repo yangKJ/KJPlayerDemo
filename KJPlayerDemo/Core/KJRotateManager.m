@@ -7,11 +7,13 @@
 //  https://github.com/yangKJ/KJPlayerDemo
 
 #import "KJRotateManager.h"
+#import "KJBasePlayerView.h"
+
 #define kRotate_KeyWindow \
 ({UIWindow *window;\
 if (@available(iOS 13.0, *)) {\
 window = [UIApplication sharedApplication].windows.firstObject;\
-}else{\
+} else {\
 window = [UIApplication sharedApplication].keyWindow;\
 }\
 window;})
@@ -105,7 +107,7 @@ window;})
                 [UIView animateWithDuration:0.5f animations:^{
                     baseView.transform = CGAffineTransformMakeRotation(-M_PI_2);
                 }];
-            }else{
+            } else {
                 baseView.isFullScreen = YES;
             }
             break;
@@ -114,7 +116,7 @@ window;})
                 [UIView animateWithDuration:0.5f animations:^{
                     baseView.transform = CGAffineTransformMakeRotation(M_PI_2);
                 }];
-            }else{
+            } else {
                 baseView.isFullScreen = YES;
             }
             break;
@@ -156,7 +158,7 @@ window;})
 //        if (self.screenState == KJPlayerVideoScreenStateFullScreen) {
 //            self.topView.frame = CGRectMake(self.topView.frame.origin.x, -self.topView.frame.size.height, self.topView.frame.size.width, self.topView.frame.size.height);
 //            self.bottomView.frame = CGRectMake(self.bottomView.frame.origin.x, y2+self.bottomView.frame.size.height, self.bottomView.frame.size.width, self.bottomView.frame.size.height);
-//        }else{
+//        } else {
         baseView.topView.hidden = YES;
         baseView.bottomView.hidden = YES;
         baseView.lockButton.hidden = YES;
@@ -228,7 +230,7 @@ static UIView *_tempView = nil;
     }else if ([vc isKindOfClass:[UINavigationController class]]){
         UIViewController * nav = (UIViewController *)vc;
         result = nav.childViewControllers.lastObject;
-    }else{
+    } else {
         result = vc;
     }
     return result;

@@ -24,9 +24,6 @@ static NSString * KJPlayerHintPositionRightBottom = @"KJPlayerHintPositionRightB
 
 @interface KJPlayerHintLayer : CALayer
 
-/// 文本框最大宽度
-@property (nonatomic,assign,readonly) CGFloat maxWidth;
-
 /// 设置属性或者修改属性
 /// @param font 字体类型，默认16号字体
 /// @param textColor 字体颜色，默认白色
@@ -38,38 +35,43 @@ static NSString * KJPlayerHintPositionRightBottom = @"KJPlayerHintPositionRightB
               maxWidth:(CGFloat)maxWidth;
 
 /// 支持富文本提示的文本框
-/// @param text 提示内容
+/// @param text 提示内容，支持富文本
 - (void)kj_displayHintText:(id)text;
 
 /// 支持富文本提示的文本框
-/// @param text 提示内容
+/// @param text 提示内容，支持富文本
 /// @param max 最大宽度
 - (void)kj_displayHintText:(id)text max:(float)max;
 
 /// 支持富文本提示的文本框
-/// @param text 提示内容
-/// @param position 中心位置
+/// @param text 提示内容，支持富文本
+/// @param position 显示位置，支持自定义Point
 - (void)kj_displayHintText:(id)text position:(id)position;
 
 /// 支持富文本提示的文本框
-/// @param text 提示内容
+/// @param text 提示内容，支持富文本
 /// @param time 展示时间，零秒表示不自动消失
 - (void)kj_displayHintText:(id)text time:(NSTimeInterval)time;
 
 /// 支持富文本提示的文本框
-/// @param text 提示内容
+/// @param text 提示内容，支持富文本
 /// @param time 展示时间，零秒表示不自动消失
-/// @param position 中心位置
-- (void)kj_displayHintText:(id)text time:(NSTimeInterval)time position:(id)position;
+/// @param position 显示位置，支持自定义Point
+- (void)kj_displayHintText:(id)text
+                      time:(NSTimeInterval)time
+                  position:(id)position;
 
 /// 支持富文本提示的文本框
-/// @param text 提示内容
+/// @param text 提示内容，支持富文本
 /// @param time 展示时间，零秒表示不自动消失
 /// @param max 最大宽度
-/// @param position 中心位置
-- (void)kj_displayHintText:(id)text time:(NSTimeInterval)time max:(float)max position:(id)position;
+/// @param position 显示位置，支持自定义Point
+- (void)kj_displayHintText:(id)text
+                      time:(NSTimeInterval)time
+                       max:(float)max
+                  position:(id)position;
 
-/// 隐藏提示文字
+/// 隐藏提示文字文本框
 - (void)kj_hideHintText;
 
 @end

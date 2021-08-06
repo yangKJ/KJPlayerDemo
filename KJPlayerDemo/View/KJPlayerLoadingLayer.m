@@ -7,8 +7,16 @@
 //  https://github.com/yangKJ/KJPlayerDemo
 
 #import "KJPlayerLoadingLayer.h"
+#import "KJBasePlayerView.h"
+
+@interface KJPlayerLoadingLayer ()
+/// 载体，外界kvc传入
+@property (nonatomic, strong) KJBasePlayerView * loadSuperPlayerView;
+
+@end
 
 @implementation KJPlayerLoadingLayer
+
 - (instancetype)init{
     if (self = [super init]) {
         self.zPosition = KJBasePlayerViewLayerZPositionLoading;
@@ -57,6 +65,27 @@
     self.path = path.CGPath;
     self.frame = CGRectMake(0, 0, width, height);
     [self addAnimation:groupAnimation forKey:@"animation"];
+}
+
+#pragma mark - Animation
+
+/// 圆圈加载动画
+- (void)kj_startAnimation{
+    kGCD_player_main(^{
+        if (CGRectEqualToRect(CGRectZero, self.loadSuperPlayerView.frame)) {
+            return;
+        }
+    });
+    if (self.superlayer == nil) {
+        [self.loadSuperPlayerView.layer addSublayer:self];
+    }
+}
+
+/// 停止动画
+- (void)kj_stopAnimation{
+    [UIView animateWithDuration:1.f animations:^{
+        [self removeFromSuperlayer];
+    }];
 }
 
 @end

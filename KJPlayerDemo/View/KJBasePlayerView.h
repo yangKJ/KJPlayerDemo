@@ -8,20 +8,20 @@
 //  播放器视图基类，播放器控件父类
 
 #import <UIKit/UIKit.h>
-#import "KJPlayerType.h"
 #import "KJPlayerProtocol.h"
 #import "KJPlayerSystemLayer.h"
 #import "KJPlayerFastLayer.h"
 #import "KJPlayerLoadingLayer.h"
-#import "KJPlayerHintTextLayer.h"
+#import "KJPlayerHintLayer.h"
 #import "KJPlayerOperationView.h"
 #import "KJPlayerButton.h"
 
 NS_ASSUME_NONNULL_BEGIN
 /// 控件位置和大小发生改变信息通知
-extern NSString * kPlayerBaseViewChangeNotification;
+static NSString * kPlayerBaseViewChangeNotification = @"kPlayerBaseViewNotification";
 /// 控件位置和大小发生改变key
-extern NSString *kPlayerBaseViewChangeKey;
+static NSString * kPlayerBaseViewChangeKey = @"kPlayerBaseViewKey";
+
 @protocol KJPlayerBaseViewDelegate;
 @interface KJBasePlayerView : UIImageView
 /// 委托代理
@@ -52,14 +52,8 @@ extern NSString *kPlayerBaseViewChangeKey;
 @property (nonatomic,assign) BOOL isFullScreen;
 /// 当前屏幕状态，名字别乱改后面kvc有使用
 @property (nonatomic,assign,readonly) KJPlayerVideoScreenState screenState;
-/// 当前屏幕状态发生改变
-@property (nonatomic,copy,readwrite) void (^kVideoChangeScreenState)(KJPlayerVideoScreenState state);
-/// 返回回调
-@property (nonatomic,copy,readwrite) void (^kVideoClickButtonBack)(KJBasePlayerView *view);
-/// 提示文字面板属性，默认最大宽度250px
-@property (nonatomic,copy,readonly) void (^kVideoHintTextInfo)(void(^)(KJPlayerHintInfo *info));
 
-#pragma mark - 控件
+#pragma mark - subview
 /// 快进快退进度控件
 @property (nonatomic,strong) KJPlayerFastLayer *fastLayer;
 /// 音量亮度控件
@@ -67,7 +61,7 @@ extern NSString *kPlayerBaseViewChangeKey;
 /// 加载动画层
 @property (nonatomic,strong) KJPlayerLoadingLayer *loadingLayer;
 /// 文本提示框
-@property (nonatomic,strong) KJPlayerHintTextLayer *hintTextLayer;
+@property (nonatomic,strong) KJPlayerHintLayer *hintTextLayer;
 /// 顶部操作面板
 @property (nonatomic,strong) KJPlayerOperationView *topView;
 /// 底部操作面板
@@ -86,6 +80,14 @@ extern NSString *kPlayerBaseViewChangeKey;
 - (void)kj_displayOperationView;
 /// 取消收起操作面板，可用于滑动滑杆时刻不自动隐藏
 - (void)kj_cancelHiddenOperationView;
+
+
+#pragma mark - discard method
+
+/// 当前屏幕状态发生改变
+@property (nonatomic,copy,readwrite) void (^kVideoChangeScreenState)(KJPlayerVideoScreenState state) DEPRECATED_MSG_ATTRIBUTE("please use delegate [kj_basePlayerView:screenState:]");
+/// 返回回调
+@property (nonatomic,copy,readwrite) void (^kVideoClickButtonBack)(KJBasePlayerView * view) DEPRECATED_MSG_ATTRIBUTE("please use delegate [kj_basePlayerView:clickBack:]");
 
 @end
 

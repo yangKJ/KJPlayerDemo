@@ -31,23 +31,6 @@
     [self.view addSubview:backview];
     backview.delegate = self;
     backview.gestureType = KJPlayerGestureTypeAll;
-    PLAYER_WEAKSELF;
-    backview.kVideoClickButtonBack = ^(KJBasePlayerView *view){
-        if (view.isFullScreen) {
-            view.isFullScreen = NO;
-        }else{
-            [weakself.player kj_stop];
-            [weakself.navigationController setNavigationBarHidden:NO animated:YES];
-            [weakself.navigationController popViewControllerAnimated:YES];
-        }
-    };
-    backview.kVideoChangeScreenState = ^(KJPlayerVideoScreenState state) {
-        if (state == KJPlayerVideoScreenStateFullScreen) {
-            [weakself.navigationController setNavigationBarHidden:YES animated:YES];
-        }else{
-            [weakself.navigationController setNavigationBarHidden:NO animated:YES];
-        }
-    };
     
     KJIJKPlayer *player = [[KJIJKPlayer alloc]init];
     self.player = player;
@@ -105,9 +88,9 @@
 /* 当前播放器状态 */
 - (void)kj_player:(KJBasePlayer*)player state:(KJPlayerState)state{
     if (state == KJPlayerStateBuffering || state == KJPlayerStatePausing) {
-        [player kj_startAnimation];
+        [player.playerView.loadingLayer kj_startAnimation];
     }else if (state == KJPlayerStatePreparePlay || state == KJPlayerStatePlaying) {
-        [player kj_stopAnimation];
+        [player.playerView.loadingLayer kj_stopAnimation];
     }else if (state == KJPlayerStatePlayFinished) {
         [player kj_replay];
     }
@@ -137,10 +120,10 @@
     }else{
         if ([self.player isPlaying]) {
             [self.player kj_pause];
-            [self.player kj_startAnimation];
+            [self.player.playerView.loadingLayer kj_startAnimation];
         }else{
             [self.player kj_resume];
-            [self.player kj_stopAnimation];
+            [self.player.playerView.loadingLayer kj_stopAnimation];
         }
     }
 }
@@ -149,7 +132,7 @@
     switch (longPress.state) {
         case UIGestureRecognizerStateBegan: {
             self.player.speed = 2.;
-            [self.player kj_displayHintText:@"长按快进播放中..." time:0 position:KJPlayerHintPositionTop];
+            [self.player.playerView.hintTextLayer kj_displayHintText:@"长按快进播放中..." time:0 position:KJPlayerHintPositionTop];
         }
             break;
         case UIGestureRecognizerStateChanged: {
@@ -157,7 +140,7 @@
             break;
         case UIGestureRecognizerStateEnded: {
             self.player.speed = 1.0;
-            [self.player kj_hideHintText];
+            [self.player.playerView.hintTextLayer kj_hideHintText];
         }
         default:
             break;
@@ -182,5 +165,22 @@
     NSLog(@"---lightValue:%.2f",value);
     return NO;
 }
+- (void)kj_basePlayerView:(__kindof KJBasePlayerView *)view clickBack:(BOOL)clickBack{
+    if (view.isFullScreen) {
+        view.isFullScreen = NO;
+    }else{
+        [self.player kj_stop];
+        [self.navigationController setNavigationBarHidden:NO animated:YES];
+        [self.navigationController popViewControllerAnimated:YES];
+    }
+}
+- (void)kj_basePlayerView:(__kindof KJBasePlayerView *)view screenState:(KJPlayerVideoScreenState)screenState{
+    if (screenState == KJPlayerVideoScreenStateFullScreen) {
+        [self.navigationController setNavigationBarHidden:YES animated:YES];
+    }else{
+        [self.navigationController setNavigationBarHidden:NO animated:YES];
+    }
+}
+
 
 @end

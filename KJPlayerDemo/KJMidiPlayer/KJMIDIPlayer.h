@@ -7,12 +7,12 @@
 //  https://github.com/yangKJ/KJPlayerDemo
 //  midi音乐播放器内核
 
-#import <Foundation/Foundation.h>
 #import "KJBasePlayer.h"
 
 NS_ASSUME_NONNULL_BEGIN
 
 @interface KJMIDIPlayer : KJBasePlayer
+
 @property (nonatomic,assign,readonly) MusicPlayer player;
 
 @end

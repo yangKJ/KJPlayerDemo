@@ -47,13 +47,13 @@ NS_ASSUME_NONNULL_BEGIN
 /// 获取视频总时长 
 @property (nonatomic,copy,readwrite) void (^kVideoTotalTime)(NSTimeInterval time);
 
-/// ************************* 分割线，上述属性需在videoURL之前设置 ****************************
+// ************************* 分割线，上述属性需在videoURL之前设置 ****************************
 /// 视频地址，这个和下面的方法互斥，支持m3u8 
 @property (nonatomic,strong) NSURL *videoURL;
 /// 使用边播边缓存 
 //@property (nonatomic,copy,readonly) BOOL (^kVideoCanCacheURL)(NSURL *videoURL, BOOL cache);
 
-/// ************************* 分割线，下面属性需在videoURL之后获取 ****************************
+// ************************* 分割线，下面属性需在videoURL之后获取 ****************************
 /// 原始视频地址，用于出错重播和记录上次播放 
 @property (nonatomic,strong,readonly) NSURL *originalURL;
 /// 播放失败 

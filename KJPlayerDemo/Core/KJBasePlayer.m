@@ -8,6 +8,7 @@
 
 #import "KJBasePlayer.h"
 #import "KJBasePlayer+KJPingTimer.h"
+#import "KJCacheManager.h"
 
 @interface KJBasePlayer ()
 @property (nonatomic,strong) UITableView *bindTableView;
@@ -56,14 +57,19 @@ static dispatch_once_t onceToken;
     [[AVAudioSession sharedInstance] setCategory:AVAudioSessionCategoryPlayback error:nil];
     //禁止锁屏
     [[UIApplication sharedApplication] setIdleTimerDisabled:YES];
-    
-    NSNotificationCenter * defaultCenter = [NSNotificationCenter defaultCenter];
-    [defaultCenter addObserver:self selector:@selector(kj_detectAppEnterBackground:)
-                          name:UIApplicationDidEnterBackgroundNotification object:nil];
-    [defaultCenter addObserver:self selector:@selector(kj_detectAppEnterForeground:)
-                          name:UIApplicationWillEnterForegroundNotification object:nil];
-    [defaultCenter addObserver:self selector:@selector(kj_basePlayerViewChange:)
-                          name:kPlayerBaseViewChangeNotification object:nil];
+    //通知
+    [[NSNotificationCenter defaultCenter] addObserver:self
+                                             selector:@selector(kj_detectAppEnterBackground:)
+                                                 name:UIApplicationDidEnterBackgroundNotification
+                                               object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self
+                                             selector:@selector(kj_detectAppEnterForeground:)
+                                                 name:UIApplicationWillEnterForegroundNotification
+                                               object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self
+                                             selector:@selector(kj_basePlayerViewChange:)
+                                                 name:kPlayerBaseViewChangeNotification
+                                               object:nil];
     //kvo
     NSKeyValueObservingOptions options = NSKeyValueObservingOptionOld | NSKeyValueObservingOptionNew;
     [self addObserver:self forKeyPath:@"state" options:options context:nil];
@@ -129,7 +135,7 @@ static dispatch_once_t onceToken;
                 });
             }
         }
-    }else{
+    } else {
         [super observeValueForKeyPath:keyPath ofObject:object change:change context:context];
     }
 }
@@ -140,7 +146,7 @@ static dispatch_once_t onceToken;
     if (self.backgroundPause) {
         [self kj_pause];
         [[AVAudioSession sharedInstance] setActive:NO error:nil];
-    }else{
+    } else {
         [[AVAudioSession sharedInstance] setActive:YES error:nil];
     }
 }
@@ -154,16 +160,14 @@ static dispatch_once_t onceToken;
 - (void)kj_basePlayerViewChange:(NSNotification*)notification{
     CGRect rect = [notification.userInfo[kPlayerBaseViewChangeKey] CGRectValue];
     SEL sel = NSSelectorFromString(@"kj_displayPictureWithSize:");
-    if ([self respondsToSelector:sel]) {
-        ((void(*)(id, SEL, CGSize))(void*)objc_msgSend)((id)self, sel, rect.size);
-    }
+    IMP imp = [self methodForSelector:sel];
+    void (* tempFunc)(id target, SEL, CGSize) = (void *)imp;
+    tempFunc(self, sel, rect.size);
 }
 
-#pragma mark - child method（子类实现处理）
+#pragma mark - child method, subclass should override.
 /// 准备播放 
-- (void)kj_play{
-//    kPlayerPerformSel(self, @"kj_resumePingTimer");
-}
+- (void)kj_play{ }
 /// 重播 
 - (void)kj_replay{ }
 /// 继续 
@@ -178,14 +182,11 @@ static dispatch_once_t onceToken;
 }
 /// 判断是否为本地缓存视频，如果是则修改为指定链接地址 
 - (BOOL)kj_judgeHaveCacheWithVideoURL:(NSURL * _Nonnull __strong * _Nonnull)videoURL{
-    __block BOOL boo = NO;
-    KJCacheManager.kJudgeHaveCacheURL(^(BOOL locality) {
-        boo = locality;
-        if (locality) {
-            self.playError = [DBPlayerDataInfo kj_errorSummarizing:KJPlayerCustomCodeCachedComplete];
-        }
-    }, videoURL);
-    return boo;
+    if ([KJCacheManager kj_haveCacheURL:videoURL]) {
+        self.playError = [KJCustomManager kj_errorSummarizing:KJPlayerCustomCodeCachedComplete];
+        return YES;
+    }
+    return NO;
 }
 
 #pragma mark - public method
@@ -193,7 +194,7 @@ static dispatch_once_t onceToken;
 - (void)kj_saveRecordLastTime{
     @synchronized (@(self.recordLastTime)) {
         if (self.recordLastTime) {
-            [DBPlayerDataInfo kj_saveRecordLastTime:self.currentTime dbid:kPlayerIntactName(self.originalURL)];
+            [DBPlayerData kj_saveRecordLastTime:self.currentTime dbid:kPlayerIntactName(self.originalURL)];
         }
     }
 }
@@ -204,64 +205,5 @@ static dispatch_once_t onceToken;
     self.bindTableView = tableView;
     self.indexPath = indexPath;
 }
-
-#pragma mark - Animation
-/// 圆圈加载动画 
-- (void)kj_startAnimation{
-    kGCD_player_main(^{
-        if (CGRectEqualToRect(CGRectZero, self.playerView.frame)) {
-            return;
-        }
-    });
-    if (self.playerView.loadingLayer.superlayer == nil) {
-        [self.playerView.layer addSublayer:self.playerView.loadingLayer];
-    }
-}
-/// 停止动画 
-- (void)kj_stopAnimation{
-    [UIView animateWithDuration:1.f animations:^{
-        [self.playerView.loadingLayer removeFromSuperlayer];
-    }];
-}
-
-#pragma mark - hintText
-/// 提示文字 
-- (void)kj_displayHintText:(id)text{
-    [self kj_displayHintText:text max:self.playerView.hintTextLayer.maxWidth];
-}
-- (void)kj_displayHintText:(id)text max:(float)max{
-    [self kj_displayHintText:text time:1.f max:max position:KJPlayerHintPositionCenter];
-}
-- (void)kj_displayHintText:(id)text position:(id)position{
-    [self kj_displayHintText:text time:1.f position:position];
-}
-- (void)kj_displayHintText:(id)text time:(NSTimeInterval)time{
-    [self kj_displayHintText:text time:time position:KJPlayerHintPositionCenter];
-}
-- (void)kj_displayHintText:(id)text time:(NSTimeInterval)time position:(id)position{
-    [self kj_displayHintText:text time:time max:self.playerView.hintTextLayer.maxWidth position:position];
-}
-- (void)kj_displayHintText:(id)text time:(NSTimeInterval)time max:(float)max position:(id)position{
-    kGCD_player_main(^{
-        if (CGRectEqualToRect(CGRectZero, self.playerView.frame)) {
-            return;
-        }        
-    });
-    [self.playerView.hintTextLayer kj_displayHintText:text time:time max:max position:position playerView:self.playerView];
-    if (self.playerView.hintTextLayer.superlayer == nil) {
-        [self.playerView.layer addSublayer:self.playerView.hintTextLayer];
-    }
-    /// 先取消上次的延时执行
-    [NSObject cancelPreviousPerformRequestsWithTarget:self selector:@selector(kj_hideHintText) object:nil];
-    if (time) {
-        [self performSelector:@selector(kj_hideHintText) withObject:nil afterDelay:time];
-    }
-}
-/// 隐藏提示文字 
-- (void)kj_hideHintText{
-    [self.playerView.hintTextLayer removeFromSuperlayer];
-}
-
-#pragma mark - 心跳包板块
 
 @end

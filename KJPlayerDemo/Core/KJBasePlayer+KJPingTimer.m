@@ -8,7 +8,6 @@
 
 #import "KJBasePlayer+KJPingTimer.h"
 #import <objc/runtime.h>
-#import <objc/message.h>
 
 @interface KJBasePlayer ()
 @property (nonatomic,assign) NSTimeInterval lastTime;
@@ -37,7 +36,7 @@
     if (!self.openPing) return;
     if (self.pingTimer) {
         [self kj_playerResumeTimer:self.pingTimer];
-    }else{
+    } else {
         if (!self.maxConnect) self.maxConnect = 3;
         self.pingTimer = [self kj_playerCreateAsyncTimer:YES Task:^{
             [self pingInvoke];
@@ -56,14 +55,14 @@
 //        xxxx = 0;
 //        self.lastTime = self.currentTime;
         state = KJPlayerVideoPingTimerStatePing;
-//    }else{
+//    } else {
 //        xxxx++;
 //        if (xxxx > self.maxConnect) {
 //            xxxx = 0;
 //            self.lastTime = 0;
 //            [self kj_closePingTimer];
 //            state = KJPlayerVideoPingTimerStateFailed;
-//        }else{
+//        } else {
 //            state = KJPlayerVideoPingTimerStateReconnect;
 //        }
 //    }
@@ -80,7 +79,7 @@
     object_setClass(self, clazz);
     if ([__name isEqualToString:self.lastSourceName]) {
         return;
-    }else{
+    } else {
         self.lastSourceName = __name;
     }
 //    if ([__name isEqualToString:@"KJAVPlayer"]) {
@@ -179,10 +178,10 @@
         if (weaktarget == nil) {
             dispatch_source_cancel(timer);
             timer = NULL;
-        }else{
+        } else {
             if (repeats) {
                 task();
-            }else{
+            } else {
                 task();
                 [self kj_playerStopTimer:timer];
             }

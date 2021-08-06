@@ -23,7 +23,7 @@
 - (UIInterfaceOrientationMask)application:(UIApplication *)application supportedInterfaceOrientationsForWindow:(UIWindow *)window{
     if (self.rotateOrientation) {
         return self.rotateOrientation;
-    }else{
+    } else {
         return UIInterfaceOrientationMaskPortrait;
     }
 }

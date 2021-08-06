@@ -8,8 +8,10 @@
 
 #import "KJPlayerSystemLayer.h"
 #import <MediaPlayer/MPVolumeView.h>
+
 @interface KJPlayerSystemLayer ()
 @property (nonatomic,strong) UISlider *systemVolumeSlider;
+
 @end
 
 @implementation KJPlayerSystemLayer
@@ -32,13 +34,14 @@
     _value = MIN(MAX(0, value), 1);
     if (self.isBrightness) {
         [UIScreen mainScreen].brightness = _value;
-    }else{
+    } else {
         [self.systemVolumeSlider setValue:_value animated:NO];
     }
     [self setNeedsDisplay];
 }
 
 #pragma mark - draw
+
 - (void)drawInContext:(CGContextRef)context{
     CGFloat width = self.frame.size.width;
     CGFloat y = self.frame.size.height / 2;
@@ -54,16 +57,15 @@
         [self.mainColor set];
         CGContextAddArc(context, w+_sp, y, mark/4, 0, 2*M_PI, 1);
         CGContextFillPath(context);
-        
         [self.mainColor set];
         CGContextSetLineWidth(context, line*2);
-        for (int i=0; i<12; i++) {
+        for (int i = 0; i < 12; i++) {
             float angle_start = radians(i*30);
             float angle_end = radians((i+1)*30-15);
             CGContextAddArc(context, w+_sp, y, mark/2, angle_start, angle_end, 0);
             CGContextStrokePath(context);
         }
-    }else{
+    } else {
         [self.mainColor set];
         CGContextSetLineWidth(context, line);
         CGContextAddArc(context, w+_sp, h/5*3, w-line, 0, M_PI, 0);
@@ -102,6 +104,7 @@ static inline float radians(double degrees) {
 }
 
 #pragma mark - lazy
+
 - (UISlider *)systemVolumeSlider{
     if (!_systemVolumeSlider) {
         MPVolumeView *volumeView = [[MPVolumeView alloc] init];

@@ -25,9 +25,9 @@
 /* 当前播放器状态 */
 - (void)kj_player:(KJBasePlayer*)player state:(KJPlayerState)state{
     if (state == KJPlayerStateBuffering || state == KJPlayerStatePausing) {
-        [player kj_startAnimation];
+        [player.playerView.loadingLayer kj_startAnimation];
     }else if (state == KJPlayerStatePreparePlay || state == KJPlayerStatePlaying) {
-        [player kj_stopAnimation];
+        [player.playerView.loadingLayer kj_stopAnimation];
     }else if (state == KJPlayerStatePlayFinished) {
         [player kj_replay];
     }
@@ -53,11 +53,11 @@
         [attributes2 setValue:[UIFont systemFontOfSize:16] forKey:NSFontAttributeName];
         [attributes2 setValue:UIColor.yellowColor forKey:NSForegroundColorAttributeName];
         [string setAttributes:attributes2 range:NSMakeRange(0, 5)];
-        [player kj_displayHintText:string time:5 position:KJPlayerHintPositionBottom];
+        [player.playerView.hintTextLayer kj_displayHintText:string time:5 position:KJPlayerHintPositionBottom];
     }else if (failed.code == KJPlayerCustomCodeCachedComplete) {
-        [player kj_displayHintText:@"本地数据!!!" time:10 position:KJPlayerHintPositionBottom];
+        [player.playerView.hintTextLayer kj_displayHintText:@"本地数据!!!" time:10 position:KJPlayerHintPositionBottom];
     }else if (failed.code == KJPlayerCustomCodeCacheNone) {
-        [player kj_displayHintText:@"本地暂无数据" time:2 position:KJPlayerHintPositionCenter];
+        [player.playerView.hintTextLayer kj_displayHintText:@"本地暂无数据" time:2 position:KJPlayerHintPositionCenter];
     }
 }
 

@@ -26,7 +26,7 @@
 		682399BD25D81D830086965B /* KJResourceLoader.m in Sources */ = {isa = PBXBuildFile; fileRef = 682399B225D81D830086965B /* KJResourceLoader.m */; };
 		6825922B25E347E1009751D4 /* KJPlayerFastLayer.m in Sources */ = {isa = PBXBuildFile; fileRef = 6825922A25E347E1009751D4 /* KJPlayerFastLayer.m */; };
 		682AFD4D25E3E49800BEC876 /* KJPlayerLoadingLayer.m in Sources */ = {isa = PBXBuildFile; fileRef = 682AFD4C25E3E49800BEC876 /* KJPlayerLoadingLayer.m */; };
-		682AFD6E25E3EBEF00BEC876 /* KJPlayerHintTextLayer.m in Sources */ = {isa = PBXBuildFile; fileRef = 682AFD6D25E3EBEF00BEC876 /* KJPlayerHintTextLayer.m */; };
+		682AFD6E25E3EBEF00BEC876 /* KJPlayerHintLayer.m in Sources */ = {isa = PBXBuildFile; fileRef = 682AFD6D25E3EBEF00BEC876 /* KJPlayerHintLayer.m */; };
 		6838C30525F5C2790093AA8B /* KJPlayerFont.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 6838C30425F5C2790093AA8B /* KJPlayerFont.ttf */; };
 		6848DA6E25DD7A78007AEC85 /* KJScreenshotsPlayerVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 6848DA6D25DD7A78007AEC85 /* KJScreenshotsPlayerVC.m */; };
 		684F00BC25D3BEB600CCC718 /* KJBasePlayer.m in Sources */ = {isa = PBXBuildFile; fileRef = 684F00BB25D3BEB600CCC718 /* KJBasePlayer.m */; };
@@ -66,9 +66,11 @@
 		68E902F925CFFEB9003FB88D /* DBPlayer.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 68E902F725CFFEB9003FB88D /* DBPlayer.xcdatamodeld */; };
 		68EB637C25EC89ED00D7C420 /* KJIJKPlayer.m in Sources */ = {isa = PBXBuildFile; fileRef = 68EB637B25EC89ED00D7C420 /* KJIJKPlayer.m */; };
 		68F451EB25D526C500F719F9 /* KJAVPlayer+KJCache.m in Sources */ = {isa = PBXBuildFile; fileRef = 68F451EA25D526C500F719F9 /* KJAVPlayer+KJCache.m */; };
-		68F47AA025D0196200A53101 /* DBPlayerDataInfo.m in Sources */ = {isa = PBXBuildFile; fileRef = 68F47A9F25D0196200A53101 /* DBPlayerDataInfo.m */; };
+		68F47AA025D0196200A53101 /* DBPlayerDataManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 68F47A9F25D0196200A53101 /* DBPlayerDataManager.m */; };
 		68F6309B25D6AB9E00AAEFCF /* KJTablePlayerVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 68F6309A25D6AB9E00AAEFCF /* KJTablePlayerVC.m */; };
 		B500094B2C6B8DF274A1D74C /* Pods_KJPlayerDemo.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7FEF462326AB2D48A4290908 /* Pods_KJPlayerDemo.framework */; };
+		C922846426BCC67A00F7D327 /* DBPlayerData.m in Sources */ = {isa = PBXBuildFile; fileRef = C922846326BCC67A00F7D327 /* DBPlayerData.m */; };
+		C922846D26BCC7A200F7D327 /* KJCustomManager.m in Sources */ = {isa = PBXBuildFile; fileRef = C922846C26BCC7A200F7D327 /* KJCustomManager.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -123,8 +125,8 @@
 		6825922A25E347E1009751D4 /* KJPlayerFastLayer.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = KJPlayerFastLayer.m; sourceTree = "<group>"; };
 		682AFD4B25E3E49800BEC876 /* KJPlayerLoadingLayer.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = KJPlayerLoadingLayer.h; sourceTree = "<group>"; };
 		682AFD4C25E3E49800BEC876 /* KJPlayerLoadingLayer.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = KJPlayerLoadingLayer.m; sourceTree = "<group>"; };
-		682AFD6C25E3EBEF00BEC876 /* KJPlayerHintTextLayer.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = KJPlayerHintTextLayer.h; sourceTree = "<group>"; };
-		682AFD6D25E3EBEF00BEC876 /* KJPlayerHintTextLayer.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = KJPlayerHintTextLayer.m; sourceTree = "<group>"; };
+		682AFD6C25E3EBEF00BEC876 /* KJPlayerHintLayer.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = KJPlayerHintLayer.h; sourceTree = "<group>"; };
+		682AFD6D25E3EBEF00BEC876 /* KJPlayerHintLayer.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = KJPlayerHintLayer.m; sourceTree = "<group>"; };
 		68370A7D25DB7FB40020F4BE /* KJBaseUIPlayer.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = KJBaseUIPlayer.h; sourceTree = "<group>"; };
 		6838C30425F5C2790093AA8B /* KJPlayerFont.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = KJPlayerFont.ttf; sourceTree = "<group>"; };
 		6842658325A989420038FFCF /* KJPlayerType.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = KJPlayerType.h; sourceTree = "<group>"; };
@@ -200,14 +202,18 @@
 		68EC0D762360025D00867AAB /* KJPlayerHeader.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = KJPlayerHeader.h; sourceTree = "<group>"; };
 		68F451E925D526C500F719F9 /* KJAVPlayer+KJCache.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "KJAVPlayer+KJCache.h"; sourceTree = "<group>"; };
 		68F451EA25D526C500F719F9 /* KJAVPlayer+KJCache.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = "KJAVPlayer+KJCache.m"; sourceTree = "<group>"; };
-		68F47A9E25D0196200A53101 /* DBPlayerDataInfo.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DBPlayerDataInfo.h; sourceTree = "<group>"; };
-		68F47A9F25D0196200A53101 /* DBPlayerDataInfo.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = DBPlayerDataInfo.m; sourceTree = "<group>"; };
+		68F47A9E25D0196200A53101 /* DBPlayerDataManager.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DBPlayerDataManager.h; sourceTree = "<group>"; };
+		68F47A9F25D0196200A53101 /* DBPlayerDataManager.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = DBPlayerDataManager.m; sourceTree = "<group>"; };
 		68F6309925D6AB9E00AAEFCF /* KJTablePlayerVC.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = KJTablePlayerVC.h; sourceTree = "<group>"; };
 		68F6309A25D6AB9E00AAEFCF /* KJTablePlayerVC.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = KJTablePlayerVC.m; sourceTree = "<group>"; };
 		74836F060C378E015B277023 /* Pods-KJPlayerDemo.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-KJPlayerDemo.release.xcconfig"; path = "Target Support Files/Pods-KJPlayerDemo/Pods-KJPlayerDemo.release.xcconfig"; sourceTree = "<group>"; };
 		7FEF462326AB2D48A4290908 /* Pods_KJPlayerDemo.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_KJPlayerDemo.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		8454464B99E087E75C3480AC /* Pods-KJPlayerDemoTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-KJPlayerDemoTests.release.xcconfig"; path = "Target Support Files/Pods-KJPlayerDemoTests/Pods-KJPlayerDemoTests.release.xcconfig"; sourceTree = "<group>"; };
 		A625A820C5F9B723B5D49992 /* Pods_KJPlayerDemoTests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_KJPlayerDemoTests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		C922846226BCC67A00F7D327 /* DBPlayerData.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DBPlayerData.h; sourceTree = "<group>"; };
+		C922846326BCC67A00F7D327 /* DBPlayerData.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = DBPlayerData.m; sourceTree = "<group>"; };
+		C922846B26BCC7A200F7D327 /* KJCustomManager.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = KJCustomManager.h; sourceTree = "<group>"; };
+		C922846C26BCC7A200F7D327 /* KJCustomManager.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = KJCustomManager.m; sourceTree = "<group>"; };
 		CBF6EBDBCF6E0D0E0D970B1D /* Pods-KJPlayerDemoTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-KJPlayerDemoTests.debug.xcconfig"; path = "Target Support Files/Pods-KJPlayerDemoTests/Pods-KJPlayerDemoTests.debug.xcconfig"; sourceTree = "<group>"; };
 		E733241E0A775FE835BF0671 /* Pods-KJPlayerDemo.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-KJPlayerDemo.debug.xcconfig"; path = "Target Support Files/Pods-KJPlayerDemo/Pods-KJPlayerDemo.debug.xcconfig"; sourceTree = "<group>"; };
 		F55091957307083E004EF6AE /* Pods-KJPlayerDemo-KJPlayerDemoUITests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-KJPlayerDemo-KJPlayerDemoUITests.release.xcconfig"; path = "Target Support Files/Pods-KJPlayerDemo-KJPlayerDemoUITests/Pods-KJPlayerDemo-KJPlayerDemoUITests.release.xcconfig"; sourceTree = "<group>"; };
@@ -303,8 +309,8 @@
 				68E17A5625DB5785008DC2BC /* KJBasePlayerView.m */,
 				6825922925E347E1009751D4 /* KJPlayerFastLayer.h */,
 				6825922A25E347E1009751D4 /* KJPlayerFastLayer.m */,
-				682AFD6C25E3EBEF00BEC876 /* KJPlayerHintTextLayer.h */,
-				682AFD6D25E3EBEF00BEC876 /* KJPlayerHintTextLayer.m */,
+				682AFD6C25E3EBEF00BEC876 /* KJPlayerHintLayer.h */,
+				682AFD6D25E3EBEF00BEC876 /* KJPlayerHintLayer.m */,
 				682AFD4B25E3E49800BEC876 /* KJPlayerLoadingLayer.h */,
 				682AFD4C25E3E49800BEC876 /* KJPlayerLoadingLayer.m */,
 				6890052225EA8115001AEF82 /* KJPlayerOperationView.h */,
@@ -313,8 +319,6 @@
 				68A46BF725E177B9006EF5FD /* KJPlayerSystemLayer.m */,
 				68589B7025F3D30F00D6198F /* KJPlayerButton.h */,
 				68589B7125F3D30F00D6198F /* KJPlayerButton.m */,
-				68D6830625FB0BF100E7ECDB /* KJPlayerStatusLayer.h */,
-				68D6830725FB0BF100E7ECDB /* KJPlayerStatusLayer.m */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -342,8 +346,10 @@
 			isa = PBXGroup;
 			children = (
 				68E902F725CFFEB9003FB88D /* DBPlayer.xcdatamodeld */,
-				68F47A9E25D0196200A53101 /* DBPlayerDataInfo.h */,
-				68F47A9F25D0196200A53101 /* DBPlayerDataInfo.m */,
+				C922846226BCC67A00F7D327 /* DBPlayerData.h */,
+				C922846326BCC67A00F7D327 /* DBPlayerData.m */,
+				68F47A9E25D0196200A53101 /* DBPlayerDataManager.h */,
+				68F47A9F25D0196200A53101 /* DBPlayerDataManager.m */,
 				68A5B2FB25A9967F0002C06D /* KJBaseFunctionPlayer.h */,
 				684F00BA25D3BEB600CCC718 /* KJBasePlayer.h */,
 				684F00BB25D3BEB600CCC718 /* KJBasePlayer.m */,
@@ -352,6 +358,8 @@
 				68370A7D25DB7FB40020F4BE /* KJBaseUIPlayer.h */,
 				68068C4525DCB4AF00D7D3E2 /* KJCacheManager.h */,
 				68068C4625DCB4AF00D7D3E2 /* KJCacheManager.m */,
+				C922846B26BCC7A200F7D327 /* KJCustomManager.h */,
+				C922846C26BCC7A200F7D327 /* KJCustomManager.m */,
 				68EB637225EC834100D7C420 /* KJPlayerProtocol.h */,
 				6842658325A989420038FFCF /* KJPlayerType.h */,
 				68A7D97425E53F14009636B0 /* KJRotateManager.h */,
@@ -386,6 +394,8 @@
 			isa = PBXGroup;
 			children = (
 				68EC0D762360025D00867AAB /* KJPlayerHeader.h */,
+				C922847E26BD194E00F7D327 /* OtherView */,
+				C922847A26BD0C0200F7D327 /* Expert */,
 				682D3D4925E0BA6F00572963 /* View */,
 				6842659125A9908A0038FFCF /* Core */,
 				682EB29225F0EBA600306C90 /* KJAVDownloader */,
@@ -543,6 +553,22 @@
 			path = KJIJKPlayer;
 			sourceTree = "<group>";
 		};
+		C922847A26BD0C0200F7D327 /* Expert */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = Expert;
+			sourceTree = "<group>";
+		};
+		C922847E26BD194E00F7D327 /* OtherView */ = {
+			isa = PBXGroup;
+			children = (
+				68D6830625FB0BF100E7ECDB /* KJPlayerStatusLayer.h */,
+				68D6830725FB0BF100E7ECDB /* KJPlayerStatusLayer.m */,
+			);
+			path = OtherView;
+			sourceTree = "<group>";
+		};
 		E7E958B8FD442A1FF229C22F /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
@@ -618,7 +644,7 @@
 		689D5A6B22E3011200DE33FC /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
-				LastUpgradeCheck = 1200;
+				LastUpgradeCheck = 1240;
 				ORGANIZATIONNAME = "杨科军";
 				TargetAttributes = {
 					689D5A7222E3011200DE33FC = {
@@ -784,13 +810,15 @@
 				68EB637C25EC89ED00D7C420 /* KJIJKPlayer.m in Sources */,
 				68F6309B25D6AB9E00AAEFCF /* KJTablePlayerVC.m in Sources */,
 				68A7D97625E53F14009636B0 /* KJRotateManager.m in Sources */,
-				682AFD6E25E3EBEF00BEC876 /* KJPlayerHintTextLayer.m in Sources */,
+				682AFD6E25E3EBEF00BEC876 /* KJPlayerHintLayer.m in Sources */,
 				68D30DE225EFCBC0001D3117 /* KJChangeSourceVC.m in Sources */,
+				C922846D26BCC7A200F7D327 /* KJCustomManager.m in Sources */,
 				680D3D6525DBE44B00D21574 /* KJTryLookPlayerVC.m in Sources */,
+				C922846426BCC67A00F7D327 /* DBPlayerData.m in Sources */,
 				68D7BDD225DC0D7F00CFE789 /* KJM3u8PlayerVC.m in Sources */,
 				684F00BC25D3BEB600CCC718 /* KJBasePlayer.m in Sources */,
 				68E17A6F25DB6E99008DC2BC /* KJRecordPlayerVC.m in Sources */,
-				68F47AA025D0196200A53101 /* DBPlayerDataInfo.m in Sources */,
+				68F47AA025D0196200A53101 /* DBPlayerDataManager.m in Sources */,
 				680D192125F46EA900BD55F4 /* KJIJKPlayerVC.m in Sources */,
 				68B2554625C99061008515F4 /* KJMidiPlayerVC.m in Sources */,
 				6890052425EA8115001AEF82 /* KJPlayerOperationView.m in Sources */,
@@ -915,7 +943,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 14.4;
 				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
 				MTL_FAST_MATH = YES;
 				ONLY_ACTIVE_ARCH = YES;
@@ -969,7 +997,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 14.4;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				MTL_FAST_MATH = YES;
 				SDKROOT = iphoneos;
@@ -994,7 +1022,7 @@
 				GCC_PREFIX_HEADER = "$(SRCROOT)/KJPlayerDemo/PrefixHeader.pch";
 				HEADER_SEARCH_PATHS = "\"$(PROJECT_DIR)/KJPlayerDemo/KJIJKPlayer/IJKMediaFramework.framework/Headers\"";
 				INFOPLIST_FILE = "$(SRCROOT)/KJPlayerDemo/Info.plist";
-				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 12.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -1022,7 +1050,7 @@
 				GCC_PREFIX_HEADER = "$(SRCROOT)/KJPlayerDemo/PrefixHeader.pch";
 				HEADER_SEARCH_PATHS = "\"$(PROJECT_DIR)/KJPlayerDemo/KJIJKPlayer/IJKMediaFramework.framework/Headers\"";
 				INFOPLIST_FILE = "$(SRCROOT)/KJPlayerDemo/Info.plist";
-				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 12.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",

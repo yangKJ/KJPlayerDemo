@@ -7,6 +7,7 @@
 //  https://github.com/yangKJ/KJPlayerDemo
 
 #import "BaseViewController.h"
+#import "KJBasePlayer+KJPingTimer.h"
 
 @interface BaseViewController ()<KJPlayerBaseViewDelegate>
 
@@ -78,7 +79,7 @@
     player.placeholder = backview.image;
     player.playerView = backview;
     player.openPing = YES;
-    [player kj_startAnimation];
+    [player.playerView.loadingLayer kj_startAnimation];
     player.roregroundResume = YES;
     player.kVideoTotalTime = ^(NSTimeInterval time) {
         slider.maximumValue = time;
@@ -113,10 +114,10 @@
 - (void)kj_basePlayerView:(KJBasePlayerView*)view isSingleTap:(BOOL)tap{
     if (tap) {
         
-    }else{
+    } else {
         if ([self.player isPlaying]) {
             [self.player kj_pause];
-        }else{
+        } else {
             [self.player kj_resume];
         }
     }
@@ -126,7 +127,7 @@
     switch (longPress.state) {
         case UIGestureRecognizerStateBegan: {
             self.player.speed = 2.;
-            [self.player kj_displayHintText:@"长按快进播放中..." time:0 position:KJPlayerHintPositionTop];
+            [self.player.playerView.hintTextLayer kj_displayHintText:@"长按快进播放中..." time:0 position:KJPlayerHintPositionTop];
         }
             break;
         case UIGestureRecognizerStateChanged: {
@@ -134,7 +135,7 @@
             break;
         case UIGestureRecognizerStateEnded: {
             self.player.speed = 1.0;
-            [self.player kj_hideHintText];
+            [self.player.playerView.hintTextLayer kj_hideHintText];
         }
         default:
             break;

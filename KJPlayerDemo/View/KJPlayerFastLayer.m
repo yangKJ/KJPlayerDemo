@@ -26,7 +26,7 @@
     return self;
 }
 /// 设置数据
-- (void)kj_updateFastValue:(CGFloat)value TotalTime:(CGFloat)time{
+- (void)kj_updateFastValue:(CGFloat)value totalTime:(CGFloat)time{
     self.value = MIN(MAX(0, value), time);
     self.time = time;
     self.textLayer.string = [NSString stringWithFormat:@"%@ / %@", kPlayerConvertTime(self.value), kPlayerConvertTime(self.time)];

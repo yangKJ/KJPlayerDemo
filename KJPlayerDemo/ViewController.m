@@ -7,7 +7,7 @@
 //  https://github.com/yangKJ/KJPlayerDemo
 
 #import "ViewController.h"
-#import "DBPlayerDataInfo.h"
+#import "KJCustomManager.h"
 @interface ViewController ()<UITableViewDelegate,UITableViewDataSource>
 @property(nonatomic,strong) UITableView *tableView;
 @property(nonatomic,strong) NSArray *temps;
@@ -20,18 +20,18 @@
     self.title = @"KJPlayerDemo 🎷";
     
     //开启日志打印
-    [DBPlayerDataInfo kj_openLogRankType:(KJPlayerVideoRankTypeOne)];
+    [KJCustomManager kj_openLogRankType:(KJPlayerVideoRankTypeOne)];
     
     //暗黑模式
     if (@available(iOS 13.0, *)) {
         self.view.backgroundColor = [UIColor colorWithDynamicProvider:^UIColor * _Nonnull(UITraitCollection * _Nonnull trainCollection) {
             if ([trainCollection userInterfaceStyle] == UIUserInterfaceStyleLight) {
                 return UIColor.whiteColor;
-            }else{
+            } else {
                 return UIColor.blackColor;
             }
         }];
-    }else{
+    } else {
         self.view.backgroundColor = UIColor.whiteColor;
     }
     

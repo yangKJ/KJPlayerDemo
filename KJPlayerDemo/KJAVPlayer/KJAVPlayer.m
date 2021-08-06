@@ -8,6 +8,7 @@
 
 #import "KJAVPlayer.h"
 //#import "KJAVPlayer+KJCache.h"
+#import "KJCacheManager.h"
 
 #pragma clang diagnostic push
 #pragma clang diagnostic ignored"-Wdeprecated-declarations"
@@ -60,7 +61,7 @@ static NSString * const kTimeControlStatus = @"timeControlStatus";
             if (isnan(sec) || sec < 0) sec = 0;
             if (sec) {
                 self.isLiveStreaming = NO;
-            }else{
+            } else {
                 self.isLiveStreaming = YES;
             }
             if (self.totalTime <= 0) {
@@ -69,10 +70,10 @@ static NSString * const kTimeControlStatus = @"timeControlStatus";
             }
             self.state = KJPlayerStatePreparePlay;
         }else if (playerItem.status == AVPlayerItemStatusFailed) {
-            self.playError = [DBPlayerDataInfo kj_errorSummarizing:KJPlayerCustomCodeAVPlayerItemStatusFailed];
+            self.playError = [KJCustomManager kj_errorSummarizing:KJPlayerCustomCodeAVPlayerItemStatusFailed];
             self.state = KJPlayerStateFailed;
         }else if (playerItem.status == AVPlayerItemStatusUnknown) {
-            self.playError = [DBPlayerDataInfo kj_errorSummarizing:KJPlayerCustomCodeAVPlayerItemStatusUnknown];
+            self.playError = [KJCustomManager kj_errorSummarizing:KJPlayerCustomCodeAVPlayerItemStatusUnknown];
             self.state = KJPlayerStateFailed;
         }
     }else if ([keyPath isEqualToString:kLoadedTimeRanges]) {//监听播放器缓冲进度
@@ -85,7 +86,7 @@ static NSString * const kTimeControlStatus = @"timeControlStatus";
             if (duration <= self.cacheTime || start == 0) {
                 [self.player pause];
                 self.state = KJPlayerStateBuffering;
-            }else{
+            } else {
                 [self kj_autoPlay];
             }
             return;
@@ -104,7 +105,7 @@ static NSString * const kTimeControlStatus = @"timeControlStatus";
         if ((start + duration - self.cacheTime) >= self.currentTime ||
             (self.totalTime - self.currentTime) <= self.cacheTime) {
             [self kj_autoPlay];
-        }else{
+        } else {
             [self.player pause];
             self.state = KJPlayerStateBuffering;
         }
@@ -126,7 +127,7 @@ static NSString * const kTimeControlStatus = @"timeControlStatus";
         }
     }else if ([keyPath isEqualToString:kTimeControlStatus]) {
         NSLog(@"kTimeControlStatus:%@",object);
-    }else{
+    } else {
         
     }
 }
@@ -156,7 +157,7 @@ static NSString * const kTimeControlStatus = @"timeControlStatus";
         }
         if ([weakself kj_tryLook:sec]) {
             [weakself kj_pause];
-        }else{
+        } else {
             weakself.currentTime = sec;
         }
     }];
@@ -206,14 +207,6 @@ static NSString * const kTimeControlStatus = @"timeControlStatus";
     self.locality = [super kj_judgeHaveCacheWithVideoURL:videoURL];
     return self.locality;
 }
-/// 圆圈加载动画 
-- (void)kj_startAnimation{
-    [super kj_startAnimation];
-}
-/// 停止动画 
-- (void)kj_stopAnimation{
-    [super kj_stopAnimation];
-}
 
 #pragma mark - private method
 /// 切换内核时的清理工作（名字不能改，动态切换时有使用）
@@ -255,7 +248,7 @@ static NSString * const kTimeControlStatus = @"timeControlStatus";
     [self kj_removePlayerItem];
     if (self.player) {
         [self.player replaceCurrentItemWithPlayerItem:self.playerItem];
-    }else{
+    } else {
         self.player = [[AVPlayer alloc] initWithPlayerItem:self.playerItem];
         if (@available(iOS 10.0, *)) {
             if ([self.player respondsToSelector:@selector(automaticallyWaitsToMinimizeStalling)]) {
@@ -289,7 +282,7 @@ static NSString * const kTimeControlStatus = @"timeControlStatus";
     }
 #pragma mark - 记录播放/跳过片头
     if (self.recordLastTime) {
-        NSTimeInterval time = [DBPlayerDataInfo kj_getLastTimeDbid:kPlayerIntactName(self.originalURL)];
+        NSTimeInterval time = [DBPlayerData kj_getLastTimeDbid:kPlayerIntactName(self.originalURL)];
         if (self.recordTimeBlock) {
             kGCD_player_main(^{
                 self.recordTimeBlock(time);
@@ -303,7 +296,7 @@ static NSString * const kTimeControlStatus = @"timeControlStatus";
             });
         }
         self.kVideoAdvanceAndReverse(self.skipHeadTime,nil);
-    }else{
+    } else {
         [self kj_autoPlay];
     }
 }
@@ -341,7 +334,7 @@ static NSString * const kTimeControlStatus = @"timeControlStatus";
                 if (self.tryTimeBlock) self.tryTimeBlock();
             });
         }
-    }else{
+    } else {
         self.currentTime = time;
         self.tryLooked = NO;
     }
@@ -384,7 +377,7 @@ BOOL kPlayerHaveTracks(NSURL *videoURL, void(^assetblock)(AVURLAsset *), NSDicti
 - (void)setVideoURL:(NSURL *)videoURL{
     [self kj_initializeBeginPlayConfiguration];
     if (kPlayerVideoAesstType(videoURL) == KJPlayerAssetTypeNONE) {
-        self.playError = [DBPlayerDataInfo kj_errorSummarizing:KJPlayerCustomCodeVideoURLUnknownFormat];
+        self.playError =  [KJCustomManager kj_errorSummarizing:KJPlayerCustomCodeVideoURLUnknownFormat];
         if (self.player) [self kj_stop];
         _videoURL = videoURL;
         return;
@@ -397,20 +390,17 @@ BOOL kPlayerHaveTracks(NSURL *videoURL, void(^assetblock)(AVURLAsset *), NSDicti
             if (!kPlayerHaveTracks(videoURL, ^(AVURLAsset * asset) {
                 weakself.asset = asset;
             }, weakself.requestHeader)) {
-                weakself.playError = [DBPlayerDataInfo kj_errorSummarizing:KJPlayerCustomCodeVideoURLFault];
+                weakself.playError =  [KJCustomManager kj_errorSummarizing:KJPlayerCustomCodeVideoURLFault];
                 weakself.state = KJPlayerStateFailed;
                 [weakself kj_destroyPlayer];
                 return;
             }
         }
         [weakself kj_judgeHaveCacheWithVideoURL:&tempURL];
-        if (weakself.kPlayerDynamicChangeSource()) {
+        if (![tempURL.absoluteString isEqualToString:self->_videoURL.absoluteString]) {
             self->_videoURL = tempURL;
             [weakself kj_initPreparePlayer];
-        }else if (![tempURL.absoluteString isEqualToString:self->_videoURL.absoluteString]) {
-            self->_videoURL = tempURL;
-            [weakself kj_initPreparePlayer];
-        }else{
+        } else {
             [weakself kj_replay];
         }
     });
@@ -475,7 +465,7 @@ BOOL kPlayerHaveTracks(NSURL *videoURL, void(^assetblock)(AVURLAsset *), NSDicti
 - (BOOL)isPlaying{
     if (@available(iOS 10.0, *)) {
         return self.player.timeControlStatus == AVPlayerTimeControlStatusPlaying;
-    }else{
+    } else {
         return self.player.currentItem.status == AVPlayerStatusReadyToPlay;
     }
 }
@@ -488,7 +478,7 @@ BOOL kPlayerHaveTracks(NSURL *videoURL, void(^assetblock)(AVURLAsset *), NSDicti
             if (weakself.player) {
                 [weakself.player pause];
                 [weakself.player.currentItem cancelPendingSeeks];
-            }else{
+            } else {
                 if (xxblock) xxblock(NO);
             }
             NSTimeInterval time = seconds;
@@ -496,7 +486,7 @@ BOOL kPlayerHaveTracks(NSURL *videoURL, void(^assetblock)(AVURLAsset *), NSDicti
                 if (weakself.totalTime) {
                     NSTimeInterval _time = weakself.progress * weakself.totalTime;
                     if (time + weakself.cacheTime >= _time) time = _time - weakself.cacheTime;
-                }else{
+                } else {
                     time = weakself.currentTime;
                 }
             }
@@ -506,7 +496,7 @@ BOOL kPlayerHaveTracks(NSURL *videoURL, void(^assetblock)(AVURLAsset *), NSDicti
                     [strongself kj_pause];
                 }];
                 return;
-            }else{
+            } else {
                 weakself.currentTime = time;
             }
             [self.player seekToTime:CMTimeMakeWithSeconds(time, NSEC_PER_SEC) toleranceBefore:kCMTimeZero toleranceAfter:kCMTimeZero completionHandler:^(BOOL finished) {
@@ -555,7 +545,7 @@ BOOL kPlayerHaveTracks(NSURL *videoURL, void(^assetblock)(AVURLAsset *), NSDicti
                 });
                 CGImageRelease(imageRef);
                 CVBufferRelease(pixelBuffer);
-            }else{
+            } else {
                 CGImageRef imageRef = [self.imageGenerator copyCGImageAtTime:self.player.currentTime actualTime:NULL error:NULL];
                 UIImage *newImage = [[UIImage alloc] initWithCGImage:imageRef];
                 kGCD_player_main(^{
@@ -612,7 +602,7 @@ BOOL kPlayerHaveTracks(NSURL *videoURL, void(^assetblock)(AVURLAsset *), NSDicti
     if (!_playerItem) {
         if (self.asset) {
             _playerItem = [AVPlayerItem playerItemWithAsset:self.asset];
-        }else{
+        } else {
             _playerItem = [AVPlayerItem playerItemWithURL:self.videoURL];
         }
         [_playerItem addObserver:self forKeyPath:kStatus

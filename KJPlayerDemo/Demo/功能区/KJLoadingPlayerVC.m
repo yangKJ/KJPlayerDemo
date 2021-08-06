@@ -26,27 +26,16 @@
     [self.view addSubview:backview];
     backview.gestureType = KJPlayerGestureTypeAll;
     self.basePlayerView.delegate = self;
-    self.basePlayerView.kVideoHintTextInfo(^(KJPlayerHintInfo * _Nonnull info) {
-        info.maxWidth = 110;
-        info.background = [UIColor.greenColor colorWithAlphaComponent:0.3];
-        info.textColor = UIColor.greenColor;
-        info.font = [UIFont systemFontOfSize:15];
-    });
-    PLAYER_WEAKSELF;
-    self.basePlayerView.kVideoChangeScreenState = ^(KJPlayerVideoScreenState state) {
-        if (state == KJPlayerVideoScreenStateFullScreen) {
-            [weakself.navigationController setNavigationBarHidden:YES animated:YES];
-        }else{
-            [weakself.navigationController setNavigationBarHidden:NO animated:YES];
-        }
-    };
-    
+    [self.basePlayerView.hintTextLayer kj_setHintFont:[UIFont systemFontOfSize:15]
+                                            textColor:UIColor.greenColor
+                                           background:[UIColor.greenColor colorWithAlphaComponent:0.3]
+                                             maxWidth:110];
     KJAVPlayer *player = [[KJAVPlayer alloc]init];
     self.player = player;
     player.playerView = backview;
-    [player kj_startAnimation];
+    [player.playerView.loadingLayer kj_startAnimation];
     
-    [self.player kj_displayHintText:@"顺便测试文本提示框长文字" time:0 position:KJPlayerHintPositionBottom];
+    [self.player.playerView.hintTextLayer kj_displayHintText:@"顺便测试文本提示框长文字" time:0 position:KJPlayerHintPositionBottom];
     {
         UIButton *button = [UIButton buttonWithType:(UIButtonTypeCustom)];
         button.frame = CGRectMake(30, 350, 100, 50);
@@ -101,9 +90,9 @@
 - (void)buttonAction:(UIButton*)sender{
     sender.selected = !sender.selected;
     if (sender.selected) {
-        [self.player kj_stopAnimation];
+        [self.player.playerView.loadingLayer kj_stopAnimation];
     }else{
-        [self.player kj_startAnimation];
+        [self.player.playerView.loadingLayer kj_startAnimation];
     }
 }
 - (void)buttonAction2:(UIButton*)sender{
@@ -121,7 +110,7 @@
     if (index>=temps.count) {
         index = 0;
     }
-    [self.player kj_displayHintText:@"两秒后消失!!" time:2 position:temps[index]];
+    [self.player.playerView.hintTextLayer kj_displayHintText:@"两秒后消失!!" time:2 position:temps[index]];
 }
 
 #pragma mark - KJPlayerBaseViewDelegate
@@ -135,5 +124,13 @@
         }
     }
 }
+- (void)kj_basePlayerView:(__kindof KJBasePlayerView *)view screenState:(KJPlayerVideoScreenState)screenState{
+    if (screenState == KJPlayerVideoScreenStateFullScreen) {
+        [self.navigationController setNavigationBarHidden:YES animated:YES];
+    }else{
+        [self.navigationController setNavigationBarHidden:NO animated:YES];
+    }
+}
+
 
 @end

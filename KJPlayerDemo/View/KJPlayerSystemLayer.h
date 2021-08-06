@@ -13,9 +13,14 @@
 NS_ASSUME_NONNULL_BEGIN
 
 @interface KJPlayerSystemLayer : CALayer
+
+/// 主色调
 @property (nonatomic,strong) UIColor *mainColor;
+/// 副色调
 @property (nonatomic,strong) UIColor *viceColor;
+/// 是否为音量
 @property (nonatomic,assign) BOOL isBrightness;
+/// 当前值
 @property (nonatomic,assign) float value;
 
 @end

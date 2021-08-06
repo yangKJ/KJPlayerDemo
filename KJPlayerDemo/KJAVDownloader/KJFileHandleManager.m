@@ -7,6 +7,9 @@
 //  https://github.com/yangKJ/KJPlayerDemo
 
 #import "KJFileHandleManager.h"
+#import "KJCustomManager.h"
+#import "KJFileHandleInfo.h"
+#import "KJCacheManager.h"
 
 @interface KJFileHandleManager (){
     NSInteger kPackageLength;
@@ -37,7 +40,8 @@
         self.readHandle = [NSFileHandle fileHandleForReadingFromURL:fileURL error:nil];
         self.writeHandle = [NSFileHandle fileHandleForWritingToURL:fileURL error:nil];
         self.cacheInfo = [KJFileHandleInfo kj_createFileHandleInfoWithURL:url];
-        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(applicationDidEnterBackground:) name:UIApplicationDidEnterBackgroundNotification object:nil];
+        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(applicationDidEnterBackground:)
+                                                     name:UIApplicationDidEnterBackgroundNotification object:nil];
     }
     return self;
 }
@@ -65,36 +69,44 @@
                 NSInteger maxLocation = inRange.location + inRange.length;
                 NSInteger length = (offset + kPackageLength) > maxLocation ? (maxLocation - offset) : kPackageLength;
                 fragment.range = NSMakeRange(offset, length);
-                [fragments addObject:[DBPlayerDataInfo kj_cacheFragment:fragment]];
+                [fragments addObject:[KJCustomManager kj_cacheFragment:fragment]];
             }
         }else if (obj.rangeValue.location >= endOffset){
             *stop = YES;
         }
     }];
     if (fragments.count == 0){
-        [fragments addObject:[DBPlayerDataInfo kj_cacheFragment:(KJCacheFragment){1,range}]];
-    }else{//远端服务器碎片
+        [fragments addObject:[KJCustomManager kj_cacheFragment:(KJCacheFragment){1, range}]];
+    } else {//远端服务器碎片
         NSMutableArray *remoteFragments = [NSMutableArray array];
         [fragments enumerateObjectsUsingBlock:^(NSValue *obj, NSUInteger idx, BOOL *stop){
-            KJCacheFragment fragment = [DBPlayerDataInfo kj_getCacheFragment:obj];
+            KJCacheFragment fragment = [KJCustomManager kj_getCacheFragment:obj];
             if (idx == 0){
                 if (range.location < fragment.range.location){
-                    KJCacheFragment action = {1,NSMakeRange(range.location, fragment.range.location - range.location)};
-                    [remoteFragments addObject:[DBPlayerDataInfo kj_cacheFragment:action]];
+                    KJCacheFragment action = {1, NSMakeRange(range.location, fragment.range.location - range.location)};
+                    [remoteFragments addObject:[KJCustomManager kj_cacheFragment:action]];
                 }
-                [remoteFragments addObject:[DBPlayerDataInfo kj_cacheFragment:fragment]];
-            }else{
-                KJCacheFragment lastFragment = [DBPlayerDataInfo kj_getCacheFragment:remoteFragments.lastObject];
+                [remoteFragments addObject:[KJCustomManager kj_cacheFragment:fragment]];
+            } else {
+                KJCacheFragment lastFragment = [KJCustomManager kj_getCacheFragment:remoteFragments.lastObject];
                 NSInteger lastOffset = lastFragment.range.location + lastFragment.range.length;
-                if (fragment.range.location > lastOffset){
-                    [remoteFragments addObject:[DBPlayerDataInfo kj_cacheFragment:(KJCacheFragment){1,NSMakeRange(lastOffset, fragment.range.location - lastOffset)}]];
+                if (fragment.range.location > lastOffset) {
+                    @autoreleasepool {
+                        NSValue * value = [KJCustomManager kj_cacheFragment:
+                                           (KJCacheFragment){1, NSMakeRange(lastOffset, fragment.range.location - lastOffset)}];
+                        [remoteFragments addObject:value];
+                    }
                 }
-                [remoteFragments addObject:[DBPlayerDataInfo kj_cacheFragment:fragment]];
+                [remoteFragments addObject:[KJCustomManager kj_cacheFragment:fragment]];
             }
             if (idx == fragments.count - 1){
                 NSInteger localEndOffset = fragment.range.location + fragment.range.length;
-                if (endOffset > localEndOffset){
-                    [remoteFragments addObject:[DBPlayerDataInfo kj_cacheFragment:(KJCacheFragment){1,NSMakeRange(localEndOffset, endOffset - localEndOffset)}]];
+                if (endOffset > localEndOffset) {
+                    @autoreleasepool {
+                        NSValue * value = [KJCustomManager kj_cacheFragment:
+                                           (KJCacheFragment){1, NSMakeRange(localEndOffset, endOffset - localEndOffset)}];
+                        [remoteFragments addObject:value];
+                    }
                 }
             }
         }];

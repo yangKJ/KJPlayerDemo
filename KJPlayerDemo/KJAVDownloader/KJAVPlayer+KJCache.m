@@ -7,9 +7,9 @@
 //  https://github.com/yangKJ/KJPlayerDemo
 
 #import "KJAVPlayer+KJCache.h"
+#import <objc/runtime.h>
 #import "KJResourceLoader.h"
 #import "KJFileHandleInfo.h"
-#import <objc/runtime.h>
 
 @interface KJAVPlayer ()
 PLAYER_CACHE_COMMON_EXTENSION_PROPERTY
@@ -25,7 +25,7 @@ PLAYER_CACHE_COMMON_EXTENSION_PROPERTY
         self.cache = cache;
         PLAYER_WEAKSELF;
         if (kPlayerVideoAesstType(videoURL) == KJPlayerAssetTypeNONE) {
-            self.playError = [DBPlayerDataInfo kj_errorSummarizing:KJPlayerCustomCodeVideoURLUnknownFormat];
+            self.playError =  [KJCustomManager kj_errorSummarizing:KJPlayerCustomCodeVideoURLUnknownFormat];
             if (self.player) [self kj_stop];
             return NO;
         }else if (kPlayerVideoAesstType(videoURL) == KJPlayerAssetTypeHLS) {
@@ -43,18 +43,18 @@ PLAYER_CACHE_COMMON_EXTENSION_PROPERTY
             if (!kPlayerHaveTracks(tempURL, ^(AVURLAsset * asset) {
                 if (weakself.cache && weakself.locality == NO) {
                     weakself.state = KJPlayerStateBuffering;
-                    weakself.playError = [DBPlayerDataInfo kj_errorSummarizing:KJPlayerCustomCodeCacheNone];
+                    weakself.playError =  [KJCustomManager kj_errorSummarizing:KJPlayerCustomCodeCacheNone];
                     NSURL * URL = weakself.connection.kj_createSchemeURL(tempURL);
                     weakself.asset = [AVURLAsset URLAssetWithURL:URL options:weakself.requestHeader];
                     [weakself.asset.resourceLoader setDelegate:weakself.connection queue:dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0)];
-                }else{
+                } else {
                     weakself.asset = asset;
                 }
             }, weakself.requestHeader)) {
-                weakself.playError = [DBPlayerDataInfo kj_errorSummarizing:KJPlayerCustomCodeVideoURLFault];
+                weakself.playError =  [KJCustomManager kj_errorSummarizing:KJPlayerCustomCodeVideoURLFault];
                 weakself.state = KJPlayerStateFailed;
                 kPlayerPerformSel(weakself, @"kj_destroyPlayer");
-            }else{
+            } else {
                 kPlayerPerformSel(weakself, @"kj_initPreparePlayer");
             }
         });
@@ -63,13 +63,16 @@ PLAYER_CACHE_COMMON_EXTENSION_PROPERTY
 }
 
 #pragma mark - associated
+
 - (KJFileHandleInfo *)cacheInfo{
     return objc_getAssociatedObject(self, _cmd);
 }
 - (void)setCacheInfo:(KJFileHandleInfo *)cacheInfo{
     objc_setAssociatedObject(self, @selector(cacheInfo), cacheInfo, OBJC_ASSOCIATION_RETAIN_NONATOMIC);
 }
+
 #pragma mark - lazy
+
 static char connectionKey;
 - (KJResourceLoader *)connection{
     KJResourceLoader *connection = objc_getAssociatedObject(self, &connectionKey);
@@ -85,11 +88,11 @@ static char connectionKey;
                     if ([weakself kj_saveDatabaseVideoIntact:YES]) {
                         if ([weakself kj_saveDatabaseVideoIntact:YES]) {
                             kGCD_player_main(^{
-                                weakself.playError = [DBPlayerDataInfo kj_errorSummarizing:KJPlayerCustomCodeSaveDatabaseFailed];
+                                weakself.playError =  [KJCustomManager kj_errorSummarizing:KJPlayerCustomCodeSaveDatabaseFailed];
                                 weakself.state = KJPlayerStateFailed;
                             });
                         }
-                    }else{
+                    } else {
                         @synchronized (@(weakself.locality)) {
                             weakself.locality = YES;
                         }
@@ -102,7 +105,8 @@ static char connectionKey;
                 weakself.state = KJPlayerStateFailed;
             }
         };
-        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(kj_playerCacheInfoChanged:) name:kPlayerFileHandleInfoNotification object:nil];
+        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(kj_playerCacheInfoChanged:)
+                                                     name:kPlayerFileHandleInfoNotification object:nil];
     }
     return connection;
 }
@@ -110,7 +114,7 @@ static char connectionKey;
 - (BOOL)kj_saveDatabaseVideoIntact:(BOOL)videoIntact{
     PLAYER_WEAKSELF;
     NSError *__error;
-    [DBPlayerDataInfo kj_insertData:self.cacheInfo.fileName insert:^(DBPlayerData * data){
+    [DBPlayerDataManager kj_insertData:self.cacheInfo.fileName insert:^(DBPlayerData * data){
         data.dbid = weakself.cacheInfo.fileName;
         data.videoUrl = weakself.cacheInfo.videoURL.absoluteString;
         data.videoFormat = weakself.cacheInfo.fileFormat;
@@ -123,13 +127,14 @@ static char connectionKey;
         return YES;
     }else if (videoIntact) {
         kGCD_player_main(^{
-            weakself.playError = [DBPlayerDataInfo kj_errorSummarizing:KJPlayerCustomCodeSaveDatabase];
+            weakself.playError =  [KJCustomManager kj_errorSummarizing:KJPlayerCustomCodeSaveDatabase];
         });
     }
     return NO;
 }
 
 #pragma mark - notification
+
 - (void)kj_playerCacheInfoChanged:(NSNotification*)notification{
     self.cacheInfo = notification.userInfo[kPlayerFileHandleInfoKey];
     PLAYER_WEAKSELF;

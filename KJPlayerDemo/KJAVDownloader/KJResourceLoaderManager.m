@@ -7,8 +7,12 @@
 //  https://github.com/yangKJ/KJPlayerDemo
 
 #import "KJResourceLoaderManager.h"
+#import <AVFoundation/AVFoundation.h>
+#import <MobileCoreServices/MobileCoreServices.h>
 #import "KJDownloader.h"
 #import "KJFileHandleManager.h"
+#import "KJCustomManager.h"
+#import "KJFileHandleInfo.h"
 
 @interface KJResourceLoaderManager ()
 @property (nonatomic,strong, readwrite) NSURL *videoURL;
@@ -33,7 +37,7 @@
     KJDownloader *downloader;
     if (self.requests.count){
         downloader = [[KJDownloader alloc]initWithURL:self.videoURL fileHandleManager:self.fileHandleManager];
-    }else{
+    } else {
         downloader = self.downloader;
     }
     [self kj_addDownloader:downloader request:request];
@@ -48,8 +52,8 @@
     }];
     if (tempRequest) {
         if (tempRequest.isFinished == NO) {
-            [tempRequest finishLoadingWithError:[DBPlayerDataInfo kj_errorSummarizing:KJPlayerCustomCodeFinishLoading]];
-        }else{
+            [tempRequest finishLoadingWithError:[KJCustomManager kj_errorSummarizing:KJPlayerCustomCodeFinishLoading]];
+        } else {
             [tempRequest finishLoading];
         }
         [self.requests removeObject:tempRequest];
@@ -58,7 +62,7 @@
 - (void)kj_cancelLoading{
     [self.downloader kj_cancelDownload];
     [self.requests removeAllObjects];
-    [DBPlayerDataInfo.shared kj_removeDownloadURL:self.videoURL];
+    [KJCustomManager.shared kj_removeDownloadURL:self.videoURL];
 }
 
 #pragma mark - private method
@@ -66,7 +70,7 @@
 - (void)kj_addDownloader:(KJDownloader*)downloader request:(AVAssetResourceLoadingRequest*)request{
     kSetDownloadConfiguration(downloader, request);
     [self.requests addObject:request];
-    [DBPlayerDataInfo.shared kj_addDownloadURL:self.videoURL];
+    [KJCustomManager.shared kj_addDownloadURL:self.videoURL];
     PLAYER_WEAKSELF;
     downloader.kDidReceiveResponse = ^(KJDownloader * downloader, NSURLResponse * response) {
         kSetDownloadConfiguration(downloader, request);
@@ -80,12 +84,12 @@
             [weakself kj_cancelLoading];
         }else if (error){
             [request finishLoadingWithError:error];
-        }else{
+        } else {
             [request finishLoading];
             [weakself.requests removeObject:request];
         }
         if (weakself.requests.count == 0){
-            [DBPlayerDataInfo.shared kj_removeDownloadURL:weakself.videoURL];
+            [KJCustomManager.shared kj_removeDownloadURL:weakself.videoURL];
         }
         if ([weakself.delegate respondsToSelector:@selector(kj_resourceLoader:didFinished:)]){
             [weakself.delegate kj_resourceLoader:weakself didFinished:error];
@@ -113,7 +117,7 @@ NS_INLINE void kSetDownloadConfiguration(KJDownloader *downloader, AVAssetResour
     AVAssetResourceLoadingContentInformationRequest *request = loadingRequest.contentInformationRequest;
     if (downloader.fileHandleManager.cacheInfo.contentType) {
         request.contentType = downloader.fileHandleManager.cacheInfo.contentType;
-    }else{
+    } else {
         CFStringRef type = UTTypeCreatePreferredIdentifierForTag(kUTTagClassMIMEType, (__bridge CFStringRef)(@"video/mp4"), NULL);
         request.contentType = CFBridgingRelease(type);
     }

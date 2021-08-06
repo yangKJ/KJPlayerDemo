@@ -9,11 +9,21 @@
 
 #import <QuartzCore/QuartzCore.h>
 #import "KJPlayerType.h"
+
 NS_ASSUME_NONNULL_BEGIN
 
 @interface KJPlayerLoadingLayer : CAShapeLayer
-/// 圆圈加载动画 
-- (void)kj_setAnimationSize:(CGSize)size color:(UIColor*)color;
+
+/// 圆圈加载动画
+/// @param size 尺寸
+/// @param color 动画颜色
+- (void)kj_setAnimationSize:(CGSize)size color:(UIColor *)color;
+
+/// 圆圈加载动画
+- (void)kj_startAnimation;
+
+/// 停止动画
+- (void)kj_stopAnimation;
 
 @end
 
