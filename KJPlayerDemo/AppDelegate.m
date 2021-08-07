@@ -33,8 +33,10 @@
     UIBarButtonItem *barButtonItem = [UIBarButtonItem appearance];
     [barButtonItem setTitleTextAttributes:[NSDictionary dictionaryWithObjectsAndKeys:[UIFont systemFontOfSize:18], NSFontAttributeName, nil] forState:UIControlStateNormal];
     
-#if __has_include(<DoraemonKit/DoraemonManager.h>)
-    [[DoraemonManager shareInstance] install];
+#ifdef DEBUG
+    // DiDi开发工具，默认位置，解决遮挡关键区域减少频繁移动
+    CGPoint point = CGPointMake([UIScreen mainScreen].bounds.size.width-58, [UIScreen mainScreen].bounds.size.height-83);
+    [[DoraemonManager shareInstance] installWithStartingPosition:point];
 #endif
     
     return YES;
