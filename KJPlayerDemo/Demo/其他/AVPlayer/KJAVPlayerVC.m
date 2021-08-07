@@ -86,10 +86,11 @@
     label3.textColor = [UIColor.redColor colorWithAlphaComponent:0.7];
     [self.view addSubview:label3];
     
-    self.temps = @[@"https://mp4.vjshi.com/2017-11-21/7c2b143eeb27d9f2bf98c4ab03360cfe.mp4",
-                   @"https://mp4.vjshi.com/2018-03-30/1f36dd9819eeef0bc508414494d34ad9.mp4",
-                   @"https://mp4.vjshi.com/2020-07-02/c411973c6c8628e94c40cb4e2689e56b.mp4",
-                   @"http://appit.winpow.com/attached/media/MP4/1567585643618.mp4",
+    self.temps = @[
+        @"https://mp4.vjshi.com/2017-11-21/7c2b143eeb27d9f2bf98c4ab03360cfe.mp4",
+        @"https://mp4.vjshi.com/2018-03-30/1f36dd9819eeef0bc508414494d34ad9.mp4",
+        @"https://mp4.vjshi.com/2020-07-02/c411973c6c8628e94c40cb4e2689e56b.mp4",
+        @"http://appit.winpow.com/attached/media/MP4/1567585643618.mp4",
     ];
     
     KJAVPlayer *player = [[KJAVPlayer alloc]init];
@@ -172,7 +173,7 @@
 }
 /* 播放进度 */
 - (void)kj_player:(KJBasePlayer*)player currentTime:(NSTimeInterval)time{
-//    NSLog(@"---播放进度:%.2f",time);
+    //    NSLog(@"---播放进度:%.2f",time);
     self.slider.value = time;
     self.label.text = kPlayerConvertTime(time);
 }

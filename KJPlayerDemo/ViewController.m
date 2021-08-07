@@ -70,7 +70,7 @@
         NSMutableArray *temp = [NSMutableArray array];
         [temp addObject:@{@"VCName":@"KJLivePlayerVC",@"describeName":@"直播流媒体测试"}];
         [temp addObject:@{@"VCName":@"KJM3u8PlayerVC",@"describeName":@"AVPlayer流媒体播放"}];
-//        [temp addObject:@{@"VCName":@"KJIJKPlayerVC",@"describeName":@"IJKPlayer流媒体播放"}];
+        [temp addObject:@{@"VCName":@"KJIJKPlayerVC",@"describeName":@"IJKPlayer流媒体播放"}];
         
         NSMutableArray *temp1 = [NSMutableArray array];
         [temp1 addObject:@{@"VCName":@"KJTablePlayerVC",@"describeName":@"无缝衔接列表播放"}];

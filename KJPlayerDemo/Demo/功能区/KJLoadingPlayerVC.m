@@ -96,15 +96,16 @@
     }
 }
 - (void)buttonAction2:(UIButton*)sender{
-    NSArray *temps = @[KJPlayerHintPositionCenter,
-                       KJPlayerHintPositionBottom,
-                       KJPlayerHintPositionLeftBottom,
-                       KJPlayerHintPositionRightBottom,
-                       KJPlayerHintPositionLeftTop,
-                       KJPlayerHintPositionRightTop,
-                       KJPlayerHintPositionTop,
-                       KJPlayerHintPositionLeftCenter,
-                       KJPlayerHintPositionRightCenter
+    NSArray *temps = @[
+        KJPlayerHintPositionCenter,
+        KJPlayerHintPositionBottom,
+        KJPlayerHintPositionLeftBottom,
+        KJPlayerHintPositionRightBottom,
+        KJPlayerHintPositionLeftTop,
+        KJPlayerHintPositionRightTop,
+        KJPlayerHintPositionTop,
+        KJPlayerHintPositionLeftCenter,
+        KJPlayerHintPositionRightCenter
     ];
     index++;
     if (index>=temps.count) {

@@ -9,48 +9,15 @@
 #import "KJCustomManager.h"
 
 @interface KJCustomManager ()
-
-@property(nonatomic,strong) NSMutableSet *downloadings;
-@property(nonatomic,assign) KJPlayerVideoRankType rankType;
+/// 日志打印等级
+@property(nonatomic,assign,class) KJPlayerVideoRankType rankType;
 
 @end
 
 @implementation KJCustomManager
 
-static KJCustomManager *_instance = nil;
-static dispatch_once_t onceToken;
-+ (instancetype)kj_sharedInstance{
-    dispatch_once(&onceToken, ^{
-        if (_instance == nil) {
-            _instance = [[self alloc] init];
-        }
-    });
-    return _instance;
-}
-- (NSMutableSet *)downloadings{
-    if (!_downloadings) {
-        _downloadings = [NSMutableSet set];
-    }
-    return _downloadings;
-}
-
-#pragma mark - 下载地址管理
-- (void)kj_addDownloadURL:(NSURL*)url{
-    @synchronized (self.downloadings) {
-        [self.downloadings addObject:url];
-    }
-}
-- (void)kj_removeDownloadURL:(NSURL*)url{
-    @synchronized (self.downloadings) {
-        [self.downloadings removeObject:url];
-    }
-}
-- (BOOL)kj_containsDownloadURL:(NSURL*)url{
-    @synchronized (self.downloadings) {
-        return [self.downloadings containsObject:url];
-    }
-}
 #pragma mark - 结构体相关
+
 /// 缓存碎片结构体转对象
 + (NSValue *)kj_cacheFragment:(KJCacheFragment)fragment{
     return [NSValue valueWithBytes:&fragment objCType:@encode(struct KJCacheFragment)];
@@ -70,7 +37,7 @@ static dispatch_once_t onceToken;
  * 网络中断：-1005
  * 无网络连接：-1009
  */
-+ (NSError*)kj_errorSummarizing:(NSInteger)code{
++ (NSError *)kj_errorSummarizing:(NSInteger)code{
     NSString *domain = @"unknown";
     NSDictionary *userInfo = nil;
     switch (code) {
@@ -112,27 +79,36 @@ static dispatch_once_t onceToken;
     }
     return [NSError errorWithDomain:domain code:code userInfo:userInfo];
 }
+
 #pragma mark - 日志打印
+
+static KJPlayerVideoRankType _rankType = KJPlayerVideoRankTypeNone;
++ (KJPlayerVideoRankType)rankType{
+    return _rankType;
+}
++ (void)setRankType:(KJPlayerVideoRankType)rankType{
+    _rankType = rankType;
+}
 /// 打开几级日志打印，多枚举
 + (void)kj_openLogRankType:(KJPlayerVideoRankType)type{
-    KJCustomManager.shared.rankType = type;
+    self.rankType = type;
 }
 /// 按级别打印日志
-+ (void)kj_log:(KJPlayerVideoRankType)type format:(NSString*)format,...{
++ (void)kj_log:(KJPlayerVideoRankType)type format:(NSString *)format,...{
 #ifdef DEBUG
-    if (KJCustomManager.shared.rankType == KJPlayerVideoRankTypeNone) {
+    if (self.rankType == KJPlayerVideoRankTypeNone) {
         return;
     }
     va_list args;
     va_start(args, format);
-    if (KJCustomManager.shared.rankType == 1 || (KJCustomManager.shared.rankType & KJPlayerVideoRankTypeOne)) {
+    if (self.rankType == 1 || (self.rankType & KJPlayerVideoRankTypeOne)) {
         if (type == KJPlayerVideoRankTypeOne) {
             NSLogv([@"\n一级打印内容 " stringByAppendingString:format], args);
         }
         va_end(args);
         return;
     }
-    if (KJCustomManager.shared.rankType == 2 || (KJCustomManager.shared.rankType & KJPlayerVideoRankTypeTwo)) {
+    if (self.rankType == 2 || (self.rankType & KJPlayerVideoRankTypeTwo)) {
         if (type == KJPlayerVideoRankTypeTwo) {
             NSLogv([@"\n二级打印内容 " stringByAppendingString:format], args);
         }

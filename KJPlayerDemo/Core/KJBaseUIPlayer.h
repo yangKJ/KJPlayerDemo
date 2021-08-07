@@ -29,7 +29,7 @@
 
 #pragma mark - method
 /// 列表上播放绑定tableView 
-- (void)kj_bindTableView:(UITableView*)tableView indexPath:(NSIndexPath*)indexPath;
+- (void)kj_bindTableView:(UITableView *)tableView indexPath:(NSIndexPath *)indexPath;
 
 @end
 

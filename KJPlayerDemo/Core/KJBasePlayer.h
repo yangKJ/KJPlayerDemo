@@ -28,10 +28,10 @@ NS_ASSUME_NONNULL_BEGIN
 - (void)kj_saveRecordLastTime;
 
 #pragma mark - NSNotification
-/// 进入后台 
-- (void)kj_detectAppEnterBackground:(NSNotification*)notification;
-/// 进入前台 
-- (void)kj_detectAppEnterForeground:(NSNotification*)notification;
+/// 进入后台
+- (void)kj_detectAppEnterBackground:(NSNotification *)notification;
+/// 进入前台
+- (void)kj_detectAppEnterForeground:(NSNotification *)notification;
 
 @end
 

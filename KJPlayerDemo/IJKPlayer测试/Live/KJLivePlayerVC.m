@@ -46,23 +46,30 @@
     label.text = @"直播流媒体测试，仅供测试参考!!!";
     [self.view addSubview:label];
     
-    self.temps = @[@"http://ivi.bupt.edu.cn/hls/hunanhd.m3u8",
-                   @"http://ivi.bupt.edu.cn/hls/gdhd.m3u8",
-                   @"http://ivi.bupt.edu.cn/hls/tjhd.m3u8",
-                   @"http://ivi.bupt.edu.cn/hls/cctv1hd.m3u8",
-                   @"http://ivi.bupt.edu.cn/hls/cctv2hd.m3u8",
-                   @"http://ivi.bupt.edu.cn/hls/cctv3hd.m3u8",
-                   @"http://ivi.bupt.edu.cn/hls/cctv4hd.m3u8",
-                   @"http://ivi.bupt.edu.cn/hls/cctv5phd.m3u8",
-                   @"http://ivi.bupt.edu.cn/hls/cctv6hd.m3u8",
-                   @"http://ivi.bupt.edu.cn/hls/cctv7hd.m3u8",
-                   @"http://ivi.bupt.edu.cn/hls/cctv8hd.m3u8",
-                   @"http://ivi.bupt.edu.cn/hls/cctv9hd.m3u8",
-                   @"http://ivi.bupt.edu.cn/hls/cctv10hd.m3u8",
-                   @"http://ivi.bupt.edu.cn/hls/cctv12hd.m3u8",
-                   @"http://ivi.bupt.edu.cn/hls/cctv14hd.m3u8",
+    self.temps = @[
+        @"http://ivi.bupt.edu.cn/hls/hunanhd.m3u8",
+        @"http://ivi.bupt.edu.cn/hls/gdhd.m3u8",
+        @"http://ivi.bupt.edu.cn/hls/tjhd.m3u8",
+        @"http://ivi.bupt.edu.cn/hls/cctv1hd.m3u8",
+        @"http://ivi.bupt.edu.cn/hls/cctv2hd.m3u8",
+        @"http://ivi.bupt.edu.cn/hls/cctv3hd.m3u8",
+        @"http://ivi.bupt.edu.cn/hls/cctv4hd.m3u8",
+        @"http://ivi.bupt.edu.cn/hls/cctv5phd.m3u8",
+        @"http://ivi.bupt.edu.cn/hls/cctv6hd.m3u8",
+        @"http://ivi.bupt.edu.cn/hls/cctv7hd.m3u8",
+        @"http://ivi.bupt.edu.cn/hls/cctv8hd.m3u8",
+        @"http://ivi.bupt.edu.cn/hls/cctv9hd.m3u8",
+        @"http://ivi.bupt.edu.cn/hls/cctv10hd.m3u8",
+        @"http://ivi.bupt.edu.cn/hls/cctv12hd.m3u8",
+        @"http://ivi.bupt.edu.cn/hls/cctv14hd.m3u8",
     ];
-    NSArray *names = @[@"湖南高清",@"广东高清",@"天津高清",@"CCTV1综合",@"CCTV2财经",@"CCTV3综艺",@"CCTV4中文国际",@"CCTV5体育",@"CCTV6电影",@"CCTV7国防军事",@"CCTV8电视剧",@"CCTV9纪录",@"CCTV10科教",@"CCTV12社会与法",@"CCTV14少儿"];
+    NSArray *names = @[
+        @"湖南高清",@"广东高清",@"天津高清",
+        @"CCTV1综合",@"CCTV2财经",@"CCTV3综艺",
+        @"CCTV4中文国际",@"CCTV5体育",@"CCTV6电影",
+        @"CCTV7国防军事",@"CCTV8电视剧",@"CCTV9纪录",
+        @"CCTV10科教",@"CCTV12社会与法",@"CCTV14少儿"
+    ];
     CGFloat w = (self.view.frame.size.width-80)/3;
     CGFloat h = w/2.5;
     CGFloat y = CGRectGetMaxY(label.frame)+20;

@@ -19,31 +19,32 @@ Pod::Spec.new do |s|
   s.ios.source_files = 'KJPlayerDemo/KJPlayerHeader.h' 
 
   s.subspec 'Common' do |co|
-    co.source_files = "KJPlayerDemo/Core/*","KJPlayerDemo/View/*"
+    co.source_files = "KJPlayerDemo/Core/*","KJPlayerDemo/View/*.{h,m}"
     co.resources = "KJPlayerDemo/Core/*.{xcdatamodeld}"
     co.frameworks = 'AVFoundation'
   end
 
   s.subspec 'AVPlayer' do |av|
-    av.source_files = "KJPlayerDemo/KJAVPlayer/*"
+    av.source_files = "KJPlayerDemo/KJAVPlayer/*.{h,m}"
     av.dependency 'KJPlayer/Common'
   end
   
   s.subspec 'AVDownloader' do |ad|
-    ad.source_files = "KJPlayerDemo/KJAVDownloader/*"
+    ad.source_files = "KJPlayerDemo/KJAVDownloader/*.{h,m}","KJPlayerDemo/KJAVDownloader/**/*.{h,m}"
     ad.dependency 'KJPlayer/AVPlayer'
     ad.frameworks = 'MobileCoreServices'
   end
   
   s.subspec 'MIDI' do |md|
-    md.source_files = "KJPlayerDemo/KJMidiPlayer/*"
+    md.source_files = "KJPlayerDemo/KJMidiPlayer/*.{h,m}"
     md.resources = "KJPlayerDemo/KJMidiPlayer/*.{bundle}"
     md.dependency 'KJPlayer/Common'
   end
   
   s.subspec 'IJKPlayer' do |ijk|
-    ijk.source_files = "KJPlayerDemo/KJIJKPlayer/*"
+    ijk.source_files = "KJPlayerDemo/KJIJKPlayer/*.{h,m}"
     ijk.dependency 'KJPlayer/Common'
+    ijk.dependency 'KJExceedSDK'
   end
   
 end

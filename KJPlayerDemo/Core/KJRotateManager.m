@@ -37,7 +37,9 @@ window;})
 @property(nonatomic,assign,class)CGRect originalFrame;
 @property(nonatomic,strong,class)UIColor *superViewColor;
 @end
+
 @implementation KJRotateManager
+
 /// 切换到全屏 
 + (void)kj_rotateFullScreenBasePlayerView:(KJBasePlayerView *)baseView{
     self.originalFrame = baseView.frame;
@@ -126,6 +128,7 @@ window;})
 }
 
 #pragma mark - 操作面板相关
+
 /// 显示操作面板 
 + (void)kj_operationViewDisplayBasePlayerView:(KJBasePlayerView *)baseView{
     [baseView setValue:@(YES) forKey:@"displayOperation"];
@@ -178,8 +181,8 @@ window;})
     }];
 }
 
-
 #pragma mark - getter/setter
+
 static CGRect _originalFrame;
 + (CGRect)originalFrame{
     return _originalFrame;

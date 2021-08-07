@@ -26,6 +26,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 @end
 
+@class AVAssetResourceLoadingRequest;
 @interface KJResourceLoaderManager : NSObject
 /// 视频地址
 @property (nonatomic,strong,readonly) NSURL *videoURL;
@@ -34,15 +35,15 @@ NS_ASSUME_NONNULL_BEGIN
 
 /// 初始化
 /// @param url 视频地址
-- (instancetype)initWithVideoURL:(NSURL*)url;
+- (instancetype)initWithVideoURL:(NSURL *)url;
 
 /// 新增下载请求
 /// @param request 请求头
-- (void)kj_addRequest:(AVAssetResourceLoadingRequest*)request;
+- (void)kj_addRequest:(AVAssetResourceLoadingRequest *)request;
 
 /// 取消本次请求
 /// @param request 请求头
-- (void)kj_removeRequest:(AVAssetResourceLoadingRequest*)request;
+- (void)kj_removeRequest:(AVAssetResourceLoadingRequest *)request;
 
 /// 取消所有请求加载 
 - (void)kj_cancelLoading;

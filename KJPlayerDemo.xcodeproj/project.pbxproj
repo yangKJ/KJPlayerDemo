@@ -3,7 +3,7 @@
 	archiveVersion = 1;
 	classes = {
 	};
-	objectVersion = 50;
+	objectVersion = 51;
 	objects = {
 
 /* Begin PBXBuildFile section */
@@ -71,6 +71,7 @@
 		B500094B2C6B8DF274A1D74C /* Pods_KJPlayerDemo.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7FEF462326AB2D48A4290908 /* Pods_KJPlayerDemo.framework */; };
 		C922846426BCC67A00F7D327 /* DBPlayerData.m in Sources */ = {isa = PBXBuildFile; fileRef = C922846326BCC67A00F7D327 /* DBPlayerData.m */; };
 		C922846D26BCC7A200F7D327 /* KJCustomManager.m in Sources */ = {isa = PBXBuildFile; fileRef = C922846C26BCC7A200F7D327 /* KJCustomManager.m */; };
+		C9F6C40E26BE395800E3868E /* KJDownloaderConfiguration.m in Sources */ = {isa = PBXBuildFile; fileRef = C9F6C40C26BE395800E3868E /* KJDownloaderConfiguration.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -214,6 +215,8 @@
 		C922846326BCC67A00F7D327 /* DBPlayerData.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = DBPlayerData.m; sourceTree = "<group>"; };
 		C922846B26BCC7A200F7D327 /* KJCustomManager.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = KJCustomManager.h; sourceTree = "<group>"; };
 		C922846C26BCC7A200F7D327 /* KJCustomManager.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = KJCustomManager.m; sourceTree = "<group>"; };
+		C9F6C40C26BE395800E3868E /* KJDownloaderConfiguration.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = KJDownloaderConfiguration.m; sourceTree = "<group>"; };
+		C9F6C40D26BE395800E3868E /* KJDownloaderConfiguration.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = KJDownloaderConfiguration.h; sourceTree = "<group>"; };
 		CBF6EBDBCF6E0D0E0D970B1D /* Pods-KJPlayerDemoTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-KJPlayerDemoTests.debug.xcconfig"; path = "Target Support Files/Pods-KJPlayerDemoTests/Pods-KJPlayerDemoTests.debug.xcconfig"; sourceTree = "<group>"; };
 		E733241E0A775FE835BF0671 /* Pods-KJPlayerDemo.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-KJPlayerDemo.debug.xcconfig"; path = "Target Support Files/Pods-KJPlayerDemo/Pods-KJPlayerDemo.debug.xcconfig"; sourceTree = "<group>"; };
 		F55091957307083E004EF6AE /* Pods-KJPlayerDemo-KJPlayerDemoUITests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-KJPlayerDemo-KJPlayerDemoUITests.release.xcconfig"; path = "Target Support Files/Pods-KJPlayerDemo-KJPlayerDemoUITests/Pods-KJPlayerDemo-KJPlayerDemoUITests.release.xcconfig"; sourceTree = "<group>"; };
@@ -326,14 +329,9 @@
 		682EB29225F0EBA600306C90 /* KJAVDownloader */ = {
 			isa = PBXGroup;
 			children = (
+				C9F6C3A226BE2CDE00E3868E /* Downloader */,
 				68F451E925D526C500F719F9 /* KJAVPlayer+KJCache.h */,
 				68F451EA25D526C500F719F9 /* KJAVPlayer+KJCache.m */,
-				682399B325D81D830086965B /* KJDownloader.h */,
-				682399AB25D81D830086965B /* KJDownloader.m */,
-				682399A125D81D820086965B /* KJFileHandleInfo.h */,
-				682399A325D81D820086965B /* KJFileHandleInfo.m */,
-				682399A625D81D820086965B /* KJFileHandleManager.h */,
-				6823999F25D81D820086965B /* KJFileHandleManager.m */,
 				682399AC25D81D830086965B /* KJResourceLoader.h */,
 				682399B225D81D830086965B /* KJResourceLoader.m */,
 				682399AF25D81D830086965B /* KJResourceLoaderManager.h */,
@@ -567,6 +565,21 @@
 				68D6830725FB0BF100E7ECDB /* KJPlayerStatusLayer.m */,
 			);
 			path = OtherView;
+			sourceTree = "<group>";
+		};
+		C9F6C3A226BE2CDE00E3868E /* Downloader */ = {
+			isa = PBXGroup;
+			children = (
+				682399B325D81D830086965B /* KJDownloader.h */,
+				682399AB25D81D830086965B /* KJDownloader.m */,
+				C9F6C40D26BE395800E3868E /* KJDownloaderConfiguration.h */,
+				C9F6C40C26BE395800E3868E /* KJDownloaderConfiguration.m */,
+				682399A125D81D820086965B /* KJFileHandleInfo.h */,
+				682399A325D81D820086965B /* KJFileHandleInfo.m */,
+				682399A625D81D820086965B /* KJFileHandleManager.h */,
+				6823999F25D81D820086965B /* KJFileHandleManager.m */,
+			);
+			path = Downloader;
 			sourceTree = "<group>";
 		};
 		E7E958B8FD442A1FF229C22F /* Frameworks */ = {
@@ -867,6 +880,7 @@
 				68CC369025EF2BAC003F918E /* KJLivePlayerVC.m in Sources */,
 				68C0892625D98928002B0A71 /* KJVideoPlayVC.m in Sources */,
 				680D560B25DC2F50002A72E0 /* KJSkipHeadPlayerVC.m in Sources */,
+				C9F6C40E26BE395800E3868E /* KJDownloaderConfiguration.m in Sources */,
 				689D5A7822E3011200DE33FC /* AppDelegate.m in Sources */,
 				68D6830825FB0BF100E7ECDB /* KJPlayerStatusLayer.m in Sources */,
 				682399B525D81D830086965B /* KJFileHandleInfo.m in Sources */,
@@ -1047,8 +1061,8 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_OBJC_WEAK = NO;
-				CODE_SIGN_STYLE = Automatic;
-				DEVELOPMENT_TEAM = 6E658L6H38;
+				CODE_SIGN_STYLE = Manual;
+				DEVELOPMENT_TEAM = "";
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)/KJPlayerDemo/KJIJKPlayer",
@@ -1063,8 +1077,9 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = com.ykj.KJPlayerDemo.KJPlayerDemo;
+				PRODUCT_BUNDLE_IDENTIFIER = com.ykj.KJPlayerDemo;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE_SPECIFIER = "";
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
 			name = Debug;
@@ -1075,8 +1090,8 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_OBJC_WEAK = NO;
-				CODE_SIGN_STYLE = Automatic;
-				DEVELOPMENT_TEAM = 6E658L6H38;
+				CODE_SIGN_STYLE = Manual;
+				DEVELOPMENT_TEAM = "";
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)/KJPlayerDemo/KJIJKPlayer",
@@ -1091,8 +1106,9 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = com.ykj.KJPlayerDemo.KJPlayerDemo;
+				PRODUCT_BUNDLE_IDENTIFIER = com.ykj.KJPlayerDemo;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE_SPECIFIER = "";
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
 			name = Release;
@@ -1102,7 +1118,7 @@
 			baseConfigurationReference = CBF6EBDBCF6E0D0E0D970B1D /* Pods-KJPlayerDemoTests.debug.xcconfig */;
 			buildSettings = {
 				BUNDLE_LOADER = "$(TEST_HOST)";
-				CODE_SIGN_STYLE = Automatic;
+				CODE_SIGN_STYLE = Manual;
 				DEVELOPMENT_TEAM = "";
 				INFOPLIST_FILE = KJPlayerDemoTests/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
@@ -1112,6 +1128,8 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.ykj.KJPlayerDemo.KJPlayerDemoTests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE_SPECIFIER = "";
+				"PROVISIONING_PROFILE_SPECIFIER[sdk=macosx*]" = "";
 				TARGETED_DEVICE_FAMILY = "1,2";
 				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/KJPlayerDemo.app/KJPlayerDemo";
 			};
@@ -1122,7 +1140,7 @@
 			baseConfigurationReference = 8454464B99E087E75C3480AC /* Pods-KJPlayerDemoTests.release.xcconfig */;
 			buildSettings = {
 				BUNDLE_LOADER = "$(TEST_HOST)";
-				CODE_SIGN_STYLE = Automatic;
+				CODE_SIGN_STYLE = Manual;
 				DEVELOPMENT_TEAM = "";
 				INFOPLIST_FILE = KJPlayerDemoTests/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
@@ -1132,6 +1150,8 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.ykj.KJPlayerDemo.KJPlayerDemoTests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE_SPECIFIER = "";
+				"PROVISIONING_PROFILE_SPECIFIER[sdk=macosx*]" = "";
 				TARGETED_DEVICE_FAMILY = "1,2";
 				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/KJPlayerDemo.app/KJPlayerDemo";
 			};
@@ -1141,8 +1161,8 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 1FF650ADF99287F12F0E0F64 /* Pods-KJPlayerDemo-KJPlayerDemoUITests.debug.xcconfig */;
 			buildSettings = {
-				CODE_SIGN_STYLE = Automatic;
-				DEVELOPMENT_TEAM = HXTFJDA4H2;
+				CODE_SIGN_STYLE = Manual;
+				DEVELOPMENT_TEAM = "";
 				INFOPLIST_FILE = KJPlayerDemoUITests/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
@@ -1151,6 +1171,8 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.ykj.KJPlayerDemo.KJPlayerDemoUITests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE_SPECIFIER = "";
+				"PROVISIONING_PROFILE_SPECIFIER[sdk=macosx*]" = "";
 				TARGETED_DEVICE_FAMILY = "1,2";
 				TEST_TARGET_NAME = KJPlayerDemo;
 			};
@@ -1160,8 +1182,8 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = F55091957307083E004EF6AE /* Pods-KJPlayerDemo-KJPlayerDemoUITests.release.xcconfig */;
 			buildSettings = {
-				CODE_SIGN_STYLE = Automatic;
-				DEVELOPMENT_TEAM = HXTFJDA4H2;
+				CODE_SIGN_STYLE = Manual;
+				DEVELOPMENT_TEAM = "";
 				INFOPLIST_FILE = KJPlayerDemoUITests/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
@@ -1170,6 +1192,8 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.ykj.KJPlayerDemo.KJPlayerDemoUITests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE_SPECIFIER = "";
+				"PROVISIONING_PROFILE_SPECIFIER[sdk=macosx*]" = "";
 				TARGETED_DEVICE_FAMILY = "1,2";
 				TEST_TARGET_NAME = KJPlayerDemo;
 			};

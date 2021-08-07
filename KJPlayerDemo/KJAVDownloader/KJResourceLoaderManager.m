@@ -9,19 +9,22 @@
 #import "KJResourceLoaderManager.h"
 #import <AVFoundation/AVFoundation.h>
 #import <MobileCoreServices/MobileCoreServices.h>
+
 #import "KJDownloader.h"
 #import "KJFileHandleManager.h"
-#import "KJCustomManager.h"
 #import "KJFileHandleInfo.h"
+#import "KJDownloaderConfiguration.h"
 
 @interface KJResourceLoaderManager ()
 @property (nonatomic,strong, readwrite) NSURL *videoURL;
 @property (nonatomic,strong) KJFileHandleManager *fileHandleManager;
 @property (nonatomic,strong) KJDownloader *downloader;
 @property (nonatomic,strong) NSMutableSet<AVAssetResourceLoadingRequest*>*requests;
+
 @end
 
 @implementation KJResourceLoaderManager
+
 - (void)dealloc{
     [self kj_cancelLoading];
 }
@@ -34,7 +37,7 @@
     return self;
 }
 - (void)kj_addRequest:(AVAssetResourceLoadingRequest*)request{
-    KJDownloader *downloader;
+    KJDownloader * downloader;
     if (self.requests.count){
         downloader = [[KJDownloader alloc]initWithURL:self.videoURL fileHandleManager:self.fileHandleManager];
     } else {
@@ -43,11 +46,11 @@
     [self kj_addDownloader:downloader request:request];
 }
 - (void)kj_removeRequest:(AVAssetResourceLoadingRequest*)request{
-    __block AVAssetResourceLoadingRequest *tempRequest = nil;
-    [self.requests enumerateObjectsUsingBlock:^(AVAssetResourceLoadingRequest * _Nonnull obj, BOOL * _Nonnull stop) {
+    __block AVAssetResourceLoadingRequest * tempRequest = nil;
+    [self.requests enumerateObjectsUsingBlock:^(AVAssetResourceLoadingRequest * obj, BOOL * stop) {
         if (request == obj) {
             tempRequest = obj;
-            *stop = YES;
+            * stop = YES;
         }
     }];
     if (tempRequest) {
@@ -62,15 +65,16 @@
 - (void)kj_cancelLoading{
     [self.downloader kj_cancelDownload];
     [self.requests removeAllObjects];
-    [KJCustomManager.shared kj_removeDownloadURL:self.videoURL];
+    [KJDownloaderConfiguration.shared kj_removeDownloadURL:self.videoURL];
 }
 
 #pragma mark - private method
+
 /// 处理下载器数据 
 - (void)kj_addDownloader:(KJDownloader*)downloader request:(AVAssetResourceLoadingRequest*)request{
     kSetDownloadConfiguration(downloader, request);
     [self.requests addObject:request];
-    [KJCustomManager.shared kj_addDownloadURL:self.videoURL];
+    [KJDownloaderConfiguration.shared kj_addDownloadURL:self.videoURL];
     PLAYER_WEAKSELF;
     downloader.kDidReceiveResponse = ^(KJDownloader * downloader, NSURLResponse * response) {
         kSetDownloadConfiguration(downloader, request);
@@ -89,7 +93,7 @@
             [weakself.requests removeObject:request];
         }
         if (weakself.requests.count == 0){
-            [KJCustomManager.shared kj_removeDownloadURL:weakself.videoURL];
+            [KJDownloaderConfiguration.shared kj_removeDownloadURL:weakself.videoURL];
         }
         if ([weakself.delegate respondsToSelector:@selector(kj_resourceLoader:didFinished:)]){
             [weakself.delegate kj_resourceLoader:weakself didFinished:error];
@@ -99,7 +103,7 @@
     kStartDownloading(downloader, request);
 }
 /// 开始请求下载数据 
-NS_INLINE void kStartDownloading(KJDownloader *downloader, AVAssetResourceLoadingRequest *request){
+NS_INLINE void kStartDownloading(KJDownloader * downloader, AVAssetResourceLoadingRequest * request){
     AVAssetResourceLoadingDataRequest *dataRequest = request.dataRequest;
     NSInteger offset = (NSInteger)dataRequest.requestedOffset;
     NSInteger length = dataRequest.requestedLength;
@@ -112,8 +116,8 @@ NS_INLINE void kStartDownloading(KJDownloader *downloader, AVAssetResourceLoadin
     }
     [downloader kj_downloadTaskRange:NSMakeRange(offset, length) whole:NO];
 }
-/// 对请求加上长度，文件类型等信息，必须设置正确否则会报播放器Failed 
-NS_INLINE void kSetDownloadConfiguration(KJDownloader *downloader, AVAssetResourceLoadingRequest *loadingRequest){
+/// 对请求加上长度，文件类型等信息，必须设置正确否则会报播放器Failed
+NS_INLINE void kSetDownloadConfiguration(KJDownloader * downloader, AVAssetResourceLoadingRequest * loadingRequest){
     AVAssetResourceLoadingContentInformationRequest *request = loadingRequest.contentInformationRequest;
     if (downloader.fileHandleManager.cacheInfo.contentType) {
         request.contentType = downloader.fileHandleManager.cacheInfo.contentType;
@@ -126,6 +130,7 @@ NS_INLINE void kSetDownloadConfiguration(KJDownloader *downloader, AVAssetResour
 }
 
 #pragma mark - lazy
+
 - (NSMutableSet<AVAssetResourceLoadingRequest *> *)requests{
     if (!_requests) {
         _requests = [NSMutableSet set];

@@ -7,8 +7,8 @@
 //  https://github.com/yangKJ/KJPlayerDemo
 
 #import "KJFileHandleInfo.h"
+#import "KJDownloaderConfiguration.h"
 #import "KJCacheManager.h"
-#import "DBPlayerData.h"
 
 #pragma clang diagnostic push
 #pragma clang diagnostic ignored"-Wdeprecated-declarations"

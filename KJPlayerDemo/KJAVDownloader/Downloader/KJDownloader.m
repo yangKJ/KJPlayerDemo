@@ -8,8 +8,8 @@
 
 #import "KJDownloader.h"
 #import <objc/runtime.h>
-#import "KJCustomManager.h"
 #import <MobileCoreServices/MobileCoreServices.h>
+#import "KJDownloaderConfiguration.h"
 #import "KJFileHandleManager.h"
 #import "KJFileHandleInfo.h"
 
@@ -17,8 +17,14 @@
 @interface KJDownloadTask : NSObject
 @property (nonatomic,weak) id<KJDownloaderManagerDelegate> delegate;
 @property (nonatomic,assign) BOOL canSaveToCache;
-/// 初始化 
-- (instancetype)initWithCachedFragments:(NSArray*)fragments videoURL:(NSURL*)url manager:(KJFileHandleManager*)manager;
+
+/// 初始化
+/// @param fragments 碎片信息组
+/// @param url 链接地址
+/// @param manager 文件管理器
+- (instancetype)initWithCachedFragments:(NSArray *)fragments
+                               videoURL:(NSURL *)url
+                                manager:(KJFileHandleManager *)manager;
 /// 开始下载，处理碎片 
 - (void)kj_startDownloading;
 /// 取消下载 
@@ -30,9 +36,9 @@
 /// 开始接收数据，传递配置信息 
 - (void)kj_didReceiveResponse:(NSURLResponse*)response;
 /// 接收数据，是否为已经缓存的本地数据 
-- (void)kj_didReceiveData:(NSData*)data cached:(BOOL)cached;
+- (void)kj_didReceiveData:(NSData *)data cached:(BOOL)cached;
 /// 接收错误或者接收完成 
-- (void)kj_didFinishWithError:(NSError *_Nullable)error;
+- (void)kj_didFinishWithError:(nullable NSError *)error;
 
 @end
 
@@ -44,19 +50,22 @@
 @property (nonatomic,assign) NSUInteger contentLength;
 @property (nonatomic,strong) KJFileHandleManager *fileHandleManager;
 @property (nonatomic,strong) KJDownloadTask *downloadTask;
+
 @end
+
 @implementation KJDownloader
+
 - (void)dealloc{
-    [KJCustomManager.shared kj_removeDownloadURL:self.videoURL];
+    [KJDownloaderConfiguration.shared kj_removeDownloadURL:self.videoURL];
 }
-- (instancetype)initWithURL:(NSURL*)url fileHandleManager:(KJFileHandleManager*)manager{
+- (instancetype)initWithURL:(NSURL *)url fileHandleManager:(KJFileHandleManager *)manager{
     if (self = [super init]) {
         self.saveToCache = YES;
         self.videoURL = url;
         self.fileHandleManager = manager;
         self.contentLength = manager.cacheInfo.contentLength;
         self.contentType = manager.cacheInfo.contentType;
-        [KJCustomManager.shared kj_addDownloadURL:self.videoURL];
+        [KJDownloaderConfiguration.shared kj_addDownloadURL:self.videoURL];
     }
     return self;
 }
@@ -77,7 +86,7 @@
 }
 - (void)kj_cancelDownload{
     self.downloadTask.delegate = nil;
-    [KJCustomManager.shared kj_removeDownloadURL:self.videoURL];
+    [KJDownloaderConfiguration.shared kj_removeDownloadURL:self.videoURL];
     [self.downloadTask kj_cancelDownloading];
     self.downloadTask = nil;
 }
@@ -112,13 +121,14 @@
 }
 /// 接收错误或者接收完成，错误为空表示接收完成 
 - (void)kj_didFinishWithError:(NSError*_Nullable)error{
-    [KJCustomManager.shared kj_removeDownloadURL:self.videoURL];
+    [KJDownloaderConfiguration.shared kj_removeDownloadURL:self.videoURL];
     if (self.kDidFinished) {
         self.kDidFinished(self, error);
     }
 }
 
 @end
+
 @implementation KJDownloader (KJRequestBlock)
 #pragma mark - Associated
 - (void (^)(KJDownloader *, NSURLResponse *))kDidReceiveResponse{
@@ -144,10 +154,11 @@
 
 // ************************************** 黄金分割线 *********************************************
 
-@interface KJSessionAgent : NSObject<NSURLSessionDelegate>
+@interface KJSessionAgent : NSObject <NSURLSessionDelegate>
 @property (nonatomic,copy,readwrite) void (^kDidReceiveResponse)(NSURLResponse *response, void(^completionHandler)(NSURLSessionResponseDisposition));
 @property (nonatomic,copy,readwrite) void (^kDidReceiveData)(NSData *data);
 @property (nonatomic,copy,readwrite) void (^kDidFinished)(NSError *error);
+
 @end
 
 @interface KJDownloadTask ()
@@ -160,8 +171,11 @@
 @property (nonatomic,strong) NSURL *videoURL;
 @property (nonatomic,assign) BOOL cancelLoading;
 @property (nonatomic,assign) BOOL once;
+
 @end
+
 @implementation KJDownloadTask
+
 - (void)dealloc{
     [self kj_cancelDownloading];
 }
@@ -239,6 +253,7 @@
 }
 
 #pragma mark - lazy
+
 - (NSURLSession*)session{
     if (!_session){
         NSURLSessionConfiguration *configuration = [NSURLSessionConfiguration defaultSessionConfiguration];
@@ -316,7 +331,8 @@
 }
 - (void)kj_postNotification{
     [[NSNotificationCenter defaultCenter] postNotificationName:kPlayerFileHandleInfoNotification
-                                                        object:self userInfo:@{kPlayerFileHandleInfoKey:self.fileHandleManager.cacheInfo}];
+                                                        object:self
+                                                      userInfo:@{kPlayerFileHandleInfoKey:self.fileHandleManager.cacheInfo}];
 }
 
 @end
@@ -328,7 +344,9 @@
 @end
 
 @implementation KJSessionAgent
+
 #pragma mark - NSURLSessionDataDelegate
+
 - (void)URLSession:(NSURLSession*)session didReceiveChallenge:(NSURLAuthenticationChallenge*)challenge completionHandler:(void (^)(NSURLSessionAuthChallengeDisposition, NSURLCredential *))completionHandler{
     NSURLCredential *card = [[NSURLCredential alloc] initWithTrust:challenge.protectionSpace.serverTrust];
     completionHandler(NSURLSessionAuthChallengeUseCredential, card);

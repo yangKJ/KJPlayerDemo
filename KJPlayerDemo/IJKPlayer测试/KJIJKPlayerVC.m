@@ -68,7 +68,7 @@
     [self.view addSubview:backview];
     backview.delegate = self;
     backview.gestureType = KJPlayerGestureTypeAll;
-   
+    
     KJIJKPlayer *player = [[KJIJKPlayer alloc]init];
     self.player = player;
     player.placeholder = [UIImage imageNamed:@"20ea53a47eb0447883ed186d9f11e410"];
@@ -90,10 +90,11 @@
     label.text = @"直播流媒体测试，仅供测试参考!!!";
     [self.view addSubview:label];
     
-    self.temps = @[@"http://hls.cntv.myalicdn.com/asp/hls/450/0303000a/3/default/bca293257d954934afadfaa96d865172/450.m3u8",
-                   @"http://hls.cntv.myalicdn.com/asp/hls/850/0303000a/3/default/bca293257d954934afadfaa96d865172/850.m3u8",
-                   @"http://hls.cntv.myalicdn.com/asp/hls/1200/0303000a/3/default/bca293257d954934afadfaa96d865172/1200.m3u8",
-                   @"http://hls.cntv.myalicdn.com/asp/hls/2000/0303000a/3/default/bca293257d954934afadfaa96d865172/2000.m3u8"
+    self.temps = @[
+        @"http://hls.cntv.myalicdn.com/asp/hls/450/0303000a/3/default/bca293257d954934afadfaa96d865172/450.m3u8",
+        @"http://hls.cntv.myalicdn.com/asp/hls/850/0303000a/3/default/bca293257d954934afadfaa96d865172/850.m3u8",
+        @"http://hls.cntv.myalicdn.com/asp/hls/1200/0303000a/3/default/bca293257d954934afadfaa96d865172/1200.m3u8",
+        @"http://hls.cntv.myalicdn.com/asp/hls/2000/0303000a/3/default/bca293257d954934afadfaa96d865172/2000.m3u8"
     ];
     NSArray *names = @[@"流畅",@"高清",@"超清",@"蓝光"];
     CGFloat w = (self.view.frame.size.width-80)/3;

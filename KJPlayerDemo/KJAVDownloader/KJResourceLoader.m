@@ -12,25 +12,28 @@
 #define kCustomVideoScheme @"__kj__player_header___"
 @interface KJResourceLoader () <KJResourceLoaderManagerDelegate>
 @property (nonatomic,strong) NSMutableDictionary<NSString*,KJResourceLoaderManager*>*loaderMap;
+
 @end
+
 @implementation KJResourceLoader
+
 - (void)dealloc{
     if (self.backCancelLoading) {
         [self kj_cancelLoading];
     }
 }
 - (void)kj_cancelLoading{
-    [self.loaderMap enumerateKeysAndObjectsUsingBlock:^(NSString * key, KJResourceLoaderManager * obj, BOOL *stop){
+    [self.loaderMap enumerateKeysAndObjectsUsingBlock:^(NSString * key, KJResourceLoaderManager * obj, BOOL * stop){
         [obj kj_cancelLoading];
     }];
     [self.loaderMap removeAllObjects];
 }
-- (NSURL * (^)(NSURL*))kj_createSchemeURL{
+- (NSURL * (^)(NSURL *))kj_createSchemeURL{
     return ^(NSURL * URL) {
         return [NSURL URLWithString:[kCustomVideoScheme stringByAppendingString:URL.absoluteString]];
     };
 }
-NS_INLINE NSString * kGetRequestKey(NSURL *requestURL){
+NS_INLINE NSString * kGetRequestKey(NSURL * requestURL){
     if ([[requestURL absoluteString] hasPrefix:kCustomVideoScheme]){
         return requestURL.absoluteString;
     }
@@ -74,13 +77,13 @@ NS_INLINE NSString * kGetRequestKey(NSURL *requestURL){
 #pragma mark - KJResourceLoaderManagerDelegate
 
 /// 接收数据，是否为已经缓存的本地数据 
-- (void)kj_resourceLoader:(KJResourceLoaderManager*)manager didReceiveData:(NSData*)data{
+- (void)kj_resourceLoader:(KJResourceLoaderManager *)manager didReceiveData:(NSData *)data{
     if (self.kDidReceiveData) {
         self.kDidReceiveData(data);
     }
 }
 /// 接收错误或者接收完成，错误为空表示接收完成 
-- (void)kj_resourceLoader:(KJResourceLoaderManager*)resourceLoader didFinished:(NSError*)error{
+- (void)kj_resourceLoader:(KJResourceLoaderManager *)resourceLoader didFinished:(NSError *)error{
     [resourceLoader kj_cancelLoading];
     if (self.kDidFinished) {
         self.kDidFinished(self,error);

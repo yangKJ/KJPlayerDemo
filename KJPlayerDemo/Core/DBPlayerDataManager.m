@@ -20,8 +20,11 @@ static NSManagedObjectContext * _context = nil;
         NSString *docStr = [NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES) lastObject];
         NSString *sqlPath = [docStr stringByAppendingPathComponent:@"db_player_video.sqlite"];
         NSError *error = nil;
-        [store addPersistentStoreWithType:NSSQLiteStoreType configuration:nil
-                                      URL:[NSURL fileURLWithPath:sqlPath] options:nil error:&error];
+        [store addPersistentStoreWithType:NSSQLiteStoreType
+                            configuration:nil
+                                      URL:[NSURL fileURLWithPath:sqlPath]
+                                  options:nil
+                                    error:&error];
         _context = [[NSManagedObjectContext alloc] initWithConcurrencyType:NSPrivateQueueConcurrencyType];
         _context.persistentStoreCoordinator = store;
     }
@@ -117,7 +120,7 @@ static NSString * const kDBPlayerData = @"DBPlayerData";
 /// @return 返回数据数组
 + (NSArray<DBPlayerData*>*)kj_checkData:(NSString*)dbid{
     NSFetchRequest *request = [NSFetchRequest fetchRequestWithEntityName:kDBPlayerData];
-    if (dbid != nil && dbid.length != 0 &&  ![dbid isEqualToString:@""]) {
+    if (dbid != nil && dbid.length != 0 && ![dbid isEqualToString:@""]) {
         NSPredicate *predicate = [NSPredicate predicateWithFormat:@"dbid = %@", dbid];
         request.predicate = predicate;
     }
