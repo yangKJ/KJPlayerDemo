@@ -1,0 +1,5 @@
+${PODS_ROOT}/Target Support Files/Pods-KJPlayerDemo/Pods-KJPlayerDemo-frameworks.sh
+${BUILT_PRODUCTS_DIR}/DoraemonKit/DoraemonKit.framework
+${BUILT_PRODUCTS_DIR}/FBRetainCycleDetector/FBRetainCycleDetector.framework
+${BUILT_PRODUCTS_DIR}/FMDB/FMDB.framework
+${BUILT_PRODUCTS_DIR}/GCDWebServer/GCDWebServer.framework

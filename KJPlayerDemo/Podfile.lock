@@ -1,0 +1,65 @@
+PODS:
+  - DoraemonKit/Core (3.0.7):
+    - FMDB
+    - GCDWebServer
+    - GCDWebServer/WebDAV
+    - GCDWebServer/WebUploader
+  - DoraemonKit/WithMLeaksFinder (3.0.7):
+    - DoraemonKit/Core
+    - FBRetainCycleDetector
+  - FBRetainCycleDetector (0.1.4)
+  - FMDB (2.7.5):
+    - FMDB/standard (= 2.7.5)
+  - FMDB/standard (2.7.5)
+  - GCDWebServer (3.5.4):
+    - GCDWebServer/Core (= 3.5.4)
+  - GCDWebServer/Core (3.5.4)
+  - GCDWebServer/WebDAV (3.5.4):
+    - GCDWebServer/Core
+  - GCDWebServer/WebUploader (3.5.4):
+    - GCDWebServer/Core
+  - IJKMediaFramework (0.1.5)
+  - KJPlayer (2.1.4):
+    - KJPlayer/AVPlayer/AVCore (= 2.1.4)
+  - KJPlayer/AVPlayer/AVCore (2.1.4):
+    - KJPlayer/Common
+  - KJPlayer/AVPlayer/AVDownloader (2.1.4):
+    - KJPlayer/AVPlayer/AVCore
+  - KJPlayer/Common (2.1.4)
+  - KJPlayer/IJKPlayer (2.1.4):
+    - IJKMediaFramework
+    - KJPlayer/Common
+  - KJPlayer/MIDI (2.1.4):
+    - KJPlayer/Common
+
+DEPENDENCIES:
+  - DoraemonKit/Core
+  - DoraemonKit/WithMLeaksFinder
+  - KJPlayer (from `..`)
+  - KJPlayer/AVPlayer/AVDownloader (from `..`)
+  - KJPlayer/IJKPlayer (from `..`)
+  - KJPlayer/MIDI (from `..`)
+
+SPEC REPOS:
+  trunk:
+    - DoraemonKit
+    - FBRetainCycleDetector
+    - FMDB
+    - GCDWebServer
+    - IJKMediaFramework
+
+EXTERNAL SOURCES:
+  KJPlayer:
+    :path: ".."
+
+SPEC CHECKSUMS:
+  DoraemonKit: 32fb97f3aa82efa133111d193080ca5462cef135
+  FBRetainCycleDetector: 46f8179bbb1c587deee3ea838a1a3ee02acf5015
+  FMDB: 2ce00b547f966261cd18927a3ddb07cb6f3db82a
+  GCDWebServer: 2c156a56c8226e2d5c0c3f208a3621ccffbe3ce4
+  IJKMediaFramework: f1119f6324c96bc4654f3045a5beaa95ba0596c0
+  KJPlayer: c33b3bc74865f5a524aceb8c79c2a9e6c175b437
+
+PODFILE CHECKSUM: 04181f8760ae88639d85c24772d142c0e7454c5b
+
+COCOAPODS: 1.10.1

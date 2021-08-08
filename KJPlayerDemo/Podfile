@@ -1,0 +1,30 @@
+# Uncomment the next line to define a global platform for your project
+# platform :ios, '9.0'
+
+def main_pods
+
+  # 播放器板块
+  pod "KJPlayer", :path => '..' # AVPlayer内核
+  pod "KJPlayer/AVPlayer/AVDownloader", :path => '..' # AVPlayer内核附加下载分支
+  pod "KJPlayer/IJKPlayer", :path => '..' # IJKPlayer内核
+  pod "KJPlayer/MIDI", :path => '..' # MIDIPlayer内核
+
+  # DiDi开发工具
+  pod 'DoraemonKit/Core', :configurations => ['Debug']
+  pod 'DoraemonKit/WithMLeaksFinder', :configurations => ['Debug'] # 查找内存泄漏
+
+end
+
+target 'KJPlayerDemo' do
+  # Comment the next line if you don't want to use dynamic frameworks
+  use_frameworks!
+
+  # Pods for KJPlayerDemo
+  main_pods
+
+  target 'KJPlayerDemoTests' do
+    inherit! :search_paths
+    # Pods for testing
+  end
+
+end

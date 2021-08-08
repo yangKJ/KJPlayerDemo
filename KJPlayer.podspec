@@ -4,10 +4,11 @@ Pod::Spec.new do |s|
   s.summary      = "KJPlayer play and cache, AVPlayer / MIDIPlayer / IJKPlayer"
   s.homepage     = "https://github.com/yangKJ/KJPlayerDemo"
   s.description  = 'https://github.com/yangKJ/KJPlayerDemo/blob/master/README.md'
-  s.license      = "MIT"
   s.license      = "Copyright (c) 2019 yangkejun"
+  s.author       = { "77" => "ykj310@126.com" }
   s.license      = { :type => "MIT", :file => "LICENSE" }
   s.source       = { :git => "https://github.com/yangKJ/KJPlayerDemo.git", :tag => "#{s.version}" }
+  s.social_media_url = "https://juejin.cn/user/1987535102554472/posts"
   s.platform     = :ios
   s.requires_arc = true
   s.static_framework = true
@@ -21,7 +22,9 @@ Pod::Spec.new do |s|
   s.subspec 'Common' do |co|
     co.source_files = "PlayerSource/Core/*.{h,m}","PlayerSource/View/*.{h,m}"
     co.resources = "PlayerSource/Core/*.{xcdatamodeld}"
-    
+    co.resource_bundles = {
+      'KJPlayer' => ['PlayerSource/View/*.{ttf}']
+    }
 #    co.subspec 'Core' do |xx|
 #      xx.source_files = "PlayerSource/Core/*.{h,m}"
 #      xx.resources = "PlayerSource/Core/*.{xcdatamodeld}"
@@ -53,10 +56,7 @@ Pod::Spec.new do |s|
   s.subspec 'IJKPlayer' do |jk|
     jk.source_files = "PlayerSource/KJIJKPlayer/*.{h,m}"
     jk.dependency 'KJPlayer/Common'
-#    jk.dependency 'KJExceedSDK'
+    jk.dependency 'IJKMediaFramework'
   end
-  
-  s.author = { "77" => "ykj310@126.com" }
-  s.social_media_url = "https://juejin.cn/user/1987535102554472/posts"
   
 end

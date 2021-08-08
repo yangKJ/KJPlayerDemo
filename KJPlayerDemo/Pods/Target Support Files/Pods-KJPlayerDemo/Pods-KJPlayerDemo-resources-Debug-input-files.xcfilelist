@@ -1,0 +1,4 @@
+${PODS_ROOT}/Target Support Files/Pods-KJPlayerDemo/Pods-KJPlayerDemo-resources.sh
+${BUILT_PRODUCTS_DIR}/KJPlayer/KJPlayer.framework/DBPlayer.momd
+${PODS_CONFIGURATION_BUILD_DIR}/KJPlayer/KJPlayer.bundle
+${PODS_ROOT}/../../PlayerSource/KJMidiPlayer/KJMidiSource.bundle
