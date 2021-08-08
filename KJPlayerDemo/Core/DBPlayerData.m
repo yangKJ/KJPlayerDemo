@@ -21,30 +21,38 @@
 
 /// 记录上次播放时间
 + (BOOL)kj_recordLastTime:(NSTimeInterval)time dbid:(NSString *)dbid{
-    return [DBPlayerDataManager kj_updateData:dbid update:^(DBPlayerData * data, BOOL * stop) {
+    NSError * error = nil;
+    NSArray * array = [DBPlayerDataManager kj_updateData:dbid update:^(DBPlayerData * data, BOOL * stop) {
         data.videoPlayTime = time;
-    }].count ? YES : NO;
+    } error:&error];
+    if (error) return NO;
+    return array.count ? YES : NO;
 }
 /// 获取上次播放时间
 + (NSTimeInterval)kj_getLastTimeDbid:(NSString *)dbid{
-    NSArray *temps = [DBPlayerDataManager kj_checkData:dbid];
+    NSArray *temps = [DBPlayerDataManager kj_checkData:dbid error:nil];
     if (temps.count == 0) return 0;
     DBPlayerData * data = temps.firstObject;
     return data.videoPlayTime;
 }
 /// 异步获取上次播放时间
 + (void)kj_gainLastTimeDbid:(NSString *)dbid complete:(void(^)(NSTimeInterval time))complete{
-    [[[NSThread alloc] initWithBlock:^{
-        if (complete) {
-            NSArray * temps = [DBPlayerDataManager kj_checkData:dbid];
-            if (temps.count == 0) {
-                complete(0);
-            } else {
-                DBPlayerData *data = temps.firstObject;
-                complete(data.videoPlayTime);
-            }
+    void (^kThread)(void) = ^{
+        NSArray * temps = [DBPlayerDataManager kj_checkData:dbid error:nil];
+        if (temps.count == 0) {
+            complete ? complete(0) : nil;
+        } else {
+            DBPlayerData *data = temps.firstObject;
+            complete ? complete(data.videoPlayTime) : nil;
         }
-    }] start];
+    };
+    if (@available(iOS 10.0, *)) {
+        [[[NSThread alloc] initWithBlock:^{
+            kThread();
+        }] start];
+    } else {
+        // Fallback on earlier versions
+    }
 }
 /// 存储记录上次播放时间
 + (void)kj_saveRecordLastTime:(NSTimeInterval)time dbid:(NSString *)dbid{

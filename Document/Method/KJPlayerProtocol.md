@@ -1,21 +1,9 @@
-//
-//  KJPlayerProtocol.h
-//  KJPlayerDemo
-//
-//  Created by 杨科军 on 2021/3/1.
-//  Copyright © 2021 杨科军. All rights reserved.
-//  https://github.com/yangKJ/KJPlayerDemo
-//  播放器委托协议相关
+# KJPlayerProtocol
 
-#import "KJPlayerType.h"
+### KJPlayerDelegate
+- **委托代理：**播放器内核相关代理
 
-NS_ASSUME_NONNULL_BEGIN
-
-/// 播放相关委托代理
-@class KJBasePlayer;
-@protocol KJPlayerDelegate <NSObject>
-@optional;
-
+```
 /// 当前播放器状态
 /// @param player 播放器内核
 /// @param state 播放器状态
@@ -36,14 +24,12 @@ NS_ASSUME_NONNULL_BEGIN
 /// @param failed 错误信息
 - (void)kj_player:(__kindof KJBasePlayer *)player playFailed:(NSError *)failed;
 
-@end
+```
 
-/// 控件相关委托代理
-@class KJBasePlayerView;
-@class KJPlayerButton;
-@protocol KJPlayerBaseViewDelegate <NSObject>
-@optional;
+### KJPlayerBaseViewDelegate
+- **控件载体协议：**UI相关协议代理
 
+```
 /// 单双击手势反馈
 /// @param view 播放器控件载体
 /// @param tap 是否为单击
@@ -97,9 +83,6 @@ NS_ASSUME_NONNULL_BEGIN
 /// 当前屏幕状态发生改变
 /// @param view 播放器控件载体
 /// @param screenState 当前屏幕状态
-- (void)kj_basePlayerView:(__kindof KJBasePlayerView *)view
-              screenState:(KJPlayerVideoScreenState)screenState;
+- (void)kj_basePlayerView:(__kindof KJBasePlayerView *)view screenState:(KJPlayerVideoScreenState)screenState;
 
-@end
-
-NS_ASSUME_NONNULL_END
+```

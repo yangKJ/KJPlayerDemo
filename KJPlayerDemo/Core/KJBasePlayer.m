@@ -78,6 +78,8 @@ static dispatch_once_t onceToken;
     [self addObserver:self forKeyPath:@"currentTime" options:options context:nil];
 }
 
+#pragma mark - kvo
+
 - (void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary *)change context:(void *)context{
     if ([keyPath isEqualToString:@"state"]) {
         if ([self.delegate respondsToSelector:@selector(kj_player:state:)]) {
@@ -106,7 +108,7 @@ static dispatch_once_t onceToken;
                 }
             }
         }
-    }else if ([keyPath isEqualToString:@"progress"]) {
+    } else if ([keyPath isEqualToString:@"progress"]) {
         if ([self.delegate respondsToSelector:@selector(kj_player:loadProgress:)]) {
             if (self.totalTime<=0) return;
             CGFloat new = [change[@"new"] floatValue], old = [change[@"old"] floatValue];
@@ -117,7 +119,7 @@ static dispatch_once_t onceToken;
                 });
             }
         }
-    }else if ([keyPath isEqualToString:@"playError"]) {
+    } else if ([keyPath isEqualToString:@"playError"]) {
         if ([self.delegate respondsToSelector:@selector(kj_player:playFailed:)]) {
             if (change[@"new"] != change[@"old"]) {
                 kGCD_player_main(^{
@@ -125,7 +127,7 @@ static dispatch_once_t onceToken;
                 });
             }
         }
-    }else if ([keyPath isEqualToString:@"currentTime"]) {
+    } else if ([keyPath isEqualToString:@"currentTime"]) {
         if ([self.delegate respondsToSelector:@selector(kj_player:currentTime:)]) {
             CGFloat new = [change[@"new"] floatValue], old = [change[@"old"] floatValue];
             if (new != old || (new == 0 && old == 0)) {
@@ -141,8 +143,9 @@ static dispatch_once_t onceToken;
 }
 
 #pragma mark - NSNotification
-//进入后台
-- (void)kj_detectAppEnterBackground:(NSNotification*)notification{
+
+/// 进入后台
+- (void)kj_detectAppEnterBackground:(NSNotification *)notification{
     if (self.backgroundPause) {
         [self kj_pause];
         [[AVAudioSession sharedInstance] setActive:NO error:nil];
@@ -150,14 +153,14 @@ static dispatch_once_t onceToken;
         [[AVAudioSession sharedInstance] setActive:YES error:nil];
     }
 }
-//进入前台
-- (void)kj_detectAppEnterForeground:(NSNotification*)notification{
+/// 进入前台
+- (void)kj_detectAppEnterForeground:(NSNotification *)notification{
     if (self.roregroundResume && self.userPause == NO && ![self isPlaying]) {
         [self kj_resume];
     }
 }
-//控件载体位置和尺寸发生变化
-- (void)kj_basePlayerViewChange:(NSNotification*)notification{
+/// 控件载体位置和尺寸发生变化
+- (void)kj_basePlayerViewChange:(NSNotification *)notification{
     CGRect rect = [notification.userInfo[kPlayerBaseViewChangeKey] CGRectValue];
     SEL sel = NSSelectorFromString(@"kj_displayPictureWithSize:");
     IMP imp = [self methodForSelector:sel];
@@ -166,6 +169,7 @@ static dispatch_once_t onceToken;
 }
 
 #pragma mark - child method, subclass should override.
+
 /// 准备播放 
 - (void)kj_play{ }
 /// 重播 
@@ -190,16 +194,19 @@ static dispatch_once_t onceToken;
 }
 
 #pragma mark - public method
+
 /// 主动存储当前播放记录 
 - (void)kj_saveRecordLastTime{
     @synchronized (@(self.recordLastTime)) {
         if (self.recordLastTime) {
-            [DBPlayerData kj_saveRecordLastTime:self.currentTime dbid:kPlayerIntactName(self.originalURL)];
+            [DBPlayerData kj_saveRecordLastTime:self.currentTime
+                                           dbid:kPlayerIntactName(self.originalURL)];
         }
     }
 }
 
 #pragma mark - table
+
 /// 列表上播放绑定tableView 
 - (void)kj_bindTableView:(UITableView*)tableView indexPath:(NSIndexPath*)indexPath{
     self.bindTableView = tableView;

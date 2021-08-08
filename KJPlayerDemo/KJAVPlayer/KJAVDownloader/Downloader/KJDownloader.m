@@ -9,7 +9,7 @@
 #import "KJDownloader.h"
 #import <objc/runtime.h>
 #import <MobileCoreServices/MobileCoreServices.h>
-#import "KJDownloaderConfiguration.h"
+#import "KJCustomManager.h"
 #import "KJFileHandleManager.h"
 #import "KJFileHandleInfo.h"
 
@@ -56,7 +56,7 @@
 @implementation KJDownloader
 
 - (void)dealloc{
-    [KJDownloaderConfiguration.shared kj_removeDownloadURL:self.videoURL];
+    [KJCustomManager.shared kj_removeDownloadURL:self.videoURL];
 }
 - (instancetype)initWithURL:(NSURL *)url fileHandleManager:(KJFileHandleManager *)manager{
     if (self = [super init]) {
@@ -65,7 +65,7 @@
         self.fileHandleManager = manager;
         self.contentLength = manager.cacheInfo.contentLength;
         self.contentType = manager.cacheInfo.contentType;
-        [KJDownloaderConfiguration.shared kj_addDownloadURL:self.videoURL];
+        [KJCustomManager.shared kj_addDownloadURL:self.videoURL];
     }
     return self;
 }
@@ -86,7 +86,7 @@
 }
 - (void)kj_cancelDownload{
     self.downloadTask.delegate = nil;
-    [KJDownloaderConfiguration.shared kj_removeDownloadURL:self.videoURL];
+    [KJCustomManager.shared kj_removeDownloadURL:self.videoURL];
     [self.downloadTask kj_cancelDownloading];
     self.downloadTask = nil;
 }
@@ -121,7 +121,7 @@
 }
 /// 接收错误或者接收完成，错误为空表示接收完成 
 - (void)kj_didFinishWithError:(NSError*_Nullable)error{
-    [KJDownloaderConfiguration.shared kj_removeDownloadURL:self.videoURL];
+    [KJCustomManager.shared kj_removeDownloadURL:self.videoURL];
     if (self.kDidFinished) {
         self.kDidFinished(self, error);
     }
@@ -211,8 +211,8 @@
     KJCacheFragment fragment = [KJCustomManager kj_getCacheFragment:self.fragments.firstObject];
     [self.fragments removeObjectAtIndex:0];
     if (fragment.type){// 远端碎片，即开始下载
-        NSUInteger fromOffset = fragment.range.location;
-        NSUInteger endOffset  = fragment.range.location + fragment.range.length - 1;
+        unsigned long fromOffset = fragment.range.location;
+        unsigned long endOffset  = fragment.range.location + fragment.range.length - 1;
         NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:self.videoURL];
         request.cachePolicy = NSURLRequestReloadIgnoringLocalAndRemoteCacheData;
         NSString *range = [NSString stringWithFormat:@"bytes=%lu-%lu", fromOffset, endOffset];
@@ -221,14 +221,14 @@
         self.task = [self.session dataTaskWithRequest:request];
         [self.task resume];
     } else {//本地碎片
-        NSData *data = [self.fileHandleManager kj_readCachedDataWithRange:fragment.range];
-        if (self.once == NO && data == nil) {
+        NSData * localData = [self.fileHandleManager kj_readCachedDataWithRange:fragment.range];
+        if (self.once == NO && localData == nil) {
             self.once = YES;
-            data = [self.fileHandleManager kj_readCachedDataWithRange:fragment.range];
-            if (data == nil) {
+            localData = [self.fileHandleManager kj_readCachedDataWithRange:fragment.range];
+            if (localData == nil) {
                 fragment.type = 1;
-                NSUInteger fromOffset = fragment.range.location;
-                NSUInteger endOffset  = fragment.range.location + fragment.range.length - 1;
+                unsigned long fromOffset = fragment.range.location;
+                unsigned long endOffset  = fragment.range.location + fragment.range.length - 1;
                 NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:self.videoURL];
                 request.cachePolicy = NSURLRequestReloadIgnoringLocalAndRemoteCacheData;
                 NSString *range = [NSString stringWithFormat:@"bytes=%lu-%lu", fromOffset, endOffset];
@@ -238,9 +238,9 @@
                 [self.task resume];
             }
         }
-        if (data) {
+        if (localData) {
             if ([self.delegate respondsToSelector:@selector(kj_didReceiveData:cached:)]) {
-                [self.delegate kj_didReceiveData:data cached:YES];
+                [self.delegate kj_didReceiveData:localData cached:YES];
             }
             [self kj_downlingFragment];
         } else {

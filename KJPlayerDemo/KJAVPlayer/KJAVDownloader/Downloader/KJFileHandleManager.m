@@ -7,7 +7,7 @@
 //  https://github.com/yangKJ/KJPlayerDemo
 
 #import "KJFileHandleManager.h"
-#import "KJDownloaderConfiguration.h"
+#import "KJCustomManager.h"
 #import "KJFileHandleInfo.h"
 #import "KJCacheManager.h"
 

@@ -10,28 +10,35 @@
 #import <objc/runtime.h>
 
 @interface KJBasePlayer ()
+
+/// 上次时间
 @property (nonatomic,assign) NSTimeInterval lastTime;
+/// 心跳计时器
 @property (nonatomic,strong) dispatch_source_t pingTimer;
+/// 上个内核名称
 @property (nonatomic,strong) NSString *lastSourceName;
+
 @end
 
 @implementation KJBasePlayer (KJPingTimer)
+
 #pragma mark - 心跳包板块
-//关闭心跳包（名字别乱改）
+
+/// 关闭心跳包（名字别乱改）
 - (void)kj_closePingTimer{
     if (!self.openPing) return;
     if (self.pingTimer) {
         [self kj_playerStopTimer:self.pingTimer];
     }
 }
-//暂停心跳（名字别乱改）
+/// 暂停心跳（名字别乱改）
 - (void)kj_pausePingTimer{
     if (!self.openPing) return;
     if (self.pingTimer) {
         [self kj_playerPauseTimer:self.pingTimer];
     }
 }
-//继续心跳（名字别乱改）
+/// 继续心跳（名字别乱改）
 - (void)kj_resumePingTimer{
     if (!self.openPing) return;
     if (self.pingTimer) {
@@ -72,6 +79,7 @@
 }
 
 #pragma mark - 动态切换板块
+
 /// 动态切换播放内核 
 - (void)kj_dynamicChangeSourcePlayer:(Class)clazz{
     NSString *__name = NSStringFromClass([self class]);
@@ -118,6 +126,7 @@
 }
 
 #pragma mark - Associated
+
 - (NSString *)lastSourceName{
     return objc_getAssociatedObject(self, _cmd);;
 }
@@ -162,6 +171,7 @@
 }
 
 #pragma mark - GCD 计时器
+
 /// 创建异步定时器 
 - (dispatch_source_t)kj_playerCreateAsyncTimer:(BOOL)async
                                           Task:(void(^)(void))task
@@ -214,6 +224,5 @@
         dispatch_resume(timer);
     }
 }
-
 
 @end

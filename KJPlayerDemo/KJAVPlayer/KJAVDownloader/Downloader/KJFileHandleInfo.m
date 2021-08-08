@@ -7,7 +7,7 @@
 //  https://github.com/yangKJ/KJPlayerDemo
 
 #import "KJFileHandleInfo.h"
-#import "KJDownloaderConfiguration.h"
+#import "KJCustomManager.h"
 #import "KJCacheManager.h"
 
 #pragma clang diagnostic push

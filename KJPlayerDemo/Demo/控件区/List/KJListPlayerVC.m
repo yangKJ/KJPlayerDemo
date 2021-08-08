@@ -28,7 +28,7 @@
     [self.view addSubview:tableView];
     PLAYER_WEAKSELF;
     kGCD_player_async(^{
-        NSArray *array = [DBPlayerDataManager kj_checkData:nil];
+        NSArray *array = [DBPlayerDataManager kj_checkData:nil error:nil];
         weakself.temps = [NSMutableArray arrayWithArray:array];
         //剔除未缓存完整的数据
         for (DBPlayerData *data in array) {

@@ -7,13 +7,12 @@
 //  https://github.com/yangKJ/KJPlayerDemo
 
 #import "KJAVPlayer.h"
-//#import "KJAVPlayer+KJCache.h"
 #import "KJCacheManager.h"
 
 #pragma clang diagnostic push
 #pragma clang diagnostic ignored"-Wdeprecated-declarations"
 
-@interface KJAVPlayer()
+@interface KJAVPlayer ()
 PLAYER_COMMON_EXTENSION_PROPERTY
 @property (nonatomic,strong) NSObject *timeObserver;
 @property (nonatomic,strong) AVPlayerLayer *playerLayer;
@@ -21,7 +20,9 @@ PLAYER_COMMON_EXTENSION_PROPERTY
 @property (nonatomic,strong) AVPlayer *player;
 @property (nonatomic,strong) AVPlayerItemVideoOutput *playerOutput;
 @property (nonatomic,strong) AVAssetImageGenerator *imageGenerator;
+
 @end
+
 @implementation KJAVPlayer
 PLAYER_COMMON_FUNCTION_PROPERTY PLAYER_COMMON_UI_PROPERTY
 static NSString * const kStatus = @"status";

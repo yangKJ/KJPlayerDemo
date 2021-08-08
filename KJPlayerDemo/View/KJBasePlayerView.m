@@ -19,11 +19,11 @@
     BOOL movingH;
 }
 @property (nonatomic,assign) KJPlayerVideoScreenState screenState;
+@property (nonatomic,strong) UIPanGestureRecognizer * panGesture;
 @property (nonatomic,assign) NSInteger width,height;
+@property (nonatomic,assign) float lastValue;
 @property (nonatomic,assign) BOOL haveVolume;
 @property (nonatomic,assign) BOOL haveBrightness;
-@property (nonatomic,assign) float lastValue;
-@property (nonatomic,strong) UIPanGestureRecognizer *pan;
 @property (nonatomic,assign) BOOL displayOperation;
 
 @end
@@ -66,33 +66,36 @@
     self.displayOperation = YES;
     [self kj_hiddenOperationView];
 }
+
 #pragma mark - NSNotification
-//屏幕旋转
-- (void)kj_orientationChange:(NSNotification*)notification{
+
+/// 屏幕旋转
+- (void)kj_orientationChange:(NSNotification *)notification{
     if (self.autoRotate) {
         [KJRotateManager kj_rotateAutoFullScreenBasePlayerView:self];
     }
 }
 
 #pragma mark - kvo
-- (void)observeValueForKeyPath:(NSString*)keyPath ofObject:(id)object change:(NSDictionary*)change context:(void*)context{
+
+- (void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary *)change context:(void *)context{
     if ([keyPath isEqualToString:@"frame"] || [keyPath isEqualToString:@"bounds"]) {
         if ([object valueForKeyPath:keyPath] != [NSNull null]) {
             [[NSNotificationCenter defaultCenter] postNotificationName:kPlayerBaseViewChangeNotification
                                                                 object:self
                                                               userInfo:@{kPlayerBaseViewChangeKey:[object valueForKeyPath:keyPath]}];
             CGRect rect = [[object valueForKeyPath:keyPath] CGRectValue];
-            self.width = rect.size.width;
+            self.width  = rect.size.width;
             self.height = rect.size.height;
             [self kj_changeFrame];
         }
     }
 }
 - (void)kj_changeFrame{
+    [self.hintTextLayer setValue:@(self.screenState) forKey:@"screenState"];
     self.loadingLayer.position = CGPointMake(self.width/2, self.height/2);
     self.fastLayer.position = CGPointMake(self.width/2, self.height/2);
     self.vbLayer.position = CGPointMake(self.width/2, self.height/2);
-    [self.hintTextLayer setValue:@(self.screenState) forKey:@"screenState"];
     self.topView.frame = CGRectMake(0, 0, self.width, self.operationViewHeight);
     self.bottomView.frame = CGRectMake(0, self.height-self.operationViewHeight, self.width, self.operationViewHeight);
     self.lockButton.frame = CGRectMake(10, (self.height-kLockWidth)/2, kLockWidth, kLockWidth);
@@ -100,7 +103,8 @@
     self.centerPlayButton.frame = CGRectMake((self.width-width)/2, (self.height-width)/2, width, width);
 }
 
-#pragma mark - setter
+#pragma mark - getter/setter
+
 - (void)setGestureType:(KJPlayerGestureType)gestureType{
     if (gestureType != _gestureType) {
         for (UIGestureRecognizer * gesture in self.gestureRecognizers) {
@@ -108,7 +112,7 @@
         }
     }
     _gestureType = gestureType;
-    if (_pan) _pan = nil;
+    if (_panGesture) _panGesture = nil;
     self.haveVolume = self.haveBrightness = NO;
     BOOL haveTap = NO;
     UITapGestureRecognizer * tapGesture = nil;
@@ -132,15 +136,15 @@
         [self addGestureRecognizer:longPress];
     }
     if (gestureType == 4 || (gestureType & KJPlayerGestureTypeProgress)) {
-        if (self.pan) { }
+        if (self.panGesture) { }
     }
     if (gestureType == 5 || (gestureType & KJPlayerGestureTypeVolume)) {
         self.haveVolume = YES;
-        if (self.pan) { }
+        if (self.panGesture) { }
     }
     if (gestureType == 6 || (gestureType & KJPlayerGestureTypeBrightness)) {
         self.haveBrightness = YES;
-        if (self.pan) { }
+        if (self.panGesture) { }
     }
 }
 - (void)setIsFullScreen:(BOOL)isFullScreen{
@@ -183,10 +187,27 @@
     _backButton.hidden = smallScreenHiddenBackButton;
 }
 
-#pragma maek - UIGestureRecognizer
+#pragma mark - public method
 
-//单击手势
-- (void)tapAction:(UITapGestureRecognizer*)gesture{
+/// 隐藏操作面板，是否隐藏返回按钮
+- (void)kj_hiddenOperationView{
+    [KJRotateManager kj_operationViewHiddenBasePlayerView:self];
+}
+/// 显示操作面板
+- (void)kj_displayOperationView{
+    [KJRotateManager kj_operationViewDisplayBasePlayerView:self];
+}
+/// 取消收起操作面板，可用于滑动滑杆时刻不自动隐藏
+- (void)kj_cancelHiddenOperationView{
+    [NSObject cancelPreviousPerformRequestsWithTarget:self
+                                             selector:@selector(kj_hiddenOperationView)
+                                               object:nil];
+}
+
+#pragma mark - gesture
+
+/// 单击手势
+- (void)tapAction:(UITapGestureRecognizer *)gesture{
     if (gesture.state == UIGestureRecognizerStateEnded) {
         if (self.lockButton.isLocked) {
             if (self.lockButton.isHidden) {
@@ -201,8 +222,8 @@
         }
     }
 }
-//双击手势
-- (void)doubleAction:(UITapGestureRecognizer*)gesture{
+/// 双击手势
+- (void)doubleAction:(UITapGestureRecognizer *)gesture{
     if (gesture.state == UIGestureRecognizerStateEnded) {
         if (self.lockButton.isLocked) return;
         if ([self.delegate respondsToSelector:@selector(kj_basePlayerView:isSingleTap:)]) {
@@ -210,15 +231,15 @@
         }
     }
 }
-//长按手势
-- (void)longAction:(UILongPressGestureRecognizer*)longPress{
+/// 长按手势
+- (void)longAction:(UILongPressGestureRecognizer *)longPress{
     if (self.lockButton.isLocked) return;
     if ([self.delegate respondsToSelector:@selector(kj_basePlayerView:longPress:)]) {
         [self.delegate kj_basePlayerView:self longPress:longPress];
     }
 }
-//音量手势，亮度手势，快进倒退进度手势
-- (void)panAction:(UIPanGestureRecognizer*)pan{
+/// 音量手势，亮度手势，快进倒退进度手势
+- (void)panAction:(UIPanGestureRecognizer *)pan{
     if (self.lockButton.isLocked) return;
     PLAYER_WEAKSELF;
     void (^kSetBrightness)(float) = ^(float value){
@@ -268,9 +289,9 @@
                     } else {
                         self.lastValue = [UIScreen mainScreen].brightness;
                     }
-                }else if (self.haveBrightness) {
+                } else if (self.haveBrightness) {
                     self.lastValue = [UIScreen mainScreen].brightness;
-                }else if (self.haveVolume) {
+                } else if (self.haveVolume) {
                     self.lastValue = [AVAudioSession sharedInstance].outputVolume;
                 }
             }
@@ -300,9 +321,9 @@
                     } else {
                         kSetBrightness(translate.y);
                     }
-                }else if (self.haveBrightness) {
+                } else if (self.haveBrightness) {
                     kSetBrightness(translate.y);
-                }else if (self.haveVolume) {
+                } else if (self.haveVolume) {
                     kSetVolume(translate.y);
                 }
             }
@@ -321,38 +342,23 @@
                 if (_vbLayer) _vbLayer.hidden = YES;
             }
         } break;
-        default:
-            break;
+        default:break;
     }
-}
-
-#pragma mark - method
-/// 隐藏操作面板，是否隐藏返回按钮 
-- (void)kj_hiddenOperationView{
-    [KJRotateManager kj_operationViewHiddenBasePlayerView:self];
-}
-/// 显示操作面板 
-- (void)kj_displayOperationView{
-    [KJRotateManager kj_operationViewDisplayBasePlayerView:self];
-}
-/// 取消收起操作面板，可用于滑动滑杆时刻不自动隐藏 
-- (void)kj_cancelHiddenOperationView{
-    [NSObject cancelPreviousPerformRequestsWithTarget:self selector:@selector(kj_hiddenOperationView) object:nil];
 }
 
 #pragma mark - lazy
 
-- (UIPanGestureRecognizer *)pan{
-    if (!_pan) {
-        _pan = [[UIPanGestureRecognizer alloc]initWithTarget:self action:@selector(panAction:)];
-        _pan.delegate = self;
-        [_pan setMaximumNumberOfTouches:1];
-        [_pan setDelaysTouchesBegan:YES];
-        [_pan setDelaysTouchesEnded:YES];
-        [_pan setCancelsTouchesInView:YES];
-        [self addGestureRecognizer:_pan];
+- (UIPanGestureRecognizer *)panGesture{
+    if (_panGesture == nil) {
+        _panGesture = [[UIPanGestureRecognizer alloc]initWithTarget:self action:@selector(panAction:)];
+        _panGesture.delegate = self;
+        [_panGesture setMaximumNumberOfTouches:1];
+        [_panGesture setDelaysTouchesBegan:YES];
+        [_panGesture setDelaysTouchesEnded:YES];
+        [_panGesture setCancelsTouchesInView:YES];
+        [self addGestureRecognizer:_panGesture];
     }
-    return _pan;
+    return _panGesture;
 }
 - (KJPlayerFastLayer *)fastLayer{
     if (!_fastLayer) {

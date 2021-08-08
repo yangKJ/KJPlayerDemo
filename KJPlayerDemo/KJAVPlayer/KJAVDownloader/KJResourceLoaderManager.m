@@ -13,7 +13,7 @@
 #import "KJDownloader.h"
 #import "KJFileHandleManager.h"
 #import "KJFileHandleInfo.h"
-#import "KJDownloaderConfiguration.h"
+#import "KJCustomManager.h"
 
 @interface KJResourceLoaderManager ()
 @property (nonatomic,strong, readwrite) NSURL *videoURL;
@@ -65,7 +65,7 @@
 - (void)kj_cancelLoading{
     [self.downloader kj_cancelDownload];
     [self.requests removeAllObjects];
-    [KJDownloaderConfiguration.shared kj_removeDownloadURL:self.videoURL];
+    [KJCustomManager.shared kj_removeDownloadURL:self.videoURL];
 }
 
 #pragma mark - private method
@@ -74,7 +74,7 @@
 - (void)kj_addDownloader:(KJDownloader*)downloader request:(AVAssetResourceLoadingRequest*)request{
     kSetDownloadConfiguration(downloader, request);
     [self.requests addObject:request];
-    [KJDownloaderConfiguration.shared kj_addDownloadURL:self.videoURL];
+    [KJCustomManager.shared kj_addDownloadURL:self.videoURL];
     PLAYER_WEAKSELF;
     downloader.kDidReceiveResponse = ^(KJDownloader * downloader, NSURLResponse * response) {
         kSetDownloadConfiguration(downloader, request);
@@ -93,7 +93,7 @@
             [weakself.requests removeObject:request];
         }
         if (weakself.requests.count == 0){
-            [KJDownloaderConfiguration.shared kj_removeDownloadURL:weakself.videoURL];
+            [KJCustomManager.shared kj_removeDownloadURL:weakself.videoURL];
         }
         if ([weakself.delegate respondsToSelector:@selector(kj_resourceLoader:didFinished:)]){
             [weakself.delegate kj_resourceLoader:weakself didFinished:error];
@@ -107,7 +107,7 @@ NS_INLINE void kStartDownloading(KJDownloader * downloader, AVAssetResourceLoadi
     AVAssetResourceLoadingDataRequest *dataRequest = request.dataRequest;
     NSInteger offset = (NSInteger)dataRequest.requestedOffset;
     NSInteger length = dataRequest.requestedLength;
-    if (dataRequest.currentOffset != 0) offset = dataRequest.currentOffset;
+    if (dataRequest.currentOffset != 0) offset = (NSInteger)dataRequest.currentOffset;
     if (@available(iOS 9.0, *)) {
         if (dataRequest.requestsAllDataToEndOfResource) {
             [downloader kj_downloadTaskRange:NSMakeRange(offset, length) whole:YES];

@@ -7,7 +7,7 @@
 //  https://github.com/yangKJ/KJPlayerDemo
 
 #import "KJCacheManager.h"
-#import "KJDownloaderConfiguration.h"
+#import "KJCustomManager.h"
 #import "DBPlayerData.h"
 
 #define kPlayerCachePath NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES).lastObject
@@ -20,7 +20,7 @@
 #pragma mark - NSFileManager
 /// 删除指定文件 
 + (BOOL)kj_removeFilePath:(NSString *)path{
-    NSError *error;
+    NSError * error = nil;
     if ([[NSFileManager defaultManager] fileExistsAtPath:path]) {
         [[NSFileManager defaultManager] removeItemAtPath:path error:&error];
     } else {
@@ -30,7 +30,7 @@
 }
 /// 创建文件夹 
 + (BOOL)kj_createFilePath:(NSString *)path{
-    NSError *error;
+    NSError * error = nil;
     NSString *cacheFolder = [path stringByDeletingLastPathComponent];
     if (![[NSFileManager defaultManager] fileExistsAtPath:cacheFolder]) {
         [[NSFileManager defaultManager] createDirectoryAtPath:cacheFolder
@@ -91,8 +91,9 @@
             }
         }
         if ([[NSFileManager defaultManager] removeItemAtPath:sanboxPath error:NULL]) {
-            [DBPlayerDataManager kj_deleteData:data.dbid];
-            return YES;
+            NSError * error = nil;
+            [DBPlayerDataManager kj_deleteData:data.dbid error:&error];
+            return error ? NO : YES;
         }
     }
     return NO;
@@ -104,7 +105,7 @@
 /// @param videoURL 链接地址
 + (BOOL)kj_haveCacheURL:(NSURL * _Nonnull __strong * _Nonnull)videoURL{
     NSURL * tempURL = * videoURL;
-    NSArray<DBPlayerData*> * temps = [DBPlayerDataManager kj_checkData:kPlayerIntactName(tempURL)];
+    NSArray<DBPlayerData*> * temps = [DBPlayerDataManager kj_checkData:kPlayerIntactName(tempURL) error:nil];
     if (temps.count) {
         DBPlayerData * data = temps.firstObject;
         NSString * path = data.sandboxPath;
@@ -141,7 +142,7 @@
 /// 清除全部缓存，暴露当前正在下载数据 
 + (void)kj_clearAllVideoCache{
     NSMutableSet *set = [NSMutableSet set];
-    [KJDownloaderConfiguration.shared.downloadings enumerateObjectsUsingBlock:^(NSURL * obj, BOOL *stop) {
+    [KJCustomManager.shared.downloadings enumerateObjectsUsingBlock:^(NSURL * obj, BOOL *stop) {
         [set addObject:[self kj_createVideoCachedPath:obj]];
         [set addObject:[self kj_appendingVideoTempPath:obj]];
     }];
@@ -154,16 +155,17 @@
 /// 清除指定缓存 
 + (BOOL)kj_clearVideoCacheWithURL:(NSURL *)url{
     if (url == nil) return NO;
-    if ([KJDownloaderConfiguration.shared kj_containsDownloadURL:url]) {
+    if ([KJCustomManager.shared kj_containsDownloadURL:url]) {
         return NO;
     }
     NSString *tempPath = [self kj_appendingVideoTempPath:url];
-    if ([[NSFileManager defaultManager] fileExistsAtPath:tempPath]) {
-        if (![[NSFileManager defaultManager] removeItemAtPath:tempPath error:NULL]) {
+    NSFileManager * manager = [NSFileManager defaultManager];
+    if ([manager fileExistsAtPath:tempPath]) {
+        if (![manager removeItemAtPath:tempPath error:NULL]) {
             return NO;
         }
     }
-    return [[NSFileManager defaultManager] removeItemAtPath:[self kj_createVideoCachedPath:url] error:NULL];
+    return [manager removeItemAtPath:[self kj_createVideoCachedPath:url] error:NULL];
 }
 
 #pragma mark - 封面图

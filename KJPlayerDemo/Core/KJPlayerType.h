@@ -241,6 +241,18 @@ NS_INLINE void kPlayerPerformSel(id target, NSString * selName){
     void (* tempFunc)(id target, SEL) = (void *)imp;
     tempFunc(target, sel);
 }
+// 延时执行
+#define kPerformAfterDelay(__method__, __object__, __time__) \
+{ \
+SEL sel = NSSelectorFromString(__method__); \
+[self performSelector:sel withObject:__object__ afterDelay:__time__]; \
+} \
+// 取消方法
+#define kCancelPreviousPerform(__method__)  \
+{ \
+SEL sel = NSSelectorFromString(__method__); \
+[NSObject cancelPreviousPerformRequestsWithTarget:self selector:sel object:nil]; \
+} \
 
 #endif /// KJPlayerType_h 
 

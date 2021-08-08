@@ -54,6 +54,7 @@ static NSString * kPlayerBaseViewChangeKey = @"kPlayerBaseViewKey";
 @property (nonatomic,assign,readonly) KJPlayerVideoScreenState screenState;
 
 #pragma mark - subview
+
 /// 快进快退进度控件
 @property (nonatomic,strong) KJPlayerFastLayer *fastLayer;
 /// 音量亮度控件
@@ -74,6 +75,7 @@ static NSString * kPlayerBaseViewChangeKey = @"kPlayerBaseViewKey";
 @property (nonatomic,strong) KJPlayerButton *centerPlayButton;
 
 #pragma mark - method
+
 /// 隐藏操作面板，是否隐藏返回按钮
 - (void)kj_hiddenOperationView;
 /// 显示操作面板

@@ -19,6 +19,21 @@ NS_ASSUME_NONNULL_BEGIN
 
 @interface KJCustomManager : NSObject
 
+/// 单例属性
+@property (nonatomic,strong,class,readonly,getter=kj_sharedInstance) KJCustomManager *shared;
+
+/// 正在下载的请求
+@property (nonatomic,strong,readonly) NSMutableSet * downloadings;
+
+#pragma mark - 下载地址管理
+
+/// 新增网址
+- (void)kj_addDownloadURL:(NSURL *)url;
+/// 移出网址
+- (void)kj_removeDownloadURL:(NSURL *)url;
+/// 是否包含网址
+- (BOOL)kj_containsDownloadURL:(NSURL *)url;
+
 #pragma mark - 结构体相关
 
 /// 缓存碎片结构体转对象
