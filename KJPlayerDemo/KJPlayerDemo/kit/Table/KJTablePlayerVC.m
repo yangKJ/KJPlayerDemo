@@ -97,7 +97,7 @@
     if (info.image == nil) {
         KJAVPlayer.shared.kVideoPlaceholderImage(^(UIImage * _Nonnull image) {
             if (image == nil) {
-                image = [UIImage imageNamed:@"20ea53a47eb0447883ed186d9f11e410"];
+                image = [UIImage imageNamed:@"Nini"];
             }
             cell.videoImageView.image = image;
             info.image = image;

@@ -69,7 +69,7 @@
     UITapGestureRecognizer *tap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(tapPlayerViewAction:)];
     [backview addGestureRecognizer:tap];
     
-    self.loadingView = [[UIActivityIndicatorView alloc] initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleWhite];
+    self.loadingView = [[UIActivityIndicatorView alloc] initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleMedium];
     _loadingView.center = self.view.center;
     CGAffineTransform transform = CGAffineTransformMakeScale(2.2, 2.2);
     _loadingView.transform = transform;
@@ -84,14 +84,7 @@
     player.kVideoSkipTime(^(KJPlayerVideoSkipState skipState) {
         
     }, 50, 0);
-    player.kVideoTotalTime = ^(NSTimeInterval time) {
-        slider.maximumValue = time;
-        NSLog(@"time:%@",kPlayerConvertTime(time));
-    };
     player.videoURL = self.url;
-    player.kVideoSize = ^(CGSize size) {
-        NSLog(@"%.2f,%.2f",size.width,size.height);
-    };
 }
 - (void)tapPlayerViewAction:(UITapGestureRecognizer *)gesture {
     if (gesture.state == UIGestureRecognizerStateEnded) {
@@ -145,6 +138,12 @@
 /* 缓存进度 */
 - (void)kj_player:(KJBasePlayer*)player loadProgress:(CGFloat)progress{
     [self.progressView setProgress:progress animated:YES];
+}
+/// 视频总时长
+/// @param player 播放器内核
+/// @param time 总时间
+- (void)kj_player:(__kindof KJBasePlayer *)player videoTime:(NSTimeInterval)time{
+    self.slider.maximumValue = time;
 }
 
 @end

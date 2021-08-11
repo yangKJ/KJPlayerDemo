@@ -35,8 +35,7 @@
         label.textColor = [UIColor.blueColor colorWithAlphaComponent:0.8];
         label.text = @"暂时还有不少的问题，待我调试修改一番!!!";
         [self.view addSubview:label];
-    }
-    {
+    }{
         UIButton *button = [UIButton buttonWithType:(UIButtonTypeCustom)];
         button.frame = CGRectMake((self.view.frame.size.width-100)/2, self.view.frame.size.height-150, 100, 50);
         button.backgroundColor = [UIColor.greenColor colorWithAlphaComponent:0.5];
@@ -63,7 +62,6 @@
     }
     self.sourceLabel.text = [@"当前播放器内核 -- " stringByAppendingFormat:@"%@",self.player.kPlayerCurrentSourceName()];
     NSString *string = [NSString stringWithFormat:@"当前内核%@",NSStringFromClass([self.player class])];
-    NSLog(@"---xx---%@",string);
     [self.player.playerView.hintTextLayer kj_displayHintText:string time:5 position:KJPlayerHintPositionTop];
     self.player.videoURL = kPlayerURLCharacters(@"https://mp4.vjshi.com/2016-10-31/a553917787e52c0a077e3fb8548fae69.mp4?测试中文转义abc");
 }
