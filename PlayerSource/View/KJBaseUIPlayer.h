@@ -12,24 +12,22 @@
 
 @protocol KJBaseUIPlayer <NSObject>
 @required
-/// 播放器载体 
+/// 播放器载体
 @property (nonatomic,strong) KJBasePlayerView *playerView;
-/// 占位图 
+/// 占位图
 @property (nonatomic,strong) UIImage *placeholder;
-/// 背景颜色，默认黑色 
+/// 背景颜色，默认黑色
 @property (nonatomic,assign) CGColorRef background;
 /// 视频显示模式，默认 KJPlayerVideoGravityResizeAspect
 @property (nonatomic,assign) KJPlayerVideoGravity videoGravity;
-/// 获取当前截屏 
+/// 获取当前截屏
 @property (nonatomic,copy,readonly) void (^kVideoTimeScreenshots)(void(^)(UIImage * image));
-/// 子线程获取封面图，图片会存储在磁盘 
+/// 子线程获取封面图，图片会存储在磁盘
 @property (nonatomic,copy,readonly) void(^kVideoPlaceholderImage)(void(^)(UIImage * image), NSURL *, NSTimeInterval);
-/// 获取视频尺寸大小 
-@property (nonatomic,copy,readwrite) void (^kVideoSize)(CGSize size);
 
 #pragma mark - method
 
-/// 列表上播放绑定tableView 
+/// 列表上播放绑定tableView
 - (void)kj_bindTableView:(UITableView *)tableView indexPath:(NSIndexPath *)indexPath;
 
 @end
@@ -40,6 +38,5 @@
 @synthesize placeholder = _placeholder;\
 @synthesize background = _background;\
 @synthesize videoGravity = _videoGravity;\
-@synthesize kVideoSize = _kVideoSize;\
 @dynamic kVideoTimeScreenshots;\
 @dynamic kVideoPlaceholderImage;\

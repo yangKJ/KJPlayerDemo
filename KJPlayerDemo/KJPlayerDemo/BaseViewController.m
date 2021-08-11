@@ -8,7 +8,9 @@
 
 #import "BaseViewController.h"
 
-@interface BaseViewController () <KJPlayerBaseViewDelegate>
+@interface BaseViewController () <KJPlayerDelegate, KJPlayerBaseViewDelegate>
+
+@property (nonatomic, strong) UILabel *label3;
 
 @end
 
@@ -30,7 +32,7 @@
     // Do any additional setup after loading the view.
     self.view.backgroundColor = PLAYER_UIColorFromHEXA(0xf5f5f5, 1);
     
-    self.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc]initWithTitle:@"ㄑ" style:(UIBarButtonItemStyleDone) target:self action:@selector(backItemClick)];
+    self.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:@"🔙" style:(UIBarButtonItemStyleDone) target:self action:@selector(backItemClick)];
     
     UIProgressView *progressView = [[UIProgressView alloc] initWithProgressViewStyle:UIProgressViewStyleDefault];
     self.progressView = progressView;
@@ -61,13 +63,14 @@
     [self.view addSubview:label2];
     
     UILabel *label3 = [[UILabel alloc]initWithFrame:CGRectMake(0, self.view.bounds.size.height-69-PLAYER_BOTTOM_SPACE_HEIGHT, self.view.bounds.size.width-10, 20)];
+    self.label3 = label3;
     label3.textAlignment = 2;
     label3.font = [UIFont systemFontOfSize:14];
     label3.textColor = [UIColor.redColor colorWithAlphaComponent:0.7];
     [self.view addSubview:label3];
     
     KJBasePlayerView *backview = [[KJBasePlayerView alloc]initWithFrame:CGRectMake(0, PLAYER_STATUSBAR_NAVIGATION_HEIGHT, self.view.bounds.size.width, self.view.bounds.size.height-PLAYER_STATUSBAR_NAVIGATION_HEIGHT-PLAYER_BOTTOM_SPACE_HEIGHT-74)];
-    backview.image = [UIImage imageNamed:@"20ea53a47eb0447883ed186d9f11e410"];
+    backview.image = [UIImage imageNamed:@"Nini"];
     self.basePlayerView = backview;
     [self.view addSubview:backview];
     backview.delegate = self;
@@ -76,17 +79,11 @@
     
     KJAVPlayer *player = [[KJAVPlayer alloc]init];
     self.player = player;
+    player.delegate = self;
     player.placeholder = backview.image;
     player.playerView = backview;
     [player.playerView.loadingLayer kj_startAnimation];
     player.roregroundResume = YES;
-    player.kVideoTotalTime = ^(NSTimeInterval time) {
-        slider.maximumValue = time;
-        label3.text = kPlayerConvertTime(time);
-    };
-    player.kVideoSize = ^(CGSize size) {
-        NSLog(@"%.2f,%.2f",size.width,size.height);
-    };
 }
 ///进度条的拖拽事件 监听UISlider拖动状态
 - (void)sliderValueChanged:(UISlider*)slider forEvent:(UIEvent*)event {
@@ -106,15 +103,30 @@
     }
 }
 
+/// 视频总时长
+/// @param player 播放器内核
+/// @param time 总时间
+- (void)kj_player:(__kindof KJBasePlayer *)player videoTime:(NSTimeInterval)time{
+    NSLog(@"🎷🎷🎷 视频总时长 time = %.2f",time);
+    self.slider.maximumValue = time;
+    self.label3.text = kPlayerConvertTime(time);
+}
+
+/// 获取视频尺寸大小
+/// @param player 播放器内核
+/// @param size 视频尺寸
+- (void)kj_player:(__kindof KJBasePlayer *)player videoSize:(CGSize)size{
+    NSLog(@"🎷🎷🎷 视频大小尺寸 width = %.2f, height = %.2f",size.width,size.height);
+}
+
+
 #pragma mark - KJPlayerBaseViewDelegate
 
 /// 单双击手势反馈
 /// @param view 播放器控件载体
 /// @param tap 是否为单击
 - (void)kj_basePlayerView:(__kindof KJBasePlayerView *)view isSingleTap:(BOOL)tap{
-    if (tap) {
-        
-    } else {
+    if (tap == NO) {
         if ([self.player isPlaying]) {
             [self.player kj_pause];
         } else {
@@ -126,8 +138,7 @@
 /// 长按手势反馈
 /// @param view 播放器控件载体
 /// @param longPress 长按手势
-- (void)kj_basePlayerView:(__kindof KJBasePlayerView *)view
-                longPress:(UILongPressGestureRecognizer *)longPress{
+- (void)kj_basePlayerView:(__kindof KJBasePlayerView *)view longPress:(UILongPressGestureRecognizer *)longPress{
     switch (longPress.state) {
         case UIGestureRecognizerStateBegan:{
             self.player.speed = 2.;
@@ -205,8 +216,7 @@
 /// 当前屏幕状态发生改变
 /// @param view 播放器控件载体
 /// @param screenState 当前屏幕状态
-- (void)kj_basePlayerView:(__kindof KJBasePlayerView *)view
-              screenState:(KJPlayerVideoScreenState)screenState{
+- (void)kj_basePlayerView:(__kindof KJBasePlayerView *)view screenState:(KJPlayerVideoScreenState)screenState{
     
 }
 

@@ -36,6 +36,16 @@ NS_ASSUME_NONNULL_BEGIN
 /// @param failed 错误信息
 - (void)kj_player:(__kindof KJBasePlayer *)player playFailed:(NSError *)failed;
 
+/// 视频总时长
+/// @param player 播放器内核
+/// @param time 总时间
+- (void)kj_player:(__kindof KJBasePlayer *)player videoTime:(NSTimeInterval)time;
+
+/// 获取视频尺寸大小
+/// @param player 播放器内核
+/// @param size 视频尺寸
+- (void)kj_player:(__kindof KJBasePlayer *)player videoSize:(CGSize)size;
+
 @end
 
 /// 控件相关委托代理

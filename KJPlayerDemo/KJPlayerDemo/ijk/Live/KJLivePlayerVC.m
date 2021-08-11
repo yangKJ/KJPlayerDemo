@@ -36,7 +36,7 @@
     
     KJIJKPlayer *player = [[KJIJKPlayer alloc]init];
     self.player = player;
-    player.placeholder = [UIImage imageNamed:@"20ea53a47eb0447883ed186d9f11e410"];
+    player.placeholder = [UIImage imageNamed:@"Nini"];
     player.playerView = backview;
     player.cacheTime = 5;
     player.delegate = self;

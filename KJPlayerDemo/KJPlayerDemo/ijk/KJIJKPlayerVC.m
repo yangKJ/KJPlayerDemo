@@ -15,6 +15,7 @@
 @property(nonatomic,strong)NSArray *temps;
 @property(nonatomic,strong)UISlider *slider;
 @property(nonatomic,strong)UILabel *label;
+@property(nonatomic,strong)UILabel *label3;
 @property(nonatomic,strong)UIProgressView *progressView;
 
 @end
@@ -60,6 +61,7 @@
     [self.view addSubview:label2];
     
     UILabel *label3 = [[UILabel alloc]initWithFrame:CGRectMake(0, self.view.bounds.size.height-69-PLAYER_BOTTOM_SPACE_HEIGHT, self.view.bounds.size.width-10, 20)];
+    self.label3 = label3;
     label3.textAlignment = 2;
     label3.font = [UIFont systemFontOfSize:14];
     label3.textColor = [UIColor.redColor colorWithAlphaComponent:0.7];
@@ -73,17 +75,10 @@
     
     KJIJKPlayer *player = [[KJIJKPlayer alloc]init];
     self.player = player;
-    player.placeholder = [UIImage imageNamed:@"20ea53a47eb0447883ed186d9f11e410"];
+    player.placeholder = [UIImage imageNamed:@"Nini"];
     player.playerView = backview;
     player.cacheTime = 5;
     player.delegate = self;
-    player.kVideoTotalTime = ^(NSTimeInterval time) {
-        slider.maximumValue = time;
-        label3.text = kPlayerConvertTime(time);
-    };
-    player.kVideoSize = ^(CGSize size) {
-        NSLog(@"%.2f,%.2f",size.width,size.height);
-    };
     
     UILabel *label = [[UILabel alloc]initWithFrame:CGRectMake(20, CGRectGetMaxY(self.basePlayerView.frame)+30, self.view.bounds.size.width-40, 20)];
     label.textAlignment = NSTextAlignmentLeft;
@@ -160,6 +155,13 @@
 /* 播放错误 */
 - (void)kj_player:(KJBasePlayer*)player playFailed:(NSError*)failed{
     
+}
+/// 视频总时长
+/// @param player 播放器内核
+/// @param time 总时间
+- (void)kj_player:(__kindof KJBasePlayer *)player videoTime:(NSTimeInterval)time{
+    self.slider.maximumValue = time;
+    self.label3.text = kPlayerConvertTime(time);
 }
 
 #pragma mark - KJPlayerBaseViewDelegate

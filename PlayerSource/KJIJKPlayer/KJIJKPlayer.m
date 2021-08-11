@@ -170,7 +170,9 @@ PLAYER_COMMON_FUNCTION_PROPERTY PLAYER_COMMON_UI_PROPERTY
 - (void)sizeAvailableChange:(NSNotification *)notify {
     if (!CGSizeEqualToSize(self.player.naturalSize, self.tempSize)) {    
         self.tempSize = self.player.naturalSize;
-        if (self.kVideoSize) self.kVideoSize(self.tempSize);
+        if ([self.delegate respondsToSelector:@selector(kj_player:videoSize:)]) {
+            [self.delegate kj_player:self videoSize:self.tempSize];
+        }
     }
 }
 
@@ -250,8 +252,8 @@ PLAYER_COMMON_FUNCTION_PROPERTY PLAYER_COMMON_UI_PROPERTY
 }
 //获取到总时间之后的处理操作
 - (void)kj_haveTotalTimeAfter{
-    if (self.kVideoTotalTime) {
-        self.kVideoTotalTime(self.totalTime);
+    if ([self.delegate respondsToSelector:@selector(kj_player:videoTime:)]) {
+        [self.delegate kj_player:self videoTime:self.totalTime];
     }
     if (self.totalTime == 0) {//直播流媒体
         self.isLiveStreaming = YES;

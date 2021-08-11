@@ -184,25 +184,26 @@ static dispatch_once_t onceToken;
 - (void)kj_stop{
     kPlayerPerformSel(self, @"kj_closePingTimer");
 }
-/// 判断是否为本地缓存视频，如果是则修改为指定链接地址 
-- (BOOL)kj_judgeHaveCacheWithVideoURL:(NSURL * _Nonnull __strong * _Nonnull)videoURL{
-    if ([KJCacheManager kj_haveCacheURL:videoURL]) {
-        self.playError = [KJCustomManager kj_errorSummarizing:KJPlayerCustomCodeCachedComplete];
-        return YES;
-    }
-    return NO;
-}
 
 #pragma mark - public method
 
 /// 主动存储当前播放记录 
 - (void)kj_saveRecordLastTime{
-    @synchronized (@(self.recordLastTime)) {
-        if (self.recordLastTime) {
-            [DBPlayerData kj_saveRecordLastTime:self.currentTime
-                                           dbid:kPlayerIntactName(self.originalURL)];
+    @synchronized (self) {
+        if ([self valueForKey:@"recordLastTime"]) {
+            [DBPlayerData kj_saveRecordLastTime:self.currentTime dbid:kPlayerIntactName(self.originalURL)];
         }
     }
+}
+
+/// 判断是否为本地缓存视频，如果是则修改为指定链接地址
+- (BOOL)kj_judgeHaveCacheWithVideoURL:(NSURL * _Nonnull __strong * _Nonnull)videoURL{
+//    NSAssert(NO, @"subclass should override.");
+    if ([KJCacheManager kj_haveCacheURL:videoURL]) {
+        self.playError = [KJCustomManager kj_errorSummarizing:KJPlayerCustomCodeCachedComplete];
+        return YES;
+    }
+    return NO;
 }
 
 #pragma mark - table

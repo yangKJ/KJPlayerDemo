@@ -67,7 +67,9 @@ static NSString * const kTimeControlStatus = @"timeControlStatus";
             }
             if (self.totalTime <= 0) {
                 self.totalTime = sec;
-                if (self.kVideoTotalTime) self.kVideoTotalTime(self.totalTime);
+                if ([self.delegate respondsToSelector:@selector(kj_player:videoTime:)]) {
+                    [self.delegate kj_player:self videoTime:self.totalTime];
+                }
             }
             self.state = KJPlayerStatePreparePlay;
         }else if (playerItem.status == AVPlayerItemStatusFailed) {
@@ -113,7 +115,9 @@ static NSString * const kTimeControlStatus = @"timeControlStatus";
     }else if ([keyPath isEqualToString:kPresentationSize]) {//监听视频尺寸
         if (!CGSizeEqualToSize(playerItem.presentationSize, self.tempSize)) {
             self.tempSize = playerItem.presentationSize;
-            if (self.kVideoSize) self.kVideoSize(self.tempSize);
+            if ([self.delegate respondsToSelector:@selector(kj_player:videoSize:)]) {
+                [self.delegate kj_player:self videoSize:self.tempSize];
+            }
         }
     }else if ([keyPath isEqualToString:kPlaybackBufferEmpty]) {//监听缓存不够的情况
         if (playerItem.playbackBufferEmpty) {
@@ -276,9 +280,11 @@ static NSString * const kTimeControlStatus = @"timeControlStatus";
         [self kj_autoPlay];
         return;
     }
-    if (self.totalTime && self.kVideoTotalTime) {
+    if (self.totalTime) {
         kGCD_player_main(^{
-            self.kVideoTotalTime(self.totalTime);
+            if ([self.delegate respondsToSelector:@selector(kj_player:videoTime:)]) {
+                [self.delegate kj_player:self videoTime:self.totalTime];
+            }
         });
     }
 #pragma mark - 记录播放/跳过片头
