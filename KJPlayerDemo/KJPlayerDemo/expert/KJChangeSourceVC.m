@@ -7,10 +7,12 @@
 //  https://github.com/yangKJ/KJPlayerDemo
 
 #import "KJChangeSourceVC.h"
-#import "KJBasePlayer+KJPingTimer.h"
+#import <KJPlayer/KJBasePlayer+KJPingTimer.h>
 
 @interface KJChangeSourceVC () <KJPlayerDelegate>
+
 @property(nonatomic,strong)UILabel *sourceLabel;
+
 @end
 
 @implementation KJChangeSourceVC
