@@ -462,7 +462,7 @@ BOOL kPlayerHaveTracks(NSURL *videoURL, void(^assetblock)(AVURLAsset *), NSDicti
         [self kj_addTimeObserver];
     }
 }
-- (void)setPlayerView:(KJBasePlayerView *)playerView{
+- (void)setPlayerView:(KJPlayerView *)playerView{
     if (playerView == nil) return;
     _playerView = playerView;
     [self kj_displayPictureWithSize:playerView.frame.size];

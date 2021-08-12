@@ -69,7 +69,11 @@
     UITapGestureRecognizer *tap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(tapPlayerViewAction:)];
     [backview addGestureRecognizer:tap];
     
-    self.loadingView = [[UIActivityIndicatorView alloc] initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleMedium];
+    if (@available(iOS 13.0, *)) {
+        self.loadingView = [[UIActivityIndicatorView alloc] initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleMedium];
+    } else {
+        // Fallback on earlier versions
+    }
     _loadingView.center = self.view.center;
     CGAffineTransform transform = CGAffineTransformMakeScale(2.2, 2.2);
     _loadingView.transform = transform;
@@ -126,8 +130,8 @@
     }else if (state == KJPlayerStatePlayFinished) {
         [player kj_replay];
         player.kVideoTryLookTime(^{
-            [player.playerView.hintTextLayer kj_displayHintText:@"试看结束，请缴费~~"
-                                                       position:KJPlayerHintPositionBottom];
+            KJBasePlayerView * playerView = (KJBasePlayerView *)player.playerView;
+            [playerView.hintTextLayer kj_displayHintText:@"试看结束，请缴费~~" position:KJPlayerHintPositionBottom];
         }, 100);
     }
 }

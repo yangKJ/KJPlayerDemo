@@ -27,19 +27,19 @@
     self.basePlayerView = backview;
     [self.view addSubview:backview];
     backview.gestureType = KJPlayerGestureTypeAll;
-    self.basePlayerView.delegate = self;
-    [self.basePlayerView.hintTextLayer kj_setHintFont:[UIFont systemFontOfSize:15]
-                                            textColor:UIColor.greenColor
-                                           background:[UIColor.greenColor colorWithAlphaComponent:0.3]
-                                             maxWidth:110];
+    backview.delegate = self;
+    [backview.hintTextLayer kj_setHintFont:[UIFont systemFontOfSize:15]
+                                 textColor:UIColor.greenColor
+                                background:[UIColor.greenColor colorWithAlphaComponent:0.3]
+                                  maxWidth:110];
     KJAVPlayer *player = [[KJAVPlayer alloc]init];
     self.player = player;
     player.playerView = backview;
-    [player.playerView.loadingLayer kj_startAnimation];
+    [backview.loadingLayer kj_startAnimation];
     
-    [self.player.playerView.hintTextLayer kj_displayHintText:@"顺便测试文本提示框长文字"
-                                                        time:0
-                                                    position:KJPlayerHintPositionBottom];
+    [backview.hintTextLayer kj_displayHintText:@"顺便测试文本提示框长文字"
+                                          time:0
+                                      position:KJPlayerHintPositionBottom];
     {
         UIButton *button = [UIButton buttonWithType:(UIButtonTypeCustom)];
         button.frame = CGRectMake(30, 350, 100, 50);
@@ -94,9 +94,9 @@
 - (void)buttonAction:(UIButton*)sender{
     sender.selected = !sender.selected;
     if (sender.selected) {
-        [self.player.playerView.loadingLayer kj_stopAnimation];
+        [self.basePlayerView.loadingLayer kj_stopAnimation];
     }else{
-        [self.player.playerView.loadingLayer kj_startAnimation];
+        [self.basePlayerView.loadingLayer kj_startAnimation];
     }
 }
 - (void)buttonAction2:(UIButton*)sender{
@@ -115,14 +115,12 @@
     if (index>=temps.count) {
         index = 0;
     }
-    [self.player.playerView.hintTextLayer kj_displayHintText:@"两秒后消失!!"
-                                                        time:2
-                                                    position:temps[index]];
+    [self.basePlayerView.hintTextLayer kj_displayHintText:@"两秒后消失!!" time:2 position:temps[index]];
 }
 
 #pragma mark - KJPlayerBaseViewDelegate
 /* 单双击手势反馈 */
-- (void)kj_basePlayerView:(KJBasePlayerView*)view isSingleTap:(BOOL)tap{
+- (void)kj_basePlayerView:(KJBasePlayerView *)view isSingleTap:(BOOL)tap{
     if (tap) {
         if (view.displayOperation) {
             [view kj_hiddenOperationView];

@@ -131,7 +131,6 @@ window;})
 
 /// 显示操作面板 
 + (void)kj_operationViewDisplayBasePlayerView:(KJBasePlayerView *)baseView{
-    [baseView setValue:@(YES) forKey:@"displayOperation"];
     baseView.topView.alpha = 0;
     baseView.bottomView.alpha = 0;
     [UIView animateWithDuration:0.3f animations:^{
@@ -154,7 +153,6 @@ window;})
 }
 /// 隐藏操作面板 
 + (void)kj_operationViewHiddenBasePlayerView:(KJBasePlayerView *)baseView{
-    [baseView setValue:@(NO) forKey:@"displayOperation"];
 //    CGFloat y1 = self.topView.frame.origin.y;
 //    CGFloat y2 = self.bottomView.frame.origin.y;
     [UIView animateWithDuration:0.5f animations:^{

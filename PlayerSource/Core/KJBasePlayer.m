@@ -185,6 +185,12 @@ static dispatch_once_t onceToken;
     kPlayerPerformSel(self, @"kj_closePingTimer");
 }
 
+/// 指定时间播放
+/// @param time 指定时间
+- (void)kj_appointTime:(NSTimeInterval)time {
+    
+}
+
 #pragma mark - public method
 
 /// 主动存储当前播放记录 

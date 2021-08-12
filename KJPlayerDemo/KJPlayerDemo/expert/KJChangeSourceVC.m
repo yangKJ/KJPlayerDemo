@@ -64,7 +64,7 @@
     }
     self.sourceLabel.text = [@"当前播放器内核 -- " stringByAppendingFormat:@"%@",self.player.kPlayerCurrentSourceName()];
     NSString *string = [NSString stringWithFormat:@"当前内核%@",NSStringFromClass([self.player class])];
-    [self.player.playerView.hintTextLayer kj_displayHintText:string time:5 position:KJPlayerHintPositionTop];
+    [self.basePlayerView.hintTextLayer kj_displayHintText:string time:5 position:KJPlayerHintPositionTop];
     self.player.videoURL = kPlayerURLCharacters(@"https://mp4.vjshi.com/2016-10-31/a553917787e52c0a077e3fb8548fae69.mp4?测试中文转义abc");
 }
 - (void)buttonAction2:(UIButton*)sender{
@@ -80,10 +80,10 @@
 /* 当前播放器状态 */
 - (void)kj_player:(KJBasePlayer*)player state:(KJPlayerState)state{
     if (state == KJPlayerStateBuffering || state == KJPlayerStatePausing) {
-        [player.playerView.loadingLayer kj_startAnimation];
+        [self.basePlayerView.loadingLayer kj_startAnimation];
     }else if (state == KJPlayerStatePreparePlay || state == KJPlayerStatePlaying) {
-        [player.playerView.loadingLayer kj_stopAnimation];
-        [player.playerView.hintTextLayer kj_hideHintText];
+        [self.basePlayerView.loadingLayer kj_stopAnimation];
+        [self.basePlayerView.hintTextLayer kj_hideHintText];
     }else if (state == KJPlayerStatePlayFinished) {
         [player kj_replay];
     }

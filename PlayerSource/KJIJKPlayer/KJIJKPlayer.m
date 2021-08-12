@@ -426,7 +426,7 @@ PLAYER_COMMON_FUNCTION_PROPERTY PLAYER_COMMON_UI_PROPERTY
     }
     _background = background;
 }
-- (void)setPlayerView:(KJBasePlayerView *)playerView{
+- (void)setPlayerView:(KJPlayerView *)playerView{
     if (playerView == nil) return;
     _playerView = playerView;
     [self kj_displayPictureWithSize:playerView.frame.size];

@@ -20,19 +20,16 @@ Pod::Spec.new do |s|
   s.ios.source_files = 'PlayerSource/KJPlayerHeader.h' 
 
   s.subspec 'Common' do |co|
-    co.source_files = "PlayerSource/Core/*.{h,m}","PlayerSource/View/*.{h,m}"
+    co.source_files = "PlayerSource/Core/*.{h,m}"
     co.resources = "PlayerSource/Core/*.{xcdatamodeld}"
-    co.resource_bundles = {
+  end
+  
+  s.subspec 'CustomView' do |cu|
+    cu.source_files = "PlayerSource/View/*.{h,m}"
+    cu.resource_bundles = {
       'KJPlayer' => ['PlayerSource/View/*.{ttf}']
     }
-#    co.subspec 'Core' do |xx|
-#      xx.source_files = "PlayerSource/Core/*.{h,m}"
-#      xx.resources = "PlayerSource/Core/*.{xcdatamodeld}"
-#    end
-#    co.subspec 'View' do |xx|
-#      xx.source_files = "PlayerSource/View/*.{h,m}"
-#      xx.dependency 'KJPlayer/Common/Core'
-#    end
+    cu.dependency 'KJPlayer/Common'
   end
 
   s.subspec 'AVPlayer' do |av|

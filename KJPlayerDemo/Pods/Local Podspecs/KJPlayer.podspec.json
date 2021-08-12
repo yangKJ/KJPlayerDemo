@@ -34,14 +34,20 @@
   "subspecs": [
     {
       "name": "Common",
-      "source_files": [
-        "PlayerSource/Core/*.{h,m}",
-        "PlayerSource/View/*.{h,m}"
-      ],
-      "resources": "PlayerSource/Core/*.{xcdatamodeld}",
+      "source_files": "PlayerSource/Core/*.{h,m}",
+      "resources": "PlayerSource/Core/*.{xcdatamodeld}"
+    },
+    {
+      "name": "CustomView",
+      "source_files": "PlayerSource/View/*.{h,m}",
       "resource_bundles": {
         "KJPlayer": [
           "PlayerSource/View/*.{ttf}"
+        ]
+      },
+      "dependencies": {
+        "KJPlayer/Common": [
+
         ]
       }
     },

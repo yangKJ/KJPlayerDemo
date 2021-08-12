@@ -20,8 +20,8 @@
     PLAYER_WEAKSELF;
     self.player.kVideoTryLookTime(^{
         NSLog(@"试看时间已到");
-        [weakself.player.playerView.loadingLayer kj_startAnimation];
-        [weakself.player.playerView.hintTextLayer kj_displayHintText:@"试看时间已到，请缴费～" time:0 position:KJPlayerHintPositionBottom];
+        [weakself.basePlayerView.loadingLayer kj_startAnimation];
+        [weakself.basePlayerView.hintTextLayer kj_displayHintText:@"试看时间已到，请缴费～" time:0 position:KJPlayerHintPositionBottom];
     }, 28);
 }
 
@@ -29,10 +29,10 @@
 /* 当前播放器状态 */
 - (void)kj_player:(KJBasePlayer*)player state:(KJPlayerState)state{
     if (state == KJPlayerStateBuffering || state == KJPlayerStatePausing) {
-        [player.playerView.loadingLayer kj_startAnimation];
+        [self.basePlayerView.loadingLayer kj_startAnimation];
     }else if (state == KJPlayerStatePreparePlay || state == KJPlayerStatePlaying) {
-        [player.playerView.loadingLayer kj_stopAnimation];
-        [player.playerView.hintTextLayer kj_hideHintText];
+        [self.basePlayerView.loadingLayer kj_stopAnimation];
+        [self.basePlayerView.hintTextLayer kj_hideHintText];
     }
 }
 /* 播放进度 */

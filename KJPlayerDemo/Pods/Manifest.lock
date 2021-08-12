@@ -26,6 +26,8 @@ PODS:
   - KJPlayer/AVPlayer/AVDownloader (2.1.4):
     - KJPlayer/AVPlayer/AVCore
   - KJPlayer/Common (2.1.4)
+  - KJPlayer/CustomView (2.1.4):
+    - KJPlayer/Common
   - KJPlayer/IJKPlayer (2.1.4):
     - IJKMediaFramework
     - KJPlayer/Common
@@ -37,6 +39,7 @@ DEPENDENCIES:
   - DoraemonKit/WithMLeaksFinder
   - KJPlayer (from `..`)
   - KJPlayer/AVPlayer/AVDownloader (from `..`)
+  - KJPlayer/CustomView (from `..`)
   - KJPlayer/IJKPlayer (from `..`)
   - KJPlayer/MIDI (from `..`)
 
@@ -58,8 +61,8 @@ SPEC CHECKSUMS:
   FMDB: 2ce00b547f966261cd18927a3ddb07cb6f3db82a
   GCDWebServer: 2c156a56c8226e2d5c0c3f208a3621ccffbe3ce4
   IJKMediaFramework: f1119f6324c96bc4654f3045a5beaa95ba0596c0
-  KJPlayer: c33b3bc74865f5a524aceb8c79c2a9e6c175b437
+  KJPlayer: ca07eddd399750e896cfd421136485cfdca97e2c
 
-PODFILE CHECKSUM: 04181f8760ae88639d85c24772d142c0e7454c5b
+PODFILE CHECKSUM: 4d61643b799fe3dd464c63827fa3234b7f1b60fc
 
 COCOAPODS: 1.10.1

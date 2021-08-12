@@ -65,9 +65,9 @@
 /* 当前播放器状态 */
 - (void)kj_player:(KJBasePlayer*)player state:(KJPlayerState)state{
     if (state == KJPlayerStateBuffering || state == KJPlayerStatePausing) {
-        [player.playerView.loadingLayer kj_startAnimation];
+        [self.basePlayerView.loadingLayer kj_startAnimation];
     }else if (state == KJPlayerStatePreparePlay || state == KJPlayerStatePlaying) {
-        [player.playerView.loadingLayer kj_stopAnimation];
+        [self.basePlayerView.loadingLayer kj_stopAnimation];
     }else if (state == KJPlayerStatePlayFinished) {
         [player kj_replay];
     }

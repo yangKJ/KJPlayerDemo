@@ -125,7 +125,7 @@ typedef NS_OPTIONS(NSUInteger, KJPlayerGestureType) {
 /// KJBasePlayerView上面的Layer层次，zPosition改变图层的显示顺序
 typedef NS_ENUM(NSUInteger, KJBasePlayerViewLayerZPosition) {
     KJBasePlayerViewLayerZPositionPlayer = 0,/// 播放器的AVPlayerLayer层
-    /// 1被全屏时刻的KJBasePlayerView 占用 
+    /// `1` 被全屏时刻的 KJBasePlayerView 占用
     KJBasePlayerViewLayerZPositionInteraction = 2,/// 支持交互的控件，例如顶部底部操作面板
     KJBasePlayerViewLayerZPositionLoading = 3,/// 加载指示器和文本提醒框
     KJBasePlayerViewLayerZPositionButton = 4,/// 锁定屏幕，返回等控件

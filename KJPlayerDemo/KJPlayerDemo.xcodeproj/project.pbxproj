@@ -201,18 +201,18 @@
 		C9DA0D1426C4B89600345CF0 /* avplayer */ = {
 			isa = PBXGroup;
 			children = (
-				C9DA0D1526C4B89600345CF0 /* KJRecordPlayerVC.h */,
-				C9DA0D1626C4B89600345CF0 /* KJTryLookPlayerVC.h */,
+				C9DA0D1E26C4B89600345CF0 /* KJCachePlayerVC.h */,
 				C9DA0D1726C4B89600345CF0 /* KJCachePlayerVC.m */,
-				C9DA0D1826C4B89600345CF0 /* KJSkipHeadPlayerVC.m */,
+				C9DA0D1526C4B89600345CF0 /* KJRecordPlayerVC.h */,
+				C9DA0D1B26C4B89600345CF0 /* KJRecordPlayerVC.m */,
+				C9DA0D2026C4B89600345CF0 /* KJScreenPlayerVC.h */,
 				C9DA0D1926C4B89600345CF0 /* KJScreenPlayerVC.m */,
 				C9DA0D1A26C4B89600345CF0 /* KJScreenshotsPlayerVC.h */,
-				C9DA0D1B26C4B89600345CF0 /* KJRecordPlayerVC.m */,
-				C9DA0D1C26C4B89600345CF0 /* KJTryLookPlayerVC.m */,
-				C9DA0D1D26C4B89600345CF0 /* KJSkipHeadPlayerVC.h */,
-				C9DA0D1E26C4B89600345CF0 /* KJCachePlayerVC.h */,
 				C9DA0D1F26C4B89600345CF0 /* KJScreenshotsPlayerVC.m */,
-				C9DA0D2026C4B89600345CF0 /* KJScreenPlayerVC.h */,
+				C9DA0D1D26C4B89600345CF0 /* KJSkipHeadPlayerVC.h */,
+				C9DA0D1826C4B89600345CF0 /* KJSkipHeadPlayerVC.m */,
+				C9DA0D1626C4B89600345CF0 /* KJTryLookPlayerVC.h */,
+				C9DA0D1C26C4B89600345CF0 /* KJTryLookPlayerVC.m */,
 			);
 			path = avplayer;
 			sourceTree = "<group>";
@@ -221,9 +221,9 @@
 			isa = PBXGroup;
 			children = (
 				C9DA0D2226C4B89600345CF0 /* KJLoadingPlayerVC.h */,
-				C9DA0D2326C4B89600345CF0 /* Table */,
-				C9DA0D2826C4B89600345CF0 /* List */,
 				C9DA0D2D26C4B89600345CF0 /* KJLoadingPlayerVC.m */,
+				C9DA0D2826C4B89600345CF0 /* List */,
+				C9DA0D2326C4B89600345CF0 /* Table */,
 			);
 			path = kit;
 			sourceTree = "<group>";
@@ -232,8 +232,8 @@
 			isa = PBXGroup;
 			children = (
 				C9DA0D2426C4B89600345CF0 /* KJDetailPlayerVC.h */,
-				C9DA0D2526C4B89600345CF0 /* KJTablePlayerVC.h */,
 				C9DA0D2626C4B89600345CF0 /* KJDetailPlayerVC.m */,
+				C9DA0D2526C4B89600345CF0 /* KJTablePlayerVC.h */,
 				C9DA0D2726C4B89600345CF0 /* KJTablePlayerVC.m */,
 			);
 			path = Table;
@@ -242,9 +242,9 @@
 		C9DA0D2826C4B89600345CF0 /* List */ = {
 			isa = PBXGroup;
 			children = (
-				C9DA0D2926C4B89600345CF0 /* KJVideoPlayVC.h */,
-				C9DA0D2A26C4B89600345CF0 /* KJListPlayerVC.m */,
 				C9DA0D2B26C4B89600345CF0 /* KJListPlayerVC.h */,
+				C9DA0D2A26C4B89600345CF0 /* KJListPlayerVC.m */,
+				C9DA0D2926C4B89600345CF0 /* KJVideoPlayVC.h */,
 				C9DA0D2C26C4B89600345CF0 /* KJVideoPlayVC.m */,
 			);
 			path = List;
@@ -353,7 +353,7 @@
 		689D5A6B22E3011200DE33FC /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
-				LastUpgradeCheck = 1200;
+				LastUpgradeCheck = 1250;
 				ORGANIZATIONNAME = "杨科军";
 				TargetAttributes = {
 					689D5A7222E3011200DE33FC = {
@@ -626,7 +626,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 12.0;
 				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
 				MTL_FAST_MATH = YES;
 				ONLY_ACTIVE_ARCH = YES;
@@ -680,7 +680,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 12.0;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				MTL_FAST_MATH = YES;
 				SDKROOT = iphoneos;
@@ -705,7 +705,7 @@
 				GCC_PREFIX_HEADER = "";
 				HEADER_SEARCH_PATHS = "\"$(PROJECT_DIR)/KJPlayerDemo/KJIJKPlayer/IJKMediaFramework.framework/Headers\"";
 				INFOPLIST_FILE = "$(SRCROOT)/KJPlayerDemo/Info.plist";
-				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 14.1;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -733,7 +733,7 @@
 				GCC_PREFIX_HEADER = "";
 				HEADER_SEARCH_PATHS = "\"$(PROJECT_DIR)/KJPlayerDemo/KJIJKPlayer/IJKMediaFramework.framework/Headers\"";
 				INFOPLIST_FILE = "$(SRCROOT)/KJPlayerDemo/Info.plist";
-				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 14.1;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",

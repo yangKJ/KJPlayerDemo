@@ -9,6 +9,14 @@
 #ifndef KJPlayerHeader_h
 #define KJPlayerHeader_h
 
+/* ****************  视图控件UI  ****************/
+#if __has_include(<KJPlayer/KJBasePlayerView.h>)
+#import <KJPlayer/KJBasePlayerView.h>
+#elif __has_include("KJBasePlayerView.h")
+#import "KJBasePlayerView.h"
+#else
+#endif
+
 /* ****************  AVPlayer内核  ****************/
 #if __has_include(<KJPlayer/KJAVPlayer.h>)
 #import <KJPlayer/KJAVPlayer.h>

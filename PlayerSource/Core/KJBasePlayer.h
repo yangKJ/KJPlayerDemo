@@ -9,22 +9,35 @@
 
 #import <Foundation/Foundation.h>
 #import "KJBaseFunctionPlayer.h"
-#import "KJBaseUIPlayer.h"
 #import "KJPlayerProtocol.h"
 #import "KJCustomManager.h"
 #import "DBPlayerData.h"
+#import "KJPlayerView.h"
 
 NS_ASSUME_NONNULL_BEGIN
 
-@interface KJBasePlayer : NSObject <KJBaseFunctionPlayer,KJBaseUIPlayer>
-/// 单例属性 
+@interface KJBasePlayer : NSObject <KJBaseFunctionPlayer>
+/// 单例属性
 @property (nonatomic,strong,class,readonly,getter=kj_sharedInstance) id shared;
-/// 创建单例 
+/// 创建单例
 + (instancetype)kj_sharedInstance;
-/// 销毁单例 
+/// 销毁单例
 + (void)kj_attempDealloc;
 
-/// 主动存储当前播放记录 
+/// 播放器载体
+@property (nonatomic,strong) __kindof KJPlayerView *playerView;
+/// 占位图
+@property (nonatomic,strong) UIImage *placeholder;
+/// 背景颜色，默认黑色
+@property (nonatomic,assign) CGColorRef background;
+/// 视频显示模式，默认 KJPlayerVideoGravityResizeAspect
+@property (nonatomic,assign) KJPlayerVideoGravity videoGravity;
+/// 获取当前截屏
+@property (nonatomic,copy,readonly) void (^kVideoTimeScreenshots)(void(^)(UIImage * image));
+/// 子线程获取封面图，图片会存储在磁盘
+@property (nonatomic,copy,readonly) void(^kVideoPlaceholderImage)(void(^)(UIImage * image), NSURL *, NSTimeInterval);
+
+/// 主动存储当前播放记录
 - (void)kj_saveRecordLastTime;
 
 /// 判断是否为本地缓存视频，如果是则修改为指定链接地址
@@ -63,5 +76,14 @@ NS_ASSUME_NONNULL_BEGIN
 @property (nonatomic,assign) float progress;\
 @property (nonatomic,assign) BOOL cache;\
 @property (nonatomic,assign) BOOL locality;\
+
+// UI公共ivar
+#define PLAYER_COMMON_UI_PROPERTY \
+@synthesize playerView = _playerView;\
+@synthesize placeholder = _placeholder;\
+@synthesize background = _background;\
+@synthesize videoGravity = _videoGravity;\
+@dynamic kVideoTimeScreenshots;\
+@dynamic kVideoPlaceholderImage;\
 
 NS_ASSUME_NONNULL_END

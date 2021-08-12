@@ -80,10 +80,10 @@
     KJAVPlayer *player = [[KJAVPlayer alloc]init];
     self.player = player;
     player.delegate = self;
+    player.roregroundResume = YES;
     player.placeholder = backview.image;
     player.playerView = backview;
-    [player.playerView.loadingLayer kj_startAnimation];
-    player.roregroundResume = YES;
+    [backview.loadingLayer kj_startAnimation];
 }
 ///进度条的拖拽事件 监听UISlider拖动状态
 - (void)sliderValueChanged:(UISlider*)slider forEvent:(UIEvent*)event {
@@ -142,7 +142,7 @@
     switch (longPress.state) {
         case UIGestureRecognizerStateBegan:{
             self.player.speed = 2.;
-            [self.player.playerView.hintTextLayer kj_displayHintText:@"长按快进播放中..."
+            [self.basePlayerView.hintTextLayer kj_displayHintText:@"长按快进播放中..."
                                                                 time:0
                                                             position:KJPlayerHintPositionTop];
         } break;
@@ -151,7 +151,7 @@
         } break;
         case UIGestureRecognizerStateEnded:{
             self.player.speed = 1.0;
-            [self.player.playerView.hintTextLayer kj_hideHintText];
+            [self.basePlayerView.hintTextLayer kj_hideHintText];
         } break;
         default:break;
     }
@@ -162,14 +162,17 @@
 /// @param progress 进度范围，-1 到 1
 /// @param end 是否结束
 /// @return 不替换UI请返回当前时间和总时间
-- (nullable NSArray *)kj_basePlayerView:(__kindof KJBasePlayerView *)view
+- (nullable KJPlayerTime *)kj_basePlayerView:(__kindof KJBasePlayerView *)view
                                 progress:(float)progress
                                     end:(BOOL)end{
     if (end) {
         NSTimeInterval time = self.player.currentTime + progress * self.player.totalTime;
         self.player.kVideoAdvanceAndReverse(time, nil);
     }
-    return @[@(self.player.currentTime),@(self.player.totalTime)];
+    KJPlayerTime * ptime = [[KJPlayerTime alloc] init];
+    ptime.currentTime = self.player.currentTime;
+    ptime.totalTime = self.player.totalTime;
+    return ptime;
 }
 
 /// 音量手势反馈

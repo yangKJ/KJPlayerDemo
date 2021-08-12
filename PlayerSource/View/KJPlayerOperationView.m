@@ -40,7 +40,7 @@
     return self;
 }
 - (void)fullItemClick:(UIButton*)sender{
-    KJBasePlayerView *view = (KJBasePlayerView*)self.superview;
+    KJPlayerView *view = (KJPlayerView *)self.superview;
     view.isFullScreen = !view.isFullScreen;
 }
 - (void)layoutSubviews{

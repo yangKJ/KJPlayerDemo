@@ -60,9 +60,9 @@
 /* 当前播放器状态 */
 - (void)kj_player:(KJBasePlayer*)player state:(KJPlayerState)state{
     if (state == KJPlayerStateBuffering || state == KJPlayerStatePausing) {
-        [player.playerView.loadingLayer kj_startAnimation];
+        [self.playerView.loadingLayer kj_startAnimation];
     }else if (state == KJPlayerStatePreparePlay || state == KJPlayerStatePlaying) {
-        [player.playerView.loadingLayer kj_stopAnimation];
+        [self.playerView.loadingLayer kj_stopAnimation];
     }else if (state == KJPlayerStatePlayFinished) {
         [player kj_replay];
     }
@@ -92,10 +92,10 @@
     }else{
         if ([self.player isPlaying]) {
             [self.player kj_pause];
-            [self.player.playerView.loadingLayer kj_startAnimation];
+            [self.playerView.loadingLayer kj_startAnimation];
         }else{
             [self.player kj_resume];
-            [self.player.playerView.loadingLayer kj_stopAnimation];
+            [self.playerView.loadingLayer kj_stopAnimation];
         }
     }
 }
@@ -104,7 +104,7 @@
     switch (longPress.state) {
         case UIGestureRecognizerStateBegan: {
             self.player.speed = 2.;
-            [self.player.playerView.hintTextLayer kj_displayHintText:@"长按快进播放中..." time:0 position:KJPlayerHintPositionTop];
+            [self.playerView.hintTextLayer kj_displayHintText:@"长按快进播放中..." time:0 position:KJPlayerHintPositionTop];
         }
             break;
         case UIGestureRecognizerStateChanged: {
@@ -112,20 +112,23 @@
             break;
         case UIGestureRecognizerStateEnded: {
             self.player.speed = 1.0;
-            [self.player.playerView.hintTextLayer kj_hideHintText];
+            [self.playerView.hintTextLayer kj_hideHintText];
         }
         default:
             break;
     }
 }
 /* 进度手势反馈，是否替换自带UI，范围-1 ～ 1 */
-- (NSArray*)kj_basePlayerView:(KJBasePlayerView*)view progress:(float)progress end:(BOOL)end{
+- (KJPlayerTime*)kj_basePlayerView:(KJBasePlayerView*)view progress:(float)progress end:(BOOL)end{
     if (end) {
         NSTimeInterval time = self.player.currentTime + progress * self.player.totalTime;
         NSLog(@"---time:%.2f",time);
         self.player.kVideoAdvanceAndReverse(time, nil);
     }
-    return @[@(self.player.currentTime),@(self.player.totalTime)];
+    KJPlayerTime * ptime = [[KJPlayerTime alloc] init];
+    ptime.currentTime = self.player.currentTime;
+    ptime.totalTime = self.player.totalTime;
+    return ptime;
 }
 /* 音量手势反馈，是否替换自带UI，范围0 ～ 1 */
 - (BOOL)kj_basePlayerView:(KJBasePlayerView*)view volumeValue:(float)value{

@@ -5,6 +5,7 @@ def main_pods
 
   # 播放器板块
   pod "KJPlayer", :path => '..' # AVPlayer内核
+  pod "KJPlayer/CustomView", :path => '..' # 自定义UI
   pod "KJPlayer/AVPlayer/AVDownloader", :path => '..' # AVPlayer内核附加下载分支
   pod "KJPlayer/IJKPlayer", :path => '..' # IJKPlayer内核
   pod "KJPlayer/MIDI", :path => '..' # MIDIPlayer内核
