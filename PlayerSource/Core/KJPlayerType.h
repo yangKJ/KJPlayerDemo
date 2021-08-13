@@ -254,6 +254,7 @@ NS_INLINE NSURL * kPlayerURLCharacters(NSString * urlString){
 }
 // MD5加密
 NS_INLINE NSString * kPlayerMD5(NSString * string){
+    if (string == nil) return @"";
     const char *str = [string UTF8String];
     unsigned char digist[CC_MD5_DIGEST_LENGTH];
     CC_MD5(str, (uint)strlen(str), digist);
