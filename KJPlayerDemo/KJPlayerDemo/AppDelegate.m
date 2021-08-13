@@ -7,6 +7,7 @@
 
 #import "AppDelegate.h"
 #import <KJPlayer/KJPlayerHeader.h>
+#import <KJPlayerDemo-Swift.h>
 
 @interface AppDelegate () <KJPlayerRotateAppDelegate>
 
@@ -34,8 +35,13 @@
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
     // Override point for customization after application launch.
     
-    NSDictionary * dict = @{NSFontAttributeName: [UIFont systemFontOfSize:18]};
-    [[UIBarButtonItem appearance] setTitleTextAttributes:dict forState:UIControlStateNormal];
+    self.window = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
+    [self.window makeKeyAndVisible];
+    
+#ifdef DEBUG
+    // SwiftMonkey随机测试工具
+    [self initMonkey];
+#endif
     
     return YES;
 }

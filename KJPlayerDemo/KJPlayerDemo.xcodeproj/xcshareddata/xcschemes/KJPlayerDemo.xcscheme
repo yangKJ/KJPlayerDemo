@@ -48,6 +48,26 @@
                ReferencedContainer = "container:KJPlayerDemo.xcodeproj">
             </BuildableReference>
          </TestableReference>
+         <TestableReference
+            skipped = "NO">
+            <BuildableReference
+               BuildableIdentifier = "primary"
+               BlueprintIdentifier = "C9B36F8526C624D50052D98B"
+               BuildableName = "MonkeyUITests.xctest"
+               BlueprintName = "MonkeyUITests"
+               ReferencedContainer = "container:KJPlayerDemo.xcodeproj">
+            </BuildableReference>
+         </TestableReference>
+         <TestableReference
+            skipped = "NO">
+            <BuildableReference
+               BuildableIdentifier = "primary"
+               BlueprintIdentifier = "C9B36F7726C6235D0052D98B"
+               BuildableName = "MonkeUITests.xctest"
+               BlueprintName = "MonkeUITests"
+               ReferencedContainer = "container:KJPlayerDemo.xcodeproj">
+            </BuildableReference>
+         </TestableReference>
       </Testables>
    </TestAction>
    <LaunchAction

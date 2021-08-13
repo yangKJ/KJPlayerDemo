@@ -14,6 +14,9 @@ def main_pods
 #  pod 'DoraemonKit/Core', :configurations => ['Debug']
 #  pod 'DoraemonKit/WithMLeaksFinder', :configurations => ['Debug'] # 查找内存泄漏
 
+  # SwiftMonkey测试工具
+  pod "SwiftMonkeyPaws", :configurations => ['Debug']
+  
 end
 
 target 'KJPlayerDemo' do
@@ -26,6 +29,10 @@ target 'KJPlayerDemo' do
   target 'KJPlayerDemoTests' do
     inherit! :search_paths
     # Pods for testing
+  end
+  
+  target 'MonkeyUITests' do
+    pod "SwiftMonkey"
   end
 
 end

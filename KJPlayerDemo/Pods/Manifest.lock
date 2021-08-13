@@ -14,6 +14,8 @@ PODS:
     - KJPlayer/Common
   - KJPlayer/MIDI (2.1.4):
     - KJPlayer/Common
+  - SwiftMonkey (2.2.0)
+  - SwiftMonkeyPaws (2.2.0)
 
 DEPENDENCIES:
   - KJPlayer (from `..`)
@@ -21,10 +23,14 @@ DEPENDENCIES:
   - KJPlayer/CustomView (from `..`)
   - KJPlayer/IJKPlayer (from `..`)
   - KJPlayer/MIDI (from `..`)
+  - SwiftMonkey
+  - SwiftMonkeyPaws
 
 SPEC REPOS:
   trunk:
     - IJKMediaFramework
+    - SwiftMonkey
+    - SwiftMonkeyPaws
 
 EXTERNAL SOURCES:
   KJPlayer:
@@ -33,7 +39,9 @@ EXTERNAL SOURCES:
 SPEC CHECKSUMS:
   IJKMediaFramework: f1119f6324c96bc4654f3045a5beaa95ba0596c0
   KJPlayer: ca07eddd399750e896cfd421136485cfdca97e2c
+  SwiftMonkey: 24ffde5b590d3658cfcb1d775cf74b9f5280eb9c
+  SwiftMonkeyPaws: 9d183b8a1b9cfd497c2704342e861b71412d94f5
 
-PODFILE CHECKSUM: df52966d862f332cadc0a1361d4a59e75fa2f4c3
+PODFILE CHECKSUM: 2d49b4f55193cfc973461db40b2bd6c8af7fa418
 
 COCOAPODS: 1.10.1
