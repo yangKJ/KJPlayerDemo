@@ -6,9 +6,6 @@
 //  https://github.com/yangKJ/KJPlayerDemo
 
 #import "AppDelegate.h"
-#if __has_include(<DoraemonKit/DoraemonManager.h>)
-#import <DoraemonKit/DoraemonManager.h>
-#endif
 #import <KJPlayer/KJPlayerHeader.h>
 
 @interface AppDelegate () <KJPlayerRotateAppDelegate>
@@ -39,13 +36,6 @@
     
     NSDictionary * dict = @{NSFontAttributeName: [UIFont systemFontOfSize:18]};
     [[UIBarButtonItem appearance] setTitleTextAttributes:dict forState:UIControlStateNormal];
-    
-#ifdef DEBUG
-    // DiDi开发工具，默认位置，解决遮挡关键区域减少频繁移动
-    CGSize size = [UIScreen mainScreen].bounds.size;
-    CGPoint point = CGPointMake(size.width - 58, size.height - 83);
-    [[DoraemonManager shareInstance] installWithStartingPosition:point];
-#endif
     
     return YES;
 }

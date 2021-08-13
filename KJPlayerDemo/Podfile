@@ -11,8 +11,8 @@ def main_pods
   pod "KJPlayer/MIDI", :path => '..' # MIDIPlayer内核
 
   # DiDi开发工具
-  pod 'DoraemonKit/Core', :configurations => ['Debug']
-  pod 'DoraemonKit/WithMLeaksFinder', :configurations => ['Debug'] # 查找内存泄漏
+#  pod 'DoraemonKit/Core', :configurations => ['Debug']
+#  pod 'DoraemonKit/WithMLeaksFinder', :configurations => ['Debug'] # 查找内存泄漏
 
 end
 
