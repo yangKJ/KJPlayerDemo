@@ -52,7 +52,7 @@ static NSString * kPlayerBaseViewChangeKey = @"kPlayerBaseViewKey";
 /// 当前屏幕状态发生改变
 @property (nonatomic,copy,readwrite) void (^kVideoChangeScreenState)(KJPlayerVideoScreenState state) DEPRECATED_MSG_ATTRIBUTE("please use delegate [kj_basePlayerView:screenState:]");
 /// 返回回调
-@property (nonatomic,copy,readwrite) void (^kVideoClickButtonBack)(KJBasePlayerView * view) DEPRECATED_MSG_ATTRIBUTE("please use delegate [kj_basePlayerView:clickBack:]");
+@property (nonatomic,copy,readwrite) void (^kVideoClickButtonBack)(KJPlayerView * view) DEPRECATED_MSG_ATTRIBUTE("please use delegate [kj_basePlayerView:clickBack:]");
 
 @end
 

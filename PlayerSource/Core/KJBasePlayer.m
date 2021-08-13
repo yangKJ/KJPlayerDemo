@@ -184,7 +184,6 @@ static dispatch_once_t onceToken;
 - (void)kj_stop{
     kPlayerPerformSel(self, @"kj_closePingTimer");
 }
-
 /// 指定时间播放
 /// @param time 指定时间
 - (void)kj_appointTime:(NSTimeInterval)time {
