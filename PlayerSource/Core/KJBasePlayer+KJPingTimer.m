@@ -22,6 +22,29 @@
 
 @implementation KJBasePlayer (KJPingTimer)
 
+/// 心跳处理
+/// @param state 播放器状态
+- (void)kj_pingTimerWithState:(KJPlayerState)state{
+    if (self.openPing) {
+        if (state == KJPlayerStatePreparePlay) {
+            [self kj_resumePingTimer];
+            PLAYER_WEAKSELF;
+            self.kVideoPingTimerState = ^(KJPlayerVideoPingTimerState state) {
+                if (state == KJPlayerVideoPingTimerStateReconnect) {
+                    weakself.kVideoAdvanceAndReverse(weakself.currentTime, nil);
+                }else if (state == KJPlayerVideoPingTimerStatePing) {
+                    // 心跳包相关
+                    kPlayerPerformSel(weakself, @"updateEvent");
+                }
+            };
+        } else if (state == KJPlayerStateStopped ||
+                   state == KJPlayerStatePlayFinished ||
+                   state == KJPlayerStateFailed) {
+            [self kj_closePingTimer];
+        }
+    }
+}
+
 #pragma mark - 心跳包板块
 
 /// 关闭心跳包（名字别乱改）

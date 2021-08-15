@@ -36,8 +36,6 @@ NS_ASSUME_NONNULL_BEGIN
 @property (nonatomic,assign) NSTimeInterval cacheTime;
 /// 时间刻度，默认1秒
 @property (nonatomic,assign) NSTimeInterval timeSpace;
-/// 获取记录上次观看时间
-@property (nonatomic,copy,readonly) void (^kVideoRecordLastTime)(void(^)(NSTimeInterval time), BOOL record);
 /// 免费试看时间和试看结束回调，默认0不限制
 @property (nonatomic,copy,readonly) void (^kVideoTryLookTime)(void(^_Nullable)(void), NSTimeInterval time);
 /// 跳过片头和片尾回调，优先级低于记录上次播放时间
@@ -118,7 +116,6 @@ NS_ASSUME_NONNULL_BEGIN
 @synthesize userPause = _userPause;\
 @synthesize isLiveStreaming = _isLiveStreaming;\
 @synthesize kVideoTryLookTime = _kVideoTryLookTime;\
-@synthesize kVideoRecordLastTime = _kVideoRecordLastTime;\
 @synthesize kVideoSkipTime = _kVideoSkipTime;\
 @synthesize kVideoAdvanceAndReverse = _kVideoAdvanceAndReverse;\
 

@@ -187,7 +187,6 @@ typedef struct KJCacheFragment KJCacheFragment;
 /// 公共属性区域
 #define PLAYER_COMMON_EXTENSION_PROPERTY \
 @property (nonatomic,copy,readwrite) void(^tryTimeBlock)(void);\
-@property (nonatomic,copy,readwrite) void(^recordTimeBlock)(NSTimeInterval time);\
 @property (nonatomic,copy,readwrite) void(^skipTimeBlock)(KJPlayerVideoSkipState skipState);\
 @property (nonatomic,assign) NSTimeInterval tryTime;\
 @property (nonatomic,assign) NSTimeInterval skipHeadTime;\
@@ -199,7 +198,6 @@ typedef struct KJCacheFragment KJCacheFragment;
 @property (nonatomic,assign) BOOL buffered;\
 @property (nonatomic,assign) BOOL cache;\
 @property (nonatomic,assign) BOOL tryLooked;\
-@property (nonatomic,assign) BOOL recordLastTime;\
 @property (nonatomic,assign) BOOL locality;\
 @property (nonatomic,assign) BOOL userPause;\
 @property (nonatomic,assign) BOOL isLiveStreaming;\
@@ -283,9 +281,11 @@ NS_INLINE NSString * kPlayerConvertTime(CGFloat second){
 // 隐士调用
 NS_INLINE void kPlayerPerformSel(id target, NSString * selName){
     SEL sel = NSSelectorFromString(selName);
-    IMP imp = [target methodForSelector:sel];
-    void (* tempFunc)(id target, SEL) = (void *)imp;
-    tempFunc(target, sel);
+    if ([target respondsToSelector:sel]) {
+        IMP imp = [target methodForSelector:sel];
+        void (* tempFunc)(id target, SEL) = (void *)imp;
+        tempFunc(target, sel);
+    }
 }
 // 延时执行
 #define kPerformAfterDelay(__method__, __object__, __time__) \

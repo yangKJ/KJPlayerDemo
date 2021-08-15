@@ -7,6 +7,7 @@
 //  https://github.com/yangKJ/KJPlayerDemo
 
 #import "KJRecordPlayerVC.h"
+#import <KJPlayer/KJBasePlayer+KJRecordTime.h>
 
 @interface KJRecordPlayerVC () <KJPlayerDelegate>
 

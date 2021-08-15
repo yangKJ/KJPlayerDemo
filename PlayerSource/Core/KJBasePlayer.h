@@ -37,9 +37,6 @@ NS_ASSUME_NONNULL_BEGIN
 /// 子线程获取封面图，图片会存储在磁盘
 @property (nonatomic,copy,readonly) void(^kVideoPlaceholderImage)(void(^)(UIImage * image), NSURL *, NSTimeInterval);
 
-/// 主动存储当前播放记录
-- (void)kj_saveRecordLastTime;
-
 /// 判断是否为本地缓存视频，如果是则修改为指定链接地址
 - (BOOL)kj_judgeHaveCacheWithVideoURL:(NSURL * _Nonnull __strong * _Nonnull)videoURL;
 
