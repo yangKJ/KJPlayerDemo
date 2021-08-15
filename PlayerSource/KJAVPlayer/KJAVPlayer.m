@@ -287,25 +287,8 @@ static NSString * const kTimeControlStatus = @"timeControlStatus";
             }
         });
     }
-#pragma mark - 记录播放/跳过片头
-    if (self.recordLastTime) {
-        NSTimeInterval time = [DBPlayerData kj_getLastTimeDbid:kPlayerIntactName(self.originalURL)];
-        if (self.recordTimeBlock) {
-            kGCD_player_main(^{
-                self.recordTimeBlock(time);
-            });
-        }
-        self.kVideoAdvanceAndReverse(time,nil);
-    }else if (self.skipHeadTime) {
-        if (self.skipTimeBlock) {
-            kGCD_player_main(^{
-                self.skipTimeBlock(KJPlayerVideoSkipStateHead);
-            });
-        }
-        self.kVideoAdvanceAndReverse(self.skipHeadTime,nil);
-    } else {
-        [self kj_autoPlay];
-    }
+#pragma mark - function
+    kPlayerPerformSel(self, @"kj_subclassFunction");
 }
 /// 初始化开始播放时配置信息（名字不能乱改，KJCache当中有使用）
 - (void)kj_initializeBeginPlayConfiguration{
@@ -519,12 +502,6 @@ BOOL kPlayerHaveTracks(NSURL *videoURL, void(^assetblock)(AVURLAsset *), NSDicti
     return ^(void (^xxblock)(void), NSTimeInterval time){
         self.tryTime = time;
         self.tryTimeBlock = xxblock;
-    };
-}
-- (void (^)(void (^ _Nonnull)(NSTimeInterval), BOOL))kVideoRecordLastTime{
-    return ^(void(^xxblock)(NSTimeInterval), BOOL record){
-        self.recordLastTime = record;
-        self.recordTimeBlock = xxblock;
     };
 }
 - (void (^)(void (^ _Nonnull)(KJPlayerVideoSkipState), NSTimeInterval, NSTimeInterval))kVideoSkipTime{

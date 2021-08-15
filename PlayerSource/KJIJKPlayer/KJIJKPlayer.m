@@ -261,29 +261,8 @@ PLAYER_COMMON_FUNCTION_PROPERTY PLAYER_COMMON_UI_PROPERTY
         return;
     }
     self.isLiveStreaming = NO;
-    /// 功能操作
-    if (self.recordLastTime) {
-        NSString *dbid = kPlayerIntactName(self.originalURL);
-        NSTimeInterval time = [DBPlayerData kj_getLastTimeDbid:dbid];
-        kGCD_player_main(^{
-            if (self.totalTime) self.currentTime = time;
-        });
-        self.kVideoAdvanceAndReverse(time,nil);
-        if (self.recordTimeBlock) {
-            kGCD_player_main(^{
-                self.recordTimeBlock(time);
-            });
-        }
-    }else if (self.skipHeadTime) {
-        self.kVideoAdvanceAndReverse(self.skipHeadTime,nil);
-        if (self.skipTimeBlock) {
-            kGCD_player_main(^{
-                self.skipTimeBlock(KJPlayerVideoSkipStateHead);
-            });
-        }
-    } else {
-        [self kj_autoPlay];
-    }
+#pragma mark - function
+    kPlayerPerformSel(self, @"kj_subclassFunction");
 }
 
 #pragma mark - public method
@@ -469,12 +448,6 @@ PLAYER_COMMON_FUNCTION_PROPERTY PLAYER_COMMON_UI_PROPERTY
     return ^(void (^xxblock)(void), NSTimeInterval time){
         self.tryTime = time;
         self.tryTimeBlock = xxblock;
-    };
-}
-- (void (^)(void (^ _Nonnull)(NSTimeInterval), BOOL))kVideoRecordLastTime{
-    return ^(void(^xxblock)(NSTimeInterval), BOOL record){
-        self.recordLastTime = record;
-        self.recordTimeBlock = xxblock;
     };
 }
 - (void (^)(void (^ _Nonnull)(KJPlayerVideoSkipState), NSTimeInterval, NSTimeInterval))kVideoSkipTime{

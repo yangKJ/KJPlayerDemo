@@ -156,12 +156,6 @@ PLAYER_COMMON_FUNCTION_PROPERTY PLAYER_COMMON_UI_PROPERTY
         self.tryTimeBlock = xxblock;
     };
 }
-- (void (^)(void (^ _Nonnull)(NSTimeInterval), BOOL))kVideoRecordLastTime{
-    return ^(void(^xxblock)(NSTimeInterval), BOOL record){
-        self.recordLastTime = record;
-        self.recordTimeBlock = xxblock;
-    };
-}
 - (void (^)(void (^ _Nonnull)(KJPlayerVideoSkipState), NSTimeInterval, NSTimeInterval))kVideoSkipTime{
     return ^(void(^xxblock)(KJPlayerVideoSkipState), NSTimeInterval headTime, NSTimeInterval footTime){
         self.skipHeadTime = headTime;
