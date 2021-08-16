@@ -24,7 +24,8 @@ PLAYER_COMMON_EXTENSION_PROPERTY
 @end
 
 @implementation KJAVPlayer
-PLAYER_COMMON_FUNCTION_PROPERTY PLAYER_COMMON_UI_PROPERTY
+PLAYER_COMMON_FUNCTION_PROPERTY
+PLAYER_COMMON_UI_PROPERTY
 static NSString * const kStatus = @"status";
 static NSString * const kLoadedTimeRanges = @"loadedTimeRanges";
 static NSString * const kPresentationSize = @"presentationSize";
@@ -160,7 +161,7 @@ static NSString * const kTimeControlStatus = @"timeControlStatus";
         if (weakself.userPause == NO && weakself.buffered) {
             weakself.state = KJPlayerStatePlaying;
         }
-        if ([weakself kj_tryLook:sec]) {
+        if (kBasePlaerPlayingFunction(sec)) {
             [weakself kj_pause];
         } else {
             weakself.currentTime = sec;
@@ -310,27 +311,6 @@ static NSString * const kTimeControlStatus = @"timeControlStatus";
         [self kj_play];
     }
 }
-/// 试看处理
-- (BOOL)kj_tryLook:(NSTimeInterval)time{
-    if (!self.totalTime) {
-        self.currentTime = 0;
-        self.tryLooked = NO;
-        return NO;
-    }
-    if (time >= self.tryTime && self.tryTime) {
-        self.currentTime = self.tryTime;
-        if (self.tryLooked == NO) {
-            self.tryLooked = YES;
-            kGCD_player_main(^{
-                if (self.tryTimeBlock) self.tryTimeBlock();
-            });
-        }
-    } else {
-        self.currentTime = time;
-        self.tryLooked = NO;
-    }
-    return self.tryLooked;
-}
 /// 判断是否含有视频轨道
 BOOL kPlayerHaveTracks(NSURL *videoURL, void(^assetblock)(AVURLAsset *), NSDictionary *requestHeader){
     if (videoURL == nil) return NO;
@@ -460,50 +440,51 @@ BOOL kPlayerHaveTracks(NSURL *videoURL, void(^assetblock)(AVURLAsset *), NSDicti
         return self.player.currentItem.status == AVPlayerStatusReadyToPlay;
     }
 }
-/// 快进或快退 
-- (void (^)(NSTimeInterval,void (^_Nullable)(BOOL)))kVideoAdvanceAndReverse{
-    return ^(NSTimeInterval seconds, void (^xxblock)(BOOL)){
-        if (self.isLiveStreaming) return;
-        PLAYER_WEAKSELF;
-        dispatch_group_notify(self.group, dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
-            if (weakself.player) {
-                [weakself.player pause];
-                [weakself.player.currentItem cancelPendingSeeks];
-            } else {
-                if (xxblock) xxblock(NO);
-            }
-            NSTimeInterval time = seconds;
-            if (weakself.openAdvanceCache && weakself.locality == NO) {
-                if (weakself.totalTime) {
-                    NSTimeInterval _time = weakself.progress * weakself.totalTime;
-                    if (time + weakself.cacheTime >= _time) time = _time - weakself.cacheTime;
-                } else {
-                    time = weakself.currentTime;
-                }
-            }
-            if ([weakself kj_tryLook:time]) {
-                [weakself.player seekToTime:CMTimeMakeWithSeconds(weakself.tryTime, NSEC_PER_SEC) toleranceBefore:kCMTimeZero toleranceAfter:kCMTimeZero completionHandler:^(BOOL finished) {
-                    PLAYER_STRONGSELF;
-                    [strongself kj_pause];
-                }];
-                return;
-            } else {
-                weakself.currentTime = time;
-            }
-            [self.player seekToTime:CMTimeMakeWithSeconds(time, NSEC_PER_SEC) toleranceBefore:kCMTimeZero toleranceAfter:kCMTimeZero completionHandler:^(BOOL finished) {
-                if (finished) {
-                    [weakself kj_play];
-                }
-                if (xxblock) xxblock(finished);
-            }];
-        });
-    };
+- (void)kj_appointTime:(NSTimeInterval)time{
+    [self kj_appointTime:time completionHandler:nil];
 }
-- (void (^)(void (^ _Nullable)(void), NSTimeInterval))kVideoTryLookTime{
-    return ^(void (^xxblock)(void), NSTimeInterval time){
-        self.tryTime = time;
-        self.tryTimeBlock = xxblock;
-    };
+/// 指定时间播放，快进或快退功能
+- (void)kj_appointTime:(NSTimeInterval)time completionHandler:(void(^_Nullable)(BOOL))completionHandler{
+    if (self.isLiveStreaming) return;
+    PLAYER_WEAKSELF;
+    dispatch_group_notify(self.group, dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
+        if (weakself.player) {
+            [weakself.player pause];
+            [weakself.player.currentItem cancelPendingSeeks];
+        } else {
+            if (completionHandler) completionHandler(NO);
+        }
+        NSTimeInterval seconds = time;
+        if (weakself.openAdvanceCache && weakself.locality == NO) {
+            if (weakself.totalTime) {
+                NSTimeInterval _time = weakself.progress * weakself.totalTime;
+                if (seconds + weakself.cacheTime >= _time) seconds = _time - weakself.cacheTime;
+            } else {
+                seconds = weakself.currentTime;
+            }
+        }
+        if (kBasePlaerPlayingFunction(seconds)) {
+            [weakself.player seekToTime:CMTimeMakeWithSeconds(weakself.tryTime, NSEC_PER_SEC)
+                        toleranceBefore:kCMTimeZero
+                         toleranceAfter:kCMTimeZero
+                      completionHandler:^(BOOL finished) {
+                PLAYER_STRONGSELF;
+                [strongself kj_pause];
+            }];
+            return;
+        } else {
+            weakself.currentTime = seconds;
+        }
+        [self.player seekToTime:CMTimeMakeWithSeconds(seconds, NSEC_PER_SEC)
+                toleranceBefore:kCMTimeZero
+                 toleranceAfter:kCMTimeZero
+              completionHandler:^(BOOL finished) {
+            if (finished) {
+                [weakself kj_play];
+            }
+            if (completionHandler) completionHandler(finished);
+        }];
+    });
 }
 - (void (^)(void (^)(UIImage *)))kVideoTimeScreenshots{
     return ^(void (^xxblock)(UIImage *)){

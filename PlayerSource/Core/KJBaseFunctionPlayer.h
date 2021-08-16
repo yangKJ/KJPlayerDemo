@@ -36,8 +36,6 @@ NS_ASSUME_NONNULL_BEGIN
 @property (nonatomic,assign) NSTimeInterval cacheTime;
 /// 时间刻度，默认1秒
 @property (nonatomic,assign) NSTimeInterval timeSpace;
-/// 免费试看时间和试看结束回调，默认0不限制
-@property (nonatomic,copy,readonly) void (^kVideoTryLookTime)(void(^_Nullable)(void), NSTimeInterval time);
 
 // ************************* 分割线，上述属性需在videoURL之前设置 ****************************
 /// 视频地址，这个和下面的方法互斥，支持m3u8
@@ -64,8 +62,6 @@ NS_ASSUME_NONNULL_BEGIN
 @property (nonatomic,assign,readonly) NSTimeInterval currentTime;
 /// 视频总时间
 @property (nonatomic,assign,readonly) NSTimeInterval totalTime;
-/// 快进或快退
-@property (nonatomic,copy,readonly) void (^kVideoAdvanceAndReverse)(NSTimeInterval, void(^_Nullable)(BOOL finished));
 
 #pragma mark - method
 /// 准备播放
@@ -81,6 +77,11 @@ NS_ASSUME_NONNULL_BEGIN
 /// 指定时间播放，快进或快退功能
 /// @param time 指定时间
 - (void)kj_appointTime:(NSTimeInterval)time;
+/// 指定时间播放，快进或快退功能
+/// @param time 指定时间
+/// @param completionHandler 回调
+- (void)kj_appointTime:(NSTimeInterval)time
+     completionHandler:(void(^_Nullable)(BOOL finished))completionHandler;
 
 #pragma mark - NSNotification
 /// 进入后台
@@ -113,7 +114,5 @@ NS_ASSUME_NONNULL_BEGIN
 @synthesize locality = _locality;\
 @synthesize userPause = _userPause;\
 @synthesize isLiveStreaming = _isLiveStreaming;\
-@synthesize kVideoTryLookTime = _kVideoTryLookTime;\
-@synthesize kVideoAdvanceAndReverse = _kVideoAdvanceAndReverse;\
 
 NS_ASSUME_NONNULL_END

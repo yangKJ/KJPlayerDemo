@@ -8,6 +8,7 @@
 
 #import "KJVideoPlayVC.h"
 #import <KJPlayer/KJBasePlayer+KJSkipTime.h>
+#import <KJPlayer/KJBasePlayer+KJTryTime.h>
 
 @interface KJVideoPlayVC () <KJPlayerDelegate>
 
@@ -110,7 +111,7 @@
         case UITouchPhaseEnded:{
             CGFloat second = slider.value;
             [slider setValue:second animated:YES];
-            self.player.kVideoAdvanceAndReverse(second,nil);
+            [self.player kj_appointTime:second];
         }
             break;
         default:
@@ -128,10 +129,10 @@
         [self.loadingView stopAnimating];
     }else if (state == KJPlayerStatePlayFinished) {
         [player kj_replay];
-        player.kVideoTryLookTime(^{
+        [player kj_tryLookTime:100 lookend:^(__kindof KJBasePlayer * _Nonnull player) {
             KJBasePlayerView * playerView = (KJBasePlayerView *)player.playerView;
             [playerView.hintTextLayer kj_displayHintText:@"试看结束，请缴费~~" position:KJPlayerHintPositionBottom];
-        }, 100);
+        }];
     }
 }
 /* 播放进度 */

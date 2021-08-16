@@ -31,7 +31,7 @@
             PLAYER_WEAKSELF;
             self.kVideoPingTimerState = ^(KJPlayerVideoPingTimerState state) {
                 if (state == KJPlayerVideoPingTimerStateReconnect) {
-                    weakself.kVideoAdvanceAndReverse(weakself.currentTime, nil);
+                    [weakself kj_appointTime:weakself.currentTime];
                 }else if (state == KJPlayerVideoPingTimerStatePing) {
                     // 心跳包相关
                     kPlayerPerformSel(weakself, @"updateEvent");

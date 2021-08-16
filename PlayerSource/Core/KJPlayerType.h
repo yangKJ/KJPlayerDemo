@@ -186,10 +186,10 @@ typedef struct KJCacheFragment KJCacheFragment;
 
 /// 公共属性区域
 #define PLAYER_COMMON_EXTENSION_PROPERTY \
-@property (nonatomic,copy,readwrite) void(^tryTimeBlock)(void);\
 @property (nonatomic,assign) NSTimeInterval tryTime;\
 @property (nonatomic,assign) NSTimeInterval skipHeadTime;\
-@property (nonatomic,assign) NSTimeInterval currentTime,totalTime;\
+@property (nonatomic,assign) NSTimeInterval currentTime;\
+@property (nonatomic,assign) NSTimeInterval totalTime;\
 @property (nonatomic,assign) KJPlayerState state;\
 @property (nonatomic,strong) NSError *playError;\
 @property (nonatomic,assign) CGSize tempSize;\
@@ -307,6 +307,18 @@ SEL sel = NSSelectorFromString(__method__); \
         IMP imp = [self methodForSelector:sel];  \
         BOOL (* tempFunc)(id target, SEL) = (void *)imp;  \
         boo = tempFunc(self, sel);  \
+    }  \
+    boo;  \
+})  \
+// 播放中功能处理
+#define kBasePlaerPlayingFunction(__time__) \
+({  \
+    BOOL boo = NO;  \
+    SEL sel = NSSelectorFromString(@"kj_superclassPlayingFunction:");  \
+    if ([weakself respondsToSelector:sel]) {  \
+        IMP imp = [weakself methodForSelector:sel];  \
+        BOOL (* tempFunc)(id target, SEL, NSTimeInterval) = (void *)imp;  \
+        boo = tempFunc(weakself, sel, __time__);  \
     }  \
     boo;  \
 })  \

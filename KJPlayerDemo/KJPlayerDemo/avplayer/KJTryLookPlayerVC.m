@@ -7,6 +7,7 @@
 //  https://github.com/yangKJ/KJPlayerDemo
 
 #import "KJTryLookPlayerVC.h"
+#import <KJPlayer/KJBasePlayer+KJTryTime.h>
 
 @interface KJTryLookPlayerVC () <KJPlayerDelegate>
 
@@ -18,11 +19,11 @@
     self.player.delegate = self;
     self.player.videoURL = [NSURL URLWithString:@"https://mp4.vjshi.com/2017-11-21/7c2b143eeb27d9f2bf98c4ab03360cfe.mp4"];
     PLAYER_WEAKSELF;
-    self.player.kVideoTryLookTime(^{
+    [self.player kj_tryLookTime:28 lookend:^(__kindof KJBasePlayer * _Nonnull player) {
         NSLog(@"试看时间已到");
         [weakself.basePlayerView.loadingLayer kj_startAnimation];
         [weakself.basePlayerView.hintTextLayer kj_displayHintText:@"试看时间已到，请缴费～" time:0 position:KJPlayerHintPositionBottom];
-    }, 28);
+    }];
 }
 
 #pragma mark - KJPlayerDelegate

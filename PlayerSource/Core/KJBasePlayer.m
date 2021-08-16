@@ -183,7 +183,14 @@ static dispatch_once_t onceToken;
 /// 指定时间播放
 /// @param time 指定时间
 - (void)kj_appointTime:(NSTimeInterval)time {
-    self.kVideoAdvanceAndReverse(time, nil);
+    
+}
+/// 指定时间播放，快进或快退功能
+/// @param time 指定时间
+/// @param completionHandler 回调
+- (void)kj_appointTime:(NSTimeInterval)time
+     completionHandler:(void(^_Nullable)(BOOL finished))completionHandler{
+    
 }
 
 #pragma mark - private subclass method
@@ -209,6 +216,21 @@ static dispatch_once_t onceToken;
         return YES;
     }
     return NO;
+}
+
+/// 播放中功能处理，名字不能修改
+- (BOOL)kj_superclassPlayingFunction:(NSTimeInterval)time{
+    BOOL(^kMethodIMP)(NSString *, NSTimeInterval) = ^BOOL(NSString * method, NSTimeInterval time){
+        SEL sel = NSSelectorFromString(method);
+        if ([self respondsToSelector:sel]) {
+            IMP imp = [self methodForSelector:sel];
+            BOOL (* tempFunc)(id target, SEL, NSTimeInterval) = (void *)imp;
+            return tempFunc(self, sel, time);
+        }
+        return NO;
+    };
+    // 尝试观看，`KJBasePlayer+KJTryTime`
+    return kMethodIMP(@"kj_tryTimePlayIMP:", time);
 }
 
 #pragma mark - public method

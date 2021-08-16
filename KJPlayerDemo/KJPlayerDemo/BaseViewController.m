@@ -97,7 +97,7 @@
         case UITouchPhaseEnded:{
             CGFloat second = slider.value;
             [slider setValue:second animated:YES];
-            self.player.kVideoAdvanceAndReverse(second,nil);
+            [self.player kj_appointTime:second];
         } break;
         default:break;
     }
@@ -167,7 +167,7 @@
                                     end:(BOOL)end{
     if (end) {
         NSTimeInterval time = self.player.currentTime + progress * self.player.totalTime;
-        self.player.kVideoAdvanceAndReverse(time, nil);
+        [self.player kj_appointTime:time];
     }
     KJPlayerTime * ptime = [[KJPlayerTime alloc] init];
     ptime.currentTime = self.player.currentTime;

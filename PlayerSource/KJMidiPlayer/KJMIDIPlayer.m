@@ -132,36 +132,30 @@ PLAYER_COMMON_FUNCTION_PROPERTY PLAYER_COMMON_UI_PROPERTY
     MusicPlayerIsPlaying(self.player, &xxxxx);
     return xxxxx;
 }
-/// 快进或快退 
-- (void (^)(NSTimeInterval,void (^_Nullable)(BOOL)))kVideoAdvanceAndReverse{
-    return ^(NSTimeInterval seconds,void (^xxblock)(BOOL)){
-        if (!self.player) {
-            if (xxblock) xxblock(NO);
-        }
-        PLAYER_WEAKSELF;
-        dispatch_group_notify(self.group, dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
-            MusicTimeStamp time = seconds;
-            if (weakself.totalTime) {
-                weakself.currentTime = time;
-            }
-            SInt32 xx = MusicPlayerSetTime(weakself.player, time);
-            if (xx >= 0) [weakself kj_play];
-            if (xxblock) xxblock(xx>=0);
-        });
-    };
+- (void)kj_appointTime:(NSTimeInterval)time{
+    [self kj_appointTime:time completionHandler:nil];
 }
-- (void (^)(void (^ _Nullable)(void), NSTimeInterval))kVideoTryLookTime{
-    return ^(void (^xxblock)(void), NSTimeInterval time){
-        self.tryTime = time;
-        self.tryTimeBlock = xxblock;
-    };
+/// 指定时间播放，快进或快退功能
+- (void)kj_appointTime:(NSTimeInterval)time completionHandler:(void(^_Nullable)(BOOL))completionHandler{
+    if (!self.player) {
+        if (completionHandler) completionHandler(NO);
+    }
+    PLAYER_WEAKSELF;
+    dispatch_group_notify(self.group, dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
+        if (weakself.totalTime) {
+            weakself.currentTime = (MusicTimeStamp)time;
+        }
+        SInt32 xx = MusicPlayerSetTime(weakself.player, time);
+        if (xx >= 0) [weakself kj_play];
+        if (completionHandler) completionHandler(xx >= 0);
+    });
 }
 
 #pragma mark - private method
 - (void)createGraph {
     if (self.player) [self kj_stop];
     NewAUGraph(&graph);
-
+    
     AudioComponentDescription sourceNodeDes;
     sourceNodeDes.componentType = kAudioUnitType_MusicDevice;
     sourceNodeDes.componentSubType = kAudioUnitSubType_Sampler;

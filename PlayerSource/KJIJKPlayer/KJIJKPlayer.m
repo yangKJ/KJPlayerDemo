@@ -34,7 +34,7 @@ PLAYER_COMMON_FUNCTION_PROPERTY PLAYER_COMMON_UI_PROPERTY
         _background = UIColor.blackColor.CGColor;
         self.group = dispatch_group_create();
         [self setValue:@(YES) forKey:@"openPing"];
-//        [IJKFFMoviePlayerController checkIfFFmpegVersionMatch:YES];
+        //        [IJKFFMoviePlayerController checkIfFFmpegVersionMatch:YES];
     }
     return self;
 }
@@ -90,7 +90,7 @@ PLAYER_COMMON_FUNCTION_PROPERTY PLAYER_COMMON_UI_PROPERTY
 - (void)loadStateDidChange:(NSNotification*)notification{
     IJKMPMovieLoadState loadState = self.player.loadState;
     if ((loadState & IJKMPMovieLoadStatePlayable)) {//加载状态变成了缓存数据足够开始播放
-//        NSLog(@"---xxx---%.2f,%.2f",self.player.currentPlaybackTime,self.player.playableDuration);
+        //        NSLog(@"---xxx---%.2f,%.2f",self.player.currentPlaybackTime,self.player.playableDuration);
         if (self.player.currentPlaybackTime > 0) {
             self.buffered = YES;
         }
@@ -104,7 +104,7 @@ PLAYER_COMMON_FUNCTION_PROPERTY PLAYER_COMMON_UI_PROPERTY
     }else if ((loadState & IJKMPMovieLoadStateStalled)) {//可能由于网速不好等因素导致暂停
         self.state = KJPlayerStateBuffering;
     } else {
-    
+        
     }
 }
 //播放状态改变
@@ -140,17 +140,8 @@ PLAYER_COMMON_FUNCTION_PROPERTY PLAYER_COMMON_UI_PROPERTY
             if (self.userPause == NO) {
                 self.currentTime = sec;
             }
-            if (sec > self.tryTime && self.tryTime) {
-                [self kj_pause];
-                if (!self.tryLooked) {
-                    self.tryLooked = YES;
-                    kGCD_player_main(^{
-                        if (self.tryTimeBlock) self.tryTimeBlock();
-                    });
-                }
-            } else {
-                self.tryLooked = NO;
-            }
+            PLAYER_WEAKSELF;
+            kBasePlaerPlayingFunction(sec);
         } break;
         case IJKMPMoviePlaybackStatePaused:
             self.state = KJPlayerStatePausing;
@@ -168,7 +159,7 @@ PLAYER_COMMON_FUNCTION_PROPERTY PLAYER_COMMON_UI_PROPERTY
 }
 //视频的尺寸变化了
 - (void)sizeAvailableChange:(NSNotification *)notify {
-    if (!CGSizeEqualToSize(self.player.naturalSize, self.tempSize)) {    
+    if (!CGSizeEqualToSize(self.player.naturalSize, self.tempSize)) {
         self.tempSize = self.player.naturalSize;
         if ([self.delegate respondsToSelector:@selector(kj_player:videoSize:)]) {
             [self.delegate kj_player:self videoSize:self.tempSize];
@@ -196,7 +187,7 @@ PLAYER_COMMON_FUNCTION_PROPERTY PLAYER_COMMON_UI_PROPERTY
     }
     _options = nil;
     _tempView = nil;
-//    free((__bridge void *)(_tempView));
+    //    free((__bridge void *)(_tempView));
 }
 //加载视屏流视图（名字不能乱改，父类有调用）
 - (void)kj_displayPictureWithSize:(CGSize)size{
@@ -279,10 +270,8 @@ PLAYER_COMMON_FUNCTION_PROPERTY PLAYER_COMMON_UI_PROPERTY
 /// 重播 
 - (void)kj_replay{
     [super kj_replay];
-    PLAYER_WEAKSELF;
-    self.kVideoAdvanceAndReverse(self.skipHeadTime, ^(BOOL finished) {
-        if (finished) [weakself kj_play];
-    });
+    [self kj_appointTime:self.skipHeadTime];
+    [self kj_play];
 }
 /// 继续 
 - (void)kj_resume{
@@ -346,14 +335,14 @@ PLAYER_COMMON_FUNCTION_PROPERTY PLAYER_COMMON_UI_PROPERTY
     }
     self.originalURL = videoURL;
     PLAYER_WEAKSELF;
-//    dispatch_group_async(self.group, dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
-        if (![videoURL.absoluteString isEqualToString:self->_videoURL.absoluteString]) {
-            self->_videoURL = videoURL;
-            [weakself kj_initPreparePlayer];
-        } else {
-            [weakself kj_replay];
-        }
-//    });
+    //    dispatch_group_async(self.group, dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
+    if (![videoURL.absoluteString isEqualToString:self->_videoURL.absoluteString]) {
+        self->_videoURL = videoURL;
+        [weakself kj_initPreparePlayer];
+    } else {
+        [weakself kj_replay];
+    }
+    //    });
 }
 - (void)setVolume:(float)volume{
     _volume = MIN(MAX(0, volume), 1);
@@ -417,39 +406,34 @@ PLAYER_COMMON_FUNCTION_PROPERTY PLAYER_COMMON_UI_PROPERTY
     if (self.player == nil) return NO;
     return self.player.isPlaying;
 }
-/// 快进或快退 
-- (void (^)(NSTimeInterval,void (^_Nullable)(BOOL)))kVideoAdvanceAndReverse{
-    return ^(NSTimeInterval seconds, void (^xxblock)(BOOL)){
-        if (self.isLiveStreaming) return;
-        PLAYER_WEAKSELF;
-        dispatch_group_notify(self.group, dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
-            if (weakself.player) {
-                [weakself.player pause];
-            } else {
-                if (xxblock) xxblock(NO);
-            }
-            NSTimeInterval time = seconds;
-            if (weakself.openAdvanceCache && weakself.locality == NO) {
-                if (weakself.totalTime) {
-                    NSTimeInterval _time = weakself.progress * weakself.totalTime;
-                    if (time + weakself.cacheTime >= _time) time = _time - weakself.cacheTime;
-                } else {
-                    time = weakself.currentTime;
-                }
-            }
-            if (self.totalTime > 0) {
-                self.currentTime = time;
-                self.player.currentPlaybackTime = time;
-                if (xxblock) xxblock(YES);
-            }
-        });
-    };
+- (void)kj_appointTime:(NSTimeInterval)time{
+    [self kj_appointTime:time completionHandler:nil];
 }
-- (void (^)(void (^ _Nullable)(void), NSTimeInterval))kVideoTryLookTime{
-    return ^(void (^xxblock)(void), NSTimeInterval time){
-        self.tryTime = time;
-        self.tryTimeBlock = xxblock;
-    };
+/// 指定时间播放，快进或快退功能
+- (void)kj_appointTime:(NSTimeInterval)time completionHandler:(void(^_Nullable)(BOOL))completionHandler{
+    if (self.isLiveStreaming) return;
+    PLAYER_WEAKSELF;
+    dispatch_group_notify(self.group, dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
+        if (weakself.player) {
+            [weakself.player pause];
+        } else {
+            if (completionHandler) completionHandler(NO);
+        }
+        NSTimeInterval seconds = time;
+        if (weakself.openAdvanceCache && weakself.locality == NO) {
+            if (weakself.totalTime) {
+                NSTimeInterval _time = weakself.progress * weakself.totalTime;
+                if (seconds + weakself.cacheTime >= _time) seconds = _time - weakself.cacheTime;
+            } else {
+                seconds = weakself.currentTime;
+            }
+        }
+        if (self.totalTime > 0) {
+            self.currentTime = seconds;
+            self.player.currentPlaybackTime = seconds;
+            if (completionHandler) completionHandler(YES);
+        }
+    });
 }
 - (void (^)(void (^)(UIImage *)))kVideoTimeScreenshots{
     return ^(void (^xxblock)(UIImage *)){

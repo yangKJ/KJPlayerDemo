@@ -12,7 +12,8 @@
 
 @property (nonatomic,assign) BOOL record;
 @property (nonatomic,copy,readwrite) void(^recordTimeBlock)(NSTimeInterval time);
-@property (nonatomic,assign) NSTimeInterval currentTime,totalTime;
+@property (nonatomic,assign) NSTimeInterval currentTime;
+@property (nonatomic,assign) NSTimeInterval totalTime;
 
 @end
 
@@ -26,7 +27,7 @@
         kGCD_player_main(^{
             if (self.totalTime) self.currentTime = time;
         });
-        self.kVideoAdvanceAndReverse(time,nil);
+        [self kj_appointTime:time];
         if (self.recordTimeBlock) {
             kGCD_player_main(^{
                 self.recordTimeBlock(time);
