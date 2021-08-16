@@ -156,12 +156,6 @@ PLAYER_COMMON_FUNCTION_PROPERTY PLAYER_COMMON_UI_PROPERTY
         self.tryTimeBlock = xxblock;
     };
 }
-- (void (^)(void (^ _Nonnull)(KJPlayerVideoSkipState), NSTimeInterval, NSTimeInterval))kVideoSkipTime{
-    return ^(void(^xxblock)(KJPlayerVideoSkipState), NSTimeInterval headTime, NSTimeInterval footTime){
-        self.skipHeadTime = headTime;
-        self.skipTimeBlock = xxblock;
-    };
-}
 
 #pragma mark - private method
 - (void)createGraph {

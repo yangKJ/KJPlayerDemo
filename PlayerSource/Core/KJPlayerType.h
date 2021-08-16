@@ -187,7 +187,6 @@ typedef struct KJCacheFragment KJCacheFragment;
 /// 公共属性区域
 #define PLAYER_COMMON_EXTENSION_PROPERTY \
 @property (nonatomic,copy,readwrite) void(^tryTimeBlock)(void);\
-@property (nonatomic,copy,readwrite) void(^skipTimeBlock)(KJPlayerVideoSkipState skipState);\
 @property (nonatomic,assign) NSTimeInterval tryTime;\
 @property (nonatomic,assign) NSTimeInterval skipHeadTime;\
 @property (nonatomic,assign) NSTimeInterval currentTime,totalTime;\
@@ -299,6 +298,18 @@ SEL sel = NSSelectorFromString(__method__); \
 SEL sel = NSSelectorFromString(__method__); \
 [NSObject cancelPreviousPerformRequestsWithTarget:self selector:sel object:nil]; \
 } \
+// 开始播放时刻功能处理
+#define kBasePlayerBeginFunction \
+({  \
+    BOOL boo = NO;  \
+    SEL sel = NSSelectorFromString(@"kj_superclassBeginFunction");  \
+    if ([self respondsToSelector:sel]) {  \
+        IMP imp = [self methodForSelector:sel];  \
+        BOOL (* tempFunc)(id target, SEL) = (void *)imp;  \
+        boo = tempFunc(self, sel);  \
+    }  \
+    boo;  \
+})  \
 
 #endif /// KJPlayerType_h 
 

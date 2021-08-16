@@ -38,8 +38,6 @@ NS_ASSUME_NONNULL_BEGIN
 @property (nonatomic,assign) NSTimeInterval timeSpace;
 /// 免费试看时间和试看结束回调，默认0不限制
 @property (nonatomic,copy,readonly) void (^kVideoTryLookTime)(void(^_Nullable)(void), NSTimeInterval time);
-/// 跳过片头和片尾回调，优先级低于记录上次播放时间
-@property (nonatomic,copy,readonly) void (^kVideoSkipTime)(void(^)(KJPlayerVideoSkipState skipState), NSTimeInterval headTime, NSTimeInterval footTime);
 
 // ************************* 分割线，上述属性需在videoURL之前设置 ****************************
 /// 视频地址，这个和下面的方法互斥，支持m3u8
@@ -116,7 +114,6 @@ NS_ASSUME_NONNULL_BEGIN
 @synthesize userPause = _userPause;\
 @synthesize isLiveStreaming = _isLiveStreaming;\
 @synthesize kVideoTryLookTime = _kVideoTryLookTime;\
-@synthesize kVideoSkipTime = _kVideoSkipTime;\
 @synthesize kVideoAdvanceAndReverse = _kVideoAdvanceAndReverse;\
 
 NS_ASSUME_NONNULL_END

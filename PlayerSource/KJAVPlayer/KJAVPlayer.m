@@ -287,8 +287,9 @@ static NSString * const kTimeControlStatus = @"timeControlStatus";
             }
         });
     }
-#pragma mark - function
-    kPlayerPerformSel(self, @"kj_subclassFunction");
+    if (!kBasePlayerBeginFunction) {
+        [self kj_autoPlay];
+    }
 }
 /// 初始化开始播放时配置信息（名字不能乱改，KJCache当中有使用）
 - (void)kj_initializeBeginPlayConfiguration{
@@ -502,12 +503,6 @@ BOOL kPlayerHaveTracks(NSURL *videoURL, void(^assetblock)(AVURLAsset *), NSDicti
     return ^(void (^xxblock)(void), NSTimeInterval time){
         self.tryTime = time;
         self.tryTimeBlock = xxblock;
-    };
-}
-- (void (^)(void (^ _Nonnull)(KJPlayerVideoSkipState), NSTimeInterval, NSTimeInterval))kVideoSkipTime{
-    return ^(void(^xxblock)(KJPlayerVideoSkipState), NSTimeInterval headTime, NSTimeInterval footTime){
-        self.skipHeadTime = headTime;
-        self.skipTimeBlock = xxblock;
     };
 }
 - (void (^)(void (^)(UIImage *)))kVideoTimeScreenshots{

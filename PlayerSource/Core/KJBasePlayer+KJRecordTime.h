@@ -10,11 +10,13 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
+/// 记录播放时间相关
 @interface KJBasePlayer (KJRecordTime)
-@property (nonatomic,assign) BOOL recordLastTime;
-/// 获取记录上次观看时间
-@property (nonatomic,copy,readonly) void (^kVideoRecordLastTime)(void(^)(NSTimeInterval time), BOOL record);
 
+/// 获取记录上次观看时间
+/// @param record 是否需要记录观看时间
+/// @param lastTime 上次播放时间回调
+- (void)kj_videoRecord:(BOOL)record lastTime:(void(^)(NSTimeInterval time))lastTime;
 /// 主动存储当前播放记录
 - (void)kj_saveRecordLastTime;
 

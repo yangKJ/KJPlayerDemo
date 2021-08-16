@@ -183,32 +183,32 @@ static dispatch_once_t onceToken;
 /// 指定时间播放
 /// @param time 指定时间
 - (void)kj_appointTime:(NSTimeInterval)time {
-    
+    self.kVideoAdvanceAndReverse(time, nil);
 }
 
 #pragma mark - private subclass method
 
-/// 功能处理，名字不能修改
-- (void)kj_subclassFunction{
-#pragma mark - 记录播放/跳过片头
-//    if (self.recordLastTime) {
-//        NSTimeInterval time = [DBPlayerData kj_getLastTimeDbid:kPlayerIntactName(self.originalURL)];
-//        if (self.recordTimeBlock) {
-//            kGCD_player_main(^{
-//                self.recordTimeBlock(time);
-//            });
-//        }
-//        self.kVideoAdvanceAndReverse(time,nil);
-//    }else if (self.skipHeadTime) {
-//        if (self.skipTimeBlock) {
-//            kGCD_player_main(^{
-//                self.skipTimeBlock(KJPlayerVideoSkipStateHead);
-//            });
-//        }
-//        self.kVideoAdvanceAndReverse(self.skipHeadTime,nil);
-//    } else {
-//        [self kj_autoPlay];
-//    }
+/// 开始播放时刻功能处理，名字不能修改
+- (BOOL)kj_superclassBeginFunction{
+    BOOL(^kMethodIMP)(NSString * method) = ^BOOL(NSString * method){
+        SEL sel = NSSelectorFromString(method);
+        if ([self respondsToSelector:sel]) {
+            IMP imp = [self methodForSelector:sel];
+            BOOL (* tempFunc)(id target, SEL) = (void *)imp;
+            return tempFunc(self, sel);
+        }
+        return NO;
+    };
+    
+    // 记录播放，`KJBasePlayer+KJRecordTime`
+    if (kMethodIMP(@"kj_recordLastTimePlayIMP")) {
+        return YES;
+    }
+    // 跳过播放，`KJBasePlayer+KJSkipTime`
+    if (kMethodIMP(@"kj_skipTimePlayIMP")) {
+        return YES;
+    }
+    return NO;
 }
 
 #pragma mark - public method

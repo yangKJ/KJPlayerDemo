@@ -261,8 +261,9 @@ PLAYER_COMMON_FUNCTION_PROPERTY PLAYER_COMMON_UI_PROPERTY
         return;
     }
     self.isLiveStreaming = NO;
-#pragma mark - function
-    kPlayerPerformSel(self, @"kj_subclassFunction");
+    if (!kBasePlayerBeginFunction) {
+        [self kj_autoPlay];
+    }
 }
 
 #pragma mark - public method
@@ -448,12 +449,6 @@ PLAYER_COMMON_FUNCTION_PROPERTY PLAYER_COMMON_UI_PROPERTY
     return ^(void (^xxblock)(void), NSTimeInterval time){
         self.tryTime = time;
         self.tryTimeBlock = xxblock;
-    };
-}
-- (void (^)(void (^ _Nonnull)(KJPlayerVideoSkipState), NSTimeInterval, NSTimeInterval))kVideoSkipTime{
-    return ^(void(^xxblock)(KJPlayerVideoSkipState), NSTimeInterval headTime, NSTimeInterval footTime){
-        self.skipHeadTime = headTime;
-        self.skipTimeBlock = xxblock;
     };
 }
 - (void (^)(void (^)(UIImage *)))kVideoTimeScreenshots{

@@ -23,6 +23,7 @@
 #import "KJBaseFunctionPlayer.h"
 #import "KJBasePlayer+KJPingTimer.h"
 #import "KJBasePlayer+KJRecordTime.h"
+#import "KJBasePlayer+KJSkipTime.h"
 #import "KJBasePlayer.h"
 #import "KJCacheManager.h"
 #import "KJCustomManager.h"

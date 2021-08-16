@@ -7,6 +7,7 @@
 //  https://github.com/yangKJ/KJPlayerDemo
 
 #import "KJVideoPlayVC.h"
+#import <KJPlayer/KJBasePlayer+KJSkipTime.h>
 
 @interface KJVideoPlayVC () <KJPlayerDelegate>
 
@@ -85,9 +86,7 @@
     player.playerView = backview;
     player.delegate = self;
     player.roregroundResume = YES;
-    player.kVideoSkipTime(^(KJPlayerVideoSkipState skipState) {
-        
-    }, 50, 0);
+    [self.player kj_skipHeadTime:50 skipState:nil];
     player.videoURL = self.url;
 }
 - (void)tapPlayerViewAction:(UITapGestureRecognizer *)gesture {
