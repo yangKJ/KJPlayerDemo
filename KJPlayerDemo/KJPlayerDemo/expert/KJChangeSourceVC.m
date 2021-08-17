@@ -7,7 +7,7 @@
 //  https://github.com/yangKJ/KJPlayerDemo
 
 #import "KJChangeSourceVC.h"
-#import <KJPlayer/KJBasePlayer+KJPingTimer.h>
+#import <KJPlayer/KJBasePlayer+KJDynamicSource.h>
 
 @interface KJChangeSourceVC () <KJPlayerDelegate>
 

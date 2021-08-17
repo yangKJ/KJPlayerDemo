@@ -12,6 +12,7 @@
 @interface KJBasePlayer ()
 /// 错误信息
 @property (nonatomic, strong) NSError * playError;
+
 @end
 
 @implementation KJBasePlayer
@@ -42,8 +43,7 @@ static dispatch_once_t onceToken;
     [self removeObserver:self forKeyPath:@"progress"];
     [self removeObserver:self forKeyPath:@"playError"];
     [self removeObserver:self forKeyPath:@"currentTime"];
-    //记录播放时间，`KJBasePlayer+KJRecordTime`
-    kPlayerPerformSel(self, @"kj_saveRecordLastTime");
+    [self kj_superclassDealloc];
 }
 - (instancetype)init{
     if (self = [super init]) {
@@ -89,13 +89,7 @@ static dispatch_once_t onceToken;
                 kGCD_player_main(^{
                     [self.delegate kj_player:self state:state];
                 });
-                // 心跳相关操作，`KJBasePlayer+KJPingTimer`
-                SEL sel = NSSelectorFromString(@"kj_pingTimerWithState:");
-                if ([self respondsToSelector:sel]) {
-                    IMP imp = [self methodForSelector:sel];
-                    void (* tempFunc)(id target, SEL, KJPlayerState) = (void *)imp;
-                    tempFunc(self, sel, state);
-                }
+                [self kj_superclassPlayerState:state];
             }
         }
     } else if ([keyPath isEqualToString:@"progress"]) {
@@ -162,6 +156,17 @@ static dispatch_once_t onceToken;
     }
 }
 
+#pragma mark - public method
+
+/// 判断是否为本地缓存视频，如果是则修改为指定链接地址
+- (BOOL)kj_judgeHaveCacheWithVideoURL:(NSURL * _Nonnull __strong * _Nonnull)videoURL{
+    if ([KJCacheManager kj_haveCacheURL:videoURL]) {
+        self.playError = [KJCustomManager kj_errorSummarizing:KJPlayerCustomCodeCachedComplete];
+        return YES;
+    }
+    return NO;
+}
+
 #pragma mark - child method, subclass should override.
 
 /// 准备播放 
@@ -172,28 +177,38 @@ static dispatch_once_t onceToken;
 - (void)kj_resume{ }
 /// 暂停 
 - (void)kj_pause{
-    // 心跳相关操作，`KJBasePlayer+KJPingTimer`
-    kPlayerPerformSel(self, @"kj_pausePingTimer");
+    [self kj_superclassPlayerState:KJPlayerStatePausing];
 }
 /// 停止 
 - (void)kj_stop{
-    // 心跳相关操作，`KJBasePlayer+KJPingTimer`
-    kPlayerPerformSel(self, @"kj_closePingTimer");
+    [self kj_superclassPlayerState:KJPlayerStateStopped];
 }
 /// 指定时间播放
-/// @param time 指定时间
-- (void)kj_appointTime:(NSTimeInterval)time {
-    
-}
+- (void)kj_appointTime:(NSTimeInterval)time{ }
+
 /// 指定时间播放，快进或快退功能
 /// @param time 指定时间
 /// @param completionHandler 回调
-- (void)kj_appointTime:(NSTimeInterval)time
-     completionHandler:(void(^_Nullable)(BOOL finished))completionHandler{
+- (void)kj_appointTime:(NSTimeInterval)time completionHandler:(void(^)(BOOL))completionHandler{
     
 }
 
 #pragma mark - private subclass method
+
+/// 播放器状态处理，名字不能修改
+- (void)kj_superclassPlayerState:(KJPlayerState)state{
+    void(^kMethodIMP)(NSString *) = ^(NSString * method){
+        SEL sel = NSSelectorFromString(method);
+        if ([self respondsToSelector:sel]) {
+            IMP imp = [self methodForSelector:sel];
+            void (* tempFunc)(id target, SEL, KJPlayerState) = (void *)imp;
+            tempFunc(self, sel, state);
+        }
+    };
+    
+    // 心跳相关操作，`KJBasePlayer+KJPingTimer`
+    kMethodIMP(@"kj_pingTimerIMP:");
+}
 
 /// 开始播放时刻功能处理，名字不能修改
 - (BOOL)kj_superclassBeginFunction{
@@ -220,28 +235,33 @@ static dispatch_once_t onceToken;
 
 /// 播放中功能处理，名字不能修改
 - (BOOL)kj_superclassPlayingFunction:(NSTimeInterval)time{
-    BOOL(^kMethodIMP)(NSString *, NSTimeInterval) = ^BOOL(NSString * method, NSTimeInterval time){
+    BOOL(^kMethodIMP)(NSString *, id) = ^BOOL(NSString * method, id object){
         SEL sel = NSSelectorFromString(method);
         if ([self respondsToSelector:sel]) {
             IMP imp = [self methodForSelector:sel];
-            BOOL (* tempFunc)(id target, SEL, NSTimeInterval) = (void *)imp;
-            return tempFunc(self, sel, time);
+            BOOL (* tempFunc)(id target, SEL, id) = (void *)imp;
+            return tempFunc(self, sel, object);
         }
         return NO;
     };
+    
     // 尝试观看，`KJBasePlayer+KJTryTime`
-    return kMethodIMP(@"kj_tryTimePlayIMP:", time);
+    return kMethodIMP(@"kj_tryTimePlayIMP:", @(time));
 }
 
-#pragma mark - public method
-
-/// 判断是否为本地缓存视频，如果是则修改为指定链接地址
-- (BOOL)kj_judgeHaveCacheWithVideoURL:(NSURL * _Nonnull __strong * _Nonnull)videoURL{
-    if ([KJCacheManager kj_haveCacheURL:videoURL]) {
-        self.playError = [KJCustomManager kj_errorSummarizing:KJPlayerCustomCodeCachedComplete];
-        return YES;
-    }
-    return NO;
+/// 内核销毁时刻，名字不能修改
+- (void)kj_superclassDealloc{
+    void(^kMethodIMP)(NSString *) = ^(NSString * method){
+        SEL sel = NSSelectorFromString(method);
+        if ([self respondsToSelector:sel]) {
+            IMP imp = [self methodForSelector:sel];
+            void (* tempFunc)(id target, SEL) = (void *)imp;
+            tempFunc(self, sel);
+        }
+    };
+    
+    // 记录播放时间，`KJBasePlayer+KJRecordTime`
+    kMethodIMP(@"kj_recordTimeSaveIMP");
 }
 
 @end

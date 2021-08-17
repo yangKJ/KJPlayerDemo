@@ -9,7 +9,7 @@
 #import "KJTryLookPlayerVC.h"
 #import <KJPlayer/KJBasePlayer+KJTryTime.h>
 
-@interface KJTryLookPlayerVC () <KJPlayerDelegate>
+@interface KJTryLookPlayerVC () <KJPlayerDelegate, KJPlayerTryLookDelegate>
 
 @end
 
@@ -17,13 +17,8 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     self.player.delegate = self;
+    self.player.tryLookDelegate = self;
     self.player.videoURL = [NSURL URLWithString:@"https://mp4.vjshi.com/2017-11-21/7c2b143eeb27d9f2bf98c4ab03360cfe.mp4"];
-    PLAYER_WEAKSELF;
-    [self.player kj_tryLookTime:28 lookend:^(__kindof KJBasePlayer * _Nonnull player) {
-        NSLog(@"试看时间已到");
-        [weakself.basePlayerView.loadingLayer kj_startAnimation];
-        [weakself.basePlayerView.hintTextLayer kj_displayHintText:@"试看时间已到，请缴费～" time:0 position:KJPlayerHintPositionBottom];
-    }];
 }
 
 #pragma mark - KJPlayerDelegate
@@ -48,6 +43,19 @@
 /* 播放错误 */
 - (void)kj_player:(KJBasePlayer*)player playFailed:(NSError*)failed{
     
+}
+
+#pragma mark - KJPlayerTryLookDelegate
+
+- (NSTimeInterval)kj_tryLookTimeWithPlayer:(__kindof KJBasePlayer *)player{
+    return 28;
+}
+
+- (void)kj_tryLookEndWithPlayer:(__kindof KJBasePlayer *)player currentTime:(NSTimeInterval)currentTime{
+    [self.basePlayerView.loadingLayer kj_startAnimation];
+    [self.basePlayerView.hintTextLayer kj_displayHintText:@"试看时间已到，请缴费～"
+                                                     time:0
+                                                 position:KJPlayerHintPositionBottom];
 }
 
 @end

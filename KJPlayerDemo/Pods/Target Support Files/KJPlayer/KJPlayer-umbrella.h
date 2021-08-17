@@ -21,6 +21,7 @@
 #import "DBPlayerData.h"
 #import "DBPlayerDataManager.h"
 #import "KJBaseFunctionPlayer.h"
+#import "KJBasePlayer+KJDynamicSource.h"
 #import "KJBasePlayer+KJPingTimer.h"
 #import "KJBasePlayer+KJRecordTime.h"
 #import "KJBasePlayer+KJSkipTime.h"

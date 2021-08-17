@@ -10,24 +10,33 @@
 #import "KJBasePlayer.h"
 
 NS_ASSUME_NONNULL_BEGIN
-
+/// 心跳包状态
+typedef NS_ENUM(NSUInteger, KJPlayerVideoPingTimerState) {
+    KJPlayerVideoPingTimerStateFailed = 0,/// 心跳死亡
+    KJPlayerVideoPingTimerStatePing,      /// 正常心跳当中
+    KJPlayerVideoPingTimerStateReconnect, /// 重新连接
+};
+@protocol KJPlaterPingDelegate;
+/// 心跳包相关
 @interface KJBasePlayer (KJPingTimer)
 
-#pragma mark - 心跳包板块
-/// 最大断连次数，默认3次 
-@property (nonatomic,assign) int maxConnect;
-/// 是否需要开启心跳包检测卡顿和断线，默认no 
-@property (nonatomic,assign) BOOL openPing;//TODO:还有问题，待调试
-/// 心跳包状态 
-@property (nonatomic,copy,readwrite) void(^kVideoPingTimerState)(KJPlayerVideoPingTimerState state);
+/// 心跳协议
+@property (nonatomic, weak) id<KJPlaterPingDelegate> pingDelegate;
 
-#pragma mark - 动态切换板块，TODO：还不完善，待调试
-/// 动态切换播放内核，核心就是切换isa 
-- (void)kj_dynamicChangeSourcePlayer:(Class)clazz;
-/// 是否进行过动态切换内核 
-@property (nonatomic,copy,readonly) BOOL (^kPlayerDynamicChangeSource)(void);
-/// 当前播放器内核名 
-@property (nonatomic,copy,readonly) NSString * (^kPlayerCurrentSourceName)(void);
+@end
+
+@protocol KJPlaterPingDelegate <NSObject>
+
+@optional;
+
+/// 是否开启心跳包协议
+/// @param player 播放器内核
+- (BOOL)kj_openPingWithPlayer:(__kindof KJBasePlayer *)player;
+
+/// 心跳状态协议
+/// @param player 播放器内核
+/// @param beatState 心跳包状态
+- (void)kj_pingStateWithPlayer:(__kindof KJBasePlayer *)player beatState:(KJPlayerVideoPingTimerState)beatState;
 
 @end
 

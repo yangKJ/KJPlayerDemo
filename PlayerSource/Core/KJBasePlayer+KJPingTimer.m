@@ -11,12 +11,16 @@
 
 @interface KJBasePlayer ()
 
+/// 最大断连次数，默认3次
+@property (nonatomic,assign) int maxConnect;
+/// 是否需要开启心跳包检测卡顿和断线，默认no
+@property (nonatomic,assign) BOOL openPing;//TODO:还有问题，待调试
 /// 上次时间
 @property (nonatomic,assign) NSTimeInterval lastTime;
 /// 心跳计时器
 @property (nonatomic,strong) dispatch_source_t pingTimer;
-/// 上个内核名称
-@property (nonatomic,strong) NSString *lastSourceName;
+/// 心跳包状态
+@property (nonatomic,copy,readwrite) void(^pingblock)(KJPlayerVideoPingTimerState);
 
 @end
 
@@ -24,44 +28,47 @@
 
 /// 心跳处理
 /// @param state 播放器状态
-- (void)kj_pingTimerWithState:(KJPlayerState)state{
-    if (self.openPing) {
-        if (state == KJPlayerStatePreparePlay) {
-            [self kj_resumePingTimer];
-            PLAYER_WEAKSELF;
-            self.kVideoPingTimerState = ^(KJPlayerVideoPingTimerState state) {
-                if (state == KJPlayerVideoPingTimerStateReconnect) {
-                    [weakself kj_appointTime:weakself.currentTime];
-                }else if (state == KJPlayerVideoPingTimerStatePing) {
-                    // 心跳包相关
-                    kPlayerPerformSel(weakself, @"updateEvent");
-                }
-            };
-        } else if (state == KJPlayerStateStopped ||
-                   state == KJPlayerStatePlayFinished ||
-                   state == KJPlayerStateFailed) {
-            [self kj_closePingTimer];
-        }
+- (void)kj_pingTimerIMP:(KJPlayerState)state{
+    if (self.openPing == NO) return;
+    if (state == KJPlayerStatePreparePlay) {
+        [self kj_resumePingTimer];
+        PLAYER_WEAKSELF;
+        self.pingblock = ^(KJPlayerVideoPingTimerState state) {
+            if (state == KJPlayerVideoPingTimerStateReconnect) {
+                [weakself kj_appointTime:weakself.currentTime];
+            }else if (state == KJPlayerVideoPingTimerStatePing) {
+                // 心跳包相关
+                kPlayerPerformSel(weakself, @"updateEvent");
+            }
+        };
+    } else if (state == KJPlayerStatePausing) {
+        [self kj_pausePingTimer];
+    } else if (state == KJPlayerStateStopped) {
+        [self kj_closePingTimer];
+    } else if (state == KJPlayerStatePlayFinished) {
+        [self kj_closePingTimer];
+    } else if (state == KJPlayerStateFailed) {
+        [self kj_closePingTimer];
     }
 }
 
 #pragma mark - 心跳包板块
 
-/// 关闭心跳包（名字别乱改）
+/// 关闭心跳包
 - (void)kj_closePingTimer{
     if (!self.openPing) return;
     if (self.pingTimer) {
         [self kj_playerStopTimer:self.pingTimer];
     }
 }
-/// 暂停心跳（名字别乱改）
+/// 暂停心跳
 - (void)kj_pausePingTimer{
     if (!self.openPing) return;
     if (self.pingTimer) {
         [self kj_playerPauseTimer:self.pingTimer];
     }
 }
-/// 继续心跳（名字别乱改）
+/// 继续心跳
 - (void)kj_resumePingTimer{
     if (!self.openPing) return;
     if (self.pingTimer) {
@@ -96,101 +103,12 @@
 //            state = KJPlayerVideoPingTimerStateReconnect;
 //        }
 //    }
-    if (self.kVideoPingTimerState) {
-        self.kVideoPingTimerState(state);
+    if (self.pingblock) {
+        self.pingblock(state);
     }
-}
-
-#pragma mark - 动态切换板块
-
-/// 动态切换播放内核 
-- (void)kj_dynamicChangeSourcePlayer:(Class)clazz{
-    NSString *__name = NSStringFromClass([self class]);
-    kPlayerPerformSel(self, @"kj_changeSourceCleanJobs");
-    object_setClass(self, clazz);
-    if ([__name isEqualToString:self.lastSourceName]) {
-        return;
-    } else {
-        self.lastSourceName = __name;
+    if ([self.pingDelegate respondsToSelector:@selector(kj_pingStateWithPlayer:beatState:)]) {
+        [self.pingDelegate kj_pingStateWithPlayer:self beatState:state];
     }
-//    if ([__name isEqualToString:@"KJAVPlayer"]) {
-//        [self setValue:nil forKey:@"tempView"];
-//    }else if ([__name isEqualToString:@"KJIJKPlayer"]) {
-//        [self setValue:nil forKey:@"playerOutput"];
-//        [self setValue:nil forKey:@"playerLayer"];
-//    }else if ([__name isEqualToString:@"KJMIDIPlayer"]) {
-//
-//    }
-}
-/// 是否进行过动态切换内核 
-- (BOOL (^)(void))kPlayerDynamicChangeSource{
-    return ^BOOL{
-        if (self.lastSourceName == nil || !self.lastSourceName.length) {
-            return NO;
-        }
-        return ![self.lastSourceName isEqualToString:NSStringFromClass([self class])];
-    };
-}
-/// 当前播放器内核名 
-- (NSString * (^)(void))kPlayerCurrentSourceName{
-    return ^NSString * {
-        NSString *name = NSStringFromClass([self class]);
-        if ([name isEqualToString:@"KJAVPlayer"]) {
-            return @"AVPlayer";
-        }
-        if ([name isEqualToString:@"KJIJKPlayer"]) {
-            return @"IJKPlayer";
-        }
-        if ([name isEqualToString:@"KJMIDIPlayer"]) {
-            return @"midi";
-        }
-        return @"Unknown";
-    };
-}
-
-#pragma mark - Associated
-
-- (NSString *)lastSourceName{
-    return objc_getAssociatedObject(self, _cmd);;
-}
-- (void)setLastSourceName:(NSString *)lastSourceName{
-    objc_setAssociatedObject(self, @selector(lastSourceName), lastSourceName, OBJC_ASSOCIATION_COPY_NONATOMIC);
-}
-- (BOOL)openPing{
-    return [objc_getAssociatedObject(self, _cmd) boolValue];
-}
-- (void)setOpenPing:(BOOL)openPing{
-    objc_setAssociatedObject(self, @selector(openPing), @(openPing), OBJC_ASSOCIATION_ASSIGN);
-}
-- (dispatch_source_t)pingTimer{
-    return objc_getAssociatedObject(self, _cmd);
-}
-- (void)setPingTimer:(dispatch_source_t)timer{
-    objc_setAssociatedObject(self, @selector(pingTimer), timer, OBJC_ASSOCIATION_RETAIN_NONATOMIC);
-}
-- (NSTimeInterval)lastTime{
-    return [objc_getAssociatedObject(self, _cmd) floatValue];
-}
-- (void)setLastTime:(NSTimeInterval)lastTime{
-    objc_setAssociatedObject(self, @selector(lastTime), @(lastTime), OBJC_ASSOCIATION_RETAIN_NONATOMIC);
-}
-- (int)maxConnect{
-    return [objc_getAssociatedObject(self, _cmd) intValue];;
-}
-- (void)setMaxConnect:(int)maxConnect{
-    objc_setAssociatedObject(self, @selector(maxConnect), @(maxConnect), OBJC_ASSOCIATION_ASSIGN);
-}
-- (void (^)(KJPlayerVideoPingTimerState))kVideoPingTimerState{
-    return objc_getAssociatedObject(self, _cmd);
-}
-- (void)setKVideoPingTimerState:(void (^)(KJPlayerVideoPingTimerState))kVideoPingTimerState{
-    objc_setAssociatedObject(self, @selector(kVideoPingTimerState), kVideoPingTimerState, OBJC_ASSOCIATION_RETAIN_NONATOMIC);
-}
-- (BOOL)isHangUp{
-    return [objc_getAssociatedObject(self, _cmd) boolValue];
-}
-- (void)setIsHangUp:(BOOL)isHangUp{
-    objc_setAssociatedObject(self, @selector(isHangUp), @(isHangUp), OBJC_ASSOCIATION_ASSIGN);
 }
 
 #pragma mark - GCD 计时器
@@ -245,6 +163,54 @@
         //挂起的时候注意，多次暂停的操作会导致线程锁的现象
         //dispatch_suspend和dispatch_resume是一对
         dispatch_resume(timer);
+    }
+}
+
+#pragma mark - Associated
+
+- (BOOL)openPing{
+    return [objc_getAssociatedObject(self, _cmd) boolValue];
+}
+- (void)setOpenPing:(BOOL)openPing{
+    objc_setAssociatedObject(self, @selector(openPing), @(openPing), OBJC_ASSOCIATION_ASSIGN);
+}
+- (int)maxConnect{
+    return [objc_getAssociatedObject(self, _cmd) intValue];;
+}
+- (void)setMaxConnect:(int)maxConnect{
+    objc_setAssociatedObject(self, @selector(maxConnect), @(maxConnect), OBJC_ASSOCIATION_ASSIGN);
+}
+- (dispatch_source_t)pingTimer{
+    return objc_getAssociatedObject(self, _cmd);
+}
+- (void)setPingTimer:(dispatch_source_t)timer{
+    objc_setAssociatedObject(self, @selector(pingTimer), timer, OBJC_ASSOCIATION_RETAIN_NONATOMIC);
+}
+- (NSTimeInterval)lastTime{
+    return [objc_getAssociatedObject(self, _cmd) floatValue];
+}
+- (void)setLastTime:(NSTimeInterval)lastTime{
+    objc_setAssociatedObject(self, @selector(lastTime), @(lastTime), OBJC_ASSOCIATION_RETAIN_NONATOMIC);
+}
+- (BOOL)isHangUp{
+    return [objc_getAssociatedObject(self, _cmd) boolValue];
+}
+- (void)setIsHangUp:(BOOL)isHangUp{
+    objc_setAssociatedObject(self, @selector(isHangUp), @(isHangUp), OBJC_ASSOCIATION_ASSIGN);
+}
+- (void(^)(KJPlayerVideoPingTimerState))pingblock{
+    return objc_getAssociatedObject(self, _cmd);
+}
+- (void)setPingblock:(void (^)(KJPlayerVideoPingTimerState))pingblock{
+    objc_setAssociatedObject(self, @selector(pingblock), pingblock, OBJC_ASSOCIATION_RETAIN_NONATOMIC);
+}
+- (id<KJPlaterPingDelegate>)pingDelegate{
+    return objc_getAssociatedObject(self, _cmd);
+}
+- (void)setPingDelegate:(id<KJPlaterPingDelegate>)pingDelegate{
+    objc_setAssociatedObject(self, @selector(pingDelegate), pingDelegate, OBJC_ASSOCIATION_ASSIGN);
+    if ([pingDelegate respondsToSelector:@selector(kj_openPingWithPlayer:)]) {
+        self.openPing = [pingDelegate kj_openPingWithPlayer:self];
     }
 }
 

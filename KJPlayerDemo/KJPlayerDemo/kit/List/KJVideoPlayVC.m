@@ -10,7 +10,7 @@
 #import <KJPlayer/KJBasePlayer+KJSkipTime.h>
 #import <KJPlayer/KJBasePlayer+KJTryTime.h>
 
-@interface KJVideoPlayVC () <KJPlayerDelegate>
+@interface KJVideoPlayVC () <KJPlayerDelegate, KJPlayerSkipDelegate, KJPlayerTryLookDelegate>
 
 @property(nonatomic,strong)KJAVPlayer *player;
 @property(nonatomic,strong)UISlider *slider;
@@ -86,8 +86,8 @@
     self.player = player;
     player.playerView = backview;
     player.delegate = self;
+    player.skipDelegate = self;
     player.roregroundResume = YES;
-    [self.player kj_skipHeadTime:50 skipState:nil];
     player.videoURL = self.url;
 }
 - (void)tapPlayerViewAction:(UITapGestureRecognizer *)gesture {
@@ -129,10 +129,7 @@
         [self.loadingView stopAnimating];
     }else if (state == KJPlayerStatePlayFinished) {
         [player kj_replay];
-        [player kj_tryLookTime:100 lookend:^(__kindof KJBasePlayer * _Nonnull player) {
-            KJBasePlayerView * playerView = (KJBasePlayerView *)player.playerView;
-            [playerView.hintTextLayer kj_displayHintText:@"试看结束，请缴费~~" position:KJPlayerHintPositionBottom];
-        }];
+        player.tryLookDelegate = self;
     }
 }
 /* 播放进度 */
@@ -148,6 +145,23 @@
 /// @param time 总时间
 - (void)kj_player:(__kindof KJBasePlayer *)player videoTime:(NSTimeInterval)time{
     self.slider.maximumValue = time;
+}
+
+#pragma mark - KJPlayerSkipDelegate
+
+- (NSTimeInterval)kj_skipHeadTimeWithPlayer:(__kindof KJBasePlayer *)player{
+    return 50;
+}
+
+#pragma mark - KJPlayerTryLookDelegate
+
+- (NSTimeInterval)kj_tryLookTimeWithPlayer:(__kindof KJBasePlayer *)player{
+    return 100;
+}
+
+- (void)kj_tryLookEndWithPlayer:(__kindof KJBasePlayer *)player currentTime:(NSTimeInterval)currentTime{
+    KJBasePlayerView * playerView = (KJBasePlayerView *)player.playerView;
+    [playerView.hintTextLayer kj_displayHintText:@"试看结束，请缴费~~" position:KJPlayerHintPositionBottom];
 }
 
 @end

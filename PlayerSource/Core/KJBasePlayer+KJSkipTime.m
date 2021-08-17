@@ -10,7 +10,7 @@
 @interface KJBasePlayer ()
 
 @property (nonatomic,assign) NSTimeInterval skipHeadTime;
-@property (nonatomic,copy,readwrite) KJPlayerSkipStateBlock skipTimeBlock;
+@property (nonatomic,assign) NSTimeInterval skipFootTime;
 
 @end
 
@@ -18,10 +18,11 @@
 
 - (BOOL)kj_skipTimePlayIMP{
     if (self.skipHeadTime) {
-        if (self.skipTimeBlock) {
-            kGCD_player_main(^{
-                self.skipTimeBlock(self, KJPlayerVideoSkipStateHead);
-            });
+        if ([self.skipDelegate respondsToSelector:@selector(kj_skipTimeWithPlayer:currentTime:totalTime:skipState:)]) {
+            [self.skipDelegate kj_skipTimeWithPlayer:self
+                                         currentTime:self.skipHeadTime
+                                           totalTime:self.totalTime
+                                           skipState:KJPlayerVideoSkipStateHead];
         }
         [self kj_appointTime:self.skipHeadTime];
         return YES;
@@ -29,31 +30,19 @@
     return NO;
 }
 
-/// 跳过片头
-/// @param headTime 片头
-/// @param skipState 跳过状态回调
-- (void)kj_skipHeadTime:(NSTimeInterval)headTime skipState:(KJPlayerSkipStateBlock)skipState{
-    [self kj_skipHeadTime:headTime footTime:0 skipState:skipState];
-}
-
-/// 跳过片头和片尾回调，优先级低于记录上次播放时间
-/// @param headTime 片头
-/// @param footTime 片尾
-/// @param skipState 跳过状态回调
-- (void)kj_skipHeadTime:(NSTimeInterval)headTime
-               footTime:(NSTimeInterval)footTime
-              skipState:(KJPlayerSkipStateBlock)skipState{
-    self.skipTimeBlock = skipState;
-    self.skipHeadTime = headTime;
-}
-
 #pragma mark - Associated
 
-- (KJPlayerSkipStateBlock)skipTimeBlock{
-    return objc_getAssociatedObject(self, _cmd);
+- (id<KJPlayerSkipDelegate>)skipDelegate{
+    return  objc_getAssociatedObject(self, _cmd);
 }
-- (void)setSkipTimeBlock:(KJPlayerSkipStateBlock)skipTimeBlock{
-    objc_setAssociatedObject(self, @selector(skipTimeBlock), skipTimeBlock, OBJC_ASSOCIATION_RETAIN_NONATOMIC);
+- (void)setSkipDelegate:(id<KJPlayerSkipDelegate>)skipDelegate{
+    objc_setAssociatedObject(self, @selector(skipDelegate), skipDelegate, OBJC_ASSOCIATION_ASSIGN);
+    if ([skipDelegate respondsToSelector:@selector(kj_skipHeadTimeWithPlayer:)]) {
+        self.skipHeadTime = [skipDelegate kj_skipHeadTimeWithPlayer:self];
+    }
+    if ([skipDelegate respondsToSelector:@selector(kj_skipFootTimeWithPlayer:)]) {
+        self.skipFootTime = [skipDelegate kj_skipFootTimeWithPlayer:self];
+    }
 }
 
 @end

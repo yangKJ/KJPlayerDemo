@@ -11,9 +11,7 @@
 @interface KJBasePlayer ()
 
 @property (nonatomic,assign) BOOL record;
-@property (nonatomic,copy,readwrite) void(^recordTimeBlock)(NSTimeInterval time);
 @property (nonatomic,assign) NSTimeInterval currentTime;
-@property (nonatomic,assign) NSTimeInterval totalTime;
 
 @end
 
@@ -28,22 +26,19 @@
             if (self.totalTime) self.currentTime = time;
         });
         [self kj_appointTime:time];
-        if (self.recordTimeBlock) {
-            kGCD_player_main(^{
-                self.recordTimeBlock(time);
-            });
+        if ([self.recordDelegate respondsToSelector:@selector(kj_recordTimeWithPlayer:totalTime:lastTime:)]) {
+            [self.recordDelegate kj_recordTimeWithPlayer:self
+                                               totalTime:self.totalTime
+                                                lastTime:time];
         }
         return YES;
     }
     return NO;
 }
 
-/// 获取记录上次观看时间
-/// @param record 是否需要记录观看时间
-/// @param lastTime 上次播放时间回调
-- (void)kj_videoRecord:(BOOL)record lastTime:(void(^)(NSTimeInterval time))lastTime{
-    self.recordTimeBlock = lastTime;
-    self.record = record;
+/// 存储播放时间
+- (void)kj_recordTimeSaveIMP{
+    [self kj_saveRecordLastTime];
 }
 
 /// 主动存储当前播放记录
@@ -63,11 +58,15 @@
 - (void)setRecord:(BOOL)record{
     objc_setAssociatedObject(self, @selector(record), @(record), OBJC_ASSOCIATION_ASSIGN);
 }
-- (void (^)(NSTimeInterval))recordTimeBlock{
-    return objc_getAssociatedObject(self, _cmd);
+
+- (id<KJPlayerRecordDelegate>)recordDelegate{
+    return  objc_getAssociatedObject(self, _cmd);
 }
-- (void)setRecordTimeBlock:(void (^)(NSTimeInterval))recordTimeBlock{
-    objc_setAssociatedObject(self, @selector(recordTimeBlock), recordTimeBlock, OBJC_ASSOCIATION_RETAIN_NONATOMIC);
+- (void)setRecordDelegate:(id<KJPlayerRecordDelegate>)recordDelegate{
+    objc_setAssociatedObject(self, @selector(recordDelegate), recordDelegate, OBJC_ASSOCIATION_ASSIGN);
+    if ([recordDelegate respondsToSelector:@selector(kj_recordTimeWithPlayer:)]) {
+        self.record = [recordDelegate kj_recordTimeWithPlayer:self];
+    }
 }
 
 @end

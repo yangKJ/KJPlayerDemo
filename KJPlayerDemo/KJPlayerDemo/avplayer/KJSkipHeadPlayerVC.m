@@ -9,7 +9,7 @@
 #import "KJSkipHeadPlayerVC.h"
 #import <KJPlayer/KJBasePlayer+KJSkipTime.h>
 
-@interface KJSkipHeadPlayerVC () <KJPlayerDelegate>
+@interface KJSkipHeadPlayerVC () <KJPlayerDelegate, KJPlayerSkipDelegate>
 
 @end
 
@@ -19,14 +19,7 @@
     
     self.basePlayerView.frame = CGRectMake(0, (self.view.frame.size.height-self.view.frame.size.width)/2-32, self.view.frame.size.width, self.view.frame.size.width);
     self.player.delegate = self;
-    PLAYER_WEAKSELF;
-    [self.player kj_skipHeadTime:18 skipState:^(__kindof KJBasePlayer * _Nonnull player, KJPlayerVideoSkipState skipState) {
-        if (skipState == KJPlayerVideoSkipStateHead) {
-            [weakself.basePlayerView.hintTextLayer kj_displayHintText:@"跳过片头，自动播放"
-                                                                 time:5
-                                                             position:KJPlayerHintPositionLeftBottom];
-        }
-    }];
+    self.player.skipDelegate = self;
     self.player.videoURL = [NSURL URLWithString:@"https://mp4.vjshi.com/2020-12-27/a86e0cb5d0ea55cd4864a6fc7609dce8.mp4"];
     [self.basePlayerView.hintTextLayer kj_setHintFont:[UIFont systemFontOfSize:15]
                                             textColor:UIColor.greenColor
@@ -64,6 +57,23 @@
 /* 播放错误 */
 - (void)kj_player:(KJBasePlayer*)player playFailed:(NSError*)failed{
     
+}
+
+#pragma mark - KJPlayerSkipDelegate
+
+- (NSTimeInterval)kj_skipHeadTimeWithPlayer:(__kindof KJBasePlayer *)player{
+    return 18;
+}
+
+- (void)kj_skipTimeWithPlayer:(__kindof KJBasePlayer *)player
+                  currentTime:(NSTimeInterval)currentTime
+                    totalTime:(NSTimeInterval)totalTime
+                    skipState:(KJPlayerVideoSkipState)skipState{
+    if (skipState == KJPlayerVideoSkipStateHead) {
+        [self.basePlayerView.hintTextLayer kj_displayHintText:@"跳过片头，自动播放"
+                                                         time:5
+                                                     position:KJPlayerHintPositionLeftBottom];
+    }
 }
 
 @end

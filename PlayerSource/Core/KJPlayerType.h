@@ -144,22 +144,11 @@ typedef NS_ENUM(NSUInteger, KJPlayerVideoGravity) {
     KJPlayerVideoGravityResizeAspectFill,/// 原始尺寸，视频不会有黑边
     KJPlayerVideoGravityResizeOriginal,  /// 拉伸充满，视频会变形
 };
-/// 跳过播放
-typedef NS_ENUM(NSUInteger, KJPlayerVideoSkipState) {
-    KJPlayerVideoSkipStateHead, /// 跳过片头
-    KJPlayerVideoSkipStateFoot, /// 跳过片尾
-};
 /// 当前屏幕状态
 typedef NS_ENUM(NSUInteger, KJPlayerVideoScreenState) {
     KJPlayerVideoScreenStateSmallScreen,/// 小屏
     KJPlayerVideoScreenStateFullScreen, /// 全屏
     KJPlayerVideoScreenStateFloatingWindow,/// 浮窗
-};
-/// 心跳包状态
-typedef NS_ENUM(NSUInteger, KJPlayerVideoPingTimerState) {
-    KJPlayerVideoPingTimerStateFailed = 0,/// 心跳死亡
-    KJPlayerVideoPingTimerStatePing,      /// 正常心跳当中
-    KJPlayerVideoPingTimerStateReconnect, /// 重新连接
 };
 /// 日志打印级别
 typedef NS_OPTIONS(NSUInteger, KJPlayerVideoRankType) {
@@ -188,6 +177,7 @@ typedef struct KJCacheFragment KJCacheFragment;
 #define PLAYER_COMMON_EXTENSION_PROPERTY \
 @property (nonatomic,assign) NSTimeInterval tryTime;\
 @property (nonatomic,assign) NSTimeInterval skipHeadTime;\
+@property (nonatomic,assign) NSTimeInterval skipFootTime;\
 @property (nonatomic,assign) NSTimeInterval currentTime;\
 @property (nonatomic,assign) NSTimeInterval totalTime;\
 @property (nonatomic,assign) KJPlayerState state;\

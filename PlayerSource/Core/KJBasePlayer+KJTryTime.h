@@ -10,16 +10,39 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
-/// 试看结束回调
-typedef void(^_Nullable KJPlayerLookendBlock)(__kindof KJBasePlayer * player);
-
+@protocol KJPlayerTryLookDelegate;
 /// 免费试看时间相关
 @interface KJBasePlayer (KJTryTime)
 
-/// 免费试看时间和试看结束回调
-/// @param time 试看时间，默认零不限制
-/// @param lookend 试看结束回调
-- (void)kj_tryLookTime:(NSTimeInterval)time lookend:(KJPlayerLookendBlock)lookend;
+/// 免费试看协议
+@property (nonatomic, weak) id<KJPlayerTryLookDelegate> tryLookDelegate;
+
+@end
+
+/// 免费试看协议
+@protocol KJPlayerTryLookDelegate <NSObject>
+
+@optional;
+
+/// 获取免费试看时间
+/// @param player 播放器内核
+/// @return 试看时间，返回零不限制
+- (NSTimeInterval)kj_tryLookTimeWithPlayer:(__kindof KJBasePlayer *)player;
+
+/// 试看结束响应
+/// @param player 播放器内核
+/// @param currentTime 当前播放时间
+- (void)kj_tryLookEndWithPlayer:(__kindof KJBasePlayer *)player currentTime:(NSTimeInterval)currentTime;
+
+/// 试看响应
+/// @param player 播放器内核
+/// @param tryTime 试看时间
+/// @param currentTime 当前播放时间
+/// @param lookEnd 试看是否结束
+- (void)kj_tryLookWithPlayer:(__kindof KJBasePlayer *)player
+                     tryTime:(NSTimeInterval)tryTime
+                 currentTime:(NSTimeInterval)currentTime
+                     lookEnd:(BOOL)lookEnd;
 
 @end
 
