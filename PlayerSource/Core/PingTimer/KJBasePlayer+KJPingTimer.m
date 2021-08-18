@@ -8,6 +8,7 @@
 
 #import "KJBasePlayer+KJPingTimer.h"
 #import <objc/runtime.h>
+#import "KJLogManager.h"
 
 @interface KJBasePlayer ()
 

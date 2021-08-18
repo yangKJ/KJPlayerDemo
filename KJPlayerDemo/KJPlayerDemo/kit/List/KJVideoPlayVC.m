@@ -7,10 +7,12 @@
 //  https://github.com/yangKJ/KJPlayerDemo
 
 #import "KJVideoPlayVC.h"
-#import <KJPlayer/KJBasePlayer+KJSkipTime.h>
-#import <KJPlayer/KJBasePlayer+KJTryTime.h>
 
-@interface KJVideoPlayVC () <KJPlayerDelegate, KJPlayerSkipDelegate, KJPlayerTryLookDelegate>
+#if __has_include(<KJPlayer/KJBasePlayer+KJSkipTime.h>)
+
+#import <KJPlayer/KJBasePlayer+KJSkipTime.h>
+
+@interface KJVideoPlayVC () <KJPlayerDelegate, KJPlayerSkipDelegate>
 
 @property(nonatomic,strong)KJAVPlayer *player;
 @property(nonatomic,strong)UISlider *slider;
@@ -129,7 +131,6 @@
         [self.loadingView stopAnimating];
     }else if (state == KJPlayerStatePlayFinished) {
         [player kj_replay];
-        player.tryLookDelegate = self;
     }
 }
 /* 播放进度 */
@@ -147,12 +148,6 @@
     self.slider.maximumValue = time;
 }
 
-#pragma mark - KJPlayerSkipDelegate
-
-- (NSTimeInterval)kj_skipHeadTimeWithPlayer:(__kindof KJBasePlayer *)player{
-    return 50;
-}
-
 #pragma mark - KJPlayerTryLookDelegate
 
 - (NSTimeInterval)kj_tryLookTimeWithPlayer:(__kindof KJBasePlayer *)player{
@@ -165,3 +160,5 @@
 }
 
 @end
+
+#endif

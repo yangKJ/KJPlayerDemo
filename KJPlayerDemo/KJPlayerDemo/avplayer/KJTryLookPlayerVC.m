@@ -7,6 +7,9 @@
 //  https://github.com/yangKJ/KJPlayerDemo
 
 #import "KJTryLookPlayerVC.h"
+
+#if __has_include(<KJPlayer/KJBasePlayer+KJTryTime.h>)
+
 #import <KJPlayer/KJBasePlayer+KJTryTime.h>
 
 @interface KJTryLookPlayerVC () <KJPlayerDelegate, KJPlayerTryLookDelegate>
@@ -59,3 +62,5 @@
 }
 
 @end
+
+#endif

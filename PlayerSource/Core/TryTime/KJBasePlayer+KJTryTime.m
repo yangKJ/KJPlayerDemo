@@ -30,12 +30,15 @@
 
 /// 试看处理
 - (BOOL)kj_tryLook:(NSTimeInterval)time{
+    PLAYER_WEAKSELF;
     if (self.tryTime && time >= self.tryTime) {
         self.currentTime = self.tryTime;
         if (self.tryLooked == NO) {
             self.tryLooked = YES;
             if ([self.tryLookDelegate respondsToSelector:@selector(kj_tryLookEndWithPlayer:currentTime:)]) {
-                [self.tryLookDelegate kj_tryLookEndWithPlayer:self currentTime:time];
+                kGCD_player_main(^{
+                    [weakself.tryLookDelegate kj_tryLookEndWithPlayer:weakself currentTime:time];
+                });
             }
         }
     } else {
@@ -43,10 +46,12 @@
         self.tryLooked = NO;
     }
     if ([self.tryLookDelegate respondsToSelector:@selector(kj_tryLookWithPlayer:tryTime:currentTime:lookEnd:)]) {
-        [self.tryLookDelegate kj_tryLookWithPlayer:self
-                                           tryTime:self.tryTime
-                                       currentTime:self.currentTime
-                                           lookEnd:self.tryLooked];
+        kGCD_player_main(^{
+            [weakself.tryLookDelegate kj_tryLookWithPlayer:weakself
+                                                   tryTime:weakself.tryTime
+                                               currentTime:weakself.currentTime
+                                                   lookEnd:weakself.tryLooked];
+        });
     }
     return self.tryLooked;
 }

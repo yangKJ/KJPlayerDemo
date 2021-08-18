@@ -7,6 +7,9 @@
 //  https://github.com/yangKJ/KJPlayerDemo
 
 #import "KJSkipHeadPlayerVC.h"
+
+#if __has_include(<KJPlayer/KJBasePlayer+KJSkipTime.h>)
+
 #import <KJPlayer/KJBasePlayer+KJSkipTime.h>
 
 @interface KJSkipHeadPlayerVC () <KJPlayerDelegate, KJPlayerSkipDelegate>
@@ -77,3 +80,5 @@
 }
 
 @end
+
+#endif

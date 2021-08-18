@@ -8,6 +8,8 @@
 
 #import "KJCachePlayerVC.h"
 
+#if __has_include(<KJPlayer/KJAVPlayer+KJCache.h>)
+
 @interface KJCachePlayerVC () <KJPlayerDelegate>
 
 @end
@@ -62,3 +64,5 @@
 }
 
 @end
+
+#endif

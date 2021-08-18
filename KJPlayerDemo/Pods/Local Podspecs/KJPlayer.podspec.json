@@ -33,6 +33,23 @@
   },
   "subspecs": [
     {
+      "name": "Database",
+      "source_files": "PlayerSource/Core/Database/*.{h,m}",
+      "resources": "PlayerSource/Core/Database/*.{xcdatamodeld}"
+    },
+    {
+      "name": "Cache",
+      "source_files": "PlayerSource/Core/Cache/*.{h,m}",
+      "dependencies": {
+        "KJPlayer/Common": [
+
+        ],
+        "KJPlayer/Database": [
+
+        ]
+      }
+    },
+    {
       "name": "Common",
       "source_files": "PlayerSource/Core/*.{h,m}",
       "resources": "PlayerSource/Core/*.{xcdatamodeld}"
@@ -70,6 +87,9 @@
           "dependencies": {
             "KJPlayer/AVPlayer/AVCore": [
 
+            ],
+            "KJPlayer/Database": [
+
             ]
           }
         }
@@ -93,6 +113,66 @@
 
         ],
         "IJKMediaFramework": [
+
+        ]
+      }
+    },
+    {
+      "name": "DynamicSource",
+      "source_files": "PlayerSource/Core/DynamicSource/*.{h,m}",
+      "dependencies": {
+        "KJPlayer/Common": [
+
+        ]
+      }
+    },
+    {
+      "name": "PingTimer",
+      "source_files": "PlayerSource/Core/PingTimer/*.{h,m}",
+      "dependencies": {
+        "KJPlayer/Common": [
+
+        ]
+      }
+    },
+    {
+      "name": "RecordTime",
+      "source_files": "PlayerSource/Core/RecordTime/*.{h,m}",
+      "dependencies": {
+        "KJPlayer/Common": [
+
+        ],
+        "KJPlayer/Database": [
+
+        ]
+      }
+    },
+    {
+      "name": "SkipTime",
+      "source_files": "PlayerSource/Core/SkipTime/*.{h,m}",
+      "dependencies": {
+        "KJPlayer/Common": [
+
+        ]
+      }
+    },
+    {
+      "name": "TryTime",
+      "source_files": "PlayerSource/Core/TryTime/*.{h,m}",
+      "dependencies": {
+        "KJPlayer/Common": [
+
+        ]
+      }
+    },
+    {
+      "name": "Screenshots",
+      "source_files": "PlayerSource/Core/Screenshots/*.{h,m}",
+      "dependencies": {
+        "KJPlayer/Common": [
+
+        ],
+        "KJPlayer/Database": [
 
         ]
       }

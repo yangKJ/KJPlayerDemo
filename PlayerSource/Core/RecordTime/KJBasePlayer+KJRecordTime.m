@@ -7,6 +7,7 @@
 
 #import "KJBasePlayer+KJRecordTime.h"
 #import <objc/runtime.h>
+#import "DBPlayerDataManager.h"
 
 @interface KJBasePlayer ()
 
@@ -22,14 +23,17 @@
     if (self.record) {
         NSString *dbid = kPlayerIntactName(self.originalURL);
         NSTimeInterval time = [DBPlayerData kj_getLastTimeDbid:dbid];
+        PLAYER_WEAKSELF;
         kGCD_player_main(^{
-            if (self.totalTime) self.currentTime = time;
+            if (weakself.totalTime) weakself.currentTime = time;
         });
         [self kj_appointTime:time];
         if ([self.recordDelegate respondsToSelector:@selector(kj_recordTimeWithPlayer:totalTime:lastTime:)]) {
-            [self.recordDelegate kj_recordTimeWithPlayer:self
-                                               totalTime:self.totalTime
-                                                lastTime:time];
+            kGCD_player_main(^{
+                [weakself.recordDelegate kj_recordTimeWithPlayer:weakself
+                                                       totalTime:weakself.totalTime
+                                                        lastTime:time];
+            });
         }
         return YES;
     }

@@ -1,34 +1,48 @@
 PODS:
-  - IJKMediaFramework (0.1.5)
   - KJPlayer (2.1.4):
     - KJPlayer/AVPlayer/AVCore (= 2.1.4)
   - KJPlayer/AVPlayer/AVCore (2.1.4):
     - KJPlayer/Common
-  - KJPlayer/AVPlayer/AVDownloader (2.1.4):
-    - KJPlayer/AVPlayer/AVCore
+  - KJPlayer/Cache (2.1.4):
+    - KJPlayer/Common
+    - KJPlayer/Database
   - KJPlayer/Common (2.1.4)
   - KJPlayer/CustomView (2.1.4):
     - KJPlayer/Common
-  - KJPlayer/IJKPlayer (2.1.4):
-    - IJKMediaFramework
+  - KJPlayer/Database (2.1.4)
+  - KJPlayer/DynamicSource (2.1.4):
     - KJPlayer/Common
-  - KJPlayer/MIDI (2.1.4):
+  - KJPlayer/PingTimer (2.1.4):
+    - KJPlayer/Common
+  - KJPlayer/RecordTime (2.1.4):
+    - KJPlayer/Common
+    - KJPlayer/Database
+  - KJPlayer/Screenshots (2.1.4):
+    - KJPlayer/Common
+    - KJPlayer/Database
+  - KJPlayer/SkipTime (2.1.4):
+    - KJPlayer/Common
+  - KJPlayer/TryTime (2.1.4):
     - KJPlayer/Common
   - SwiftMonkey (2.2.0)
   - SwiftMonkeyPaws (2.2.0)
 
 DEPENDENCIES:
   - KJPlayer (from `..`)
-  - KJPlayer/AVPlayer/AVDownloader (from `..`)
+  - KJPlayer/Cache (from `..`)
   - KJPlayer/CustomView (from `..`)
-  - KJPlayer/IJKPlayer (from `..`)
-  - KJPlayer/MIDI (from `..`)
+  - KJPlayer/Database (from `..`)
+  - KJPlayer/DynamicSource (from `..`)
+  - KJPlayer/PingTimer (from `..`)
+  - KJPlayer/RecordTime (from `..`)
+  - KJPlayer/Screenshots (from `..`)
+  - KJPlayer/SkipTime (from `..`)
+  - KJPlayer/TryTime (from `..`)
   - SwiftMonkey
   - SwiftMonkeyPaws
 
 SPEC REPOS:
   trunk:
-    - IJKMediaFramework
     - SwiftMonkey
     - SwiftMonkeyPaws
 
@@ -37,11 +51,10 @@ EXTERNAL SOURCES:
     :path: ".."
 
 SPEC CHECKSUMS:
-  IJKMediaFramework: f1119f6324c96bc4654f3045a5beaa95ba0596c0
-  KJPlayer: ca07eddd399750e896cfd421136485cfdca97e2c
+  KJPlayer: 3a658be04704690426b3240bf518d80dc02cd235
   SwiftMonkey: 24ffde5b590d3658cfcb1d775cf74b9f5280eb9c
   SwiftMonkeyPaws: 9d183b8a1b9cfd497c2704342e861b71412d94f5
 
-PODFILE CHECKSUM: 2d49b4f55193cfc973461db40b2bd6c8af7fa418
+PODFILE CHECKSUM: 3f72aa6e42d83a6a747b39ff163c2575021927a0
 
 COCOAPODS: 1.10.1

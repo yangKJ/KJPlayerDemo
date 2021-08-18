@@ -9,9 +9,9 @@
 #import "KJDownloader.h"
 #import <objc/runtime.h>
 #import <MobileCoreServices/MobileCoreServices.h>
-#import "KJCustomManager.h"
 #import "KJFileHandleManager.h"
 #import "KJFileHandleInfo.h"
+#import "KJLogManager.h"
 
 @protocol KJDownloaderManagerDelegate;
 @interface KJDownloadTask : NSObject
@@ -56,7 +56,7 @@
 @implementation KJDownloader
 
 - (void)dealloc{
-    [KJCustomManager.shared kj_removeDownloadURL:self.videoURL];
+    [KJPlayerSharedInstance.shared kj_removeDownloadURL:self.videoURL];
 }
 - (instancetype)initWithURL:(NSURL *)url fileHandleManager:(KJFileHandleManager *)manager{
     if (self = [super init]) {
@@ -65,7 +65,7 @@
         self.fileHandleManager = manager;
         self.contentLength = manager.cacheInfo.contentLength;
         self.contentType = manager.cacheInfo.contentType;
-        [KJCustomManager.shared kj_addDownloadURL:self.videoURL];
+        [KJPlayerSharedInstance.shared kj_addDownloadURL:self.videoURL];
     }
     return self;
 }
@@ -86,7 +86,7 @@
 }
 - (void)kj_cancelDownload{
     self.downloadTask.delegate = nil;
-    [KJCustomManager.shared kj_removeDownloadURL:self.videoURL];
+    [KJPlayerSharedInstance.shared kj_removeDownloadURL:self.videoURL];
     [self.downloadTask kj_cancelDownloading];
     self.downloadTask = nil;
 }
@@ -121,7 +121,7 @@
 }
 /// 接收错误或者接收完成，错误为空表示接收完成 
 - (void)kj_didFinishWithError:(NSError*_Nullable)error{
-    [KJCustomManager.shared kj_removeDownloadURL:self.videoURL];
+    [KJPlayerSharedInstance.shared kj_removeDownloadURL:self.videoURL];
     if (self.kDidFinished) {
         self.kDidFinished(self, error);
     }
@@ -208,7 +208,7 @@
         }
         return;
     }
-    KJCacheFragment fragment = [KJCustomManager kj_getCacheFragment:self.fragments.firstObject];
+    KJCacheFragment fragment = [KJFileHandleInfo kj_getCacheFragment:self.fragments.firstObject];
     [self.fragments removeObjectAtIndex:0];
     if (fragment.type){// 远端碎片，即开始下载
         unsigned long fromOffset = fragment.range.location;
@@ -246,7 +246,7 @@
         } else {
             self.once = NO;
             if ([self.delegate respondsToSelector:@selector(kj_didFinishWithError:)]) {
-                [self.delegate kj_didFinishWithError:[KJCustomManager kj_errorSummarizing:KJPlayerCustomCodeReadCachedDataFailed]];
+                [self.delegate kj_didFinishWithError:[KJLogManager kj_errorSummarizing:KJPlayerCustomCodeReadCachedDataFailed]];
             }
         }
     }

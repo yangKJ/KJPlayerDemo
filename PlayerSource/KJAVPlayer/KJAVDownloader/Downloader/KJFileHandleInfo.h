@@ -14,6 +14,18 @@ NS_ASSUME_NONNULL_BEGIN
 extern NSString * kPlayerFileHandleInfoNotification;
 /// 缓存相关信息接收key 
 extern NSString * kPlayerFileHandleInfoKey;
+
+/// 告诉编译器保存当前的对齐方式，并将对齐方式设置为1字节
+#pragma pack(push, 1)
+/// 缓存碎片结构体
+struct KJCacheFragment {
+    NSInteger type;/// 0：本地碎片，1：远端碎片
+    NSRange  range;/// 位置长度
+};
+typedef struct KJCacheFragment KJCacheFragment;
+/// 告诉编译器恢复保存的对齐方式
+#pragma pack(pop)
+
 @interface KJFileHandleInfo : NSObject <NSCopying>
 /// 链接地址
 @property (nonatomic,strong,readonly) NSURL *videoURL;
@@ -42,6 +54,13 @@ extern NSString * kPlayerFileHandleInfoKey;
 
 /// 继续写入碎片 
 - (void)kj_continueCacheFragmentRange:(NSRange)range;
+
+#pragma mark - 结构体相关
+
+/// 缓存碎片结构体转对象
++ (NSValue *)kj_cacheFragment:(KJCacheFragment)fragment;
+/// 缓存碎片对象转结构体
++ (KJCacheFragment)kj_getCacheFragment:(id)obj;
 
 @end
 

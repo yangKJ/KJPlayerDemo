@@ -7,6 +7,9 @@
 //  https://github.com/yangKJ/KJPlayerDemo
 
 #import "KJRecordPlayerVC.h"
+
+#if __has_include(<KJPlayer/KJBasePlayer+KJRecordTime.h>)
+
 #import <KJPlayer/KJBasePlayer+KJRecordTime.h>
 
 @interface KJRecordPlayerVC () <KJPlayerDelegate, KJPlayerRecordDelegate>
@@ -73,3 +76,5 @@
 }
 
 @end
+
+#endif

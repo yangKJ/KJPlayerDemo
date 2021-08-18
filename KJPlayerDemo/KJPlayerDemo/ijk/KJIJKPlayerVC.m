@@ -8,6 +8,8 @@
 
 #import "KJIJKPlayerVC.h"
 
+#if __has_include(<KJPlayer/KJIJKPlayer.h>)
+
 @interface KJIJKPlayerVC () <KJPlayerDelegate,KJPlayerBaseViewDelegate>
 
 @property(nonatomic,strong)KJIJKPlayer *player;
@@ -241,3 +243,5 @@
 }
 
 @end
+
+#endif

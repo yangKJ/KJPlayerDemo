@@ -1,70 +1,20 @@
 //
-//  KJCustomManager.m
+//  KJLogManager.m
 //  KJPlayerDemo
 //
 //  Created by yangkejun on 2021/8/6.
 //  Copyright © 2021 杨科军. All rights reserved.
 //  https://github.com/yangKJ/KJPlayerDemo
 
-#import "KJCustomManager.h"
+#import "KJLogManager.h"
 
-@interface KJCustomManager ()
+@interface KJLogManager ()
 /// 日志打印等级
 @property(nonatomic,assign,class) KJPlayerVideoRankType rankType;
-/// 正在下载的链接
-@property(nonatomic,strong) NSMutableSet *downloadings;
 
 @end
 
-@implementation KJCustomManager
-
-static KJCustomManager *_instance = nil;
-static dispatch_once_t onceToken;
-+ (instancetype)kj_sharedInstance{
-    dispatch_once(&onceToken, ^{
-        if (_instance == nil) {
-            _instance = [[self alloc] init];
-        }
-    });
-    return _instance;
-}
-- (NSMutableSet *)downloadings{
-    if (!_downloadings) {
-        _downloadings = [NSMutableSet set];
-    }
-    return _downloadings;
-}
-
-#pragma mark - 下载地址管理
-
-- (void)kj_addDownloadURL:(NSURL*)url{
-    @synchronized (self.downloadings) {
-        [self.downloadings addObject:url];
-    }
-}
-- (void)kj_removeDownloadURL:(NSURL*)url{
-    @synchronized (self.downloadings) {
-        [self.downloadings removeObject:url];
-    }
-}
-- (BOOL)kj_containsDownloadURL:(NSURL*)url{
-    @synchronized (self.downloadings) {
-        return [self.downloadings containsObject:url];
-    }
-}
-
-#pragma mark - 结构体相关
-
-/// 缓存碎片结构体转对象
-+ (NSValue *)kj_cacheFragment:(KJCacheFragment)fragment{
-    return [NSValue valueWithBytes:&fragment objCType:@encode(struct KJCacheFragment)];
-}
-/// 缓存碎片对象转结构体
-+ (KJCacheFragment)kj_getCacheFragment:(id)obj{
-    KJCacheFragment fragment;
-    [obj getValue:&fragment];
-    return fragment;
-}
+@implementation KJLogManager
 
 #pragma mark - 错误提示汇总
 /**网络错误相关，

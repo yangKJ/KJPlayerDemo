@@ -7,7 +7,6 @@
 //  https://github.com/yangKJ/KJPlayerDemo
 
 #import "DBPlayerDataManager.h"
-#import "DBPlayerData.h"
 
 @implementation DBPlayerDataManager
 static NSString * _resourceName = @"DBPlayer";

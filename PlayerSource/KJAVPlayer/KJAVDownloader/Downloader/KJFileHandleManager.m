@@ -7,7 +7,7 @@
 //  https://github.com/yangKJ/KJPlayerDemo
 
 #import "KJFileHandleManager.h"
-#import "KJCustomManager.h"
+#import "KJLogManager.h"
 #import "KJFileHandleInfo.h"
 #import "KJCacheManager.h"
 
@@ -69,41 +69,41 @@
                 NSInteger maxLocation = inRange.location + inRange.length;
                 NSInteger length = (offset + kPackageLength) > maxLocation ? (maxLocation - offset) : kPackageLength;
                 fragment.range = NSMakeRange(offset, length);
-                [fragments addObject:[KJCustomManager kj_cacheFragment:fragment]];
+                [fragments addObject:[KJFileHandleInfo kj_cacheFragment:fragment]];
             }
         }else if (obj.rangeValue.location >= endOffset){
             *stop = YES;
         }
     }];
     if (fragments.count == 0){
-        [fragments addObject:[KJCustomManager kj_cacheFragment:(KJCacheFragment){1, range}]];
+        [fragments addObject:[KJFileHandleInfo kj_cacheFragment:(KJCacheFragment){1, range}]];
     } else {//远端服务器碎片
         NSMutableArray *remoteFragments = [NSMutableArray array];
         [fragments enumerateObjectsUsingBlock:^(NSValue *obj, NSUInteger idx, BOOL *stop){
-            KJCacheFragment fragment = [KJCustomManager kj_getCacheFragment:obj];
+            KJCacheFragment fragment = [KJFileHandleInfo kj_getCacheFragment:obj];
             if (idx == 0){
                 if (range.location < fragment.range.location){
                     KJCacheFragment action = {1, NSMakeRange(range.location, fragment.range.location - range.location)};
-                    [remoteFragments addObject:[KJCustomManager kj_cacheFragment:action]];
+                    [remoteFragments addObject:[KJFileHandleInfo kj_cacheFragment:action]];
                 }
-                [remoteFragments addObject:[KJCustomManager kj_cacheFragment:fragment]];
+                [remoteFragments addObject:[KJFileHandleInfo kj_cacheFragment:fragment]];
             } else {
-                KJCacheFragment lastFragment = [KJCustomManager kj_getCacheFragment:remoteFragments.lastObject];
+                KJCacheFragment lastFragment = [KJFileHandleInfo kj_getCacheFragment:remoteFragments.lastObject];
                 NSInteger lastOffset = lastFragment.range.location + lastFragment.range.length;
                 if (fragment.range.location > lastOffset) {
                     @autoreleasepool {
-                        NSValue * value = [KJCustomManager kj_cacheFragment:
+                        NSValue * value = [KJFileHandleInfo kj_cacheFragment:
                                            (KJCacheFragment){1, NSMakeRange(lastOffset, fragment.range.location - lastOffset)}];
                         [remoteFragments addObject:value];
                     }
                 }
-                [remoteFragments addObject:[KJCustomManager kj_cacheFragment:fragment]];
+                [remoteFragments addObject:[KJFileHandleInfo kj_cacheFragment:fragment]];
             }
             if (idx == fragments.count - 1){
                 NSInteger localEndOffset = fragment.range.location + fragment.range.length;
                 if (endOffset > localEndOffset) {
                     @autoreleasepool {
-                        NSValue * value = [KJCustomManager kj_cacheFragment:
+                        NSValue * value = [KJFileHandleInfo kj_cacheFragment:
                                            (KJCacheFragment){1, NSMakeRange(localEndOffset, endOffset - localEndOffset)}];
                         [remoteFragments addObject:value];
                     }

@@ -7,6 +7,7 @@
 
 #import "ViewController.h"
 #import <KJPlayer/KJPlayerHeader.h>
+#import <KJPlayer/KJLogManager.h>
 
 @interface ViewController () <UITableViewDelegate,UITableViewDataSource>
 
@@ -23,7 +24,7 @@
     self.title = @"KJPlayerDemo 🎷";
     
     //开启日志打印
-    [KJCustomManager kj_openLogRankType:(KJPlayerVideoRankTypeOne)];
+    [KJLogManager kj_openLogRankType:(KJPlayerVideoRankTypeOne)];
     
     //暗黑模式
     if (@available(iOS 13.0, *)) {

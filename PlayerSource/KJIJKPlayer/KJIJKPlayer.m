@@ -7,6 +7,8 @@
 //  https://github.com/yangKJ/KJPlayerDemo
 
 #import "KJIJKPlayer.h"
+#import "KJLogManager.h"
+#import "KJPlayerView.h"
 
 #if __has_include(<IJKMediaFramework/IJKMediaFramework.h>)
 
@@ -328,7 +330,7 @@ PLAYER_COMMON_FUNCTION_PROPERTY PLAYER_COMMON_UI_PROPERTY
 - (void)setVideoURL:(NSURL *)videoURL{
     [self kj_initializeBeginPlayConfiguration];
     if (kPlayerVideoAesstType(videoURL) == KJPlayerAssetTypeNONE) {
-        self.playError = [KJCustomManager kj_errorSummarizing:KJPlayerCustomCodeVideoURLUnknownFormat];
+        self.playError = [KJLogManager kj_errorSummarizing:KJPlayerCustomCodeVideoURLUnknownFormat];
         if (self.player) [self kj_stop];
         _videoURL = videoURL;
         return;

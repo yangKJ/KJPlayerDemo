@@ -7,7 +7,7 @@
 //  https://github.com/yangKJ/KJPlayerDemo
 
 #import "KJBasePlayer.h"
-#import "KJCacheManager.h"
+#import "KJPlayerView.h"
 
 @interface KJBasePlayer ()
 /// 错误信息
@@ -156,17 +156,6 @@ static dispatch_once_t onceToken;
     }
 }
 
-#pragma mark - public method
-
-/// 判断是否为本地缓存视频，如果是则修改为指定链接地址
-- (BOOL)kj_judgeHaveCacheWithVideoURL:(NSURL * _Nonnull __strong * _Nonnull)videoURL{
-    if ([KJCacheManager kj_haveCacheURL:videoURL]) {
-        self.playError = [KJCustomManager kj_errorSummarizing:KJPlayerCustomCodeCachedComplete];
-        return YES;
-    }
-    return NO;
-}
-
 #pragma mark - child method, subclass should override.
 
 /// 准备播放 
@@ -208,6 +197,24 @@ static dispatch_once_t onceToken;
     
     // 心跳相关操作，`KJBasePlayer+KJPingTimer`
     kMethodIMP(@"kj_pingTimerIMP:");
+}
+
+/// 播放器准备时间，名字不能修改
+- (BOOL)kj_superclassPrepare{
+    BOOL(^kMethodIMP)(NSString * method) = ^BOOL(NSString * method){
+        SEL sel = NSSelectorFromString(method);
+        if ([self respondsToSelector:sel]) {
+            IMP imp = [self methodForSelector:sel];
+            BOOL (* tempFunc)(id target, SEL) = (void *)imp;
+            return tempFunc(self, sel);
+        }
+        return NO;
+    };
+    // 缓存，`KJBasePlayer+KJCache`
+    if (kMethodIMP(@"kj_cacheIMP")) {
+        return YES;
+    }
+    return NO;
 }
 
 /// 开始播放时刻功能处理，名字不能修改

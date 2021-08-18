@@ -10,12 +10,9 @@
 #import <Foundation/Foundation.h>
 #import "KJBaseFunctionPlayer.h"
 #import "KJPlayerProtocol.h"
-#import "KJCustomManager.h"
-#import "DBPlayerData.h"
-#import "KJPlayerView.h"
 
 NS_ASSUME_NONNULL_BEGIN
-
+@class KJPlayerView;
 @interface KJBasePlayer : NSObject <KJBaseFunctionPlayer>
 /// 单例属性
 @property (nonatomic,strong,class,readonly,getter=kj_sharedInstance) id shared;
@@ -32,13 +29,6 @@ NS_ASSUME_NONNULL_BEGIN
 @property (nonatomic,assign) CGColorRef background;
 /// 视频显示模式，默认 KJPlayerVideoGravityResizeAspect
 @property (nonatomic,assign) KJPlayerVideoGravity videoGravity;
-/// 获取当前截屏
-@property (nonatomic,copy,readonly) void (^kVideoTimeScreenshots)(void(^)(UIImage * image));
-/// 子线程获取封面图，图片会存储在磁盘
-@property (nonatomic,copy,readonly) void(^kVideoPlaceholderImage)(void(^)(UIImage * image), NSURL *, NSTimeInterval);
-
-/// 判断是否为本地缓存视频，如果是则修改为指定链接地址
-- (BOOL)kj_judgeHaveCacheWithVideoURL:(NSURL * _Nonnull __strong * _Nonnull)videoURL;
 
 @end
 

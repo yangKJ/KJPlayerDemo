@@ -10,6 +10,7 @@
 #import <objc/runtime.h>
 #import "KJResourceLoader.h"
 #import "KJFileHandleInfo.h"
+#import "DBPlayerDataManager.h"
 
 @interface KJAVPlayer ()
 PLAYER_CACHE_COMMON_EXTENSION_PROPERTY
@@ -25,7 +26,7 @@ PLAYER_CACHE_COMMON_EXTENSION_PROPERTY
         self.cache = cache;
         PLAYER_WEAKSELF;
         if (kPlayerVideoAesstType(videoURL) == KJPlayerAssetTypeNONE) {
-            self.playError =  [KJCustomManager kj_errorSummarizing:KJPlayerCustomCodeVideoURLUnknownFormat];
+            self.playError = [KJLogManager kj_errorSummarizing:KJPlayerCustomCodeVideoURLUnknownFormat];
             if (self.player) [self kj_stop];
             return NO;
         }else if (kPlayerVideoAesstType(videoURL) == KJPlayerAssetTypeHLS) {
@@ -43,7 +44,7 @@ PLAYER_CACHE_COMMON_EXTENSION_PROPERTY
             if (!kPlayerHaveTracks(tempURL, ^(AVURLAsset * asset) {
                 if (weakself.cache && weakself.locality == NO) {
                     weakself.state = KJPlayerStateBuffering;
-                    weakself.playError =  [KJCustomManager kj_errorSummarizing:KJPlayerCustomCodeCacheNone];
+                    weakself.playError = [KJLogManager kj_errorSummarizing:KJPlayerCustomCodeCacheNone];
                     NSURL * URL = weakself.connection.kj_createSchemeURL(tempURL);
                     weakself.asset = [AVURLAsset URLAssetWithURL:URL options:weakself.requestHeader];
                     [weakself.asset.resourceLoader setDelegate:weakself.connection queue:dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0)];
@@ -51,7 +52,7 @@ PLAYER_CACHE_COMMON_EXTENSION_PROPERTY
                     weakself.asset = asset;
                 }
             }, weakself.requestHeader)) {
-                weakself.playError =  [KJCustomManager kj_errorSummarizing:KJPlayerCustomCodeVideoURLFault];
+                weakself.playError = [KJLogManager kj_errorSummarizing:KJPlayerCustomCodeVideoURLFault];
                 weakself.state = KJPlayerStateFailed;
                 kPlayerPerformSel(weakself, @"kj_destroyPlayer");
             } else {
@@ -88,7 +89,7 @@ static char connectionKey;
                     if ([weakself kj_saveDatabaseVideoIntact:YES]) {
                         if ([weakself kj_saveDatabaseVideoIntact:YES]) {
                             kGCD_player_main(^{
-                                weakself.playError =  [KJCustomManager kj_errorSummarizing:KJPlayerCustomCodeSaveDatabaseFailed];
+                                weakself.playError = [KJLogManager kj_errorSummarizing:KJPlayerCustomCodeSaveDatabaseFailed];
                                 weakself.state = KJPlayerStateFailed;
                             });
                         }
@@ -127,7 +128,7 @@ static char connectionKey;
         return YES;
     }else if (videoIntact) {
         kGCD_player_main(^{
-            weakself.playError =  [KJCustomManager kj_errorSummarizing:KJPlayerCustomCodeSaveDatabase];
+            weakself.playError = [KJLogManager kj_errorSummarizing:KJPlayerCustomCodeSaveDatabase];
         });
     }
     return NO;

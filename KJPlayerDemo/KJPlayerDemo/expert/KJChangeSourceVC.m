@@ -7,6 +7,9 @@
 //  https://github.com/yangKJ/KJPlayerDemo
 
 #import "KJChangeSourceVC.h"
+
+#if __has_include(<KJPlayer/KJIJKPlayer.h>)
+
 #import <KJPlayer/KJBasePlayer+KJDynamicSource.h>
 
 @interface KJChangeSourceVC () <KJPlayerDelegate>
@@ -103,3 +106,5 @@
 }
 
 @end
+
+#endif

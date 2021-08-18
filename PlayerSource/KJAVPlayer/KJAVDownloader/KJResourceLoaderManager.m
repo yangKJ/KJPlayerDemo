@@ -13,7 +13,7 @@
 #import "KJDownloader.h"
 #import "KJFileHandleManager.h"
 #import "KJFileHandleInfo.h"
-#import "KJCustomManager.h"
+#import "KJLogManager.h"
 
 @interface KJResourceLoaderManager ()
 @property (nonatomic,strong, readwrite) NSURL *videoURL;
@@ -55,7 +55,7 @@
     }];
     if (tempRequest) {
         if (tempRequest.isFinished == NO) {
-            [tempRequest finishLoadingWithError:[KJCustomManager kj_errorSummarizing:KJPlayerCustomCodeFinishLoading]];
+            [tempRequest finishLoadingWithError:[KJLogManager kj_errorSummarizing:KJPlayerCustomCodeFinishLoading]];
         } else {
             [tempRequest finishLoading];
         }
@@ -65,7 +65,7 @@
 - (void)kj_cancelLoading{
     [self.downloader kj_cancelDownload];
     [self.requests removeAllObjects];
-    [KJCustomManager.shared kj_removeDownloadURL:self.videoURL];
+    [KJPlayerSharedInstance.shared kj_removeDownloadURL:self.videoURL];
 }
 
 #pragma mark - private method
@@ -74,7 +74,7 @@
 - (void)kj_addDownloader:(KJDownloader*)downloader request:(AVAssetResourceLoadingRequest*)request{
     kSetDownloadConfiguration(downloader, request);
     [self.requests addObject:request];
-    [KJCustomManager.shared kj_addDownloadURL:self.videoURL];
+    [KJPlayerSharedInstance.shared kj_addDownloadURL:self.videoURL];
     PLAYER_WEAKSELF;
     downloader.kDidReceiveResponse = ^(KJDownloader * downloader, NSURLResponse * response) {
         kSetDownloadConfiguration(downloader, request);
@@ -93,7 +93,7 @@
             [weakself.requests removeObject:request];
         }
         if (weakself.requests.count == 0){
-            [KJCustomManager.shared kj_removeDownloadURL:weakself.videoURL];
+            [KJPlayerSharedInstance.shared kj_removeDownloadURL:weakself.videoURL];
         }
         if ([weakself.delegate respondsToSelector:@selector(kj_resourceLoader:didFinished:)]){
             [weakself.delegate kj_resourceLoader:weakself didFinished:error];

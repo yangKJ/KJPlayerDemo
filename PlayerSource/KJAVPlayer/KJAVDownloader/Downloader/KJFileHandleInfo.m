@@ -7,8 +7,9 @@
 //  https://github.com/yangKJ/KJPlayerDemo
 
 #import "KJFileHandleInfo.h"
-#import "KJCustomManager.h"
+#import <objc/runtime.h>
 #import "KJCacheManager.h"
+#import "KJPlayerType.h"
 
 #pragma clang diagnostic push
 #pragma clang diagnostic ignored"-Wdeprecated-declarations"
@@ -20,9 +21,13 @@ NSString *kPlayerFileHandleInfoKey = @"kPlayerFileHandleInfoKey";
 @property (nonatomic,strong) NSString *fileName;
 @property (nonatomic,strong) NSString *fileFormat;
 @property (nonatomic,strong) NSURL *videoURL;
+
 @end
+
 @implementation KJFileHandleInfo
+
 #pragma mark - NSCopying
+
 - (id)copyWithZone:(nullable NSZone *)zone {
     KJFileHandleInfo *info = [[[self class] allocWithZone:zone] init];
     unsigned int count = 0;
@@ -152,5 +157,19 @@ NSString *kPlayerFileHandleInfoKey = @"kPlayerFileHandleInfoKey";
     }
 }
 
+#pragma mark - 结构体相关
+
+/// 缓存碎片结构体转对象
++ (NSValue *)kj_cacheFragment:(KJCacheFragment)fragment{
+    return [NSValue valueWithBytes:&fragment objCType:@encode(struct KJCacheFragment)];
+}
+/// 缓存碎片对象转结构体
++ (KJCacheFragment)kj_getCacheFragment:(id)obj{
+    KJCacheFragment fragment;
+    [obj getValue:&fragment];
+    return fragment;
+}
+
 @end
+
 #pragma clang diagnostic pop

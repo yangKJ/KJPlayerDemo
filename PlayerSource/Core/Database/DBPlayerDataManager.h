@@ -8,9 +8,11 @@
 //  本地数据库模型和工具
 
 #import <CoreData/CoreData.h>
+#import "KJPlayerType.h"
+#import "DBPlayerData.h"
 
 NS_ASSUME_NONNULL_BEGIN
-@class DBPlayerData;
+
 @interface DBPlayerDataManager : NSObject
 
 //********************** 配置信息，请在App启动时刻设置 **********************

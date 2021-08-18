@@ -1,8 +1,8 @@
 CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = NO
-FRAMEWORK_SEARCH_PATHS = $(inherited) "${PODS_CONFIGURATION_BUILD_DIR}/KJPlayer" "${PODS_CONFIGURATION_BUILD_DIR}/SwiftMonkeyPaws" "${PODS_ROOT}/IJKMediaFramework/IJKMediaFramework/Classes"
+FRAMEWORK_SEARCH_PATHS = $(inherited) "${PODS_CONFIGURATION_BUILD_DIR}/KJPlayer" "${PODS_CONFIGURATION_BUILD_DIR}/SwiftMonkeyPaws"
 GCC_PREPROCESSOR_DEFINITIONS = $(inherited) COCOAPODS=1
 HEADER_SEARCH_PATHS = $(inherited) "${PODS_CONFIGURATION_BUILD_DIR}/KJPlayer/KJPlayer.framework/Headers" "${PODS_CONFIGURATION_BUILD_DIR}/SwiftMonkeyPaws/SwiftMonkeyPaws.framework/Headers"
-OTHER_LDFLAGS = $(inherited) -l"bz2" -l"c++" -l"z" -framework "AVFoundation" -framework "AudioToolbox" -framework "CoreGraphics" -framework "CoreMedia" -framework "CoreVideo" -framework "Foundation" -framework "MediaPlayer" -framework "MobileCoreServices" -framework "OpenGLES" -framework "QuartzCore" -framework "SwiftMonkeyPaws" -framework "UIKit" -framework "VideoToolbox"
+OTHER_LDFLAGS = $(inherited) -framework "AVFoundation" -framework "Foundation" -framework "MediaPlayer" -framework "SwiftMonkeyPaws" -framework "UIKit"
 PODS_BUILD_DIR = ${BUILD_DIR}
 PODS_CONFIGURATION_BUILD_DIR = ${PODS_BUILD_DIR}/$(CONFIGURATION)$(EFFECTIVE_PLATFORM_NAME)
 PODS_PODFILE_DIR_PATH = ${SRCROOT}/.

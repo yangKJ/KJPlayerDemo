@@ -9,6 +9,7 @@
 #import "KJListPlayerVC.h"
 #import "KJVideoPlayVC.h"
 #import <KJPlayer/KJCacheManager.h>
+#import <KJPlayer/DBPlayerDataManager.h>
 
 @interface KJListPlayerVC () <UITableViewDataSource, UITableViewDelegate>
 
@@ -42,7 +43,6 @@
             [weakself.tableView reloadData];            
         });
     });
-    NSLog(@"\n全部文件：%@\n文件大小：%lld",[KJCacheManager kj_videoAllFileNames],[KJCacheManager kj_videoCachedSize]);
 }
 #pragma mark - UITableViewDataSource
 

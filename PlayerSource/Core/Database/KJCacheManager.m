@@ -7,8 +7,7 @@
 //  https://github.com/yangKJ/KJPlayerDemo
 
 #import "KJCacheManager.h"
-#import "KJCustomManager.h"
-#import "DBPlayerData.h"
+#import "DBPlayerDataManager.h"
 
 #define kPlayerCachePath NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES).lastObject
 #define kCacheVideoDirectory [kPlayerCachePath stringByAppendingPathComponent:@"videos"]
@@ -141,23 +140,14 @@
 }
 /// 清除全部缓存，暴露当前正在下载数据 
 + (void)kj_clearAllVideoCache{
-    NSMutableSet *set = [NSMutableSet set];
-    [KJCustomManager.shared.downloadings enumerateObjectsUsingBlock:^(NSURL * obj, BOOL *stop) {
-        [set addObject:[self kj_createVideoCachedPath:obj]];
-        [set addObject:[self kj_appendingVideoTempPath:obj]];
-    }];
     for (NSString *name in [self kj_videoAllFileNames]) {
         NSString *filePath = [kCacheVideoDirectory stringByAppendingPathComponent:name];
-        if ([set containsObject:filePath]) continue;
         [self kj_removeFilePath:filePath];
     }
 }
 /// 清除指定缓存 
 + (BOOL)kj_clearVideoCacheWithURL:(NSURL *)url{
     if (url == nil) return NO;
-    if ([KJCustomManager.shared kj_containsDownloadURL:url]) {
-        return NO;
-    }
     NSString *tempPath = [self kj_appendingVideoTempPath:url];
     NSFileManager * manager = [NSFileManager defaultManager];
     if ([manager fileExistsAtPath:tempPath]) {

@@ -19,10 +19,13 @@
 - (BOOL)kj_skipTimePlayIMP{
     if (self.skipHeadTime) {
         if ([self.skipDelegate respondsToSelector:@selector(kj_skipTimeWithPlayer:currentTime:totalTime:skipState:)]) {
-            [self.skipDelegate kj_skipTimeWithPlayer:self
-                                         currentTime:self.skipHeadTime
-                                           totalTime:self.totalTime
-                                           skipState:KJPlayerVideoSkipStateHead];
+            PLAYER_WEAKSELF;
+            kGCD_player_main(^{
+                [weakself.skipDelegate kj_skipTimeWithPlayer:weakself
+                                                 currentTime:weakself.skipHeadTime
+                                                   totalTime:weakself.totalTime
+                                                   skipState:KJPlayerVideoSkipStateHead];
+            });
         }
         [self kj_appointTime:self.skipHeadTime];
         return YES;

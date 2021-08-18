@@ -159,18 +159,6 @@ typedef NS_OPTIONS(NSUInteger, KJPlayerVideoRankType) {
     KJPlayerVideoRankTypeAll = KJPlayerVideoRankTypeOne | KJPlayerVideoRankTypeTwo,
 };
 
-/// 告诉编译器保存当前的对齐方式，并将对齐方式设置为1字节
-#pragma pack(push, 1)
-/// 缓存碎片结构体
-struct KJCacheFragment {
-    NSInteger type;/// 0：本地碎片，1：远端碎片
-    NSRange  range;/// 位置长度
-};
-typedef struct KJCacheFragment KJCacheFragment;
-/// 告诉编译器恢复保存的对齐方式
-#pragma pack(pop)
-
-
 #pragma mark - 公共属性`ivar`宏定义
 
 /// 公共属性区域

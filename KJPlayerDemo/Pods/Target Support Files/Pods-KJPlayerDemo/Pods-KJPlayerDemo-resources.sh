@@ -97,14 +97,12 @@ EOM
   esac
 }
 if [[ "$CONFIGURATION" == "Debug" ]]; then
-  install_resource "${BUILT_PRODUCTS_DIR}/KJPlayer/KJPlayer.framework/DBPlayer.momd"
   install_resource "${PODS_CONFIGURATION_BUILD_DIR}/KJPlayer/KJPlayer.bundle"
-  install_resource "${PODS_ROOT}/../../PlayerSource/KJMidiPlayer/KJMidiSource.bundle"
+  install_resource "${BUILT_PRODUCTS_DIR}/KJPlayer/KJPlayer.framework/DBPlayer.momd"
 fi
 if [[ "$CONFIGURATION" == "Release" ]]; then
-  install_resource "${BUILT_PRODUCTS_DIR}/KJPlayer/KJPlayer.framework/DBPlayer.momd"
   install_resource "${PODS_CONFIGURATION_BUILD_DIR}/KJPlayer/KJPlayer.bundle"
-  install_resource "${PODS_ROOT}/../../PlayerSource/KJMidiPlayer/KJMidiSource.bundle"
+  install_resource "${BUILT_PRODUCTS_DIR}/KJPlayer/KJPlayer.framework/DBPlayer.momd"
 fi
 
 mkdir -p "${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}"

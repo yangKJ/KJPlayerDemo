@@ -7,6 +7,7 @@
 //  https://github.com/yangKJ/KJPlayerDemo
 
 #import "DBPlayerData.h"
+#import "DBPlayerDataManager.h"
 
 @implementation DBPlayerData
 @dynamic dbid;
