@@ -7,9 +7,9 @@ def main_pods
   pod "KJPlayer", :path => '..' # AVPlayer内核
   pod "KJPlayer/Database", :path => '..' # 数据库
   pod "KJPlayer/CustomView", :path => '..' # 自定义UI
-#  pod "KJPlayer/AVPlayer/AVDownloader", :path => '..' # AVPlayer内核附加下载分支
-#  pod "KJPlayer/IJKPlayer", :path => '..' # IJKPlayer内核
-#  pod "KJPlayer/MIDI", :path => '..' # MIDIPlayer内核
+  pod "KJPlayer/AVPlayer/AVDownloader", :path => '..' # AVPlayer内核附加下载分支
+  pod "KJPlayer/IJKPlayer", :path => '..' # IJKPlayer内核
+  pod "KJPlayer/MIDI", :path => '..' # MIDIPlayer内核
 
   # 功能区
   pod "KJPlayer/DynamicSource", :path => '..' # 动态内核

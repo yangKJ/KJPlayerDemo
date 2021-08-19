@@ -1,8 +1,8 @@
 CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = NO
-FRAMEWORK_SEARCH_PATHS = $(inherited) "${PODS_CONFIGURATION_BUILD_DIR}/KJPlayer"
+FRAMEWORK_SEARCH_PATHS = $(inherited) "${PODS_CONFIGURATION_BUILD_DIR}/KJPlayer" "${PODS_ROOT}/IJKMediaFramework/IJKMediaFramework/Classes"
 GCC_PREPROCESSOR_DEFINITIONS = $(inherited) COCOAPODS=1
 HEADER_SEARCH_PATHS = $(inherited) "${PODS_CONFIGURATION_BUILD_DIR}/KJPlayer/KJPlayer.framework/Headers"
-OTHER_LDFLAGS = $(inherited) -ObjC -framework "AVFoundation" -framework "Foundation" -framework "KJPlayer" -framework "MediaPlayer" -framework "UIKit"
+OTHER_LDFLAGS = $(inherited) -ObjC -l"bz2" -l"c++" -l"z" -framework "AVFoundation" -framework "AudioToolbox" -framework "CoreGraphics" -framework "CoreMedia" -framework "CoreVideo" -framework "Foundation" -framework "IJKMediaFramework" -framework "KJPlayer" -framework "MediaPlayer" -framework "MobileCoreServices" -framework "OpenGLES" -framework "QuartzCore" -framework "UIKit" -framework "VideoToolbox"
 OTHER_SWIFT_FLAGS = $(inherited) -D COCOAPODS
 PODS_BUILD_DIR = ${BUILD_DIR}
 PODS_CONFIGURATION_BUILD_DIR = ${PODS_BUILD_DIR}/$(CONFIGURATION)$(EFFECTIVE_PLATFORM_NAME)
