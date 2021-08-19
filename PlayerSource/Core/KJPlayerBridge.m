@@ -11,7 +11,6 @@
 @interface KJPlayerBridge ()
 /// 当前内核
 @property (nonatomic, strong) __kindof KJBasePlayer * basePlayer;
-@property (nonatomic, copy, readwrite) KJPlayerAnyBlock withBlock;
 
 @end
 
@@ -31,46 +30,20 @@
 /// @param index 协定使用
 /// @param withBlock 回调响应
 - (void)kj_anyArgumentsIndex:(NSInteger)index withBlock:(KJPlayerAnyBlock)withBlock{
-    self.withBlock = withBlock;
     switch (index) {
         case 0:{ // 视频截图
-            void(^xxblock)(UIImage * image) = ^(UIImage * image){
-                withBlock ? withBlock(image) : nil;
-            };
-            id __autoreleasing target = [[NSClassFromString(@"KJScreenshotsManager") alloc] init];
+            id target = [[NSClassFromString(@"KJScreenshotsManager") alloc] init];
             SEL sel = NSSelectorFromString(@"kj_screenshotsIMP:object:otherObject:withBlock:");
             if ([target respondsToSelector:sel]) {
                 IMP imp = [target methodForSelector:sel];
                 void (* tempFunc)(id, SEL, __kindof KJBasePlayer *, id, id, KJPlayerAnyBlock) = (void *)imp;
-                tempFunc(target, sel, self.basePlayer, self.anyObject, self.anyOtherObject, xxblock);
+                tempFunc(target, sel, self.basePlayer, self.anyObject, self.anyOtherObject, withBlock);
             } else {
                 withBlock ? withBlock(nil) : nil;
             }
         } break;
         default:break;
     }
-}
-
-- (SEL)selectorForArgumentCount:(NSUInteger)count{
-    NSCParameterAssert(count > 0);
-    switch (count) {
-        case 0: return NULL;
-        case 1: return @selector(performWith:);
-        case 2: return @selector(performWith::);
-    }
-    // 暂时只支持 2个参数
-    NSCAssert(NO, @"The argument count is too damn high! Only blocks of up to 2 arguments are currently supported.");
-    return NULL;
-}
-
-- (void)performWith:(id)obj1{
-    if (self.withBlock) {
-        self.withBlock(obj1);
-    }
-}
-
-- (void)performWith:(id)obj1 :(id)obj2{
-    self.withBlock ? self.withBlock(obj1, obj2) : nil;
 }
 
 #pragma mark - imp method
@@ -119,7 +92,7 @@
 /// 播放器开始准备时刻并验证网址是否一致
 - (BOOL)kj_verifyCacheWithVideoURL{
     // 缓存管理，`KJBasePlayer+KJCache`
-    NSURL * tempURL = [self kj_methodIMP:@"kj_cacheIMP:" object:(NSURL *)self.anyObject];
+    NSURL * __autoreleasing tempURL = [self kj_methodIMP:@"kj_cacheIMP:" object:(NSURL *)self.anyObject];
     
     return [((NSURL *)self.anyObject).absoluteString isEqualToString:tempURL.absoluteString];
 }

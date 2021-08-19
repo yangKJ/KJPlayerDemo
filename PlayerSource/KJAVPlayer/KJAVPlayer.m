@@ -446,9 +446,6 @@ BOOL kPlayerHaveTracks(NSURL *videoURL, void(^assetblock)(AVURLAsset *), NSDicti
         return self.player.currentItem.status == AVPlayerStatusReadyToPlay;
     }
 }
-- (void)kj_appointTime:(NSTimeInterval)time{
-    [self kj_appointTime:time completionHandler:nil];
-}
 /// 指定时间播放，快进或快退功能
 - (void)kj_appointTime:(NSTimeInterval)time completionHandler:(void(^_Nullable)(BOOL))completionHandler{
     if (self.isLiveStreaming) return;

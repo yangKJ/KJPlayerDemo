@@ -174,8 +174,9 @@ static dispatch_once_t onceToken;
     [self.bridge kj_changePlayerState:KJPlayerStateStopped];
 }
 /// 指定时间播放
-- (void)kj_appointTime:(NSTimeInterval)time{ }
-
+- (void)kj_appointTime:(NSTimeInterval)time{
+    [self kj_appointTime:time completionHandler:nil];
+}
 /// 指定时间播放，快进或快退功能
 /// @param time 指定时间
 /// @param completionHandler 回调

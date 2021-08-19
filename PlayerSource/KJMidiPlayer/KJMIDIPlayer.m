@@ -133,9 +133,6 @@ PLAYER_COMMON_FUNCTION_PROPERTY PLAYER_COMMON_UI_PROPERTY
     MusicPlayerIsPlaying(self.player, &xxxxx);
     return xxxxx;
 }
-- (void)kj_appointTime:(NSTimeInterval)time{
-    [self kj_appointTime:time completionHandler:nil];
-}
 /// 指定时间播放，快进或快退功能
 - (void)kj_appointTime:(NSTimeInterval)time completionHandler:(void(^_Nullable)(BOOL))completionHandler{
     if (!self.player) {
