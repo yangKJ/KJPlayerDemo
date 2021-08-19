@@ -12,6 +12,7 @@
 #import "KJFileHandleManager.h"
 #import "KJFileHandleInfo.h"
 #import "KJLogManager.h"
+#import "KJPlayerType.h"
 
 @protocol KJDownloaderManagerDelegate;
 @interface KJDownloadTask : NSObject

@@ -12,13 +12,17 @@
 @interface KJBasePlayer ()
 /// 错误信息
 @property (nonatomic, strong) NSError * playError;
+@property (nonatomic, assign) BOOL locality;
 
 @end
 
 @implementation KJBasePlayer (KJCache)
 
-- (void)kj_cacheIMP{
+- (NSURL *)kj_cacheIMP:(NSURL *)videoURL{
     
+    self.locality = [self kj_judgeHaveCacheWithVideoURL:&videoURL];
+    
+    return videoURL;
 }
 
 #pragma mark - public method

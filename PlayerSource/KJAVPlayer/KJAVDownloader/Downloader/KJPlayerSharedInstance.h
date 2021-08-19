@@ -7,6 +7,7 @@
 //  单例类
 
 #import <Foundation/Foundation.h>
+#import "KJPlayerType.h"
 
 NS_ASSUME_NONNULL_BEGIN
 

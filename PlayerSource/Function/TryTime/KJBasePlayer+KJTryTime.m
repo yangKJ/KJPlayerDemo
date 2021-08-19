@@ -17,14 +17,13 @@
 
 @implementation KJBasePlayer (KJTryTime)
 
-- (BOOL)kj_tryTimePlayIMP:(id)object{
+- (BOOL)kj_tryTimePlayIMP:(NSTimeInterval)time{
     /// 总时长为零时刻不处理试看
     if (self.totalTime == 0) {
         self.currentTime = 0;
         self.tryLooked = NO;
         return NO;
     }
-    NSTimeInterval time = [object doubleValue];
     return [self kj_tryLook:time];
 }
 

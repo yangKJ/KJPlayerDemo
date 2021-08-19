@@ -7,6 +7,7 @@
 //  https://github.com/yangKJ/KJPlayerDemo
 
 #import "KJMIDIPlayer.h"
+#import "KJLogManager.h"
 
 #pragma clang diagnostic push
 #pragma clang diagnostic ignored"-Wdeprecated-declarations"

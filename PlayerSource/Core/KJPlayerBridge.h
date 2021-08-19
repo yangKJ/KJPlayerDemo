@@ -4,7 +4,7 @@
 //
 //  Created by yangkejun on 2021/8/19.
 //  https://github.com/yangKJ/KJPlayerDemo
-//  播放器桥梁，链接内核 - 播放器基类 - 功能 三者之间的桥梁
+//  播放器桥梁
 
 #import <Foundation/Foundation.h>
 #import "KJPlayerType.h"

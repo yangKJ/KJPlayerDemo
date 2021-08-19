@@ -20,19 +20,18 @@ Pod::Spec.new do |s|
   s.ios.source_files = 'PlayerSource/KJPlayerHeader.h' 
 
   s.subspec 'Database' do |db|
-    db.source_files = "PlayerSource/Core/Database/*.{h,m}"
-    db.resources = "PlayerSource/Core/Database/*.{xcdatamodeld}"
+    db.source_files = "PlayerSource/Function/Database/*.{h,m}"
+    db.resources = "PlayerSource/Function/Database/*.{xcdatamodeld}"
   end
   
   s.subspec 'Cache' do |xx|
-    xx.source_files = "PlayerSource/Core/Cache/*.{h,m}"
+    xx.source_files = "PlayerSource/Function/Cache/*.{h,m}"
     xx.dependency 'KJPlayer/Common'
     xx.dependency 'KJPlayer/Database'
   end
   
   s.subspec 'Common' do |co|
     co.source_files = "PlayerSource/Core/*.{h,m}"
-    co.resources = "PlayerSource/Core/*.{xcdatamodeld}"
   end
   
   s.subspec 'CustomView' do |cu|
@@ -70,38 +69,38 @@ Pod::Spec.new do |s|
   
   # 动态切换内核
   s.subspec 'DynamicSource' do |xx|
-    xx.source_files = "PlayerSource/Core/DynamicSource/*.{h,m}"
+    xx.source_files = "PlayerSource/Function/DynamicSource/*.{h,m}"
     xx.dependency 'KJPlayer/Common'
   end
   
   # 心跳包
   s.subspec 'PingTimer' do |xx|
-    xx.source_files = "PlayerSource/Core/PingTimer/*.{h,m}"
+    xx.source_files = "PlayerSource/Function/PingTimer/*.{h,m}"
     xx.dependency 'KJPlayer/Common'
   end
   
   # 记录播放时间
   s.subspec 'RecordTime' do |xx|
-    xx.source_files = "PlayerSource/Core/RecordTime/*.{h,m}"
+    xx.source_files = "PlayerSource/Function/RecordTime/*.{h,m}"
     xx.dependency 'KJPlayer/Common'
     xx.dependency 'KJPlayer/Database'
   end
   
   # 跳过片头片尾
   s.subspec 'SkipTime' do |xx|
-    xx.source_files = "PlayerSource/Core/SkipTime/*.{h,m}"
+    xx.source_files = "PlayerSource/Function/SkipTime/*.{h,m}"
     xx.dependency 'KJPlayer/Common'
   end
   
   # 尝试观看
   s.subspec 'TryTime' do |xx|
-    xx.source_files = "PlayerSource/Core/TryTime/*.{h,m}"
+    xx.source_files = "PlayerSource/Function/TryTime/*.{h,m}"
     xx.dependency 'KJPlayer/Common'
   end
   
   # 截屏板块
   s.subspec 'Screenshots' do |xx|
-    xx.source_files = "PlayerSource/Core/Screenshots/*.{h,m}"
+    xx.source_files = "PlayerSource/Function/Screenshots/*.{h,m}"
     xx.dependency 'KJPlayer/Common'
     xx.dependency 'KJPlayer/Database'
   end

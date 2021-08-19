@@ -34,12 +34,12 @@
   "subspecs": [
     {
       "name": "Database",
-      "source_files": "PlayerSource/Core/Database/*.{h,m}",
-      "resources": "PlayerSource/Core/Database/*.{xcdatamodeld}"
+      "source_files": "PlayerSource/Function/Database/*.{h,m}",
+      "resources": "PlayerSource/Function/Database/*.{xcdatamodeld}"
     },
     {
       "name": "Cache",
-      "source_files": "PlayerSource/Core/Cache/*.{h,m}",
+      "source_files": "PlayerSource/Function/Cache/*.{h,m}",
       "dependencies": {
         "KJPlayer/Common": [
 
@@ -51,8 +51,7 @@
     },
     {
       "name": "Common",
-      "source_files": "PlayerSource/Core/*.{h,m}",
-      "resources": "PlayerSource/Core/*.{xcdatamodeld}"
+      "source_files": "PlayerSource/Core/*.{h,m}"
     },
     {
       "name": "CustomView",
@@ -119,7 +118,7 @@
     },
     {
       "name": "DynamicSource",
-      "source_files": "PlayerSource/Core/DynamicSource/*.{h,m}",
+      "source_files": "PlayerSource/Function/DynamicSource/*.{h,m}",
       "dependencies": {
         "KJPlayer/Common": [
 
@@ -128,7 +127,7 @@
     },
     {
       "name": "PingTimer",
-      "source_files": "PlayerSource/Core/PingTimer/*.{h,m}",
+      "source_files": "PlayerSource/Function/PingTimer/*.{h,m}",
       "dependencies": {
         "KJPlayer/Common": [
 
@@ -137,7 +136,7 @@
     },
     {
       "name": "RecordTime",
-      "source_files": "PlayerSource/Core/RecordTime/*.{h,m}",
+      "source_files": "PlayerSource/Function/RecordTime/*.{h,m}",
       "dependencies": {
         "KJPlayer/Common": [
 
@@ -149,7 +148,7 @@
     },
     {
       "name": "SkipTime",
-      "source_files": "PlayerSource/Core/SkipTime/*.{h,m}",
+      "source_files": "PlayerSource/Function/SkipTime/*.{h,m}",
       "dependencies": {
         "KJPlayer/Common": [
 
@@ -158,7 +157,7 @@
     },
     {
       "name": "TryTime",
-      "source_files": "PlayerSource/Core/TryTime/*.{h,m}",
+      "source_files": "PlayerSource/Function/TryTime/*.{h,m}",
       "dependencies": {
         "KJPlayer/Common": [
 
@@ -167,7 +166,7 @@
     },
     {
       "name": "Screenshots",
-      "source_files": "PlayerSource/Core/Screenshots/*.{h,m}",
+      "source_files": "PlayerSource/Function/Screenshots/*.{h,m}",
       "dependencies": {
         "KJPlayer/Common": [
 

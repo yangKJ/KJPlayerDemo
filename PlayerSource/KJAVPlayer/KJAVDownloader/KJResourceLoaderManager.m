@@ -14,6 +14,7 @@
 #import "KJFileHandleManager.h"
 #import "KJFileHandleInfo.h"
 #import "KJLogManager.h"
+#import "KJPlayerType.h"
 
 @interface KJResourceLoaderManager ()
 @property (nonatomic,strong, readwrite) NSURL *videoURL;

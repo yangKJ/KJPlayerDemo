@@ -7,6 +7,7 @@
 //  https://github.com/yangKJ/KJPlayerDemo
 
 #import "KJCachePlayerVC.h"
+#import <KJPlayer/KJLogManager.h>
 
 #if __has_include(<KJPlayer/KJAVPlayer+KJCache.h>)
 

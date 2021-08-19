@@ -94,22 +94,6 @@ static NSString * const _Nonnull KJPlayerStateStringMap[] = {
     [KJPlayerStateStopped] = @"stop",
     [KJPlayerStatePlaying] = @"playing",
 };
-/// 自定义错误情况
-typedef NS_ENUM(NSInteger, KJPlayerCustomCode) {
-    KJPlayerCustomCodeNormal = 0,/// 正常播放
-    KJPlayerCustomCodeOtherSituations = 1,/// 其他情况
-    KJPlayerCustomCodeCacheNone = 6,/// 没有缓存
-    KJPlayerCustomCodeCachedComplete = 7,/// 缓存完成
-    KJPlayerCustomCodeSaveDatabase = 8,/// 成功存入数据库
-    KJPlayerCustomCodeFinishLoading = 96,/// 取消加载网络
-    KJPlayerCustomCodeAVPlayerItemStatusUnknown = 97,/// playerItem状态未知
-    KJPlayerCustomCodeAVPlayerItemStatusFailed = 98,/// playerItem状态出错
-    KJPlayerCustomCodeVideoURLUnknownFormat = 99,/// 未知视频格式
-    KJPlayerCustomCodeVideoURLFault = 100,/// 视频地址不正确
-    KJPlayerCustomCodeWriteFileFailed = 101,/// 写入缓存文件错误
-    KJPlayerCustomCodeReadCachedDataFailed = 102,/// 读取缓存数据错误
-    KJPlayerCustomCodeSaveDatabaseFailed = 103,/// 存入数据库错误
-};
 /// 手势操作的类型
 typedef NS_OPTIONS(NSUInteger, KJPlayerGestureType) {
     KJPlayerGestureTypeSingleTap  = 1 << 1,/// 单击手势
@@ -150,14 +134,6 @@ typedef NS_ENUM(NSUInteger, KJPlayerVideoScreenState) {
     KJPlayerVideoScreenStateFullScreen, /// 全屏
     KJPlayerVideoScreenStateFloatingWindow,/// 浮窗
 };
-/// 日志打印级别
-typedef NS_OPTIONS(NSUInteger, KJPlayerVideoRankType) {
-    KJPlayerVideoRankTypeNone = 1 << 0,/// 不打印
-    KJPlayerVideoRankTypeOne = 1 << 1, /// 一级，
-    KJPlayerVideoRankTypeTwo = 1 << 2, /// 二级
-    
-    KJPlayerVideoRankTypeAll = KJPlayerVideoRankTypeOne | KJPlayerVideoRankTypeTwo,
-};
 
 #pragma mark - 公共属性`ivar`宏定义
 
@@ -197,8 +173,6 @@ typedef NS_OPTIONS(NSUInteger, KJPlayerVideoRankType) {
 @synthesize placeholder = _placeholder;\
 @synthesize background = _background;\
 @synthesize videoGravity = _videoGravity;\
-@dynamic kVideoTimeScreenshots;\
-@dynamic kVideoPlaceholderImage;\
 
 
 #pragma mark - 简单公共函数，这里只适合放简单的函数
@@ -264,42 +238,6 @@ NS_INLINE void kPlayerPerformSel(id target, NSString * selName){
         tempFunc(target, sel);
     }
 }
-// 延时执行
-#define kPerformAfterDelay(__method__, __object__, __time__) \
-{ \
-SEL sel = NSSelectorFromString(__method__); \
-[self performSelector:sel withObject:__object__ afterDelay:__time__]; \
-} \
-// 取消方法
-#define kCancelPreviousPerform(__method__)  \
-{ \
-SEL sel = NSSelectorFromString(__method__); \
-[NSObject cancelPreviousPerformRequestsWithTarget:self selector:sel object:nil]; \
-} \
-// 开始播放时刻功能处理
-#define kBasePlayerBeginFunction \
-({  \
-    BOOL boo = NO;  \
-    SEL sel = NSSelectorFromString(@"kj_superclassBeginFunction");  \
-    if ([self respondsToSelector:sel]) {  \
-        IMP imp = [self methodForSelector:sel];  \
-        BOOL (* tempFunc)(id target, SEL) = (void *)imp;  \
-        boo = tempFunc(self, sel);  \
-    }  \
-    boo;  \
-})  \
-// 播放中功能处理
-#define kBasePlaerPlayingFunction(__time__) \
-({  \
-    BOOL boo = NO;  \
-    SEL sel = NSSelectorFromString(@"kj_superclassPlayingFunction:");  \
-    if ([weakself respondsToSelector:sel]) {  \
-        IMP imp = [weakself methodForSelector:sel];  \
-        BOOL (* tempFunc)(id target, SEL, NSTimeInterval) = (void *)imp;  \
-        boo = tempFunc(weakself, sel, __time__);  \
-    }  \
-    boo;  \
-})  \
 
 #endif /// KJPlayerType_h 
 
