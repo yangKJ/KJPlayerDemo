@@ -169,10 +169,7 @@
         NSTimeInterval time = self.player.currentTime + progress * self.player.totalTime;
         [self.player kj_appointTime:time];
     }
-    KJPlayerTime * ptime = [[KJPlayerTime alloc] init];
-    ptime.currentTime = self.player.currentTime;
-    ptime.totalTime = self.player.totalTime;
-    return ptime;
+    return [KJPlayerTime createWithCurrentTime:self.player.currentTime totalTime:self.player.totalTime];
 }
 
 /// 音量手势反馈

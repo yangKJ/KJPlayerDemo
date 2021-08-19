@@ -336,7 +336,27 @@
 
 @end
 
+@interface KJPlayerTime ()
+
+/// 当前播放时间
+@property (nonatomic, assign) NSTimeInterval currentTime;
+/// 视频总时长
+@property (nonatomic, assign) NSTimeInterval totalTime;
+
+@end
+
 @implementation KJPlayerTime
+/// 初始化方法
+/// @param currentTime 当前时间
+/// @param totalTime 总时间
++ (instancetype)createWithCurrentTime:(NSTimeInterval)currentTime totalTime:(NSTimeInterval)totalTime{
+    @synchronized (self) {
+        KJPlayerTime * time = [[KJPlayerTime alloc] init];
+        time.currentTime = currentTime;
+        time.totalTime = totalTime;
+        return time;
+    }
+}
 
 @end
 

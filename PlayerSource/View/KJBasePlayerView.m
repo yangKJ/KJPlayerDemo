@@ -114,15 +114,17 @@
 /// @param value 进度比例
 - (void)kj_subclassFastTime:(KJPlayerTime *)time value:(float)value{
     if (time == nil) return;
-    if (time.totalTime <= 0) return;
+    NSTimeInterval total = [[time valueForKey:@"totalTime"] doubleValue];
+    NSTimeInterval current = [[time valueForKey:@"currentTime"] doubleValue];
+    if (total <= 0) return;
     
     if (self.fastLayer.superlayer == nil) {
         [self.layer addSublayer:self.fastLayer];
     } else {
         self.fastLayer.hidden = NO;
     }
-    CGFloat __value = (time.currentTime + value * time.totalTime) ?: 0.0;
-    [self.fastLayer kj_updateFastValue:__value totalTime:time.totalTime];
+    CGFloat __value = (current + value * total) ?: 0.0;
+    [self.fastLayer kj_updateFastValue:__value totalTime:total];
 }
 
 /// 隐藏快进弹框
