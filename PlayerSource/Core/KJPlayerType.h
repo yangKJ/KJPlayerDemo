@@ -134,11 +134,6 @@ typedef NS_ENUM(NSUInteger, KJPlayerVideoScreenState) {
     KJPlayerVideoScreenStateFullScreen, /// 全屏
     KJPlayerVideoScreenStateFloatingWindow,/// 浮窗
 };
-/// 不定参数回调方式
-_Pragma("clang diagnostic push") \
-_Pragma("clang diagnostic ignored \"-Wstrict-prototypes\"") \
-typedef void(^KJPlayerAnyBlock)();
-_Pragma("clang diagnostic pop")
 
 #pragma mark - 公共属性`ivar`宏定义
 
@@ -206,21 +201,23 @@ NS_INLINE NSURL * kPlayerURLCharacters(NSString * urlString){
     NSString * encodedString = [urlString stringByAddingPercentEncodingWithAllowedCharacters:[NSCharacterSet URLQueryAllowedCharacterSet]];
     return [NSURL URLWithString:encodedString];
 }
-// MD5加密
-NS_INLINE NSString * kPlayerMD5(NSString * string){
+// SHA256加密
+NS_INLINE NSString * kPlayerSHA256(NSString * string){
     if (string == nil) return @"";
-    const char *str = [string UTF8String];
-    unsigned char digist[CC_MD5_DIGEST_LENGTH];
-    CC_MD5(str, (uint)strlen(str), digist);
-    NSMutableString *outPutStr = [NSMutableString stringWithCapacity:10];
-    for (int i = 0; i < CC_MD5_DIGEST_LENGTH; i++) {
-        [outPutStr appendFormat:@"%02X", digist[i]];
-    }
-    return [outPutStr lowercaseString];
+    const char * data = [string cStringUsingEncoding:NSASCIIStringEncoding];
+    NSData * keyData = [NSData dataWithBytes:data length:strlen(data)];
+    uint8_t digest[CC_SHA256_DIGEST_LENGTH] = {0};
+    CC_SHA256(keyData.bytes, (CC_LONG)keyData.length, digest);
+    NSData * outData = [NSData dataWithBytes:digest length:CC_SHA256_DIGEST_LENGTH];
+    NSString * outputString = [outData description];
+    outputString = [outputString stringByReplacingOccurrencesOfString:@" " withString:@""];
+    outputString = [outputString stringByReplacingOccurrencesOfString:@"<" withString:@""];
+    outputString = [outputString stringByReplacingOccurrencesOfString:@">" withString:@""];
+    return outputString;
 }
 // 文件名
 NS_INLINE NSString * kPlayerIntactName(NSURL * url){
-    NSString *name = kPlayerMD5(url.resourceSpecifier?:url.absoluteString);
+    NSString *name = kPlayerSHA256(url.resourceSpecifier?:url.absoluteString);
     return [@"video_" stringByAppendingString:name];
 }
 // 设置时间显示

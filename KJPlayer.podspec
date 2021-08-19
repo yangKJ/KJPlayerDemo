@@ -30,8 +30,8 @@ Pod::Spec.new do |s|
     xx.dependency 'KJPlayer/Database'
   end
   
-  s.subspec 'Common' do |co|
-    co.source_files = "PlayerSource/Core/*.{h,m}"
+  s.subspec 'Common' do |xx|
+    xx.source_files = "PlayerSource/Core/*.{h,m}"
   end
   
   s.subspec 'CustomView' do |cu|

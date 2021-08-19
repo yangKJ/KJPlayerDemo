@@ -43,7 +43,7 @@
 #import "KJMIDIPlayer.h"
 #import "KJBasePlayer+KJPingTimer.h"
 #import "KJBasePlayer+KJRecordTime.h"
-#import "KJBasePlayer+KJScreenshots.h"
+#import "KJScreenshotsManager.h"
 #import "KJBasePlayer+KJSkipTime.h"
 #import "KJBasePlayer+KJTryTime.h"
 

@@ -182,6 +182,11 @@ static dispatch_once_t onceToken;
 - (void)kj_appointTime:(NSTimeInterval)time completionHandler:(void(^)(BOOL))completionHandler{
     
 }
+/// 获取当前时间截屏
+/// @param screenshots 截屏回调
+- (void)kj_currentTimeScreenshots:(void(^)(UIImage * image))screenshots{
+    
+}
 
 #pragma mark - lazy
 

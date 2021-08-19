@@ -1,32 +1,23 @@
 //
-//  KJBasePlayer+KJScreenshots.h
+//  KJScreenshotsManager.h
 //  KJPlayer
 //
 //  Created by 77。 on 2021/8/19.
 //  https://github.com/yangKJ/KJPlayerDemo
 //  视频截屏相关
 
-#import "KJBasePlayer.h"
+#import <Foundation/Foundation.h>
 
 NS_ASSUME_NONNULL_BEGIN
 
-@interface KJBasePlayer (KJScreenshots)
-
-/// 获取当前时间截屏
-/// @param screenshots 截屏回调
-- (void)kj_currentTimeScreenshots:(void(^)(UIImage * image))screenshots;
-
-/// 获取指定时间截屏
-/// @param time 指定时间
-/// @param screenshots 截屏回调
-- (void)kj_appointTime:(NSTimeInterval)time screenshots:(void(^)(UIImage * image))screenshots;
+@interface KJScreenshotsManager : NSObject
 
 /// 子线程获取封面图，图片会存储在磁盘
 /// @param time 时间节点
 /// @param url 视频地址
 /// @param placeholder 封面图
-- (void)kj_placeholderImageWithTime:(NSTimeInterval)time
-                           videoURL:(NSString *)url
++ (void)kj_placeholderImageWithTime:(NSTimeInterval)time
+                                url:(NSString *)url
                         placeholder:(void(^)(UIImage * image))placeholder;
 
 #pragma mark - 截图封面缓存板块

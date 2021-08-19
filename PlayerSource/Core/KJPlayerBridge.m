@@ -37,12 +37,14 @@
             void(^xxblock)(UIImage * image) = ^(UIImage * image){
                 withBlock ? withBlock(image) : nil;
             };
-            NSString * source = NSStringFromClass([self.basePlayer class]);
+            id __autoreleasing target = [[NSClassFromString(@"KJScreenshotsManager") alloc] init];
             SEL sel = NSSelectorFromString(@"kj_screenshotsIMP:object:otherObject:withBlock:");
-            if ([self.basePlayer respondsToSelector:sel]) {
-                IMP imp = [self.basePlayer methodForSelector:sel];
-                void (* tempFunc)(id, SEL, NSString *, id, id, KJPlayerAnyBlock) = (void *)imp;
-                tempFunc(self.basePlayer, sel, source, self.anyObject, self.anyOtherObject, xxblock);
+            if ([target respondsToSelector:sel]) {
+                IMP imp = [target methodForSelector:sel];
+                void (* tempFunc)(id, SEL, __kindof KJBasePlayer *, id, id, KJPlayerAnyBlock) = (void *)imp;
+                tempFunc(target, sel, self.basePlayer, self.anyObject, self.anyOtherObject, xxblock);
+            } else {
+                withBlock ? withBlock(nil) : nil;
             }
         } break;
         default:break;

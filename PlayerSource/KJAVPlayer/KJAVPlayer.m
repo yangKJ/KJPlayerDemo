@@ -325,6 +325,7 @@ BOOL kPlayerHaveTracks(NSURL *videoURL, void(^assetblock)(AVURLAsset *), NSDicti
 }
 
 #pragma mark - setter
+
 - (void)setOriginalURL:(NSURL *)originalURL{
     _originalURL = originalURL;
     self.state = KJPlayerStateBuffering;
@@ -493,7 +494,19 @@ BOOL kPlayerHaveTracks(NSURL *videoURL, void(^assetblock)(AVURLAsset *), NSDicti
     });
 }
 
+/// 获取当前时间截屏
+/// @param screenshots 截屏回调
+- (void)kj_currentTimeScreenshots:(void(^)(UIImage * image))screenshots{
+    KJPlayerBridge * bridge = [KJPlayerBridge createBridgeWithBasePlayer:self];
+    bridge.anyObject = self.playerOutput;
+    bridge.anyOtherObject = self.imageGenerator;
+    [bridge kj_anyArgumentsIndex:0 withBlock:^(UIImage * image){
+        screenshots ? screenshots(image) : nil;
+    }];
+}
+
 #pragma mark - lazy loading
+
 - (AVPlayerLayer *)playerLayer{
     if (!_playerLayer) {
         _playerLayer = [[AVPlayerLayer alloc] init];

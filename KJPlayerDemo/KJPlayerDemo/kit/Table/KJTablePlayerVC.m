@@ -9,6 +9,10 @@
 #import "KJTablePlayerVC.h"
 #import "KJDetailPlayerVC.h"
 
+#if __has_include(<KJPlayer/KJScreenshotsManager.h>)
+
+#import <KJPlayer/KJScreenshotsManager.h>
+
 @interface KJTableViewInfo : NSObject
 
 @property(nonatomic,strong)NSString *url;
@@ -95,13 +99,13 @@
     cell.label.text = info.url;
     cell.videoImageView.tag = 520 + indexPath.row;
     if (info.image == nil) {
-//        KJAVPlayer.shared.kVideoPlaceholderImage(^(UIImage * _Nonnull image) {
-//            if (image == nil) {
-//                image = [UIImage imageNamed:@"Nini"];
-//            }
-//            cell.videoImageView.image = image;
-//            info.image = image;
-//        }, [NSURL URLWithString:cell.label.text], 8);
+        [KJScreenshotsManager kj_placeholderImageWithTime:8 url:cell.label.text placeholder:^(UIImage * _Nonnull image) {
+            if (image == nil) {
+                image = [UIImage imageNamed:@"Nini"];
+            }
+            cell.videoImageView.image = image;
+            info.image = image;
+        }];
     }else{
         if (self.index == indexPath.row) {
             [cell.videoImageView.layer addSublayer:KJAVPlayer.shared.playerLayer];
@@ -208,3 +212,5 @@
 @implementation KJTableViewInfo
 
 @end
+
+#endif

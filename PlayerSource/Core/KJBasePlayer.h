@@ -31,6 +31,10 @@ NS_ASSUME_NONNULL_BEGIN
 /// 视频显示模式，默认 KJPlayerVideoGravityResizeAspect
 @property (nonatomic,assign) KJPlayerVideoGravity videoGravity;
 
+/// 获取当前时间截屏
+/// @param screenshots 截屏回调
+- (void)kj_currentTimeScreenshots:(void(^)(UIImage * image))screenshots;
+
 @end
 
 NS_ASSUME_NONNULL_END
