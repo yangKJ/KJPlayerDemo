@@ -95,13 +95,13 @@
     cell.label.text = info.url;
     cell.videoImageView.tag = 520 + indexPath.row;
     if (info.image == nil) {
-        KJAVPlayer.shared.kVideoPlaceholderImage(^(UIImage * _Nonnull image) {
-            if (image == nil) {
-                image = [UIImage imageNamed:@"Nini"];
-            }
-            cell.videoImageView.image = image;
-            info.image = image;
-        }, [NSURL URLWithString:cell.label.text], 8);
+//        KJAVPlayer.shared.kVideoPlaceholderImage(^(UIImage * _Nonnull image) {
+//            if (image == nil) {
+//                image = [UIImage imageNamed:@"Nini"];
+//            }
+//            cell.videoImageView.image = image;
+//            info.image = image;
+//        }, [NSURL URLWithString:cell.label.text], 8);
     }else{
         if (self.index == indexPath.row) {
             [cell.videoImageView.layer addSublayer:KJAVPlayer.shared.playerLayer];

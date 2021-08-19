@@ -66,22 +66,6 @@ NS_ASSUME_NONNULL_BEGIN
 /// @param url 链接
 + (BOOL)kj_clearVideoCacheWithURL:(NSURL *)url;
 
-/// 存入视频封面图
-/// @param image 封面图
-/// @param url 链接
-+ (void)kj_saveVideoCoverImage:(UIImage *)image VideoURL:(NSURL *)url;
-
-/// 读取视频封面图
-/// @param url 链接
-+ (UIImage *)kj_getVideoCoverImageWithURL:(NSURL *)url;
-
-/// 清除视频封面图
-/// @param url 链接
-+ (void)kj_clearVideoCoverImageWithURL:(NSURL *)url;
-
-/// 清除全部封面缓存 
-+ (void)kj_clearAllVideoCoverImage;
-
 @end
 
 NS_ASSUME_NONNULL_END

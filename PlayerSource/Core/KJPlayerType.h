@@ -134,6 +134,11 @@ typedef NS_ENUM(NSUInteger, KJPlayerVideoScreenState) {
     KJPlayerVideoScreenStateFullScreen, /// 全屏
     KJPlayerVideoScreenStateFloatingWindow,/// 浮窗
 };
+/// 不定参数回调方式
+_Pragma("clang diagnostic push") \
+_Pragma("clang diagnostic ignored \"-Wstrict-prototypes\"") \
+typedef void(^KJPlayerAnyBlock)();
+_Pragma("clang diagnostic pop")
 
 #pragma mark - 公共属性`ivar`宏定义
 

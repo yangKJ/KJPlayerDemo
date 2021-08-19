@@ -11,7 +11,6 @@
 
 #define kPlayerCachePath NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES).lastObject
 #define kCacheVideoDirectory [kPlayerCachePath stringByAppendingPathComponent:@"videos"]
-#define kCacheImageDirectory [kPlayerCachePath stringByAppendingPathComponent:@"videoImages"]
 #define kTempReadName @"player.temp.read"
 
 @implementation KJCacheManager
@@ -156,48 +155,6 @@
         }
     }
     return [manager removeItemAtPath:[self kj_createVideoCachedPath:url] error:NULL];
-}
-
-#pragma mark - 封面图
-
-/// 存入视频封面图 
-+ (void)kj_saveVideoCoverImage:(UIImage *)image VideoURL:(NSURL *)url{
-    NSData *data = UIImageJPEGRepresentation(image, 1.0);
-    NSString *name = kPlayerMD5(url.resourceSpecifier?:url.absoluteString);
-    NSString *directoryPath = kCacheImageDirectory;
-    if (![[NSFileManager defaultManager] fileExistsAtPath:directoryPath isDirectory:nil]) {
-        NSError *error = nil;
-        BOOL isOK = [[NSFileManager defaultManager] createDirectoryAtPath:directoryPath
-                                              withIntermediateDirectories:YES
-                                                               attributes:nil
-                                                                    error:&error];
-        if (isOK && error == nil){}else return;
-    }
-    @autoreleasepool {
-        NSString *path = [directoryPath stringByAppendingPathComponent:name];
-        [[NSFileManager defaultManager] createFileAtPath:path contents:data attributes:nil];
-    }
-}
-/// 读取视频封面图 
-+ (UIImage *)kj_getVideoCoverImageWithURL:(NSURL *)url{
-    NSString *name = kPlayerMD5(url.resourceSpecifier?:url.absoluteString);
-    NSData *data = [NSData dataWithContentsOfFile:[kCacheImageDirectory stringByAppendingPathComponent:name]];
-    return [UIImage imageWithData:data];
-}
-/// 清除视频封面图 
-+ (void)kj_clearVideoCoverImageWithURL:(NSURL *)url{
-    NSString *name = kPlayerMD5(url.resourceSpecifier?:url.absoluteString);
-    NSString *directoryPath = [kCacheImageDirectory stringByAppendingPathComponent:name];
-    if ([[NSFileManager defaultManager] fileExistsAtPath:directoryPath isDirectory:nil]) {
-        [[NSFileManager defaultManager] removeItemAtPath:directoryPath error:nil];
-    }
-}
-/// 清除全部封面缓存 
-+ (void)kj_clearAllVideoCoverImage{
-    NSString *directoryPath = kCacheImageDirectory;
-    if ([[NSFileManager defaultManager] fileExistsAtPath:directoryPath isDirectory:nil]) {
-        [[NSFileManager defaultManager] removeItemAtPath:directoryPath error:nil];
-    }
 }
 
 @end

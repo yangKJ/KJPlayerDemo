@@ -28,13 +28,22 @@
 }
 
 /// 万能回调响应方法
-/// @param index 回调参数列表参数个数
+/// @param index 协定使用
 /// @param withBlock 回调响应
 - (void)kj_anyArgumentsIndex:(NSInteger)index withBlock:(KJPlayerAnyBlock)withBlock{
     self.withBlock = withBlock;
     switch (index) {
         case 0:{ // 视频截图
-            
+            void(^xxblock)(UIImage * image) = ^(UIImage * image){
+                withBlock ? withBlock(image) : nil;
+            };
+            NSString * source = NSStringFromClass([self.basePlayer class]);
+            SEL sel = NSSelectorFromString(@"kj_screenshotsIMP:object:otherObject:withBlock:");
+            if ([self.basePlayer respondsToSelector:sel]) {
+                IMP imp = [self.basePlayer methodForSelector:sel];
+                void (* tempFunc)(id, SEL, NSString *, id, id, KJPlayerAnyBlock) = (void *)imp;
+                tempFunc(self.basePlayer, sel, source, self.anyObject, self.anyOtherObject, xxblock);
+            }
         } break;
         default:break;
     }

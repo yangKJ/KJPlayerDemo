@@ -10,11 +10,6 @@
 #import "KJPlayerType.h"
 
 NS_ASSUME_NONNULL_BEGIN
-/// 不定参数回调方式
-_Pragma("clang diagnostic push") \
-_Pragma("clang diagnostic ignored \"-Wstrict-prototypes\"") \
-typedef void(^KJPlayerAnyBlock)();
-_Pragma("clang diagnostic pop")
 @class KJBasePlayer;
 /// 播放器桥梁，仅供内部使用
 @interface KJPlayerBridge : NSObject
@@ -27,6 +22,7 @@ _Pragma("clang diagnostic pop")
 
 /// 万能参数
 @property (nonatomic, strong) id anyObject;
+@property (nonatomic, strong) id anyOtherObject;
 
 /// 万能回调响应方法
 /// @param index 协定使用

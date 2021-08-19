@@ -156,7 +156,9 @@ static NSString * const kTimeControlStatus = @"timeControlStatus";
         _timeObserver = nil;
     }
     PLAYER_WEAKSELF;
-    self.timeObserver = [self.player addPeriodicTimeObserverForInterval:CMTimeMakeWithSeconds(_timeSpace, NSEC_PER_SEC) queue:dispatch_queue_create("kj.player.time.queue", NULL) usingBlock:^(CMTime time) {
+    self.timeObserver = [self.player addPeriodicTimeObserverForInterval:CMTimeMakeWithSeconds(_timeSpace, NSEC_PER_SEC)
+                                                                  queue:dispatch_queue_create("kj.player.time.queue", NULL)
+                                                             usingBlock:^(CMTime time) {
         if (weakself.isLiveStreaming) return;
         NSTimeInterval sec = CMTimeGetSeconds(time);
         if (isnan(sec) || sec < 0) sec = 0;
@@ -188,7 +190,10 @@ static NSString * const kTimeControlStatus = @"timeControlStatus";
 /// 重播 
 - (void)kj_replay{
     [super kj_replay];
-    [self.player seekToTime:CMTimeMakeWithSeconds(self.skipHeadTime, NSEC_PER_SEC) toleranceBefore:kCMTimeZero toleranceAfter:kCMTimeZero completionHandler:^(BOOL finished) {
+    [self.player seekToTime:CMTimeMakeWithSeconds(self.skipHeadTime, NSEC_PER_SEC)
+            toleranceBefore:kCMTimeZero
+             toleranceAfter:kCMTimeZero
+          completionHandler:^(BOOL finished) {
         if (finished) [self kj_play];
     }];
 }
@@ -519,7 +524,10 @@ BOOL kPlayerHaveTracks(NSURL *videoURL, void(^assetblock)(AVURLAsset *), NSDicti
         [_playerItem addObserver:self forKeyPath:kTimeControlStatus
                          options:NSKeyValueObservingOptionNew context:nil];
         //监控播放完成通知
-        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(kj_playbackFinished:) name:AVPlayerItemDidPlayToEndTimeNotification object:_playerItem];
+        [[NSNotificationCenter defaultCenter] addObserver:self
+                                                 selector:@selector(kj_playbackFinished:)
+                                                     name:AVPlayerItemDidPlayToEndTimeNotification
+                                                   object:_playerItem];
         if (@available(iOS 9.0, *)) {
             _playerItem.canUseNetworkResourcesForLiveStreamingWhilePaused = NO;
         }

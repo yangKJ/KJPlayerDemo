@@ -49,9 +49,9 @@
 }
 - (void)buttonAction:(UIButton*)sender{
     PLAYER_WEAKSELF;
-    self.player.kVideoTimeScreenshots(^(UIImage *image) {
-        weakself.imageView.image = image;
-    });
+//    self.player.kVideoTimeScreenshots(^(UIImage *image) {
+//        weakself.imageView.image = image;
+//    });
 }
 - (void)buttonAction2:(UIButton*)sender{
     sender.selected = !sender.selected;
