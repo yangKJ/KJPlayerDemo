@@ -11,6 +11,7 @@
 #import "KJResourceLoader.h"
 #import "KJFileHandleInfo.h"
 #import "DBPlayerDataManager.h"
+#import "KJLogManager.h"
 
 @interface KJAVPlayer ()
 PLAYER_CACHE_COMMON_EXTENSION_PROPERTY
@@ -39,13 +40,16 @@ PLAYER_CACHE_COMMON_EXTENSION_PROPERTY
             objc_setAssociatedObject(self, &connectionKey, nil, OBJC_ASSOCIATION_RETAIN);
         }
         dispatch_group_async(self.group, dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
-            NSURL *tempURL = videoURL;
-            [weakself kj_judgeHaveCacheWithVideoURL:&tempURL];
-            if (!kPlayerHaveTracks(tempURL, ^(AVURLAsset * asset) {
+            KJPlayerBridge * bridge = [KJPlayerBridge createBridgeWithBasePlayer:weakself];
+            bridge.anyObject = videoURL;
+            if ([bridge kj_verifyCacheWithVideoURL]) {
+                
+            }
+            if (!kPlayerHaveTracks(bridge.anyObject, ^(AVURLAsset * asset) {
                 if (weakself.cache && weakself.locality == NO) {
                     weakself.state = KJPlayerStateBuffering;
                     weakself.playError = [KJLogManager kj_errorSummarizing:KJPlayerCustomCodeCacheNone];
-                    NSURL * URL = weakself.connection.kj_createSchemeURL(tempURL);
+                    NSURL * URL = weakself.connection.kj_createSchemeURL(bridge.anyObject);
                     weakself.asset = [AVURLAsset URLAssetWithURL:URL options:weakself.requestHeader];
                     [weakself.asset.resourceLoader setDelegate:weakself.connection queue:dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0)];
                 } else {

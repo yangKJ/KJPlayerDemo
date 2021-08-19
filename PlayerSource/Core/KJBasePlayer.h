@@ -10,6 +10,7 @@
 #import <Foundation/Foundation.h>
 #import "KJBaseFunctionPlayer.h"
 #import "KJPlayerProtocol.h"
+#import "KJPlayerBridge.h"
 
 NS_ASSUME_NONNULL_BEGIN
 @class KJPlayerView;

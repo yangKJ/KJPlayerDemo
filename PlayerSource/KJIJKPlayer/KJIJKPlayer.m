@@ -142,8 +142,8 @@ PLAYER_COMMON_FUNCTION_PROPERTY PLAYER_COMMON_UI_PROPERTY
             if (self.userPause == NO) {
                 self.currentTime = sec;
             }
-            PLAYER_WEAKSELF;
-            kBasePlaerPlayingFunction(sec);
+            KJPlayerBridge * __autoreleasing bridge = [KJPlayerBridge createBridgeWithBasePlayer:self];
+            [bridge kj_playingFunction:sec];
         } break;
         case IJKMPMoviePlaybackStatePaused:
             self.state = KJPlayerStatePausing;
@@ -254,7 +254,8 @@ PLAYER_COMMON_FUNCTION_PROPERTY PLAYER_COMMON_UI_PROPERTY
         return;
     }
     self.isLiveStreaming = NO;
-    if (!kBasePlayerBeginFunction) {
+    KJPlayerBridge * bridge = [KJPlayerBridge createBridgeWithBasePlayer:self];
+    if (![bridge kj_beginFunction]) {
         [self kj_autoPlay];
     }
 }
@@ -295,11 +296,6 @@ PLAYER_COMMON_FUNCTION_PROPERTY PLAYER_COMMON_UI_PROPERTY
     [self.player shutdown];
     [self kj_destroyPlayer];
     self.state = KJPlayerStateStopped;
-}
-/// 判断当前资源文件是否有缓存，修改为指定链接地址 
-- (BOOL)kj_judgeHaveCacheWithVideoURL:(NSURL * _Nonnull __strong * _Nonnull)videoURL{
-    self.locality = [super kj_judgeHaveCacheWithVideoURL:videoURL];
-    return self.locality;
 }
 
 #pragma mark - setter

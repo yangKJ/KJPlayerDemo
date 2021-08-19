@@ -8,11 +8,12 @@
 
 #import "KJBasePlayer.h"
 #import "KJPlayerView.h"
+#import "KJLogManager.h"
 
 @interface KJBasePlayer ()
 /// 错误信息
 @property (nonatomic, strong) NSError * playError;
-
+@property (nonatomic, strong) KJPlayerBridge * bridge;
 @end
 
 @implementation KJBasePlayer
@@ -43,7 +44,7 @@ static dispatch_once_t onceToken;
     [self removeObserver:self forKeyPath:@"progress"];
     [self removeObserver:self forKeyPath:@"playError"];
     [self removeObserver:self forKeyPath:@"currentTime"];
-    [self kj_superclassDealloc];
+    [self.bridge kj_playerDealloc];
 }
 - (instancetype)init{
     if (self = [super init]) {
@@ -89,7 +90,7 @@ static dispatch_once_t onceToken;
                 kGCD_player_main(^{
                     [self.delegate kj_player:self state:state];
                 });
-                [self kj_superclassPlayerState:state];
+                [self.bridge kj_changePlayerState:state];
             }
         }
     } else if ([keyPath isEqualToString:@"progress"]) {
@@ -158,19 +159,19 @@ static dispatch_once_t onceToken;
 
 #pragma mark - child method, subclass should override.
 
-/// 准备播放 
+/// 准备播放
 - (void)kj_play{ }
-/// 重播 
+/// 重播
 - (void)kj_replay{ }
-/// 继续 
+/// 继续
 - (void)kj_resume{ }
-/// 暂停 
+/// 暂停
 - (void)kj_pause{
-    [self kj_superclassPlayerState:KJPlayerStatePausing];
+    [self.bridge kj_changePlayerState:KJPlayerStatePausing];
 }
-/// 停止 
+/// 停止
 - (void)kj_stop{
-    [self kj_superclassPlayerState:KJPlayerStateStopped];
+    [self.bridge kj_changePlayerState:KJPlayerStateStopped];
 }
 /// 指定时间播放
 - (void)kj_appointTime:(NSTimeInterval)time{ }
@@ -182,93 +183,13 @@ static dispatch_once_t onceToken;
     
 }
 
-#pragma mark - private subclass method
+#pragma mark - lazy
 
-/// 播放器状态处理，名字不能修改
-- (void)kj_superclassPlayerState:(KJPlayerState)state{
-    void(^kMethodIMP)(NSString *) = ^(NSString * method){
-        SEL sel = NSSelectorFromString(method);
-        if ([self respondsToSelector:sel]) {
-            IMP imp = [self methodForSelector:sel];
-            void (* tempFunc)(id target, SEL, KJPlayerState) = (void *)imp;
-            tempFunc(self, sel, state);
-        }
-    };
-    
-    // 心跳相关操作，`KJBasePlayer+KJPingTimer`
-    kMethodIMP(@"kj_pingTimerIMP:");
-}
-
-/// 播放器准备时间，名字不能修改
-- (BOOL)kj_superclassPrepare{
-    BOOL(^kMethodIMP)(NSString * method) = ^BOOL(NSString * method){
-        SEL sel = NSSelectorFromString(method);
-        if ([self respondsToSelector:sel]) {
-            IMP imp = [self methodForSelector:sel];
-            BOOL (* tempFunc)(id target, SEL) = (void *)imp;
-            return tempFunc(self, sel);
-        }
-        return NO;
-    };
-    // 缓存，`KJBasePlayer+KJCache`
-    if (kMethodIMP(@"kj_cacheIMP")) {
-        return YES;
+- (KJPlayerBridge *)bridge{
+    if (!_bridge) {
+        _bridge = [KJPlayerBridge createBridgeWithBasePlayer:self];
     }
-    return NO;
-}
-
-/// 开始播放时刻功能处理，名字不能修改
-- (BOOL)kj_superclassBeginFunction{
-    BOOL(^kMethodIMP)(NSString * method) = ^BOOL(NSString * method){
-        SEL sel = NSSelectorFromString(method);
-        if ([self respondsToSelector:sel]) {
-            IMP imp = [self methodForSelector:sel];
-            BOOL (* tempFunc)(id target, SEL) = (void *)imp;
-            return tempFunc(self, sel);
-        }
-        return NO;
-    };
-    
-    // 记录播放，`KJBasePlayer+KJRecordTime`
-    if (kMethodIMP(@"kj_recordLastTimePlayIMP")) {
-        return YES;
-    }
-    // 跳过播放，`KJBasePlayer+KJSkipTime`
-    if (kMethodIMP(@"kj_skipTimePlayIMP")) {
-        return YES;
-    }
-    return NO;
-}
-
-/// 播放中功能处理，名字不能修改
-- (BOOL)kj_superclassPlayingFunction:(NSTimeInterval)time{
-    BOOL(^kMethodIMP)(NSString *, id) = ^BOOL(NSString * method, id object){
-        SEL sel = NSSelectorFromString(method);
-        if ([self respondsToSelector:sel]) {
-            IMP imp = [self methodForSelector:sel];
-            BOOL (* tempFunc)(id target, SEL, id) = (void *)imp;
-            return tempFunc(self, sel, object);
-        }
-        return NO;
-    };
-    
-    // 尝试观看，`KJBasePlayer+KJTryTime`
-    return kMethodIMP(@"kj_tryTimePlayIMP:", @(time));
-}
-
-/// 内核销毁时刻，名字不能修改
-- (void)kj_superclassDealloc{
-    void(^kMethodIMP)(NSString *) = ^(NSString * method){
-        SEL sel = NSSelectorFromString(method);
-        if ([self respondsToSelector:sel]) {
-            IMP imp = [self methodForSelector:sel];
-            void (* tempFunc)(id target, SEL) = (void *)imp;
-            tempFunc(self, sel);
-        }
-    };
-    
-    // 记录播放时间，`KJBasePlayer+KJRecordTime`
-    kMethodIMP(@"kj_recordTimeSaveIMP");
+    return _bridge;
 }
 
 @end

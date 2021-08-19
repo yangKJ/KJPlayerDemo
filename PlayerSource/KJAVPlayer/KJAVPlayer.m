@@ -163,7 +163,8 @@ static NSString * const kTimeControlStatus = @"timeControlStatus";
         if (weakself.userPause == NO && weakself.buffered) {
             weakself.state = KJPlayerStatePlaying;
         }
-        if (kBasePlaerPlayingFunction(sec)) {
+        KJPlayerBridge * __autoreleasing bridge = [KJPlayerBridge createBridgeWithBasePlayer:weakself];
+        if ([bridge kj_playingFunction:sec]) {
             [weakself kj_pause];
         } else {
             weakself.currentTime = sec;
@@ -209,11 +210,6 @@ static NSString * const kTimeControlStatus = @"timeControlStatus";
     [super kj_stop];
     [self kj_destroyPlayer];
     self.state = KJPlayerStateStopped;
-}
-/// 判断是否为本地缓存视频，如果是则修改为指定链接地址 
-- (BOOL)kj_judgeHaveCacheWithVideoURL:(NSURL * _Nonnull __strong * _Nonnull)videoURL{
-    self.locality = [super kj_judgeHaveCacheWithVideoURL:videoURL];
-    return self.locality;
 }
 
 #pragma mark - private method
@@ -290,7 +286,8 @@ static NSString * const kTimeControlStatus = @"timeControlStatus";
             }
         });
     }
-    if (!kBasePlayerBeginFunction) {
+    KJPlayerBridge * bridge = [KJPlayerBridge createBridgeWithBasePlayer:self];
+    if (![bridge kj_beginFunction]) {
         [self kj_autoPlay];
     }
 }
@@ -358,7 +355,8 @@ BOOL kPlayerHaveTracks(NSURL *videoURL, void(^assetblock)(AVURLAsset *), NSDicti
     self.originalURL = videoURL;
     PLAYER_WEAKSELF;
     dispatch_group_async(self.group, dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
-        NSURL *tempURL = videoURL;
+        KJPlayerBridge * bridge = [KJPlayerBridge createBridgeWithBasePlayer:weakself];
+        bridge.anyObject = videoURL;
         if (kPlayerVideoAesstType(videoURL) == KJPlayerAssetTypeFILE) {
             if (!kPlayerHaveTracks(videoURL, ^(AVURLAsset * asset) {
                 weakself.asset = asset;
@@ -369,9 +367,8 @@ BOOL kPlayerHaveTracks(NSURL *videoURL, void(^assetblock)(AVURLAsset *), NSDicti
                 return;
             }
         }
-        [weakself kj_judgeHaveCacheWithVideoURL:&tempURL];
-        if (![tempURL.absoluteString isEqualToString:self->_videoURL.absoluteString]) {
-            self->_videoURL = tempURL;
+        if ([bridge kj_verifyCacheWithVideoURL]) {
+            self->_videoURL = bridge.anyObject;
             [weakself kj_initPreparePlayer];
         } else {
             [weakself kj_replay];
@@ -466,7 +463,8 @@ BOOL kPlayerHaveTracks(NSURL *videoURL, void(^assetblock)(AVURLAsset *), NSDicti
                 seconds = weakself.currentTime;
             }
         }
-        if (kBasePlaerPlayingFunction(seconds)) {
+        KJPlayerBridge * bridge = [KJPlayerBridge createBridgeWithBasePlayer:weakself];
+        if ([bridge kj_playingFunction:seconds]) {
             [weakself.player seekToTime:CMTimeMakeWithSeconds(weakself.tryTime, NSEC_PER_SEC)
                         toleranceBefore:kCMTimeZero
                          toleranceAfter:kCMTimeZero
