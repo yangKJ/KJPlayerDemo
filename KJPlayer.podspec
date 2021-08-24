@@ -1,6 +1,6 @@
 Pod::Spec.new do |s|
   s.name         = "KJPlayer"
-  s.version      = "2.1.4"
+  s.version      = "2.1.5"
   s.summary      = "KJPlayer play and cache, AVPlayer / MIDIPlayer / IJKPlayer"
   s.homepage     = "https://github.com/yangKJ/KJPlayerDemo"
   s.description  = 'https://github.com/yangKJ/KJPlayerDemo/blob/master/README.md'
@@ -13,33 +13,14 @@ Pod::Spec.new do |s|
   s.requires_arc = true
   s.static_framework = true
   
-  s.ios.deployment_target = '9.0'
+  s.ios.deployment_target = '10.0'
   s.frameworks = 'Foundation', 'UIKit', 'AVFoundation', 'MediaPlayer'
 
   s.default_subspec  = 'AVPlayer/AVCore'
   s.ios.source_files = 'PlayerSource/KJPlayerHeader.h' 
 
-  s.subspec 'Database' do |db|
-    db.source_files = "PlayerSource/Function/Database/*.{h,m}"
-    db.resources = "PlayerSource/Function/Database/*.{xcdatamodeld}"
-  end
-  
-  s.subspec 'Cache' do |xx|
-    xx.source_files = "PlayerSource/Function/Cache/*.{h,m}"
-    xx.dependency 'KJPlayer/Common'
-    xx.dependency 'KJPlayer/Database'
-  end
-  
   s.subspec 'Common' do |xx|
     xx.source_files = "PlayerSource/Core/*.{h,m}"
-  end
-  
-  s.subspec 'CustomView' do |cu|
-    cu.source_files = "PlayerSource/View/*.{h,m}"
-    cu.resource_bundles = {
-      'KJPlayer' => ['PlayerSource/View/*.{ttf}']
-    }
-    cu.dependency 'KJPlayer/Common'
   end
 
   s.subspec 'AVPlayer' do |av|
@@ -64,7 +45,26 @@ Pod::Spec.new do |s|
   s.subspec 'IJKPlayer' do |jk|
     jk.source_files = "PlayerSource/KJIJKPlayer/*.{h,m}"
     jk.dependency 'KJPlayer/Common'
-    jk.dependency 'IJKMediaFramework'
+#    jk.dependency 'IJKMediaFramework'
+  end
+
+  s.subspec 'Database' do |db|
+    db.source_files = "PlayerSource/Function/Database/*.{h,m}"
+    db.resources = "PlayerSource/Function/Database/*.{xcdatamodeld}"
+  end
+  
+  s.subspec 'Cache' do |xx|
+    xx.source_files = "PlayerSource/Function/Cache/*.{h,m}"
+    xx.dependency 'KJPlayer/Common'
+    xx.dependency 'KJPlayer/Database'
+  end
+  
+  s.subspec 'CustomView' do |xx|
+    xx.source_files = "PlayerSource/View/*.{h,m}"
+    xx.resource_bundles = {
+      'KJPlayer' => ['PlayerSource/View/*.{ttf}']
+    }
+    xx.dependency 'KJPlayer/Common'
   end
   
   # 动态切换内核
