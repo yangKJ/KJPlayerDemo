@@ -8,7 +8,6 @@
 //  下载管理器
 
 #import <Foundation/Foundation.h>
-#import "KJPlayerSharedInstance.h"
 
 NS_ASSUME_NONNULL_BEGIN
 @class KJFileHandleManager;

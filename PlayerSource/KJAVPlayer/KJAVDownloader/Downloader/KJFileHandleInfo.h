@@ -8,6 +8,7 @@
 //  缓存相关信息资源
 
 #import <Foundation/Foundation.h>
+#import "KJPlayerType.h"
 
 NS_ASSUME_NONNULL_BEGIN
 /// 缓存相关信息通知 
@@ -61,6 +62,22 @@ typedef struct KJCacheFragment KJCacheFragment;
 + (NSValue *)kj_cacheFragment:(KJCacheFragment)fragment;
 /// 缓存碎片对象转结构体
 + (KJCacheFragment)kj_getCacheFragment:(id)obj;
+
+#pragma mark - NSFileManager
+
+/// 创建文件夹
+/// @param path 路径
++ (BOOL)kj_createFilePath:(NSString *)path;
+
+#pragma mark - Sandbox板块
+
+/// 创建视频缓存文件完整路径
+/// @param url 链接
++ (NSString *)kj_createVideoCachedPath:(NSURL *)url;
+
+/// 追加视频临时缓存路径，用于播放器读取
+/// @param url 链接
++ (NSString *)kj_appendingVideoTempPath:(NSURL *)url;
 
 @end
 

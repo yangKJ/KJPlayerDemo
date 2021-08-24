@@ -52,12 +52,12 @@
             kThread();
         }] start];
     } else {
-        // Fallback on earlier versions
+        kThread();
     }
 }
 /// 存储记录上次播放时间
 + (void)kj_saveRecordLastTime:(NSTimeInterval)time dbid:(NSString *)dbid{
-    kGCD_player_async(^{
+    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
         if (![DBPlayerData kj_recordLastTime:time dbid:dbid]) {
             [DBPlayerData kj_recordLastTime:time dbid:dbid];
             return;

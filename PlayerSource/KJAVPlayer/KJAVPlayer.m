@@ -7,7 +7,6 @@
 //  https://github.com/yangKJ/KJPlayerDemo
 
 #import "KJAVPlayer.h"
-#import "KJCacheManager.h"
 #import "KJLogManager.h"
 #import "KJPlayerView.h"
 

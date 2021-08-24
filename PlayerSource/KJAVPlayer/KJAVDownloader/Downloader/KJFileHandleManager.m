@@ -7,9 +7,8 @@
 //  https://github.com/yangKJ/KJPlayerDemo
 
 #import "KJFileHandleManager.h"
-#import "KJLogManager.h"
 #import "KJFileHandleInfo.h"
-#import "KJCacheManager.h"
+#import "KJLogManager.h"
 
 @interface KJFileHandleManager (){
     NSInteger kPackageLength;
@@ -31,8 +30,8 @@
 - (instancetype)initWithURL:(NSURL*)url{
     if (self = [super init]){
         kPackageLength = 204800;
-        NSString *filePath = [KJCacheManager kj_createVideoCachedPath:url];
-        [KJCacheManager kj_createFilePath:filePath];
+        NSString *filePath = [KJFileHandleInfo kj_createVideoCachedPath:url];
+        [KJFileHandleInfo kj_createFilePath:filePath];
         if (![[NSFileManager defaultManager] fileExistsAtPath:filePath]){
             [[NSFileManager defaultManager] createFileAtPath:filePath contents:nil attributes:nil];
         }

@@ -8,8 +8,7 @@
 
 #import "KJFileHandleInfo.h"
 #import <objc/runtime.h>
-#import "KJCacheManager.h"
-#import "KJPlayerType.h"
+#import "KJPlayerSharedInstance.h"
 
 #pragma clang diagnostic push
 #pragma clang diagnostic ignored"-Wdeprecated-declarations"
@@ -73,7 +72,8 @@ NSString *kPlayerFileHandleInfoKey = @"kPlayerFileHandleInfoKey";
     return self;
 }
 + (instancetype)kj_createFileHandleInfoWithURL:(NSURL*)url{
-    KJFileHandleInfo *info = [NSKeyedUnarchiver unarchiveObjectWithFile:[KJCacheManager kj_appendingVideoTempPath:url]];
+    NSString * path = [KJFileHandleInfo kj_appendingVideoTempPath:url];
+    KJFileHandleInfo *info = [NSKeyedUnarchiver unarchiveObjectWithFile:path];
     if (info == nil) info = [[KJFileHandleInfo alloc] init];
     info.videoURL = url;
     info.fileName = kPlayerIntactName(url);
@@ -94,7 +94,8 @@ NSString *kPlayerFileHandleInfoKey = @"kPlayerFileHandleInfoKey";
 }
 - (void)kj_keyedArchiverSave{
     @synchronized (self.cacheFragments){
-        [NSKeyedArchiver archiveRootObject:self toFile:[KJCacheManager kj_appendingVideoTempPath:self.videoURL]];
+        NSString * path = [KJFileHandleInfo kj_appendingVideoTempPath:self.videoURL];
+        [NSKeyedArchiver archiveRootObject:self toFile:path];
     }
 }
 - (void)kj_continueCacheFragmentRange:(NSRange)range{
@@ -168,6 +169,36 @@ NSString *kPlayerFileHandleInfoKey = @"kPlayerFileHandleInfoKey";
     KJCacheFragment fragment;
     [obj getValue:&fragment];
     return fragment;
+}
+
+#pragma mark - NSFileManager
+
+/// 创建文件夹
++ (BOOL)kj_createFilePath:(NSString *)path{
+    NSError * error = nil;
+    NSString *cacheFolder = [path stringByDeletingLastPathComponent];
+    if (![[NSFileManager defaultManager] fileExistsAtPath:cacheFolder]) {
+        [[NSFileManager defaultManager] createDirectoryAtPath:cacheFolder
+                                  withIntermediateDirectories:YES
+                                                   attributes:nil
+                                                        error:&error];
+    } else {
+        return NO;
+    }
+    return error == nil ? YES : NO;
+}
+
+#pragma mark - Sandbox板块
+
+/// 创建缓存文件完整路径
++ (NSString *)kj_createVideoCachedPath:(NSURL *)url{
+    NSString *pathComponent = kPlayerIntactName(url);
+    pathComponent = [pathComponent stringByAppendingPathExtension:url.pathExtension];
+    return [PLAYER_CACHE_VIDEO_DIRECTORY stringByAppendingPathComponent:pathComponent];
+}
+/// 追加临时缓存路径，用于播放器读取
++ (NSString *)kj_appendingVideoTempPath:(NSURL *)url{
+    return [[self kj_createVideoCachedPath:url] stringByAppendingPathExtension:PLAYER_TEMP_READ_NAME];
 }
 
 @end

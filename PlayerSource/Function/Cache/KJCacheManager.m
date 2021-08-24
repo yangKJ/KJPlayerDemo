@@ -8,10 +8,7 @@
 
 #import "KJCacheManager.h"
 #import "DBPlayerDataManager.h"
-
-#define kPlayerCachePath NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES).lastObject
-#define kCacheVideoDirectory [kPlayerCachePath stringByAppendingPathComponent:@"videos"]
-#define kTempReadName @"player.temp.read"
+#import "KJPlayerType.h"
 
 @implementation KJCacheManager
 
@@ -42,16 +39,16 @@
 }
 /// 目录下的全部文件名 
 + (NSArray *)kj_videoAllFileNames{
-    return [[NSFileManager defaultManager] contentsOfDirectoryAtPath:kCacheVideoDirectory error:nil];
+    return [[NSFileManager defaultManager] contentsOfDirectoryAtPath:PLAYER_CACHE_VIDEO_DIRECTORY error:nil];
 }
 /// 目录下有用的文件路径，排除临时文件 
 + (NSArray *)kj_videoFilePaths{
-    NSDirectoryEnumerator *enumerator = [[NSFileManager defaultManager] enumeratorAtPath:kCacheVideoDirectory];
+    NSDirectoryEnumerator *enumerator = [[NSFileManager defaultManager] enumeratorAtPath:PLAYER_CACHE_VIDEO_DIRECTORY];
     NSMutableArray *temps = [NSMutableArray array];
     NSString *name;
     while ((name = [enumerator nextObject]) != nil) {
-        if ([name hasSuffix:kTempReadName]) continue;
-        [temps addObject:[kCacheVideoDirectory stringByAppendingPathComponent:name]];
+        if ([name hasSuffix:PLAYER_TEMP_READ_NAME]) continue;
+        [temps addObject:[PLAYER_CACHE_VIDEO_DIRECTORY stringByAppendingPathComponent:name]];
     }
     return temps.mutableCopy;
 }
@@ -70,7 +67,7 @@
 }
 /// 判断文件是否存在，存在拼接完整路径 
 + (BOOL)kj_haveFileSandboxPath:(NSString * _Nonnull __strong * _Nonnull)path{
-    NSString *tempPath = [kCacheVideoDirectory stringByAppendingPathComponent:*path];
+    NSString *tempPath = [PLAYER_CACHE_VIDEO_DIRECTORY stringByAppendingPathComponent:*path];
     if ([[NSFileManager defaultManager] fileExistsAtPath:tempPath]) {
         * path = tempPath;
         return YES;
@@ -82,7 +79,7 @@
 + (BOOL)kj_crearVideoCachedAndDatabase:(DBPlayerData *)data{
     NSString *sanboxPath = data.sandboxPath;
     if ([self kj_haveFileSandboxPath:&sanboxPath]) {
-        NSString *tempPath = [sanboxPath stringByAppendingPathExtension:kTempReadName];
+        NSString *tempPath = [sanboxPath stringByAppendingPathExtension:PLAYER_TEMP_READ_NAME];
         if ([[NSFileManager defaultManager] fileExistsAtPath:tempPath]) {
             if (![[NSFileManager defaultManager] removeItemAtPath:tempPath error:NULL]) {
                 return NO;
@@ -108,7 +105,7 @@
         DBPlayerData * data = temps.firstObject;
         NSString * path = data.sandboxPath;
         if (data.videoIntact && [KJCacheManager kj_haveFileSandboxPath:&path]) {
-            NSString *tempPath = [path stringByAppendingPathExtension:kTempReadName];
+            NSString *tempPath = [path stringByAppendingPathExtension:PLAYER_TEMP_READ_NAME];
             [[NSFileManager defaultManager] removeItemAtPath:tempPath error:NULL];
             * videoURL = [NSURL fileURLWithPath:path];
             return YES;
@@ -120,17 +117,17 @@
 + (NSString *)kj_createVideoCachedPath:(NSURL *)url{
     NSString *pathComponent = kPlayerIntactName(url);
     pathComponent = [pathComponent stringByAppendingPathExtension:url.pathExtension];
-    return [kCacheVideoDirectory stringByAppendingPathComponent:pathComponent];
+    return [PLAYER_CACHE_VIDEO_DIRECTORY stringByAppendingPathComponent:pathComponent];
 }
 /// 追加临时缓存路径，用于播放器读取 
 + (NSString *)kj_appendingVideoTempPath:(NSURL *)url{
-    return [[self kj_createVideoCachedPath:url] stringByAppendingPathExtension:kTempReadName];
+    return [[self kj_createVideoCachedPath:url] stringByAppendingPathExtension:PLAYER_TEMP_READ_NAME];
 }
 /// 获取缓存大小 
 + (int64_t)kj_videoCachedSize{
     int64_t size = 0;
     for (NSString *name in [self kj_videoAllFileNames]) {
-        NSString *filePath = [kCacheVideoDirectory stringByAppendingPathComponent:name];
+        NSString *filePath = [PLAYER_CACHE_VIDEO_DIRECTORY stringByAppendingPathComponent:name];
         NSDictionary *dict = [[NSFileManager defaultManager] attributesOfItemAtPath:filePath error:nil];
         if (dict == nil) continue;
         size += [dict fileSize];
@@ -140,7 +137,7 @@
 /// 清除全部缓存，暴露当前正在下载数据 
 + (void)kj_clearAllVideoCache{
     for (NSString *name in [self kj_videoAllFileNames]) {
-        NSString *filePath = [kCacheVideoDirectory stringByAppendingPathComponent:name];
+        NSString *filePath = [PLAYER_CACHE_VIDEO_DIRECTORY stringByAppendingPathComponent:name];
         [self kj_removeFilePath:filePath];
     }
 }

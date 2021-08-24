@@ -8,7 +8,6 @@
 //  本地数据库模型和工具
 
 #import <CoreData/CoreData.h>
-#import "KJPlayerType.h"
 #import "DBPlayerData.h"
 
 NS_ASSUME_NONNULL_BEGIN

@@ -10,9 +10,9 @@
 #import <objc/runtime.h>
 #import <MobileCoreServices/MobileCoreServices.h>
 #import "KJFileHandleManager.h"
+#import "KJPlayerSharedInstance.h"
 #import "KJFileHandleInfo.h"
 #import "KJLogManager.h"
-#import "KJPlayerType.h"
 
 @protocol KJDownloaderManagerDelegate;
 @interface KJDownloadTask : NSObject
@@ -331,9 +331,10 @@
     return _sessionAgent;
 }
 - (void)kj_postNotification{
-    [[NSNotificationCenter defaultCenter] postNotificationName:kPlayerFileHandleInfoNotification
-                                                        object:self
-                                                      userInfo:@{kPlayerFileHandleInfoKey:self.fileHandleManager.cacheInfo}];
+    [[NSNotificationCenter defaultCenter]
+     postNotificationName:kPlayerFileHandleInfoNotification
+     object:self
+     userInfo:@{kPlayerFileHandleInfoKey:self.fileHandleManager.cacheInfo}];
 }
 
 @end
