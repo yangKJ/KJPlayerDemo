@@ -152,4 +152,15 @@
     [self kj_methodIMP:@"kj_recordTimeSaveIMP"];
 }
 
+/// 初始化时刻注册后台监听
+/// @param monitoring 前后台监听
+- (void)kj_initBackgroundMonitoring:(void(^)(BOOL isBackground, BOOL isPlaying))monitoring{
+    SEL sel = NSSelectorFromString(@"kj_backgroundMonitoringIMP:");
+    if ([self.basePlayer respondsToSelector:sel]) {
+        IMP imp = [self.basePlayer methodForSelector:sel];
+        void (* tempFunc)(id, SEL, void(^)(BOOL, BOOL)) = (void *)imp;
+        tempFunc(self.basePlayer, sel, monitoring);
+    }
+}
+
 @end

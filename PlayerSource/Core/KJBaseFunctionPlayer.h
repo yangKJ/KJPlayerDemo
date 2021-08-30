@@ -18,10 +18,6 @@ NS_ASSUME_NONNULL_BEGIN
 @property (nonatomic,weak) id <KJPlayerDelegate> delegate;
 /// 视频请求头
 @property (nonatomic,strong) NSDictionary *requestHeader;
-/// 返回前台继续播放，默认no
-@property (nonatomic,assign) BOOL roregroundResume;
-/// 进入后台暂停播放，默认no
-@property (nonatomic,assign) BOOL backgroundPause;
 /// 是否开启自动播放，默认yes
 @property (nonatomic,assign) BOOL autoPlay;
 /// 是否开启只允许快进到已缓存位置，默认no
@@ -83,19 +79,11 @@ NS_ASSUME_NONNULL_BEGIN
 - (void)kj_appointTime:(NSTimeInterval)time
      completionHandler:(void(^_Nullable)(BOOL finished))completionHandler;
 
-#pragma mark - NSNotification
-/// 进入后台
-- (void)kj_detectAppEnterBackground:(NSNotification *)notification;
-/// 进入前台
-- (void)kj_detectAppEnterForeground:(NSNotification *)notification;
-
 @end
 
 // 公共ivar
 #define PLAYER_COMMON_FUNCTION_PROPERTY \
 @synthesize delegate = _delegate;\
-@synthesize roregroundResume = _roregroundResume;\
-@synthesize backgroundPause = _backgroundPause;\
 @synthesize videoURL = _videoURL;\
 @synthesize originalURL = _originalURL;\
 @synthesize speed = _speed;\

@@ -53,17 +53,16 @@ static dispatch_once_t onceToken;
     return self;
 }
 - (void)kj_addNotificationCenter{
-    //禁止锁屏
-    [[UIApplication sharedApplication] setIdleTimerDisabled:YES];
-    //通知
-    [[NSNotificationCenter defaultCenter] addObserver:self
-                                             selector:@selector(kj_detectAppEnterBackground:)
-                                                 name:UIApplicationDidEnterBackgroundNotification
-                                               object:nil];
-    [[NSNotificationCenter defaultCenter] addObserver:self
-                                             selector:@selector(kj_detectAppEnterForeground:)
-                                                 name:UIApplicationWillEnterForegroundNotification
-                                               object:nil];
+    PLAYER_WEAKSELF;
+    [self.bridge kj_initBackgroundMonitoring:^(BOOL isBackground, BOOL isPlaying) {
+        if (isBackground && isPlaying == NO) {
+            [weakself kj_pause];
+        } else if (isBackground == NO && isPlaying) {
+            if (weakself.userPause == NO && ![weakself isPlaying]) {
+                [weakself kj_resume];
+            }
+        }
+    }];
     [[NSNotificationCenter defaultCenter] addObserver:self
                                              selector:@selector(kj_basePlayerViewChange:)
                                                  name:kPlayerBaseViewChangeNotification
@@ -129,23 +128,6 @@ static dispatch_once_t onceToken;
 
 #pragma mark - NSNotification
 
-/// 进入后台
-- (void)kj_detectAppEnterBackground:(NSNotification *)notification{
-    if (self.backgroundPause) {
-        [self kj_pause];
-        [[AVAudioSession sharedInstance] setActive:NO error:nil];
-    } else {
-        [[AVAudioSession sharedInstance] setActive:YES error:nil];
-    }
-    //手机静音下也可播放声音
-    [[AVAudioSession sharedInstance] setCategory:AVAudioSessionCategoryPlayback error:nil];
-}
-/// 进入前台
-- (void)kj_detectAppEnterForeground:(NSNotification *)notification{
-    if (self.roregroundResume && self.userPause == NO && ![self isPlaying]) {
-        [self kj_resume];
-    }
-}
 /// 控件载体位置和尺寸发生变化
 - (void)kj_basePlayerViewChange:(NSNotification *)notification{
     SEL sel = NSSelectorFromString(@"kj_displayPictureWithSize:");

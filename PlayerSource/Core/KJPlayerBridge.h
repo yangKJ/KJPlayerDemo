@@ -53,6 +53,10 @@ _Pragma("clang diagnostic pop")
 /// 内核销毁时刻
 - (void)kj_playerDealloc;
 
+/// 初始化时刻注册后台监听
+/// @param monitoring 前后台监听
+- (void)kj_initBackgroundMonitoring:(void(^)(BOOL isBackground, BOOL isPlaying))monitoring;
+
 @end
 
 NS_ASSUME_NONNULL_END
