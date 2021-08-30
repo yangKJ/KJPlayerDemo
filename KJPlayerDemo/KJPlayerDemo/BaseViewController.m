@@ -8,6 +8,10 @@
 
 #import "BaseViewController.h"
 
+#if __has_include(<KJPlayer/KJBasePlayer+KJBackgroundMonitoring.h>)
+#import <KJPlayer/KJBasePlayer+KJBackgroundMonitoring.h>
+#endif
+
 @interface BaseViewController () <KJPlayerDelegate, KJPlayerBaseViewDelegate>
 
 @property (nonatomic, strong) UILabel *label3;
@@ -80,7 +84,9 @@
     KJAVPlayer *player = [[KJAVPlayer alloc]init];
     self.player = player;
     player.delegate = self;
+#if __has_include(<KJPlayer/KJBasePlayer+KJBackgroundMonitoring.h>)
     player.roregroundResume = YES;
+#endif
     player.placeholder = backview.image;
     player.playerView = backview;
     [backview.loadingLayer kj_startAnimation];
@@ -221,3 +227,4 @@
 }
 
 @end
+

@@ -89,7 +89,6 @@
     player.playerView = backview;
     player.delegate = self;
     player.skipDelegate = self;
-    player.roregroundResume = YES;
     player.videoURL = self.url;
 }
 - (void)tapPlayerViewAction:(UITapGestureRecognizer *)gesture {
