@@ -19,6 +19,7 @@
 #import "KJAVPlayer+KJCache.h"
 #import "KJResourceLoader.h"
 #import "KJResourceLoaderManager.h"
+#import "KJBasePlayer+KJBackgroundMonitoring.h"
 #import "KJBasePlayer+KJCache.h"
 #import "KJCacheManager.h"
 #import "KJBaseFunctionPlayer.h"

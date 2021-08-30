@@ -61,7 +61,9 @@
 - (void)buttonAction:(UIButton*)sender{
     sender.selected = !sender.selected;
     if (sender.selected) {
+#if __has_include(<KJPlayer/KJIJKPlayer.h>)
         [self.player kj_dynamicChangeSourcePlayer:[KJIJKPlayer class]];
+#endif
     }else{
         [self.player kj_dynamicChangeSourcePlayer:[KJAVPlayer class]];
     }

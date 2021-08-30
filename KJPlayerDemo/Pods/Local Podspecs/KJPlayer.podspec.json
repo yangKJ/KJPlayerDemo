@@ -1,6 +1,6 @@
 {
   "name": "KJPlayer",
-  "version": "2.1.4",
+  "version": "2.1.6",
   "summary": "KJPlayer play and cache, AVPlayer / MIDIPlayer / IJKPlayer",
   "homepage": "https://github.com/yangKJ/KJPlayerDemo",
   "description": "https://github.com/yangKJ/KJPlayerDemo/blob/master/README.md",
@@ -13,11 +13,11 @@
   },
   "source": {
     "git": "https://github.com/yangKJ/KJPlayerDemo.git",
-    "tag": "2.1.4"
+    "tag": "2.1.6"
   },
   "social_media_url": "https://juejin.cn/user/1987535102554472/posts",
   "platforms": {
-    "ios": "9.0"
+    "ios": "10.0"
   },
   "requires_arc": true,
   "static_framework": true,
@@ -33,39 +33,8 @@
   },
   "subspecs": [
     {
-      "name": "Database",
-      "source_files": "PlayerSource/Function/Database/*.{h,m}",
-      "resources": "PlayerSource/Function/Database/*.{xcdatamodeld}"
-    },
-    {
-      "name": "Cache",
-      "source_files": "PlayerSource/Function/Cache/*.{h,m}",
-      "dependencies": {
-        "KJPlayer/Common": [
-
-        ],
-        "KJPlayer/Database": [
-
-        ]
-      }
-    },
-    {
       "name": "Common",
       "source_files": "PlayerSource/Core/*.{h,m}"
-    },
-    {
-      "name": "CustomView",
-      "source_files": "PlayerSource/View/*.{h,m}",
-      "resource_bundles": {
-        "KJPlayer": [
-          "PlayerSource/View/*.{ttf}"
-        ]
-      },
-      "dependencies": {
-        "KJPlayer/Common": [
-
-        ]
-      }
     },
     {
       "name": "AVPlayer",
@@ -112,6 +81,37 @@
 
         ],
         "IJKMediaFramework": [
+
+        ]
+      }
+    },
+    {
+      "name": "Database",
+      "source_files": "PlayerSource/Function/Database/*.{h,m}",
+      "resources": "PlayerSource/Function/Database/*.{xcdatamodeld}"
+    },
+    {
+      "name": "Cache",
+      "source_files": "PlayerSource/Function/Cache/*.{h,m}",
+      "dependencies": {
+        "KJPlayer/Common": [
+
+        ],
+        "KJPlayer/Database": [
+
+        ]
+      }
+    },
+    {
+      "name": "CustomView",
+      "source_files": "PlayerSource/View/*.{h,m}",
+      "resource_bundles": {
+        "KJPlayer": [
+          "PlayerSource/View/*.{ttf}"
+        ]
+      },
+      "dependencies": {
+        "KJPlayer/Common": [
 
         ]
       }
@@ -172,6 +172,15 @@
 
         ],
         "KJPlayer/Database": [
+
+        ]
+      }
+    },
+    {
+      "name": "BackgroundMonitoring",
+      "source_files": "PlayerSource/Function/BackgroundMonitoring/*.{h,m}",
+      "dependencies": {
+        "KJPlayer/Common": [
 
         ]
       }

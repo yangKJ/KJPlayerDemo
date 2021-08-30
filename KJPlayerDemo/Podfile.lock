@@ -1,37 +1,39 @@
 PODS:
   - IJKMediaFramework (0.1.5)
-  - KJPlayer (2.1.4):
-    - KJPlayer/AVPlayer/AVCore (= 2.1.4)
-  - KJPlayer/AVPlayer/AVCore (2.1.4):
+  - KJPlayer (2.1.6):
+    - KJPlayer/AVPlayer/AVCore (= 2.1.6)
+  - KJPlayer/AVPlayer/AVCore (2.1.6):
     - KJPlayer/Common
-  - KJPlayer/AVPlayer/AVDownloader (2.1.4):
+  - KJPlayer/AVPlayer/AVDownloader (2.1.6):
     - KJPlayer/AVPlayer/AVCore
     - KJPlayer/Database
-  - KJPlayer/Cache (2.1.4):
+  - KJPlayer/BackgroundMonitoring (2.1.6):
+    - KJPlayer/Common
+  - KJPlayer/Cache (2.1.6):
     - KJPlayer/Common
     - KJPlayer/Database
-  - KJPlayer/Common (2.1.4)
-  - KJPlayer/CustomView (2.1.4):
+  - KJPlayer/Common (2.1.6)
+  - KJPlayer/CustomView (2.1.6):
     - KJPlayer/Common
-  - KJPlayer/Database (2.1.4)
-  - KJPlayer/DynamicSource (2.1.4):
+  - KJPlayer/Database (2.1.6)
+  - KJPlayer/DynamicSource (2.1.6):
     - KJPlayer/Common
-  - KJPlayer/IJKPlayer (2.1.4):
+  - KJPlayer/IJKPlayer (2.1.6):
     - IJKMediaFramework
     - KJPlayer/Common
-  - KJPlayer/MIDI (2.1.4):
+  - KJPlayer/MIDI (2.1.6):
     - KJPlayer/Common
-  - KJPlayer/PingTimer (2.1.4):
+  - KJPlayer/PingTimer (2.1.6):
     - KJPlayer/Common
-  - KJPlayer/RecordTime (2.1.4):
-    - KJPlayer/Common
-    - KJPlayer/Database
-  - KJPlayer/Screenshots (2.1.4):
+  - KJPlayer/RecordTime (2.1.6):
     - KJPlayer/Common
     - KJPlayer/Database
-  - KJPlayer/SkipTime (2.1.4):
+  - KJPlayer/Screenshots (2.1.6):
     - KJPlayer/Common
-  - KJPlayer/TryTime (2.1.4):
+    - KJPlayer/Database
+  - KJPlayer/SkipTime (2.1.6):
+    - KJPlayer/Common
+  - KJPlayer/TryTime (2.1.6):
     - KJPlayer/Common
   - SwiftMonkey (2.2.0)
   - SwiftMonkeyPaws (2.2.0)
@@ -39,6 +41,7 @@ PODS:
 DEPENDENCIES:
   - KJPlayer (from `..`)
   - KJPlayer/AVPlayer/AVDownloader (from `..`)
+  - KJPlayer/BackgroundMonitoring (from `..`)
   - KJPlayer/Cache (from `..`)
   - KJPlayer/CustomView (from `..`)
   - KJPlayer/Database (from `..`)
@@ -65,10 +68,10 @@ EXTERNAL SOURCES:
 
 SPEC CHECKSUMS:
   IJKMediaFramework: f1119f6324c96bc4654f3045a5beaa95ba0596c0
-  KJPlayer: 5ee951e721ca69d17a1d4c838dc4162e97c4f20e
+  KJPlayer: b699da63d184dd4e47ddec557d5c1cd1c04adc51
   SwiftMonkey: 24ffde5b590d3658cfcb1d775cf74b9f5280eb9c
   SwiftMonkeyPaws: 9d183b8a1b9cfd497c2704342e861b71412d94f5
 
-PODFILE CHECKSUM: dc7731ddf4c309cd8b7700215595d2398ad8b509
+PODFILE CHECKSUM: 56d5122774a4bafebdeca6d8ec6d066e457111cf
 
 COCOAPODS: 1.10.1

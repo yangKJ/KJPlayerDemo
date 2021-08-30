@@ -1,6 +1,6 @@
 Pod::Spec.new do |s|
   s.name         = "KJPlayer"
-  s.version      = "2.1.5"
+  s.version      = "2.1.6"
   s.summary      = "KJPlayer play and cache, AVPlayer / MIDIPlayer / IJKPlayer"
   s.homepage     = "https://github.com/yangKJ/KJPlayerDemo"
   s.description  = 'https://github.com/yangKJ/KJPlayerDemo/blob/master/README.md'
@@ -45,7 +45,7 @@ Pod::Spec.new do |s|
   s.subspec 'IJKPlayer' do |jk|
     jk.source_files = "PlayerSource/KJIJKPlayer/*.{h,m}"
     jk.dependency 'KJPlayer/Common'
-#    jk.dependency 'IJKMediaFramework'
+    jk.dependency 'IJKMediaFramework'
   end
 
   s.subspec 'Database' do |db|
@@ -103,6 +103,12 @@ Pod::Spec.new do |s|
     xx.source_files = "PlayerSource/Function/Screenshots/*.{h,m}"
     xx.dependency 'KJPlayer/Common'
     xx.dependency 'KJPlayer/Database'
+  end
+  
+  # 前后台功能
+  s.subspec 'BackgroundMonitoring' do |xx|
+    xx.source_files = "PlayerSource/Function/BackgroundMonitoring/*.{h,m}"
+    xx.dependency 'KJPlayer/Common'
   end
   
 end
