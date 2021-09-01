@@ -206,24 +206,20 @@ NS_INLINE NSURL * kPlayerURLCharacters(NSString * urlString){
     NSString * encodedString = [urlString stringByAddingPercentEncodingWithAllowedCharacters:[NSCharacterSet URLQueryAllowedCharacterSet]];
     return [NSURL URLWithString:encodedString];
 }
-// SHA256加密
-NS_INLINE NSString * kPlayerSHA256(NSString * string){
-    if (string == nil) return @"";
-    const char * data = [string cStringUsingEncoding:NSASCIIStringEncoding];
-    NSData * keyData = [NSData dataWithBytes:data length:strlen(data)];
-    uint8_t digest[CC_SHA256_DIGEST_LENGTH] = {0};
-    CC_SHA256(keyData.bytes, (CC_LONG)keyData.length, digest);
-    NSData * outData = [NSData dataWithBytes:digest length:CC_SHA256_DIGEST_LENGTH];
-    NSString * outputString = [outData description];
-    outputString = [outputString stringByReplacingOccurrencesOfString:@" " withString:@""];
-    outputString = [outputString stringByReplacingOccurrencesOfString:@"<" withString:@""];
-    outputString = [outputString stringByReplacingOccurrencesOfString:@">" withString:@""];
-    return outputString;
+// 哈西加密
+NS_INLINE NSString * kPlayerSHA512String(NSString * string){
+    const char * cstr = [string cStringUsingEncoding:NSUTF8StringEncoding];
+    NSData * data = [NSData dataWithBytes:cstr length:string.length];
+    uint8_t digest[CC_SHA512_DIGEST_LENGTH];
+    CC_SHA512(data.bytes, (CC_LONG)data.length, digest);
+    NSMutableString * output = [NSMutableString stringWithCapacity:CC_SHA512_DIGEST_LENGTH * 2];
+    for (int i = 0; i < CC_SHA512_DIGEST_LENGTH; i++)
+    [output appendFormat:@"%02x", digest[i]];
+    return [NSString stringWithString:output];
 }
 // 文件名
 NS_INLINE NSString * kPlayerIntactName(NSURL * url){
-    NSString *name = kPlayerSHA256(url.resourceSpecifier?:url.absoluteString);
-    return [@"video_" stringByAppendingString:name];
+    return kPlayerSHA512String(url.resourceSpecifier ?: url.absoluteString);
 }
 // 设置时间显示
 NS_INLINE NSString * kPlayerConvertTime(CGFloat second){

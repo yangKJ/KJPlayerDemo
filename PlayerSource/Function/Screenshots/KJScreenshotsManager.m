@@ -104,10 +104,25 @@
 [NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES).lastObject \
 stringByAppendingPathComponent:@"videoImages"]
 
+/// 缓存封面图名
+NS_INLINE NSString * kVideoCoverImageNameMD5(NSString * key){
+    const char *value = [key UTF8String];
+    unsigned char buffer[CC_MD5_DIGEST_LENGTH];
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wdeprecated-declarations"
+    CC_MD5(value, (CC_LONG)strlen(value), buffer);
+#pragma clang diagnostic pop
+    NSMutableString * outputString = [[NSMutableString alloc] initWithCapacity:CC_MD5_DIGEST_LENGTH * 2];
+    for (NSInteger count = 0; count < CC_MD5_DIGEST_LENGTH; count++){
+        [outputString appendFormat:@"%02x",buffer[count]];
+    }
+    return outputString.mutableCopy;
+}
+
 /// 存入视频封面图
 + (void)kj_saveVideoCoverImage:(UIImage *)image videoURL:(NSURL *)videoURL{
     NSData *data = UIImageJPEGRepresentation(image, 1.0);
-    NSString *name = kPlayerSHA256(videoURL.resourceSpecifier?:videoURL.absoluteString);
+    NSString *name = kVideoCoverImageNameMD5(videoURL.resourceSpecifier?:videoURL.absoluteString);
     NSString *directoryPath = kPlayerCacheImage;
     if (![[NSFileManager defaultManager] fileExistsAtPath:directoryPath isDirectory:nil]) {
         NSError *error = nil;
@@ -124,13 +139,13 @@ stringByAppendingPathComponent:@"videoImages"]
 }
 /// 读取视频封面图
 + (UIImage *)kj_getVideoCoverImageWithURL:(NSURL *)url{
-    NSString *name = kPlayerSHA256(url.resourceSpecifier?:url.absoluteString);
+    NSString *name = kVideoCoverImageNameMD5(url.resourceSpecifier?:url.absoluteString);
     NSData *data = [NSData dataWithContentsOfFile:[kPlayerCacheImage stringByAppendingPathComponent:name]];
     return [UIImage imageWithData:data];
 }
 /// 清除视频封面图
 + (void)kj_clearVideoCoverImageWithURL:(NSURL *)url{
-    NSString *name = kPlayerSHA256(url.resourceSpecifier?:url.absoluteString);
+    NSString *name = kVideoCoverImageNameMD5(url.resourceSpecifier?:url.absoluteString);
     NSString *directoryPath = [kPlayerCacheImage stringByAppendingPathComponent:name];
     if ([[NSFileManager defaultManager] fileExistsAtPath:directoryPath isDirectory:nil]) {
         [[NSFileManager defaultManager] removeItemAtPath:directoryPath error:nil];
