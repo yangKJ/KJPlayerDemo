@@ -10,10 +10,33 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
+@protocol KJPlayerCacheDelegate;
+/// 视频缓存相关
 @interface KJBasePlayer (KJCache)
 
-/// 判断是否为本地缓存视频，如果是则修改为指定链接地址
-- (BOOL)kj_judgeHaveCacheWithVideoURL:(NSURL * _Nonnull __strong * _Nonnull)videoURL;
+/// 视频缓存协议
+@property (nonatomic, weak) id<KJPlayerCacheDelegate> cacheDelegate;
+
+@end
+
+/// 视频缓存相关协议
+@protocol KJPlayerCacheDelegate <NSObject>
+
+@optional;
+
+/// 当前播放视频是否拥有缓存
+/// @param player 播放器内核
+/// @param haveCache 是否拥有缓存
+/// @param cacheVideoURL 缓存视频链接地址
+- (void)kj_cacheWithPlayer:(__kindof KJBasePlayer *)player
+                 haveCache:(BOOL)haveCache
+             cacheVideoURL:(NSURL *)cacheVideoURL;
+
+/// 当前视频缓存状态
+/// @param player 播放器内核
+/// @param cacheSuccess 是否缓存成功
+- (void)kj_cacheWithPlayer:(__kindof KJBasePlayer *)player
+              cacheSuccess:(BOOL)cacheSuccess;
 
 @end
 

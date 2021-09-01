@@ -6,6 +6,7 @@
 //  https://github.com/yangKJ/KJPlayerDemo
 
 #import "KJBasePlayer+KJCache.h"
+#import <objc/runtime.h>
 #import "KJCacheManager.h"
 #import "DBPlayerDataManager.h"
 
@@ -19,10 +20,18 @@
 
 @implementation KJBasePlayer (KJCache)
 
+/// 判断当前视频是否存在缓存
+/// @param videoURL 视频链接地址
+/// @return 存在会返回该缓存地址，不存在则返回原视频地址
 - (NSURL *)kj_cacheIMP:(NSURL *)videoURL{
-    
-    self.locality = [self kj_judgeHaveCacheWithVideoURL:&videoURL];
-    
+    self.locality = NO;
+    if ([KJCacheManager kj_haveCacheURL:&videoURL]) {
+        self.playError = [KJLogManager kj_errorSummarizing:KJPlayerCustomCodeCachedComplete];
+        self.locality = YES;
+    }
+    if ([self.cacheDelegate respondsToSelector:@selector(kj_cacheWithPlayer:haveCache:cacheVideoURL:)]) {
+        [self.cacheDelegate kj_cacheWithPlayer:self haveCache:self.locality cacheVideoURL:videoURL];
+    }
     return videoURL;
 }
 
@@ -34,21 +43,32 @@
     PLAYER_WEAKSELF;
     if (object.code == KJPlayerCustomCodeCachedComplete && !self.locality) {
         kGCD_player_async(^{
-            if ([weakself kj_saveDatabaseVideoIntact:YES otherObject:otherObject withBlock:withBlock]) {
+            if ([weakself kj_saveVideoIntact:YES dbid:otherObject withBlock:withBlock]) {
                 kGCD_player_main(^{
                     weakself.playError = [KJLogManager kj_errorSummarizing:KJPlayerCustomCodeSaveDatabaseFailed];
                     weakself.state = KJPlayerStateFailed;
+                    if ([weakself.cacheDelegate respondsToSelector:@selector(kj_cacheWithPlayer:cacheSuccess:)]) {
+                        [weakself.cacheDelegate kj_cacheWithPlayer:weakself cacheSuccess:NO];
+                    }
                 });
             } else {
                 @synchronized (@(weakself.locality)) {
                     weakself.locality = YES;
                 }
+                kGCD_player_main(^{
+                    if ([weakself.cacheDelegate respondsToSelector:@selector(kj_cacheWithPlayer:cacheSuccess:)]) {
+                        [weakself.cacheDelegate kj_cacheWithPlayer:weakself cacheSuccess:YES];
+                    }
+                });
             }
         });
     } else if (self.playError.code != object.code) {
         self.playError = object;
         kGCD_player_async(^{
-            [weakself kj_saveDatabaseVideoIntact:NO otherObject:otherObject withBlock:withBlock];
+            [weakself kj_saveVideoIntact:NO dbid:otherObject withBlock:withBlock];
+            if ([weakself.cacheDelegate respondsToSelector:@selector(kj_cacheWithPlayer:cacheSuccess:)]) {
+                [weakself.cacheDelegate kj_cacheWithPlayer:weakself cacheSuccess:NO];
+            }
         });
         self.state = KJPlayerStateFailed;
     }
@@ -58,11 +78,8 @@
 /// @param videoIntact 视频是否完整
 /// @param dbid 主键ID
 /// @param withBlock 插入信息回调
-- (BOOL)kj_saveDatabaseVideoIntact:(BOOL)videoIntact
-                       otherObject:(NSString *)dbid
-                         withBlock:(void(^)(NSMutableDictionary *))withBlock{
+- (BOOL)kj_saveVideoIntact:(BOOL)videoIntact dbid:(NSString *)dbid withBlock:(void(^)(NSMutableDictionary *))withBlock{
     NSError * error = nil;
-    
     [DBPlayerDataManager kj_insertData:dbid insert:^(DBPlayerData * data){
         data.dbid = dbid;
         data.saveTime = NSDate.date.timeIntervalSince1970;
@@ -84,15 +101,13 @@
     return NO;
 }
 
-#pragma mark - public method
+#pragma mark - Associated
 
-/// 判断是否为本地缓存视频，如果是则修改为指定链接地址
-- (BOOL)kj_judgeHaveCacheWithVideoURL:(NSURL * _Nonnull __strong * _Nonnull)videoURL{
-    if ([KJCacheManager kj_haveCacheURL:videoURL]) {
-        self.playError = [KJLogManager kj_errorSummarizing:KJPlayerCustomCodeCachedComplete];
-        return YES;
-    }
-    return NO;
+- (id<KJPlayerCacheDelegate>)cacheDelegate{
+    return  objc_getAssociatedObject(self, _cmd);
+}
+- (void)setCacheDelegate:(id<KJPlayerCacheDelegate>)cacheDelegate{
+    objc_setAssociatedObject(self, @selector(cacheDelegate), cacheDelegate, OBJC_ASSOCIATION_ASSIGN);
 }
 
 @end

@@ -157,8 +157,10 @@
 /// 播放器开始准备时刻并验证网址是否一致
 - (BOOL)kj_verifyCache{
     // 缓存管理，`KJBasePlayer+KJCache`
-    NSURL * tempURL = [self kj_methodIMP:@"kj_cacheIMP:" object:(NSURL *)self.anyObject];
-    
+    NSURL * tempURL = [self kj_methodIMP:@"kj_cacheIMP:" object:self.anyObject];
+    if (tempURL == nil) {
+        return NO;
+    }
     return [((NSURL *)self.anyObject).absoluteString isEqualToString:tempURL.absoluteString];
 }
 
