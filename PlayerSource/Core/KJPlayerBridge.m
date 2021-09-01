@@ -89,14 +89,6 @@
 
 #pragma mark - bridge method
 
-/// 播放器开始准备时刻并验证网址是否一致
-- (BOOL)kj_verifyCacheWithVideoURL{
-    // 缓存管理，`KJBasePlayer+KJCache`
-    NSURL * __autoreleasing tempURL = [self kj_methodIMP:@"kj_cacheIMP:" object:(NSURL *)self.anyObject];
-    
-    return [((NSURL *)self.anyObject).absoluteString isEqualToString:tempURL.absoluteString];
-}
-
 /// 播放器状态改变
 /// @param state 播放器状态
 - (void)kj_changePlayerState:(KJPlayerState)state{
@@ -152,9 +144,20 @@
     [self kj_methodIMP:@"kj_recordTimeSaveIMP"];
 }
 
+#pragma mark - special bridge method
+
+/// 播放器开始准备时刻并验证网址是否一致
+- (BOOL)kj_verifyCache{
+    // 缓存管理，`KJBasePlayer+KJCache`
+    NSURL * tempURL = [self kj_methodIMP:@"kj_cacheIMP:" object:(NSURL *)self.anyObject];
+    
+    return [((NSURL *)self.anyObject).absoluteString isEqualToString:tempURL.absoluteString];
+}
+
 /// 初始化时刻注册后台监听
 /// @param monitoring 前后台监听
 - (void)kj_initBackgroundMonitoring:(void(^)(BOOL isBackground, BOOL isPlaying))monitoring{
+    // 前后台管理，`KJBasePlayer+KJBackgroundMonitoring`
     SEL sel = NSSelectorFromString(@"kj_backgroundMonitoringIMP:");
     if ([self.basePlayer respondsToSelector:sel]) {
         IMP imp = [self.basePlayer methodForSelector:sel];

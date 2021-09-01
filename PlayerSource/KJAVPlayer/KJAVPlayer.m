@@ -7,7 +7,6 @@
 //  https://github.com/yangKJ/KJPlayerDemo
 
 #import "KJAVPlayer.h"
-#import "KJLogManager.h"
 #import "KJPlayerView.h"
 
 #pragma clang diagnostic push
@@ -164,8 +163,7 @@ static NSString * const kTimeControlStatus = @"timeControlStatus";
         if (weakself.userPause == NO && weakself.buffered) {
             weakself.state = KJPlayerStatePlaying;
         }
-        KJPlayerBridge * __autoreleasing bridge = [KJPlayerBridge createBridgeWithBasePlayer:weakself];
-        if ([bridge kj_playingFunction:sec]) {
+        if ([weakself.bridge kj_playingFunction:sec]) {
             [weakself kj_pause];
         } else {
             weakself.currentTime = sec;
@@ -290,8 +288,7 @@ static NSString * const kTimeControlStatus = @"timeControlStatus";
             }
         });
     }
-    KJPlayerBridge * bridge = [KJPlayerBridge createBridgeWithBasePlayer:self];
-    if (![bridge kj_beginFunction]) {
+    if (![self.bridge kj_beginFunction]) {
         [self kj_autoPlay];
     }
 }
@@ -360,8 +357,7 @@ BOOL kPlayerHaveTracks(NSURL *videoURL, void(^assetblock)(AVURLAsset *), NSDicti
     self.originalURL = videoURL;
     PLAYER_WEAKSELF;
     dispatch_group_async(self.group, dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
-        KJPlayerBridge * bridge = [KJPlayerBridge createBridgeWithBasePlayer:weakself];
-        bridge.anyObject = videoURL;
+        weakself.bridge.anyObject = videoURL;
         if (kPlayerVideoAesstType(videoURL) == KJPlayerAssetTypeFILE) {
             if (!kPlayerHaveTracks(videoURL, ^(AVURLAsset * asset) {
                 weakself.asset = asset;
@@ -372,8 +368,8 @@ BOOL kPlayerHaveTracks(NSURL *videoURL, void(^assetblock)(AVURLAsset *), NSDicti
                 return;
             }
         }
-        if ([bridge kj_verifyCacheWithVideoURL]) {
-            self->_videoURL = bridge.anyObject;
+        if ([weakself.bridge kj_verifyCache]) {
+            self->_videoURL = weakself.bridge.anyObject;
             [weakself kj_initPreparePlayer];
         } else {
             [weakself kj_replay];
@@ -465,8 +461,7 @@ BOOL kPlayerHaveTracks(NSURL *videoURL, void(^assetblock)(AVURLAsset *), NSDicti
                 seconds = weakself.currentTime;
             }
         }
-        KJPlayerBridge * bridge = [KJPlayerBridge createBridgeWithBasePlayer:weakself];
-        if ([bridge kj_playingFunction:seconds]) {
+        if ([weakself.bridge kj_playingFunction:seconds]) {
             [weakself.player seekToTime:CMTimeMakeWithSeconds(weakself.tryTime, NSEC_PER_SEC)
                         toleranceBefore:kCMTimeZero
                          toleranceAfter:kCMTimeZero
@@ -493,10 +488,9 @@ BOOL kPlayerHaveTracks(NSURL *videoURL, void(^assetblock)(AVURLAsset *), NSDicti
 /// 获取当前时间截屏
 /// @param screenshots 截屏回调
 - (void)kj_currentTimeScreenshots:(void(^)(UIImage * image))screenshots{
-    KJPlayerBridge * bridge = [KJPlayerBridge createBridgeWithBasePlayer:self];
-    bridge.anyObject = self.playerOutput;
-    bridge.anyOtherObject = self.imageGenerator;
-    [bridge kj_anyArgumentsIndex:0 withBlock:^(UIImage * image){
+    self.bridge.anyObject = self.playerOutput;
+    self.bridge.anyOtherObject = self.imageGenerator;
+    [self.bridge kj_anyArgumentsIndex:0 withBlock:^(UIImage * image){
         screenshots ? screenshots(image) : nil;
     }];
 }

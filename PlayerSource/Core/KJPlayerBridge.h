@@ -36,9 +36,6 @@ _Pragma("clang diagnostic pop")
 
 #pragma mark - bridge method
 
-/// 验证是否存在本地缓存
-- (BOOL)kj_verifyCacheWithVideoURL;
-
 /// 播放器状态改变
 /// @param state 播放器状态
 - (void)kj_changePlayerState:(KJPlayerState)state;
@@ -52,6 +49,11 @@ _Pragma("clang diagnostic pop")
 
 /// 内核销毁时刻
 - (void)kj_playerDealloc;
+
+#pragma mark - special bridge method
+
+/// 验证是否存在本地缓存
+- (BOOL)kj_verifyCache;
 
 /// 初始化时刻注册后台监听
 /// @param monitoring 前后台监听

@@ -7,10 +7,10 @@
 //  https://github.com/yangKJ/KJPlayerDemo
 
 #import "KJIJKPlayer.h"
-#import "KJLogManager.h"
 #import "KJPlayerView.h"
 
 #if __has_include(<IJKMediaFramework/IJKMediaFramework.h>)
+#import <IJKMediaFramework/IJKMediaFramework.h>
 
 #pragma clang diagnostic push
 #pragma clang diagnostic ignored"-Wdeprecated-declarations"
@@ -142,8 +142,7 @@ PLAYER_COMMON_FUNCTION_PROPERTY PLAYER_COMMON_UI_PROPERTY
             if (self.userPause == NO) {
                 self.currentTime = sec;
             }
-            KJPlayerBridge * __autoreleasing bridge = [KJPlayerBridge createBridgeWithBasePlayer:self];
-            [bridge kj_playingFunction:sec];
+            [self.bridge kj_playingFunction:sec];
         } break;
         case IJKMPMoviePlaybackStatePaused:
             self.state = KJPlayerStatePausing;
@@ -254,8 +253,7 @@ PLAYER_COMMON_FUNCTION_PROPERTY PLAYER_COMMON_UI_PROPERTY
         return;
     }
     self.isLiveStreaming = NO;
-    KJPlayerBridge * bridge = [KJPlayerBridge createBridgeWithBasePlayer:self];
-    if (![bridge kj_beginFunction]) {
+    if (![self.bridge kj_beginFunction]) {
         [self kj_autoPlay];
     }
 }

@@ -11,6 +11,7 @@
 #import "KJBaseFunctionPlayer.h"
 #import "KJPlayerProtocol.h"
 #import "KJPlayerBridge.h"
+#import "KJLogManager.h"
 
 NS_ASSUME_NONNULL_BEGIN
 @class KJPlayerView;
@@ -22,6 +23,8 @@ NS_ASSUME_NONNULL_BEGIN
 /// 销毁单例
 + (void)kj_attempDealloc;
 
+/// 桥接实例
+@property (nonatomic,strong,readonly) KJPlayerBridge * bridge;
 /// 播放器载体
 @property (nonatomic,strong) __kindof KJPlayerView *playerView;
 /// 占位图
