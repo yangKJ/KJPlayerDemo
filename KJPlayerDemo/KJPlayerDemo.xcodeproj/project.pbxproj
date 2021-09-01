@@ -18,6 +18,7 @@
 		68E17A7B25DB6FC1008DC2BC /* BaseViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 68E17A7A25DB6FC1008DC2BC /* BaseViewController.m */; };
 		72A85E36A779306723411EE1 /* Pods_KJPlayerDemo_MonkeyUITests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A90AA0D55D600BF112BC5C1A /* Pods_KJPlayerDemo_MonkeyUITests.framework */; };
 		B500094B2C6B8DF274A1D74C /* Pods_KJPlayerDemo.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7FEF462326AB2D48A4290908 /* Pods_KJPlayerDemo.framework */; };
+		C91CCDC926DF99DD008C5842 /* CHANGELOG.md in Resources */ = {isa = PBXBuildFile; fileRef = C91CCDC826DF99DD008C5842 /* CHANGELOG.md */; };
 		C9B36F7326C6216E0052D98B /* AppDelegate+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9B36F7226C6216E0052D98B /* AppDelegate+Extension.swift */; };
 		C9B36F8926C624D50052D98B /* MonkeyUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9B36F8826C624D50052D98B /* MonkeyUITests.swift */; };
 		C9DA0D1326C4B87E00345CF0 /* SceneDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = C9DA0D1226C4B87E00345CF0 /* SceneDelegate.m */; };
@@ -77,6 +78,7 @@
 		8454464B99E087E75C3480AC /* Pods-KJPlayerDemoTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-KJPlayerDemoTests.release.xcconfig"; path = "Target Support Files/Pods-KJPlayerDemoTests/Pods-KJPlayerDemoTests.release.xcconfig"; sourceTree = "<group>"; };
 		A625A820C5F9B723B5D49992 /* Pods_KJPlayerDemoTests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_KJPlayerDemoTests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		A90AA0D55D600BF112BC5C1A /* Pods_KJPlayerDemo_MonkeyUITests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_KJPlayerDemo_MonkeyUITests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		C91CCDC826DF99DD008C5842 /* CHANGELOG.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = net.daringfireball.markdown; name = CHANGELOG.md; path = ../../CHANGELOG.md; sourceTree = "<group>"; };
 		C9B36F7126C6216D0052D98B /* KJPlayerDemo-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "KJPlayerDemo-Bridging-Header.h"; sourceTree = "<group>"; };
 		C9B36F7226C6216E0052D98B /* AppDelegate+Extension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "AppDelegate+Extension.swift"; sourceTree = "<group>"; };
 		C9B36F8626C624D50052D98B /* MonkeyUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = MonkeyUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -201,6 +203,7 @@
 				689D5A8422E3011400DE33FC /* Info.plist */,
 				689D5A8522E3011400DE33FC /* main.m */,
 				C9B36F7126C6216D0052D98B /* KJPlayerDemo-Bridging-Header.h */,
+				C91CCDC826DF99DD008C5842 /* CHANGELOG.md */,
 			);
 			path = KJPlayerDemo;
 			sourceTree = "<group>";
@@ -428,6 +431,7 @@
 				689D5A8322E3011400DE33FC /* LaunchScreen.storyboard in Resources */,
 				689D5A8022E3011400DE33FC /* Assets.xcassets in Resources */,
 				689D5A7E22E3011200DE33FC /* Main.storyboard in Resources */,
+				C91CCDC926DF99DD008C5842 /* CHANGELOG.md in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

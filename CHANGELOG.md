@@ -7,6 +7,29 @@
 ### 版本更新日志
 ```
 ####版本更新日志:
+#### Add 2.1.7
+1.修复IJKPlayer错误问题
+2.抽离完善视频缓存
+
+#### Add 2.1.6
+1.新增后台播放监听模块，pod 'KJPlayer/BackgroundMonitoring'
+
+#### Add 2.1.5
+1.抽离项目功能，增加桥接文件`KJPlayerBridge`
+2.缓存板块，pod 'KJPlayer/Cache'
+3.尝试观看视频板块，pod 'KJPlayer/TryTime'
+4.跳过片头片尾板块，pod 'KJPlayer/SKipTime'
+5.记录观看时间板块，pod 'KJPlayer/RecordTime'
+6.心跳包板块，pod 'KJPlayer/PingTimer'
+7.视频截图板块，pod 'KJPlayer/Screenshots'
+8.动态切换内核板块，pod 'KJPlayer/DynamicSource'
+9.数据库存储，pod 'KJPlayer/Database'
+10.默认控件板块，pod 'KJPlayer/CustomView'
+
+#### Add 2.1.4
+1.重构代码，增加单元测试
+2.添加测试工具
+
 #### Add 2.1.3
 1.继续完善IJKPlyer内核，修复问题
 2.分离AVPlayer内核的边下边播边存分支，请使用 pod 'KJPlayer/AVDownloader'
