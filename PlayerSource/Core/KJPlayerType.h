@@ -246,6 +246,6 @@ NS_INLINE void kPlayerPerformSel(id target, NSString * selName){
     }
 }
 
-#endif /// KJPlayerType_h 
+#endif /** KJPlayerType_h */
 
 NS_ASSUME_NONNULL_END

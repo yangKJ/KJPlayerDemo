@@ -8,7 +8,6 @@
 
 #import "KJBasePlayer.h"
 #import "KJPlayerView.h"
-#import "KJLogManager.h"
 
 @interface KJBasePlayer ()
 /// 错误信息
