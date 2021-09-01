@@ -31,7 +31,7 @@
 /// @param withBlock 回调响应
 - (void)kj_anyArgumentsIndex:(NSInteger)index withBlock:(KJPlayerAnyBlock)withBlock{
     switch (index) {
-        case 0:{ // 视频截图
+        case 520:{ // 视频截图，`KJScreenshotsManager`
             id target = [[NSClassFromString(@"KJScreenshotsManager") alloc] init];
             SEL sel = NSSelectorFromString(@"kj_screenshotsIMP:object:otherObject:withBlock:");
             if ([target respondsToSelector:sel]) {
@@ -40,6 +40,14 @@
                 tempFunc(target, sel, self.basePlayer, self.anyObject, self.anyOtherObject, withBlock);
             } else {
                 withBlock ? withBlock(nil) : nil;
+            }
+        } break;
+        case 521:{ // 存储缓存数据，`KJAVPlayer+KJCache`
+            SEL sel = NSSelectorFromString(@"kj_saveCacheIMP:otherObject:withBlock:");
+            if ([self.basePlayer respondsToSelector:sel]) {
+                IMP imp = [self.basePlayer methodForSelector:sel];
+                void (* tempFunc)(id, SEL, id, id, KJPlayerAnyBlock) = (void *)imp;
+                tempFunc(self.basePlayer, sel, self.anyObject, self.anyOtherObject, withBlock);
             }
         } break;
         default:break;

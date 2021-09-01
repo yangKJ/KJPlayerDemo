@@ -10,7 +10,6 @@
 #import <objc/runtime.h>
 #import "KJResourceLoader.h"
 #import "KJFileHandleInfo.h"
-#import "DBPlayerDataManager.h"
 
 @interface KJAVPlayer ()
 PLAYER_CACHE_COMMON_EXTENSION_PROPERTY
@@ -86,54 +85,19 @@ static char connectionKey;
         connection.kDidFinished = ^(KJResourceLoader *loader, NSError *error) {
             if (error == nil) return;
             [loader kj_cancelLoading];
-            if (error.code == KJPlayerCustomCodeCachedComplete && !weakself.locality) {
-                kGCD_player_async(^{
-                    if ([weakself kj_saveDatabaseVideoIntact:YES]) {
-                        if ([weakself kj_saveDatabaseVideoIntact:YES]) {
-                            kGCD_player_main(^{
-                                weakself.playError = [KJLogManager kj_errorSummarizing:KJPlayerCustomCodeSaveDatabaseFailed];
-                                weakself.state = KJPlayerStateFailed;
-                            });
-                        }
-                    } else {
-                        @synchronized (@(weakself.locality)) {
-                            weakself.locality = YES;
-                        }
-                    }
-                });
-                return;
-            }else if (weakself.playError.code != error.code) {
-                weakself.playError = error;
-                [weakself kj_saveDatabaseVideoIntact:NO];
-                weakself.state = KJPlayerStateFailed;
-            }
+            // 存储数据
+            weakself.bridge.anyObject = error;
+            weakself.bridge.anyOtherObject = weakself.cacheInfo.fileName;
+            [weakself.bridge kj_anyArgumentsIndex:521 withBlock:^(NSMutableDictionary * data){
+                [data setValue:weakself.cacheInfo.videoURL.absoluteString forKey:@"videoUrl"];
+                [data setValue:weakself.cacheInfo.fileFormat forKey:@"videoFormat"];
+                [data setValue:@(weakself.cacheInfo.contentLength) forKey:@"videoContentLength"];
+            }];
         };
         [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(kj_playerCacheInfoChanged:)
                                                      name:kPlayerFileHandleInfoNotification object:nil];
     }
     return connection;
-}
-//存储到本地数据库
-- (BOOL)kj_saveDatabaseVideoIntact:(BOOL)videoIntact{
-    PLAYER_WEAKSELF;
-    NSError *__error;
-    [DBPlayerDataManager kj_insertData:self.cacheInfo.fileName insert:^(DBPlayerData * data){
-        data.dbid = weakself.cacheInfo.fileName;
-        data.videoUrl = weakself.cacheInfo.videoURL.absoluteString;
-        data.videoFormat = weakself.cacheInfo.fileFormat;
-        data.sandboxPath = [weakself.cacheInfo.fileName stringByAppendingPathExtension:weakself.cacheInfo.fileFormat];
-        data.saveTime = NSDate.date.timeIntervalSince1970;
-        data.videoIntact = videoIntact;
-        data.videoContentLength = weakself.cacheInfo.contentLength;
-    } error:&__error];
-    if (__error) {
-        return YES;
-    }else if (videoIntact) {
-        kGCD_player_main(^{
-            weakself.playError = [KJLogManager kj_errorSummarizing:KJPlayerCustomCodeSaveDatabase];
-        });
-    }
-    return NO;
 }
 
 #pragma mark - notification

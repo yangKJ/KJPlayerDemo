@@ -490,7 +490,7 @@ BOOL kPlayerHaveTracks(NSURL *videoURL, void(^assetblock)(AVURLAsset *), NSDicti
 - (void)kj_currentTimeScreenshots:(void(^)(UIImage * image))screenshots{
     self.bridge.anyObject = self.playerOutput;
     self.bridge.anyOtherObject = self.imageGenerator;
-    [self.bridge kj_anyArgumentsIndex:0 withBlock:^(UIImage * image){
+    [self.bridge kj_anyArgumentsIndex:520 withBlock:^(UIImage * image){
         screenshots ? screenshots(image) : nil;
     }];
 }

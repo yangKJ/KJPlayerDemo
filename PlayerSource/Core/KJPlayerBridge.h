@@ -16,6 +16,7 @@ _Pragma("clang diagnostic ignored \"-Wstrict-prototypes\"") \
 typedef void(^KJPlayerAnyBlock)();
 _Pragma("clang diagnostic pop")
 @class KJBasePlayer;
+@class DBPlayerData;
 /// 播放器桥梁，仅供内部使用
 @interface KJPlayerBridge : NSObject
 - (instancetype)init UNAVAILABLE_ATTRIBUTE;
