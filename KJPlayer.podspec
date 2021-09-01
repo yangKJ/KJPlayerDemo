@@ -1,6 +1,6 @@
 Pod::Spec.new do |s|
   s.name         = "KJPlayer"
-  s.version      = "2.1.6"
+  s.version      = "2.1.7"
   s.summary      = "KJPlayer play and cache, AVPlayer / MIDIPlayer / IJKPlayer"
   s.homepage     = "https://github.com/yangKJ/KJPlayerDemo"
   s.description  = 'https://github.com/yangKJ/KJPlayerDemo/blob/master/README.md'
