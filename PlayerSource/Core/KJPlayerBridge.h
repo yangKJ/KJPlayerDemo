@@ -59,7 +59,7 @@ _Pragma("clang diagnostic pop")
 #pragma mark - special bridge method
 
 /// 验证是否存在本地缓存
-- (void)kj_verifyCache;
+- (void)kj_verifyCacheVideoURL;
 
 /// 初始化时刻注册后台监听
 /// @param monitoring 前后台监听

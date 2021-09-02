@@ -181,7 +181,7 @@
 #pragma mark - special bridge method
 
 /// 验证是否存在本地缓存
-- (void)kj_verifyCache{
+- (void)kj_verifyCacheVideoURL{
     // 缓存管理，`KJBasePlayer+KJCache`
     self.anyObject = [self kj_methodIMP:@"kj_cacheIMP:" object:self.anyObject];
 }

@@ -365,7 +365,7 @@ BOOL kPlayerHaveTracks(NSURL *videoURL, void(^assetblock)(AVURLAsset *), NSDicti
         // 如果存在`anyObject`会更改为缓存地址
         // 不存在则还是原先的视频地址
         weakself.bridge.anyObject = videoURL;
-        [weakself.bridge kj_verifyCache];
+        [weakself.bridge kj_verifyCacheVideoURL];
         
         // 边播边下边存？
         bool cache = [weakself.bridge kj_readStatus:520];

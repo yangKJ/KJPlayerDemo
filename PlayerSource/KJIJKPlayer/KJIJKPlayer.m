@@ -234,8 +234,6 @@ PLAYER_COMMON_FUNCTION_PROPERTY PLAYER_COMMON_UI_PROPERTY
     self.tryLooked = NO;
     self.buffered = NO;
     self.isLiveStreaming = NO;
-    // 设置当前资源是否为本地资源
-    [self.bridge kj_setStatus:521 open:false];
 }
 //自动播放
 - (void)kj_autoPlay{
