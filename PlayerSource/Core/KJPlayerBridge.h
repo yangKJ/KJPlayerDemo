@@ -40,11 +40,6 @@ _Pragma("clang diagnostic pop")
 /// @return 返回读取开关信息
 - (bool)kj_readStatus:(NSInteger)index;
 
-/// 万能修改开关信息
-/// @param index 协定使用
-/// @param open 是否开启开关
-- (void)kj_setStatus:(NSInteger)index open:(bool)open;
-
 #pragma mark - bridge method
 
 /// 播放器状态改变
@@ -64,7 +59,7 @@ _Pragma("clang diagnostic pop")
 #pragma mark - special bridge method
 
 /// 验证是否存在本地缓存
-- (BOOL)kj_verifyCache;
+- (void)kj_verifyCache;
 
 /// 初始化时刻注册后台监听
 /// @param monitoring 前后台监听

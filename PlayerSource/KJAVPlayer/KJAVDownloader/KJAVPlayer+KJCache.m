@@ -23,53 +23,18 @@
 @end
 
 @implementation KJAVPlayer (KJCache)
-/// 使用边播边缓存，m3u8暂不支持 
-- (BOOL (^)(NSURL * _Nonnull, BOOL))kVideoCanCacheURL{
-    return ^BOOL(NSURL * videoURL, BOOL cache){
-        kPlayerPerformSel(self, @"kj_initializeBeginPlayConfiguration");
-        self.originalURL = videoURL;
-        // 设置是否开启缓存
-        [self.bridge kj_setStatus:520 open:cache];
-        PLAYER_WEAKSELF;
-        if (kPlayerVideoAesstType(videoURL) == KJPlayerAssetTypeNONE) {
-            self.playError = [KJLogManager kj_errorSummarizing:KJPlayerCustomCodeVideoURLUnknownFormat];
-            if (self.player) [self kj_stop];
-            return NO;
-        }else if (kPlayerVideoAesstType(videoURL) == KJPlayerAssetTypeHLS) {
-            dispatch_group_async(self.group, dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
-                kPlayerPerformSel(weakself, @"kj_initPreparePlayer");
-            });
-            return NO;
-        }
-        if (objc_getAssociatedObject(self, &connectionKey)) {
-            objc_setAssociatedObject(self, &connectionKey, nil, OBJC_ASSOCIATION_RETAIN);
-        }
-        dispatch_group_async(self.group, dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
-            weakself.bridge.anyObject = videoURL;
-            if ([weakself.bridge kj_verifyCache]) {
-                
-            }
-            if (!kPlayerHaveTracks(weakself.bridge.anyObject, ^(AVURLAsset * asset) {
-                if ([weakself.bridge kj_readStatus:520] && // 开启缓存？
-                    [weakself.bridge kj_readStatus:521] == false) { // 本地资源？
-                    weakself.state = KJPlayerStateBuffering;
-                    weakself.playError = [KJLogManager kj_errorSummarizing:KJPlayerCustomCodeCacheNone];
-                    NSURL * URL = weakself.connection.kj_createSchemeURL(weakself.bridge.anyObject);
-                    weakself.asset = [AVURLAsset URLAssetWithURL:URL options:weakself.requestHeader];
-                    [weakself.asset.resourceLoader setDelegate:weakself.connection queue:dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0)];
-                } else {
-                    weakself.asset = asset;
-                }
-            }, weakself.requestHeader)) {
-                weakself.playError = [KJLogManager kj_errorSummarizing:KJPlayerCustomCodeVideoURLFault];
-                weakself.state = KJPlayerStateFailed;
-                kPlayerPerformSel(weakself, @"kj_destroyPlayer");
-            } else {
-                kPlayerPerformSel(weakself, @"kj_initPreparePlayer");
-            }
-        });
-        return YES;
-    };
+
+/// 使用边播边缓存，名字不能更改
+/// @param videoURL 视频链接地址
+- (void)kj_cachePlayVideoURL:(NSURL *)videoURL{
+    if (objc_getAssociatedObject(self, &connectionKey)) {
+        objc_setAssociatedObject(self, &connectionKey, nil, OBJC_ASSOCIATION_RETAIN);
+    }
+    self.state = KJPlayerStateBuffering;
+    self.playError = [KJLogManager kj_errorSummarizing:KJPlayerCustomCodeCacheNone];
+    self.asset = [AVURLAsset URLAssetWithURL:self.connection.kj_createSchemeURL(videoURL)
+                                     options:self.requestHeader];
+    [self.asset.resourceLoader setDelegate:self.connection queue:dispatch_get_global_queue(0, 0)];
 }
 
 #pragma mark - associated

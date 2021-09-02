@@ -234,7 +234,7 @@ static NSString * const kTimeControlStatus = @"timeControlStatus";
     }
     self.playerLayer.frame = CGRectMake(0, 0, size.width, size.height);
 }
-/// 销毁播放（名字不能乱改，KJCache当中有使用）
+/// 销毁播放
 - (void)kj_destroyPlayer{
     if (self.player) [self.player pause];
     [self kj_removePlayerItem];
@@ -253,7 +253,7 @@ static NSString * const kTimeControlStatus = @"timeControlStatus";
     _playerOutput = nil;
     _imageGenerator = nil;
 }
-/// 播放准备（名字不能乱改，KJCache当中有使用）
+/// 播放准备
 - (void)kj_initPreparePlayer{
     [self kj_removePlayerItem];
     if (self.player) {
@@ -297,7 +297,7 @@ static NSString * const kTimeControlStatus = @"timeControlStatus";
         [self kj_autoPlay];
     }
 }
-/// 初始化开始播放时配置信息（名字不能乱改，KJCache当中有使用）
+/// 初始化开始播放时配置信息
 - (void)kj_initializeBeginPlayConfiguration{
     if (self.player) [self.player pause];
     self.tempSize = CGSizeZero;
@@ -307,8 +307,6 @@ static NSString * const kTimeControlStatus = @"timeControlStatus";
     self.buffered = NO;
     self.asset = nil;
     self.isLiveStreaming = NO;
-    // 设置当前资源是否为本地资源
-    [self.bridge kj_setStatus:521 open:false];
 }
 /// 自动播放
 - (void)kj_autoPlay{
@@ -352,18 +350,26 @@ BOOL kPlayerHaveTracks(NSURL *videoURL, void(^assetblock)(AVURLAsset *), NSDicti
     }
 }
 - (void)setVideoURL:(NSURL *)videoURL{
-    [self kj_initializeBeginPlayConfiguration];
-    if (kPlayerVideoAesstType(videoURL) == KJPlayerAssetTypeNONE) {
-        self.playError = [KJLogManager kj_errorSummarizing:KJPlayerCustomCodeVideoURLUnknownFormat];
-        if (self.player) [self kj_stop];
-        _videoURL = videoURL;
-        return;
-    }
-    self.originalURL = videoURL;
     PLAYER_WEAKSELF;
-    dispatch_group_async(self.group, dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
+    weakself.originalURL = [videoURL copy];
+    dispatch_group_async(self.group, dispatch_get_global_queue(0, 0), ^{
+        [weakself kj_initializeBeginPlayConfiguration];
+        KJPlayerAssetType assetType = kPlayerVideoAesstType(videoURL);
+        if (assetType == KJPlayerAssetTypeNONE) {
+            weakself.playError = [KJLogManager kj_errorSummarizing:KJPlayerCustomCodeVideoURLUnknownFormat];
+            if (weakself.player) [weakself kj_stop];
+            self->_videoURL = videoURL;
+            return;
+        }
+        // 获取本地缓存视频地址，
+        // 如果存在`anyObject`会更改为缓存地址
+        // 不存在则还是原先的视频地址
         weakself.bridge.anyObject = videoURL;
-        if (kPlayerVideoAesstType(videoURL) == KJPlayerAssetTypeFILE) {
+        [weakself.bridge kj_verifyCache];
+        
+        // 边播边下边存？
+        bool cache = [weakself.bridge kj_readStatus:520];
+        if (assetType == KJPlayerAssetTypeHLS && cache) {
             if (!kPlayerHaveTracks(videoURL, ^(AVURLAsset * asset) {
                 weakself.asset = asset;
             }, weakself.requestHeader)) {
@@ -373,12 +379,29 @@ BOOL kPlayerHaveTracks(NSURL *videoURL, void(^assetblock)(AVURLAsset *), NSDicti
                 return;
             }
         }
-        if ([weakself.bridge kj_verifyCache]) {
-            self->_videoURL = weakself.bridge.anyObject;
-            [weakself kj_initPreparePlayer];
-        } else {
-            [weakself kj_replay];
+        // 本地资源？
+        bool local = [weakself.bridge kj_readStatus:521];
+        if (assetType == KJPlayerAssetTypeFILE) {
+            if (!kPlayerHaveTracks(videoURL, ^(AVURLAsset * asset) {
+                if (cache && local == false) {
+                    SEL sel = NSSelectorFromString(@"kj_cachePlayVideoURL:");
+                    if ([self respondsToSelector:sel]) {
+                        IMP imp = [self methodForSelector:sel];
+                        void (* tempFunc)(id, SEL, NSURL *) = (void *)imp;
+                        tempFunc(self, sel, videoURL);
+                    }
+                } else {
+                    weakself.asset = asset;
+                }
+            }, weakself.requestHeader)) {
+                weakself.playError = [KJLogManager kj_errorSummarizing:KJPlayerCustomCodeVideoURLFault];
+                weakself.state = KJPlayerStateFailed;
+                [weakself kj_destroyPlayer];
+                return;
+            }
         }
+        self->_videoURL = weakself.bridge.anyObject;
+        [weakself kj_initPreparePlayer];
     });
 }
 - (void)setVolume:(float)volume{

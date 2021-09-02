@@ -80,29 +80,6 @@
     return read;
 }
 
-/// 万能修改开关信息
-/// @param index 协定使用
-/// @param open 是否开启开关
-- (void)kj_setStatus:(NSInteger)index open:(bool)open{
-    void(^kSet)(NSString *) = ^(NSString * method){
-        SEL sel = NSSelectorFromString(method);
-        if ([self.basePlayer respondsToSelector:sel]) {
-            IMP imp = [self.basePlayer methodForSelector:sel];
-            void (* tempFunc)(id, SEL, NSNumber *) = (void *)imp;
-            tempFunc(self.basePlayer, sel, [NSNumber numberWithBool:open]);
-        }
-    };
-    switch (index) {
-        case 520: // 缓存资源，`KJBasePlayer+KJCache`
-            kSet(@"kj_setCacheIMP:");
-            break;
-        case 521: // 本地资源，`KJBasePlayer+KJCache`
-            kSet(@"kj_setLocalityIMP:");
-            break;
-        default:break;
-    }
-}
-
 #pragma mark - imp method
 
 /// 构建方法
@@ -203,14 +180,10 @@
 
 #pragma mark - special bridge method
 
-/// 播放器开始准备时刻并验证网址是否一致
-- (BOOL)kj_verifyCache{
+/// 验证是否存在本地缓存
+- (void)kj_verifyCache{
     // 缓存管理，`KJBasePlayer+KJCache`
-    NSURL * tempURL = [self kj_methodIMP:@"kj_cacheIMP:" object:self.anyObject];
-    if (tempURL == nil) {
-        return NO;
-    }
-    return [((NSURL *)self.anyObject).absoluteString isEqualToString:tempURL.absoluteString];
+    self.anyObject = [self kj_methodIMP:@"kj_cacheIMP:" object:self.anyObject];
 }
 
 /// 初始化时刻注册后台监听

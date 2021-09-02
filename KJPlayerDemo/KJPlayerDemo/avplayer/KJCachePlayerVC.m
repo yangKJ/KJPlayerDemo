@@ -10,7 +10,9 @@
 
 #if __has_include(<KJPlayer/KJAVPlayer+KJCache.h>)
 
-@interface KJCachePlayerVC () <KJPlayerDelegate>
+#import <KJPlayer/KJBasePlayer+KJCache.h>
+
+@interface KJCachePlayerVC () <KJPlayerDelegate, KJPlayerCacheDelegate>
 
 @end
 
@@ -20,7 +22,8 @@
     // Do any additional setup after loading the view.
     
     self.player.delegate = self;
-    self.player.kVideoCanCacheURL([NSURL URLWithString:@"https://mp4.vjshi.com/2016-10-31/a553917787e52c0a077e3fb8548fae69.mp4"], YES);
+    self.player.cacheDelegate = self;
+    self.player.videoURL = [NSURL URLWithString:@"https://mp4.vjshi.com/2017-11-21/7c2b143eeb27d9f2bf98c4ab03360cfe.mp4"];
 }
 
 #pragma mark - KJPlayerDelegate
@@ -61,6 +64,24 @@
     }else if (failed.code == KJPlayerCustomCodeCacheNone) {
         [self.basePlayerView.hintTextLayer kj_displayHintText:@"本地暂无数据" time:2 position:KJPlayerHintPositionCenter];
     }
+}
+
+#pragma mark - KJPlayerCacheDelegate
+
+/// 获取是否需要开启缓存功能
+/// @param player 播放器内核
+- (BOOL)kj_cacheWithPlayer:(__kindof KJBasePlayer *)player{
+    return YES;
+}
+
+/// 当前播放视频是否拥有缓存
+/// @param player 播放器内核
+/// @param haveCache 是否拥有缓存
+/// @param cacheVideoURL 缓存视频链接地址
+- (void)kj_cacheWithPlayer:(__kindof KJBasePlayer *)player
+                 haveCache:(BOOL)haveCache
+             cacheVideoURL:(NSURL *)cacheVideoURL{
+    
 }
 
 @end
