@@ -1,39 +1,39 @@
 PODS:
   - IJKMediaFramework (0.1.5)
-  - KJPlayer (2.1.6):
-    - KJPlayer/AVPlayer/AVCore (= 2.1.6)
-  - KJPlayer/AVPlayer/AVCore (2.1.6):
+  - KJPlayer (2.1.7):
+    - KJPlayer/AVPlayer/AVCore (= 2.1.7)
+  - KJPlayer/AVPlayer/AVCore (2.1.7):
     - KJPlayer/Common
-  - KJPlayer/AVPlayer/AVDownloader (2.1.6):
+  - KJPlayer/AVPlayer/AVDownloader (2.1.7):
     - KJPlayer/AVPlayer/AVCore
     - KJPlayer/Database
-  - KJPlayer/BackgroundMonitoring (2.1.6):
+  - KJPlayer/BackgroundMonitoring (2.1.7):
     - KJPlayer/Common
-  - KJPlayer/Cache (2.1.6):
+  - KJPlayer/Cache (2.1.7):
     - KJPlayer/Common
     - KJPlayer/Database
-  - KJPlayer/Common (2.1.6)
-  - KJPlayer/CustomView (2.1.6):
+  - KJPlayer/Common (2.1.7)
+  - KJPlayer/CustomView (2.1.7):
     - KJPlayer/Common
-  - KJPlayer/Database (2.1.6)
-  - KJPlayer/DynamicSource (2.1.6):
+  - KJPlayer/Database (2.1.7)
+  - KJPlayer/DynamicSource (2.1.7):
     - KJPlayer/Common
-  - KJPlayer/IJKPlayer (2.1.6):
+  - KJPlayer/IJKPlayer (2.1.7):
     - IJKMediaFramework
     - KJPlayer/Common
-  - KJPlayer/MIDI (2.1.6):
+  - KJPlayer/MIDI (2.1.7):
     - KJPlayer/Common
-  - KJPlayer/PingTimer (2.1.6):
+  - KJPlayer/PingTimer (2.1.7):
     - KJPlayer/Common
-  - KJPlayer/RecordTime (2.1.6):
-    - KJPlayer/Common
-    - KJPlayer/Database
-  - KJPlayer/Screenshots (2.1.6):
+  - KJPlayer/RecordTime (2.1.7):
     - KJPlayer/Common
     - KJPlayer/Database
-  - KJPlayer/SkipTime (2.1.6):
+  - KJPlayer/Screenshots (2.1.7):
     - KJPlayer/Common
-  - KJPlayer/TryTime (2.1.6):
+    - KJPlayer/Database
+  - KJPlayer/SkipTime (2.1.7):
+    - KJPlayer/Common
+  - KJPlayer/TryTime (2.1.7):
     - KJPlayer/Common
   - SwiftMonkey (2.2.0)
   - SwiftMonkeyPaws (2.2.0)
@@ -68,7 +68,7 @@ EXTERNAL SOURCES:
 
 SPEC CHECKSUMS:
   IJKMediaFramework: f1119f6324c96bc4654f3045a5beaa95ba0596c0
-  KJPlayer: 583a3af9d156b3a727a22dba23988fd790bae58c
+  KJPlayer: 2ef2142415b0e40f74bb1534ee6ed2032b55b887
   SwiftMonkey: 24ffde5b590d3658cfcb1d775cf74b9f5280eb9c
   SwiftMonkeyPaws: 9d183b8a1b9cfd497c2704342e861b71412d94f5
 

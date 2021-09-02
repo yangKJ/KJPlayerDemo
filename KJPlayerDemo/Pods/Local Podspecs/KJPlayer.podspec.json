@@ -1,6 +1,6 @@
 {
   "name": "KJPlayer",
-  "version": "2.1.6",
+  "version": "2.1.7",
   "summary": "KJPlayer play and cache, AVPlayer / MIDIPlayer / IJKPlayer",
   "homepage": "https://github.com/yangKJ/KJPlayerDemo",
   "description": "https://github.com/yangKJ/KJPlayerDemo/blob/master/README.md",
@@ -13,7 +13,7 @@
   },
   "source": {
     "git": "https://github.com/yangKJ/KJPlayerDemo.git",
-    "tag": "2.1.6"
+    "tag": "2.1.7"
   },
   "social_media_url": "https://juejin.cn/user/1987535102554472/posts",
   "platforms": {
