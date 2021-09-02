@@ -93,7 +93,6 @@ PLAYER_COMMON_FUNCTION_PROPERTY PLAYER_COMMON_UI_PROPERTY
 }
 - (void)setVideoURL:(NSURL *)videoURL{
     self.originalURL = videoURL;
-    self.cache = NO;
     if (kPlayerVideoAesstType(videoURL) == KJPlayerAssetTypeNONE) {
         _videoURL = videoURL;
         self.playError = [KJLogManager kj_errorSummarizing:KJPlayerCustomCodeVideoURLUnknownFormat];

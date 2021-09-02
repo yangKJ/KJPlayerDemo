@@ -35,6 +35,16 @@ _Pragma("clang diagnostic pop")
 /// @param withBlock 回调响应
 - (void)kj_anyArgumentsIndex:(NSInteger)index withBlock:(KJPlayerAnyBlock)withBlock;
 
+/// 万能读取开关信息
+/// @param index 协定使用
+/// @return 返回读取开关信息
+- (bool)kj_readStatus:(NSInteger)index;
+
+/// 万能修改开关信息
+/// @param index 协定使用
+/// @param open 是否开启开关
+- (void)kj_setStatus:(NSInteger)index open:(bool)open;
+
 #pragma mark - bridge method
 
 /// 播放器状态改变

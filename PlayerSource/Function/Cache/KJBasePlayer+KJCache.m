@@ -13,12 +13,26 @@
 @interface KJBasePlayer ()
 /// 错误信息
 @property (nonatomic, strong) NSError * playError;
-@property (nonatomic, assign) BOOL locality;
 @property (nonatomic, assign) KJPlayerState state;
+@property (nonatomic, assign) BOOL cache;
+@property (nonatomic, assign) BOOL locality;
 
 @end
 
 @implementation KJBasePlayer (KJCache)
+
+- (bool)kj_readLocalityIMP{
+    return self.locality;
+}
+- (bool)kj_readCacheIMP{
+    return self.cache;
+}
+- (void)kj_setLocalityIMP:(NSNumber *)open{
+    self.locality = [open boolValue];
+}
+- (void)kj_setCacheIMP:(NSNumber *)open{
+    self.cache = [open boolValue];
+}
 
 /// 判断当前视频是否存在缓存
 /// @param videoURL 视频链接地址
@@ -103,11 +117,28 @@
 
 #pragma mark - Associated
 
+- (BOOL)cache{
+    return [objc_getAssociatedObject(self, _cmd) boolValue];
+}
+- (void)setCache:(BOOL)cache{
+    objc_setAssociatedObject(self, @selector(cache), @(cache), OBJC_ASSOCIATION_ASSIGN);
+}
+
+- (BOOL)locality{
+    return [objc_getAssociatedObject(self, _cmd) boolValue];
+}
+- (void)setLocality:(BOOL)locality{
+    objc_setAssociatedObject(self, @selector(locality), @(locality), OBJC_ASSOCIATION_ASSIGN);
+}
+
 - (id<KJPlayerCacheDelegate>)cacheDelegate{
     return  objc_getAssociatedObject(self, _cmd);
 }
 - (void)setCacheDelegate:(id<KJPlayerCacheDelegate>)cacheDelegate{
     objc_setAssociatedObject(self, @selector(cacheDelegate), cacheDelegate, OBJC_ASSOCIATION_ASSIGN);
+    if ([cacheDelegate respondsToSelector:@selector(kj_cacheWithPlayer:)]) {
+        self.cache = [cacheDelegate kj_cacheWithPlayer:self];
+    }
 }
 
 @end

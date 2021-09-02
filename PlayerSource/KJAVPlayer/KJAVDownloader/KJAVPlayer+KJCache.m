@@ -19,8 +19,6 @@
 @property (nonatomic,strong) NSURL *originalURL;
 @property (nonatomic,strong) dispatch_group_t group;
 @property (nonatomic,assign) float progress;
-@property (nonatomic,assign) BOOL cache;
-@property (nonatomic,assign) BOOL locality;
 
 @end
 
@@ -30,7 +28,8 @@
     return ^BOOL(NSURL * videoURL, BOOL cache){
         kPlayerPerformSel(self, @"kj_initializeBeginPlayConfiguration");
         self.originalURL = videoURL;
-        self.cache = cache;
+        // 设置是否开启缓存
+        [self.bridge kj_setStatus:520 open:cache];
         PLAYER_WEAKSELF;
         if (kPlayerVideoAesstType(videoURL) == KJPlayerAssetTypeNONE) {
             self.playError = [KJLogManager kj_errorSummarizing:KJPlayerCustomCodeVideoURLUnknownFormat];
@@ -51,7 +50,8 @@
                 
             }
             if (!kPlayerHaveTracks(weakself.bridge.anyObject, ^(AVURLAsset * asset) {
-                if (weakself.cache && weakself.locality == NO) {
+                if ([weakself.bridge kj_readStatus:520] && // 开启缓存？
+                    [weakself.bridge kj_readStatus:521] == false) { // 本地资源？
                     weakself.state = KJPlayerStateBuffering;
                     weakself.playError = [KJLogManager kj_errorSummarizing:KJPlayerCustomCodeCacheNone];
                     NSURL * URL = weakself.connection.kj_createSchemeURL(weakself.bridge.anyObject);
@@ -114,7 +114,10 @@ static char connectionKey;
     self.cacheInfo = notification.userInfo[kPlayerFileHandleInfoKey];
     PLAYER_WEAKSELF;
     kGCD_player_main(^{
-        if (weakself.cache) weakself.progress = weakself.cacheInfo.progress;
+        // 是否开启缓存
+        if ([weakself.bridge kj_readStatus:520]) {
+            weakself.progress = weakself.cacheInfo.progress;
+        }
     });
 }
 

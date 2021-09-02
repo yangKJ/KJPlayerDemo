@@ -219,7 +219,8 @@ PLAYER_COMMON_FUNCTION_PROPERTY PLAYER_COMMON_UI_PROPERTY
     });
     [self installMovieNotificationObservers];
     [self setVideoGravity:_videoGravity];
-    self.progress = self.locality ? 1.0 : 0.0;
+    // 读取当前资源是否为本地资源
+    self.progress = [self.bridge kj_readStatus:521] ? 1.0 : 0.0;
 }
 //初始化开始播放时配置信息（名字不能乱改，KJCache当中有使用）
 - (void)kj_initializeBeginPlayConfiguration{
@@ -232,9 +233,9 @@ PLAYER_COMMON_FUNCTION_PROPERTY PLAYER_COMMON_UI_PROPERTY
     self.userPause = NO;
     self.tryLooked = NO;
     self.buffered = NO;
-    self.cache = NO;
-    self.locality = NO;
     self.isLiveStreaming = NO;
+    // 设置当前资源是否为本地资源
+    [self.bridge kj_setStatus:521 open:false];
 }
 //自动播放
 - (void)kj_autoPlay{
@@ -413,7 +414,8 @@ PLAYER_COMMON_FUNCTION_PROPERTY PLAYER_COMMON_UI_PROPERTY
             if (completionHandler) completionHandler(NO);
         }
         NSTimeInterval seconds = time;
-        if (weakself.openAdvanceCache && weakself.locality == NO) {
+        if ([weakself.bridge kj_readStatus:521] == false && // 本地资源？
+            weakself.openAdvanceCache) {
             if (weakself.totalTime) {
                 NSTimeInterval _time = weakself.progress * weakself.totalTime;
                 if (seconds + weakself.cacheTime >= _time) seconds = _time - weakself.cacheTime;

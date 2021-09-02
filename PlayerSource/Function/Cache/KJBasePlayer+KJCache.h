@@ -17,7 +17,9 @@ NS_ASSUME_NONNULL_BEGIN
 /// 视频缓存协议
 @property (nonatomic, weak) id<KJPlayerCacheDelegate> cacheDelegate;
 /// 本地资源
-@property (nonatomic,assign,readonly) BOOL locality;
+@property (nonatomic, assign, readonly) BOOL locality;
+/// 缓存功能
+@property (nonatomic, assign, readonly) BOOL cache;
 
 @end
 
@@ -25,6 +27,10 @@ NS_ASSUME_NONNULL_BEGIN
 @protocol KJPlayerCacheDelegate <NSObject>
 
 @optional;
+
+/// 获取是否需要开启缓存功能
+/// @param player 播放器内核
+- (BOOL)kj_cacheWithPlayer:(__kindof KJBasePlayer *)player;
 
 /// 当前播放视频是否拥有缓存
 /// @param player 播放器内核

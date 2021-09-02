@@ -42,7 +42,7 @@
                 withBlock ? withBlock(nil) : nil;
             }
         } break;
-        case 521:{ // 存储缓存数据，`KJAVPlayer+KJCache`
+        case 521:{ // 存储缓存数据，`KJBasePlayer+KJCache`
             SEL sel = NSSelectorFromString(@"kj_saveCacheIMP:otherObject:withBlock:");
             if ([self.basePlayer respondsToSelector:sel]) {
                 IMP imp = [self.basePlayer methodForSelector:sel];
@@ -50,6 +50,55 @@
                 tempFunc(self.basePlayer, sel, self.anyObject, self.anyOtherObject, withBlock);
             }
         } break;
+        default:break;
+    }
+}
+
+/// 万能读取开关信息
+/// @param index 协定使用
+/// @return 返回读取开关信息
+- (bool)kj_readStatus:(NSInteger)index{
+    bool(^kRead)(NSString *) = ^bool(NSString * method){
+        SEL sel = NSSelectorFromString(method);
+        if ([self.basePlayer respondsToSelector:sel]) {
+            IMP imp = [self.basePlayer methodForSelector:sel];
+            bool (* tempFunc)(id, SEL) = (void *)imp;
+            return tempFunc(self.basePlayer, sel);
+        }
+        return false;
+    };
+    bool read = false;
+    switch (index) {
+        case 520: // 读取是否开启缓存资源，`KJBasePlayer+KJCache`
+            read = kRead(@"kj_readCacheIMP");
+            break;
+        case 521: // 读取是否为本地资源，`KJBasePlayer+KJCache`
+            read = kRead(@"kj_readLocalityIMP");
+            break;
+        default:break;
+    }
+    return read;
+}
+
+/// 万能修改开关信息
+/// @param index 协定使用
+/// @param open 是否开启开关
+- (void)kj_setStatus:(NSInteger)index open:(bool)open{
+    void(^kSet)(NSString *) = ^(NSString * method){
+        SEL sel = NSSelectorFromString(method);
+        if ([self.basePlayer respondsToSelector:sel]) {
+            IMP imp = [self.basePlayer methodForSelector:sel];
+            void (* tempFunc)(id, SEL, NSNumber *) = (void *)imp;
+            tempFunc(self.basePlayer, sel, [NSNumber numberWithBool:open]);
+        }
+    };
+    switch (index) {
+        case 520: // 缓存资源，`KJBasePlayer+KJCache`
+            kSet(@"kj_setCacheIMP:");
+            break;
+        case 521: // 本地资源，`KJBasePlayer+KJCache`
+            kSet(@"kj_setLocalityIMP:");
+            break;
         default:break;
     }
 }

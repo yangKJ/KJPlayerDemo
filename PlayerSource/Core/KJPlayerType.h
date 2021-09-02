@@ -155,9 +155,7 @@ typedef NS_ENUM(NSUInteger, KJPlayerVideoScreenState) {
 @property (nonatomic,assign) CGSize tempSize;\
 @property (nonatomic,assign) float progress;\
 @property (nonatomic,assign) BOOL buffered;\
-@property (nonatomic,assign) BOOL cache;\
 @property (nonatomic,assign) BOOL tryLooked;\
-@property (nonatomic,assign) BOOL locality;\
 @property (nonatomic,assign) BOOL userPause;\
 @property (nonatomic,assign) BOOL isLiveStreaming;\
 @property (nonatomic,strong) dispatch_group_t group;\

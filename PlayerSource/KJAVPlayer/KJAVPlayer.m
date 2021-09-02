@@ -95,7 +95,11 @@ static NSString * const kTimeControlStatus = @"timeControlStatus";
             }
             return;
         }
-        if ((self.locality || self.cache) && self.progress != 0) return;
+        if (([self.bridge kj_readStatus:520] ||  // 开启缓存资源?
+             [self.bridge kj_readStatus:521]) && // 本地资源?
+            self.progress != 0) {
+            return;
+        }
         CMTimeRange ranges = [[playerItem loadedTimeRanges].firstObject CMTimeRangeValue];
         CGFloat start = CMTimeGetSeconds(ranges.start);
         CGFloat duration = CMTimeGetSeconds(ranges.duration);
@@ -275,7 +279,8 @@ static NSString * const kTimeControlStatus = @"timeControlStatus";
     }
     if (isnan(sec) || sec < 0) sec = 0;
     self.totalTime = sec;
-    self.progress = self.locality ? 1.0 : 0.0;
+    // 读取当前资源是否为本地资源
+    self.progress = [self.bridge kj_readStatus:521] ? 1.0 : 0.0;
     if (sec == 0) {
         self.isLiveStreaming = YES;
         [self kj_autoPlay];
@@ -300,10 +305,10 @@ static NSString * const kTimeControlStatus = @"timeControlStatus";
     self.userPause = NO;
     self.tryLooked = NO;
     self.buffered = NO;
-    self.cache = NO;
     self.asset = nil;
-    self.locality = NO;
     self.isLiveStreaming = NO;
+    // 设置当前资源是否为本地资源
+    [self.bridge kj_setStatus:521 open:false];
 }
 /// 自动播放
 - (void)kj_autoPlay{
@@ -453,7 +458,8 @@ BOOL kPlayerHaveTracks(NSURL *videoURL, void(^assetblock)(AVURLAsset *), NSDicti
             if (completionHandler) completionHandler(NO);
         }
         NSTimeInterval seconds = time;
-        if (weakself.openAdvanceCache && weakself.locality == NO) {
+        if ([weakself.bridge kj_readStatus:521] == false &&// 本地资源？
+            weakself.openAdvanceCache) {
             if (weakself.totalTime) {
                 NSTimeInterval _time = weakself.progress * weakself.totalTime;
                 if (seconds + weakself.cacheTime >= _time) seconds = _time - weakself.cacheTime;
