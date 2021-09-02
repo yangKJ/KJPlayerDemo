@@ -16,6 +16,8 @@ NS_ASSUME_NONNULL_BEGIN
 
 /// 视频缓存协议
 @property (nonatomic, weak) id<KJPlayerCacheDelegate> cacheDelegate;
+/// 本地资源
+@property (nonatomic,assign,readonly) BOOL locality;
 
 @end
 

@@ -151,6 +151,7 @@ typedef NS_ENUM(NSUInteger, KJPlayerVideoScreenState) {
 @property (nonatomic,assign) NSTimeInterval totalTime;\
 @property (nonatomic,assign) KJPlayerState state;\
 @property (nonatomic,strong) NSError *playError;\
+@property (nonatomic,strong) NSURL *originalURL;\
 @property (nonatomic,assign) CGSize tempSize;\
 @property (nonatomic,assign) float progress;\
 @property (nonatomic,assign) BOOL buffered;\
@@ -159,26 +160,7 @@ typedef NS_ENUM(NSUInteger, KJPlayerVideoScreenState) {
 @property (nonatomic,assign) BOOL locality;\
 @property (nonatomic,assign) BOOL userPause;\
 @property (nonatomic,assign) BOOL isLiveStreaming;\
-@property (nonatomic,strong) NSURL *originalURL;\
 @property (nonatomic,strong) dispatch_group_t group;\
-
-/// 缓存区域 - 必须与上面的公共属性同名
-#define PLAYER_CACHE_COMMON_EXTENSION_PROPERTY \
-@property (nonatomic,assign) KJPlayerState state;\
-@property (nonatomic,strong) NSError *playError;\
-@property (nonatomic,strong) NSURL *originalURL;\
-@property (nonatomic,strong) dispatch_group_t group;\
-@property (nonatomic,assign) float progress;\
-@property (nonatomic,assign) BOOL cache;\
-@property (nonatomic,assign) BOOL locality;\
-
-// UI公共ivar
-#define PLAYER_COMMON_UI_PROPERTY \
-@synthesize playerView = _playerView;\
-@synthesize placeholder = _placeholder;\
-@synthesize background = _background;\
-@synthesize videoGravity = _videoGravity;\
-
 
 #pragma mark - 简单公共函数，这里只适合放简单的函数
 // 子线程

@@ -82,7 +82,7 @@
     }
 }
 - (void)pingInvoke{
-    if (self.userPause || self.tryLooked || self.isLiveStreaming) {// 用户暂停和试看时间已到，直播流媒体
+    if (self.userPause || self.isLiveStreaming) {// 用户暂停和试看时间已到，直播流媒体
         return;
     }
     PLAYERLogTwoInfo(@"--- 🚗 心跳包 🚗 ---:%.2f",self.currentTime);

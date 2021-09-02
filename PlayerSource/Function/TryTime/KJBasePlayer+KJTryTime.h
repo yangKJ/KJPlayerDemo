@@ -16,6 +16,8 @@ NS_ASSUME_NONNULL_BEGIN
 
 /// 免费试看协议
 @property (nonatomic, weak) id<KJPlayerTryLookDelegate> tryLookDelegate;
+/// 是否试看结束
+@property (nonatomic, assign, readonly) BOOL tryLooked;
 
 @end
 

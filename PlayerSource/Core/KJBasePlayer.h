@@ -8,14 +8,16 @@
 //  提取公共方法
 
 #import <Foundation/Foundation.h>
-#import "KJBaseFunctionPlayer.h"
+#import "KJPlayerFunction.h"
 #import "KJPlayerProtocol.h"
 #import "KJPlayerBridge.h"
 #import "KJLogManager.h"
 
 NS_ASSUME_NONNULL_BEGIN
+
 @class KJPlayerView;
-@interface KJBasePlayer : NSObject <KJBaseFunctionPlayer>
+/// 内核壳子，基类
+@interface KJBasePlayer : NSObject <KJPlayerFunction>
 /// 单例属性
 @property (nonatomic,strong,class,readonly,getter=kj_sharedInstance) id shared;
 /// 创建单例
@@ -39,5 +41,12 @@ NS_ASSUME_NONNULL_BEGIN
 - (void)kj_currentTimeScreenshots:(void(^)(UIImage * image))screenshots;
 
 @end
+
+// UI公共ivar
+#define PLAYER_COMMON_UI_PROPERTY \
+@synthesize playerView = _playerView;\
+@synthesize placeholder = _placeholder;\
+@synthesize background = _background;\
+@synthesize videoGravity = _videoGravity;\
 
 NS_ASSUME_NONNULL_END

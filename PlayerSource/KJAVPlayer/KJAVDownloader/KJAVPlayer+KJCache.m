@@ -12,10 +12,18 @@
 #import "KJFileHandleInfo.h"
 
 @interface KJAVPlayer ()
-PLAYER_CACHE_COMMON_EXTENSION_PROPERTY
 @property (nonatomic,strong) KJResourceLoader *connection;
 @property (nonatomic,strong) KJFileHandleInfo *cacheInfo;
+@property (nonatomic,assign) KJPlayerState state;
+@property (nonatomic,strong) NSError *playError;
+@property (nonatomic,strong) NSURL *originalURL;
+@property (nonatomic,strong) dispatch_group_t group;
+@property (nonatomic,assign) float progress;
+@property (nonatomic,assign) BOOL cache;
+@property (nonatomic,assign) BOOL locality;
+
 @end
+
 @implementation KJAVPlayer (KJCache)
 /// 使用边播边缓存，m3u8暂不支持 
 - (BOOL (^)(NSURL * _Nonnull, BOOL))kVideoCanCacheURL{

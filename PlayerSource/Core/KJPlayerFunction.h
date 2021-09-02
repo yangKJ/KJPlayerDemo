@@ -12,7 +12,7 @@
 
 NS_ASSUME_NONNULL_BEGIN
 @protocol KJPlayerDelegate;
-@protocol KJBaseFunctionPlayer <NSObject>
+@protocol KJPlayerFunction <NSObject>
 @required
 /// 委托代理
 @property (nonatomic,weak) id <KJPlayerDelegate> delegate;
@@ -44,16 +44,12 @@ NS_ASSUME_NONNULL_BEGIN
 @property (nonatomic,strong,readonly) NSURL *originalURL;
 /// 播放失败
 @property (nonatomic,strong,readonly) NSError *playError;
-/// 本地资源
-@property (nonatomic,assign,readonly) BOOL locality;
 /// 是否正在播放
 @property (nonatomic,assign,readonly) BOOL isPlaying;
 /// 是否为用户暂停
 @property (nonatomic,assign,readonly) BOOL userPause;
 /// 是否为直播流媒体，直播时总时间无效
 @property (nonatomic,assign,readonly) BOOL isLiveStreaming;
-/// 是否试看结束
-@property (nonatomic,assign,readonly) BOOL tryLooked;
 /// 当前播放时间
 @property (nonatomic,assign,readonly) NSTimeInterval currentTime;
 /// 视频总时间
@@ -98,8 +94,6 @@ NS_ASSUME_NONNULL_BEGIN
 @synthesize autoPlay = _autoPlay;\
 @synthesize openAdvanceCache = _openAdvanceCache;\
 @synthesize isPlaying = _isPlaying;\
-@synthesize tryLooked = _tryLooked;\
-@synthesize locality = _locality;\
 @synthesize userPause = _userPause;\
 @synthesize isLiveStreaming = _isLiveStreaming;\
 
