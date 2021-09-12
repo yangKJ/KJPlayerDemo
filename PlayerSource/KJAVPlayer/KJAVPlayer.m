@@ -99,9 +99,9 @@ static NSString * const kTimeControlStatus = @"timeControlStatus";
             }
             return;
         }
-        if (([self.bridge kj_readStatus:520] ||  // 开启缓存资源?
-             [self.bridge kj_readStatus:521]) && // 本地资源?
-            self.progress != 0) {
+        KJPlayerBridge * bridge = [KJPlayerBridge createBridgeWithBasePlayer:self];
+        // 开启缓存资源? 本地资源?
+        if (([bridge kj_readStatus:520] || [bridge kj_readStatus:521]) && self.progress != 0) {
             return;
         }
         CMTimeRange ranges = [[playerItem loadedTimeRanges].firstObject CMTimeRangeValue];
@@ -171,7 +171,8 @@ static NSString * const kTimeControlStatus = @"timeControlStatus";
         if (weakself.userPause == NO && weakself.buffered) {
             weakself.state = KJPlayerStatePlaying;
         }
-        if ([weakself.bridge kj_playingFunction:sec]) {
+        KJPlayerBridge * bridge = [KJPlayerBridge createBridgeWithBasePlayer:weakself];
+        if ([bridge kj_playingFunction:sec]) {
             [weakself kj_pause];
         } else {
             weakself.currentTime = sec;
@@ -284,7 +285,8 @@ static NSString * const kTimeControlStatus = @"timeControlStatus";
     if (isnan(sec) || sec < 0) sec = 0;
     self.totalTime = sec;
     // 读取当前资源是否为本地资源
-    self.progress = [self.bridge kj_readStatus:521] ? 1.0 : 0.0;
+    KJPlayerBridge * bridge = [KJPlayerBridge createBridgeWithBasePlayer:self];
+    self.progress = [bridge kj_readStatus:521] ? 1.0 : 0.0;
     if (sec == 0) {
         self.isLiveStreaming = YES;
         [self kj_autoPlay];
@@ -297,7 +299,7 @@ static NSString * const kTimeControlStatus = @"timeControlStatus";
             }
         });
     }
-    if (![self.bridge kj_beginFunction]) {
+    if (![bridge kj_beginFunction]) {
         [self kj_autoPlay];
     }
 }
@@ -368,11 +370,12 @@ BOOL kPlayerHaveTracks(NSURL *videoURL, void(^assetblock)(AVURLAsset *), NSDicti
         // 获取本地缓存视频地址，
         // 如果存在`anyObject`会更改为缓存地址
         // 不存在则还是原先的视频地址
-        weakself.bridge.anyObject = videoURL;
-        [weakself.bridge kj_verifyCacheVideoURL];
+        KJPlayerBridge * bridge = [KJPlayerBridge createBridgeWithBasePlayer:weakself];
+        bridge.anyObject = videoURL;
+        [bridge kj_verifyCacheVideoURL];
         
         // 边播边下边存？
-        bool cache = [weakself.bridge kj_readStatus:520];
+        bool cache = [bridge kj_readStatus:520];
         if (assetType == KJPlayerAssetTypeHLS && cache) {
             if (!kPlayerHaveTracks(videoURL, ^(AVURLAsset * asset) {
                 weakself.asset = asset;
@@ -384,7 +387,7 @@ BOOL kPlayerHaveTracks(NSURL *videoURL, void(^assetblock)(AVURLAsset *), NSDicti
             }
         }
         // 本地资源？
-        bool local = [weakself.bridge kj_readStatus:521];
+        bool local = [bridge kj_readStatus:521];
         if (assetType == KJPlayerAssetTypeFILE) {
             if (!kPlayerHaveTracks(videoURL, ^(AVURLAsset * asset) {
                 if (cache && local == false) {
@@ -404,7 +407,7 @@ BOOL kPlayerHaveTracks(NSURL *videoURL, void(^assetblock)(AVURLAsset *), NSDicti
                 return;
             }
         }
-        self->_videoURL = weakself.bridge.anyObject;
+        self->_videoURL = bridge.anyObject;
         [weakself kj_initPreparePlayer];
     });
 }
@@ -485,8 +488,9 @@ BOOL kPlayerHaveTracks(NSURL *videoURL, void(^assetblock)(AVURLAsset *), NSDicti
             if (completionHandler) completionHandler(NO);
         }
         NSTimeInterval seconds = time;
-        if ([weakself.bridge kj_readStatus:521] == false &&// 本地资源？
-            weakself.openAdvanceCache) {
+        // 本地资源？
+        KJPlayerBridge * bridge = [KJPlayerBridge createBridgeWithBasePlayer:weakself];
+        if ([bridge kj_readStatus:521] == false && weakself.openAdvanceCache) {
             if (weakself.totalTime) {
                 NSTimeInterval _time = weakself.progress * weakself.totalTime;
                 if (seconds + weakself.cacheTime >= _time) seconds = _time - weakself.cacheTime;
@@ -494,7 +498,7 @@ BOOL kPlayerHaveTracks(NSURL *videoURL, void(^assetblock)(AVURLAsset *), NSDicti
                 seconds = weakself.currentTime;
             }
         }
-        if ([weakself.bridge kj_playingFunction:seconds]) {
+        if ([bridge kj_playingFunction:seconds]) {
             [weakself.player seekToTime:CMTimeMakeWithSeconds(weakself.tryTime, NSEC_PER_SEC)
                         toleranceBefore:kCMTimeZero
                          toleranceAfter:kCMTimeZero
@@ -521,9 +525,10 @@ BOOL kPlayerHaveTracks(NSURL *videoURL, void(^assetblock)(AVURLAsset *), NSDicti
 /// 获取当前时间截屏
 /// @param screenshots 截屏回调
 - (void)kj_currentTimeScreenshots:(void(^)(UIImage * image))screenshots{
-    self.bridge.anyObject = self.playerOutput;
-    self.bridge.anyOtherObject = self.imageGenerator;
-    [self.bridge kj_anyArgumentsIndex:520 withBlock:^(UIImage * image){
+    KJPlayerBridge * bridge = [KJPlayerBridge createBridgeWithBasePlayer:self];
+    bridge.anyObject = self.playerOutput;
+    bridge.anyOtherObject = self.imageGenerator;
+    [bridge kj_anyArgumentsIndex:520 withBlock:^(UIImage * image){
         screenshots ? screenshots(image) : nil;
     }];
 }

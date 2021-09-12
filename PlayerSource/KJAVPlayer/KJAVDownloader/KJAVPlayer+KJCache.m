@@ -43,7 +43,8 @@
     PLAYER_WEAKSELF;
     kGCD_player_main(^{
         // 是否开启缓存
-        if ([weakself.bridge kj_readStatus:520]) {
+        KJPlayerBridge * bridge = [KJPlayerBridge createBridgeWithBasePlayer:weakself];
+        if ([bridge kj_readStatus:520]) {
             weakself.progress = cacheInfo.progress;
         }
     });
@@ -72,9 +73,10 @@ static char connectionKey;
             if (error == nil) return;
             [loader kj_cancelLoading];
             // 存储数据
-            weakself.bridge.anyObject = error;
-            weakself.bridge.anyOtherObject = weakself.cacheInfo.fileName;
-            [weakself.bridge kj_anyArgumentsIndex:521 withBlock:^(NSMutableDictionary * data){
+            KJPlayerBridge * bridge = [KJPlayerBridge createBridgeWithBasePlayer:weakself];
+            bridge.anyObject = error;
+            bridge.anyOtherObject = weakself.cacheInfo.fileName;
+            [bridge kj_anyArgumentsIndex:521 withBlock:^(NSMutableDictionary * data){
                 [data setValue:weakself.cacheInfo.videoURL.absoluteString forKey:@"videoUrl"];
                 [data setValue:weakself.cacheInfo.fileFormat forKey:@"videoFormat"];
                 [data setValue:@(weakself.cacheInfo.contentLength) forKey:@"videoContentLength"];
