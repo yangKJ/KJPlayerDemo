@@ -13,6 +13,7 @@
 /// 错误信息
 @property (nonatomic, strong) NSError * playError;
 @property (nonatomic, strong) KJPlayerBridge * bridge;
+
 @end
 
 @implementation KJBasePlayer
@@ -65,6 +66,18 @@ static dispatch_once_t onceToken;
     [[NSNotificationCenter defaultCenter] addObserver:self
                                              selector:@selector(kj_basePlayerViewChange:)
                                                  name:kPlayerBaseViewChangeNotification
+                                               object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self
+                                             selector:@selector(kj_playerError:)
+                                                 name:kPlayerErrorNotification
+                                               object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self
+                                             selector:@selector(kj_playerErrorCode:)
+                                                 name:kPlayerErrorCodeNotification
+                                               object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self
+                                             selector:@selector(kj_playerCacheInfoChanged:)
+                                                 name:kPlayerFileHandleInfoNotification
                                                object:nil];
     //kvo
     NSKeyValueObservingOptions options = NSKeyValueObservingOptionOld | NSKeyValueObservingOptionNew;
@@ -136,6 +149,67 @@ static dispatch_once_t onceToken;
         void (* tempFunc)(id target, SEL, CGSize) = (void *)imp;
         tempFunc(self, sel, rect.size);
     }
+}
+
+/// 缓存状态改变
+- (void)kj_playerCacheInfoChanged:(NSNotification *)notification{
+    SEL sel = NSSelectorFromString(@"kj_playerCacheInfo:");
+    if ([self respondsToSelector:sel]) {
+        IMP imp = [self methodForSelector:sel];
+        void (* tempFunc)(id target, SEL, id) = (void *)imp;
+        tempFunc(self, sel, notification.userInfo[kPlayerFileHandleInfoKey]);
+    }
+}
+
+/// 错误消息通知
+- (void)kj_playerError:(NSNotification *)notification{
+    self.playError = notification.userInfo[kPlayerErrorkey];
+}
+
+/// 播放器各种错误CODE通知
+- (void)kj_playerErrorCode:(NSNotification *)notification{
+    NSInteger code = [notification.userInfo[kPlayerErrorCodekey] integerValue];
+    NSString *userInfo = @"unknown";
+    switch (code) {
+        case KJPlayerCustomCodeCacheNone:
+            userInfo = @"No cache data";
+            break;
+        case KJPlayerCustomCodeCachedComplete:
+            userInfo = @"locality data";
+            break;
+        case KJPlayerCustomCodeSaveDatabase:
+            userInfo = @"Succeed save database";
+            break;
+        case KJPlayerCustomCodeAVPlayerItemStatusUnknown:
+            userInfo = @"Player item status unknown";
+            break;
+        case KJPlayerCustomCodeAVPlayerItemStatusFailed:
+            userInfo = @"Player item status failed";
+            break;
+        case KJPlayerCustomCodeVideoURLUnknownFormat:
+            userInfo = @"url unknown format";
+            break;
+        case KJPlayerCustomCodeVideoURLFault:
+            userInfo = @"url fault";
+            break;
+        case KJPlayerCustomCodeWriteFileFailed:
+            userInfo = @"write file failed";
+            break;
+        case KJPlayerCustomCodeReadCachedDataFailed:
+            userInfo = @"Data read failed";
+            break;
+        case KJPlayerCustomCodeSaveDatabaseFailed:
+            userInfo = @"Save database failed";
+            break;
+        case KJPlayerCustomCodeFinishLoading:
+            userInfo = @"Resource loader cancelled";
+            break;
+        default:
+            break;
+    }
+    self.playError = [NSError errorWithDomain:@"ykj.player"
+                                         code:code
+                                     userInfo:@{NSLocalizedDescriptionKey:userInfo}];
 }
 
 #pragma mark - child method, subclass should override.

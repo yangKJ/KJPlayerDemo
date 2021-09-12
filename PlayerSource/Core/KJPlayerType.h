@@ -11,7 +11,6 @@
 #define KJPlayerType_h
 #import <UIKit/UIKit.h>
 #import <Foundation/Foundation.h>
-#import <CommonCrypto/CommonDigest.h>
 #import <AVFoundation/AVFoundation.h>
 #import <objc/runtime.h>
 
@@ -19,15 +18,6 @@ NS_ASSUME_NONNULL_BEGIN
 // 弱引用
 #define PLAYER_WEAKSELF __weak __typeof(self) weakself = self
 #define PLAYER_STRONGSELF __strong __typeof(self) strongself = weakself
-// 窗口
-#define PLAYER_KeyWindow \
-({UIWindow *window;\
-if (@available(iOS 13.0, *)) {\
-window = [UIApplication sharedApplication].windows.firstObject;\
-} else {\
-window = [UIApplication sharedApplication].keyWindow;\
-}\
-window;})
 // 屏幕尺寸
 #define PLAYER_SCREEN_WIDTH  ([UIScreen mainScreen].bounds.size.width)
 #define PLAYER_SCREEN_HEIGHT ([UIScreen mainScreen].bounds.size.height)
@@ -53,32 +43,26 @@ isPhoneX = [[UIApplication sharedApplication] delegate].window.safeAreaInsets.bo
 #define PLAYER_CACHE_VIDEO_DIRECTORY [PLAYER_CACHE_PATH stringByAppendingPathComponent:@"videos"]
 // 临时路径名称
 #define PLAYER_TEMP_READ_NAME @"player.temp.read"
+// 打印日志
+#define PLAYERNSLog(type, frmt, ...) [KJPlayerConstant kj_log:type format:frmt, ##__VA_ARGS__]
+#define PLAYERLogInfo(frmt, ...)     PLAYERNSLog(KJPlayerVideoRankTypeAll,frmt, ##__VA_ARGS__)
+#define PLAYERLogOneInfo(frmt, ...)  PLAYERNSLog(KJPlayerVideoRankTypeOne,frmt, ##__VA_ARGS__)
+#define PLAYERLogTwoInfo(frmt, ...)  PLAYERNSLog(KJPlayerVideoRankTypeTwo,frmt, ##__VA_ARGS__)
+// 通知消息
+#define PLAYER_POST_NOTIFICATION(__name__, __object__, __userInfo__) \
+[[NSNotificationCenter defaultCenter] \
+postNotificationName:__name__ object:__object__ userInfo:__userInfo__];
+// 错误CODE通知消息
+#define PLAYER_NOTIFICATION_CODE(__object__, __value__) \
+PLAYER_POST_NOTIFICATION(kPlayerErrorCodeNotification, __object__, @{kPlayerErrorCodekey:__value__})
 
-/// HLS介绍：https://blog.csdn.net/u011857683/article/details/84863250 
+/// HLS介绍：https://blog.csdn.net/u011857683/article/details/84863250
 /// Asset类型
 typedef NS_ENUM(NSUInteger, KJPlayerAssetType) {
     KJPlayerAssetTypeNONE,/// 其他类型
     KJPlayerAssetTypeFILE,/// 文件类型，mp4等
     KJPlayerAssetTypeHLS, /// 流媒体，m3u8
 };
-/// 根据链接获取Asset类型
-NS_INLINE KJPlayerAssetType kPlayerVideoAesstType(NSURL * url){
-    if (url == nil) return KJPlayerAssetTypeNONE;
-    if (url.pathExtension.length) {
-        if ([url.pathExtension containsString:@"m3u8"] || [url.pathExtension containsString:@"ts"]) {
-            return KJPlayerAssetTypeHLS;
-        } else {
-            return KJPlayerAssetTypeFILE;
-        }
-    }
-    NSArray * array = [url.path componentsSeparatedByString:@"."];
-    if (array.count == 0) {
-        return KJPlayerAssetTypeNONE;
-    } else if ([array.lastObject containsString:@"m3u8"] || [array.lastObject containsString:@"ts"]) {
-        return KJPlayerAssetTypeHLS;
-    }
-    return KJPlayerAssetTypeFILE;
-}
 /// 播放器的几种状态
 typedef NS_ENUM(NSInteger, KJPlayerState) {
     KJPlayerStateFailed = 0,/// 播放错误
@@ -91,13 +75,13 @@ typedef NS_ENUM(NSInteger, KJPlayerState) {
 };
 /// 播放状态
 static NSString * const _Nonnull KJPlayerStateStringMap[] = {
-    [KJPlayerStateFailed] = @"failed",
-    [KJPlayerStateBuffering] = @"buffering",
-    [KJPlayerStatePreparePlay] = @"preparePlay",
-    [KJPlayerStatePausing] = @"pausing",
+    [KJPlayerStateFailed]       = @"failed",
+    [KJPlayerStateBuffering]    = @"buffering",
+    [KJPlayerStatePreparePlay]  = @"preparePlay",
+    [KJPlayerStatePausing]      = @"pausing",
     [KJPlayerStatePlayFinished] = @"playFinished",
-    [KJPlayerStateStopped] = @"stop",
-    [KJPlayerStatePlaying] = @"playing",
+    [KJPlayerStateStopped]      = @"stop",
+    [KJPlayerStatePlaying]      = @"playing",
 };
 /// 手势操作的类型
 typedef NS_OPTIONS(NSUInteger, KJPlayerGestureType) {
@@ -139,8 +123,32 @@ typedef NS_ENUM(NSUInteger, KJPlayerVideoScreenState) {
     KJPlayerVideoScreenStateFullScreen, /// 全屏
     KJPlayerVideoScreenStateFloatingWindow,/// 浮窗
 };
+/// 日志打印级别
+typedef NS_OPTIONS(NSUInteger, KJPlayerVideoRankType) {
+    KJPlayerVideoRankTypeNone = 1 << 0,/// 不打印
+    KJPlayerVideoRankTypeOne  = 1 << 1,/// 一级，
+    KJPlayerVideoRankTypeTwo  = 1 << 2,/// 二级
+    
+    KJPlayerVideoRankTypeAll = KJPlayerVideoRankTypeOne | KJPlayerVideoRankTypeTwo,
+};
+/// 自定义错误情况
+typedef NS_ENUM(NSInteger, KJPlayerCustomCode) {
+    KJPlayerCustomCodeNormal = 0,/// 正常播放
+    KJPlayerCustomCodeOtherSituations = 1,/// 其他情况
+    KJPlayerCustomCodeCacheNone = 6,/// 没有缓存
+    KJPlayerCustomCodeCachedComplete = 7,/// 缓存完成
+    KJPlayerCustomCodeSaveDatabase = 8,/// 成功存入数据库
+    KJPlayerCustomCodeFinishLoading = 96,/// 取消加载网络
+    KJPlayerCustomCodeAVPlayerItemStatusUnknown = 97,/// playerItem状态未知
+    KJPlayerCustomCodeAVPlayerItemStatusFailed = 98,/// playerItem状态出错
+    KJPlayerCustomCodeVideoURLUnknownFormat = 99,/// 未知视频格式
+    KJPlayerCustomCodeVideoURLFault = 100,/// 视频地址不正确
+    KJPlayerCustomCodeWriteFileFailed = 101,/// 写入缓存文件错误
+    KJPlayerCustomCodeReadCachedDataFailed = 102,/// 读取缓存数据错误
+    KJPlayerCustomCodeSaveDatabaseFailed = 103,/// 存入数据库错误
+};
 
-#pragma mark - 公共属性`ivar`宏定义
+#pragma mark - custom ivar
 
 /// 公共属性区域
 #define PLAYER_COMMON_EXTENSION_PROPERTY \
@@ -150,7 +158,6 @@ typedef NS_ENUM(NSUInteger, KJPlayerVideoScreenState) {
 @property (nonatomic,assign) NSTimeInterval currentTime;\
 @property (nonatomic,assign) NSTimeInterval totalTime;\
 @property (nonatomic,assign) KJPlayerState state;\
-@property (nonatomic,strong) NSError *playError;\
 @property (nonatomic,strong) NSURL *originalURL;\
 @property (nonatomic,assign) CGSize tempSize;\
 @property (nonatomic,assign) float progress;\
@@ -159,68 +166,6 @@ typedef NS_ENUM(NSUInteger, KJPlayerVideoScreenState) {
 @property (nonatomic,assign) BOOL userPause;\
 @property (nonatomic,assign) BOOL isLiveStreaming;\
 @property (nonatomic,strong) dispatch_group_t group;\
-
-#pragma mark - 简单公共函数，这里只适合放简单的函数
-// 子线程
-NS_INLINE void kGCD_player_async(dispatch_block_t _Nonnull block) {
-    dispatch_queue_t queue = dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0);
-    if (strcmp(dispatch_queue_get_label(DISPATCH_CURRENT_QUEUE_LABEL), dispatch_queue_get_label(queue)) == 0) {
-        block();
-    } else {
-        dispatch_async(queue, block);
-    }
-}
-// 主线程
-NS_INLINE void kGCD_player_main(dispatch_block_t _Nonnull block) {
-    dispatch_queue_t queue = dispatch_get_main_queue();
-    if (strcmp(dispatch_queue_get_label(DISPATCH_CURRENT_QUEUE_LABEL), dispatch_queue_get_label(queue)) == 0) {
-        block();
-    } else if ([[NSThread currentThread] isMainThread]) {
-        dispatch_async(queue, block);
-    } else {
-        dispatch_sync(queue, block);
-    }
-}
-// 网址转义，中文空格字符解码
-NS_INLINE NSURL * kPlayerURLCharacters(NSString * urlString){
-    NSString * encodedString = [urlString stringByAddingPercentEncodingWithAllowedCharacters:[NSCharacterSet URLQueryAllowedCharacterSet]];
-    return [NSURL URLWithString:encodedString];
-}
-// 哈西加密
-NS_INLINE NSString * kPlayerSHA512String(NSString * string){
-    const char * cstr = [string cStringUsingEncoding:NSUTF8StringEncoding];
-    NSData * data = [NSData dataWithBytes:cstr length:string.length];
-    uint8_t digest[CC_SHA512_DIGEST_LENGTH];
-    CC_SHA512(data.bytes, (CC_LONG)data.length, digest);
-    NSMutableString * output = [NSMutableString stringWithCapacity:CC_SHA512_DIGEST_LENGTH * 2];
-    for (int i = 0; i < CC_SHA512_DIGEST_LENGTH; i++)
-    [output appendFormat:@"%02x", digest[i]];
-    return [NSString stringWithString:output];
-}
-// 文件名
-NS_INLINE NSString * kPlayerIntactName(NSURL * url){
-    return kPlayerSHA512String(url.resourceSpecifier ?: url.absoluteString);
-}
-// 设置时间显示
-NS_INLINE NSString * kPlayerConvertTime(CGFloat second){
-    NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
-    dateFormatter.timeZone = [NSTimeZone timeZoneWithName:@"GMT"];
-    if (second / 3600 >= 1) {
-        [dateFormatter setDateFormat:@"HH:mm:ss"];
-    } else {
-        [dateFormatter setDateFormat:@"mm:ss"];
-    }
-    return [dateFormatter stringFromDate:[NSDate dateWithTimeIntervalSince1970:second]];
-}
-// 隐士调用
-NS_INLINE void kPlayerPerformSel(id target, NSString * selName){
-    SEL sel = NSSelectorFromString(selName);
-    if ([target respondsToSelector:sel]) {
-        IMP imp = [target methodForSelector:sel];
-        void (* tempFunc)(id target, SEL) = (void *)imp;
-        tempFunc(target, sel);
-    }
-}
 
 #endif /* KJPlayerType_h */
 

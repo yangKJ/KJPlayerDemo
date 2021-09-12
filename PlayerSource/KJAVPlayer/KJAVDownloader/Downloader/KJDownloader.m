@@ -12,7 +12,7 @@
 #import "KJFileHandleManager.h"
 #import "KJPlayerSharedInstance.h"
 #import "KJFileHandleInfo.h"
-#import "KJLogManager.h"
+#import "KJPlayerConstant.h"
 
 @protocol KJDownloaderManagerDelegate;
 @interface KJDownloadTask : NSObject
@@ -34,11 +34,18 @@
 @end
 
 @protocol KJDownloaderManagerDelegate <NSObject>
-/// 开始接收数据，传递配置信息 
-- (void)kj_didReceiveResponse:(NSURLResponse*)response;
-/// 接收数据，是否为已经缓存的本地数据 
+
+/// 开始接收数据，传递配置信息
+/// @param response <#response description#>
+- (void)kj_didReceiveResponse:(NSURLResponse *)response;
+
+/// 接收数据，是否为已经缓存的本地数据
+/// @param data 下载数据
+/// @param cached 是否成功缓存
 - (void)kj_didReceiveData:(NSData *)data cached:(BOOL)cached;
-/// 接收错误或者接收完成 
+
+/// 接收错误
+/// @param error 错误数据，nil
 - (void)kj_didFinishWithError:(nullable NSError *)error;
 
 @end
@@ -72,7 +79,9 @@
 }
 - (void)kj_createDownloaderManagerWithRange:(NSRange)range{
     NSArray *fragments = [self.fileHandleManager kj_getCachedFragmentsWithRange:range];
-    self.downloadTask = [[KJDownloadTask alloc] initWithCachedFragments:fragments videoURL:self.videoURL manager:self.fileHandleManager];
+    self.downloadTask = [[KJDownloadTask alloc] initWithCachedFragments:fragments
+                                                               videoURL:self.videoURL
+                                                                manager:self.fileHandleManager];
     self.downloadTask.canSaveToCache = self.saveToCache;
     self.downloadTask.delegate = self;
     [self.downloadTask kj_startDownloading];
@@ -94,9 +103,9 @@
 
 #pragma mark - KJDownloaderManagerDelegate
 /// 开始接收数据，传递配置信息 
-- (void)kj_didReceiveResponse:(NSURLResponse*)response{
+- (void)kj_didReceiveResponse:(NSURLResponse *)response{
     if ([response isKindOfClass:[NSHTTPURLResponse class]]){
-        NSHTTPURLResponse *httpResponse = (NSHTTPURLResponse*)response;
+        NSHTTPURLResponse *httpResponse = (NSHTTPURLResponse *)response;
         NSArray *array = [httpResponse.allHeaderFields[@"Content-Range"] componentsSeparatedByString:@"/"];
         NSString *length = array.lastObject;
         if ([length integerValue] == 0){
@@ -115,13 +124,13 @@
     }
 }
 /// 接收数据，是否为已经缓存的本地数据 
-- (void)kj_didReceiveData:(NSData*)data cached:(BOOL)cached{
+- (void)kj_didReceiveData:(NSData *)data cached:(BOOL)cached{
     if (self.kDidReceiveData) {
         self.kDidReceiveData(self, data);
     }
 }
 /// 接收错误或者接收完成，错误为空表示接收完成 
-- (void)kj_didFinishWithError:(NSError*_Nullable)error{
+- (void)kj_didFinishWithError:(NSError * _Nullable)error{
     [KJPlayerSharedInstance.shared kj_removeDownloadURL:self.videoURL];
     if (self.kDidFinished) {
         self.kDidFinished(self, error);
@@ -156,7 +165,8 @@
 // ************************************** 黄金分割线 *********************************************
 
 @interface KJSessionAgent : NSObject <NSURLSessionDelegate>
-@property (nonatomic,copy,readwrite) void (^kDidReceiveResponse)(NSURLResponse *response, void(^completionHandler)(NSURLSessionResponseDisposition));
+@property (nonatomic,copy,readwrite) void (^kDidReceiveResponse)(NSURLResponse *response,
+void(^completionHandler)(NSURLSessionResponseDisposition));
 @property (nonatomic,copy,readwrite) void (^kDidReceiveData)(NSData *data);
 @property (nonatomic,copy,readwrite) void (^kDidFinished)(NSError *error);
 
@@ -180,7 +190,9 @@
 - (void)dealloc{
     [self kj_cancelDownloading];
 }
-- (instancetype)initWithCachedFragments:(NSArray*)fragments videoURL:(NSURL*)url manager:(KJFileHandleManager*)manager{
+- (instancetype)initWithCachedFragments:(NSArray *)fragments
+                               videoURL:(NSURL *)url
+                                manager:(KJFileHandleManager *)manager{
     if (self = [super init]) {
         self.canSaveToCache = YES;
         self.fragments = [NSMutableArray arrayWithArray:fragments];
@@ -203,7 +215,7 @@
 - (void)kj_downlingFragment{
     if (self.cancelLoading) return;
     if (self.fragments.count == 0){
-        /// warning - 此处别乱改要传nil出去，否则会出现播放不起的现象 
+        /// 特别备注：此处别乱改要传nil出去，否则会出现播放不起的现象
         if ([self.delegate respondsToSelector:@selector(kj_didFinishWithError:)]){
             [self.delegate kj_didFinishWithError:nil];
         }
@@ -247,7 +259,10 @@
         } else {
             self.once = NO;
             if ([self.delegate respondsToSelector:@selector(kj_didFinishWithError:)]) {
-                [self.delegate kj_didFinishWithError:[KJLogManager kj_errorSummarizing:KJPlayerCustomCodeReadCachedDataFailed]];
+                NSError * error = [NSError errorWithDomain:@"read cache data file"
+                                            code:KJPlayerCustomCodeReadCachedDataFailed
+                                        userInfo:@{NSLocalizedDescriptionKey:@"read cache data file"}];
+                [self.delegate kj_didFinishWithError:error];
             }
         }
     }
@@ -255,36 +270,37 @@
 
 #pragma mark - lazy
 
-- (NSURLSession*)session{
+- (NSURLSession *)session{
     if (!_session){
         NSURLSessionConfiguration *configuration = [NSURLSessionConfiguration defaultSessionConfiguration];
         NSURLSession *session = [NSURLSession sessionWithConfiguration:configuration
-                                                              delegate:self.sessionAgent delegateQueue:nil];
+                                                              delegate:self.sessionAgent
+                                                         delegateQueue:nil];
         _session = session;
     }
     return _session;
 }
-- (KJSessionAgent*)sessionAgent{
+- (KJSessionAgent *)sessionAgent{
     if (!_sessionAgent){
         _sessionAgent = [[KJSessionAgent alloc] init];
         PLAYER_WEAKSELF;
-        _sessionAgent.kDidReceiveResponse = ^(NSURLResponse *response, void (^completionHandler)(NSURLSessionResponseDisposition)) {
+        _sessionAgent.kDidReceiveResponse = ^(NSURLResponse * response, void (^completionHandler)(NSURLSessionResponseDisposition)) {
             NSString *mimeType = response.MIMEType;
             if ([mimeType rangeOfString:@"video/"].location == NSNotFound &&
                 [mimeType rangeOfString:@"audio/"].location == NSNotFound &&
                 [mimeType rangeOfString:@"application"].location == NSNotFound){
                 completionHandler(NSURLSessionResponseCancel);
             } else {
-                if ([weakself.delegate respondsToSelector:@selector(kj_didReceiveResponse:)]){
+                if ([weakself.delegate respondsToSelector:@selector(kj_didReceiveResponse:)]) {
                     [weakself.delegate kj_didReceiveResponse:response];
                 }
                 [weakself.fileHandleManager kj_startWritting];
                 completionHandler(NSURLSessionResponseAllow);
             }
         };
-        _sessionAgent.kDidReceiveData = ^(NSData *data) {
+        _sessionAgent.kDidReceiveData = ^(NSData * data) {
             if (weakself.cancelLoading) return;
-            if (weakself.canSaveToCache){
+            if (weakself.canSaveToCache) {
                 NSRange range = NSMakeRange(weakself.startOffset, data.length);
                 NSError *error = [weakself.fileHandleManager kj_writeCacheData:data Range:range];
                 if (error) {
@@ -299,25 +315,26 @@
             if ([weakself.delegate respondsToSelector:@selector(kj_didReceiveData:cached:)]){
                 [weakself.delegate kj_didReceiveData:data cached:NO];
             }
-            kGCD_player_async(^{
-                [weakself kj_postNotification];
-            });
+            if (weakself.fileHandleManager.cacheInfo) {
+                NSDictionary * userInfo = @{
+                    kPlayerFileHandleInfoKey : weakself.fileHandleManager.cacheInfo
+                };
+                PLAYER_POST_NOTIFICATION(kPlayerFileHandleInfoNotification, weakself, userInfo);
+            }
         };
-        _sessionAgent.kDidFinished = ^(NSError *error) {
+        _sessionAgent.kDidFinished = ^(NSError * error) {
             [weakself.fileHandleManager kj_finishWritting];
             if (weakself.canSaveToCache){
                 [weakself.fileHandleManager kj_writeSave];
             }
             if (weakself.fileHandleManager.cacheInfo.progress >= 1.0) {
                 if ([weakself.delegate respondsToSelector:@selector(kj_didFinishWithError:)]){
-                    [weakself.delegate kj_didFinishWithError:[NSError errorWithDomain:@"cache complete"
-                                                                                 code:KJPlayerCustomCodeCachedComplete userInfo:nil]];
+                    NSError * error = [NSError errorWithDomain:@"cache complete"
+                                                          code:KJPlayerCustomCodeCachedComplete
+                                                      userInfo:nil];
+                    [weakself.delegate kj_didFinishWithError:error];
                 }
                 return;
-            } else {
-                kGCD_player_async(^{
-                    [weakself kj_postNotification];
-                });
             }
             if (error){
                 if ([weakself.delegate respondsToSelector:@selector(kj_didFinishWithError:)]){
@@ -330,42 +347,41 @@
     }
     return _sessionAgent;
 }
-- (void)kj_postNotification{
-    [[NSNotificationCenter defaultCenter]
-     postNotificationName:kPlayerFileHandleInfoNotification
-     object:self
-     userInfo:@{kPlayerFileHandleInfoKey:self.fileHandleManager.cacheInfo}];
-}
 
 @end
 
-#pragma mark ------------------ NSURLSession的代理人 ------------------
+#pragma mark - NSURLSession的代理人
 @interface KJSessionAgent ()
 /// 设置一个NSMutableData类型的对象, 用于接收返回的数据 
 @property (nonatomic,retain) NSMutableData *bufferData;
+
 @end
 
 @implementation KJSessionAgent
 
 #pragma mark - NSURLSessionDataDelegate
 
-- (void)URLSession:(NSURLSession*)session didReceiveChallenge:(NSURLAuthenticationChallenge*)challenge completionHandler:(void (^)(NSURLSessionAuthChallengeDisposition, NSURLCredential *))completionHandler{
+- (void)URLSession:(NSURLSession *)session
+didReceiveChallenge:(NSURLAuthenticationChallenge *)challenge
+ completionHandler:(void(^)(NSURLSessionAuthChallengeDisposition, NSURLCredential *))completionHandler{
     NSURLCredential *card = [[NSURLCredential alloc] initWithTrust:challenge.protectionSpace.serverTrust];
     completionHandler(NSURLSessionAuthChallengeUseCredential, card);
 }
-- (void)URLSession:(NSURLSession*)session
-          dataTask:(NSURLSessionDataTask*)dataTask
-didReceiveResponse:(NSURLResponse*)response
+- (void)URLSession:(NSURLSession *)session
+          dataTask:(NSURLSessionDataTask *)dataTask
+didReceiveResponse:(NSURLResponse *)response
  completionHandler:(void (^)(NSURLSessionResponseDisposition disposition))completionHandler{
     self.bufferData = [NSMutableData data];
     if (self.kDidReceiveResponse) {
         self.kDidReceiveResponse(response,completionHandler);
     }
 }
-- (void)URLSession:(NSURLSession*)session dataTask:(NSURLSessionDataTask*)dataTask didReceiveData:(NSData*)data{
+- (void)URLSession:(NSURLSession *)session
+          dataTask:(NSURLSessionDataTask *)dataTask
+    didReceiveData:(NSData *)data{
     @synchronized (self.bufferData){
         [self.bufferData appendData:data];
-        if (self.bufferData.length >= 10*1024){// 10kb丢出去，开始播放
+        if (self.bufferData.length >= 10 * 1024){// 10kb丢出去，开始播放
             NSRange chunkRange = NSMakeRange(0, self.bufferData.length);
             NSData *chunkData = [self.bufferData subdataWithRange:chunkRange];
             [self.bufferData replaceBytesInRange:chunkRange withBytes:NULL length:0];
@@ -375,7 +391,9 @@ didReceiveResponse:(NSURLResponse*)response
         }
     }
 }
-- (void)URLSession:(NSURLSession*)session task:(NSURLSessionDataTask*)task didCompleteWithError:(nullable NSError*)error{
+- (void)URLSession:(NSURLSession *)session
+              task:(NSURLSessionDataTask *)task
+didCompleteWithError:(nullable NSError *)error{
     @synchronized (self.bufferData){
         if (self.bufferData.length > 0 && error == nil){
             NSRange chunkRange = NSMakeRange(0, self.bufferData.length);
