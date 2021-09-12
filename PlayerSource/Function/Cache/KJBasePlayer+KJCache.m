@@ -27,12 +27,6 @@
 - (bool)kj_readCacheIMP{
     return self.cache;
 }
-- (void)kj_setLocalityIMP:(NSNumber *)open{
-    self.locality = [open boolValue];
-}
-- (void)kj_setCacheIMP:(NSNumber *)open{
-    self.cache = [open boolValue];
-}
 
 /// 判断当前视频是否存在缓存
 /// @param videoURL 视频链接地址
@@ -40,7 +34,7 @@
 - (NSURL *)kj_cacheIMP:(NSURL *)videoURL{
     self.locality = NO;
     if ([KJCacheManager kj_haveCacheURL:&videoURL]) {
-        self.playError = [KJLogManager kj_errorSummarizing:KJPlayerCustomCodeCachedComplete];
+        PLAYER_NOTIFICATION_CODE(self, @(KJPlayerCustomCodeCachedComplete));
         self.locality = YES;
     }
     if ([self.cacheDelegate respondsToSelector:@selector(kj_cacheWithPlayer:haveCache:cacheVideoURL:)]) {
@@ -59,7 +53,7 @@
         kGCD_player_async(^{
             if ([weakself kj_saveVideoIntact:YES dbid:otherObject withBlock:withBlock]) {
                 kGCD_player_main(^{
-                    weakself.playError = [KJLogManager kj_errorSummarizing:KJPlayerCustomCodeSaveDatabaseFailed];
+                    PLAYER_NOTIFICATION_CODE(weakself, @(KJPlayerCustomCodeSaveDatabaseFailed));
                     weakself.state = KJPlayerStateFailed;
                     if ([weakself.cacheDelegate respondsToSelector:@selector(kj_cacheWithPlayer:cacheSuccess:)]) {
                         [weakself.cacheDelegate kj_cacheWithPlayer:weakself cacheSuccess:NO];
@@ -108,9 +102,7 @@
     if (error) {
         return YES;
     } else if (videoIntact) {
-        kGCD_player_main(^{
-            self.playError = [KJLogManager kj_errorSummarizing:KJPlayerCustomCodeSaveDatabase];
-        });
+        PLAYER_NOTIFICATION_CODE(self, @(KJPlayerCustomCodeSaveDatabase));
     }
     return NO;
 }

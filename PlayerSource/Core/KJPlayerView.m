@@ -6,6 +6,7 @@
 //
 
 #import "KJPlayerView.h"
+#import "KJPlayerConstant.h"
 
 #pragma clang diagnostic push
 #pragma clang diagnostic ignored"-Wdeprecated-declarations"
@@ -130,9 +131,10 @@
 - (void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary *)change context:(void *)context{
     if ([keyPath isEqualToString:@"frame"] || [keyPath isEqualToString:@"bounds"]) {
         if ([object valueForKeyPath:keyPath] != [NSNull null]) {
-            [[NSNotificationCenter defaultCenter] postNotificationName:kPlayerBaseViewChangeNotification
-                                                                object:self
-                                                              userInfo:@{kPlayerBaseViewChangeKey:[object valueForKeyPath:keyPath]}];
+            NSDictionary * userInfo = @{
+                kPlayerBaseViewChangeKey : [object valueForKeyPath:keyPath]
+            };
+            PLAYER_POST_NOTIFICATION(kPlayerBaseViewChangeNotification, self, userInfo);
             CGRect rect = [[object valueForKeyPath:keyPath] CGRectValue];
             self.width  = rect.size.width;
             self.height = rect.size.height;

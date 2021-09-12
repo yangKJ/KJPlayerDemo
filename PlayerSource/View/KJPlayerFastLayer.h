@@ -8,7 +8,6 @@
 //  快进快退进度控件
 
 #import <QuartzCore/QuartzCore.h>
-#import "KJPlayerType.h"
 
 NS_ASSUME_NONNULL_BEGIN
 

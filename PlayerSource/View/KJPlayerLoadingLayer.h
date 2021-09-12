@@ -8,7 +8,6 @@
 //  加载动画
 
 #import <QuartzCore/QuartzCore.h>
-#import "KJPlayerType.h"
 
 NS_ASSUME_NONNULL_BEGIN
 

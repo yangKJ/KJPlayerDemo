@@ -8,7 +8,6 @@
 //  播放器协议，功能区
 
 #import <Foundation/Foundation.h>
-#import "KJPlayerType.h"
 
 NS_ASSUME_NONNULL_BEGIN
 @protocol KJPlayerDelegate;
@@ -88,7 +87,6 @@ NS_ASSUME_NONNULL_BEGIN
 @synthesize cacheTime = _cacheTime;\
 @synthesize currentTime = _currentTime;\
 @synthesize totalTime = _totalTime;\
-@synthesize playError = _playError;\
 @synthesize timeSpace = _timeSpace;\
 @synthesize requestHeader = _requestHeader;\
 @synthesize autoPlay = _autoPlay;\

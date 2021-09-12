@@ -48,7 +48,11 @@ static NSString * const kTimeControlStatus = @"timeControlStatus";
 }
 
 #pragma mark - kvo
-- (void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary *)change context:(void *)context{
+
+- (void)observeValueForKeyPath:(NSString *)keyPath
+                      ofObject:(id)object
+                        change:(NSDictionary *)change
+                       context:(void *)context{
     if (object != _playerItem) {
         [super observeValueForKeyPath:keyPath ofObject:object change:change context:context];
         return;
@@ -74,10 +78,10 @@ static NSString * const kTimeControlStatus = @"timeControlStatus";
             }
             self.state = KJPlayerStatePreparePlay;
         }else if (playerItem.status == AVPlayerItemStatusFailed) {
-            self.playError = [KJLogManager kj_errorSummarizing:KJPlayerCustomCodeAVPlayerItemStatusFailed];
+            PLAYER_NOTIFICATION_CODE(self, @(KJPlayerCustomCodeAVPlayerItemStatusFailed));
             self.state = KJPlayerStateFailed;
         }else if (playerItem.status == AVPlayerItemStatusUnknown) {
-            self.playError = [KJLogManager kj_errorSummarizing:KJPlayerCustomCodeAVPlayerItemStatusUnknown];
+            PLAYER_NOTIFICATION_CODE(self, @(KJPlayerCustomCodeAVPlayerItemStatusUnknown));
             self.state = KJPlayerStateFailed;
         }
     }else if ([keyPath isEqualToString:kLoadedTimeRanges]) {//监听播放器缓冲进度
@@ -356,7 +360,7 @@ BOOL kPlayerHaveTracks(NSURL *videoURL, void(^assetblock)(AVURLAsset *), NSDicti
         [weakself kj_initializeBeginPlayConfiguration];
         KJPlayerAssetType assetType = kPlayerVideoAesstType(videoURL);
         if (assetType == KJPlayerAssetTypeNONE) {
-            weakself.playError = [KJLogManager kj_errorSummarizing:KJPlayerCustomCodeVideoURLUnknownFormat];
+            PLAYER_NOTIFICATION_CODE(weakself, @(KJPlayerCustomCodeVideoURLUnknownFormat));
             if (weakself.player) [weakself kj_stop];
             self->_videoURL = videoURL;
             return;
@@ -373,7 +377,7 @@ BOOL kPlayerHaveTracks(NSURL *videoURL, void(^assetblock)(AVURLAsset *), NSDicti
             if (!kPlayerHaveTracks(videoURL, ^(AVURLAsset * asset) {
                 weakself.asset = asset;
             }, weakself.requestHeader)) {
-                weakself.playError = [KJLogManager kj_errorSummarizing:KJPlayerCustomCodeVideoURLFault];
+                PLAYER_NOTIFICATION_CODE(weakself, @(KJPlayerCustomCodeVideoURLFault));
                 weakself.state = KJPlayerStateFailed;
                 [weakself kj_destroyPlayer];
                 return;
@@ -394,7 +398,7 @@ BOOL kPlayerHaveTracks(NSURL *videoURL, void(^assetblock)(AVURLAsset *), NSDicti
                     weakself.asset = asset;
                 }
             }, weakself.requestHeader)) {
-                weakself.playError = [KJLogManager kj_errorSummarizing:KJPlayerCustomCodeVideoURLFault];
+                PLAYER_NOTIFICATION_CODE(weakself, @(KJPlayerCustomCodeVideoURLFault));
                 weakself.state = KJPlayerStateFailed;
                 [weakself kj_destroyPlayer];
                 return;

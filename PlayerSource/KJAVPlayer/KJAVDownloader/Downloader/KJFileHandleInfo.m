@@ -9,12 +9,11 @@
 #import "KJFileHandleInfo.h"
 #import <objc/runtime.h>
 #import "KJPlayerSharedInstance.h"
+#import "KJPlayerConstant.h"
 
 #pragma clang diagnostic push
 #pragma clang diagnostic ignored"-Wdeprecated-declarations"
 
-NSString *kPlayerFileHandleInfoNotification = @"kPlayerFileHandleInfoNotification";
-NSString *kPlayerFileHandleInfoKey = @"kPlayerFileHandleInfoKey";
 @interface KJFileHandleInfo ()
 @property (nonatomic,strong) NSArray *cacheFragments;
 @property (nonatomic,strong) NSString *fileName;
@@ -31,7 +30,7 @@ NSString *kPlayerFileHandleInfoKey = @"kPlayerFileHandleInfoKey";
     KJFileHandleInfo *info = [[[self class] allocWithZone:zone] init];
     unsigned int count = 0;
     Ivar *ivars = class_copyIvarList([self class], &count);
-    for (int i = 0; i<count; i++){
+    for (int i = 0; i<count; i++) {
         const char *name = ivar_getName(ivars[i]);
         NSString *key = [NSString stringWithUTF8String:name];
         id value = [self valueForKey:key];
@@ -45,10 +44,10 @@ NSString *kPlayerFileHandleInfoKey = @"kPlayerFileHandleInfoKey";
     return info;
 }
 /// 归档 
-- (void)encodeWithCoder:(NSCoder*)aCoder{
+- (void)encodeWithCoder:(NSCoder *)aCoder{
     unsigned int count = 0;
     Ivar *ivars = class_copyIvarList([self class], &count);
-    for (int i = 0; i<count; i++){
+    for (int i = 0; i<count; i++) {
         const char *name = ivar_getName(ivars[i]);
         NSString *key = [NSString stringWithUTF8String:name];
         id value = [self valueForKey:key];
@@ -57,11 +56,11 @@ NSString *kPlayerFileHandleInfoKey = @"kPlayerFileHandleInfoKey";
     free(ivars);
 }
 /// 解档 
-- (instancetype)initWithCoder:(NSCoder*)aDecoder{
+- (instancetype)initWithCoder:(NSCoder *)aDecoder{
     if (self = [super init]) {
         unsigned int count = 0;
         Ivar *ivars = class_copyIvarList([self class], &count);
-        for (int i = 0; i<count; i++){
+        for (int i = 0; i<count; i++) {
             const char *name = ivar_getName(ivars[i]);
             NSString *key = [NSString stringWithUTF8String:name];
             id value = [aDecoder decodeObjectForKey:key];
@@ -71,7 +70,7 @@ NSString *kPlayerFileHandleInfoKey = @"kPlayerFileHandleInfoKey";
     }
     return self;
 }
-+ (instancetype)kj_createFileHandleInfoWithURL:(NSURL*)url{
++ (instancetype)kj_createFileHandleInfoWithURL:(NSURL *)url{
     NSString * path = [KJFileHandleInfo kj_appendingVideoTempPath:url];
     KJFileHandleInfo *info = [NSKeyedUnarchiver unarchiveObjectWithFile:path];
     if (info == nil) info = [[KJFileHandleInfo alloc] init];
@@ -85,48 +84,48 @@ NSString *kPlayerFileHandleInfoKey = @"kPlayerFileHandleInfoKey";
 }
 - (int64_t)downloadedBytes{
     float bytes = 0;
-    @synchronized (self.cacheFragments){
-        for (NSValue *range in self.cacheFragments){
+    @synchronized (self.cacheFragments) {
+        for (NSValue *range in self.cacheFragments) {
             bytes += range.rangeValue.length;
         }
     }
     return bytes;
 }
 - (void)kj_keyedArchiverSave{
-    @synchronized (self.cacheFragments){
+    @synchronized (self.cacheFragments) {
         NSString * path = [KJFileHandleInfo kj_appendingVideoTempPath:self.videoURL];
         [NSKeyedArchiver archiveRootObject:self toFile:path];
     }
 }
 - (void)kj_continueCacheFragmentRange:(NSRange)range{
-    if (range.location == NSNotFound || range.length == 0){
+    if (range.location == NSNotFound || range.length == 0) {
         return;
     }
-    @synchronized (self.cacheFragments){
+    @synchronized (self.cacheFragments) {
         NSMutableArray<NSValue*>*temps = [NSMutableArray arrayWithArray:self.cacheFragments];
         NSInteger count = temps.count;
-        if (count == 0){
+        if (count == 0) {
             [temps addObject:[NSValue valueWithRange:range]];
         } else {
             NSMutableIndexSet *indexSet = [NSMutableIndexSet indexSet];
-            [temps enumerateObjectsUsingBlock:^(NSValue *obj, NSUInteger idx, BOOL *stop){
+            [temps enumerateObjectsUsingBlock:^(NSValue *obj, NSUInteger idx, BOOL *stop) {
                 NSRange ran = obj.rangeValue;
-                if ((range.location + range.length) <= ran.location){
-                    if (indexSet.count == 0){
+                if ((range.location + range.length) <= ran.location) {
+                    if (indexSet.count == 0) {
                         [indexSet addIndex:idx];
                     }
                     *stop = YES;
-                }else if (range.location <= (ran.location + ran.length) &&
-                          (range.location + range.length) > ran.location){
+                } else if (range.location <= (ran.location + ran.length) &&
+                          (range.location + range.length) > ran.location) {
                     [indexSet addIndex:idx];
-                }else if (range.location >= ran.location + ran.length){
-                    if (idx == count - 1){ 
+                } else if (range.location >= ran.location + ran.length) {
+                    if (idx == count - 1) {
                         [indexSet addIndex:idx];
                     }
                 }
             }];
             
-            if (indexSet.count > 1){
+            if (indexSet.count > 1) {
                 NSRange firstRange = temps[indexSet.firstIndex].rangeValue;
                 NSRange lastRange = temps[indexSet.lastIndex].rangeValue;
                 NSInteger location = MIN(firstRange.location, range.location);
@@ -134,19 +133,19 @@ NSString *kPlayerFileHandleInfoKey = @"kPlayerFileHandleInfoKey";
                 NSRange combineRange = NSMakeRange(location, endOffset - location);
                 [temps removeObjectsAtIndexes:indexSet];
                 [temps insertObject:[NSValue valueWithRange:combineRange] atIndex:indexSet.firstIndex];
-            }else if (indexSet.count == 1){
+            } else if (indexSet.count == 1) {
                 NSRange firstRange = temps[indexSet.firstIndex].rangeValue;
                 NSRange expandFirstRange = NSMakeRange(firstRange.location, firstRange.length + 1);
                 NSRange expandFragmentRange = NSMakeRange(range.location, range.length + 1);
                 NSRange intersectionRange = NSIntersectionRange(expandFirstRange, expandFragmentRange);
-                if (intersectionRange.length > 0){
+                if (intersectionRange.length > 0) {
                     NSInteger location  = MIN(firstRange.location, range.location);
                     NSInteger endOffset = MAX(firstRange.location + firstRange.length, range.location + range.length);
                     NSRange combineRange = NSMakeRange(location, endOffset - location);
                     [temps removeObjectAtIndex:indexSet.firstIndex];
                     [temps insertObject:[NSValue valueWithRange:combineRange] atIndex:indexSet.firstIndex];
                 } else {
-                    if (firstRange.location > range.location){
+                    if (firstRange.location > range.location) {
                         [temps insertObject:[NSValue valueWithRange:range] atIndex:indexSet.lastIndex];
                     } else {
                         [temps insertObject:[NSValue valueWithRange:range] atIndex:indexSet.lastIndex+1];

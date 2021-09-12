@@ -8,11 +8,7 @@
 
 #import "KJVideoPlayVC.h"
 
-#if __has_include(<KJPlayer/KJBasePlayer+KJSkipTime.h>)
-
-#import <KJPlayer/KJBasePlayer+KJSkipTime.h>
-
-@interface KJVideoPlayVC () <KJPlayerDelegate, KJPlayerSkipDelegate>
+@interface KJVideoPlayVC () <KJPlayerDelegate>
 
 @property(nonatomic,strong)KJAVPlayer *player;
 @property(nonatomic,strong)UISlider *slider;
@@ -88,7 +84,6 @@
     self.player = player;
     player.playerView = backview;
     player.delegate = self;
-    player.skipDelegate = self;
     player.videoURL = self.url;
 }
 - (void)tapPlayerViewAction:(UITapGestureRecognizer *)gesture {
@@ -113,8 +108,7 @@
             CGFloat second = slider.value;
             [slider setValue:second animated:YES];
             [self.player kj_appointTime:second];
-        }
-            break;
+        } break;
         default:
             break;
     }
@@ -147,17 +141,4 @@
     self.slider.maximumValue = time;
 }
 
-#pragma mark - KJPlayerTryLookDelegate
-
-- (NSTimeInterval)kj_tryLookTimeWithPlayer:(__kindof KJBasePlayer *)player{
-    return 100;
-}
-
-- (void)kj_tryLookEndWithPlayer:(__kindof KJBasePlayer *)player currentTime:(NSTimeInterval)currentTime{
-    KJBasePlayerView * playerView = (KJBasePlayerView *)player.playerView;
-    [playerView.hintTextLayer kj_displayHintText:@"试看结束，请缴费~~" position:KJPlayerHintPositionBottom];
-}
-
 @end
-
-#endif

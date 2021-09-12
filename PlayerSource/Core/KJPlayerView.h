@@ -10,10 +10,6 @@
 #import "KJPlayerProtocol.h"
 
 NS_ASSUME_NONNULL_BEGIN
-/// 控件位置和大小发生改变信息通知
-static NSString * kPlayerBaseViewChangeNotification = @"kPlayerBaseViewNotification";
-/// 控件位置和大小发生改变key
-static NSString * kPlayerBaseViewChangeKey = @"kPlayerBaseViewKey";
 
 @protocol KJPlayerBaseViewDelegate;
 @interface KJPlayerView : UIImageView

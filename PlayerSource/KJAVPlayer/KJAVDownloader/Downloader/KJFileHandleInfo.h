@@ -8,13 +8,8 @@
 //  缓存相关信息资源
 
 #import <Foundation/Foundation.h>
-#import "KJPlayerType.h"
 
 NS_ASSUME_NONNULL_BEGIN
-/// 缓存相关信息通知 
-extern NSString * kPlayerFileHandleInfoNotification;
-/// 缓存相关信息接收key 
-extern NSString * kPlayerFileHandleInfoKey;
 
 /// 告诉编译器保存当前的对齐方式，并将对齐方式设置为1字节
 #pragma pack(push, 1)

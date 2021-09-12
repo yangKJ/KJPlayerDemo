@@ -11,7 +11,7 @@
 #import "KJPlayerFunction.h"
 #import "KJPlayerProtocol.h"
 #import "KJPlayerBridge.h"
-#import "KJLogManager.h"
+#import "KJPlayerConstant.h"
 
 NS_ASSUME_NONNULL_BEGIN
 

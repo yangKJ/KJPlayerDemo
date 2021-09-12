@@ -8,7 +8,6 @@
 //  文本提示框
 
 #import <QuartzCore/QuartzCore.h>
-#import "KJPlayerType.h"
 
 NS_ASSUME_NONNULL_BEGIN
 /// 显示位置，支持自定义Point

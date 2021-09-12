@@ -8,7 +8,7 @@
 
 #import "KJCacheManager.h"
 #import "DBPlayerDataManager.h"
-#import "KJPlayerType.h"
+#import "KJPlayerConstant.h"
 
 @implementation KJCacheManager
 
@@ -39,11 +39,13 @@
 }
 /// 目录下的全部文件名 
 + (NSArray *)kj_videoAllFileNames{
-    return [[NSFileManager defaultManager] contentsOfDirectoryAtPath:PLAYER_CACHE_VIDEO_DIRECTORY error:nil];
+    return [[NSFileManager defaultManager] contentsOfDirectoryAtPath:PLAYER_CACHE_VIDEO_DIRECTORY
+                                                               error:nil];
 }
 /// 目录下有用的文件路径，排除临时文件 
 + (NSArray *)kj_videoFilePaths{
-    NSDirectoryEnumerator *enumerator = [[NSFileManager defaultManager] enumeratorAtPath:PLAYER_CACHE_VIDEO_DIRECTORY];
+    NSDirectoryEnumerator *enumerator = [[NSFileManager defaultManager]
+                                         enumeratorAtPath:PLAYER_CACHE_VIDEO_DIRECTORY];
     NSMutableArray *temps = [NSMutableArray array];
     NSString *name;
     while ((name = [enumerator nextObject]) != nil) {
@@ -100,7 +102,8 @@
 /// @param videoURL 链接地址
 + (BOOL)kj_haveCacheURL:(NSURL * _Nonnull __strong * _Nonnull)videoURL{
     NSURL * tempURL = * videoURL;
-    NSArray<DBPlayerData*> * temps = [DBPlayerDataManager kj_checkData:kPlayerIntactName(tempURL) error:nil];
+    NSArray<DBPlayerData*> * temps = [DBPlayerDataManager kj_checkData:kPlayerIntactName(tempURL)
+                                                                 error:nil];
     if (temps.count) {
         DBPlayerData * data = temps.firstObject;
         NSString * path = data.sandboxPath;

@@ -95,7 +95,7 @@ PLAYER_COMMON_FUNCTION_PROPERTY PLAYER_COMMON_UI_PROPERTY
     self.originalURL = videoURL;
     if (kPlayerVideoAesstType(videoURL) == KJPlayerAssetTypeNONE) {
         _videoURL = videoURL;
-        self.playError = [KJLogManager kj_errorSummarizing:KJPlayerCustomCodeVideoURLUnknownFormat];
+        PLAYER_NOTIFICATION_CODE(self, @(KJPlayerCustomCodeVideoURLUnknownFormat));
         if (self.player) [self kj_stop];
         return;
     }

@@ -8,7 +8,7 @@
 
 #import "KJFileHandleManager.h"
 #import "KJFileHandleInfo.h"
-#import "KJLogManager.h"
+#import "KJPlayerType.h"
 
 @interface KJFileHandleManager (){
     NSInteger kPackageLength;
@@ -27,7 +27,7 @@
     [_readHandle closeFile];
     [_writeHandle closeFile];
 }
-- (instancetype)initWithURL:(NSURL*)url{
+- (instancetype)initWithURL:(NSURL *)url{
     if (self = [super init]){
         kPackageLength = 204800;
         NSString *filePath = [KJFileHandleInfo kj_createVideoCachedPath:url];
@@ -39,13 +39,15 @@
         self.readHandle = [NSFileHandle fileHandleForReadingFromURL:fileURL error:nil];
         self.writeHandle = [NSFileHandle fileHandleForWritingToURL:fileURL error:nil];
         self.cacheInfo = [KJFileHandleInfo kj_createFileHandleInfoWithURL:url];
-        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(applicationDidEnterBackground:)
-                                                     name:UIApplicationDidEnterBackgroundNotification object:nil];
+        [[NSNotificationCenter defaultCenter] addObserver:self
+                                                 selector:@selector(applicationDidEnterBackground:)
+                                                     name:UIApplicationDidEnterBackgroundNotification
+                                                   object:nil];
     }
     return self;
 }
 /// 进入后台 
-- (void)applicationDidEnterBackground:(NSNotification*)notification{
+- (void)applicationDidEnterBackground:(NSNotification *)notification{
     [self kj_writeSave];
 }
 - (void)kj_setWriteHandleContentLenght:(NSUInteger)contentLength{
@@ -53,7 +55,7 @@
     [self.writeHandle synchronizeFile];
 }
 /// 获取指定区间已经缓存的碎片 
-- (NSArray*)kj_getCachedFragmentsWithRange:(NSRange)range{
+- (NSArray *)kj_getCachedFragmentsWithRange:(NSRange)range{
     if (range.location == NSNotFound) return [NSMutableArray array].mutableCopy;
     NSInteger endOffset = range.location + range.length;
     NSMutableArray *fragments = [NSMutableArray array];
@@ -114,22 +116,24 @@
     return [fragments copy];
 }
 /// 写入已下载分片数据 
-- (NSError*)kj_writeCacheData:(NSData*)data Range:(NSRange)range{
+- (NSError *)kj_writeCacheData:(NSData *)data Range:(NSRange)range{
     @synchronized(self.writeHandle) {
         NSError *error;
         @try {
             [self.writeHandle seekToFileOffset:range.location];
             [self.writeHandle writeData:data];
             [self.cacheInfo kj_continueCacheFragmentRange:range];
-        }@catch (NSException *exception) {
-            error = [NSError errorWithDomain:exception.name code:KJPlayerCustomCodeWriteFileFailed userInfo:nil];
-        }@finally {
+        } @catch (NSException *exception) {
+            error = [NSError errorWithDomain:@"write file failed"
+                                        code:KJPlayerCustomCodeWriteFileFailed
+                                    userInfo:@{NSLocalizedDescriptionKey:exception.name}];
+        } @finally {
             return error;
         }
     }
 }
 /// 读取已下载分片缓存数据 
-- (NSData*)kj_readCachedDataWithRange:(NSRange)range{
+- (NSData *)kj_readCachedDataWithRange:(NSRange)range{
     @synchronized(self.readHandle) {
         [self.readHandle seekToFileOffset:range.location];
         return [self.readHandle readDataOfLength:range.length];

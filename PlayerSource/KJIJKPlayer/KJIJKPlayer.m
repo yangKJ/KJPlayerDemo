@@ -323,7 +323,7 @@ PLAYER_COMMON_FUNCTION_PROPERTY PLAYER_COMMON_UI_PROPERTY
 - (void)setVideoURL:(NSURL *)videoURL{
     [self kj_initializeBeginPlayConfiguration];
     if (kPlayerVideoAesstType(videoURL) == KJPlayerAssetTypeNONE) {
-        self.playError = [KJLogManager kj_errorSummarizing:KJPlayerCustomCodeVideoURLUnknownFormat];
+        PLAYER_NOTIFICATION_CODE(self, @(KJPlayerCustomCodeVideoURLUnknownFormat));
         if (self.player) [self kj_stop];
         _videoURL = videoURL;
         return;

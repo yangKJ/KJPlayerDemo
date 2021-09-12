@@ -49,13 +49,15 @@ NS_INLINE NSString * kGetRequestKey(NSURL * requestURL){
  *  @param resourceLoader 资源管理器
  *  @param loadingRequest 每一小块数据的请求
  */
-- (BOOL)resourceLoader:(AVAssetResourceLoader*)resourceLoader shouldWaitForLoadingOfRequestedResource:(AVAssetResourceLoadingRequest*)loadingRequest{
+- (BOOL)resourceLoader:(AVAssetResourceLoader *)resourceLoader
+shouldWaitForLoadingOfRequestedResource:(AVAssetResourceLoadingRequest *)loadingRequest{
     NSString *key = kGetRequestKey(loadingRequest.request.URL);
     if (key == nil) return NO;
     KJResourceLoaderManager *manager = self.loaderMap[key];
     if (manager == nil){
         NSURL *resourceURL = loadingRequest.request.URL;
-        NSString *string = [resourceURL.absoluteString stringByReplacingOccurrencesOfString:kCustomVideoScheme withString:@""];
+        NSString *string = [resourceURL.absoluteString stringByReplacingOccurrencesOfString:kCustomVideoScheme
+                                                                                 withString:@""];
         NSURL *videoURL = [NSURL URLWithString:string];
         manager = [[KJResourceLoaderManager alloc] initWithVideoURL:videoURL];
         manager.delegate = self;
@@ -69,7 +71,8 @@ NS_INLINE NSString * kGetRequestKey(NSURL * requestURL){
  *  @param resourceLoader 资源管理器
  *  @param loadingRequest 每一小块数据的请求
  */
-- (void)resourceLoader:(AVAssetResourceLoader*)resourceLoader didCancelLoadingRequest:(AVAssetResourceLoadingRequest*)loadingRequest{
+- (void)resourceLoader:(AVAssetResourceLoader *)resourceLoader
+didCancelLoadingRequest:(AVAssetResourceLoadingRequest *)loadingRequest{
     KJResourceLoaderManager *loader = self.loaderMap[kGetRequestKey(loadingRequest.request.URL)];
     [loader kj_removeRequest:loadingRequest];
 }

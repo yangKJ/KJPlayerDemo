@@ -6,8 +6,9 @@
 //  https://github.com/yangKJ/KJPlayerDemo
 
 #import "KJScreenshotsManager.h"
-#import "KJPlayerType.h"
+#import <CommonCrypto/CommonDigest.h>
 #import "KJBasePlayer.h"
+#import "KJPlayerConstant.h"
 
 @implementation KJScreenshotsManager
 

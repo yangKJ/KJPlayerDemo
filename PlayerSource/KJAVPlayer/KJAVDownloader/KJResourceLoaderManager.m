@@ -13,7 +13,6 @@
 #import "KJDownloader.h"
 #import "KJFileHandleManager.h"
 #import "KJFileHandleInfo.h"
-#import "KJLogManager.h"
 #import "KJPlayerType.h"
 #import "KJPlayerSharedInstance.h"
 
@@ -30,24 +29,26 @@
 - (void)dealloc{
     [self kj_cancelLoading];
 }
-- (instancetype)initWithVideoURL:(NSURL*)url{
+- (instancetype)initWithVideoURL:(NSURL *)url{
     if (self = [super init]) {
         self.videoURL = url;
         self.fileHandleManager = [[KJFileHandleManager alloc] initWithURL:self.videoURL];
-        self.downloader = [[KJDownloader alloc] initWithURL:self.videoURL fileHandleManager:self.fileHandleManager];
+        self.downloader = [[KJDownloader alloc] initWithURL:self.videoURL
+                                          fileHandleManager:self.fileHandleManager];
     }
     return self;
 }
 - (void)kj_addRequest:(AVAssetResourceLoadingRequest*)request{
     KJDownloader * downloader;
     if (self.requests.count){
-        downloader = [[KJDownloader alloc]initWithURL:self.videoURL fileHandleManager:self.fileHandleManager];
+        downloader = [[KJDownloader alloc]initWithURL:self.videoURL
+                                    fileHandleManager:self.fileHandleManager];
     } else {
         downloader = self.downloader;
     }
     [self kj_addDownloader:downloader request:request];
 }
-- (void)kj_removeRequest:(AVAssetResourceLoadingRequest*)request{
+- (void)kj_removeRequest:(AVAssetResourceLoadingRequest *)request{
     __block AVAssetResourceLoadingRequest * tempRequest = nil;
     [self.requests enumerateObjectsUsingBlock:^(AVAssetResourceLoadingRequest * obj, BOOL * stop) {
         if (request == obj) {
@@ -57,7 +58,10 @@
     }];
     if (tempRequest) {
         if (tempRequest.isFinished == NO) {
-            [tempRequest finishLoadingWithError:[KJLogManager kj_errorSummarizing:KJPlayerCustomCodeFinishLoading]];
+            NSError * error = [NSError errorWithDomain:@"ykj.player"
+                                                  code:KJPlayerCustomCodeFinishLoading
+                                              userInfo:nil];
+            [tempRequest finishLoadingWithError:error];
         } else {
             [tempRequest finishLoading];
         }
@@ -88,7 +92,7 @@
         if (error.code == NSURLErrorCancelled) return;
         if (error.code == KJPlayerCustomCodeCachedComplete) {
             [weakself kj_cancelLoading];
-        }else if (error){
+        } else if (error) {
             [request finishLoadingWithError:error];
         } else {
             [request finishLoading];
@@ -105,7 +109,8 @@
     kStartDownloading(downloader, request);
 }
 /// 开始请求下载数据 
-NS_INLINE void kStartDownloading(KJDownloader * downloader, AVAssetResourceLoadingRequest * request){
+NS_INLINE void kStartDownloading(KJDownloader * downloader,
+                                 AVAssetResourceLoadingRequest * request){
     AVAssetResourceLoadingDataRequest *dataRequest = request.dataRequest;
     NSInteger offset = (NSInteger)dataRequest.requestedOffset;
     NSInteger length = dataRequest.requestedLength;
@@ -119,7 +124,8 @@ NS_INLINE void kStartDownloading(KJDownloader * downloader, AVAssetResourceLoadi
     [downloader kj_downloadTaskRange:NSMakeRange(offset, length) whole:NO];
 }
 /// 对请求加上长度，文件类型等信息，必须设置正确否则会报播放器Failed
-NS_INLINE void kSetDownloadConfiguration(KJDownloader * downloader, AVAssetResourceLoadingRequest * loadingRequest){
+NS_INLINE void kSetDownloadConfiguration(KJDownloader * downloader,
+                                         AVAssetResourceLoadingRequest * loadingRequest){
     AVAssetResourceLoadingContentInformationRequest *request = loadingRequest.contentInformationRequest;
     if (downloader.fileHandleManager.cacheInfo.contentType) {
         request.contentType = downloader.fileHandleManager.cacheInfo.contentType;
