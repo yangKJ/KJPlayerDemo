@@ -8,12 +8,6 @@
 #import "KJPlayerConstant.h"
 #import <CommonCrypto/CommonDigest.h>
 
-@interface KJPlayerConstant ()
-/// 日志打印等级
-@property(nonatomic,assign,class) KJPlayerVideoRankType rankType;
-
-@end
-
 @implementation KJPlayerConstant
 
 /// 缓存相关信息通知
@@ -113,43 +107,6 @@ void kPlayerPerformSel(id target, NSString * selName){
         void (* tempFunc)(id target, SEL) = (void *)imp;
         tempFunc(target, sel);
     }
-}
-
-#pragma mark - log
-
-static KJPlayerVideoRankType _rankType = KJPlayerVideoRankTypeNone;
-+ (KJPlayerVideoRankType)rankType{
-    return _rankType;
-}
-+ (void)setRankType:(KJPlayerVideoRankType)rankType{
-    _rankType = rankType;
-}
-/// 打开几级日志打印，多枚举
-+ (void)kj_openLogRankType:(KJPlayerVideoRankType)type{
-    self.rankType = type;
-}
-/// 按级别打印日志
-+ (void)kj_log:(KJPlayerVideoRankType)type format:(NSString *)format,...{
-#ifdef DEBUG
-    if (self.rankType == KJPlayerVideoRankTypeNone) {
-        return;
-    }
-    va_list args;
-    va_start(args, format);
-    if (self.rankType == 1 || (self.rankType & KJPlayerVideoRankTypeOne)) {
-        if (type == KJPlayerVideoRankTypeOne) {
-            NSLogv([@"\n一级打印内容 " stringByAppendingString:format], args);
-        }
-        va_end(args);
-        return;
-    }
-    if (self.rankType == 2 || (self.rankType & KJPlayerVideoRankTypeTwo)) {
-        if (type == KJPlayerVideoRankTypeTwo) {
-            NSLogv([@"\n二级打印内容 " stringByAppendingString:format], args);
-        }
-    }
-    va_end(args);
-#endif
 }
 
 @end

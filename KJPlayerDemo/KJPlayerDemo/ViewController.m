@@ -23,7 +23,7 @@
     self.title = @"KJPlayerDemo 🎷";
     
     //开启日志打印
-    [KJPlayerConstant kj_openLogRankType:(KJPlayerVideoRankTypeAll)];
+    [KJPlayerLog kj_openLogRankType:(KJPlayerVideoRankTypeAll)];
     
     //暗黑模式
     if (@available(iOS 13.0, *)) {

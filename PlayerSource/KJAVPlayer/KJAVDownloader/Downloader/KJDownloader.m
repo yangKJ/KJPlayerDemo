@@ -275,7 +275,7 @@ void(^completionHandler)(NSURLSessionResponseDisposition));
         NSURLSessionConfiguration *configuration = [NSURLSessionConfiguration defaultSessionConfiguration];
         NSURLSession *session = [NSURLSession sessionWithConfiguration:configuration
                                                               delegate:self.sessionAgent
-                                                         delegateQueue:nil];
+                                                         delegateQueue:dispatch_get_global_queue(0, 0)];
         _session = session;
     }
     return _session;

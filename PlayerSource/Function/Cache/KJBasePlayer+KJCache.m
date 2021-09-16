@@ -32,10 +32,12 @@
 /// @param videoURL 视频链接地址
 /// @return 存在会返回该缓存地址，不存在则返回原视频地址
 - (NSURL *)kj_cacheIMP:(NSURL *)videoURL{
-    self.locality = NO;
     if ([KJCacheManager kj_haveCacheURL:&videoURL]) {
-        PLAYER_NOTIFICATION_CODE(self, @(KJPlayerCustomCodeCachedComplete));
         self.locality = YES;
+        PLAYER_NOTIFICATION_CODE(self, @(KJPlayerCustomCodeCachedComplete));
+    } else {
+        self.locality = NO;
+        PLAYER_NOTIFICATION_CODE(self, @(KJPlayerCustomCodeCacheNone));
     }
     if ([self.cacheDelegate respondsToSelector:@selector(kj_cacheWithPlayer:haveCache:cacheVideoURL:)]) {
         [self.cacheDelegate kj_cacheWithPlayer:self haveCache:self.locality cacheVideoURL:videoURL];

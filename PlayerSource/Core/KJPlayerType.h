@@ -37,17 +37,13 @@ isPhoneX = [[UIApplication sharedApplication] delegate].window.safeAreaInsets.bo
 // tabar距底边高度
 #define PLAYER_BOTTOM_SPACE_HEIGHT (PLAYER_iPhoneX ? 34.0f : 0.0f)
 // 颜色
-#define PLAYER_UIColorFromHEXA(hex,a) [UIColor colorWithRed:((hex&0xFF0000)>>16)/255.0f green:((hex&0xFF00)>>8)/255.0f blue:(hex&0xFF)/255.0f alpha:a]
+#define PLAYER_UIColorFromHEXA(hex,a) [UIColor colorWithRed:((hex&0xFF0000)>>16)/255.0f \
+green:((hex&0xFF00)>>8)/255.0f blue:(hex&0xFF)/255.0f alpha:a]
 // 缓存路径
 #define PLAYER_CACHE_PATH NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES).lastObject
 #define PLAYER_CACHE_VIDEO_DIRECTORY [PLAYER_CACHE_PATH stringByAppendingPathComponent:@"videos"]
 // 临时路径名称
 #define PLAYER_TEMP_READ_NAME @"player.temp.read"
-// 打印日志
-#define PLAYERNSLog(type, frmt, ...) [KJPlayerConstant kj_log:type format:frmt, ##__VA_ARGS__]
-#define PLAYERLogInfo(frmt, ...)     PLAYERNSLog(KJPlayerVideoRankTypeAll,frmt, ##__VA_ARGS__)
-#define PLAYERLogOneInfo(frmt, ...)  PLAYERNSLog(KJPlayerVideoRankTypeOne,frmt, ##__VA_ARGS__)
-#define PLAYERLogTwoInfo(frmt, ...)  PLAYERNSLog(KJPlayerVideoRankTypeTwo,frmt, ##__VA_ARGS__)
 // 通知消息
 #define PLAYER_POST_NOTIFICATION(__name__, __object__, __userInfo__) \
 [[NSNotificationCenter defaultCenter] \
@@ -122,14 +118,6 @@ typedef NS_ENUM(NSUInteger, KJPlayerVideoScreenState) {
     KJPlayerVideoScreenStateSmallScreen,/// 小屏
     KJPlayerVideoScreenStateFullScreen, /// 全屏
     KJPlayerVideoScreenStateFloatingWindow,/// 浮窗
-};
-/// 日志打印级别
-typedef NS_OPTIONS(NSUInteger, KJPlayerVideoRankType) {
-    KJPlayerVideoRankTypeNone = 1 << 0,/// 不打印
-    KJPlayerVideoRankTypeOne  = 1 << 1,/// 一级，
-    KJPlayerVideoRankTypeTwo  = 1 << 2,/// 二级
-    
-    KJPlayerVideoRankTypeAll = KJPlayerVideoRankTypeOne | KJPlayerVideoRankTypeTwo,
 };
 /// 自定义错误情况
 typedef NS_ENUM(NSInteger, KJPlayerCustomCode) {

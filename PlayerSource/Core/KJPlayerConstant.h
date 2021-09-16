@@ -67,17 +67,6 @@ extern NSString * kPlayerConvertTime(CGFloat second);
 /// @param selName 方法名
 extern void kPlayerPerformSel(id target, NSString * selName);
 
-#pragma mark - log
-
-/// 打开几级日志打印，仅需设置一次
-/// @param type 日志等级，多枚举
-+ (void)kj_openLogRankType:(KJPlayerVideoRankType)type;
-
-/// 按级别打印日志
-/// @param type 日志等级，多枚举
-/// @param format 打印标签
-+ (void)kj_log:(KJPlayerVideoRankType)type format:(NSString *)format,...;
-
 @end
 
 NS_ASSUME_NONNULL_END
