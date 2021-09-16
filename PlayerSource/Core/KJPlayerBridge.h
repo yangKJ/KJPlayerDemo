@@ -19,12 +19,9 @@ _Pragma("clang diagnostic pop")
 @class DBPlayerData;
 /// 播放器桥梁，仅供内部使用
 @interface KJPlayerBridge : NSObject
-- (instancetype)init UNAVAILABLE_ATTRIBUTE;
-+ (instancetype)new  UNAVAILABLE_ATTRIBUTE;
 
-/// 初始化
-/// @param basePlayer 当前内核
-+ (instancetype)createBridgeWithBasePlayer:(__kindof KJBasePlayer *)basePlayer;
+/// 接收内核
+@property (nonatomic, copy, readwrite) __kindof KJBasePlayer * (^kAcceptBasePlayer)(void);
 
 /// 万能参数
 @property (nonatomic, strong) id anyObject;

@@ -14,9 +14,6 @@
 @interface KJAVPlayer ()
 @property (nonatomic,strong) KJResourceLoader *connection;
 @property (nonatomic,strong) KJFileHandleInfo *cacheInfo;
-@property (nonatomic,assign) KJPlayerState state;
-@property (nonatomic,strong) NSURL *originalURL;
-@property (nonatomic,strong) dispatch_group_t group;
 @property (nonatomic,assign) float progress;
 
 @end
@@ -29,8 +26,6 @@
     if (objc_getAssociatedObject(self, &connectionKey)) {
         objc_setAssociatedObject(self, &connectionKey, nil, OBJC_ASSOCIATION_RETAIN);
     }
-    self.state = KJPlayerStateBuffering;
-    PLAYER_NOTIFICATION_CODE(self, @(KJPlayerCustomCodeCacheNone));
     self.asset = [AVURLAsset URLAssetWithURL:self.connection.kj_createSchemeURL(videoURL)
                                      options:self.requestHeader];
     [self.asset.resourceLoader setDelegate:self.connection queue:dispatch_get_global_queue(0, 0)];
@@ -43,8 +38,7 @@
     PLAYER_WEAKSELF;
     kGCD_player_main(^{
         // 是否开启缓存
-        KJPlayerBridge * bridge = [KJPlayerBridge createBridgeWithBasePlayer:weakself];
-        if ([bridge kj_readStatus:520]) {
+        if ([weakself.bridge kj_readStatus:520]) {
             weakself.progress = cacheInfo.progress;
         }
     });
@@ -73,10 +67,9 @@ static char connectionKey;
             if (error == nil) return;
             [loader kj_cancelLoading];
             // 存储数据
-            KJPlayerBridge * bridge = [KJPlayerBridge createBridgeWithBasePlayer:weakself];
-            bridge.anyObject = error;
-            bridge.anyOtherObject = weakself.cacheInfo.fileName;
-            [bridge kj_anyArgumentsIndex:521 withBlock:^(NSMutableDictionary * data){
+            weakself.bridge.anyObject = error;
+            weakself.bridge.anyOtherObject = weakself.cacheInfo.fileName;
+            [weakself.bridge kj_anyArgumentsIndex:521 withBlock:^(NSMutableDictionary * data){
                 [data setValue:weakself.cacheInfo.videoURL.absoluteString forKey:@"videoUrl"];
                 [data setValue:weakself.cacheInfo.fileFormat forKey:@"videoFormat"];
                 [data setValue:@(weakself.cacheInfo.contentLength) forKey:@"videoContentLength"];

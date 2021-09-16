@@ -8,28 +8,13 @@
 #import "KJPlayerBridge.h"
 #import "KJBasePlayer.h"
 
-@interface KJPlayerBridge ()
-/// 当前内核
-@property (nonatomic, strong) __kindof KJBasePlayer * basePlayer;
-
-@end
-
 @implementation KJPlayerBridge
-
-/// 初始化
-/// @param basePlayer 当前内核
-+ (instancetype)createBridgeWithBasePlayer:(__kindof KJBasePlayer *)basePlayer{
-    @synchronized (self) {
-        KJPlayerBridge * bridge = [[KJPlayerBridge alloc] init];
-        bridge.basePlayer = basePlayer;
-        return bridge;
-    }
-}
 
 /// 万能回调响应方法
 /// @param index 协定使用
 /// @param withBlock 回调响应
 - (void)kj_anyArgumentsIndex:(NSInteger)index withBlock:(KJPlayerAnyBlock)withBlock{
+    __kindof KJBasePlayer * basePlayer = self.kAcceptBasePlayer();
     switch (index) {
         case 520:{ // 视频截图，`KJScreenshotsManager`
             id target = [[NSClassFromString(@"KJScreenshotsManager") alloc] init];
@@ -37,17 +22,17 @@
             if ([target respondsToSelector:sel]) {
                 IMP imp = [target methodForSelector:sel];
                 void (* tempFunc)(id, SEL, __kindof KJBasePlayer *, id, id, KJPlayerAnyBlock) = (void *)imp;
-                tempFunc(target, sel, self.basePlayer, self.anyObject, self.anyOtherObject, withBlock);
+                tempFunc(target, sel, basePlayer, self.anyObject, self.anyOtherObject, withBlock);
             } else {
                 withBlock ? withBlock(nil) : nil;
             }
         } break;
         case 521:{ // 存储缓存数据，`KJBasePlayer+KJCache`
             SEL sel = NSSelectorFromString(@"kj_saveCacheIMP:otherObject:withBlock:");
-            if ([self.basePlayer respondsToSelector:sel]) {
-                IMP imp = [self.basePlayer methodForSelector:sel];
+            if ([basePlayer respondsToSelector:sel]) {
+                IMP imp = [basePlayer methodForSelector:sel];
                 void (* tempFunc)(id, SEL, id, id, KJPlayerAnyBlock) = (void *)imp;
-                tempFunc(self.basePlayer, sel, self.anyObject, self.anyOtherObject, withBlock);
+                tempFunc(basePlayer, sel, self.anyObject, self.anyOtherObject, withBlock);
             }
         } break;
         default:break;
@@ -58,12 +43,13 @@
 /// @param index 协定使用
 /// @return 返回读取开关信息
 - (bool)kj_readStatus:(NSInteger)index{
+    __kindof KJBasePlayer * basePlayer = self.kAcceptBasePlayer();
     bool(^kRead)(NSString *) = ^bool(NSString * method){
         SEL sel = NSSelectorFromString(method);
-        if ([self.basePlayer respondsToSelector:sel]) {
-            IMP imp = [self.basePlayer methodForSelector:sel];
+        if ([basePlayer respondsToSelector:sel]) {
+            IMP imp = [basePlayer methodForSelector:sel];
             bool (* tempFunc)(id, SEL) = (void *)imp;
-            return tempFunc(self.basePlayer, sel);
+            return tempFunc(basePlayer, sel);
         }
         return false;
     };
@@ -85,11 +71,12 @@
 /// 构建方法
 /// @param method 方法名
 - (void)kj_methodIMP:(NSString *)method{
+    __kindof KJBasePlayer * basePlayer = self.kAcceptBasePlayer();
     SEL sel = NSSelectorFromString(method);
-    if ([self.basePlayer respondsToSelector:sel]) {
-        IMP imp = [self.basePlayer methodForSelector:sel];
+    if ([basePlayer respondsToSelector:sel]) {
+        IMP imp = [basePlayer methodForSelector:sel];
         void (* tempFunc)(id, SEL) = (void *)imp;
-        tempFunc(self.basePlayer, sel);
+        tempFunc(basePlayer, sel);
     }
 }
 
@@ -97,11 +84,12 @@
 /// @param method 方法名
 /// @return 返回布尔值
 - (BOOL)kj_boolMethodIMP:(NSString *)method{
+    __kindof KJBasePlayer * basePlayer = self.kAcceptBasePlayer();
     SEL sel = NSSelectorFromString(method);
-    if ([self.basePlayer respondsToSelector:sel]) {
-        IMP imp = [self.basePlayer methodForSelector:sel];
+    if ([basePlayer respondsToSelector:sel]) {
+        IMP imp = [basePlayer methodForSelector:sel];
         BOOL (* tempFunc)(id, SEL) = (void *)imp;
-        return tempFunc(self.basePlayer, sel);
+        return tempFunc(basePlayer, sel);
     }
     return NO;
 }
@@ -112,11 +100,12 @@
 /// @return 返回该方法处理之后的对象
 - (id)kj_methodIMP:(NSString *)method object:(id)object{
     id tempObject = nil;
+    __kindof KJBasePlayer * basePlayer = self.kAcceptBasePlayer();
     SEL sel = NSSelectorFromString(method);
-    if ([self.basePlayer respondsToSelector:sel]) {
-        IMP imp = [self.basePlayer methodForSelector:sel];
+    if ([basePlayer respondsToSelector:sel]) {
+        IMP imp = [basePlayer methodForSelector:sel];
         id (* tempFunc)(id, SEL, id) = (void *)imp;
-        tempObject = tempFunc(self.basePlayer, sel, object);
+        tempObject = tempFunc(basePlayer, sel, object);
     }
     return tempObject;
 }
@@ -126,12 +115,13 @@
 /// 播放器状态改变
 /// @param state 播放器状态
 - (void)kj_changePlayerState:(KJPlayerState)state{
+    __kindof KJBasePlayer * basePlayer = self.kAcceptBasePlayer();
     void(^kMethodIMP)(NSString *) = ^(NSString * method){
         SEL sel = NSSelectorFromString(method);
-        if ([self.basePlayer respondsToSelector:sel]) {
-            IMP imp = [self.basePlayer methodForSelector:sel];
+        if ([basePlayer respondsToSelector:sel]) {
+            IMP imp = [basePlayer methodForSelector:sel];
             void (* tempFunc)(id, SEL, KJPlayerState) = (void *)imp;
-            tempFunc(self.basePlayer, sel, state);
+            tempFunc(basePlayer, sel, state);
         }
     };
     
@@ -155,12 +145,13 @@
 /// 播放中，功能处理
 /// @param time 当前播放时间
 - (BOOL)kj_playingFunction:(NSTimeInterval)time{
+    __kindof KJBasePlayer * basePlayer = self.kAcceptBasePlayer();
     BOOL(^kMethodIMP)(NSString *) = ^BOOL(NSString * method){
         SEL sel = NSSelectorFromString(method);
-        if ([self.basePlayer respondsToSelector:sel]) {
-            IMP imp = [self.basePlayer methodForSelector:sel];
+        if ([basePlayer respondsToSelector:sel]) {
+            IMP imp = [basePlayer methodForSelector:sel];
             BOOL (* tempFunc)(id, SEL, NSTimeInterval) = (void *)imp;
-            return tempFunc(self.basePlayer, sel, time);
+            return tempFunc(basePlayer, sel, time);
         }
         return NO;
     };
@@ -189,12 +180,13 @@
 /// 初始化时刻注册后台监听
 /// @param monitoring 前后台监听
 - (void)kj_initBackgroundMonitoring:(void(^)(BOOL isBackground, BOOL isPlaying))monitoring{
+    __kindof KJBasePlayer * basePlayer = self.kAcceptBasePlayer();
     // 前后台管理，`KJBasePlayer+KJBackgroundMonitoring`
     SEL sel = NSSelectorFromString(@"kj_backgroundMonitoringIMP:");
-    if ([self.basePlayer respondsToSelector:sel]) {
-        IMP imp = [self.basePlayer methodForSelector:sel];
+    if ([basePlayer respondsToSelector:sel]) {
+        IMP imp = [basePlayer methodForSelector:sel];
         void (* tempFunc)(id, SEL, void(^)(BOOL, BOOL)) = (void *)imp;
-        tempFunc(self.basePlayer, sel, monitoring);
+        tempFunc(basePlayer, sel, monitoring);
     }
 }
 

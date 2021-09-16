@@ -12,10 +12,12 @@
 #import "KJPlayerProtocol.h"
 #import "KJPlayerBridge.h"
 #import "KJPlayerConstant.h"
+#import "KJPlayerLog.h"
 
 NS_ASSUME_NONNULL_BEGIN
 
 @class KJPlayerView;
+@class KJPlayerDelegateManager;
 /// 内核壳子，基类
 @interface KJBasePlayer : NSObject <KJPlayerFunction>
 /// 单例属性
@@ -25,6 +27,8 @@ NS_ASSUME_NONNULL_BEGIN
 /// 销毁单例
 + (void)kj_attempDealloc;
 
+/// 播放器桥接载体
+@property (nonatomic,strong,readonly) KJPlayerBridge *bridge;
 /// 播放器载体
 @property (nonatomic,strong) __kindof KJPlayerView *playerView;
 /// 占位图

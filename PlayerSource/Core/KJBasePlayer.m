@@ -12,6 +12,7 @@
 @interface KJBasePlayer ()
 /// 错误信息
 @property (nonatomic, strong) NSError * playError;
+@property (nonatomic, strong) KJPlayerBridge *bridge;
 
 @end
 
@@ -43,8 +44,7 @@ static dispatch_once_t onceToken;
     [self removeObserver:self forKeyPath:@"progress"];
     [self removeObserver:self forKeyPath:@"playError"];
     [self removeObserver:self forKeyPath:@"currentTime"];
-    KJPlayerBridge * bridge = [KJPlayerBridge createBridgeWithBasePlayer:self];
-    [bridge kj_playerDealloc];
+    [self.bridge kj_playerDealloc];
 }
 - (instancetype)init{
     if (self = [super init]) {
@@ -54,8 +54,7 @@ static dispatch_once_t onceToken;
 }
 - (void)kj_addNotificationCenter{
     PLAYER_WEAKSELF;
-    KJPlayerBridge * bridge = [KJPlayerBridge createBridgeWithBasePlayer:self];
-    [bridge kj_initBackgroundMonitoring:^(BOOL isBackground, BOOL isPlaying) {
+    [self.bridge kj_initBackgroundMonitoring:^(BOOL isBackground, BOOL isPlaying) {
         if (isBackground && isPlaying == NO) {
             [weakself kj_pause];
         } else if (isBackground == NO && isPlaying) {
@@ -102,8 +101,7 @@ static dispatch_once_t onceToken;
                 kGCD_player_main(^{
                     [self.delegate kj_player:self state:state];
                 });
-                KJPlayerBridge * bridge = [KJPlayerBridge createBridgeWithBasePlayer:self];
-    [bridge kj_changePlayerState:state];
+                [self.bridge kj_changePlayerState:state];
             }
         }
     } else if ([keyPath isEqualToString:@"progress"]) {
@@ -224,13 +222,11 @@ static dispatch_once_t onceToken;
 - (void)kj_resume{ }
 /// 暂停
 - (void)kj_pause{
-    KJPlayerBridge * bridge = [KJPlayerBridge createBridgeWithBasePlayer:self];
-    [bridge kj_changePlayerState:KJPlayerStatePausing];
+    [self.bridge kj_changePlayerState:KJPlayerStatePausing];
 }
 /// 停止
 - (void)kj_stop{
-    KJPlayerBridge * bridge = [KJPlayerBridge createBridgeWithBasePlayer:self];
-    [bridge kj_changePlayerState:KJPlayerStateStopped];
+    [self.bridge kj_changePlayerState:KJPlayerStateStopped];
 }
 /// 指定时间播放
 - (void)kj_appointTime:(NSTimeInterval)time{
@@ -246,6 +242,19 @@ static dispatch_once_t onceToken;
 /// @param screenshots 截屏回调
 - (void)kj_currentTimeScreenshots:(void(^)(UIImage * image))screenshots{
     
+}
+
+#pragma mark - lazy
+
+- (KJPlayerBridge *)bridge{
+    if (!_bridge) {
+        _bridge = [[KJPlayerBridge alloc] init];
+        PLAYER_WEAKSELF;
+        _bridge.kAcceptBasePlayer = ^__kindof KJBasePlayer * _Nonnull{
+            return weakself;
+        };
+    }
+    return _bridge;
 }
 
 @end

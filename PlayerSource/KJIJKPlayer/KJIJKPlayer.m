@@ -142,8 +142,7 @@ PLAYER_COMMON_FUNCTION_PROPERTY PLAYER_COMMON_UI_PROPERTY
             if (self.userPause == NO) {
                 self.currentTime = sec;
             }
-            KJPlayerBridge * bridge = [KJPlayerBridge createBridgeWithBasePlayer:self];
-    [bridge kj_playingFunction:sec];
+            [self.bridge kj_playingFunction:sec];
         } break;
         case IJKMPMoviePlaybackStatePaused:
             self.state = KJPlayerStatePausing;
@@ -221,8 +220,7 @@ PLAYER_COMMON_FUNCTION_PROPERTY PLAYER_COMMON_UI_PROPERTY
     [self installMovieNotificationObservers];
     [self setVideoGravity:_videoGravity];
     // 读取当前资源是否为本地资源
-    KJPlayerBridge * bridge = [KJPlayerBridge createBridgeWithBasePlayer:self];
-    self.progress = [bridge kj_readStatus:521] ? 1.0 : 0.0;
+    self.progress = [self.bridge kj_readStatus:521] ? 1.0 : 0.0;
 }
 //初始化开始播放时配置信息（名字不能乱改，KJCache当中有使用）
 - (void)kj_initializeBeginPlayConfiguration{
@@ -254,8 +252,7 @@ PLAYER_COMMON_FUNCTION_PROPERTY PLAYER_COMMON_UI_PROPERTY
         return;
     }
     self.isLiveStreaming = NO;
-    KJPlayerBridge * bridge = [KJPlayerBridge createBridgeWithBasePlayer:self];
-    if (![bridge kj_beginFunction]) {
+    if (![self.bridge kj_beginFunction]) {
         [self kj_autoPlay];
     }
 }
@@ -415,9 +412,8 @@ PLAYER_COMMON_FUNCTION_PROPERTY PLAYER_COMMON_UI_PROPERTY
             if (completionHandler) completionHandler(NO);
         }
         NSTimeInterval seconds = time;
-        KJPlayerBridge * bridge = [KJPlayerBridge createBridgeWithBasePlayer:weakself];
         // 本地资源？
-        if ([bridge kj_readStatus:521] == false && weakself.openAdvanceCache) {
+        if ([weakself.bridge kj_readStatus:521] == false && weakself.openAdvanceCache) {
             if (weakself.totalTime) {
                 NSTimeInterval _time = weakself.progress * weakself.totalTime;
                 if (seconds + weakself.cacheTime >= _time) seconds = _time - weakself.cacheTime;
