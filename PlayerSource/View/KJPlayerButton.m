@@ -37,9 +37,6 @@
         if (baseView.screenState == KJPlayerVideoScreenStateFullScreen) {
             baseView.isFullScreen = NO;
         }
-        if (baseView.kVideoClickButtonBack) {
-            baseView.kVideoClickButtonBack(baseView);
-        }
         if ([baseView.delegate respondsToSelector:@selector(kj_basePlayerView:clickBack:)]) {
             [baseView.delegate kj_basePlayerView:baseView clickBack:YES];
         }

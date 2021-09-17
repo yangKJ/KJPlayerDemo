@@ -29,6 +29,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 /// 播放器桥接载体
 @property (nonatomic,strong,readonly) KJPlayerBridge *bridge;
+
 /// 播放器载体
 @property (nonatomic,strong) __kindof KJPlayerView *playerView;
 /// 占位图
@@ -37,10 +38,6 @@ NS_ASSUME_NONNULL_BEGIN
 @property (nonatomic,assign) CGColorRef background;
 /// 视频显示模式，默认 KJPlayerVideoGravityResizeAspect
 @property (nonatomic,assign) KJPlayerVideoGravity videoGravity;
-
-/// 获取当前时间截屏
-/// @param screenshots 截屏回调
-- (void)kj_currentTimeScreenshots:(void(^)(UIImage * image))screenshots;
 
 @end
 

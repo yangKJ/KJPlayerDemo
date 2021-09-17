@@ -43,13 +43,6 @@ NS_ASSUME_NONNULL_BEGIN
 /// 取消收起操作面板，可用于滑动滑杆时刻不自动隐藏
 - (void)kj_cancelHiddenOperationView;
 
-#pragma mark - discard method
-
-/// 当前屏幕状态发生改变
-@property (nonatomic,copy,readwrite) void (^kVideoChangeScreenState)(KJPlayerVideoScreenState state) DEPRECATED_MSG_ATTRIBUTE("please use delegate [kj_basePlayerView:screenState:]");
-/// 返回回调
-@property (nonatomic,copy,readwrite) void (^kVideoClickButtonBack)(KJPlayerView * view) DEPRECATED_MSG_ATTRIBUTE("please use delegate [kj_basePlayerView:clickBack:]");
-
 @end
 
 @interface KJPlayerTime : NSObject

@@ -73,12 +73,14 @@ NS_ASSUME_NONNULL_BEGIN
 /// @param completionHandler 回调
 - (void)kj_appointTime:(NSTimeInterval)time
      completionHandler:(void(^_Nullable)(BOOL finished))completionHandler;
+/// 获取当前时间截屏
+/// @param screenshots 截屏回调
+- (void)kj_currentTimeScreenshots:(void(^)(UIImage * image))screenshots;
 
 @end
 
 // 公共ivar
 #define PLAYER_COMMON_FUNCTION_PROPERTY \
-@synthesize delegate = _delegate;\
 @synthesize videoURL = _videoURL;\
 @synthesize originalURL = _originalURL;\
 @synthesize speed = _speed;\

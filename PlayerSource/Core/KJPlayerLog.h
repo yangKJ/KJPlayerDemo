@@ -4,6 +4,7 @@
 //
 //  Created by yangkejun on 2021/9/16.
 //  https://github.com/yangKJ/KJPlayerDemo
+//  日志管理类
 
 #import <Foundation/Foundation.h>
 
@@ -35,6 +36,12 @@ typedef NS_OPTIONS(NSUInteger, KJPlayerVideoRankType) {
 /// @param type 日志等级，多枚举
 /// @param format 打印标签
 + (void)kj_log:(KJPlayerVideoRankType)type format:(NSString *)format,...;
+
+#pragma mark - error
+
+/// 组建错误信息
+/// @param code 错误编码
++ (NSError *)kj_errorWithCode:(NSInteger)code;
 
 @end
 

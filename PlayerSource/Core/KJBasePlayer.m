@@ -17,10 +17,8 @@
 @end
 
 @implementation KJBasePlayer
-
 PLAYER_COMMON_FUNCTION_PROPERTY
 PLAYER_COMMON_UI_PROPERTY
-
 static KJBasePlayer *_instance = nil;
 static dispatch_once_t onceToken;
 + (instancetype)kj_sharedInstance{
@@ -169,47 +167,7 @@ static dispatch_once_t onceToken;
 /// 播放器各种错误CODE通知
 - (void)kj_playerErrorCode:(NSNotification *)notification{
     NSInteger code = [notification.userInfo[kPlayerErrorCodekey] integerValue];
-    NSString *userInfo = @"unknown";
-    switch (code) {
-        case KJPlayerCustomCodeCacheNone:
-            userInfo = @"No cache data";
-            break;
-        case KJPlayerCustomCodeCachedComplete:
-            userInfo = @"locality data";
-            break;
-        case KJPlayerCustomCodeSaveDatabase:
-            userInfo = @"Succeed save database";
-            break;
-        case KJPlayerCustomCodeAVPlayerItemStatusUnknown:
-            userInfo = @"Player item status unknown";
-            break;
-        case KJPlayerCustomCodeAVPlayerItemStatusFailed:
-            userInfo = @"Player item status failed";
-            break;
-        case KJPlayerCustomCodeVideoURLUnknownFormat:
-            userInfo = @"url unknown format";
-            break;
-        case KJPlayerCustomCodeVideoURLFault:
-            userInfo = @"url fault";
-            break;
-        case KJPlayerCustomCodeWriteFileFailed:
-            userInfo = @"write file failed";
-            break;
-        case KJPlayerCustomCodeReadCachedDataFailed:
-            userInfo = @"Data read failed";
-            break;
-        case KJPlayerCustomCodeSaveDatabaseFailed:
-            userInfo = @"Save database failed";
-            break;
-        case KJPlayerCustomCodeFinishLoading:
-            userInfo = @"Resource loader cancelled";
-            break;
-        default:
-            break;
-    }
-    self.playError = [NSError errorWithDomain:@"ykj.player"
-                                         code:code
-                                     userInfo:@{NSLocalizedDescriptionKey:userInfo}];
+    self.playError = [KJPlayerLog kj_errorWithCode:code];
 }
 
 #pragma mark - child method, subclass should override.
@@ -245,6 +203,8 @@ static dispatch_once_t onceToken;
 }
 
 #pragma mark - lazy
+
+@synthesize delegate;
 
 - (KJPlayerBridge *)bridge{
     if (!_bridge) {

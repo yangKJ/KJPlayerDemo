@@ -25,7 +25,6 @@
 #import "KJBasePlayer.h"
 #import "KJPlayerBridge.h"
 #import "KJPlayerConstant.h"
-#import "KJPlayerDelegateManager.h"
 #import "KJPlayerFunction.h"
 #import "KJPlayerLog.h"
 #import "KJPlayerProtocol.h"

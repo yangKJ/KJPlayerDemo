@@ -6,6 +6,7 @@
 //  https://github.com/yangKJ/KJPlayerDemo
 
 #import "KJPlayerLog.h"
+#import "KJPlayerType.h"
 
 @interface KJPlayerLog ()
 /// 日志打印等级
@@ -50,6 +51,52 @@ static KJPlayerVideoRankType _rankType = KJPlayerVideoRankTypeNone;
     }
     va_end(args);
 #endif
+}
+
+#pragma mark - error
+
+/// 组建错误信息
+/// @param code 错误编码
++ (NSError *)kj_errorWithCode:(NSInteger)code{
+    NSString *userInfo = @"unknown";
+    switch (code) {
+        case KJPlayerCustomCodeCacheNone:
+            userInfo = @"No cache data";
+            break;
+        case KJPlayerCustomCodeCachedComplete:
+            userInfo = @"locality data";
+            break;
+        case KJPlayerCustomCodeSaveDatabase:
+            userInfo = @"Succeed save database";
+            break;
+        case KJPlayerCustomCodeAVPlayerItemStatusUnknown:
+            userInfo = @"Player item status unknown";
+            break;
+        case KJPlayerCustomCodeAVPlayerItemStatusFailed:
+            userInfo = @"Player item status failed";
+            break;
+        case KJPlayerCustomCodeVideoURLUnknownFormat:
+            userInfo = @"url unknown format";
+            break;
+        case KJPlayerCustomCodeVideoURLFault:
+            userInfo = @"url fault";
+            break;
+        case KJPlayerCustomCodeWriteFileFailed:
+            userInfo = @"write file failed";
+            break;
+        case KJPlayerCustomCodeReadCachedDataFailed:
+            userInfo = @"Data read failed";
+            break;
+        case KJPlayerCustomCodeSaveDatabaseFailed:
+            userInfo = @"Save database failed";
+            break;
+        case KJPlayerCustomCodeFinishLoading:
+            userInfo = @"Resource loader cancelled";
+            break;
+        default:
+            break;
+    }
+    return [NSError errorWithDomain:@"ykj.player" code:code userInfo:@{NSLocalizedDescriptionKey:userInfo}];
 }
 
 @end

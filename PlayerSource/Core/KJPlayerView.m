@@ -195,9 +195,6 @@
     if ([self.delegate respondsToSelector:@selector(kj_basePlayerView:screenState:)]) {
         [self.delegate kj_basePlayerView:self screenState:self.screenState];
     }
-    if (self.kVideoChangeScreenState) {
-        self.kVideoChangeScreenState(self.screenState);
-    }
 }
 
 #pragma mark - gesture
