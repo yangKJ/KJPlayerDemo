@@ -1,6 +1,6 @@
 Pod::Spec.new do |s|
   s.name         = "KJPlayer"
-  s.version      = "2.1.7"
+  s.version      = "2.1.8"
   s.summary      = "KJPlayer play and cache, AVPlayer / MIDIPlayer / IJKPlayer"
   s.homepage     = "https://github.com/yangKJ/KJPlayerDemo"
   s.description  = 'https://github.com/yangKJ/KJPlayerDemo/blob/master/README.md'
@@ -16,7 +16,7 @@ Pod::Spec.new do |s|
   s.ios.deployment_target = '10.0'
   s.frameworks = 'Foundation', 'UIKit', 'AVFoundation', 'MediaPlayer'
 
-  s.default_subspec  = 'AVPlayer/AVCore'
+#  s.default_subspec  = 'AVPlayer/AVCore'
   s.ios.source_files = 'PlayerSource/KJPlayerHeader.h' 
 
   s.subspec 'Common' do |xx|
