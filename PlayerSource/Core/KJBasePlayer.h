@@ -29,6 +29,8 @@ NS_ASSUME_NONNULL_BEGIN
 
 /// 播放器桥接载体
 @property (nonatomic,strong,readonly) KJPlayerBridge *bridge;
+/// 委托协议管理器
+@property (nonatomic,strong,readonly) KJPlayerDelegateManager *delegateManager;
 
 /// 播放器载体
 @property (nonatomic,strong) __kindof KJPlayerView *playerView;

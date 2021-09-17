@@ -8,11 +8,13 @@
 
 #import "KJBasePlayer.h"
 #import "KJPlayerView.h"
+#import "KJPlayerDelegateManager.h"
 
 @interface KJBasePlayer ()
 /// 错误信息
 @property (nonatomic, strong) NSError * playError;
 @property (nonatomic, strong) KJPlayerBridge *bridge;
+@property (nonatomic, strong) KJPlayerDelegateManager *delegateManager;
 
 @end
 
@@ -92,16 +94,17 @@ static dispatch_once_t onceToken;
                         change:(NSDictionary *)change
                        context:(void *)context{
     if ([keyPath isEqualToString:@"state"]) {
-        if ([self.delegate respondsToSelector:@selector(kj_player:state:)]) {
-            if ([change[@"new"] intValue] != [change[@"old"] intValue]) {
-                KJPlayerState state = (KJPlayerState)[change[@"new"] intValue];
-                PLAYERLogOneInfo(@"-- 🎷当前播放器状态 - %@",KJPlayerStateStringMap[state]);
-                kGCD_player_main(^{
-                    [self.delegate kj_player:self state:state];
-                });
-                [self.bridge kj_changePlayerState:state];
-            }
+        if ([change[@"new"] intValue] == [change[@"old"] intValue]) {
+            return;
         }
+        KJPlayerState state = (KJPlayerState)[change[@"new"] intValue];
+        PLAYERLogOneInfo(@"-- 🎷当前播放器状态 - %@",KJPlayerStateStringMap[state]);
+        [self.bridge kj_changePlayerState:state];
+        [self.delegateManager kj_performDelegateBlock:^(id<KJPlayerDelegate> delegate, KJPlayerDelegateAvailable available) {
+            if (available.playerState) {
+                [delegate kj_player:self state:state];
+            }
+        }];
     } else if ([keyPath isEqualToString:@"progress"]) {
         if ([self.delegate respondsToSelector:@selector(kj_player:loadProgress:)]) {
             if (self.totalTime<=0) return;
@@ -202,9 +205,18 @@ static dispatch_once_t onceToken;
     
 }
 
-#pragma mark - lazy
+#pragma mark - associated
 
-@synthesize delegate;
+@synthesize delegate = _delegate;
+- (id<KJPlayerDelegate>)delegate{
+    return self.delegateManager.delegate;
+}
+- (void)setDelegate:(id<KJPlayerDelegate>)delegate{
+    _delegate = delegate;
+    self.delegateManager.delegate = delegate;
+}
+
+#pragma mark - lazy
 
 - (KJPlayerBridge *)bridge{
     if (!_bridge) {
@@ -215,6 +227,13 @@ static dispatch_once_t onceToken;
         };
     }
     return _bridge;
+}
+
+- (KJPlayerDelegateManager *)delegateManager{
+    if (!_delegateManager) {
+        _delegateManager = [[KJPlayerDelegateManager alloc] init];
+    }
+    return _delegateManager;
 }
 
 @end
