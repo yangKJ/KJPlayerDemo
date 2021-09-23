@@ -9,19 +9,19 @@
 
 #import "KJBasePlayer.h"
 
-#if __has_include(<IJKMediaFramework/IJKMediaFramework.h>)
-
 NS_ASSUME_NONNULL_BEGIN
 
 @class IJKFFOptions;
 @class IJKFFMoviePlayerController;
 @interface KJIJKPlayer : KJBasePlayer
 
+#if __has_include(<IJKMediaFramework/IJKMediaFramework.h>)
+
 @property (nonatomic,strong,readonly) IJKFFMoviePlayerController *player;
 @property (nonatomic,strong,readonly) IJKFFOptions *options;
+
+#endif
 
 @end
 
 NS_ASSUME_NONNULL_END
-
-#endif

@@ -222,6 +222,7 @@ static NSString * const kTimeControlStatus = @"timeControlStatus";
 }
 
 #pragma mark - private method
+
 /// 切换内核时的清理工作（名字不能改，动态切换时有使用）
 - (void)kj_changeSourceCleanJobs{
     [self kj_destroyPlayer];

@@ -12,9 +12,6 @@
 #if __has_include(<IJKMediaFramework/IJKMediaFramework.h>)
 #import <IJKMediaFramework/IJKMediaFramework.h>
 
-#pragma clang diagnostic push
-#pragma clang diagnostic ignored"-Wdeprecated-declarations"
-
 @interface KJIJKPlayer (){
     float lastVolume;
 }
@@ -24,8 +21,15 @@ PLAYER_COMMON_EXTENSION_PROPERTY
 @property (nonatomic,strong) UIView *tempView;
 @property (nonatomic,assign) BOOL initNotificationObservers;
 @end
+#endif
 
 @implementation KJIJKPlayer
+
+#if __has_include(<IJKMediaFramework/IJKMediaFramework.h>)
+
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored"-Wdeprecated-declarations"
+
 PLAYER_COMMON_FUNCTION_PROPERTY PLAYER_COMMON_UI_PROPERTY
 - (instancetype)init{
     if (self = [super init]) {
@@ -518,7 +522,8 @@ PLAYER_COMMON_FUNCTION_PROPERTY PLAYER_COMMON_UI_PROPERTY
     [options setFormatOptionIntValue:1 forKey:@"reconnect"];
 }
 
-@end
-
 #pragma clang diagnostic pop
 #endif
+
+@end
+
