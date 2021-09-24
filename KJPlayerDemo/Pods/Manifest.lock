@@ -6,6 +6,7 @@ PODS:
     - KJPlayer/Common (= 2.1.8)
     - KJPlayer/CustomView (= 2.1.8)
     - KJPlayer/Database (= 2.1.8)
+    - KJPlayer/Downloader (= 2.1.8)
     - KJPlayer/DynamicSource (= 2.1.8)
     - KJPlayer/IJKPlayer (= 2.1.8)
     - KJPlayer/MIDI (= 2.1.8)
@@ -22,6 +23,7 @@ PODS:
   - KJPlayer/AVPlayer/AVDownloader (2.1.8):
     - KJPlayer/AVPlayer/AVCore
     - KJPlayer/Database
+    - KJPlayer/Downloader
   - KJPlayer/BackgroundMonitoring (2.1.8):
     - KJPlayer/Common
   - KJPlayer/Cache (2.1.8):
@@ -31,6 +33,8 @@ PODS:
   - KJPlayer/CustomView (2.1.8):
     - KJPlayer/Common
   - KJPlayer/Database (2.1.8)
+  - KJPlayer/Downloader (2.1.8):
+    - KJPlayer/Common
   - KJPlayer/DynamicSource (2.1.8):
     - KJPlayer/Common
   - KJPlayer/IJKPlayer (2.1.8):
@@ -54,19 +58,6 @@ PODS:
 
 DEPENDENCIES:
   - KJPlayer (from `..`)
-  - KJPlayer/AVPlayer/AVDownloader (from `..`)
-  - KJPlayer/BackgroundMonitoring (from `..`)
-  - KJPlayer/Cache (from `..`)
-  - KJPlayer/CustomView (from `..`)
-  - KJPlayer/Database (from `..`)
-  - KJPlayer/DynamicSource (from `..`)
-  - KJPlayer/IJKPlayer (from `..`)
-  - KJPlayer/MIDI (from `..`)
-  - KJPlayer/PingTimer (from `..`)
-  - KJPlayer/RecordTime (from `..`)
-  - KJPlayer/Screenshots (from `..`)
-  - KJPlayer/SkipTime (from `..`)
-  - KJPlayer/TryTime (from `..`)
   - SwiftMonkey
   - SwiftMonkeyPaws
 
@@ -80,10 +71,10 @@ EXTERNAL SOURCES:
     :path: ".."
 
 SPEC CHECKSUMS:
-  KJPlayer: f77506723b58d410b9ead8c608c434c3ab3f1933
+  KJPlayer: 9a22e31b97e5b17c297a657fcaf916aef1de29e6
   SwiftMonkey: 24ffde5b590d3658cfcb1d775cf74b9f5280eb9c
   SwiftMonkeyPaws: 9d183b8a1b9cfd497c2704342e861b71412d94f5
 
-PODFILE CHECKSUM: 56d5122774a4bafebdeca6d8ec6d066e457111cf
+PODFILE CHECKSUM: b4d319384a2e56d1c8b8f5037245448596f8945d
 
 COCOAPODS: 1.10.1

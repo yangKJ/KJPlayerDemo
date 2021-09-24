@@ -1,6 +1,6 @@
 Pod::Spec.new do |s|
   s.name         = "KJPlayer"
-  s.version      = "2.1.8"
+  s.version      = "2.1.9"
   s.summary      = "KJPlayer play and cache, AVPlayer / MIDIPlayer / IJKPlayer"
   s.homepage     = "https://github.com/yangKJ/KJPlayerDemo"
   s.description  = 'https://github.com/yangKJ/KJPlayerDemo/blob/master/README.md'
@@ -33,6 +33,7 @@ Pod::Spec.new do |s|
       xx.frameworks = 'MobileCoreServices'
       xx.dependency 'KJPlayer/AVPlayer/AVCore'
       xx.dependency 'KJPlayer/Database'
+      xx.dependency 'KJPlayer/Downloader'
     end
   end
   
@@ -60,6 +61,11 @@ Pod::Spec.new do |s|
     xx.source_files = "PlayerSource/Function/Cache/*.{h,m}"
     xx.dependency 'KJPlayer/Common'
     xx.dependency 'KJPlayer/Database'
+  end
+  
+  s.subspec 'Downloader' do |xx|
+    xx.source_files = "PlayerSource/Function/Downloader/*.{h,m}"
+    xx.dependency 'KJPlayer/Common'
   end
   
   s.subspec 'CustomView' do |xx|
