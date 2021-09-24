@@ -38,12 +38,12 @@ NS_ASSUME_NONNULL_BEGIN
 + (BOOL)kj_recordLastTime:(NSTimeInterval)time dbid:(NSString *)dbid;
 
 /// 获取上次播放时间
-+ (NSTimeInterval)kj_getLastTimeDbid:(NSString *)dbid;
++ (NSTimeInterval)kj_lastTimeWithDbid:(NSString *)dbid;
 
 /// 异步获取上次播放时间
 /// @param dbid 主键ID
-/// @param complete 播放时间回调
-+ (void)kj_gainLastTimeDbid:(NSString *)dbid complete:(void(^)(NSTimeInterval time))complete;
+/// @param withBolck 播放时间回调
++ (void)kj_asyncLastTimeWithDbid:(NSString *)dbid withBolck:(void(^)(NSTimeInterval time))withBolck;
 
 /// 存储记录上次播放时间
 /// @param time 时间节点

@@ -21,8 +21,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 /// 初始化
 /// @param url 链接
-/// @param manager 写入和读取文件管理
-- (instancetype)initWithURL:(NSURL *)url fileHandleManager:(KJFileHandleManager *)manager;
+- (instancetype)initWithURL:(NSURL *)url;
 
 /// 指定下载，是否下载到末尾全部数据
 /// @param range 指定区间

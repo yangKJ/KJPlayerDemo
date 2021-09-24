@@ -17,10 +17,9 @@
 #import "KJPlayerSharedInstance.h"
 
 @interface KJResourceLoaderManager ()
-@property (nonatomic,strong, readwrite) NSURL *videoURL;
-@property (nonatomic,strong) KJFileHandleManager *fileHandleManager;
+@property (nonatomic,strong) NSURL *videoURL;
 @property (nonatomic,strong) KJDownloader *downloader;
-@property (nonatomic,strong) NSMutableSet<AVAssetResourceLoadingRequest*>*requests;
+@property (nonatomic,strong) NSMutableSet<AVAssetResourceLoadingRequest *> *requests;
 
 @end
 
@@ -32,17 +31,13 @@
 - (instancetype)initWithVideoURL:(NSURL *)url{
     if (self = [super init]) {
         self.videoURL = url;
-        self.fileHandleManager = [[KJFileHandleManager alloc] initWithURL:self.videoURL];
-        self.downloader = [[KJDownloader alloc] initWithURL:self.videoURL
-                                          fileHandleManager:self.fileHandleManager];
     }
     return self;
 }
 - (void)kj_addRequest:(AVAssetResourceLoadingRequest*)request{
     KJDownloader * downloader;
     if (self.requests.count){
-        downloader = [[KJDownloader alloc]initWithURL:self.videoURL
-                                    fileHandleManager:self.fileHandleManager];
+        downloader = [[KJDownloader alloc]initWithURL:self.videoURL];
     } else {
         downloader = self.downloader;
     }
@@ -71,7 +66,6 @@
 - (void)kj_cancelLoading{
     [self.downloader kj_cancelDownload];
     [self.requests removeAllObjects];
-    [KJPlayerSharedInstance.shared kj_removeDownloadURL:self.videoURL];
 }
 
 #pragma mark - private method
@@ -138,6 +132,13 @@ NS_INLINE void kSetDownloadConfiguration(KJDownloader * downloader,
 }
 
 #pragma mark - lazy
+
+- (KJDownloader *)downloader{
+    if (!_downloader) {
+        _downloader = [[KJDownloader alloc] initWithURL:self.videoURL];
+    }
+    return _downloader;
+}
 
 - (NSMutableSet<AVAssetResourceLoadingRequest *> *)requests{
     if (!_requests) {

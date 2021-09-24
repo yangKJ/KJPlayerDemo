@@ -90,7 +90,7 @@
 /// @param withBlock 插入信息回调
 - (BOOL)kj_saveVideoIntact:(BOOL)videoIntact dbid:(NSString *)dbid withBlock:(void(^)(NSMutableDictionary *))withBlock{
     NSError * error = nil;
-    [DBPlayerDataManager kj_insertData:dbid insert:^(DBPlayerData * data){
+    [DBPlayerDataManager kj_insertOrReplaceData:dbid insert:^(DBPlayerData * data){
         data.dbid = dbid;
         data.saveTime = NSDate.date.timeIntervalSince1970;
         data.videoIntact = videoIntact;

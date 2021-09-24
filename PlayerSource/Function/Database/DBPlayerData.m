@@ -30,21 +30,21 @@
     return array.count ? YES : NO;
 }
 /// 获取上次播放时间
-+ (NSTimeInterval)kj_getLastTimeDbid:(NSString *)dbid{
++ (NSTimeInterval)kj_lastTimeWithDbid:(NSString *)dbid{
     NSArray *temps = [DBPlayerDataManager kj_checkData:dbid error:nil];
     if (temps.count == 0) return 0;
     DBPlayerData * data = temps.firstObject;
     return data.videoPlayTime;
 }
 /// 异步获取上次播放时间
-+ (void)kj_gainLastTimeDbid:(NSString *)dbid complete:(void(^)(NSTimeInterval time))complete{
++ (void)kj_asyncLastTimeWithDbid:(NSString *)dbid withBolck:(void(^)(NSTimeInterval time))withBolck{
     void (^kThread)(void) = ^{
         NSArray * temps = [DBPlayerDataManager kj_checkData:dbid error:nil];
         if (temps.count == 0) {
-            complete ? complete(0) : nil;
+            withBolck ? withBolck(0) : nil;
         } else {
             DBPlayerData *data = temps.firstObject;
-            complete ? complete(data.videoPlayTime) : nil;
+            withBolck ? withBolck(data.videoPlayTime) : nil;
         }
     };
     if (@available(iOS 10.0, *)) {

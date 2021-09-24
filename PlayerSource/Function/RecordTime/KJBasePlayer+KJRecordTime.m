@@ -22,7 +22,7 @@
 - (BOOL)kj_recordLastTimePlayIMP{
     if (self.record) {
         NSString *dbid = kPlayerIntactName(self.originalURL);
-        NSTimeInterval time = [DBPlayerData kj_getLastTimeDbid:dbid];
+        NSTimeInterval time = [DBPlayerData kj_lastTimeWithDbid:dbid];
         PLAYER_WEAKSELF;
         kGCD_player_main(^{
             if (weakself.totalTime) weakself.currentTime = time;

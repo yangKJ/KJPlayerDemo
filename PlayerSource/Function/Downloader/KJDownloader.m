@@ -66,13 +66,13 @@
 - (void)dealloc{
     [KJPlayerSharedInstance.shared kj_removeDownloadURL:self.videoURL];
 }
-- (instancetype)initWithURL:(NSURL *)url fileHandleManager:(KJFileHandleManager *)manager{
+- (instancetype)initWithURL:(NSURL *)url{
     if (self = [super init]) {
         self.saveToCache = YES;
         self.videoURL = url;
-        self.fileHandleManager = manager;
-        self.contentLength = manager.cacheInfo.contentLength;
-        self.contentType = manager.cacheInfo.contentType;
+        self.fileHandleManager = [[KJFileHandleManager alloc] initWithURL:url];
+        self.contentLength = self.fileHandleManager.cacheInfo.contentLength;
+        self.contentType = self.fileHandleManager.cacheInfo.contentType;
         [KJPlayerSharedInstance.shared kj_addDownloadURL:self.videoURL];
     }
     return self;
@@ -102,6 +102,7 @@
 }
 
 #pragma mark - KJDownloaderManagerDelegate
+
 /// 开始接收数据，传递配置信息 
 - (void)kj_didReceiveResponse:(NSURLResponse *)response{
     if ([response isKindOfClass:[NSHTTPURLResponse class]]){
@@ -140,7 +141,9 @@
 @end
 
 @implementation KJDownloader (KJRequestBlock)
+
 #pragma mark - Associated
+
 - (void (^)(KJDownloader *, NSURLResponse *))kDidReceiveResponse{
     return objc_getAssociatedObject(self, _cmd);
 }

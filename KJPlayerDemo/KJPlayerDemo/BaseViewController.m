@@ -149,8 +149,8 @@
         case UIGestureRecognizerStateBegan:{
             self.player.speed = 2.;
             [self.basePlayerView.hintTextLayer kj_displayHintText:@"长按快进播放中..."
-                                                                time:0
-                                                            position:KJPlayerHintPositionTop];
+                                                             time:0
+                                                         position:KJPlayerHintPositionTop];
         } break;
         case UIGestureRecognizerStateChanged:{
             
@@ -169,8 +169,8 @@
 /// @param end 是否结束
 /// @return 不替换UI请返回当前时间和总时间
 - (nullable KJPlayerTime *)kj_basePlayerView:(__kindof KJBasePlayerView *)view
-                                progress:(float)progress
-                                    end:(BOOL)end{
+                                    progress:(float)progress
+                                         end:(BOOL)end{
     if (end) {
         NSTimeInterval time = self.player.currentTime + progress * self.player.totalTime;
         [self.player kj_appointTime:time];

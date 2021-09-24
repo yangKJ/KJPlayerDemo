@@ -8,14 +8,12 @@
 
 #import "KJMIDIPlayer.h"
 
-#pragma clang diagnostic push
-#pragma clang diagnostic ignored"-Wdeprecated-declarations"
-
 @interface KJMIDIPlayer()
 PLAYER_COMMON_EXTENSION_PROPERTY
 @property (nonatomic,assign) MusicPlayer player;
 
 @end
+
 @implementation KJMIDIPlayer{
     AUGraph graph;/// 音频处理图
     AUNode sourceNode;/// 输入节点
@@ -125,6 +123,7 @@ PLAYER_COMMON_FUNCTION_PROPERTY PLAYER_COMMON_UI_PROPERTY
 }
 
 #pragma mark - getter
+
 - (BOOL)isPlaying{
     if (self.player == nil) return NO;
     Boolean xxxxx = NO;
@@ -148,6 +147,7 @@ PLAYER_COMMON_FUNCTION_PROPERTY PLAYER_COMMON_UI_PROPERTY
 }
 
 #pragma mark - private method
+
 - (void)createGraph {
     if (self.player) [self kj_stop];
     NewAUGraph(&graph);
@@ -212,4 +212,3 @@ PLAYER_COMMON_FUNCTION_PROPERTY PLAYER_COMMON_UI_PROPERTY
 }
 
 @end
-#pragma clang diagnostic pop

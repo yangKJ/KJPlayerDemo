@@ -47,6 +47,7 @@ static NSManagedObjectContext * _context = nil;
 }
 
 #pragma mark - DB 增删改查板块
+
 static NSString * kDBPlayerData = @"DBPlayerData";
 + (NSString *)requestEntityName{
     return kDBPlayerData;
@@ -59,9 +60,9 @@ static NSString * kDBPlayerData = @"DBPlayerData";
 /// @param insert 插入回调
 /// @param error 错误信息
 /// @return 返回数据数组
-+ (NSArray<DBPlayerData*>*)kj_insertData:(NSString *)dbid
-                                  insert:(void(^)(DBPlayerData * data))insert
-                                   error:(NSError **)error{
++ (NSArray<DBPlayerData*>*)kj_insertOrReplaceData:(NSString *)dbid
+                                           insert:(void(^)(DBPlayerData * data))insert
+                                            error:(NSError **)error{
     NSFetchRequest *checkRequest = [NSFetchRequest fetchRequestWithEntityName:kDBPlayerData];
     NSPredicate *predicate = [NSPredicate predicateWithFormat:@"dbid = %@", dbid];
     checkRequest.predicate = predicate;

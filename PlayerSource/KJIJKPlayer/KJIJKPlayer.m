@@ -300,6 +300,7 @@ PLAYER_COMMON_FUNCTION_PROPERTY PLAYER_COMMON_UI_PROPERTY
 }
 
 #pragma mark - setter
+
 - (void)setOriginalURL:(NSURL *)originalURL{
     _originalURL = originalURL;
     self.state = KJPlayerStateBuffering;
@@ -401,6 +402,7 @@ PLAYER_COMMON_FUNCTION_PROPERTY PLAYER_COMMON_UI_PROPERTY
 }
 
 #pragma mark - getter
+
 - (BOOL)isPlaying{
     if (self.player == nil) return NO;
     return self.player.isPlaying;
@@ -447,6 +449,7 @@ PLAYER_COMMON_FUNCTION_PROPERTY PLAYER_COMMON_UI_PROPERTY
 }
 
 #pragma mark - lazy loading
+
 - (UIView *)tempView{
     if (!_tempView) {
         _tempView = [UIView new];

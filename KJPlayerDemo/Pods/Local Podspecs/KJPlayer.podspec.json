@@ -57,6 +57,9 @@
             ],
             "KJPlayer/Database": [
 
+            ],
+            "KJPlayer/Downloader": [
+
             ]
           }
         }
@@ -106,6 +109,15 @@
 
         ],
         "KJPlayer/Database": [
+
+        ]
+      }
+    },
+    {
+      "name": "Downloader",
+      "source_files": "PlayerSource/Function/Downloader/*.{h,m}",
+      "dependencies": {
+        "KJPlayer/Common": [
 
         ]
       }
