@@ -1,14 +1,15 @@
 //
-//  KJPlayerConstant.m
+//  KJPlayerConst.m
 //  KJPlayer
 //
 //  Created by 77。 on 2021/9/3.
 //  https://github.com/yangKJ/KJPlayerDemo
 
-#import "KJPlayerConstant.h"
-#import <CommonCrypto/CommonDigest.h>
+#ifndef __KJPlayerConst__M__
+#define __KJPlayerConst__M__
 
-@implementation KJPlayerConstant
+#import <CommonCrypto/CommonDigest.h>
+#import "KJPlayerType.h"
 
 /// 缓存相关信息通知
 NSNotificationName const kPlayerFileHandleInfoNotification = @"kPlayerFileHandleInfoNotification";
@@ -109,4 +110,4 @@ void kPlayerPerformSel(id target, NSString * selName){
     }
 }
 
-@end
+#endif

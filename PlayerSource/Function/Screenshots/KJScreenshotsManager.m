@@ -8,7 +8,7 @@
 #import "KJScreenshotsManager.h"
 #import <CommonCrypto/CommonDigest.h>
 #import "KJBasePlayer.h"
-#import "KJPlayerConstant.h"
+#import "KJPlayerConst.h"
 
 @implementation KJScreenshotsManager
 

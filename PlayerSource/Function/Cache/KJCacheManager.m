@@ -8,7 +8,7 @@
 
 #import "KJCacheManager.h"
 #import "DBPlayerDataManager.h"
-#import "KJPlayerConstant.h"
+#import "KJPlayerConst.h"
 
 @implementation KJCacheManager
 

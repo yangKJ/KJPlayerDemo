@@ -9,6 +9,7 @@
 #import "KJPlayerButton.h"
 #import "KJBasePlayerView.h"
 #import <objc/runtime.h>
+#import "KJPlayerPod.h"
 
 #pragma clang diagnostic push
 #pragma clang diagnostic ignored"-Wdeprecated-declarations"
@@ -87,20 +88,20 @@
         self.layer.cornerRadius = self.frame.size.width/2;
         self.backgroundColor = [UIColor.blackColor colorWithAlphaComponent:0.5];
         [self setTitle:@"\U0000e697" forState:(UIControlStateNormal)];
-        self.titleLabel.font = [UIFont fontWithName:@"KJPlayerfont" size:self.frame.size.width/4*3];
+        self.titleLabel.font = [KJPlayerPod iconFontOfSize:self.frame.size.width/4*3];
     } else if (type == KJPlayerButtonTypeLock) {
         self.hidden = YES;
         self.layer.cornerRadius = self.frame.size.width/2;
         self.backgroundColor = [UIColor.blackColor colorWithAlphaComponent:0.5];
         [self setTitle:@"\U0000e82b" forState:(UIControlStateNormal)];
         [self setTitle:@"\U0000e832" forState:(UIControlStateSelected)];
-        self.titleLabel.font = [UIFont fontWithName:@"KJPlayerfont" size:self.frame.size.width/5*3];
+        self.titleLabel.font = [KJPlayerPod iconFontOfSize:self.frame.size.width/5*3];
         self.touchAreaInsets = UIEdgeInsetsMake(10, 10, 10, 10);
     } else if (type == KJPlayerButtonTypeCenterPlay) {
         self.hidden = YES;
         [self setTitle:@"\U0000e719" forState:(UIControlStateNormal)];
         [self setTitle:@"\U0000e71a" forState:(UIControlStateSelected)];
-        self.titleLabel.font = [UIFont fontWithName:@"KJPlayerfont" size:self.frame.size.width/5*3];
+        self.titleLabel.font = [KJPlayerPod iconFontOfSize:self.frame.size.width/5*3];
     }
 }
 

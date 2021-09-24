@@ -1,17 +1,18 @@
 //
-//  KJPlayerConstant.h
+//  KJPlayerConst.h
 //  KJPlayer
 //
 //  Created by 77。 on 2021/9/3.
 //  https://github.com/yangKJ/KJPlayerDemo
 //  常量和常用方法汇总
 
+#ifndef __KJPlayerConst__H__
+#define __KJPlayerConst__H__
+
 #import <Foundation/Foundation.h>
 #import "KJPlayerType.h"
 
 NS_ASSUME_NONNULL_BEGIN
-
-@interface KJPlayerConstant : NSObject
 
 #pragma mark - constant notification
 
@@ -67,6 +68,6 @@ extern NSString * kPlayerConvertTime(CGFloat second);
 /// @param selName 方法名
 extern void kPlayerPerformSel(id target, NSString * selName);
 
-@end
-
 NS_ASSUME_NONNULL_END
+
+#endif

@@ -136,6 +136,13 @@ typedef NS_ENUM(NSInteger, KJPlayerCustomCode) {
     KJPlayerCustomCodeSaveDatabaseFailed = 103,/// 存入数据库错误
 };
 
+/// 联合体，返回总时间和当前时间
+typedef union KJPlayerTimeUnion{
+    NSTimeInterval currentTime;
+    NSTimeInterval totalTime;
+    bool isReplace; /// 是否替换自带UI，也就是是否使用CustomView模块
+} KJPlayerTimeUnion;
+
 #pragma mark - custom ivar
 
 /// 公共属性区域

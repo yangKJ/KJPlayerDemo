@@ -45,14 +45,4 @@ NS_ASSUME_NONNULL_BEGIN
 
 @end
 
-@interface KJPlayerTime : NSObject
-- (instancetype)init UNAVAILABLE_ATTRIBUTE;
-+ (instancetype)new  UNAVAILABLE_ATTRIBUTE;
-/// 初始化方法
-/// @param currentTime 当前时间
-/// @param totalTime 总时间
-+ (instancetype)createWithCurrentTime:(NSTimeInterval)currentTime totalTime:(NSTimeInterval)totalTime;
-
-@end
-
 NS_ASSUME_NONNULL_END

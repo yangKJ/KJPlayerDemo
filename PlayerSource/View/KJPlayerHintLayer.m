@@ -8,7 +8,7 @@
 
 #import "KJPlayerHintLayer.h"
 #import "KJBasePlayerView.h"
-#import "KJPlayerConstant.h"
+#import "KJPlayerConst.h"
 
 @interface KJPlayerHintLayer ()
 @property (nonatomic,assign) KJPlayerVideoScreenState screenState;

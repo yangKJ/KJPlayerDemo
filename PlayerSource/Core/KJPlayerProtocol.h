@@ -51,7 +51,6 @@ NS_ASSUME_NONNULL_BEGIN
 /// 控件相关委托代理
 @class KJPlayerView;
 @class KJPlayerButton;
-@class KJPlayerTime;
 @protocol KJPlayerBaseViewDelegate <NSObject>
 @optional;
 
@@ -70,10 +69,10 @@ NS_ASSUME_NONNULL_BEGIN
 /// @param view 播放器控件载体
 /// @param progress 进度范围，-1 到 1
 /// @param end 是否结束
-/// @return 不替换UI请返回当前时间和总时间
-- (nullable KJPlayerTime *)kj_basePlayerView:(__kindof KJPlayerView *)view
-                                    progress:(float)progress
-                                         end:(BOOL)end;
+/// @return 时间联合体，是否替换自带UI
+- (KJPlayerTimeUnion)kj_basePlayerView:(__kindof KJPlayerView *)view
+                              progress:(float)progress
+                                   end:(BOOL)end;
 
 /// 音量手势反馈
 /// @param view 播放器控件载体

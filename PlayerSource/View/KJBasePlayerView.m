@@ -110,21 +110,17 @@
 }
 
 /// 快进处理
-/// @param time 总时长和当前时间
+/// @param timeUnion 总时长和当前时间
 /// @param value 进度比例
-- (void)kj_subclassFastTime:(KJPlayerTime *)time value:(float)value{
-    if (time == nil) return;
-    NSTimeInterval total = [[time valueForKey:@"totalTime"] doubleValue];
-    NSTimeInterval current = [[time valueForKey:@"currentTime"] doubleValue];
-    if (total <= 0) return;
-    
+- (void)kj_subclassFastTimeUnion:(KJPlayerTimeUnion)timeUnion value:(float)value{
+    if (timeUnion.isReplace == true || timeUnion.totalTime <= 0) return;
     if (self.fastLayer.superlayer == nil) {
         [self.layer addSublayer:self.fastLayer];
     } else {
         self.fastLayer.hidden = NO;
     }
-    CGFloat __value = (current + value * total) ?: 0.0;
-    [self.fastLayer kj_updateFastValue:__value totalTime:total];
+    CGFloat _value = (timeUnion.currentTime + value * timeUnion.totalTime) ?: 0.0;
+    [self.fastLayer kj_updateFastValue:_value totalTime:timeUnion.totalTime];
 }
 
 /// 隐藏快进弹框

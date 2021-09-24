@@ -7,7 +7,7 @@
 //  https://github.com/yangKJ/KJPlayerDemo
 
 #import "KJPlayerFastLayer.h"
-#import "KJPlayerConstant.h"
+#import "KJPlayerConst.h"
 
 @interface KJPlayerFastLayer ()
 @property(nonatomic,strong)CATextLayer *textLayer;

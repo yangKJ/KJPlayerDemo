@@ -8,6 +8,7 @@
 
 #import "KJPlayerOperationView.h"
 #import "KJBasePlayerView.h"
+#import "KJPlayerPod.h"
 
 @interface KJPlayerOperationView ()
 @property (nonatomic,strong) UIButton *fullButton;
@@ -31,7 +32,7 @@
             [button addTarget:self action:@selector(fullItemClick:) forControlEvents:UIControlEventTouchUpInside];
             [button setTitle:@"\U0000e627" forState:(UIControlStateNormal)];
             [button setTitleColor:self.mainColor forState:(UIControlStateNormal)];
-            button.titleLabel.font = [UIFont fontWithName:@"KJPlayerfont" size:height/5*2];
+            button.titleLabel.font = [KJPlayerPod iconFontOfSize:height/5*2];
             [self addSubview:button];
         }
         self.layer.zPosition = KJBasePlayerViewLayerZPositionInteraction;

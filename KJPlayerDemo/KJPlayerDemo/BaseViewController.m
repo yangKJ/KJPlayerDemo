@@ -164,18 +164,15 @@
 }
 
 /// 进度手势反馈
-/// @param view 播放器控件载体
-/// @param progress 进度范围，-1 到 1
-/// @param end 是否结束
-/// @return 不替换UI请返回当前时间和总时间
-- (nullable KJPlayerTime *)kj_basePlayerView:(__kindof KJBasePlayerView *)view
-                                    progress:(float)progress
-                                         end:(BOOL)end{
+- (KJPlayerTimeUnion)kj_basePlayerView:(KJBasePlayerView *)view progress:(float)progress end:(BOOL)end{
     if (end) {
         NSTimeInterval time = self.player.currentTime + progress * self.player.totalTime;
         [self.player kj_appointTime:time];
     }
-    return [KJPlayerTime createWithCurrentTime:self.player.currentTime totalTime:self.player.totalTime];
+    KJPlayerTimeUnion timeUnion;
+    timeUnion.currentTime = self.player.currentTime;
+    timeUnion.totalTime = self.player.totalTime;
+    return timeUnion;
 }
 
 /// 音量手势反馈

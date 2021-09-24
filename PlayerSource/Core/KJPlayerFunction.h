@@ -71,8 +71,7 @@ NS_ASSUME_NONNULL_BEGIN
 /// 指定时间播放，快进或快退功能
 /// @param time 指定时间
 /// @param completionHandler 回调
-- (void)kj_appointTime:(NSTimeInterval)time
-     completionHandler:(void(^_Nullable)(BOOL finished))completionHandler;
+- (void)kj_appointTime:(NSTimeInterval)time completionHandler:(void(^_Nullable)(BOOL finished))completionHandler;
 /// 获取当前时间截屏
 /// @param screenshots 截屏回调
 - (void)kj_currentTimeScreenshots:(void(^)(UIImage * image))screenshots;

@@ -9,7 +9,7 @@
 #import "KJFileHandleInfo.h"
 #import <objc/runtime.h>
 #import "KJPlayerSharedInstance.h"
-#import "KJPlayerConstant.h"
+#import "KJPlayerConst.h"
 
 #pragma clang diagnostic push
 #pragma clang diagnostic ignored"-Wdeprecated-declarations"

@@ -97,12 +97,15 @@
     }
 }
 /* 进度手势反馈，是否替换自带UI，范围-1 ～ 1 */
-- (KJPlayerTime*)kj_basePlayerView:(KJBasePlayerView*)view progress:(float)progress end:(BOOL)end{
+- (KJPlayerTimeUnion)kj_basePlayerView:(KJBasePlayerView *)view progress:(float)progress end:(BOOL)end{
     if (end) {
         NSTimeInterval time = self.player.currentTime + progress * self.player.totalTime;
         [self.player kj_appointTime:time];
     }
-    return [KJPlayerTime createWithCurrentTime:self.player.currentTime totalTime:self.player.totalTime];
+    KJPlayerTimeUnion timeUnion;
+    timeUnion.currentTime = self.player.currentTime;
+    timeUnion.totalTime = self.player.totalTime;
+    return timeUnion;
 }
 /* 音量手势反馈，是否替换自带UI，范围0 ～ 1 */
 - (BOOL)kj_basePlayerView:(KJBasePlayerView*)view volumeValue:(float)value{

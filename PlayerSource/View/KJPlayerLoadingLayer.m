@@ -8,7 +8,7 @@
 
 #import "KJPlayerLoadingLayer.h"
 #import "KJBasePlayerView.h"
-#import "KJPlayerConstant.h"
+#import "KJPlayerConst.h"
 
 @interface KJPlayerLoadingLayer ()
 /// 载体，外界kvc传入

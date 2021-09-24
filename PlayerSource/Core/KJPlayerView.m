@@ -6,10 +6,7 @@
 //
 
 #import "KJPlayerView.h"
-#import "KJPlayerConstant.h"
-
-#pragma clang diagnostic push
-#pragma clang diagnostic ignored"-Wdeprecated-declarations"
+#import "KJPlayerConst.h"
 
 @interface KJPlayerView () <UIGestureRecognizerDelegate>{
     BOOL movingH;
@@ -88,9 +85,9 @@
 - (void)kj_subclassVolumeValue:(float)value{ }
 
 /// 快进处理
-/// @param time 总时长和当前时间
+/// @param timeUnion 总时长和当前时间
 /// @param value 进度比例
-- (void)kj_subclassFastTime:(KJPlayerTime *)time value:(float)value{ }
+- (void)kj_subclassFastTimeUnion:(KJPlayerTimeUnion)timeUnion value:(float)value{ }
 
 /// 隐藏快进弹框
 - (void)kj_subclassHiddenFast{ }
@@ -128,7 +125,10 @@
 
 #pragma mark - kvo
 
-- (void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary *)change context:(void *)context{
+- (void)observeValueForKeyPath:(NSString *)keyPath
+                      ofObject:(id)object
+                        change:(NSDictionary *)change
+                       context:(void *)context{
     if ([keyPath isEqualToString:@"frame"] || [keyPath isEqualToString:@"bounds"]) {
         if ([object valueForKeyPath:keyPath] != [NSNull null]) {
             NSDictionary * userInfo = @{
@@ -283,8 +283,8 @@
                 float value = translate.x / (self.width >> 1);
                 value = MIN(MAX(-1, value), 1);
                 if ([self.delegate respondsToSelector:@selector(kj_basePlayerView:progress:end:)]) {
-                    KJPlayerTime * playerTime = [self.delegate kj_basePlayerView:self progress:value end:NO];
-                    [self kj_subclassFastTime:playerTime value:value];
+                    KJPlayerTimeUnion timeUnion = [self.delegate kj_basePlayerView:self progress:value end:NO];
+                    [self kj_subclassFastTimeUnion:timeUnion value:value];
                 }
             } else {
                 if (self.haveBrightness && self.haveVolume) {
@@ -334,29 +334,3 @@
 }
 
 @end
-
-@interface KJPlayerTime ()
-
-/// 当前播放时间
-@property (nonatomic, assign) NSTimeInterval currentTime;
-/// 视频总时长
-@property (nonatomic, assign) NSTimeInterval totalTime;
-
-@end
-
-@implementation KJPlayerTime
-/// 初始化方法
-/// @param currentTime 当前时间
-/// @param totalTime 总时间
-+ (instancetype)createWithCurrentTime:(NSTimeInterval)currentTime totalTime:(NSTimeInterval)totalTime{
-    @synchronized (self) {
-        KJPlayerTime * time = [[KJPlayerTime alloc] init];
-        time.currentTime = currentTime;
-        time.totalTime = totalTime;
-        return time;
-    }
-}
-
-@end
-
-#pragma clang diagnostic pop
