@@ -81,9 +81,6 @@
       "dependencies": {
         "KJPlayer/Common": [
 
-        ],
-        "IJKMediaFramework": [
-
         ]
       },
       "libraries": [

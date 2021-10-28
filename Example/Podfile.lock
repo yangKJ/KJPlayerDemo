@@ -1,7 +1,6 @@
 PODS:
   - AMLeaksFinder (2.1.5)
   - FBRetainCycleDetector (0.1.4)
-  - IJKMediaFramework (0.1.5)
   - KJPlayer (2.1.10):
     - KJPlayer/AVPlayer (= 2.1.10)
     - KJPlayer/BackgroundMonitoring (= 2.1.10)
@@ -41,7 +40,6 @@ PODS:
   - KJPlayer/DynamicSource (2.1.10):
     - KJPlayer/Common
   - KJPlayer/IJKPlayer (2.1.10):
-    - IJKMediaFramework
     - KJPlayer/Common
   - KJPlayer/MIDI (2.1.10):
     - KJPlayer/Common
@@ -71,7 +69,6 @@ SPEC REPOS:
   trunk:
     - AMLeaksFinder
     - FBRetainCycleDetector
-    - IJKMediaFramework
     - SwiftMonkey
     - SwiftMonkeyPaws
 
@@ -82,8 +79,7 @@ EXTERNAL SOURCES:
 SPEC CHECKSUMS:
   AMLeaksFinder: 96afc314ede22c6dad5dd2517d016a955d375368
   FBRetainCycleDetector: 46f8179bbb1c587deee3ea838a1a3ee02acf5015
-  IJKMediaFramework: f1119f6324c96bc4654f3045a5beaa95ba0596c0
-  KJPlayer: caf3ed4e6a63179a3d81b70f564954bf49018299
+  KJPlayer: 3c36042901daa5979fc5e3264034edc0c324fe18
   SwiftMonkey: 24ffde5b590d3658cfcb1d775cf74b9f5280eb9c
   SwiftMonkeyPaws: 9d183b8a1b9cfd497c2704342e861b71412d94f5
 
