@@ -175,6 +175,8 @@ code_sign_if_enabled() {
 }
 
 if [[ "$CONFIGURATION" == "Debug" ]]; then
+  install_framework "${BUILT_PRODUCTS_DIR}/AMLeaksFinder/AMLeaksFinder.framework"
+  install_framework "${BUILT_PRODUCTS_DIR}/FBRetainCycleDetector/FBRetainCycleDetector.framework"
   install_framework "${BUILT_PRODUCTS_DIR}/SwiftMonkeyPaws/SwiftMonkeyPaws.framework"
   install_framework "${BUILT_PRODUCTS_DIR}/SwiftMonkey/SwiftMonkey.framework"
 fi

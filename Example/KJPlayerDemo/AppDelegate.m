@@ -41,8 +41,6 @@
 #ifdef DEBUG
     // SwiftMonkey随机测试工具
     [self initMonkey];
-    // DIDI调试工具
-    [[DoraemonManager shareInstance] installWithStartingPosition:CGPointMake(100, 200)];
 #endif
     
     return YES;

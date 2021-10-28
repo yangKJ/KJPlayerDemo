@@ -3,7 +3,7 @@
 
 def main_pods
 
-  # 播放器板块
+  ## 播放器板块
   pod "KJPlayer", :path => '..'
 #  pod "KJPlayer/Database", :path => '..' # 数据库
 #  pod "KJPlayer/CustomView", :path => '..' # 自定义UI
@@ -13,7 +13,7 @@ def main_pods
 #  pod "KJPlayer/IJKPlayer", :path => '..' # IJKPlayer内核
 #  pod "KJPlayer/MIDI", :path => '..' # MIDIPlayer内核
 #
-#  # 功能区
+#  ## 功能区
 #  pod "KJPlayer/DynamicSource", :path => '..' # 动态内核
 #  pod "KJPlayer/PingTimer", :path => '..' # 心跳包
 #  pod "KJPlayer/RecordTime", :path => '..' # 记录播放
@@ -23,11 +23,13 @@ def main_pods
 #  pod "KJPlayer/Screenshots", :path => '..' # 视频截屏板块
 #  pod "KJPlayer/BackgroundMonitoring", :path => '..' # 前后台播放
 
-  # DiDi开发工具
-#  pod 'DoraemonKit/Core', :configurations => ['Debug']
-#  pod 'DoraemonKit/WithMLeaksFinder', :configurations => ['Debug'] # 查找内存泄漏
+  ## 查找内存泄露
+  pod "AMLeaksFinder", :configurations => ['Debug']
 
-  # SwiftMonkey测试工具
+  ## 查找循环引用
+  pod "FBRetainCycleDetector", :configurations => ['Debug']
+
+  ## SwiftMonkey测试工具
   pod "SwiftMonkeyPaws", :configurations => ['Debug']
 
 end
@@ -48,4 +50,25 @@ target 'KJPlayerDemo' do
     pod "SwiftMonkey"
   end
 
+end
+
+post_install do |installer|
+  ## Fix for Xcode 12.5
+  find_and_replace("./Pods/FBRetainCycleDetector/FBRetainCycleDetector/Layout/Classes/FBClassStrongLayout.mm",
+                   "layoutCache[currentClass] = ivars;",
+                   "layoutCache[(id<NSCopying>)currentClass] = ivars;")
+end
+
+## 给Pod库修改代码
+def find_and_replace(dir, findstr, replacestr)
+  Dir[dir].each do |name|
+    text = File.read(name)
+    replace = text.gsub(findstr,replacestr)
+    if text != replace
+      puts "Fix: " + name
+      File.open(name, "w") { |file| file.puts replace }
+      STDOUT.flush
+    end
+  end
+  Dir[dir + '*/'].each(&method(:find_and_replace))
 end

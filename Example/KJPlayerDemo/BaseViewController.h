@@ -7,7 +7,7 @@
 //  https://github.com/yangKJ/KJPlayerDemo
 
 #import <UIKit/UIKit.h>
-#import <KJPlayer/KJPlayerHeader.h>
+@import KJPlayer;
 
 NS_ASSUME_NONNULL_BEGIN
 

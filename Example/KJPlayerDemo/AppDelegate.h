@@ -8,7 +8,6 @@
 #import <UIKit/UIKit.h>
 #ifdef DEBUG
 #import <SwiftMonkeyPaws/SwiftMonkeyPaws-Swift.h>
-#import <DoraemonKit/DoraemonManager.h>
 #endif
 
 @interface AppDelegate : UIResponder <UIApplicationDelegate>

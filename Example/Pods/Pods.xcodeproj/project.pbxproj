@@ -21,348 +21,552 @@
 /* Begin PBXBuildFile section */
 		0003F1F030A98C21D3ADA8FFB43D80C1 /* KJBasePlayer+KJBackgroundMonitoring.m in Sources */ = {isa = PBXBuildFile; fileRef = BD98E453717F50EE612BAF4DF54A3810 /* KJBasePlayer+KJBackgroundMonitoring.m */; };
 		01940D750238EB90F3F87AD201F0B02E /* KJMIDIPlayer.h in Headers */ = {isa = PBXBuildFile; fileRef = FA09F5FBB88D346B1AA87EBC90E04AFA /* KJMIDIPlayer.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		02941F1F5BA91B5EE2DAEA0EAE8B5F28 /* FBNodeEnumerator.mm in Sources */ = {isa = PBXBuildFile; fileRef = 337AE126F5B510A1CFCFF154B4A74949 /* FBNodeEnumerator.mm */; };
+		03AEA342BF8482A6067576E9461B2B55 /* FBBlockStrongLayout.h in Headers */ = {isa = PBXBuildFile; fileRef = 783FFA03BF477E30E25088FCEF69A7D9 /* FBBlockStrongLayout.h */; settings = {ATTRIBUTES = (Project, ); }; };
+		05862B810862D38EE6F6D22A73A3C586 /* FBRetainCycleDetector-umbrella.h in Headers */ = {isa = PBXBuildFile; fileRef = 730E4615943A01AE23C1671BCF02318C /* FBRetainCycleDetector-umbrella.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		05C1063207A3110068BE8AD14BE70B69 /* Pods-KJPlayerDemoTests-dummy.m in Sources */ = {isa = PBXBuildFile; fileRef = 46B632F26CE9C7E4AF4EDBC0C3756285 /* Pods-KJPlayerDemoTests-dummy.m */; };
+		066F615680F8B09B7E42273A0DC6BC18 /* FBObjectiveCGraphElement.mm in Sources */ = {isa = PBXBuildFile; fileRef = B9487E05E7629B18274D243BEF863B4F /* FBObjectiveCGraphElement.mm */; };
 		079C6ECCC3B4A2564354CEB377CE1E0E /* KJBasePlayer+KJBackgroundMonitoring.h in Headers */ = {isa = PBXBuildFile; fileRef = 75E2D022E1A707948E731371E336B88F /* KJBasePlayer+KJBackgroundMonitoring.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		07E5002C352D0565E665CC4025AC17D5 /* UIViewController+AMLeaksFinderUI.h in Headers */ = {isa = PBXBuildFile; fileRef = 5CBBC26F1B0296874DBC295EEC7A4A63 /* UIViewController+AMLeaksFinderUI.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		086A1304346E5640A455FA57A722E11D /* KJMIDIPlayer.m in Sources */ = {isa = PBXBuildFile; fileRef = 7FD4DB275ECE657133BB27B3B05919FC /* KJMIDIPlayer.m */; };
 		093D26EBD081B25E7E97808EBC89B3E1 /* KJPlayerBridge.m in Sources */ = {isa = PBXBuildFile; fileRef = 25D0139C8B3D9DB6AA1D035D29E68AAB /* KJPlayerBridge.m */; };
 		0B6B13BF4CF0668E3EB636BE6CDB49F0 /* KJIJKPlayer.h in Headers */ = {isa = PBXBuildFile; fileRef = C89C1F3846BC17D2497D1E4F208A74C0 /* KJIJKPlayer.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		0DDFF8EC3D14FEC8709583AB82D583A2 /* MonkeyPaws.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9ABFCDFD8E8383A55A1504DC52E2D054 /* MonkeyPaws.swift */; };
+		0DDFF8EC3D14FEC8709583AB82D583A2 /* MonkeyPaws.swift in Sources */ = {isa = PBXBuildFile; fileRef = 08999644DB5942765C5EE72E3D864F6E /* MonkeyPaws.swift */; };
+		0E5039728F2E0E22EF738CC6295AD985 /* fishhook.h in Headers */ = {isa = PBXBuildFile; fileRef = B7D3BB9B1D70ECF2E5C8363CA8B1F4A5 /* fishhook.h */; settings = {ATTRIBUTES = (Project, ); }; };
 		0F4A5F66EB23D44132C0E042F927C0F5 /* KJPlayerOperationView.m in Sources */ = {isa = PBXBuildFile; fileRef = 932053D55A4756BCC562871389804D5D /* KJPlayerOperationView.m */; };
 		0F6A0B14ED818ED3C1616288687C7B61 /* KJBasePlayer+KJPingTimer.m in Sources */ = {isa = PBXBuildFile; fileRef = 4FA3C53CD12AF35FD6B7193C2B2CAC52 /* KJBasePlayer+KJPingTimer.m */; };
 		10741A2F1F28FFAB8636D71A6718E1A3 /* KJPlayerFastLayer.m in Sources */ = {isa = PBXBuildFile; fileRef = BAB02EA034967233386AB823AC99DE21 /* KJPlayerFastLayer.m */; };
-		107712A99292465950F1A88538D1DF90 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CA8B94E9D3B433157168D1EECCEC11CD /* Foundation.framework */; };
+		107712A99292465950F1A88538D1DF90 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 28AD4CC30B0DBBFC2C7DDFB89ED2168B /* Foundation.framework */; };
+		12037CF1725DCE156F30F0F2F1B0DC99 /* FBStandardGraphEdgeFilters.h in Headers */ = {isa = PBXBuildFile; fileRef = 7ABD2661BEA7798426DB1B5D257E978A /* FBStandardGraphEdgeFilters.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		12040C214B41571367C0C85F663B087C /* UIViewController+AMLeaksFinderUI.m in Sources */ = {isa = PBXBuildFile; fileRef = E76EA3F0BE5F434810958577AB131CCA /* UIViewController+AMLeaksFinderUI.m */; };
 		13E4F16F83C4BC1D09C7BB9DCF909137 /* KJPlayerView.h in Headers */ = {isa = PBXBuildFile; fileRef = 0F1E5CF037566B8870DC51CF1A78B4DD /* KJPlayerView.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		14E22347289D18E3D3A95B58D6D6C2B8 /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4760C911B9CFDBB02FA50A7ED5FA09DA /* CoreGraphics.framework */; };
 		157A6DE07B193AFAE2B480FEA327DF54 /* KJDownloader.h in Headers */ = {isa = PBXBuildFile; fileRef = 23D7ECD19E0CACCF59F496FF314E2007 /* KJDownloader.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		15E7119FAB9DCD7CDED2BF431EC2D989 /* SwiftMonkey-umbrella.h in Headers */ = {isa = PBXBuildFile; fileRef = 8D27F11660CB83DB44A228403C77A44F /* SwiftMonkey-umbrella.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		15E7119FAB9DCD7CDED2BF431EC2D989 /* SwiftMonkey-umbrella.h in Headers */ = {isa = PBXBuildFile; fileRef = 8BA6828E5A9F3EB73021A382D77A4815 /* SwiftMonkey-umbrella.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		1763227840E6E64F18435D8ED3D7D1C7 /* KJScreenshotsManager.h in Headers */ = {isa = PBXBuildFile; fileRef = 36A558EBA2AACE66906FE315366ADEBE /* KJScreenshotsManager.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		180B0A2700311118F337952F0C61BB89 /* Type.h in Headers */ = {isa = PBXBuildFile; fileRef = B4FA36B6810180E1A586608BC8839EF1 /* Type.h */; settings = {ATTRIBUTES = (Project, ); }; };
+		18BA8DB57594BE50190BC1BBB49CCF13 /* FBObjectiveCNSCFTimer.mm in Sources */ = {isa = PBXBuildFile; fileRef = FFAC16C8243B14FCC3911AF52ADC32CB /* FBObjectiveCNSCFTimer.mm */; };
 		197236F8410274CD7015F717263C82B7 /* KJBasePlayer.h in Headers */ = {isa = PBXBuildFile; fileRef = 47A6CA3D51E12E27E520BB32A37F2C36 /* KJBasePlayer.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		1AE536DEB6512B0C2EABEB5A57B6938E /* MonkeyPawDrawer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4856747D988A3D4E5513324EE2EE1554 /* MonkeyPawDrawer.swift */; };
+		1AB5BA433F47C2F7DFB0DA0E4B929162 /* FBAssociationManager.mm in Sources */ = {isa = PBXBuildFile; fileRef = 2751EF618710C42342EF50BD520C6FC1 /* FBAssociationManager.mm */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
+		1AD97D28FDE4AC7A0A28109410A56EBC /* FBRetainCycleUtils.h in Headers */ = {isa = PBXBuildFile; fileRef = 4F4C6C1E0AFB0A71D2739ACC82752F67 /* FBRetainCycleUtils.h */; settings = {ATTRIBUTES = (Project, ); }; };
+		1AE536DEB6512B0C2EABEB5A57B6938E /* MonkeyPawDrawer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 074760616EB5BD751E2AE49AD133763C /* MonkeyPawDrawer.swift */; };
+		1AECCF6B5E3434FE0C303E8EDE37DE6E /* FBAssociationManager+Internal.h in Headers */ = {isa = PBXBuildFile; fileRef = 00BAAA4A630DD8C41671530B9AE96D1D /* FBAssociationManager+Internal.h */; settings = {ATTRIBUTES = (Project, ); }; };
+		1BE446E3EAEBC93BAA70A18B97681D81 /* FBClassStrongLayout.mm in Sources */ = {isa = PBXBuildFile; fileRef = 8DBBD0468C919F89DB967FF99B2513F9 /* FBClassStrongLayout.mm */; };
+		1D17F9A65294E55AECE0ED024DA2E34A /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 28AD4CC30B0DBBFC2C7DDFB89ED2168B /* Foundation.framework */; };
 		1EB1B57A6C38016F7785902602184EED /* KJPlayerType.h in Headers */ = {isa = PBXBuildFile; fileRef = C43C7CAD2025951E38AA90992C5BD414 /* KJPlayerType.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		1F7D44522B157434C11BA67F127D2D36 /* KJPlayerPod.m in Sources */ = {isa = PBXBuildFile; fileRef = 9420FDE80E2235C4A482297E60915851 /* KJPlayerPod.m */; };
-		229B00F02340D724BCAE714E3A8A2D17 /* KJPlayerFont.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 89144AAB787E675B0A2CEE8696F1BEC1 /* KJPlayerFont.ttf */; };
+		2215270E543BAE806B6CB19DCC8CE8A9 /* FBObjectiveCGraphElement+Internal.h in Headers */ = {isa = PBXBuildFile; fileRef = 5B325CE76F1D911B407ECF9B12200C28 /* FBObjectiveCGraphElement+Internal.h */; settings = {ATTRIBUTES = (Project, ); }; };
+		2502EA6AE719CDF842B94C7A211D012E /* FBObjectInStructReference.m in Sources */ = {isa = PBXBuildFile; fileRef = 9FFD299D501409F21F7376171768F804 /* FBObjectInStructReference.m */; };
+		2533D298BD148D74770EB6BE8DF833D4 /* FBStandardGraphEdgeFilters.mm in Sources */ = {isa = PBXBuildFile; fileRef = FE7A37BD3F89DA45F3EB47C88B1744B8 /* FBStandardGraphEdgeFilters.mm */; };
 		253D65E4C831F6BF5886F276C8F8E186 /* KJPlayerLoadingLayer.m in Sources */ = {isa = PBXBuildFile; fileRef = AA12F69197E756FF0B21F8BE8AA71464 /* KJPlayerLoadingLayer.m */; };
+		26CFACEC1D36DE12D8C462864AD1D4B3 /* Struct.mm in Sources */ = {isa = PBXBuildFile; fileRef = 66F62DA7694FB082F34D964B9A190529 /* Struct.mm */; };
 		29156602C75F62866EAABD9EAAD4B793 /* KJIJKPlayer.m in Sources */ = {isa = PBXBuildFile; fileRef = 7E7C7DC7F67C6BF85CA008C777854ADF /* KJIJKPlayer.m */; };
 		2A2397335A3F9B2D4BC3263AAEFA0517 /* KJAVPlayer.h in Headers */ = {isa = PBXBuildFile; fileRef = 2198E28A0BB3097950EB5BB0A490E0FD /* KJAVPlayer.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		2ADBCC9512068D9D614634443F2BBCF8 /* KJBasePlayer+KJDynamicSource.m in Sources */ = {isa = PBXBuildFile; fileRef = A341A499C4AAD116503068500246046A /* KJBasePlayer+KJDynamicSource.m */; };
 		2B15D638883E5CE74860F42A65421E5B /* KJPlayerButton.h in Headers */ = {isa = PBXBuildFile; fileRef = D00F2A50C6D01B9B5CC13E4DC72A282D /* KJPlayerButton.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		2C7EAB29618D45F847ADEF4D9DE1E059 /* FBStructEncodingParser.h in Headers */ = {isa = PBXBuildFile; fileRef = 32E7BEEA6FAF6C9B9518652FDA17FD2A /* FBStructEncodingParser.h */; settings = {ATTRIBUTES = (Project, ); }; };
+		2E66AFADA00C6E0303805B56BDE87052 /* UISplitViewController+AMLeaksFinderSwizzleDealloc.m in Sources */ = {isa = PBXBuildFile; fileRef = B14730BAD23DE8B41E82D62D470B34F4 /* UISplitViewController+AMLeaksFinderSwizzleDealloc.m */; };
 		2E6A64A86C271FACA6AB924D45486E0D /* KJScreenshotsManager.m in Sources */ = {isa = PBXBuildFile; fileRef = B560158E1D1BF525A1750221B9E49713 /* KJScreenshotsManager.m */; };
+		2F1C1C0B1AC28CA68EAE15A6B75C6BCF /* FBObjectiveCObject.m in Sources */ = {isa = PBXBuildFile; fileRef = 758EAD94B3DBC3F4456EF2D864C38303 /* FBObjectiveCObject.m */; };
+		30799A4439BAE1320EE857AA720FC608 /* FBObjectiveCGraphElement.h in Headers */ = {isa = PBXBuildFile; fileRef = 02EB8F891B13FE0FF4A9C0E682E6C407 /* FBObjectiveCGraphElement.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		320F5EC3BC77A305DD70DC69F178DB56 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 28AD4CC30B0DBBFC2C7DDFB89ED2168B /* Foundation.framework */; };
+		32303EDFF7F90BA71936B7D4876D107D /* FBRetainCycleDetector-dummy.m in Sources */ = {isa = PBXBuildFile; fileRef = 3EFA9197BBFD1525893033046D1FEEB0 /* FBRetainCycleDetector-dummy.m */; };
+		337F13F7FF5160B53AE5C857335B1632 /* Pods-KJPlayerDemo-MonkeyUITests-dummy.m in Sources */ = {isa = PBXBuildFile; fileRef = 41DFD5EFD6FFA9BF2451747EBBEDB42A /* Pods-KJPlayerDemo-MonkeyUITests-dummy.m */; };
 		33EA745CEBDF0E1B8A67FED925E5F3F7 /* KJPlayerFastLayer.h in Headers */ = {isa = PBXBuildFile; fileRef = CF21533FFD70FA1A18FBD4E993140974 /* KJPlayerFastLayer.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		341417155702E102F0468FD4BF345383 /* DBPlayerDataManager.h in Headers */ = {isa = PBXBuildFile; fileRef = 0F21DB245A0B991894D383D7FBC565E6 /* DBPlayerDataManager.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		36025E4DF6385AB0C81088DBADD65C5A /* fishhook.c in Sources */ = {isa = PBXBuildFile; fileRef = 2D59AD9EF0759A0FB14E023086992F20 /* fishhook.c */; };
+		362E4AD47521D3757BF8BB0B809D199A /* AMMemoryLeakDeallocModel.h in Headers */ = {isa = PBXBuildFile; fileRef = C601C487EBC4DB15E4A58DF0BAFB7C5A /* AMMemoryLeakDeallocModel.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		368091B1382E9796F814F9AA94E87B67 /* FBObjectiveCBlock.m in Sources */ = {isa = PBXBuildFile; fileRef = 4568D1EE1C9BB6B3668E9804053D1687 /* FBObjectiveCBlock.m */; };
 		373F4AF1B611134EAB249807E3388E77 /* KJPlayerLog.h in Headers */ = {isa = PBXBuildFile; fileRef = F4E294217004025E7D528FACCE740C9D /* KJPlayerLog.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		3775F856A7E6CACB7872589328C9BF30 /* KJBasePlayer+KJDynamicSource.h in Headers */ = {isa = PBXBuildFile; fileRef = 09496D37DB3337B65E2CEA86B372CB94 /* KJBasePlayer+KJDynamicSource.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		37C7F2B5AE4818BF2C7458B27B0E82B2 /* Pods-KJPlayerDemo-umbrella.h in Headers */ = {isa = PBXBuildFile; fileRef = 9B4A1356BFAB611C6F0F2D0ABC6B7ACB /* Pods-KJPlayerDemo-umbrella.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		384799159E6EC10D41971FD099979667 /* Pods-KJPlayerDemo-dummy.m in Sources */ = {isa = PBXBuildFile; fileRef = 6D672E848632D169E3ACC45A171092D8 /* Pods-KJPlayerDemo-dummy.m */; };
+		38F847F15118C85E3ACE8190EF0180B0 /* AMViewMemoryLeakModel.h in Headers */ = {isa = PBXBuildFile; fileRef = B9B71C44D9248D7DB3AA9B89850DDA13 /* AMViewMemoryLeakModel.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		3B1316E64E506E79B74DC01ADDEADF18 /* KJPlayer-umbrella.h in Headers */ = {isa = PBXBuildFile; fileRef = BDAC836762BF18762192489EA5606605 /* KJPlayer-umbrella.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		420502724852910A921CBD6EF21FA7D5 /* AMMemoryLeakView.h in Headers */ = {isa = PBXBuildFile; fileRef = 7D88F55A121FC4B4BF5CB09090D07EAD /* AMMemoryLeakView.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		43B6C1DF31BA86924BE55C43CB496DA8 /* KJFileHandleInfo.h in Headers */ = {isa = PBXBuildFile; fileRef = 3F5E926DF057D4538D08C9B886B744AF /* KJFileHandleInfo.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		46D972219CDE453ADD7AC7055A66602B /* MonkeyXCTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = A41757B5A934061294EE941B32E0BD81 /* MonkeyXCTest.swift */; };
+		44A6750416EBAD1A45C0AC4F22B19B2C /* UIViewController+AMLeaksFinderTools.m in Sources */ = {isa = PBXBuildFile; fileRef = C5F19C88ED44F1032D33B4682BB14083 /* UIViewController+AMLeaksFinderTools.m */; };
+		46D972219CDE453ADD7AC7055A66602B /* MonkeyXCTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 578F00612A88A4369C4361A4043A640C /* MonkeyXCTest.swift */; };
 		494886D53A8689D002D9C1E8A00438D6 /* KJBasePlayer+KJRecordTime.h in Headers */ = {isa = PBXBuildFile; fileRef = D74528F5599CF0F52DE1998975010813 /* KJBasePlayer+KJRecordTime.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		4977777CCC074C937354965CEAC94D6C /* Configuration.swift in Sources */ = {isa = PBXBuildFile; fileRef = 383DD47D209FFA776746E09CD4A4F8C6 /* Configuration.swift */; };
+		4977777CCC074C937354965CEAC94D6C /* Configuration.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4D31A1A94213EC7385EC6F5C1975BA05 /* Configuration.swift */; };
+		4C6D22C4D8E88A5E73C9195EA35FBFFE /* FBRetainCycleDetector.mm in Sources */ = {isa = PBXBuildFile; fileRef = 03668893B08B085401B20ED31A4BBAC3 /* FBRetainCycleDetector.mm */; };
+		4CDF1AF4556A90CA91E98B21160EBD0A /* FBAssociationManager.h in Headers */ = {isa = PBXBuildFile; fileRef = A093B35A8C06A346CA4D25A4E4269233 /* FBAssociationManager.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		4D90E4C465085F1954F01ED58EE05ED8 /* Pods-KJPlayerDemoTests-umbrella.h in Headers */ = {isa = PBXBuildFile; fileRef = 7D3C4175E347C870CC387909FA7A3205 /* Pods-KJPlayerDemoTests-umbrella.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		4F8E0274A8737DBE5CCA78B1B1E9996E /* KJRotateManager.h in Headers */ = {isa = PBXBuildFile; fileRef = 9FBAFD69F335587CD0DBB129A8B20BD6 /* KJRotateManager.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		50577B84804251012A4732EAA0996423 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CA8B94E9D3B433157168D1EECCEC11CD /* Foundation.framework */; };
-		533454035245049EC5C51F9488D9E0A7 /* Pods-KJPlayerDemo-MonkeyUITests-dummy.m in Sources */ = {isa = PBXBuildFile; fileRef = 41DFD5EFD6FFA9BF2451747EBBEDB42A /* Pods-KJPlayerDemo-MonkeyUITests-dummy.m */; };
+		4F9BA01DECAEBA111F439A4F5284495F /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 28AD4CC30B0DBBFC2C7DDFB89ED2168B /* Foundation.framework */; };
+		50577B84804251012A4732EAA0996423 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 28AD4CC30B0DBBFC2C7DDFB89ED2168B /* Foundation.framework */; };
 		53561E501E3A6D38272FC4BCF301D5D6 /* KJBasePlayer+KJRecordTime.m in Sources */ = {isa = PBXBuildFile; fileRef = B246C98715767FD21F5DCE5C5AEBC63B /* KJBasePlayer+KJRecordTime.m */; };
 		53C7EC570EAE7123B352BD2B780E76AD /* KJBasePlayer+KJCache.m in Sources */ = {isa = PBXBuildFile; fileRef = B7BA785A9B63E96E876AC3BDB0BCD356 /* KJBasePlayer+KJCache.m */; };
+		54F755E0428356ECC22A00BA0A63F81C /* UITabBarController+AMLeaksFinderSwizzleDealloc.m in Sources */ = {isa = PBXBuildFile; fileRef = 1BB3BEE4714D1F5EFAA1532473C4059E /* UITabBarController+AMLeaksFinderSwizzleDealloc.m */; };
+		558F4F4E3DD0632771BFF4805DDBF9D2 /* FBBlockStrongRelationDetector.m in Sources */ = {isa = PBXBuildFile; fileRef = 2FEF71C26EC39B9FF223A9CB397C6593 /* FBBlockStrongRelationDetector.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
+		57862759DACB33EC24966D73D4439A76 /* AMViewMemoryLeakDeallocModel.m in Sources */ = {isa = PBXBuildFile; fileRef = B2283B2D262DCA8A4251044DDB0334D9 /* AMViewMemoryLeakDeallocModel.m */; };
+		58C5CCFAB0753EAC4360731527D06CE3 /* UIViewController+AMLeaksFinderSwizzleViewDidLoad.m in Sources */ = {isa = PBXBuildFile; fileRef = CA705C00E9778AC45FF5DF8202972B54 /* UIViewController+AMLeaksFinderSwizzleViewDidLoad.m */; };
 		592332437211814C52A4DEA061766361 /* KJPlayerLoadingLayer.h in Headers */ = {isa = PBXBuildFile; fileRef = 14DDE7F579416102F38B12352B439B6A /* KJPlayerLoadingLayer.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		5C0B575CF241CC4BED86428D86EF1DBA /* Pods-KJPlayerDemo-MonkeyUITests-umbrella.h in Headers */ = {isa = PBXBuildFile; fileRef = 9B2818EC813FBB4EE89FFE509693D213 /* Pods-KJPlayerDemo-MonkeyUITests-umbrella.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		5A3503A25F926EDE0C51AD0F873199AF /* NSObject+RunLoop.h in Headers */ = {isa = PBXBuildFile; fileRef = ADB81A08677A5E55F2899F695ED9781A /* NSObject+RunLoop.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		5AE67238AF5D3CF8193F89AB7E086F99 /* FBRetainCycleUtils.m in Sources */ = {isa = PBXBuildFile; fileRef = 420A2A46056398126537D3233BC66B9F /* FBRetainCycleUtils.m */; };
 		5C3401E1A4B320C1C31EEC40FAE7D20F /* DBPlayerData.m in Sources */ = {isa = PBXBuildFile; fileRef = B09729A3FB80AFACA6F1BB3AD3F878E7 /* DBPlayerData.m */; };
+		5D597CAE27CAFA5D5DDF5E7E7C40802E /* AMSnapedViewViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = F67AC6F4CFDC8D37D99CC671D05E6A04 /* AMSnapedViewViewController.m */; };
+		623DE3D7E4E2F815A17B1AF251512BC5 /* AMLeakDataModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 47DDFF39CC92B19D486EF1324BEEE6EA /* AMLeakDataModel.m */; };
 		6A91786D3B8BACA5CAFE5B45ED909316 /* KJPlayerView.m in Sources */ = {isa = PBXBuildFile; fileRef = 964C4A7958AB19E0BABF29727357AAD4 /* KJPlayerView.m */; };
-		6BDF6997586145A527FD11CFEC021669 /* MonkeyUIAutomation.swift in Sources */ = {isa = PBXBuildFile; fileRef = A1A419ABCDCBE0CEFEC50ADD17190AAD /* MonkeyUIAutomation.swift */; };
-		6D21B579A8A90BAE59131B1A8E0BB6A2 /* Monkey.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8044EDFD508312C1CFFCCA7E96C6973F /* Monkey.swift */; };
+		6BDF6997586145A527FD11CFEC021669 /* MonkeyUIAutomation.swift in Sources */ = {isa = PBXBuildFile; fileRef = F609549DB503166140E62CE584BFFE2A /* MonkeyUIAutomation.swift */; };
+		6C21F537664F07E2DC70A5E6A2B6E9FD /* AMLeaksFinder-dummy.m in Sources */ = {isa = PBXBuildFile; fileRef = 1F8D10ECFC83A194406EE7E766B7F61C /* AMLeaksFinder-dummy.m */; };
+		6D21B579A8A90BAE59131B1A8E0BB6A2 /* Monkey.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6F20C022D13D66EB9BC194A6FB9F9B99 /* Monkey.swift */; };
 		6E10502AA78690ABB7C118D5323FEC88 /* KJAVPlayer.m in Sources */ = {isa = PBXBuildFile; fileRef = DC4E1D607BB8FDFC2895855DBF76D340 /* KJAVPlayer.m */; };
 		6EA4F5B69E6FBDE7A2343E4EA465F015 /* DBPlayerDataManager.m in Sources */ = {isa = PBXBuildFile; fileRef = FFCB8477DB78ACBAFA6C8AD63575CF76 /* DBPlayerDataManager.m */; };
 		7029450C490CDC6246E0B6721F98F7BD /* DBPlayer.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = F101797AD57BE01AD428B249A8D9C76F /* DBPlayer.xcdatamodeld */; };
-		735AE252F753291FFC6B3BEE6AA71715 /* MonkeyXCTestPrivate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B57324E0658D47E967FA07D2FC88B8A /* MonkeyXCTestPrivate.swift */; };
+		71E2F03FAD67E56FB2540B66549A7C8A /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8340D6B5D0D534AAA33C57FD9D0B19D1 /* UIKit.framework */; };
+		72244D4A52129CF89BD8D7B740BC391E /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 28AD4CC30B0DBBFC2C7DDFB89ED2168B /* Foundation.framework */; };
+		735AE252F753291FFC6B3BEE6AA71715 /* MonkeyXCTestPrivate.swift in Sources */ = {isa = PBXBuildFile; fileRef = A6836D8BE501A5F66BCAC838296A13D4 /* MonkeyXCTestPrivate.swift */; };
+		761A9A64F32338A059D359E687537A1C /* AMMemoryLeakView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 69E857A58BEE54241E2E992A88ACD212 /* AMMemoryLeakView.xib */; };
+		76839FCC744576AAA29DF81544EBED6A /* FBObjectiveCBlock.h in Headers */ = {isa = PBXBuildFile; fileRef = 2B9B102D6A873866F6E55577A7B2519F /* FBObjectiveCBlock.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		7696DB3098E51E425482EA777E113D2E /* KJRotateManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 27DBC73CF8B65447EE392F0DE80F6163 /* KJRotateManager.m */; };
-		77A20F4C3CEC2B060C3D5419AD5E202B /* SwiftMonkey-dummy.m in Sources */ = {isa = PBXBuildFile; fileRef = 3B431DE2FBA62A6F3E73114BD465081A /* SwiftMonkey-dummy.m */; };
+		77A20F4C3CEC2B060C3D5419AD5E202B /* SwiftMonkey-dummy.m in Sources */ = {isa = PBXBuildFile; fileRef = E3681503343555157BC4DFAD7524BB8A /* SwiftMonkey-dummy.m */; };
 		78CE660441516A63DD0958B82C8DF25E /* KJAVPlayer+KJCache.h in Headers */ = {isa = PBXBuildFile; fileRef = DC6245F1860BBB0B620BAA2FC046E7E9 /* KJAVPlayer+KJCache.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		7B771E9300CE818382632D0D515DFFF4 /* KJPlayerPod.h in Headers */ = {isa = PBXBuildFile; fileRef = 36D7A0E2E4A02EB40E3F4F7E555AB76C /* KJPlayerPod.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		7C58D67FA200741C43D009E0DB4BF6B3 /* FBNodeEnumerator.h in Headers */ = {isa = PBXBuildFile; fileRef = 3F54A94A52B3A10D41751690DB238F7C /* FBNodeEnumerator.h */; settings = {ATTRIBUTES = (Project, ); }; };
 		7CD1284E2575B469A292DA063D744ABC /* KJPlayerSharedInstance.h in Headers */ = {isa = PBXBuildFile; fileRef = 2CC62998F48CE1A757DB4DD166F8EB56 /* KJPlayerSharedInstance.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		7E01466DD4A1E6268D3E19C0E2F2F49B /* UIWindow+AMLeaksFinderSwizzleDealloc.m in Sources */ = {isa = PBXBuildFile; fileRef = 67686C6308E0CE062B3277DC7BA039E9 /* UIWindow+AMLeaksFinderSwizzleDealloc.m */; };
+		7FC5F9908B0E7594979CDAA2105A363C /* FBRetainCycleDetector.h in Headers */ = {isa = PBXBuildFile; fileRef = 3293AF5283505DD182BD1F6E1C746671 /* FBRetainCycleDetector.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		7FD706309F83F6E4F9BE1EEE7382F1B3 /* FBClassStrongLayout.h in Headers */ = {isa = PBXBuildFile; fileRef = F35563B759784CA58D6E018ED9F658C6 /* FBClassStrongLayout.h */; settings = {ATTRIBUTES = (Project, ); }; };
 		7FF9F364604C4FF792B32249B825BFD4 /* KJCacheManager.h in Headers */ = {isa = PBXBuildFile; fileRef = BD4412C26AA9364BF0235479AE282638 /* KJCacheManager.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		808CA4DF15058EAF1A63B8EC07DE7082 /* KJFileHandleManager.h in Headers */ = {isa = PBXBuildFile; fileRef = E5F8F8974E83AA730C3323CE80BC5B87 /* KJFileHandleManager.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		814234B5A3E67DB170B8B7764E70A6A8 /* Pods-KJPlayerDemo-dummy.m in Sources */ = {isa = PBXBuildFile; fileRef = 6D672E848632D169E3ACC45A171092D8 /* Pods-KJPlayerDemo-dummy.m */; };
-		82803E3EDF5BA24A832256A78705598F /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CA8B94E9D3B433157168D1EECCEC11CD /* Foundation.framework */; };
+		815FF3B0CF4BDC01FE29AA52DAC4D14F /* KJPlayerFont.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 89144AAB787E675B0A2CEE8696F1BEC1 /* KJPlayerFont.ttf */; };
+		82803E3EDF5BA24A832256A78705598F /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 28AD4CC30B0DBBFC2C7DDFB89ED2168B /* Foundation.framework */; };
+		82E1637114D5CB27CC90FE9B8C6B38D8 /* AMMemoryLeakModel.h in Headers */ = {isa = PBXBuildFile; fileRef = 55BA0CDA53E22CA5971FA92546D7A5CE /* AMMemoryLeakModel.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		8334D788769CBF113D152842A4931174 /* FBBlockInterface.h in Headers */ = {isa = PBXBuildFile; fileRef = DB9BC69E0BE698AC0629AA6F7676C2A4 /* FBBlockInterface.h */; settings = {ATTRIBUTES = (Project, ); }; };
 		857F47451029B2C3177AC1F927BEDE09 /* KJFileHandleInfo.m in Sources */ = {isa = PBXBuildFile; fileRef = C0FAB5CB0A800031ECBE47BEECB12020 /* KJFileHandleInfo.m */; };
+		8784C7F1439A5A1ED3EC718F536AD1B4 /* AMMemoryLeakDeallocModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 7D328E5AA7D1C9ED46D6596F60CA8FDD /* AMMemoryLeakDeallocModel.m */; };
 		883EC599BAE55C58EF29E08CA4EFD4BE /* KJPlayerProtocol.h in Headers */ = {isa = PBXBuildFile; fileRef = A8E3DBA85D62223DEBA6ACEA81BE8D05 /* KJPlayerProtocol.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		8B57673E2D9613499C520FEE2C923648 /* AMViewMemoryLeakModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 77DAB50657C64C4743492710D5D39C1C /* AMViewMemoryLeakModel.m */; };
 		8DA167ED9870201F700C041E627CA205 /* KJPlayerConst.h in Headers */ = {isa = PBXBuildFile; fileRef = A7DE7BF2596EA13806BC9E16204BE352 /* KJPlayerConst.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		8FCB11A0F8085EC352BC33EEF07A8695 /* KJFileHandleManager.m in Sources */ = {isa = PBXBuildFile; fileRef = A7B807DFF5CB06672CEC316B39709B3F /* KJFileHandleManager.m */; };
+		90BF18544B0DA240030EB0C3B9983F1A /* AMLeakOverviewView.m in Sources */ = {isa = PBXBuildFile; fileRef = 6CB05526352887E7D725D1B2B2E081CB /* AMLeakOverviewView.m */; };
+		9313010AE5DC332E3CA3017EE9E44BB2 /* FBObjectiveCObject.h in Headers */ = {isa = PBXBuildFile; fileRef = AF1E4BB02DB4D2C7C3895937F5F39420 /* FBObjectiveCObject.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		9594094EDEDE352AB28EA1116EB514B6 /* KJBasePlayerView.m in Sources */ = {isa = PBXBuildFile; fileRef = 7AA23D5B60AC1155B07DDD11B7F0E79B /* KJBasePlayerView.m */; };
+		96F34028D9E5A6905B466FE11148B9F3 /* UIViewController+AMLeaksFinderSwizzleDealloc.m in Sources */ = {isa = PBXBuildFile; fileRef = 80591B541E418A98DF395AA4BFDC00EE /* UIViewController+AMLeaksFinderSwizzleDealloc.m */; };
 		99DBA5FB10D259B4BD2991E4D6F92129 /* KJCacheManager.m in Sources */ = {isa = PBXBuildFile; fileRef = DDB954CE25B0443E6D34A609C0F2F2BC /* KJCacheManager.m */; };
 		9D4C476CB5D7AA9F4BAB2C3D7C5BE952 /* KJBasePlayer+KJPingTimer.h in Headers */ = {isa = PBXBuildFile; fileRef = 1569C9563EFDC8BD61976BED79AA0905 /* KJBasePlayer+KJPingTimer.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		A5974584C5E1F675390B534A8C5BBB1E /* SwiftMonkeyPaws-dummy.m in Sources */ = {isa = PBXBuildFile; fileRef = C49F9C25B5B8C2733FD0ED429537A9FE /* SwiftMonkeyPaws-dummy.m */; };
+		9DD00BD79A151A579FCEC5D99F5A4AEE /* FBObjectInStructReference.h in Headers */ = {isa = PBXBuildFile; fileRef = 341A0452C5AA545694CB82DC7760B002 /* FBObjectInStructReference.h */; settings = {ATTRIBUTES = (Project, ); }; };
+		A5974584C5E1F675390B534A8C5BBB1E /* SwiftMonkeyPaws-dummy.m in Sources */ = {isa = PBXBuildFile; fileRef = 0C25132CF1A474ADE13E89C56AC3000F /* SwiftMonkeyPaws-dummy.m */; };
 		A83AC2DDBC13FDF8DC55F93DB72E4001 /* KJBasePlayer.m in Sources */ = {isa = PBXBuildFile; fileRef = 15F00A10DDE754F6734264C3E359F0BE /* KJBasePlayer.m */; };
-		A9C4BB20F0A79B670D529CDA3376D1B1 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CA8B94E9D3B433157168D1EECCEC11CD /* Foundation.framework */; };
+		A9C4BB20F0A79B670D529CDA3376D1B1 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 28AD4CC30B0DBBFC2C7DDFB89ED2168B /* Foundation.framework */; };
+		ACD769AF5EE6F91E5A2AB6C08DAA466E /* AMMemoryLeakModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 59B4DC5B2BE4870B1F4B657AD9C43B15 /* AMMemoryLeakModel.m */; };
+		AF25BFA9AA17C6C824A753A90CB9785D /* AMSnapedViewViewController.h in Headers */ = {isa = PBXBuildFile; fileRef = 268FAF5CD1514FA38F8892170FFDF86D /* AMSnapedViewViewController.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		B13B44ABAA08BB594C6B0CC6DD1BB9A0 /* KJBasePlayerView.h in Headers */ = {isa = PBXBuildFile; fileRef = 77E2E9BEA692A4A1D4BDD26EF2729B93 /* KJBasePlayerView.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		B17EB40AA069707345BAF33F00863DBC /* KJPlayerHintLayer.m in Sources */ = {isa = PBXBuildFile; fileRef = 51946E929496D8E3C11CD48A2FB62CE0 /* KJPlayerHintLayer.m */; };
 		B245B7AD54E3AA792D1E828464E3A7A3 /* KJPlayerSharedInstance.m in Sources */ = {isa = PBXBuildFile; fileRef = 1AC3CD396EE63ABA55C6B80B40385524 /* KJPlayerSharedInstance.m */; };
+		B2CB175D3DC7B677A3D656B16AD05628 /* FBBlockStrongRelationDetector.h in Headers */ = {isa = PBXBuildFile; fileRef = BC13A76D6E879CC3C7453FBAEBD7BB4C /* FBBlockStrongRelationDetector.h */; settings = {ATTRIBUTES = (Project, ); }; };
 		B44252D05E5E4CEEFBE6037BE3991D18 /* KJResourceLoader.m in Sources */ = {isa = PBXBuildFile; fileRef = ABC9C97545177C5B1D083D90FCF84DA9 /* KJResourceLoader.m */; };
-		B57FD4BAF0F7400DB06C88D4009DBC3E /* UIColor+MonkeyPaws.swift in Sources */ = {isa = PBXBuildFile; fileRef = 13ECADE4609C02A7DBC4899800649967 /* UIColor+MonkeyPaws.swift */; };
+		B57FD4BAF0F7400DB06C88D4009DBC3E /* UIColor+MonkeyPaws.swift in Sources */ = {isa = PBXBuildFile; fileRef = C114D1096E6F4E9FFF37267EA6854629 /* UIColor+MonkeyPaws.swift */; };
+		B5FCA4DC324620C49C3FE922A8F0E7F4 /* FBObjectReference.h in Headers */ = {isa = PBXBuildFile; fileRef = 7BF8962961CB24B0CFEDFCAFE9A37501 /* FBObjectReference.h */; settings = {ATTRIBUTES = (Project, ); }; };
 		B61385908C18144939F4D4A2EAA16F21 /* KJBasePlayer+KJTryTime.m in Sources */ = {isa = PBXBuildFile; fileRef = 3DF755A0E0BE1EB265159BA93BE03313 /* KJBasePlayer+KJTryTime.m */; };
+		B7F701A846ED7088CA926305E6545F2A /* UIView+AMLeaksFinderTools.m in Sources */ = {isa = PBXBuildFile; fileRef = EF60E937B7E8E0A8854570365A804977 /* UIView+AMLeaksFinderTools.m */; };
 		BB60FC5E4354E7925F24EBB0BC18239D /* KJAVPlayer+KJCache.m in Sources */ = {isa = PBXBuildFile; fileRef = FCCC8367A12447B80655EF1C0ED11330 /* KJAVPlayer+KJCache.m */; };
 		BC0C786677EBEF6A1EC2DC13B7CA9364 /* KJResourceLoaderManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 7A7F46201A4C8F85A3FB341F84283740 /* KJResourceLoaderManager.m */; };
 		BCAE5A775CD7D34022119019B42F8B71 /* KJPlayerLog.m in Sources */ = {isa = PBXBuildFile; fileRef = 9FA5FD2E22BA53182A70DC8C41E3B40E /* KJPlayerLog.m */; };
 		BF206BFB8B7065458597849D04D08E66 /* KJDownloader.m in Sources */ = {isa = PBXBuildFile; fileRef = 2C11615DD1ACB691A18B9D8D96E43D2D /* KJDownloader.m */; };
+		BFC238A1104B711A8F4C439AE559E472 /* AMLeaksFinder.h in Headers */ = {isa = PBXBuildFile; fileRef = 95D1515D765192CE5CC6807E2A9B1F0D /* AMLeaksFinder.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		C03C40436C9A055B7FC665C51DB9A1F7 /* KJPlayerBridge.h in Headers */ = {isa = PBXBuildFile; fileRef = 5700D6DE15C796AB9E3A50F0F9B04B18 /* KJPlayerBridge.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		C15340A32401EA5D3C1338AB9FB61037 /* FBStructEncodingParser.mm in Sources */ = {isa = PBXBuildFile; fileRef = 574CAD171AB5C8EB6DE5871CDAA44DDD /* FBStructEncodingParser.mm */; };
 		C206B791C8E8A8387941DF84A75DCA9A /* KJPlayerSystemLayer.h in Headers */ = {isa = PBXBuildFile; fileRef = E417D9F3DCEEEC7CBDBF988EAAE32101 /* KJPlayerSystemLayer.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		C2114682FB0C32BBD1EB7103DF1AA5DB /* KJPlayerSystemLayer.m in Sources */ = {isa = PBXBuildFile; fileRef = 7FFD71EB1BDD2662CF2CDBE1A6BC477C /* KJPlayerSystemLayer.m */; };
-		C3ECEEBBA2AF78A2F479C7C19193689C /* Pods-KJPlayerDemo-umbrella.h in Headers */ = {isa = PBXBuildFile; fileRef = 9B4A1356BFAB611C6F0F2D0ABC6B7ACB /* Pods-KJPlayerDemo-umbrella.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		C51B85A89C91AC36244747B5CBB57250 /* KJPlayerFunction.h in Headers */ = {isa = PBXBuildFile; fileRef = 4238BD6FC90C1C494060EA316A71E016 /* KJPlayerFunction.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		C5E9D89250566CFBC24539C1C1E38500 /* KJPlayerButton.m in Sources */ = {isa = PBXBuildFile; fileRef = DAD39F2C3CC9C39B94B199F52D585A2B /* KJPlayerButton.m */; };
+		C63BD2CEC9DC68368E32B009B67D014B /* UIView+AMLeaksFinderTools.h in Headers */ = {isa = PBXBuildFile; fileRef = 9E39747F94C1BD8F004534F70E068FEB /* UIView+AMLeaksFinderTools.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		C7ADFDA9B467ECFFD5D73FBD6341524B /* FBObjectGraphConfiguration.m in Sources */ = {isa = PBXBuildFile; fileRef = A21B0A4DCC86A457E221F52C64FEBB58 /* FBObjectGraphConfiguration.m */; };
 		CA49789B766C9273F3E22B9537D8F46B /* KJBasePlayer+KJSkipTime.h in Headers */ = {isa = PBXBuildFile; fileRef = C64007408AC7CC53491C665182CD45FA /* KJBasePlayer+KJSkipTime.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		CBE8B8A2114313B40288C2256BB3DED7 /* KJPlayerHintLayer.h in Headers */ = {isa = PBXBuildFile; fileRef = 2B977927E8A4DDFF41CE42251277BB39 /* KJPlayerHintLayer.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		CC37E68FEF68A45EDA7C6ECE09DF639C /* KJPlayerConst.m in Sources */ = {isa = PBXBuildFile; fileRef = D124F0E51F0FFBF5F36A039D4437C3CF /* KJPlayerConst.m */; };
-		CCE22F13ECEA4BD49FB50749788D5081 /* Random.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5EF3F959AADA325BC565F2EFE9DBF516 /* Random.swift */; };
+		CCE22F13ECEA4BD49FB50749788D5081 /* Random.swift in Sources */ = {isa = PBXBuildFile; fileRef = B9854002A76578EC45C442EE1044BEBB /* Random.swift */; };
+		CCF8F0BF606874D4006BDAFD92360438 /* AMLeaksFinder.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 0B750E9298BCB948029E38934C80CBAF /* AMLeaksFinder.bundle */; };
+		CD1102716B84D22BA94C3FE0D88EAAC0 /* Struct.h in Headers */ = {isa = PBXBuildFile; fileRef = 05C4AF4E0959967FC1984405100B7AF1 /* Struct.h */; settings = {ATTRIBUTES = (Project, ); }; };
+		CD2A12830C5DB6BFEED7CABCE7AA9B8E /* AMLeaksFinder-umbrella.h in Headers */ = {isa = PBXBuildFile; fileRef = C424FFC502971BF9704A0BD46AD683EE /* AMLeaksFinder-umbrella.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		CD66849F2089C6C69359C22A3F9F67D7 /* AMLeakOverviewView.h in Headers */ = {isa = PBXBuildFile; fileRef = A13E4CC7AE3D9B6BF61CE727667496F3 /* AMLeakOverviewView.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		D0686CA3949AD8CDCB893CC4D039B5D5 /* KJBasePlayer+KJCache.h in Headers */ = {isa = PBXBuildFile; fileRef = 01B31B5D6DA07AA7CF21901AA5331A6E /* KJBasePlayer+KJCache.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		D2BBA9E1E792D4C4F1624040850B30D0 /* UIPageViewController+AMLeaksFinderSwizzleDealloc.m in Sources */ = {isa = PBXBuildFile; fileRef = 1FA418EF6B8E6C7442198ECA39B84B77 /* UIPageViewController+AMLeaksFinderSwizzleDealloc.m */; };
+		D493BF996F4E1CE065622DF1D11D79C8 /* Pods-KJPlayerDemo-MonkeyUITests-umbrella.h in Headers */ = {isa = PBXBuildFile; fileRef = 9B2818EC813FBB4EE89FFE509693D213 /* Pods-KJPlayerDemo-MonkeyUITests-umbrella.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		D5BF70403D2C67C5F20D375081059017 /* KJPlayer-dummy.m in Sources */ = {isa = PBXBuildFile; fileRef = 1339FF35A68BB6775706F2EA81C52977 /* KJPlayer-dummy.m */; };
 		D5C85454D66AF3D10F6141480234F85E /* DBPlayerData.h in Headers */ = {isa = PBXBuildFile; fileRef = 9DB15F481651AE93D8DBB47FB966EEF0 /* DBPlayerData.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		D66E4188314342AA665C36C6BF0E4BE4 /* KJResourceLoaderManager.h in Headers */ = {isa = PBXBuildFile; fileRef = E703465754B2DC548A113B7B6EA5D8F3 /* KJResourceLoaderManager.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		D7C541628C10F7CCE1B065811CB94A06 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CA8B94E9D3B433157168D1EECCEC11CD /* Foundation.framework */; };
-		DF38CAA22E45F6B64248BA8BEE839ACE /* XCTest.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5EBC8F300895E39EA0DF6D6B2B5E6BCD /* XCTest.framework */; };
-		E3867C45603E20133DAD873461BE1E28 /* SwiftMonkeyPaws-umbrella.h in Headers */ = {isa = PBXBuildFile; fileRef = 65B461E9D510D16D86F971DAC11B54B0 /* SwiftMonkeyPaws-umbrella.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		D6A22E795F23EF35E9D018DC5ACC60B4 /* FBObjectGraphConfiguration.h in Headers */ = {isa = PBXBuildFile; fileRef = 31B01D6B994A02583487597BCACFC75C /* FBObjectGraphConfiguration.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		DC3D4832AB9E4400BD7421EB025FF426 /* AMViewMemoryLeakDeallocModel.h in Headers */ = {isa = PBXBuildFile; fileRef = 4B486434CED5ADA3E7C69A8CAD3D2054 /* AMViewMemoryLeakDeallocModel.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		DF38CAA22E45F6B64248BA8BEE839ACE /* XCTest.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 642FB6BB54D65F357D9FAF51FF95EAA1 /* XCTest.framework */; };
+		E14FDC29A656C3981024ED2510463516 /* FBBlockStrongLayout.m in Sources */ = {isa = PBXBuildFile; fileRef = 748350074E5CD2D8A5DD664B152EADF6 /* FBBlockStrongLayout.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
+		E3867C45603E20133DAD873461BE1E28 /* SwiftMonkeyPaws-umbrella.h in Headers */ = {isa = PBXBuildFile; fileRef = FB3FFD2094B4A7451DC9F6DB019B6144 /* SwiftMonkeyPaws-umbrella.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		E4B5E417BF1CCBDD43B38C0FEFEAE589 /* UINavigationController+AMLeaksFinderSwizzleDealloc.m in Sources */ = {isa = PBXBuildFile; fileRef = EFD079B5ABBA0E17C4244E12A65B16E3 /* UINavigationController+AMLeaksFinderSwizzleDealloc.m */; };
+		E6DB4A9D9836EDF86FE11C91F923D81A /* UIViewController+AMLeaksFinderTools.h in Headers */ = {isa = PBXBuildFile; fileRef = 5793F69E8AF7E82D9DB1ED94D2A7BAEE /* UIViewController+AMLeaksFinderTools.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		EAFC6CEB595EA175B23609243DB03574 /* FBRetainCycleDetector+Internal.h in Headers */ = {isa = PBXBuildFile; fileRef = 932321F8F0C54F93F098AB3FE7BA3C4C /* FBRetainCycleDetector+Internal.h */; settings = {ATTRIBUTES = (Project, ); }; };
 		EE2FA12C879D7E9FC57A018A59F6D443 /* KJBasePlayer+KJTryTime.h in Headers */ = {isa = PBXBuildFile; fileRef = FC94BD7175AC4B3DF045A566C72CAD0A /* KJBasePlayer+KJTryTime.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		EE74B711F03A13BBFD28E2DEDFD704B8 /* KJBasePlayer+KJSkipTime.m in Sources */ = {isa = PBXBuildFile; fileRef = 37F44533A6C53F9BEE924EB1BCFA7D8A /* KJBasePlayer+KJSkipTime.m */; };
-		F4C512C2FDAC6FB1CF499C1E2A9DEBA6 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CA8B94E9D3B433157168D1EECCEC11CD /* Foundation.framework */; };
+		EFBF6A151203BDA29FC594F7D118D6C1 /* BaseType.h in Headers */ = {isa = PBXBuildFile; fileRef = A6A0EFB89CDBE34A29F8BBE56C805789 /* BaseType.h */; settings = {ATTRIBUTES = (Project, ); }; };
+		F03300D44439943FE05DF83E832670E2 /* FBClassStrongLayoutHelpers.m in Sources */ = {isa = PBXBuildFile; fileRef = BBB3665D1EF7695F59855BEBDE2686B8 /* FBClassStrongLayoutHelpers.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
+		F166259C58662AF4DC9AA16939E0DCD4 /* AMLeakDataModel.h in Headers */ = {isa = PBXBuildFile; fileRef = 5C274C3DD254418B5279AC5AD2210B1D /* AMLeakDataModel.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		F19D65507547CE2DC886EC26DC6CEA3F /* FBIvarReference.h in Headers */ = {isa = PBXBuildFile; fileRef = D202EA6E9EE7F4651BC2C621FAA99E0C /* FBIvarReference.h */; settings = {ATTRIBUTES = (Project, ); }; };
+		F209E5F73F15EB5744F2E8AAAABF06C5 /* FBObjectiveCNSCFTimer.h in Headers */ = {isa = PBXBuildFile; fileRef = 150A9F93DC981B79E7B4AFB4611EDA53 /* FBObjectiveCNSCFTimer.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		F4BDAA8AEBCC5CC81BA0A8DC57BB2A63 /* FBIvarReference.m in Sources */ = {isa = PBXBuildFile; fileRef = 0F8EA5CC99C0DEAFD18A8C384835B95E /* FBIvarReference.m */; };
+		F50F750056946FBFCBB310AC3FD7C16E /* NSObject+RunLoop.m in Sources */ = {isa = PBXBuildFile; fileRef = 96795BAE9B4D676742162C37FB292BD7 /* NSObject+RunLoop.m */; };
 		F59DEB4B29725C9E6090023B882A7B15 /* KJResourceLoader.h in Headers */ = {isa = PBXBuildFile; fileRef = F8A11181120A9D7DE3D92866824AED77 /* KJResourceLoader.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		F6414CCC8E942AC2498BF7A7CFA7806A /* KJPlayerHeader.h in Headers */ = {isa = PBXBuildFile; fileRef = F01B47FAC14877B9238CDB0193FB9C73 /* KJPlayerHeader.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		F782ACD98FD7D47D9B190B31B10B6F2B /* AMMemoryLeakView.m in Sources */ = {isa = PBXBuildFile; fileRef = 9ADF708D78503A6101881EB513527EA3 /* AMMemoryLeakView.m */; };
+		F9D8E2FBA234BC187E7160A2F42A8F74 /* FBClassStrongLayoutHelpers.h in Headers */ = {isa = PBXBuildFile; fileRef = B803962AD26F961BE7EE9F05B05881B4 /* FBClassStrongLayoutHelpers.h */; settings = {ATTRIBUTES = (Project, ); }; };
 		FA7489A4FE97F0DCFEB8F304ADC4BE6B /* KJPlayerOperationView.h in Headers */ = {isa = PBXBuildFile; fileRef = 65AA652EEE9814A12B8E05BB91E3BC59 /* KJPlayerOperationView.h */; settings = {ATTRIBUTES = (Public, ); }; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
-		08662698F360A22BF116EDD19C112ADF /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = BFDFE7DC352907FC980B868725387E98 /* Project object */;
-			proxyType = 1;
-			remoteGlobalIDString = 7281195861A7714E4972777A27C77BBC;
-			remoteInfo = IJKMediaFramework;
-		};
-		15395F71475C4EFD238AB7DEBBFC0761 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = BFDFE7DC352907FC980B868725387E98 /* Project object */;
-			proxyType = 1;
-			remoteGlobalIDString = 9239F71B0E6383B9D6F4CBE0908388DD;
-			remoteInfo = "Pods-KJPlayerDemo";
-		};
-		184A119924C0090E1CF2193D5BC3C1DD /* PBXContainerItemProxy */ = {
+		1E437945ADF41CA9A031C9C4D864F56A /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = BFDFE7DC352907FC980B868725387E98 /* Project object */;
 			proxyType = 1;
 			remoteGlobalIDString = 0E1165D248E0A59B340A909F5E58BD41;
 			remoteInfo = KJPlayer;
 		};
-		2199866E43E767C00BCA7235E299BDEC /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = BFDFE7DC352907FC980B868725387E98 /* Project object */;
-			proxyType = 1;
-			remoteGlobalIDString = 9F71478B90CAE678AD29D3BC83333927;
-			remoteInfo = SwiftMonkeyPaws;
-		};
-		22939CFA856AE0FB72CD8ECA8B9B0E82 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = BFDFE7DC352907FC980B868725387E98 /* Project object */;
-			proxyType = 1;
-			remoteGlobalIDString = 9F71478B90CAE678AD29D3BC83333927;
-			remoteInfo = SwiftMonkeyPaws;
-		};
-		40533C3CB678E7AEEE188ABF75A5B0E9 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = BFDFE7DC352907FC980B868725387E98 /* Project object */;
-			proxyType = 1;
-			remoteGlobalIDString = 0E1165D248E0A59B340A909F5E58BD41;
-			remoteInfo = KJPlayer;
-		};
-		41671FE43E398D09FB7CD6853500F302 /* PBXContainerItemProxy */ = {
+		25E556488948BBCFD55C9B473B76B362 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = BFDFE7DC352907FC980B868725387E98 /* Project object */;
 			proxyType = 1;
 			remoteGlobalIDString = 7281195861A7714E4972777A27C77BBC;
 			remoteInfo = IJKMediaFramework;
 		};
-		6165C03093F6EB7C33E47B1FE3E23403 /* PBXContainerItemProxy */ = {
+		683EF2F20024AC5B3F366B3F943D4F15 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = BFDFE7DC352907FC980B868725387E98 /* Project object */;
 			proxyType = 1;
-			remoteGlobalIDString = A0FAD74CFC07BE7DDA411F9CB5107C0A;
-			remoteInfo = SwiftMonkey;
+			remoteGlobalIDString = 71057AC83C4C64F2F4831004B3753254;
+			remoteInfo = AMLeaksFinder;
 		};
-		B3921531ABF58029D9060F5ACCE36738 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = BFDFE7DC352907FC980B868725387E98 /* Project object */;
-			proxyType = 1;
-			remoteGlobalIDString = 7281195861A7714E4972777A27C77BBC;
-			remoteInfo = IJKMediaFramework;
-		};
-		F372B563BC25DBCBC776B927D64F64EB /* PBXContainerItemProxy */ = {
+		68D1DFE79A4236BD19C4F06535CED148 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = BFDFE7DC352907FC980B868725387E98 /* Project object */;
 			proxyType = 1;
 			remoteGlobalIDString = 9569B6DD68D1EE0003E4A551C5F7F010;
 			remoteInfo = "KJPlayer-KJPlayer";
 		};
+		6DCEBE0F625D009D59AF79ED7E9E2EF2 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = BFDFE7DC352907FC980B868725387E98 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 7281195861A7714E4972777A27C77BBC;
+			remoteInfo = IJKMediaFramework;
+		};
+		A8575E7570C50E6C0966E4F5959BA2C0 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = BFDFE7DC352907FC980B868725387E98 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 9239F71B0E6383B9D6F4CBE0908388DD;
+			remoteInfo = "Pods-KJPlayerDemo";
+		};
+		B3C22DE5EFC4DBE3D5A9569F4DF74D5D /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = BFDFE7DC352907FC980B868725387E98 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 0E1165D248E0A59B340A909F5E58BD41;
+			remoteInfo = KJPlayer;
+		};
+		DD62265D3356971D562592030FF2F828 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = BFDFE7DC352907FC980B868725387E98 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 0E647912D2B71D47B98C02E8E0ECA41A;
+			remoteInfo = FBRetainCycleDetector;
+		};
+		E1A9618DB15FFFE9C522D7BB48132CC5 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = BFDFE7DC352907FC980B868725387E98 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 71057AC83C4C64F2F4831004B3753254;
+			remoteInfo = AMLeaksFinder;
+		};
+		E5699F9B164E215DCDC6168B78D76480 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = BFDFE7DC352907FC980B868725387E98 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 9F71478B90CAE678AD29D3BC83333927;
+			remoteInfo = SwiftMonkeyPaws;
+		};
+		E78929F9E28FFD99BA173C72EBDACA80 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = BFDFE7DC352907FC980B868725387E98 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 9F71478B90CAE678AD29D3BC83333927;
+			remoteInfo = SwiftMonkeyPaws;
+		};
+		F2D1942FD89954D3F68A9098F94743A8 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = BFDFE7DC352907FC980B868725387E98 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = A0FAD74CFC07BE7DDA411F9CB5107C0A;
+			remoteInfo = SwiftMonkey;
+		};
+		F4DEFB2F03CE47EFE2F3AAF321082CC9 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = BFDFE7DC352907FC980B868725387E98 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 7281195861A7714E4972777A27C77BBC;
+			remoteInfo = IJKMediaFramework;
+		};
+		FDCBB8195A9317692FCE479E2D7697DA /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = BFDFE7DC352907FC980B868725387E98 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 0E647912D2B71D47B98C02E8E0ECA41A;
+			remoteInfo = FBRetainCycleDetector;
+		};
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		00BAAA4A630DD8C41671530B9AE96D1D /* FBAssociationManager+Internal.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = "FBAssociationManager+Internal.h"; path = "FBRetainCycleDetector/Associations/Internal/FBAssociationManager+Internal.h"; sourceTree = "<group>"; };
 		01B31B5D6DA07AA7CF21901AA5331A6E /* KJBasePlayer+KJCache.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = "KJBasePlayer+KJCache.h"; path = "Sources/Function/Cache/KJBasePlayer+KJCache.h"; sourceTree = "<group>"; };
+		02EB8F891B13FE0FF4A9C0E682E6C407 /* FBObjectiveCGraphElement.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = FBObjectiveCGraphElement.h; path = FBRetainCycleDetector/Graph/FBObjectiveCGraphElement.h; sourceTree = "<group>"; };
+		03668893B08B085401B20ED31A4BBAC3 /* FBRetainCycleDetector.mm */ = {isa = PBXFileReference; includeInIndex = 1; name = FBRetainCycleDetector.mm; path = FBRetainCycleDetector/Detector/FBRetainCycleDetector.mm; sourceTree = "<group>"; };
+		05C4AF4E0959967FC1984405100B7AF1 /* Struct.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = Struct.h; path = FBRetainCycleDetector/Layout/Classes/Parser/Struct.h; sourceTree = "<group>"; };
+		074760616EB5BD751E2AE49AD133763C /* MonkeyPawDrawer.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = MonkeyPawDrawer.swift; path = SwiftMonkeyPaws/MonkeyPawDrawer.swift; sourceTree = "<group>"; };
+		078017C9ED55FFA55A5485F461416C01 /* SwiftMonkey.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = SwiftMonkey.debug.xcconfig; sourceTree = "<group>"; };
+		08999644DB5942765C5EE72E3D864F6E /* MonkeyPaws.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = MonkeyPaws.swift; path = SwiftMonkeyPaws/MonkeyPaws.swift; sourceTree = "<group>"; };
 		09496D37DB3337B65E2CEA86B372CB94 /* KJBasePlayer+KJDynamicSource.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = "KJBasePlayer+KJDynamicSource.h"; path = "Sources/Function/DynamicSource/KJBasePlayer+KJDynamicSource.h"; sourceTree = "<group>"; };
+		0B750E9298BCB948029E38934C80CBAF /* AMLeaksFinder.bundle */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = "wrapper.plug-in"; name = AMLeaksFinder.bundle; path = AMLeaksFinder/AMLeaksFinder.bundle; sourceTree = "<group>"; };
+		0C25132CF1A474ADE13E89C56AC3000F /* SwiftMonkeyPaws-dummy.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; path = "SwiftMonkeyPaws-dummy.m"; sourceTree = "<group>"; };
 		0D61C8C9411E769762A851D45E176B69 /* SwiftMonkey.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; name = SwiftMonkey.framework; path = SwiftMonkey.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		0F1E5CF037566B8870DC51CF1A78B4DD /* KJPlayerView.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = KJPlayerView.h; path = Sources/Core/KJPlayerView.h; sourceTree = "<group>"; };
 		0F21DB245A0B991894D383D7FBC565E6 /* DBPlayerDataManager.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = DBPlayerDataManager.h; path = Sources/Function/Database/DBPlayerDataManager.h; sourceTree = "<group>"; };
-		0F51024AE3EFF75FD2E2709609DA859D /* SwiftMonkeyPaws.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = SwiftMonkeyPaws.release.xcconfig; sourceTree = "<group>"; };
+		0F8EA5CC99C0DEAFD18A8C384835B95E /* FBIvarReference.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; name = FBIvarReference.m; path = FBRetainCycleDetector/Layout/Classes/Reference/FBIvarReference.m; sourceTree = "<group>"; };
 		1339FF35A68BB6775706F2EA81C52977 /* KJPlayer-dummy.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; path = "KJPlayer-dummy.m"; sourceTree = "<group>"; };
-		13ECADE4609C02A7DBC4899800649967 /* UIColor+MonkeyPaws.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = "UIColor+MonkeyPaws.swift"; path = "SwiftMonkeyPaws/UIColor+MonkeyPaws.swift"; sourceTree = "<group>"; };
+		136EC51A39AFDF9309062E335404438F /* SwiftMonkeyPaws-prefix.pch */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = "SwiftMonkeyPaws-prefix.pch"; sourceTree = "<group>"; };
 		14DDE7F579416102F38B12352B439B6A /* KJPlayerLoadingLayer.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = KJPlayerLoadingLayer.h; path = Sources/View/KJPlayerLoadingLayer.h; sourceTree = "<group>"; };
+		150A9F93DC981B79E7B4AFB4611EDA53 /* FBObjectiveCNSCFTimer.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = FBObjectiveCNSCFTimer.h; path = FBRetainCycleDetector/Graph/Specialization/FBObjectiveCNSCFTimer.h; sourceTree = "<group>"; };
 		1569C9563EFDC8BD61976BED79AA0905 /* KJBasePlayer+KJPingTimer.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = "KJBasePlayer+KJPingTimer.h"; path = "Sources/Function/PingTimer/KJBasePlayer+KJPingTimer.h"; sourceTree = "<group>"; };
 		15F00A10DDE754F6734264C3E359F0BE /* KJBasePlayer.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; name = KJBasePlayer.m; path = Sources/Core/KJBasePlayer.m; sourceTree = "<group>"; };
-		1710EEA9D0B0292E755C9F7F547CB4F6 /* SwiftMonkeyPaws-Info.plist */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.plist.xml; path = "SwiftMonkeyPaws-Info.plist"; sourceTree = "<group>"; };
-		184D17E058465A59C21DDAF5D5299DBD /* SwiftMonkey.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = SwiftMonkey.debug.xcconfig; sourceTree = "<group>"; };
 		18C753669248CCF4DE65F8FC6B1AFEF2 /* Pods-KJPlayerDemoTests.modulemap */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.module; path = "Pods-KJPlayerDemoTests.modulemap"; sourceTree = "<group>"; };
+		1A782FE6D32D49DD95D4685A92DB4AC8 /* IJKMediaFramework.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = IJKMediaFramework.framework; path = IJKMediaFramework/Classes/IJKMediaFramework.framework; sourceTree = "<group>"; };
 		1AC3CD396EE63ABA55C6B80B40385524 /* KJPlayerSharedInstance.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; name = KJPlayerSharedInstance.m; path = Sources/Function/Downloader/KJPlayerSharedInstance.m; sourceTree = "<group>"; };
+		1BB3BEE4714D1F5EFAA1532473C4059E /* UITabBarController+AMLeaksFinderSwizzleDealloc.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; name = "UITabBarController+AMLeaksFinderSwizzleDealloc.m"; path = "AMLeaksFinder/Objects/Controllers/NeedDealloc/UITabBarController+AMLeaksFinderSwizzleDealloc.m"; sourceTree = "<group>"; };
 		1C73E1024856B1666E0A458BD6F33751 /* KJPlayer-prefix.pch */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = "KJPlayer-prefix.pch"; sourceTree = "<group>"; };
+		1F8D10ECFC83A194406EE7E766B7F61C /* AMLeaksFinder-dummy.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; path = "AMLeaksFinder-dummy.m"; sourceTree = "<group>"; };
+		1FA418EF6B8E6C7442198ECA39B84B77 /* UIPageViewController+AMLeaksFinderSwizzleDealloc.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; name = "UIPageViewController+AMLeaksFinderSwizzleDealloc.m"; path = "AMLeaksFinder/Objects/Controllers/NeedDealloc/UIPageViewController+AMLeaksFinderSwizzleDealloc.m"; sourceTree = "<group>"; };
 		218CBE22CC3F3214532AB63667E9263D /* Pods-KJPlayerDemo-MonkeyUITests-Info.plist */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.plist.xml; path = "Pods-KJPlayerDemo-MonkeyUITests-Info.plist"; sourceTree = "<group>"; };
 		2198E28A0BB3097950EB5BB0A490E0FD /* KJAVPlayer.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = KJAVPlayer.h; path = Sources/KJAVPlayer/KJAVPlayer.h; sourceTree = "<group>"; };
 		23D7ECD19E0CACCF59F496FF314E2007 /* KJDownloader.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = KJDownloader.h; path = Sources/Function/Downloader/KJDownloader.h; sourceTree = "<group>"; };
 		25D0139C8B3D9DB6AA1D035D29E68AAB /* KJPlayerBridge.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; name = KJPlayerBridge.m; path = Sources/Core/KJPlayerBridge.m; sourceTree = "<group>"; };
-		26F799AE73140FD93D40EFFEF23AB672 /* IJKMediaFramework.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = IJKMediaFramework.release.xcconfig; sourceTree = "<group>"; };
+		268FAF5CD1514FA38F8892170FFDF86D /* AMSnapedViewViewController.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = AMSnapedViewViewController.h; path = AMLeaksFinder/UI/AMSnapedViewViewController.h; sourceTree = "<group>"; };
+		2751EF618710C42342EF50BD520C6FC1 /* FBAssociationManager.mm */ = {isa = PBXFileReference; includeInIndex = 1; name = FBAssociationManager.mm; path = FBRetainCycleDetector/Associations/FBAssociationManager.mm; sourceTree = "<group>"; };
 		27DBC73CF8B65447EE392F0DE80F6163 /* KJRotateManager.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; name = KJRotateManager.m; path = Sources/View/KJRotateManager.m; sourceTree = "<group>"; };
+		28AD4CC30B0DBBFC2C7DDFB89ED2168B /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS14.0.sdk/System/Library/Frameworks/Foundation.framework; sourceTree = DEVELOPER_DIR; };
+		2A1194AC019E1C497A170EE4AB725374 /* FBRetainCycleDetector.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; name = FBRetainCycleDetector.framework; path = FBRetainCycleDetector.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		2B977927E8A4DDFF41CE42251277BB39 /* KJPlayerHintLayer.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = KJPlayerHintLayer.h; path = Sources/View/KJPlayerHintLayer.h; sourceTree = "<group>"; };
+		2B9B102D6A873866F6E55577A7B2519F /* FBObjectiveCBlock.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = FBObjectiveCBlock.h; path = FBRetainCycleDetector/Graph/FBObjectiveCBlock.h; sourceTree = "<group>"; };
 		2C11615DD1ACB691A18B9D8D96E43D2D /* KJDownloader.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; name = KJDownloader.m; path = Sources/Function/Downloader/KJDownloader.m; sourceTree = "<group>"; };
 		2CC62998F48CE1A757DB4DD166F8EB56 /* KJPlayerSharedInstance.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = KJPlayerSharedInstance.h; path = Sources/Function/Downloader/KJPlayerSharedInstance.h; sourceTree = "<group>"; };
-		2F375954FEAF9E26247E9E09F9618C56 /* SwiftMonkey.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = SwiftMonkey.release.xcconfig; sourceTree = "<group>"; };
-		3284D8A4F7366AA9464A6A31E1AA8529 /* SwiftMonkey-Info.plist */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.plist.xml; path = "SwiftMonkey-Info.plist"; sourceTree = "<group>"; };
+		2D59AD9EF0759A0FB14E023086992F20 /* fishhook.c */ = {isa = PBXFileReference; includeInIndex = 1; name = fishhook.c; path = fishhook/fishhook.c; sourceTree = "<group>"; };
+		2FEF71C26EC39B9FF223A9CB397C6593 /* FBBlockStrongRelationDetector.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; name = FBBlockStrongRelationDetector.m; path = FBRetainCycleDetector/Layout/Blocks/FBBlockStrongRelationDetector.m; sourceTree = "<group>"; };
+		31B01D6B994A02583487597BCACFC75C /* FBObjectGraphConfiguration.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = FBObjectGraphConfiguration.h; path = FBRetainCycleDetector/Graph/FBObjectGraphConfiguration.h; sourceTree = "<group>"; };
+		31BE3C9FB2725BA9847BE898132651B5 /* IJKMediaFramework.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = IJKMediaFramework.debug.xcconfig; sourceTree = "<group>"; };
+		3293AF5283505DD182BD1F6E1C746671 /* FBRetainCycleDetector.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = FBRetainCycleDetector.h; path = FBRetainCycleDetector/Detector/FBRetainCycleDetector.h; sourceTree = "<group>"; };
+		32E7BEEA6FAF6C9B9518652FDA17FD2A /* FBStructEncodingParser.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = FBStructEncodingParser.h; path = FBRetainCycleDetector/Layout/Classes/Parser/FBStructEncodingParser.h; sourceTree = "<group>"; };
+		337AE126F5B510A1CFCFF154B4A74949 /* FBNodeEnumerator.mm */ = {isa = PBXFileReference; includeInIndex = 1; name = FBNodeEnumerator.mm; path = FBRetainCycleDetector/Detector/FBNodeEnumerator.mm; sourceTree = "<group>"; };
+		341A0452C5AA545694CB82DC7760B002 /* FBObjectInStructReference.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = FBObjectInStructReference.h; path = FBRetainCycleDetector/Layout/Classes/Reference/FBObjectInStructReference.h; sourceTree = "<group>"; };
 		34E61AC56E0FACC9E9327C3519355D9A /* Pods-KJPlayerDemo.modulemap */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.module; path = "Pods-KJPlayerDemo.modulemap"; sourceTree = "<group>"; };
 		36A558EBA2AACE66906FE315366ADEBE /* KJScreenshotsManager.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = KJScreenshotsManager.h; path = Sources/Function/Screenshots/KJScreenshotsManager.h; sourceTree = "<group>"; };
 		36D7A0E2E4A02EB40E3F4F7E555AB76C /* KJPlayerPod.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = KJPlayerPod.h; path = Sources/Core/KJPlayerPod.h; sourceTree = "<group>"; };
 		37F44533A6C53F9BEE924EB1BCFA7D8A /* KJBasePlayer+KJSkipTime.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; name = "KJBasePlayer+KJSkipTime.m"; path = "Sources/Function/SkipTime/KJBasePlayer+KJSkipTime.m"; sourceTree = "<group>"; };
-		383DD47D209FFA776746E09CD4A4F8C6 /* Configuration.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = Configuration.swift; path = SwiftMonkeyPaws/Configuration.swift; sourceTree = "<group>"; };
-		3B431DE2FBA62A6F3E73114BD465081A /* SwiftMonkey-dummy.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; path = "SwiftMonkey-dummy.m"; sourceTree = "<group>"; };
 		3C12A0C6A99860C2C708114A440C6FDB /* Pods-KJPlayerDemoTests-acknowledgements.markdown */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text; path = "Pods-KJPlayerDemoTests-acknowledgements.markdown"; sourceTree = "<group>"; };
 		3C63BB7B8F9D4E8D0D1499465DE91359 /* Pods-KJPlayerDemo-acknowledgements.plist */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.plist.xml; path = "Pods-KJPlayerDemo-acknowledgements.plist"; sourceTree = "<group>"; };
 		3DF755A0E0BE1EB265159BA93BE03313 /* KJBasePlayer+KJTryTime.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; name = "KJBasePlayer+KJTryTime.m"; path = "Sources/Function/TryTime/KJBasePlayer+KJTryTime.m"; sourceTree = "<group>"; };
+		3EFA9197BBFD1525893033046D1FEEB0 /* FBRetainCycleDetector-dummy.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; path = "FBRetainCycleDetector-dummy.m"; sourceTree = "<group>"; };
+		3F54A94A52B3A10D41751690DB238F7C /* FBNodeEnumerator.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = FBNodeEnumerator.h; path = FBRetainCycleDetector/Detector/FBNodeEnumerator.h; sourceTree = "<group>"; };
 		3F5E926DF057D4538D08C9B886B744AF /* KJFileHandleInfo.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = KJFileHandleInfo.h; path = Sources/Function/Downloader/KJFileHandleInfo.h; sourceTree = "<group>"; };
 		41DFD5EFD6FFA9BF2451747EBBEDB42A /* Pods-KJPlayerDemo-MonkeyUITests-dummy.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; path = "Pods-KJPlayerDemo-MonkeyUITests-dummy.m"; sourceTree = "<group>"; };
+		420A2A46056398126537D3233BC66B9F /* FBRetainCycleUtils.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; name = FBRetainCycleUtils.m; path = FBRetainCycleDetector/FBRetainCycleUtils.m; sourceTree = "<group>"; };
 		4238BD6FC90C1C494060EA316A71E016 /* KJPlayerFunction.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = KJPlayerFunction.h; path = Sources/Core/KJPlayerFunction.h; sourceTree = "<group>"; };
+		4568D1EE1C9BB6B3668E9804053D1687 /* FBObjectiveCBlock.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; name = FBObjectiveCBlock.m; path = FBRetainCycleDetector/Graph/FBObjectiveCBlock.m; sourceTree = "<group>"; };
 		46B632F26CE9C7E4AF4EDBC0C3756285 /* Pods-KJPlayerDemoTests-dummy.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; path = "Pods-KJPlayerDemoTests-dummy.m"; sourceTree = "<group>"; };
+		4760C911B9CFDBB02FA50A7ED5FA09DA /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS14.0.sdk/System/Library/Frameworks/CoreGraphics.framework; sourceTree = DEVELOPER_DIR; };
 		47A6CA3D51E12E27E520BB32A37F2C36 /* KJBasePlayer.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = KJBasePlayer.h; path = Sources/Core/KJBasePlayer.h; sourceTree = "<group>"; };
-		4856747D988A3D4E5513324EE2EE1554 /* MonkeyPawDrawer.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = MonkeyPawDrawer.swift; path = SwiftMonkeyPaws/MonkeyPawDrawer.swift; sourceTree = "<group>"; };
+		47DDFF39CC92B19D486EF1324BEEE6EA /* AMLeakDataModel.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; name = AMLeakDataModel.m; path = AMLeaksFinder/UI/AMLeakDataModel.m; sourceTree = "<group>"; };
 		496AF53B78EE8E7C498454BD12FDD803 /* Pods-KJPlayerDemoTests-Info.plist */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.plist.xml; path = "Pods-KJPlayerDemoTests-Info.plist"; sourceTree = "<group>"; };
+		4B35B257091529A510495E58EC30DA18 /* SwiftMonkey.modulemap */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.module; path = SwiftMonkey.modulemap; sourceTree = "<group>"; };
+		4B486434CED5ADA3E7C69A8CAD3D2054 /* AMViewMemoryLeakDeallocModel.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = AMViewMemoryLeakDeallocModel.h; path = AMLeaksFinder/Objects/View/Model/AMViewMemoryLeakDeallocModel.h; sourceTree = "<group>"; };
 		4CCC3BE65B8AFC8B40FD7967C22F15E6 /* Pods-KJPlayerDemoTests-acknowledgements.plist */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.plist.xml; path = "Pods-KJPlayerDemoTests-acknowledgements.plist"; sourceTree = "<group>"; };
+		4D31A1A94213EC7385EC6F5C1975BA05 /* Configuration.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = Configuration.swift; path = SwiftMonkeyPaws/Configuration.swift; sourceTree = "<group>"; };
 		4ED6582FDF85A3210781EEE9822B2FEC /* ResourceBundle-KJPlayer-KJPlayer-Info.plist */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.plist.xml; path = "ResourceBundle-KJPlayer-KJPlayer-Info.plist"; sourceTree = "<group>"; };
+		4F16482013E9E49E72FD3400309D3156 /* SwiftMonkeyPaws-Info.plist */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.plist.xml; path = "SwiftMonkeyPaws-Info.plist"; sourceTree = "<group>"; };
+		4F4C6C1E0AFB0A71D2739ACC82752F67 /* FBRetainCycleUtils.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = FBRetainCycleUtils.h; path = FBRetainCycleDetector/FBRetainCycleUtils.h; sourceTree = "<group>"; };
 		4FA3C53CD12AF35FD6B7193C2B2CAC52 /* KJBasePlayer+KJPingTimer.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; name = "KJBasePlayer+KJPingTimer.m"; path = "Sources/Function/PingTimer/KJBasePlayer+KJPingTimer.m"; sourceTree = "<group>"; };
 		51946E929496D8E3C11CD48A2FB62CE0 /* KJPlayerHintLayer.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; name = KJPlayerHintLayer.m; path = Sources/View/KJPlayerHintLayer.m; sourceTree = "<group>"; };
-		51FA714CA8B0318BB21450C9AB55FAB2 /* IJKMediaFramework.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = IJKMediaFramework.framework; path = IJKMediaFramework/Classes/IJKMediaFramework.framework; sourceTree = "<group>"; };
-		53459E88B2F5C4385DBE8DD31E6C0979 /* IJKMediaFramework.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = IJKMediaFramework.debug.xcconfig; sourceTree = "<group>"; };
+		54287D5802CC0059E52BA51A3E0BDB33 /* SwiftMonkeyPaws.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = SwiftMonkeyPaws.debug.xcconfig; sourceTree = "<group>"; };
 		55572504B79C663667869A389D26011B /* Pods_KJPlayerDemoTests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; name = Pods_KJPlayerDemoTests.framework; path = "Pods-KJPlayerDemoTests.framework"; sourceTree = BUILT_PRODUCTS_DIR; };
+		55BA0CDA53E22CA5971FA92546D7A5CE /* AMMemoryLeakModel.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = AMMemoryLeakModel.h; path = AMLeaksFinder/Objects/Controllers/Model/AMMemoryLeakModel.h; sourceTree = "<group>"; };
 		5700D6DE15C796AB9E3A50F0F9B04B18 /* KJPlayerBridge.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = KJPlayerBridge.h; path = Sources/Core/KJPlayerBridge.h; sourceTree = "<group>"; };
+		574CAD171AB5C8EB6DE5871CDAA44DDD /* FBStructEncodingParser.mm */ = {isa = PBXFileReference; includeInIndex = 1; name = FBStructEncodingParser.mm; path = FBRetainCycleDetector/Layout/Classes/Parser/FBStructEncodingParser.mm; sourceTree = "<group>"; };
+		578F00612A88A4369C4361A4043A640C /* MonkeyXCTest.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = MonkeyXCTest.swift; path = SwiftMonkey/MonkeyXCTest.swift; sourceTree = "<group>"; };
+		5793F69E8AF7E82D9DB1ED94D2A7BAEE /* UIViewController+AMLeaksFinderTools.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = "UIViewController+AMLeaksFinderTools.h"; path = "AMLeaksFinder/Uitis/Controller/UIViewController+AMLeaksFinderTools.h"; sourceTree = "<group>"; };
 		58A9341F86B217EAED4F1DB5524C40C0 /* KJPlayer.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; name = KJPlayer.framework; path = KJPlayer.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		595A373B48E068A58BBA236E71687D1F /* KJPlayer.modulemap */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.module; path = KJPlayer.modulemap; sourceTree = "<group>"; };
-		5B57324E0658D47E967FA07D2FC88B8A /* MonkeyXCTestPrivate.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = MonkeyXCTestPrivate.swift; path = SwiftMonkey/MonkeyXCTestPrivate.swift; sourceTree = "<group>"; };
-		5EBC8F300895E39EA0DF6D6B2B5E6BCD /* XCTest.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = XCTest.framework; path = Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS14.0.sdk/System/Library/Frameworks/XCTest.framework; sourceTree = DEVELOPER_DIR; };
-		5EF3F959AADA325BC565F2EFE9DBF516 /* Random.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = Random.swift; path = SwiftMonkey/Random.swift; sourceTree = "<group>"; };
+		59B4DC5B2BE4870B1F4B657AD9C43B15 /* AMMemoryLeakModel.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; name = AMMemoryLeakModel.m; path = AMLeaksFinder/Objects/Controllers/Model/AMMemoryLeakModel.m; sourceTree = "<group>"; };
+		5B325CE76F1D911B407ECF9B12200C28 /* FBObjectiveCGraphElement+Internal.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = "FBObjectiveCGraphElement+Internal.h"; path = "FBRetainCycleDetector/Graph/Internal/FBObjectiveCGraphElement+Internal.h"; sourceTree = "<group>"; };
+		5C274C3DD254418B5279AC5AD2210B1D /* AMLeakDataModel.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = AMLeakDataModel.h; path = AMLeaksFinder/UI/AMLeakDataModel.h; sourceTree = "<group>"; };
+		5CBBC26F1B0296874DBC295EEC7A4A63 /* UIViewController+AMLeaksFinderUI.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = "UIViewController+AMLeaksFinderUI.h"; path = "AMLeaksFinder/UI/UIViewController+AMLeaksFinderUI.h"; sourceTree = "<group>"; };
+		637BF0935908B48F5F5325A89DA8AF45 /* AMLeaksFinder.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = AMLeaksFinder.debug.xcconfig; sourceTree = "<group>"; };
+		642FB6BB54D65F357D9FAF51FF95EAA1 /* XCTest.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = XCTest.framework; path = Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS14.0.sdk/System/Library/Frameworks/XCTest.framework; sourceTree = DEVELOPER_DIR; };
 		65AA652EEE9814A12B8E05BB91E3BC59 /* KJPlayerOperationView.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = KJPlayerOperationView.h; path = Sources/View/KJPlayerOperationView.h; sourceTree = "<group>"; };
-		65B461E9D510D16D86F971DAC11B54B0 /* SwiftMonkeyPaws-umbrella.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = "SwiftMonkeyPaws-umbrella.h"; sourceTree = "<group>"; };
+		66F62DA7694FB082F34D964B9A190529 /* Struct.mm */ = {isa = PBXFileReference; includeInIndex = 1; name = Struct.mm; path = FBRetainCycleDetector/Layout/Classes/Parser/Struct.mm; sourceTree = "<group>"; };
+		67686C6308E0CE062B3277DC7BA039E9 /* UIWindow+AMLeaksFinderSwizzleDealloc.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; name = "UIWindow+AMLeaksFinderSwizzleDealloc.m"; path = "AMLeaksFinder/Objects/Controllers/NeedDealloc/UIWindow+AMLeaksFinderSwizzleDealloc.m"; sourceTree = "<group>"; };
+		69E857A58BEE54241E2E992A88ACD212 /* AMMemoryLeakView.xib */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = file.xib; name = AMMemoryLeakView.xib; path = AMLeaksFinder/UI/AMMemoryLeakView.xib; sourceTree = "<group>"; };
 		6A222FAB4D2516519F2E4B0FB887FFE4 /* Pods-KJPlayerDemo-Info.plist */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.plist.xml; path = "Pods-KJPlayerDemo-Info.plist"; sourceTree = "<group>"; };
-		6AD549F937856886BFAD6E0E4CF62AD4 /* SwiftMonkeyPaws.modulemap */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.module; path = SwiftMonkeyPaws.modulemap; sourceTree = "<group>"; };
+		6B4704E1075804D59C865BA78CFCEF0F /* AMLeaksFinder-prefix.pch */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = "AMLeaksFinder-prefix.pch"; sourceTree = "<group>"; };
+		6CB05526352887E7D725D1B2B2E081CB /* AMLeakOverviewView.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; name = AMLeakOverviewView.m; path = AMLeaksFinder/UI/AMLeakOverviewView.m; sourceTree = "<group>"; };
 		6D672E848632D169E3ACC45A171092D8 /* Pods-KJPlayerDemo-dummy.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; path = "Pods-KJPlayerDemo-dummy.m"; sourceTree = "<group>"; };
 		6EE0713E40D4B7CB4F07A34374D20E68 /* Pods-KJPlayerDemoTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = "Pods-KJPlayerDemoTests.release.xcconfig"; sourceTree = "<group>"; };
+		6F20C022D13D66EB9BC194A6FB9F9B99 /* Monkey.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = Monkey.swift; path = SwiftMonkey/Monkey.swift; sourceTree = "<group>"; };
 		7170CE79BBC72A60BC90ACEC842AB4CF /* Pods-KJPlayerDemo-frameworks.sh */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.script.sh; path = "Pods-KJPlayerDemo-frameworks.sh"; sourceTree = "<group>"; };
 		71991D93F61E36FFF9D3501496C742B1 /* Pods-KJPlayerDemo-MonkeyUITests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = "Pods-KJPlayerDemo-MonkeyUITests.release.xcconfig"; sourceTree = "<group>"; };
+		730E4615943A01AE23C1671BCF02318C /* FBRetainCycleDetector-umbrella.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = "FBRetainCycleDetector-umbrella.h"; sourceTree = "<group>"; };
+		748350074E5CD2D8A5DD664B152EADF6 /* FBBlockStrongLayout.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; name = FBBlockStrongLayout.m; path = FBRetainCycleDetector/Layout/Blocks/FBBlockStrongLayout.m; sourceTree = "<group>"; };
+		758EAD94B3DBC3F4456EF2D864C38303 /* FBObjectiveCObject.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; name = FBObjectiveCObject.m; path = FBRetainCycleDetector/Graph/FBObjectiveCObject.m; sourceTree = "<group>"; };
 		75B8CE205F6E9FF6BD1870B3B372BE50 /* Pods-KJPlayerDemo-MonkeyUITests-resources.sh */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.script.sh; path = "Pods-KJPlayerDemo-MonkeyUITests-resources.sh"; sourceTree = "<group>"; };
 		75E2D022E1A707948E731371E336B88F /* KJBasePlayer+KJBackgroundMonitoring.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = "KJBasePlayer+KJBackgroundMonitoring.h"; path = "Sources/Function/BackgroundMonitoring/KJBasePlayer+KJBackgroundMonitoring.h"; sourceTree = "<group>"; };
+		77DAB50657C64C4743492710D5D39C1C /* AMViewMemoryLeakModel.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; name = AMViewMemoryLeakModel.m; path = AMLeaksFinder/Objects/View/Model/AMViewMemoryLeakModel.m; sourceTree = "<group>"; };
 		77E2E9BEA692A4A1D4BDD26EF2729B93 /* KJBasePlayerView.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = KJBasePlayerView.h; path = Sources/View/KJBasePlayerView.h; sourceTree = "<group>"; };
+		783FFA03BF477E30E25088FCEF69A7D9 /* FBBlockStrongLayout.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = FBBlockStrongLayout.h; path = FBRetainCycleDetector/Layout/Blocks/FBBlockStrongLayout.h; sourceTree = "<group>"; };
 		7A7F46201A4C8F85A3FB341F84283740 /* KJResourceLoaderManager.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; name = KJResourceLoaderManager.m; path = Sources/KJAVPlayer/KJAVDownloader/KJResourceLoaderManager.m; sourceTree = "<group>"; };
+		7A82F699B69EC772C23CADAFD96C5CF4 /* SwiftMonkey-prefix.pch */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = "SwiftMonkey-prefix.pch"; sourceTree = "<group>"; };
 		7AA23D5B60AC1155B07DDD11B7F0E79B /* KJBasePlayerView.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; name = KJBasePlayerView.m; path = Sources/View/KJBasePlayerView.m; sourceTree = "<group>"; };
+		7ABD2661BEA7798426DB1B5D257E978A /* FBStandardGraphEdgeFilters.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = FBStandardGraphEdgeFilters.h; path = FBRetainCycleDetector/Filtering/FBStandardGraphEdgeFilters.h; sourceTree = "<group>"; };
 		7B6B01A1E41AB2808354DC7A27A0C4A3 /* DBPlayer.xcdatamodel */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = wrapper.xcdatamodel; path = DBPlayer.xcdatamodel; sourceTree = "<group>"; };
+		7BF8962961CB24B0CFEDFCAFE9A37501 /* FBObjectReference.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = FBObjectReference.h; path = FBRetainCycleDetector/Layout/Classes/Reference/FBObjectReference.h; sourceTree = "<group>"; };
+		7D328E5AA7D1C9ED46D6596F60CA8FDD /* AMMemoryLeakDeallocModel.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; name = AMMemoryLeakDeallocModel.m; path = AMLeaksFinder/Objects/Controllers/Model/AMMemoryLeakDeallocModel.m; sourceTree = "<group>"; };
 		7D3C4175E347C870CC387909FA7A3205 /* Pods-KJPlayerDemoTests-umbrella.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = "Pods-KJPlayerDemoTests-umbrella.h"; sourceTree = "<group>"; };
+		7D88F55A121FC4B4BF5CB09090D07EAD /* AMMemoryLeakView.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = AMMemoryLeakView.h; path = AMLeaksFinder/UI/AMMemoryLeakView.h; sourceTree = "<group>"; };
+		7DF88253001F2BC53F8083809D36A78B /* AMLeaksFinder-Info.plist */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.plist.xml; path = "AMLeaksFinder-Info.plist"; sourceTree = "<group>"; };
 		7E7C7DC7F67C6BF85CA008C777854ADF /* KJIJKPlayer.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; name = KJIJKPlayer.m; path = Sources/KJIJKPlayer/KJIJKPlayer.m; sourceTree = "<group>"; };
 		7FD4DB275ECE657133BB27B3B05919FC /* KJMIDIPlayer.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; name = KJMIDIPlayer.m; path = Sources/KJMidiPlayer/KJMIDIPlayer.m; sourceTree = "<group>"; };
 		7FFD71EB1BDD2662CF2CDBE1A6BC477C /* KJPlayerSystemLayer.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; name = KJPlayerSystemLayer.m; path = Sources/View/KJPlayerSystemLayer.m; sourceTree = "<group>"; };
-		8044EDFD508312C1CFFCCA7E96C6973F /* Monkey.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = Monkey.swift; path = SwiftMonkey/Monkey.swift; sourceTree = "<group>"; };
+		80591B541E418A98DF395AA4BFDC00EE /* UIViewController+AMLeaksFinderSwizzleDealloc.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; name = "UIViewController+AMLeaksFinderSwizzleDealloc.m"; path = "AMLeaksFinder/Objects/Controllers/NeedDealloc/UIViewController+AMLeaksFinderSwizzleDealloc.m"; sourceTree = "<group>"; };
 		81F88E35C2B5A07A50B4817E0CFF18E8 /* Pods_KJPlayerDemo.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; name = Pods_KJPlayerDemo.framework; path = "Pods-KJPlayerDemo.framework"; sourceTree = BUILT_PRODUCTS_DIR; };
-		873C53A8FC425A0704971A5968404932 /* SwiftMonkeyPaws.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = SwiftMonkeyPaws.debug.xcconfig; sourceTree = "<group>"; };
-		87DE6E3FB08FCAF5A1FEDD38C8C85D2B /* SwiftMonkeyPaws-prefix.pch */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = "SwiftMonkeyPaws-prefix.pch"; sourceTree = "<group>"; };
+		8340D6B5D0D534AAA33C57FD9D0B19D1 /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS14.0.sdk/System/Library/Frameworks/UIKit.framework; sourceTree = DEVELOPER_DIR; };
 		89144AAB787E675B0A2CEE8696F1BEC1 /* KJPlayerFont.ttf */ = {isa = PBXFileReference; includeInIndex = 1; name = KJPlayerFont.ttf; path = Sources/View/KJPlayerFont.ttf; sourceTree = "<group>"; };
-		8D27F11660CB83DB44A228403C77A44F /* SwiftMonkey-umbrella.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = "SwiftMonkey-umbrella.h"; sourceTree = "<group>"; };
+		8BA6828E5A9F3EB73021A382D77A4815 /* SwiftMonkey-umbrella.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = "SwiftMonkey-umbrella.h"; sourceTree = "<group>"; };
+		8DBBD0468C919F89DB967FF99B2513F9 /* FBClassStrongLayout.mm */ = {isa = PBXFileReference; includeInIndex = 1; name = FBClassStrongLayout.mm; path = FBRetainCycleDetector/Layout/Classes/FBClassStrongLayout.mm; sourceTree = "<group>"; };
 		932053D55A4756BCC562871389804D5D /* KJPlayerOperationView.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; name = KJPlayerOperationView.m; path = Sources/View/KJPlayerOperationView.m; sourceTree = "<group>"; };
+		932321F8F0C54F93F098AB3FE7BA3C4C /* FBRetainCycleDetector+Internal.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = "FBRetainCycleDetector+Internal.h"; path = "FBRetainCycleDetector/Detector/FBRetainCycleDetector+Internal.h"; sourceTree = "<group>"; };
 		9420FDE80E2235C4A482297E60915851 /* KJPlayerPod.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; name = KJPlayerPod.m; path = Sources/Core/KJPlayerPod.m; sourceTree = "<group>"; };
+		9578032E2F4F2FE67B8306091244301A /* SwiftMonkey-Info.plist */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.plist.xml; path = "SwiftMonkey-Info.plist"; sourceTree = "<group>"; };
+		95D1515D765192CE5CC6807E2A9B1F0D /* AMLeaksFinder.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = AMLeaksFinder.h; path = AMLeaksFinder/AMLeaksFinder.h; sourceTree = "<group>"; };
 		964C4A7958AB19E0BABF29727357AAD4 /* KJPlayerView.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; name = KJPlayerView.m; path = Sources/Core/KJPlayerView.m; sourceTree = "<group>"; };
-		9ABFCDFD8E8383A55A1504DC52E2D054 /* MonkeyPaws.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = MonkeyPaws.swift; path = SwiftMonkeyPaws/MonkeyPaws.swift; sourceTree = "<group>"; };
+		96795BAE9B4D676742162C37FB292BD7 /* NSObject+RunLoop.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; name = "NSObject+RunLoop.m"; path = "AMLeaksFinder/Uitis/RunLoop/NSObject+RunLoop.m"; sourceTree = "<group>"; };
+		98667399CE8E8CEC4A3D90C4625D67AC /* SwiftMonkey.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = SwiftMonkey.release.xcconfig; sourceTree = "<group>"; };
+		9ADF708D78503A6101881EB513527EA3 /* AMMemoryLeakView.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; name = AMMemoryLeakView.m; path = AMLeaksFinder/UI/AMMemoryLeakView.m; sourceTree = "<group>"; };
 		9B2818EC813FBB4EE89FFE509693D213 /* Pods-KJPlayerDemo-MonkeyUITests-umbrella.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = "Pods-KJPlayerDemo-MonkeyUITests-umbrella.h"; sourceTree = "<group>"; };
 		9B4A1356BFAB611C6F0F2D0ABC6B7ACB /* Pods-KJPlayerDemo-umbrella.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = "Pods-KJPlayerDemo-umbrella.h"; sourceTree = "<group>"; };
 		9D940727FF8FB9C785EB98E56350EF41 /* Podfile */ = {isa = PBXFileReference; explicitFileType = text.script.ruby; includeInIndex = 1; indentWidth = 2; lastKnownFileType = text; name = Podfile; path = ../Podfile; sourceTree = SOURCE_ROOT; tabWidth = 2; xcLanguageSpecificationIdentifier = xcode.lang.ruby; };
 		9DB15F481651AE93D8DBB47FB966EEF0 /* DBPlayerData.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = DBPlayerData.h; path = Sources/Function/Database/DBPlayerData.h; sourceTree = "<group>"; };
+		9DFC7E138E22371F652D5A786CD719FB /* FBRetainCycleDetector-Info.plist */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.plist.xml; path = "FBRetainCycleDetector-Info.plist"; sourceTree = "<group>"; };
+		9E39747F94C1BD8F004534F70E068FEB /* UIView+AMLeaksFinderTools.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = "UIView+AMLeaksFinderTools.h"; path = "AMLeaksFinder/Uitis/View/UIView+AMLeaksFinderTools.h"; sourceTree = "<group>"; };
 		9EBAB194BCEFBA798A9A244807073D99 /* Pods-KJPlayerDemo-MonkeyUITests.modulemap */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.module; path = "Pods-KJPlayerDemo-MonkeyUITests.modulemap"; sourceTree = "<group>"; };
 		9ECCC392CE378F46052106BFF9066D9B /* Pods-KJPlayerDemoTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = "Pods-KJPlayerDemoTests.debug.xcconfig"; sourceTree = "<group>"; };
 		9FA5FD2E22BA53182A70DC8C41E3B40E /* KJPlayerLog.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; name = KJPlayerLog.m; path = Sources/Core/KJPlayerLog.m; sourceTree = "<group>"; };
 		9FBAFD69F335587CD0DBB129A8B20BD6 /* KJRotateManager.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = KJRotateManager.h; path = Sources/View/KJRotateManager.h; sourceTree = "<group>"; };
+		9FFD299D501409F21F7376171768F804 /* FBObjectInStructReference.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; name = FBObjectInStructReference.m; path = FBRetainCycleDetector/Layout/Classes/Reference/FBObjectInStructReference.m; sourceTree = "<group>"; };
 		A026AA49311E180346FAF62D404E02F2 /* README.md */ = {isa = PBXFileReference; includeInIndex = 1; path = README.md; sourceTree = "<group>"; };
-		A1A419ABCDCBE0CEFEC50ADD17190AAD /* MonkeyUIAutomation.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = MonkeyUIAutomation.swift; path = SwiftMonkey/MonkeyUIAutomation.swift; sourceTree = "<group>"; };
+		A093B35A8C06A346CA4D25A4E4269233 /* FBAssociationManager.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = FBAssociationManager.h; path = FBRetainCycleDetector/Associations/FBAssociationManager.h; sourceTree = "<group>"; };
+		A13E4CC7AE3D9B6BF61CE727667496F3 /* AMLeakOverviewView.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = AMLeakOverviewView.h; path = AMLeaksFinder/UI/AMLeakOverviewView.h; sourceTree = "<group>"; };
+		A21B0A4DCC86A457E221F52C64FEBB58 /* FBObjectGraphConfiguration.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; name = FBObjectGraphConfiguration.m; path = FBRetainCycleDetector/Graph/FBObjectGraphConfiguration.m; sourceTree = "<group>"; };
 		A341A499C4AAD116503068500246046A /* KJBasePlayer+KJDynamicSource.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; name = "KJBasePlayer+KJDynamicSource.m"; path = "Sources/Function/DynamicSource/KJBasePlayer+KJDynamicSource.m"; sourceTree = "<group>"; };
-		A41757B5A934061294EE941B32E0BD81 /* MonkeyXCTest.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = MonkeyXCTest.swift; path = SwiftMonkey/MonkeyXCTest.swift; sourceTree = "<group>"; };
+		A6836D8BE501A5F66BCAC838296A13D4 /* MonkeyXCTestPrivate.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = MonkeyXCTestPrivate.swift; path = SwiftMonkey/MonkeyXCTestPrivate.swift; sourceTree = "<group>"; };
+		A688291BDA4F6A94C5302C28708E2ED1 /* AMLeaksFinder.modulemap */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.module; path = AMLeaksFinder.modulemap; sourceTree = "<group>"; };
+		A6A0EFB89CDBE34A29F8BBE56C805789 /* BaseType.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = BaseType.h; path = FBRetainCycleDetector/Layout/Classes/Parser/BaseType.h; sourceTree = "<group>"; };
 		A7B807DFF5CB06672CEC316B39709B3F /* KJFileHandleManager.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; name = KJFileHandleManager.m; path = Sources/Function/Downloader/KJFileHandleManager.m; sourceTree = "<group>"; };
 		A7DE7BF2596EA13806BC9E16204BE352 /* KJPlayerConst.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = KJPlayerConst.h; path = Sources/Core/KJPlayerConst.h; sourceTree = "<group>"; };
 		A899588D04FB6513DF813BA862A484D3 /* Pods-KJPlayerDemo-resources.sh */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.script.sh; path = "Pods-KJPlayerDemo-resources.sh"; sourceTree = "<group>"; };
 		A8E3DBA85D62223DEBA6ACEA81BE8D05 /* KJPlayerProtocol.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = KJPlayerProtocol.h; path = Sources/Core/KJPlayerProtocol.h; sourceTree = "<group>"; };
 		AA12F69197E756FF0B21F8BE8AA71464 /* KJPlayerLoadingLayer.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; name = KJPlayerLoadingLayer.m; path = Sources/View/KJPlayerLoadingLayer.m; sourceTree = "<group>"; };
+		AAAA8D91ADA25FEAD96BC73B1B5D3DE4 /* FBRetainCycleDetector.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = FBRetainCycleDetector.release.xcconfig; sourceTree = "<group>"; };
 		ABC9C97545177C5B1D083D90FCF84DA9 /* KJResourceLoader.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; name = KJResourceLoader.m; path = Sources/KJAVPlayer/KJAVDownloader/KJResourceLoader.m; sourceTree = "<group>"; };
 		ABF2063B0DD13ECC915D8BF7536FF6C3 /* Pods-KJPlayerDemo-MonkeyUITests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = "Pods-KJPlayerDemo-MonkeyUITests.debug.xcconfig"; sourceTree = "<group>"; };
+		ADB81A08677A5E55F2899F695ED9781A /* NSObject+RunLoop.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = "NSObject+RunLoop.h"; path = "AMLeaksFinder/Uitis/RunLoop/NSObject+RunLoop.h"; sourceTree = "<group>"; };
+		AE9C71C5E35BC2548B95DBB49D047984 /* SwiftMonkeyPaws.modulemap */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.module; path = SwiftMonkeyPaws.modulemap; sourceTree = "<group>"; };
+		AF1E4BB02DB4D2C7C3895937F5F39420 /* FBObjectiveCObject.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = FBObjectiveCObject.h; path = FBRetainCycleDetector/Graph/FBObjectiveCObject.h; sourceTree = "<group>"; };
 		AF467A777C826C4079F28437EA0944A5 /* Pods-KJPlayerDemo.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = "Pods-KJPlayerDemo.release.xcconfig"; sourceTree = "<group>"; };
 		B00B17AC39B2A81B51D8AB5B83050C56 /* Pods-KJPlayerDemo-acknowledgements.markdown */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text; path = "Pods-KJPlayerDemo-acknowledgements.markdown"; sourceTree = "<group>"; };
 		B09729A3FB80AFACA6F1BB3AD3F878E7 /* DBPlayerData.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; name = DBPlayerData.m; path = Sources/Function/Database/DBPlayerData.m; sourceTree = "<group>"; };
+		B14730BAD23DE8B41E82D62D470B34F4 /* UISplitViewController+AMLeaksFinderSwizzleDealloc.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; name = "UISplitViewController+AMLeaksFinderSwizzleDealloc.m"; path = "AMLeaksFinder/Objects/Controllers/NeedDealloc/UISplitViewController+AMLeaksFinderSwizzleDealloc.m"; sourceTree = "<group>"; };
+		B2283B2D262DCA8A4251044DDB0334D9 /* AMViewMemoryLeakDeallocModel.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; name = AMViewMemoryLeakDeallocModel.m; path = AMLeaksFinder/Objects/View/Model/AMViewMemoryLeakDeallocModel.m; sourceTree = "<group>"; };
 		B246C98715767FD21F5DCE5C5AEBC63B /* KJBasePlayer+KJRecordTime.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; name = "KJBasePlayer+KJRecordTime.m"; path = "Sources/Function/RecordTime/KJBasePlayer+KJRecordTime.m"; sourceTree = "<group>"; };
 		B4C6FFA127D71077D51D267FFC07F5B4 /* KJPlayer.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = KJPlayer.release.xcconfig; sourceTree = "<group>"; };
+		B4FA36B6810180E1A586608BC8839EF1 /* Type.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = Type.h; path = FBRetainCycleDetector/Layout/Classes/Parser/Type.h; sourceTree = "<group>"; };
 		B560158E1D1BF525A1750221B9E49713 /* KJScreenshotsManager.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; name = KJScreenshotsManager.m; path = Sources/Function/Screenshots/KJScreenshotsManager.m; sourceTree = "<group>"; };
 		B5FE78744A32152A8D2440B669C8A11A /* KJPlayer-Info.plist */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.plist.xml; path = "KJPlayer-Info.plist"; sourceTree = "<group>"; };
 		B7BA785A9B63E96E876AC3BDB0BCD356 /* KJBasePlayer+KJCache.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; name = "KJBasePlayer+KJCache.m"; path = "Sources/Function/Cache/KJBasePlayer+KJCache.m"; sourceTree = "<group>"; };
-		B7F49F05FA4BE966D99EB5AC74F7C522 /* SwiftMonkey.modulemap */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.module; path = SwiftMonkey.modulemap; sourceTree = "<group>"; };
-		BA7879447362B498343BE45016A87523 /* SwiftMonkey-prefix.pch */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = "SwiftMonkey-prefix.pch"; sourceTree = "<group>"; };
+		B7D3BB9B1D70ECF2E5C8363CA8B1F4A5 /* fishhook.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = fishhook.h; path = fishhook/fishhook.h; sourceTree = "<group>"; };
+		B803962AD26F961BE7EE9F05B05881B4 /* FBClassStrongLayoutHelpers.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = FBClassStrongLayoutHelpers.h; path = FBRetainCycleDetector/Layout/Classes/FBClassStrongLayoutHelpers.h; sourceTree = "<group>"; };
+		B9487E05E7629B18274D243BEF863B4F /* FBObjectiveCGraphElement.mm */ = {isa = PBXFileReference; includeInIndex = 1; name = FBObjectiveCGraphElement.mm; path = FBRetainCycleDetector/Graph/FBObjectiveCGraphElement.mm; sourceTree = "<group>"; };
+		B9854002A76578EC45C442EE1044BEBB /* Random.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = Random.swift; path = SwiftMonkey/Random.swift; sourceTree = "<group>"; };
+		B9B71C44D9248D7DB3AA9B89850DDA13 /* AMViewMemoryLeakModel.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = AMViewMemoryLeakModel.h; path = AMLeaksFinder/Objects/View/Model/AMViewMemoryLeakModel.h; sourceTree = "<group>"; };
 		BAB02EA034967233386AB823AC99DE21 /* KJPlayerFastLayer.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; name = KJPlayerFastLayer.m; path = Sources/View/KJPlayerFastLayer.m; sourceTree = "<group>"; };
+		BBB3665D1EF7695F59855BEBDE2686B8 /* FBClassStrongLayoutHelpers.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; name = FBClassStrongLayoutHelpers.m; path = FBRetainCycleDetector/Layout/Classes/FBClassStrongLayoutHelpers.m; sourceTree = "<group>"; };
+		BC13A76D6E879CC3C7453FBAEBD7BB4C /* FBBlockStrongRelationDetector.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = FBBlockStrongRelationDetector.h; path = FBRetainCycleDetector/Layout/Blocks/FBBlockStrongRelationDetector.h; sourceTree = "<group>"; };
 		BD4412C26AA9364BF0235479AE282638 /* KJCacheManager.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = KJCacheManager.h; path = Sources/Function/Cache/KJCacheManager.h; sourceTree = "<group>"; };
 		BD98E453717F50EE612BAF4DF54A3810 /* KJBasePlayer+KJBackgroundMonitoring.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; name = "KJBasePlayer+KJBackgroundMonitoring.m"; path = "Sources/Function/BackgroundMonitoring/KJBasePlayer+KJBackgroundMonitoring.m"; sourceTree = "<group>"; };
 		BDAC836762BF18762192489EA5606605 /* KJPlayer-umbrella.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = "KJPlayer-umbrella.h"; sourceTree = "<group>"; };
+		BDDA3E9AE25DC1FF4AD603341D1BA75A /* FBRetainCycleDetector.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = FBRetainCycleDetector.debug.xcconfig; sourceTree = "<group>"; };
 		C08AFD24A84DE5507CD472D91EE7E6E5 /* LICENSE */ = {isa = PBXFileReference; includeInIndex = 1; path = LICENSE; sourceTree = "<group>"; };
 		C0FAB5CB0A800031ECBE47BEECB12020 /* KJFileHandleInfo.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; name = KJFileHandleInfo.m; path = Sources/Function/Downloader/KJFileHandleInfo.m; sourceTree = "<group>"; };
+		C114D1096E6F4E9FFF37267EA6854629 /* UIColor+MonkeyPaws.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = "UIColor+MonkeyPaws.swift"; path = "SwiftMonkeyPaws/UIColor+MonkeyPaws.swift"; sourceTree = "<group>"; };
+		C424FFC502971BF9704A0BD46AD683EE /* AMLeaksFinder-umbrella.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = "AMLeaksFinder-umbrella.h"; sourceTree = "<group>"; };
 		C43C7CAD2025951E38AA90992C5BD414 /* KJPlayerType.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = KJPlayerType.h; path = Sources/Core/KJPlayerType.h; sourceTree = "<group>"; };
-		C49F9C25B5B8C2733FD0ED429537A9FE /* SwiftMonkeyPaws-dummy.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; path = "SwiftMonkeyPaws-dummy.m"; sourceTree = "<group>"; };
+		C5F19C88ED44F1032D33B4682BB14083 /* UIViewController+AMLeaksFinderTools.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; name = "UIViewController+AMLeaksFinderTools.m"; path = "AMLeaksFinder/Uitis/Controller/UIViewController+AMLeaksFinderTools.m"; sourceTree = "<group>"; };
+		C601C487EBC4DB15E4A58DF0BAFB7C5A /* AMMemoryLeakDeallocModel.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = AMMemoryLeakDeallocModel.h; path = AMLeaksFinder/Objects/Controllers/Model/AMMemoryLeakDeallocModel.h; sourceTree = "<group>"; };
 		C64007408AC7CC53491C665182CD45FA /* KJBasePlayer+KJSkipTime.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = "KJBasePlayer+KJSkipTime.h"; path = "Sources/Function/SkipTime/KJBasePlayer+KJSkipTime.h"; sourceTree = "<group>"; };
+		C85FDA7B8638383D62E2486C2359D49A /* SwiftMonkeyPaws.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = SwiftMonkeyPaws.release.xcconfig; sourceTree = "<group>"; };
 		C89C1F3846BC17D2497D1E4F208A74C0 /* KJIJKPlayer.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = KJIJKPlayer.h; path = Sources/KJIJKPlayer/KJIJKPlayer.h; sourceTree = "<group>"; };
-		CA8B94E9D3B433157168D1EECCEC11CD /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS14.0.sdk/System/Library/Frameworks/Foundation.framework; sourceTree = DEVELOPER_DIR; };
+		CA705C00E9778AC45FF5DF8202972B54 /* UIViewController+AMLeaksFinderSwizzleViewDidLoad.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; name = "UIViewController+AMLeaksFinderSwizzleViewDidLoad.m"; path = "AMLeaksFinder/Objects/Controllers/ViewDidLoad/UIViewController+AMLeaksFinderSwizzleViewDidLoad.m"; sourceTree = "<group>"; };
 		CF21533FFD70FA1A18FBD4E993140974 /* KJPlayerFastLayer.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = KJPlayerFastLayer.h; path = Sources/View/KJPlayerFastLayer.h; sourceTree = "<group>"; };
 		D00F2A50C6D01B9B5CC13E4DC72A282D /* KJPlayerButton.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = KJPlayerButton.h; path = Sources/View/KJPlayerButton.h; sourceTree = "<group>"; };
 		D0C2A12F5DD80E3660CAE06B93D26D96 /* SwiftMonkeyPaws.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; name = SwiftMonkeyPaws.framework; path = SwiftMonkeyPaws.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		D124F0E51F0FFBF5F36A039D4437C3CF /* KJPlayerConst.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; name = KJPlayerConst.m; path = Sources/Core/KJPlayerConst.m; sourceTree = "<group>"; };
+		D202EA6E9EE7F4651BC2C621FAA99E0C /* FBIvarReference.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = FBIvarReference.h; path = FBRetainCycleDetector/Layout/Classes/Reference/FBIvarReference.h; sourceTree = "<group>"; };
 		D74528F5599CF0F52DE1998975010813 /* KJBasePlayer+KJRecordTime.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = "KJBasePlayer+KJRecordTime.h"; path = "Sources/Function/RecordTime/KJBasePlayer+KJRecordTime.h"; sourceTree = "<group>"; };
 		DAD39F2C3CC9C39B94B199F52D585A2B /* KJPlayerButton.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; name = KJPlayerButton.m; path = Sources/View/KJPlayerButton.m; sourceTree = "<group>"; };
+		DB9BC69E0BE698AC0629AA6F7676C2A4 /* FBBlockInterface.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = FBBlockInterface.h; path = FBRetainCycleDetector/Layout/Blocks/FBBlockInterface.h; sourceTree = "<group>"; };
 		DC4E1D607BB8FDFC2895855DBF76D340 /* KJAVPlayer.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; name = KJAVPlayer.m; path = Sources/KJAVPlayer/KJAVPlayer.m; sourceTree = "<group>"; };
 		DC6245F1860BBB0B620BAA2FC046E7E9 /* KJAVPlayer+KJCache.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = "KJAVPlayer+KJCache.h"; path = "Sources/KJAVPlayer/KJAVDownloader/KJAVPlayer+KJCache.h"; sourceTree = "<group>"; };
 		DC7375EAF1806DC5EBDE3710BFCB3FA2 /* Pods_KJPlayerDemo_MonkeyUITests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; name = Pods_KJPlayerDemo_MonkeyUITests.framework; path = "Pods-KJPlayerDemo-MonkeyUITests.framework"; sourceTree = BUILT_PRODUCTS_DIR; };
 		DCA50823DDA5EB67907B3D951E6931BA /* KJPlayer.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = KJPlayer.debug.xcconfig; sourceTree = "<group>"; };
 		DDB954CE25B0443E6D34A609C0F2F2BC /* KJCacheManager.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; name = KJCacheManager.m; path = Sources/Function/Cache/KJCacheManager.m; sourceTree = "<group>"; };
+		DE9C5251C1A75A11DEFCD85B55B07356 /* IJKMediaFramework.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = IJKMediaFramework.release.xcconfig; sourceTree = "<group>"; };
+		E0203F7FA50A22EC6795E56588582825 /* AMLeaksFinder.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = AMLeaksFinder.release.xcconfig; sourceTree = "<group>"; };
 		E165068CD55D825E276766E5520FC4ED /* Pods-KJPlayerDemo.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = "Pods-KJPlayerDemo.debug.xcconfig"; sourceTree = "<group>"; };
+		E3681503343555157BC4DFAD7524BB8A /* SwiftMonkey-dummy.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; path = "SwiftMonkey-dummy.m"; sourceTree = "<group>"; };
 		E417D9F3DCEEEC7CBDBF988EAAE32101 /* KJPlayerSystemLayer.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = KJPlayerSystemLayer.h; path = Sources/View/KJPlayerSystemLayer.h; sourceTree = "<group>"; };
 		E5F8F8974E83AA730C3323CE80BC5B87 /* KJFileHandleManager.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = KJFileHandleManager.h; path = Sources/Function/Downloader/KJFileHandleManager.h; sourceTree = "<group>"; };
 		E6506F197592AD872ED1402B6B85263D /* Pods-KJPlayerDemo-MonkeyUITests-acknowledgements.markdown */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text; path = "Pods-KJPlayerDemo-MonkeyUITests-acknowledgements.markdown"; sourceTree = "<group>"; };
 		E703465754B2DC548A113B7B6EA5D8F3 /* KJResourceLoaderManager.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = KJResourceLoaderManager.h; path = Sources/KJAVPlayer/KJAVDownloader/KJResourceLoaderManager.h; sourceTree = "<group>"; };
+		E76EA3F0BE5F434810958577AB131CCA /* UIViewController+AMLeaksFinderUI.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; name = "UIViewController+AMLeaksFinderUI.m"; path = "AMLeaksFinder/UI/UIViewController+AMLeaksFinderUI.m"; sourceTree = "<group>"; };
+		EA5C54FB216C5F49BEDF61083651D459 /* FBRetainCycleDetector.modulemap */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.module; path = FBRetainCycleDetector.modulemap; sourceTree = "<group>"; };
 		EA6D0302B2431FD186C759059EA930FE /* KJMidiSource.bundle */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = "wrapper.plug-in"; name = KJMidiSource.bundle; path = Sources/KJMidiPlayer/KJMidiSource.bundle; sourceTree = "<group>"; };
+		ED414B3F3EB2E979315DB85010AB09FB /* AMLeaksFinder.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; name = AMLeaksFinder.framework; path = AMLeaksFinder.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		EF60E937B7E8E0A8854570365A804977 /* UIView+AMLeaksFinderTools.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; name = "UIView+AMLeaksFinderTools.m"; path = "AMLeaksFinder/Uitis/View/UIView+AMLeaksFinderTools.m"; sourceTree = "<group>"; };
 		EFBEDC137D830F654D5F7DDBF9959DAE /* KJPlayer.podspec */ = {isa = PBXFileReference; explicitFileType = text.script.ruby; includeInIndex = 1; indentWidth = 2; lastKnownFileType = text; path = KJPlayer.podspec; sourceTree = "<group>"; tabWidth = 2; xcLanguageSpecificationIdentifier = xcode.lang.ruby; };
+		EFD079B5ABBA0E17C4244E12A65B16E3 /* UINavigationController+AMLeaksFinderSwizzleDealloc.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; name = "UINavigationController+AMLeaksFinderSwizzleDealloc.m"; path = "AMLeaksFinder/Objects/Controllers/NeedDealloc/UINavigationController+AMLeaksFinderSwizzleDealloc.m"; sourceTree = "<group>"; };
 		F01B47FAC14877B9238CDB0193FB9C73 /* KJPlayerHeader.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = KJPlayerHeader.h; path = Sources/KJPlayerHeader.h; sourceTree = "<group>"; };
+		F160C0DA812E4C4BB7FCBE2F94AB973F /* FBRetainCycleDetector-prefix.pch */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = "FBRetainCycleDetector-prefix.pch"; sourceTree = "<group>"; };
 		F164C023991D4FA4862ED5F7FC818A31 /* KJPlayer.bundle */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; name = KJPlayer.bundle; path = "KJPlayer-KJPlayer.bundle"; sourceTree = BUILT_PRODUCTS_DIR; };
+		F35563B759784CA58D6E018ED9F658C6 /* FBClassStrongLayout.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = FBClassStrongLayout.h; path = FBRetainCycleDetector/Layout/Classes/FBClassStrongLayout.h; sourceTree = "<group>"; };
 		F479BDE18EF8F9283EC751FACB7003F9 /* Pods-KJPlayerDemo-MonkeyUITests-frameworks.sh */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.script.sh; path = "Pods-KJPlayerDemo-MonkeyUITests-frameworks.sh"; sourceTree = "<group>"; };
 		F4E294217004025E7D528FACCE740C9D /* KJPlayerLog.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = KJPlayerLog.h; path = Sources/Core/KJPlayerLog.h; sourceTree = "<group>"; };
+		F609549DB503166140E62CE584BFFE2A /* MonkeyUIAutomation.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = MonkeyUIAutomation.swift; path = SwiftMonkey/MonkeyUIAutomation.swift; sourceTree = "<group>"; };
+		F67AC6F4CFDC8D37D99CC671D05E6A04 /* AMSnapedViewViewController.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; name = AMSnapedViewViewController.m; path = AMLeaksFinder/UI/AMSnapedViewViewController.m; sourceTree = "<group>"; };
 		F773EEF2ED3D1C2F2FED9BE717BA6E1D /* Pods-KJPlayerDemo-MonkeyUITests-acknowledgements.plist */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.plist.xml; path = "Pods-KJPlayerDemo-MonkeyUITests-acknowledgements.plist"; sourceTree = "<group>"; };
 		F8A11181120A9D7DE3D92866824AED77 /* KJResourceLoader.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = KJResourceLoader.h; path = Sources/KJAVPlayer/KJAVDownloader/KJResourceLoader.h; sourceTree = "<group>"; };
 		FA09F5FBB88D346B1AA87EBC90E04AFA /* KJMIDIPlayer.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = KJMIDIPlayer.h; path = Sources/KJMidiPlayer/KJMIDIPlayer.h; sourceTree = "<group>"; };
+		FB3FFD2094B4A7451DC9F6DB019B6144 /* SwiftMonkeyPaws-umbrella.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = "SwiftMonkeyPaws-umbrella.h"; sourceTree = "<group>"; };
 		FC94BD7175AC4B3DF045A566C72CAD0A /* KJBasePlayer+KJTryTime.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = "KJBasePlayer+KJTryTime.h"; path = "Sources/Function/TryTime/KJBasePlayer+KJTryTime.h"; sourceTree = "<group>"; };
 		FCCC8367A12447B80655EF1C0ED11330 /* KJAVPlayer+KJCache.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; name = "KJAVPlayer+KJCache.m"; path = "Sources/KJAVPlayer/KJAVDownloader/KJAVPlayer+KJCache.m"; sourceTree = "<group>"; };
+		FE7A37BD3F89DA45F3EB47C88B1744B8 /* FBStandardGraphEdgeFilters.mm */ = {isa = PBXFileReference; includeInIndex = 1; name = FBStandardGraphEdgeFilters.mm; path = FBRetainCycleDetector/Filtering/FBStandardGraphEdgeFilters.mm; sourceTree = "<group>"; };
+		FFAC16C8243B14FCC3911AF52ADC32CB /* FBObjectiveCNSCFTimer.mm */ = {isa = PBXFileReference; includeInIndex = 1; name = FBObjectiveCNSCFTimer.mm; path = FBRetainCycleDetector/Graph/Specialization/FBObjectiveCNSCFTimer.mm; sourceTree = "<group>"; };
 		FFCB8477DB78ACBAFA6C8AD63575CF76 /* DBPlayerDataManager.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; name = DBPlayerDataManager.m; path = Sources/Function/Database/DBPlayerDataManager.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
-		1CA9619C6E13755134E832A0FCC8C22A /* Frameworks */ = {
-			isa = PBXFrameworksBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-				D7C541628C10F7CCE1B065811CB94A06 /* Foundation.framework in Frameworks */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-		2C16691804912A99EE910AD84EE89721 /* Frameworks */ = {
+		1A5681C08DA2778371E6790AA36C5E97 /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -386,6 +590,14 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		5BDCE0E9BCCEB11C0083751FB6DFDB1A /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				1D17F9A65294E55AECE0ED024DA2E34A /* Foundation.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		5F1E17F31A9C379C6870063A8041798A /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
@@ -394,11 +606,19 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		E65C5CE3BEA5696418E15F12756BB90E /* Frameworks */ = {
+		8DDD3C7B42DC4E2715CD7D5190C77098 /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				F4C512C2FDAC6FB1CF499C1E2A9DEBA6 /* Foundation.framework in Frameworks */,
+				4F9BA01DECAEBA111F439A4F5284495F /* Foundation.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		ABC9BA0377E1008DF4C625EA6434C425 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				320F5EC3BC77A305DD70DC69F178DB56 /* Foundation.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -410,24 +630,19 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		F157ED567397AC6353FB263653B685C8 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				14E22347289D18E3D3A95B58D6D6C2B8 /* CoreGraphics.framework in Frameworks */,
+				72244D4A52129CF89BD8D7B740BC391E /* Foundation.framework in Frameworks */,
+				71E2F03FAD67E56FB2540B66549A7C8A /* UIKit.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
-		0CA7590207D8CCA5BEA0F4DEC2B07701 /* Support Files */ = {
-			isa = PBXGroup;
-			children = (
-				B7F49F05FA4BE966D99EB5AC74F7C522 /* SwiftMonkey.modulemap */,
-				3B431DE2FBA62A6F3E73114BD465081A /* SwiftMonkey-dummy.m */,
-				3284D8A4F7366AA9464A6A31E1AA8529 /* SwiftMonkey-Info.plist */,
-				BA7879447362B498343BE45016A87523 /* SwiftMonkey-prefix.pch */,
-				8D27F11660CB83DB44A228403C77A44F /* SwiftMonkey-umbrella.h */,
-				184D17E058465A59C21DDAF5D5299DBD /* SwiftMonkey.debug.xcconfig */,
-				2F375954FEAF9E26247E9E09F9618C56 /* SwiftMonkey.release.xcconfig */,
-			);
-			name = "Support Files";
-			path = "../Target Support Files/SwiftMonkey";
-			sourceTree = "<group>";
-		};
 		161CC7221482702DE32645E8B1080843 /* Common */ = {
 			isa = PBXGroup;
 			children = (
@@ -450,14 +665,6 @@
 			name = Common;
 			sourceTree = "<group>";
 		};
-		1628BF05B4CAFDCC3549A101F5A10A17 /* Frameworks */ = {
-			isa = PBXGroup;
-			children = (
-				974814B39C0012DECD183BBB91B32103 /* iOS */,
-			);
-			name = Frameworks;
-			sourceTree = "<group>";
-		};
 		1D16D4DD7552AD23BAF82D7B19FD3B64 /* Targets Support Files */ = {
 			isa = PBXGroup;
 			children = (
@@ -466,6 +673,98 @@
 				52D0E0C8F90457B749E1324AD9DF435B /* Pods-KJPlayerDemoTests */,
 			);
 			name = "Targets Support Files";
+			sourceTree = "<group>";
+		};
+		1E465F2BE227CA58E0A1FE327D296FB8 /* SwiftMonkey */ = {
+			isa = PBXGroup;
+			children = (
+				6F20C022D13D66EB9BC194A6FB9F9B99 /* Monkey.swift */,
+				F609549DB503166140E62CE584BFFE2A /* MonkeyUIAutomation.swift */,
+				578F00612A88A4369C4361A4043A640C /* MonkeyXCTest.swift */,
+				A6836D8BE501A5F66BCAC838296A13D4 /* MonkeyXCTestPrivate.swift */,
+				B9854002A76578EC45C442EE1044BEBB /* Random.swift */,
+				C79E93811F4819127EC5027BF2D9CC9D /* Support Files */,
+			);
+			name = SwiftMonkey;
+			path = SwiftMonkey;
+			sourceTree = "<group>";
+		};
+		2038A03981C4839D0D3B27A3A2773A21 /* FBRetainCycleDetector */ = {
+			isa = PBXGroup;
+			children = (
+				A6A0EFB89CDBE34A29F8BBE56C805789 /* BaseType.h */,
+				A093B35A8C06A346CA4D25A4E4269233 /* FBAssociationManager.h */,
+				2751EF618710C42342EF50BD520C6FC1 /* FBAssociationManager.mm */,
+				00BAAA4A630DD8C41671530B9AE96D1D /* FBAssociationManager+Internal.h */,
+				DB9BC69E0BE698AC0629AA6F7676C2A4 /* FBBlockInterface.h */,
+				783FFA03BF477E30E25088FCEF69A7D9 /* FBBlockStrongLayout.h */,
+				748350074E5CD2D8A5DD664B152EADF6 /* FBBlockStrongLayout.m */,
+				BC13A76D6E879CC3C7453FBAEBD7BB4C /* FBBlockStrongRelationDetector.h */,
+				2FEF71C26EC39B9FF223A9CB397C6593 /* FBBlockStrongRelationDetector.m */,
+				F35563B759784CA58D6E018ED9F658C6 /* FBClassStrongLayout.h */,
+				8DBBD0468C919F89DB967FF99B2513F9 /* FBClassStrongLayout.mm */,
+				B803962AD26F961BE7EE9F05B05881B4 /* FBClassStrongLayoutHelpers.h */,
+				BBB3665D1EF7695F59855BEBDE2686B8 /* FBClassStrongLayoutHelpers.m */,
+				D202EA6E9EE7F4651BC2C621FAA99E0C /* FBIvarReference.h */,
+				0F8EA5CC99C0DEAFD18A8C384835B95E /* FBIvarReference.m */,
+				3F54A94A52B3A10D41751690DB238F7C /* FBNodeEnumerator.h */,
+				337AE126F5B510A1CFCFF154B4A74949 /* FBNodeEnumerator.mm */,
+				31B01D6B994A02583487597BCACFC75C /* FBObjectGraphConfiguration.h */,
+				A21B0A4DCC86A457E221F52C64FEBB58 /* FBObjectGraphConfiguration.m */,
+				341A0452C5AA545694CB82DC7760B002 /* FBObjectInStructReference.h */,
+				9FFD299D501409F21F7376171768F804 /* FBObjectInStructReference.m */,
+				2B9B102D6A873866F6E55577A7B2519F /* FBObjectiveCBlock.h */,
+				4568D1EE1C9BB6B3668E9804053D1687 /* FBObjectiveCBlock.m */,
+				02EB8F891B13FE0FF4A9C0E682E6C407 /* FBObjectiveCGraphElement.h */,
+				B9487E05E7629B18274D243BEF863B4F /* FBObjectiveCGraphElement.mm */,
+				5B325CE76F1D911B407ECF9B12200C28 /* FBObjectiveCGraphElement+Internal.h */,
+				150A9F93DC981B79E7B4AFB4611EDA53 /* FBObjectiveCNSCFTimer.h */,
+				FFAC16C8243B14FCC3911AF52ADC32CB /* FBObjectiveCNSCFTimer.mm */,
+				AF1E4BB02DB4D2C7C3895937F5F39420 /* FBObjectiveCObject.h */,
+				758EAD94B3DBC3F4456EF2D864C38303 /* FBObjectiveCObject.m */,
+				7BF8962961CB24B0CFEDFCAFE9A37501 /* FBObjectReference.h */,
+				3293AF5283505DD182BD1F6E1C746671 /* FBRetainCycleDetector.h */,
+				03668893B08B085401B20ED31A4BBAC3 /* FBRetainCycleDetector.mm */,
+				932321F8F0C54F93F098AB3FE7BA3C4C /* FBRetainCycleDetector+Internal.h */,
+				4F4C6C1E0AFB0A71D2739ACC82752F67 /* FBRetainCycleUtils.h */,
+				420A2A46056398126537D3233BC66B9F /* FBRetainCycleUtils.m */,
+				7ABD2661BEA7798426DB1B5D257E978A /* FBStandardGraphEdgeFilters.h */,
+				FE7A37BD3F89DA45F3EB47C88B1744B8 /* FBStandardGraphEdgeFilters.mm */,
+				32E7BEEA6FAF6C9B9518652FDA17FD2A /* FBStructEncodingParser.h */,
+				574CAD171AB5C8EB6DE5871CDAA44DDD /* FBStructEncodingParser.mm */,
+				2D59AD9EF0759A0FB14E023086992F20 /* fishhook.c */,
+				B7D3BB9B1D70ECF2E5C8363CA8B1F4A5 /* fishhook.h */,
+				05C4AF4E0959967FC1984405100B7AF1 /* Struct.h */,
+				66F62DA7694FB082F34D964B9A190529 /* Struct.mm */,
+				B4FA36B6810180E1A586608BC8839EF1 /* Type.h */,
+				7382DB3F206A6E631AD2083448C0C4F0 /* Support Files */,
+			);
+			name = FBRetainCycleDetector;
+			path = FBRetainCycleDetector;
+			sourceTree = "<group>";
+		};
+		266C55E984E5C0A7DD1B5D7FCD20A466 /* SwiftMonkeyPaws */ = {
+			isa = PBXGroup;
+			children = (
+				4D31A1A94213EC7385EC6F5C1975BA05 /* Configuration.swift */,
+				074760616EB5BD751E2AE49AD133763C /* MonkeyPawDrawer.swift */,
+				08999644DB5942765C5EE72E3D864F6E /* MonkeyPaws.swift */,
+				C114D1096E6F4E9FFF37267EA6854629 /* UIColor+MonkeyPaws.swift */,
+				C8E498B56AC6038FA2820B9ECAFE70F1 /* Support Files */,
+			);
+			name = SwiftMonkeyPaws;
+			path = SwiftMonkeyPaws;
+			sourceTree = "<group>";
+		};
+		29F2E951D2C467215F5379B23EC3F9E1 /* iOS */ = {
+			isa = PBXGroup;
+			children = (
+				4760C911B9CFDBB02FA50A7ED5FA09DA /* CoreGraphics.framework */,
+				28AD4CC30B0DBBFC2C7DDFB89ED2168B /* Foundation.framework */,
+				8340D6B5D0D534AAA33C57FD9D0B19D1 /* UIKit.framework */,
+				642FB6BB54D65F357D9FAF51FF95EAA1 /* XCTest.framework */,
+			);
+			name = iOS;
 			sourceTree = "<group>";
 		};
 		2AA24CC052251133767D67F3ACD3EF50 /* Pod */ = {
@@ -503,6 +802,63 @@
 			path = "Example/Pods/Target Support Files/KJPlayer";
 			sourceTree = "<group>";
 		};
+		4EAB352F124CC0784AA9E389CAD28643 /* AMLeaksFinder */ = {
+			isa = PBXGroup;
+			children = (
+				5C274C3DD254418B5279AC5AD2210B1D /* AMLeakDataModel.h */,
+				47DDFF39CC92B19D486EF1324BEEE6EA /* AMLeakDataModel.m */,
+				A13E4CC7AE3D9B6BF61CE727667496F3 /* AMLeakOverviewView.h */,
+				6CB05526352887E7D725D1B2B2E081CB /* AMLeakOverviewView.m */,
+				95D1515D765192CE5CC6807E2A9B1F0D /* AMLeaksFinder.h */,
+				C601C487EBC4DB15E4A58DF0BAFB7C5A /* AMMemoryLeakDeallocModel.h */,
+				7D328E5AA7D1C9ED46D6596F60CA8FDD /* AMMemoryLeakDeallocModel.m */,
+				55BA0CDA53E22CA5971FA92546D7A5CE /* AMMemoryLeakModel.h */,
+				59B4DC5B2BE4870B1F4B657AD9C43B15 /* AMMemoryLeakModel.m */,
+				7D88F55A121FC4B4BF5CB09090D07EAD /* AMMemoryLeakView.h */,
+				9ADF708D78503A6101881EB513527EA3 /* AMMemoryLeakView.m */,
+				268FAF5CD1514FA38F8892170FFDF86D /* AMSnapedViewViewController.h */,
+				F67AC6F4CFDC8D37D99CC671D05E6A04 /* AMSnapedViewViewController.m */,
+				4B486434CED5ADA3E7C69A8CAD3D2054 /* AMViewMemoryLeakDeallocModel.h */,
+				B2283B2D262DCA8A4251044DDB0334D9 /* AMViewMemoryLeakDeallocModel.m */,
+				B9B71C44D9248D7DB3AA9B89850DDA13 /* AMViewMemoryLeakModel.h */,
+				77DAB50657C64C4743492710D5D39C1C /* AMViewMemoryLeakModel.m */,
+				ADB81A08677A5E55F2899F695ED9781A /* NSObject+RunLoop.h */,
+				96795BAE9B4D676742162C37FB292BD7 /* NSObject+RunLoop.m */,
+				EFD079B5ABBA0E17C4244E12A65B16E3 /* UINavigationController+AMLeaksFinderSwizzleDealloc.m */,
+				1FA418EF6B8E6C7442198ECA39B84B77 /* UIPageViewController+AMLeaksFinderSwizzleDealloc.m */,
+				B14730BAD23DE8B41E82D62D470B34F4 /* UISplitViewController+AMLeaksFinderSwizzleDealloc.m */,
+				1BB3BEE4714D1F5EFAA1532473C4059E /* UITabBarController+AMLeaksFinderSwizzleDealloc.m */,
+				9E39747F94C1BD8F004534F70E068FEB /* UIView+AMLeaksFinderTools.h */,
+				EF60E937B7E8E0A8854570365A804977 /* UIView+AMLeaksFinderTools.m */,
+				80591B541E418A98DF395AA4BFDC00EE /* UIViewController+AMLeaksFinderSwizzleDealloc.m */,
+				CA705C00E9778AC45FF5DF8202972B54 /* UIViewController+AMLeaksFinderSwizzleViewDidLoad.m */,
+				5793F69E8AF7E82D9DB1ED94D2A7BAEE /* UIViewController+AMLeaksFinderTools.h */,
+				C5F19C88ED44F1032D33B4682BB14083 /* UIViewController+AMLeaksFinderTools.m */,
+				5CBBC26F1B0296874DBC295EEC7A4A63 /* UIViewController+AMLeaksFinderUI.h */,
+				E76EA3F0BE5F434810958577AB131CCA /* UIViewController+AMLeaksFinderUI.m */,
+				67686C6308E0CE062B3277DC7BA039E9 /* UIWindow+AMLeaksFinderSwizzleDealloc.m */,
+				64049A12F1FAF3F6247B4317CDC85CC1 /* Resources */,
+				5077D93BD34DFC73F7087AA809B7DDD6 /* Support Files */,
+			);
+			name = AMLeaksFinder;
+			path = AMLeaksFinder;
+			sourceTree = "<group>";
+		};
+		5077D93BD34DFC73F7087AA809B7DDD6 /* Support Files */ = {
+			isa = PBXGroup;
+			children = (
+				A688291BDA4F6A94C5302C28708E2ED1 /* AMLeaksFinder.modulemap */,
+				1F8D10ECFC83A194406EE7E766B7F61C /* AMLeaksFinder-dummy.m */,
+				7DF88253001F2BC53F8083809D36A78B /* AMLeaksFinder-Info.plist */,
+				6B4704E1075804D59C865BA78CFCEF0F /* AMLeaksFinder-prefix.pch */,
+				C424FFC502971BF9704A0BD46AD683EE /* AMLeaksFinder-umbrella.h */,
+				637BF0935908B48F5F5325A89DA8AF45 /* AMLeaksFinder.debug.xcconfig */,
+				E0203F7FA50A22EC6795E56588582825 /* AMLeaksFinder.release.xcconfig */,
+			);
+			name = "Support Files";
+			path = "../Target Support Files/AMLeaksFinder";
+			sourceTree = "<group>";
+		};
 		52D0E0C8F90457B749E1324AD9DF435B /* Pods-KJPlayerDemoTests */ = {
 			isa = PBXGroup;
 			children = (
@@ -529,6 +885,18 @@
 			name = MIDI;
 			sourceTree = "<group>";
 		};
+		5D6EB4CD20A41DCD4887837D189F63AF /* Pods */ = {
+			isa = PBXGroup;
+			children = (
+				4EAB352F124CC0784AA9E389CAD28643 /* AMLeaksFinder */,
+				2038A03981C4839D0D3B27A3A2773A21 /* FBRetainCycleDetector */,
+				DC124347E62A6FE12256B3DB6E93CA85 /* IJKMediaFramework */,
+				1E465F2BE227CA58E0A1FE327D296FB8 /* SwiftMonkey */,
+				266C55E984E5C0A7DD1B5D7FCD20A466 /* SwiftMonkeyPaws */,
+			);
+			name = Pods;
+			sourceTree = "<group>";
+		};
 		60FFE45E5433327C9C6AAF084BC55F1F /* IJKPlayer */ = {
 			isa = PBXGroup;
 			children = (
@@ -547,6 +915,15 @@
 			name = RecordTime;
 			sourceTree = "<group>";
 		};
+		64049A12F1FAF3F6247B4317CDC85CC1 /* Resources */ = {
+			isa = PBXGroup;
+			children = (
+				0B750E9298BCB948029E38934C80CBAF /* AMLeaksFinder.bundle */,
+				69E857A58BEE54241E2E992A88ACD212 /* AMMemoryLeakView.xib */,
+			);
+			name = Resources;
+			sourceTree = "<group>";
+		};
 		64900D271C3C00B95B60FE8A169D5B09 /* AVDownloader */ = {
 			isa = PBXGroup;
 			children = (
@@ -560,17 +937,19 @@
 			name = AVDownloader;
 			sourceTree = "<group>";
 		};
-		77CCA204F67E093009C537B4DDFF2BA7 /* SwiftMonkeyPaws */ = {
+		7382DB3F206A6E631AD2083448C0C4F0 /* Support Files */ = {
 			isa = PBXGroup;
 			children = (
-				383DD47D209FFA776746E09CD4A4F8C6 /* Configuration.swift */,
-				4856747D988A3D4E5513324EE2EE1554 /* MonkeyPawDrawer.swift */,
-				9ABFCDFD8E8383A55A1504DC52E2D054 /* MonkeyPaws.swift */,
-				13ECADE4609C02A7DBC4899800649967 /* UIColor+MonkeyPaws.swift */,
-				D079A913FF9BEA0C7BF6B36235C195DF /* Support Files */,
+				EA5C54FB216C5F49BEDF61083651D459 /* FBRetainCycleDetector.modulemap */,
+				3EFA9197BBFD1525893033046D1FEEB0 /* FBRetainCycleDetector-dummy.m */,
+				9DFC7E138E22371F652D5A786CD719FB /* FBRetainCycleDetector-Info.plist */,
+				F160C0DA812E4C4BB7FCBE2F94AB973F /* FBRetainCycleDetector-prefix.pch */,
+				730E4615943A01AE23C1671BCF02318C /* FBRetainCycleDetector-umbrella.h */,
+				BDDA3E9AE25DC1FF4AD603341D1BA75A /* FBRetainCycleDetector.debug.xcconfig */,
+				AAAA8D91ADA25FEAD96BC73B1B5D3DE4 /* FBRetainCycleDetector.release.xcconfig */,
 			);
-			name = SwiftMonkeyPaws;
-			path = SwiftMonkeyPaws;
+			name = "Support Files";
+			path = "../Target Support Files/FBRetainCycleDetector";
 			sourceTree = "<group>";
 		};
 		819FE3B096747A9178584820287142D0 /* KJPlayer */ = {
@@ -625,15 +1004,6 @@
 			name = Screenshots;
 			sourceTree = "<group>";
 		};
-		974814B39C0012DECD183BBB91B32103 /* iOS */ = {
-			isa = PBXGroup;
-			children = (
-				CA8B94E9D3B433157168D1EECCEC11CD /* Foundation.framework */,
-				5EBC8F300895E39EA0DF6D6B2B5E6BCD /* XCTest.framework */,
-			);
-			name = iOS;
-			sourceTree = "<group>";
-		};
 		9BAC7C9AF7AE04E0967F8822C1BAC896 /* DynamicSource */ = {
 			isa = PBXGroup;
 			children = (
@@ -652,16 +1022,6 @@
 			name = AVPlayer;
 			sourceTree = "<group>";
 		};
-		A5F45E157C8FDE42BF91D934DD3ADE20 /* IJKMediaFramework */ = {
-			isa = PBXGroup;
-			children = (
-				DDFC195E330F2BE1DBB57A6B3234A250 /* Frameworks */,
-				BB0FA001F4BF01246667A77D85CEE547 /* Support Files */,
-			);
-			name = IJKMediaFramework;
-			path = IJKMediaFramework;
-			sourceTree = "<group>";
-		};
 		A7571A672812468E7D1B983E86325386 /* BackgroundMonitoring */ = {
 			isa = PBXGroup;
 			children = (
@@ -671,18 +1031,14 @@
 			name = BackgroundMonitoring;
 			sourceTree = "<group>";
 		};
-		A96A92CCC73F739F5EC8B93672F65B7A /* Products */ = {
+		AABD3E6683523364170B6F5D3C886B86 /* Support Files */ = {
 			isa = PBXGroup;
 			children = (
-				F164C023991D4FA4862ED5F7FC818A31 /* KJPlayer.bundle */,
-				58A9341F86B217EAED4F1DB5524C40C0 /* KJPlayer.framework */,
-				81F88E35C2B5A07A50B4817E0CFF18E8 /* Pods_KJPlayerDemo.framework */,
-				DC7375EAF1806DC5EBDE3710BFCB3FA2 /* Pods_KJPlayerDemo_MonkeyUITests.framework */,
-				55572504B79C663667869A389D26011B /* Pods_KJPlayerDemoTests.framework */,
-				0D61C8C9411E769762A851D45E176B69 /* SwiftMonkey.framework */,
-				D0C2A12F5DD80E3660CAE06B93D26D96 /* SwiftMonkeyPaws.framework */,
+				31BE3C9FB2725BA9847BE898132651B5 /* IJKMediaFramework.debug.xcconfig */,
+				DE9C5251C1A75A11DEFCD85B55B07356 /* IJKMediaFramework.release.xcconfig */,
 			);
-			name = Products;
+			name = "Support Files";
+			path = "../Target Support Files/IJKMediaFramework";
 			sourceTree = "<group>";
 		};
 		ADC41A438086DC19184C13BAF0C8E82C /* Cache */ = {
@@ -729,28 +1085,12 @@
 			name = PingTimer;
 			sourceTree = "<group>";
 		};
-		B9EF6CDC748C4FEA9F25F5A96C66720C /* SwiftMonkey */ = {
+		BA4F31F07263C99FC76E66D632A59F09 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
-				8044EDFD508312C1CFFCCA7E96C6973F /* Monkey.swift */,
-				A1A419ABCDCBE0CEFEC50ADD17190AAD /* MonkeyUIAutomation.swift */,
-				A41757B5A934061294EE941B32E0BD81 /* MonkeyXCTest.swift */,
-				5B57324E0658D47E967FA07D2FC88B8A /* MonkeyXCTestPrivate.swift */,
-				5EF3F959AADA325BC565F2EFE9DBF516 /* Random.swift */,
-				0CA7590207D8CCA5BEA0F4DEC2B07701 /* Support Files */,
+				29F2E951D2C467215F5379B23EC3F9E1 /* iOS */,
 			);
-			name = SwiftMonkey;
-			path = SwiftMonkey;
-			sourceTree = "<group>";
-		};
-		BB0FA001F4BF01246667A77D85CEE547 /* Support Files */ = {
-			isa = PBXGroup;
-			children = (
-				53459E88B2F5C4385DBE8DD31E6C0979 /* IJKMediaFramework.debug.xcconfig */,
-				26F799AE73140FD93D40EFFEF23AB672 /* IJKMediaFramework.release.xcconfig */,
-			);
-			name = "Support Files";
-			path = "../Target Support Files/IJKMediaFramework";
+			name = Frameworks;
 			sourceTree = "<group>";
 		};
 		C311C6D07A25ACD458A61943F870E018 /* Database */ = {
@@ -765,14 +1105,42 @@
 			name = Database;
 			sourceTree = "<group>";
 		};
-		C448198ADFBAB39B3CF269A12BC54F44 /* Pods */ = {
+		C57E61B75E53271C7BB74ED8941AE886 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
-				A5F45E157C8FDE42BF91D934DD3ADE20 /* IJKMediaFramework */,
-				B9EF6CDC748C4FEA9F25F5A96C66720C /* SwiftMonkey */,
-				77CCA204F67E093009C537B4DDFF2BA7 /* SwiftMonkeyPaws */,
+				1A782FE6D32D49DD95D4685A92DB4AC8 /* IJKMediaFramework.framework */,
 			);
-			name = Pods;
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		C79E93811F4819127EC5027BF2D9CC9D /* Support Files */ = {
+			isa = PBXGroup;
+			children = (
+				4B35B257091529A510495E58EC30DA18 /* SwiftMonkey.modulemap */,
+				E3681503343555157BC4DFAD7524BB8A /* SwiftMonkey-dummy.m */,
+				9578032E2F4F2FE67B8306091244301A /* SwiftMonkey-Info.plist */,
+				7A82F699B69EC772C23CADAFD96C5CF4 /* SwiftMonkey-prefix.pch */,
+				8BA6828E5A9F3EB73021A382D77A4815 /* SwiftMonkey-umbrella.h */,
+				078017C9ED55FFA55A5485F461416C01 /* SwiftMonkey.debug.xcconfig */,
+				98667399CE8E8CEC4A3D90C4625D67AC /* SwiftMonkey.release.xcconfig */,
+			);
+			name = "Support Files";
+			path = "../Target Support Files/SwiftMonkey";
+			sourceTree = "<group>";
+		};
+		C8E498B56AC6038FA2820B9ECAFE70F1 /* Support Files */ = {
+			isa = PBXGroup;
+			children = (
+				AE9C71C5E35BC2548B95DBB49D047984 /* SwiftMonkeyPaws.modulemap */,
+				0C25132CF1A474ADE13E89C56AC3000F /* SwiftMonkeyPaws-dummy.m */,
+				4F16482013E9E49E72FD3400309D3156 /* SwiftMonkeyPaws-Info.plist */,
+				136EC51A39AFDF9309062E335404438F /* SwiftMonkeyPaws-prefix.pch */,
+				FB3FFD2094B4A7451DC9F6DB019B6144 /* SwiftMonkeyPaws-umbrella.h */,
+				54287D5802CC0059E52BA51A3E0BDB33 /* SwiftMonkeyPaws.debug.xcconfig */,
+				C85FDA7B8638383D62E2486C2359D49A /* SwiftMonkeyPaws.release.xcconfig */,
+			);
+			name = "Support Files";
+			path = "../Target Support Files/SwiftMonkeyPaws";
 			sourceTree = "<group>";
 		};
 		CD3A080B743B1155A60329E2D4A0BBDC /* Pods-KJPlayerDemo */ = {
@@ -798,34 +1166,37 @@
 			children = (
 				9D940727FF8FB9C785EB98E56350EF41 /* Podfile */,
 				84DAA8785C7E22087A2500548624B715 /* Development Pods */,
-				1628BF05B4CAFDCC3549A101F5A10A17 /* Frameworks */,
-				C448198ADFBAB39B3CF269A12BC54F44 /* Pods */,
-				A96A92CCC73F739F5EC8B93672F65B7A /* Products */,
+				BA4F31F07263C99FC76E66D632A59F09 /* Frameworks */,
+				5D6EB4CD20A41DCD4887837D189F63AF /* Pods */,
+				D33DCD1207AE96559F214230DFE6D28A /* Products */,
 				1D16D4DD7552AD23BAF82D7B19FD3B64 /* Targets Support Files */,
 			);
 			sourceTree = "<group>";
 		};
-		D079A913FF9BEA0C7BF6B36235C195DF /* Support Files */ = {
+		D33DCD1207AE96559F214230DFE6D28A /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				6AD549F937856886BFAD6E0E4CF62AD4 /* SwiftMonkeyPaws.modulemap */,
-				C49F9C25B5B8C2733FD0ED429537A9FE /* SwiftMonkeyPaws-dummy.m */,
-				1710EEA9D0B0292E755C9F7F547CB4F6 /* SwiftMonkeyPaws-Info.plist */,
-				87DE6E3FB08FCAF5A1FEDD38C8C85D2B /* SwiftMonkeyPaws-prefix.pch */,
-				65B461E9D510D16D86F971DAC11B54B0 /* SwiftMonkeyPaws-umbrella.h */,
-				873C53A8FC425A0704971A5968404932 /* SwiftMonkeyPaws.debug.xcconfig */,
-				0F51024AE3EFF75FD2E2709609DA859D /* SwiftMonkeyPaws.release.xcconfig */,
+				ED414B3F3EB2E979315DB85010AB09FB /* AMLeaksFinder.framework */,
+				2A1194AC019E1C497A170EE4AB725374 /* FBRetainCycleDetector.framework */,
+				F164C023991D4FA4862ED5F7FC818A31 /* KJPlayer.bundle */,
+				58A9341F86B217EAED4F1DB5524C40C0 /* KJPlayer.framework */,
+				81F88E35C2B5A07A50B4817E0CFF18E8 /* Pods_KJPlayerDemo.framework */,
+				DC7375EAF1806DC5EBDE3710BFCB3FA2 /* Pods_KJPlayerDemo_MonkeyUITests.framework */,
+				55572504B79C663667869A389D26011B /* Pods_KJPlayerDemoTests.framework */,
+				0D61C8C9411E769762A851D45E176B69 /* SwiftMonkey.framework */,
+				D0C2A12F5DD80E3660CAE06B93D26D96 /* SwiftMonkeyPaws.framework */,
 			);
-			name = "Support Files";
-			path = "../Target Support Files/SwiftMonkeyPaws";
+			name = Products;
 			sourceTree = "<group>";
 		};
-		DDFC195E330F2BE1DBB57A6B3234A250 /* Frameworks */ = {
+		DC124347E62A6FE12256B3DB6E93CA85 /* IJKMediaFramework */ = {
 			isa = PBXGroup;
 			children = (
-				51FA714CA8B0318BB21450C9AB55FAB2 /* IJKMediaFramework.framework */,
+				C57E61B75E53271C7BB74ED8941AE886 /* Frameworks */,
+				AABD3E6683523364170B6F5D3C886B86 /* Support Files */,
 			);
-			name = Frameworks;
+			name = IJKMediaFramework;
+			path = IJKMediaFramework;
 			sourceTree = "<group>";
 		};
 		DFC30E8B6FA44185E00334A68EFC03F4 /* Downloader */ = {
@@ -881,11 +1252,58 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		383CFFC0DBB9C815A60F7B397536BEFF /* Headers */ = {
+		216C6213F8893D453DDC712257B59AF2 /* Headers */ = {
 			isa = PBXHeadersBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				5C0B575CF241CC4BED86428D86EF1DBA /* Pods-KJPlayerDemo-MonkeyUITests-umbrella.h in Headers */,
+				EFBF6A151203BDA29FC594F7D118D6C1 /* BaseType.h in Headers */,
+				1AECCF6B5E3434FE0C303E8EDE37DE6E /* FBAssociationManager+Internal.h in Headers */,
+				4CDF1AF4556A90CA91E98B21160EBD0A /* FBAssociationManager.h in Headers */,
+				8334D788769CBF113D152842A4931174 /* FBBlockInterface.h in Headers */,
+				03AEA342BF8482A6067576E9461B2B55 /* FBBlockStrongLayout.h in Headers */,
+				B2CB175D3DC7B677A3D656B16AD05628 /* FBBlockStrongRelationDetector.h in Headers */,
+				7FD706309F83F6E4F9BE1EEE7382F1B3 /* FBClassStrongLayout.h in Headers */,
+				F9D8E2FBA234BC187E7160A2F42A8F74 /* FBClassStrongLayoutHelpers.h in Headers */,
+				F19D65507547CE2DC886EC26DC6CEA3F /* FBIvarReference.h in Headers */,
+				7C58D67FA200741C43D009E0DB4BF6B3 /* FBNodeEnumerator.h in Headers */,
+				D6A22E795F23EF35E9D018DC5ACC60B4 /* FBObjectGraphConfiguration.h in Headers */,
+				9DD00BD79A151A579FCEC5D99F5A4AEE /* FBObjectInStructReference.h in Headers */,
+				76839FCC744576AAA29DF81544EBED6A /* FBObjectiveCBlock.h in Headers */,
+				2215270E543BAE806B6CB19DCC8CE8A9 /* FBObjectiveCGraphElement+Internal.h in Headers */,
+				30799A4439BAE1320EE857AA720FC608 /* FBObjectiveCGraphElement.h in Headers */,
+				F209E5F73F15EB5744F2E8AAAABF06C5 /* FBObjectiveCNSCFTimer.h in Headers */,
+				9313010AE5DC332E3CA3017EE9E44BB2 /* FBObjectiveCObject.h in Headers */,
+				B5FCA4DC324620C49C3FE922A8F0E7F4 /* FBObjectReference.h in Headers */,
+				EAFC6CEB595EA175B23609243DB03574 /* FBRetainCycleDetector+Internal.h in Headers */,
+				05862B810862D38EE6F6D22A73A3C586 /* FBRetainCycleDetector-umbrella.h in Headers */,
+				7FC5F9908B0E7594979CDAA2105A363C /* FBRetainCycleDetector.h in Headers */,
+				1AD97D28FDE4AC7A0A28109410A56EBC /* FBRetainCycleUtils.h in Headers */,
+				12037CF1725DCE156F30F0F2F1B0DC99 /* FBStandardGraphEdgeFilters.h in Headers */,
+				2C7EAB29618D45F847ADEF4D9DE1E059 /* FBStructEncodingParser.h in Headers */,
+				0E5039728F2E0E22EF738CC6295AD985 /* fishhook.h in Headers */,
+				CD1102716B84D22BA94C3FE0D88EAAC0 /* Struct.h in Headers */,
+				180B0A2700311118F337952F0C61BB89 /* Type.h in Headers */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		47E666F477A974F78C15C443FEE09BC1 /* Headers */ = {
+			isa = PBXHeadersBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				F166259C58662AF4DC9AA16939E0DCD4 /* AMLeakDataModel.h in Headers */,
+				CD66849F2089C6C69359C22A3F9F67D7 /* AMLeakOverviewView.h in Headers */,
+				CD2A12830C5DB6BFEED7CABCE7AA9B8E /* AMLeaksFinder-umbrella.h in Headers */,
+				BFC238A1104B711A8F4C439AE559E472 /* AMLeaksFinder.h in Headers */,
+				362E4AD47521D3757BF8BB0B809D199A /* AMMemoryLeakDeallocModel.h in Headers */,
+				82E1637114D5CB27CC90FE9B8C6B38D8 /* AMMemoryLeakModel.h in Headers */,
+				420502724852910A921CBD6EF21FA7D5 /* AMMemoryLeakView.h in Headers */,
+				AF25BFA9AA17C6C824A753A90CB9785D /* AMSnapedViewViewController.h in Headers */,
+				DC3D4832AB9E4400BD7421EB025FF426 /* AMViewMemoryLeakDeallocModel.h in Headers */,
+				38F847F15118C85E3ACE8190EF0180B0 /* AMViewMemoryLeakModel.h in Headers */,
+				5A3503A25F926EDE0C51AD0F873199AF /* NSObject+RunLoop.h in Headers */,
+				C63BD2CEC9DC68368E32B009B67D014B /* UIView+AMLeaksFinderTools.h in Headers */,
+				E6DB4A9D9836EDF86FE11C91F923D81A /* UIViewController+AMLeaksFinderTools.h in Headers */,
+				07E5002C352D0565E665CC4025AC17D5 /* UIViewController+AMLeaksFinderUI.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -894,6 +1312,14 @@
 			buildActionMask = 2147483647;
 			files = (
 				15E7119FAB9DCD7CDED2BF431EC2D989 /* SwiftMonkey-umbrella.h in Headers */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		52EA1675979D7182D237BC9731DA8A43 /* Headers */ = {
+			isa = PBXHeadersBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				37C7F2B5AE4818BF2C7458B27B0E82B2 /* Pods-KJPlayerDemo-umbrella.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -944,19 +1370,19 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		A2852637B494632EC908076CA079E421 /* Headers */ = {
-			isa = PBXHeadersBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-				C3ECEEBBA2AF78A2F479C7C19193689C /* Pods-KJPlayerDemo-umbrella.h in Headers */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
 		D9A4A891982C736ACF9FA4C713BFD8FC /* Headers */ = {
 			isa = PBXHeadersBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
 				E3867C45603E20133DAD873461BE1E28 /* SwiftMonkeyPaws-umbrella.h in Headers */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		FC7CEF35570C617B94530CAC04709C5B /* Headers */ = {
+			isa = PBXHeadersBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				D493BF996F4E1CE065622DF1D11D79C8 /* Pods-KJPlayerDemo-MonkeyUITests-umbrella.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -975,12 +1401,48 @@
 			buildRules = (
 			);
 			dependencies = (
-				A8FECF8FFD5E8AD7117CDB612BD50098 /* PBXTargetDependency */,
-				2CDF1CA656CD4BF1B3E9B0BCF0DB84D4 /* PBXTargetDependency */,
+				110540BCC0E94F1B3D5395552BBBC1B1 /* PBXTargetDependency */,
+				53FF7C85B724FC51B9D7D4C04FC75E0C /* PBXTargetDependency */,
 			);
 			name = KJPlayer;
 			productName = KJPlayer;
 			productReference = 58A9341F86B217EAED4F1DB5524C40C0 /* KJPlayer.framework */;
+			productType = "com.apple.product-type.framework";
+		};
+		0E647912D2B71D47B98C02E8E0ECA41A /* FBRetainCycleDetector */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 5DF19280816486D6A02354AA7AF606E9 /* Build configuration list for PBXNativeTarget "FBRetainCycleDetector" */;
+			buildPhases = (
+				216C6213F8893D453DDC712257B59AF2 /* Headers */,
+				4705C9C6DA4488C33812752FF23E976C /* Sources */,
+				F157ED567397AC6353FB263653B685C8 /* Frameworks */,
+				72BFABB31CA0F9196ADE9DC56E8A64B5 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = FBRetainCycleDetector;
+			productName = FBRetainCycleDetector;
+			productReference = 2A1194AC019E1C497A170EE4AB725374 /* FBRetainCycleDetector.framework */;
+			productType = "com.apple.product-type.framework";
+		};
+		71057AC83C4C64F2F4831004B3753254 /* AMLeaksFinder */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = A60658009DDFBEBD5BC6B35A4A87B419 /* Build configuration list for PBXNativeTarget "AMLeaksFinder" */;
+			buildPhases = (
+				47E666F477A974F78C15C443FEE09BC1 /* Headers */,
+				F7AFC8C289E12815A7E332C0337E89CD /* Sources */,
+				5BDCE0E9BCCEB11C0083751FB6DFDB1A /* Frameworks */,
+				5BDCC2295D45090B35B897266737F0D8 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = AMLeaksFinder;
+			productName = AMLeaksFinder;
+			productReference = ED414B3F3EB2E979315DB85010AB09FB /* AMLeaksFinder.framework */;
 			productType = "com.apple.product-type.framework";
 		};
 		787E3AC8249E2CE0A9F7C01242E1671F /* Pods-KJPlayerDemoTests */ = {
@@ -995,7 +1457,7 @@
 			buildRules = (
 			);
 			dependencies = (
-				EC57FC9791EB6145680CF44A056A763A /* PBXTargetDependency */,
+				221D1E0B93BC4A53F352FBE9A13BA044 /* PBXTargetDependency */,
 			);
 			name = "Pods-KJPlayerDemoTests";
 			productName = "Pods-KJPlayerDemoTests";
@@ -1004,19 +1466,21 @@
 		};
 		9239F71B0E6383B9D6F4CBE0908388DD /* Pods-KJPlayerDemo */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = E44476D6C9C394C647EDBC5A57728CB5 /* Build configuration list for PBXNativeTarget "Pods-KJPlayerDemo" */;
+			buildConfigurationList = 7FEDCE07E3326B0020E3D38C1E5EAFFF /* Build configuration list for PBXNativeTarget "Pods-KJPlayerDemo" */;
 			buildPhases = (
-				A2852637B494632EC908076CA079E421 /* Headers */,
-				0DA703120A69D25DD33A3FCCFC94F9E3 /* Sources */,
-				1CA9619C6E13755134E832A0FCC8C22A /* Frameworks */,
-				413BAD5526B753537B99341695F8ED83 /* Resources */,
+				52EA1675979D7182D237BC9731DA8A43 /* Headers */,
+				FA1F0B1CEA477CDD86B40F403E2FEBD5 /* Sources */,
+				8DDD3C7B42DC4E2715CD7D5190C77098 /* Frameworks */,
+				A39D71B454E211AE0A35FC1F67922EDC /* Resources */,
 			);
 			buildRules = (
 			);
 			dependencies = (
-				C64B2498CCBE14F454B4D9D636D5D7D8 /* PBXTargetDependency */,
-				29096F3A8E6916FE472225ADB7D4758E /* PBXTargetDependency */,
-				A442C031734B16B572920A6ECC642E27 /* PBXTargetDependency */,
+				38AB9F2305AD4A20233FEC45F57267AF /* PBXTargetDependency */,
+				515B475107C58DBAC677F018E18013AF /* PBXTargetDependency */,
+				266C2D00304FE78FD27566D12C1D536D /* PBXTargetDependency */,
+				7E3B33A2058381CD7690CC183C5277D7 /* PBXTargetDependency */,
+				2180ED4C168C4D33F0719A87346E4CF6 /* PBXTargetDependency */,
 			);
 			name = "Pods-KJPlayerDemo";
 			productName = "Pods-KJPlayerDemo";
@@ -1025,11 +1489,11 @@
 		};
 		9569B6DD68D1EE0003E4A551C5F7F010 /* KJPlayer-KJPlayer */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = 039E89FAF32EDE2C0F6257941C783AC3 /* Build configuration list for PBXNativeTarget "KJPlayer-KJPlayer" */;
+			buildConfigurationList = 53547F01DAB8C8207895D59202257926 /* Build configuration list for PBXNativeTarget "KJPlayer-KJPlayer" */;
 			buildPhases = (
-				11E536CB4F9E0E76F91918DE8EE0A319 /* Sources */,
-				2C16691804912A99EE910AD84EE89721 /* Frameworks */,
-				99C7D05627F960D4AF98674D7AA2F090 /* Resources */,
+				A38BBA25CE86A42A72B95BD69BCEE754 /* Sources */,
+				1A5681C08DA2778371E6790AA36C5E97 /* Frameworks */,
+				4A9E0CA900CD144EB3ED69D66BD702BC /* Resources */,
 			);
 			buildRules = (
 			);
@@ -1042,20 +1506,22 @@
 		};
 		9DD68F91CE901D3140A4523A1252AC4E /* Pods-KJPlayerDemo-MonkeyUITests */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = 49D5FE2CF9420F68CD123A0BD3B6A2A4 /* Build configuration list for PBXNativeTarget "Pods-KJPlayerDemo-MonkeyUITests" */;
+			buildConfigurationList = AAD5EEE221C0D5476DDE77090F9ABAC1 /* Build configuration list for PBXNativeTarget "Pods-KJPlayerDemo-MonkeyUITests" */;
 			buildPhases = (
-				383CFFC0DBB9C815A60F7B397536BEFF /* Headers */,
-				D9CDCD5C0BF31C8CB47556FA9D14F40A /* Sources */,
-				E65C5CE3BEA5696418E15F12756BB90E /* Frameworks */,
-				911275118EA6A4C0D6DCC17551E5CF74 /* Resources */,
+				FC7CEF35570C617B94530CAC04709C5B /* Headers */,
+				C6FAF4A4A5CBD1F6D44EA3B21E3909B0 /* Sources */,
+				ABC9BA0377E1008DF4C625EA6434C425 /* Frameworks */,
+				D02F05A082597BDDB878D2A608928742 /* Resources */,
 			);
 			buildRules = (
 			);
 			dependencies = (
-				EC409423056A7242143508AB9E64AB57 /* PBXTargetDependency */,
-				8C8F349C8FEAD67AE88353C83607993A /* PBXTargetDependency */,
-				1849EDA58FDFDDB28CC953FEA862B7D7 /* PBXTargetDependency */,
-				711B366DBB7FC528D69CF5352FF65184 /* PBXTargetDependency */,
+				D665F2D660D208F106FA7ABAF926B2C6 /* PBXTargetDependency */,
+				CB73712305FA7205E1B0E200C6DF4B08 /* PBXTargetDependency */,
+				EE1051504CCB2F43A5B591EEF1C8424B /* PBXTargetDependency */,
+				0345C94E90198D68978D8CFA25AD10C3 /* PBXTargetDependency */,
+				D916063B73363CE5D32871ECD6476187 /* PBXTargetDependency */,
+				427C207C7F843FC2466A8550F45ACAA6 /* PBXTargetDependency */,
 			);
 			name = "Pods-KJPlayerDemo-MonkeyUITests";
 			productName = "Pods-KJPlayerDemo-MonkeyUITests";
@@ -1116,10 +1582,12 @@
 				Base,
 			);
 			mainGroup = CF1408CF629C7361332E53B88F7BD30C;
-			productRefGroup = A96A92CCC73F739F5EC8B93672F65B7A /* Products */;
+			productRefGroup = D33DCD1207AE96559F214230DFE6D28A /* Products */;
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
+				71057AC83C4C64F2F4831004B3753254 /* AMLeaksFinder */,
+				0E647912D2B71D47B98C02E8E0ECA41A /* FBRetainCycleDetector */,
 				7281195861A7714E4972777A27C77BBC /* IJKMediaFramework */,
 				0E1165D248E0A59B340A909F5E58BD41 /* KJPlayer */,
 				9569B6DD68D1EE0003E4A551C5F7F010 /* KJPlayer-KJPlayer */,
@@ -1140,25 +1608,27 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		413BAD5526B753537B99341695F8ED83 /* Resources */ = {
+		4A9E0CA900CD144EB3ED69D66BD702BC /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				815FF3B0CF4BDC01FE29AA52DAC4D14F /* KJPlayerFont.ttf in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		911275118EA6A4C0D6DCC17551E5CF74 /* Resources */ = {
+		5BDCC2295D45090B35B897266737F0D8 /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				CCF8F0BF606874D4006BDAFD92360438 /* AMLeaksFinder.bundle in Resources */,
+				761A9A64F32338A059D359E687537A1C /* AMMemoryLeakView.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		99C7D05627F960D4AF98674D7AA2F090 /* Resources */ = {
+		72BFABB31CA0F9196ADE9DC56E8A64B5 /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				229B00F02340D724BCAE714E3A8A2D17 /* KJPlayerFont.ttf in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1169,7 +1639,21 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		A39D71B454E211AE0A35FC1F67922EDC /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		AFD402000858FE35B4FB328D2641F604 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		D02F05A082597BDDB878D2A608928742 /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -1186,18 +1670,30 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
-		0DA703120A69D25DD33A3FCCFC94F9E3 /* Sources */ = {
+		4705C9C6DA4488C33812752FF23E976C /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				814234B5A3E67DB170B8B7764E70A6A8 /* Pods-KJPlayerDemo-dummy.m in Sources */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-		11E536CB4F9E0E76F91918DE8EE0A319 /* Sources */ = {
-			isa = PBXSourcesBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
+				1AB5BA433F47C2F7DFB0DA0E4B929162 /* FBAssociationManager.mm in Sources */,
+				E14FDC29A656C3981024ED2510463516 /* FBBlockStrongLayout.m in Sources */,
+				558F4F4E3DD0632771BFF4805DDBF9D2 /* FBBlockStrongRelationDetector.m in Sources */,
+				1BE446E3EAEBC93BAA70A18B97681D81 /* FBClassStrongLayout.mm in Sources */,
+				F03300D44439943FE05DF83E832670E2 /* FBClassStrongLayoutHelpers.m in Sources */,
+				F4BDAA8AEBCC5CC81BA0A8DC57BB2A63 /* FBIvarReference.m in Sources */,
+				02941F1F5BA91B5EE2DAEA0EAE8B5F28 /* FBNodeEnumerator.mm in Sources */,
+				C7ADFDA9B467ECFFD5D73FBD6341524B /* FBObjectGraphConfiguration.m in Sources */,
+				2502EA6AE719CDF842B94C7A211D012E /* FBObjectInStructReference.m in Sources */,
+				368091B1382E9796F814F9AA94E87B67 /* FBObjectiveCBlock.m in Sources */,
+				066F615680F8B09B7E42273A0DC6BC18 /* FBObjectiveCGraphElement.mm in Sources */,
+				18BA8DB57594BE50190BC1BBB49CCF13 /* FBObjectiveCNSCFTimer.mm in Sources */,
+				2F1C1C0B1AC28CA68EAE15A6B75C6BCF /* FBObjectiveCObject.m in Sources */,
+				32303EDFF7F90BA71936B7D4876D107D /* FBRetainCycleDetector-dummy.m in Sources */,
+				4C6D22C4D8E88A5E73C9195EA35FBFFE /* FBRetainCycleDetector.mm in Sources */,
+				5AE67238AF5D3CF8193F89AB7E086F99 /* FBRetainCycleUtils.m in Sources */,
+				2533D298BD148D74770EB6BE8DF833D4 /* FBStandardGraphEdgeFilters.mm in Sources */,
+				C15340A32401EA5D3C1338AB9FB61037 /* FBStructEncodingParser.mm in Sources */,
+				36025E4DF6385AB0C81088DBADD65C5A /* fishhook.c in Sources */,
+				26CFACEC1D36DE12D8C462864AD1D4B3 /* Struct.mm in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1265,6 +1761,21 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		A38BBA25CE86A42A72B95BD69BCEE754 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		C6FAF4A4A5CBD1F6D44EA3B21E3909B0 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				337F13F7FF5160B53AE5C857335B1632 /* Pods-KJPlayerDemo-MonkeyUITests-dummy.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		C9D228153C7391DC6F815EBE622FAAE8 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -1278,121 +1789,134 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		D9CDCD5C0BF31C8CB47556FA9D14F40A /* Sources */ = {
+		F7AFC8C289E12815A7E332C0337E89CD /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				533454035245049EC5C51F9488D9E0A7 /* Pods-KJPlayerDemo-MonkeyUITests-dummy.m in Sources */,
+				623DE3D7E4E2F815A17B1AF251512BC5 /* AMLeakDataModel.m in Sources */,
+				90BF18544B0DA240030EB0C3B9983F1A /* AMLeakOverviewView.m in Sources */,
+				6C21F537664F07E2DC70A5E6A2B6E9FD /* AMLeaksFinder-dummy.m in Sources */,
+				8784C7F1439A5A1ED3EC718F536AD1B4 /* AMMemoryLeakDeallocModel.m in Sources */,
+				ACD769AF5EE6F91E5A2AB6C08DAA466E /* AMMemoryLeakModel.m in Sources */,
+				F782ACD98FD7D47D9B190B31B10B6F2B /* AMMemoryLeakView.m in Sources */,
+				5D597CAE27CAFA5D5DDF5E7E7C40802E /* AMSnapedViewViewController.m in Sources */,
+				57862759DACB33EC24966D73D4439A76 /* AMViewMemoryLeakDeallocModel.m in Sources */,
+				8B57673E2D9613499C520FEE2C923648 /* AMViewMemoryLeakModel.m in Sources */,
+				F50F750056946FBFCBB310AC3FD7C16E /* NSObject+RunLoop.m in Sources */,
+				E4B5E417BF1CCBDD43B38C0FEFEAE589 /* UINavigationController+AMLeaksFinderSwizzleDealloc.m in Sources */,
+				D2BBA9E1E792D4C4F1624040850B30D0 /* UIPageViewController+AMLeaksFinderSwizzleDealloc.m in Sources */,
+				2E66AFADA00C6E0303805B56BDE87052 /* UISplitViewController+AMLeaksFinderSwizzleDealloc.m in Sources */,
+				54F755E0428356ECC22A00BA0A63F81C /* UITabBarController+AMLeaksFinderSwizzleDealloc.m in Sources */,
+				B7F701A846ED7088CA926305E6545F2A /* UIView+AMLeaksFinderTools.m in Sources */,
+				96F34028D9E5A6905B466FE11148B9F3 /* UIViewController+AMLeaksFinderSwizzleDealloc.m in Sources */,
+				58C5CCFAB0753EAC4360731527D06CE3 /* UIViewController+AMLeaksFinderSwizzleViewDidLoad.m in Sources */,
+				44A6750416EBAD1A45C0AC4F22B19B2C /* UIViewController+AMLeaksFinderTools.m in Sources */,
+				12040C214B41571367C0C85F663B087C /* UIViewController+AMLeaksFinderUI.m in Sources */,
+				7E01466DD4A1E6268D3E19C0E2F2F49B /* UIWindow+AMLeaksFinderSwizzleDealloc.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		FA1F0B1CEA477CDD86B40F403E2FEBD5 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				384799159E6EC10D41971FD099979667 /* Pods-KJPlayerDemo-dummy.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXTargetDependency section */
-		1849EDA58FDFDDB28CC953FEA862B7D7 /* PBXTargetDependency */ = {
-			isa = PBXTargetDependency;
-			name = SwiftMonkey;
-			target = A0FAD74CFC07BE7DDA411F9CB5107C0A /* SwiftMonkey */;
-			targetProxy = 6165C03093F6EB7C33E47B1FE3E23403 /* PBXContainerItemProxy */;
-		};
-		29096F3A8E6916FE472225ADB7D4758E /* PBXTargetDependency */ = {
+		0345C94E90198D68978D8CFA25AD10C3 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
 			name = KJPlayer;
 			target = 0E1165D248E0A59B340A909F5E58BD41 /* KJPlayer */;
-			targetProxy = 184A119924C0090E1CF2193D5BC3C1DD /* PBXContainerItemProxy */;
+			targetProxy = 1E437945ADF41CA9A031C9C4D864F56A /* PBXContainerItemProxy */;
 		};
-		2CDF1CA656CD4BF1B3E9B0BCF0DB84D4 /* PBXTargetDependency */ = {
+		110540BCC0E94F1B3D5395552BBBC1B1 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
-			name = "KJPlayer-KJPlayer";
-			target = 9569B6DD68D1EE0003E4A551C5F7F010 /* KJPlayer-KJPlayer */;
-			targetProxy = F372B563BC25DBCBC776B927D64F64EB /* PBXContainerItemProxy */;
+			name = IJKMediaFramework;
+			target = 7281195861A7714E4972777A27C77BBC /* IJKMediaFramework */;
+			targetProxy = 25E556488948BBCFD55C9B473B76B362 /* PBXContainerItemProxy */;
 		};
-		711B366DBB7FC528D69CF5352FF65184 /* PBXTargetDependency */ = {
+		2180ED4C168C4D33F0719A87346E4CF6 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
 			name = SwiftMonkeyPaws;
 			target = 9F71478B90CAE678AD29D3BC83333927 /* SwiftMonkeyPaws */;
-			targetProxy = 2199866E43E767C00BCA7235E299BDEC /* PBXContainerItemProxy */;
+			targetProxy = E5699F9B164E215DCDC6168B78D76480 /* PBXContainerItemProxy */;
 		};
-		8C8F349C8FEAD67AE88353C83607993A /* PBXTargetDependency */ = {
-			isa = PBXTargetDependency;
-			name = KJPlayer;
-			target = 0E1165D248E0A59B340A909F5E58BD41 /* KJPlayer */;
-			targetProxy = 40533C3CB678E7AEEE188ABF75A5B0E9 /* PBXContainerItemProxy */;
-		};
-		A442C031734B16B572920A6ECC642E27 /* PBXTargetDependency */ = {
-			isa = PBXTargetDependency;
-			name = SwiftMonkeyPaws;
-			target = 9F71478B90CAE678AD29D3BC83333927 /* SwiftMonkeyPaws */;
-			targetProxy = 22939CFA856AE0FB72CD8ECA8B9B0E82 /* PBXContainerItemProxy */;
-		};
-		A8FECF8FFD5E8AD7117CDB612BD50098 /* PBXTargetDependency */ = {
-			isa = PBXTargetDependency;
-			name = IJKMediaFramework;
-			target = 7281195861A7714E4972777A27C77BBC /* IJKMediaFramework */;
-			targetProxy = 41671FE43E398D09FB7CD6853500F302 /* PBXContainerItemProxy */;
-		};
-		C64B2498CCBE14F454B4D9D636D5D7D8 /* PBXTargetDependency */ = {
-			isa = PBXTargetDependency;
-			name = IJKMediaFramework;
-			target = 7281195861A7714E4972777A27C77BBC /* IJKMediaFramework */;
-			targetProxy = B3921531ABF58029D9060F5ACCE36738 /* PBXContainerItemProxy */;
-		};
-		EC409423056A7242143508AB9E64AB57 /* PBXTargetDependency */ = {
-			isa = PBXTargetDependency;
-			name = IJKMediaFramework;
-			target = 7281195861A7714E4972777A27C77BBC /* IJKMediaFramework */;
-			targetProxy = 08662698F360A22BF116EDD19C112ADF /* PBXContainerItemProxy */;
-		};
-		EC57FC9791EB6145680CF44A056A763A /* PBXTargetDependency */ = {
+		221D1E0B93BC4A53F352FBE9A13BA044 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
 			name = "Pods-KJPlayerDemo";
 			target = 9239F71B0E6383B9D6F4CBE0908388DD /* Pods-KJPlayerDemo */;
-			targetProxy = 15395F71475C4EFD238AB7DEBBFC0761 /* PBXContainerItemProxy */;
+			targetProxy = A8575E7570C50E6C0966E4F5959BA2C0 /* PBXContainerItemProxy */;
+		};
+		266C2D00304FE78FD27566D12C1D536D /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			name = IJKMediaFramework;
+			target = 7281195861A7714E4972777A27C77BBC /* IJKMediaFramework */;
+			targetProxy = 6DCEBE0F625D009D59AF79ED7E9E2EF2 /* PBXContainerItemProxy */;
+		};
+		38AB9F2305AD4A20233FEC45F57267AF /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			name = AMLeaksFinder;
+			target = 71057AC83C4C64F2F4831004B3753254 /* AMLeaksFinder */;
+			targetProxy = E1A9618DB15FFFE9C522D7BB48132CC5 /* PBXContainerItemProxy */;
+		};
+		427C207C7F843FC2466A8550F45ACAA6 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			name = SwiftMonkeyPaws;
+			target = 9F71478B90CAE678AD29D3BC83333927 /* SwiftMonkeyPaws */;
+			targetProxy = E78929F9E28FFD99BA173C72EBDACA80 /* PBXContainerItemProxy */;
+		};
+		515B475107C58DBAC677F018E18013AF /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			name = FBRetainCycleDetector;
+			target = 0E647912D2B71D47B98C02E8E0ECA41A /* FBRetainCycleDetector */;
+			targetProxy = FDCBB8195A9317692FCE479E2D7697DA /* PBXContainerItemProxy */;
+		};
+		53FF7C85B724FC51B9D7D4C04FC75E0C /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			name = "KJPlayer-KJPlayer";
+			target = 9569B6DD68D1EE0003E4A551C5F7F010 /* KJPlayer-KJPlayer */;
+			targetProxy = 68D1DFE79A4236BD19C4F06535CED148 /* PBXContainerItemProxy */;
+		};
+		7E3B33A2058381CD7690CC183C5277D7 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			name = KJPlayer;
+			target = 0E1165D248E0A59B340A909F5E58BD41 /* KJPlayer */;
+			targetProxy = B3C22DE5EFC4DBE3D5A9569F4DF74D5D /* PBXContainerItemProxy */;
+		};
+		CB73712305FA7205E1B0E200C6DF4B08 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			name = FBRetainCycleDetector;
+			target = 0E647912D2B71D47B98C02E8E0ECA41A /* FBRetainCycleDetector */;
+			targetProxy = DD62265D3356971D562592030FF2F828 /* PBXContainerItemProxy */;
+		};
+		D665F2D660D208F106FA7ABAF926B2C6 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			name = AMLeaksFinder;
+			target = 71057AC83C4C64F2F4831004B3753254 /* AMLeaksFinder */;
+			targetProxy = 683EF2F20024AC5B3F366B3F943D4F15 /* PBXContainerItemProxy */;
+		};
+		D916063B73363CE5D32871ECD6476187 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			name = SwiftMonkey;
+			target = A0FAD74CFC07BE7DDA411F9CB5107C0A /* SwiftMonkey */;
+			targetProxy = F2D1942FD89954D3F68A9098F94743A8 /* PBXContainerItemProxy */;
+		};
+		EE1051504CCB2F43A5B591EEF1C8424B /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			name = IJKMediaFramework;
+			target = 7281195861A7714E4972777A27C77BBC /* IJKMediaFramework */;
+			targetProxy = F4DEFB2F03CE47EFE2F3AAF321082CC9 /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
 
 /* Begin XCBuildConfiguration section */
-		1ADA20F8FAF1855160AAB791EE8E8E7E /* Release */ = {
-			isa = XCBuildConfiguration;
-			baseConfigurationReference = AF467A777C826C4079F28437EA0944A5 /* Pods-KJPlayerDemo.release.xcconfig */;
-			buildSettings = {
-				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = NO;
-				CLANG_ENABLE_OBJC_WEAK = NO;
-				"CODE_SIGN_IDENTITY[sdk=appletvos*]" = "";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "";
-				"CODE_SIGN_IDENTITY[sdk=watchos*]" = "";
-				CURRENT_PROJECT_VERSION = 1;
-				DEFINES_MODULE = YES;
-				DYLIB_COMPATIBILITY_VERSION = 1;
-				DYLIB_CURRENT_VERSION = 1;
-				DYLIB_INSTALL_NAME_BASE = "@rpath";
-				INFOPLIST_FILE = "Target Support Files/Pods-KJPlayerDemo/Pods-KJPlayerDemo-Info.plist";
-				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
-				IPHONEOS_DEPLOYMENT_TARGET = 14.1;
-				LD_RUNPATH_SEARCH_PATHS = (
-					"$(inherited)",
-					"@executable_path/Frameworks",
-					"@loader_path/Frameworks",
-				);
-				MACH_O_TYPE = staticlib;
-				MODULEMAP_FILE = "Target Support Files/Pods-KJPlayerDemo/Pods-KJPlayerDemo.modulemap";
-				OTHER_LDFLAGS = "";
-				OTHER_LIBTOOLFLAGS = "";
-				PODS_ROOT = "$(SRCROOT)";
-				PRODUCT_BUNDLE_IDENTIFIER = "org.cocoapods.${PRODUCT_NAME:rfc1034identifier}";
-				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
-				SDKROOT = iphoneos;
-				SKIP_INSTALL = YES;
-				TARGETED_DEVICE_FAMILY = "1,2";
-				VALIDATE_PRODUCT = YES;
-				VERSIONING_SYSTEM = "apple-generic";
-				VERSION_INFO_PREFIX = "";
-			};
-			name = Release;
-		};
 		1C54C6D4D11272ADD13027F0798A3C82 /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 26F799AE73140FD93D40EFFEF23AB672 /* IJKMediaFramework.release.xcconfig */;
+			baseConfigurationReference = DE9C5251C1A75A11DEFCD85B55B07356 /* IJKMediaFramework.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
@@ -1409,7 +1933,7 @@
 		};
 		29821EA86501801E447076AC32B35043 /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 184D17E058465A59C21DDAF5D5299DBD /* SwiftMonkey.debug.xcconfig */;
+			baseConfigurationReference = 078017C9ED55FFA55A5485F461416C01 /* SwiftMonkey.debug.xcconfig */;
 			buildSettings = {
 				"CODE_SIGN_IDENTITY[sdk=appletvos*]" = "";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "";
@@ -1441,47 +1965,9 @@
 			};
 			name = Debug;
 		};
-		31F4F43B60CD166AA1C3252A57BBB821 /* Release */ = {
-			isa = XCBuildConfiguration;
-			baseConfigurationReference = 71991D93F61E36FFF9D3501496C742B1 /* Pods-KJPlayerDemo-MonkeyUITests.release.xcconfig */;
-			buildSettings = {
-				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = NO;
-				CLANG_ENABLE_OBJC_WEAK = NO;
-				"CODE_SIGN_IDENTITY[sdk=appletvos*]" = "";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "";
-				"CODE_SIGN_IDENTITY[sdk=watchos*]" = "";
-				CURRENT_PROJECT_VERSION = 1;
-				DEFINES_MODULE = YES;
-				DYLIB_COMPATIBILITY_VERSION = 1;
-				DYLIB_CURRENT_VERSION = 1;
-				DYLIB_INSTALL_NAME_BASE = "@rpath";
-				INFOPLIST_FILE = "Target Support Files/Pods-KJPlayerDemo-MonkeyUITests/Pods-KJPlayerDemo-MonkeyUITests-Info.plist";
-				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
-				IPHONEOS_DEPLOYMENT_TARGET = 14.1;
-				LD_RUNPATH_SEARCH_PATHS = (
-					"$(inherited)",
-					"@executable_path/Frameworks",
-					"@loader_path/Frameworks",
-				);
-				MACH_O_TYPE = staticlib;
-				MODULEMAP_FILE = "Target Support Files/Pods-KJPlayerDemo-MonkeyUITests/Pods-KJPlayerDemo-MonkeyUITests.modulemap";
-				OTHER_LDFLAGS = "";
-				OTHER_LIBTOOLFLAGS = "";
-				PODS_ROOT = "$(SRCROOT)";
-				PRODUCT_BUNDLE_IDENTIFIER = "org.cocoapods.${PRODUCT_NAME:rfc1034identifier}";
-				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
-				SDKROOT = iphoneos;
-				SKIP_INSTALL = YES;
-				TARGETED_DEVICE_FAMILY = "1,2";
-				VALIDATE_PRODUCT = YES;
-				VERSIONING_SYSTEM = "apple-generic";
-				VERSION_INFO_PREFIX = "";
-			};
-			name = Release;
-		};
 		3226C6FDB2367413F7E67C1981007819 /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 2F375954FEAF9E26247E9E09F9618C56 /* SwiftMonkey.release.xcconfig */;
+			baseConfigurationReference = 98667399CE8E8CEC4A3D90C4625D67AC /* SwiftMonkey.release.xcconfig */;
 			buildSettings = {
 				"CODE_SIGN_IDENTITY[sdk=appletvos*]" = "";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "";
@@ -1513,6 +1999,43 @@
 				VERSION_INFO_PREFIX = "";
 			};
 			name = Release;
+		};
+		37A0D909A114E3A91484C1DB4A220B8A /* Debug */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = E165068CD55D825E276766E5520FC4ED /* Pods-KJPlayerDemo.debug.xcconfig */;
+			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = NO;
+				CLANG_ENABLE_OBJC_WEAK = NO;
+				"CODE_SIGN_IDENTITY[sdk=appletvos*]" = "";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "";
+				"CODE_SIGN_IDENTITY[sdk=watchos*]" = "";
+				CURRENT_PROJECT_VERSION = 1;
+				DEFINES_MODULE = YES;
+				DYLIB_COMPATIBILITY_VERSION = 1;
+				DYLIB_CURRENT_VERSION = 1;
+				DYLIB_INSTALL_NAME_BASE = "@rpath";
+				INFOPLIST_FILE = "Target Support Files/Pods-KJPlayerDemo/Pods-KJPlayerDemo-Info.plist";
+				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
+				IPHONEOS_DEPLOYMENT_TARGET = 14.1;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
+				);
+				MACH_O_TYPE = staticlib;
+				MODULEMAP_FILE = "Target Support Files/Pods-KJPlayerDemo/Pods-KJPlayerDemo.modulemap";
+				OTHER_LDFLAGS = "";
+				OTHER_LIBTOOLFLAGS = "";
+				PODS_ROOT = "$(SRCROOT)";
+				PRODUCT_BUNDLE_IDENTIFIER = "org.cocoapods.${PRODUCT_NAME:rfc1034identifier}";
+				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
+				SDKROOT = iphoneos;
+				SKIP_INSTALL = YES;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				VERSIONING_SYSTEM = "apple-generic";
+				VERSION_INFO_PREFIX = "";
+			};
+			name = Debug;
 		};
 		3CBAE640085750850D55FC256F986F3D /* Debug */ = {
 			isa = XCBuildConfiguration;
@@ -1649,9 +2172,9 @@
 			};
 			name = Release;
 		};
-		59A1D23916D1920EA5996985B045B34B /* Debug */ = {
+		770CBCD989C631D3F5076DA945FD60FA /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = E165068CD55D825E276766E5520FC4ED /* Pods-KJPlayerDemo.debug.xcconfig */;
+			baseConfigurationReference = 71991D93F61E36FFF9D3501496C742B1 /* Pods-KJPlayerDemo-MonkeyUITests.release.xcconfig */;
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = NO;
 				CLANG_ENABLE_OBJC_WEAK = NO;
@@ -1663,7 +2186,7 @@
 				DYLIB_COMPATIBILITY_VERSION = 1;
 				DYLIB_CURRENT_VERSION = 1;
 				DYLIB_INSTALL_NAME_BASE = "@rpath";
-				INFOPLIST_FILE = "Target Support Files/Pods-KJPlayerDemo/Pods-KJPlayerDemo-Info.plist";
+				INFOPLIST_FILE = "Target Support Files/Pods-KJPlayerDemo-MonkeyUITests/Pods-KJPlayerDemo-MonkeyUITests-Info.plist";
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
 				IPHONEOS_DEPLOYMENT_TARGET = 14.1;
 				LD_RUNPATH_SEARCH_PATHS = (
@@ -1672,7 +2195,7 @@
 					"@loader_path/Frameworks",
 				);
 				MACH_O_TYPE = staticlib;
-				MODULEMAP_FILE = "Target Support Files/Pods-KJPlayerDemo/Pods-KJPlayerDemo.modulemap";
+				MODULEMAP_FILE = "Target Support Files/Pods-KJPlayerDemo-MonkeyUITests/Pods-KJPlayerDemo-MonkeyUITests.modulemap";
 				OTHER_LDFLAGS = "";
 				OTHER_LIBTOOLFLAGS = "";
 				PODS_ROOT = "$(SRCROOT)";
@@ -1681,14 +2204,84 @@
 				SDKROOT = iphoneos;
 				SKIP_INSTALL = YES;
 				TARGETED_DEVICE_FAMILY = "1,2";
+				VALIDATE_PRODUCT = YES;
+				VERSIONING_SYSTEM = "apple-generic";
+				VERSION_INFO_PREFIX = "";
+			};
+			name = Release;
+		};
+		7809D031342DB08FB14D160DA31647A8 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = 637BF0935908B48F5F5325A89DA8AF45 /* AMLeaksFinder.debug.xcconfig */;
+			buildSettings = {
+				"CODE_SIGN_IDENTITY[sdk=appletvos*]" = "";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "";
+				"CODE_SIGN_IDENTITY[sdk=watchos*]" = "";
+				CURRENT_PROJECT_VERSION = 1;
+				DEFINES_MODULE = YES;
+				DYLIB_COMPATIBILITY_VERSION = 1;
+				DYLIB_CURRENT_VERSION = 1;
+				DYLIB_INSTALL_NAME_BASE = "@rpath";
+				GCC_PREFIX_HEADER = "Target Support Files/AMLeaksFinder/AMLeaksFinder-prefix.pch";
+				INFOPLIST_FILE = "Target Support Files/AMLeaksFinder/AMLeaksFinder-Info.plist";
+				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
+				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
+				);
+				MODULEMAP_FILE = "Target Support Files/AMLeaksFinder/AMLeaksFinder.modulemap";
+				PRODUCT_MODULE_NAME = AMLeaksFinder;
+				PRODUCT_NAME = AMLeaksFinder;
+				SDKROOT = iphoneos;
+				SKIP_INSTALL = YES;
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "$(inherited) ";
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
 				VERSIONING_SYSTEM = "apple-generic";
 				VERSION_INFO_PREFIX = "";
 			};
 			name = Debug;
 		};
+		97980763F160742CC0F5372B5BA885EB /* Release */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = E0203F7FA50A22EC6795E56588582825 /* AMLeaksFinder.release.xcconfig */;
+			buildSettings = {
+				"CODE_SIGN_IDENTITY[sdk=appletvos*]" = "";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "";
+				"CODE_SIGN_IDENTITY[sdk=watchos*]" = "";
+				CURRENT_PROJECT_VERSION = 1;
+				DEFINES_MODULE = YES;
+				DYLIB_COMPATIBILITY_VERSION = 1;
+				DYLIB_CURRENT_VERSION = 1;
+				DYLIB_INSTALL_NAME_BASE = "@rpath";
+				GCC_PREFIX_HEADER = "Target Support Files/AMLeaksFinder/AMLeaksFinder-prefix.pch";
+				INFOPLIST_FILE = "Target Support Files/AMLeaksFinder/AMLeaksFinder-Info.plist";
+				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
+				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
+				);
+				MODULEMAP_FILE = "Target Support Files/AMLeaksFinder/AMLeaksFinder.modulemap";
+				PRODUCT_MODULE_NAME = AMLeaksFinder;
+				PRODUCT_NAME = AMLeaksFinder;
+				SDKROOT = iphoneos;
+				SKIP_INSTALL = YES;
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "$(inherited) ";
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				VALIDATE_PRODUCT = YES;
+				VERSIONING_SYSTEM = "apple-generic";
+				VERSION_INFO_PREFIX = "";
+			};
+			name = Release;
+		};
 		9EC62CBF9EA89612DA793D46724FF9A5 /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 873C53A8FC425A0704971A5968404932 /* SwiftMonkeyPaws.debug.xcconfig */;
+			baseConfigurationReference = 54287D5802CC0059E52BA51A3E0BDB33 /* SwiftMonkeyPaws.debug.xcconfig */;
 			buildSettings = {
 				"CODE_SIGN_IDENTITY[sdk=appletvos*]" = "";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "";
@@ -1824,7 +2417,45 @@
 			};
 			name = Release;
 		};
-		A5419648777441113EBB5BAEA5F6E6BD /* Debug */ = {
+		B04E4FCA611A48C634A614327E533644 /* Release */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = AF467A777C826C4079F28437EA0944A5 /* Pods-KJPlayerDemo.release.xcconfig */;
+			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = NO;
+				CLANG_ENABLE_OBJC_WEAK = NO;
+				"CODE_SIGN_IDENTITY[sdk=appletvos*]" = "";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "";
+				"CODE_SIGN_IDENTITY[sdk=watchos*]" = "";
+				CURRENT_PROJECT_VERSION = 1;
+				DEFINES_MODULE = YES;
+				DYLIB_COMPATIBILITY_VERSION = 1;
+				DYLIB_CURRENT_VERSION = 1;
+				DYLIB_INSTALL_NAME_BASE = "@rpath";
+				INFOPLIST_FILE = "Target Support Files/Pods-KJPlayerDemo/Pods-KJPlayerDemo-Info.plist";
+				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
+				IPHONEOS_DEPLOYMENT_TARGET = 14.1;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
+				);
+				MACH_O_TYPE = staticlib;
+				MODULEMAP_FILE = "Target Support Files/Pods-KJPlayerDemo/Pods-KJPlayerDemo.modulemap";
+				OTHER_LDFLAGS = "";
+				OTHER_LIBTOOLFLAGS = "";
+				PODS_ROOT = "$(SRCROOT)";
+				PRODUCT_BUNDLE_IDENTIFIER = "org.cocoapods.${PRODUCT_NAME:rfc1034identifier}";
+				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
+				SDKROOT = iphoneos;
+				SKIP_INSTALL = YES;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				VALIDATE_PRODUCT = YES;
+				VERSIONING_SYSTEM = "apple-generic";
+				VERSION_INFO_PREFIX = "";
+			};
+			name = Release;
+		};
+		B0CAC4DD3BFB3111B7C533AEA5D90DAA /* Debug */ = {
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = ABF2063B0DD13ECC915D8BF7536FF6C3 /* Pods-KJPlayerDemo-MonkeyUITests.debug.xcconfig */;
 			buildSettings = {
@@ -1861,25 +2492,9 @@
 			};
 			name = Debug;
 		};
-		AA4FF60614046A770B9309FDD7CA7021 /* Release */ = {
-			isa = XCBuildConfiguration;
-			baseConfigurationReference = B4C6FFA127D71077D51D267FFC07F5B4 /* KJPlayer.release.xcconfig */;
-			buildSettings = {
-				CONFIGURATION_BUILD_DIR = "$(BUILD_DIR)/$(CONFIGURATION)$(EFFECTIVE_PLATFORM_NAME)/KJPlayer";
-				IBSC_MODULE = KJPlayer;
-				INFOPLIST_FILE = "Target Support Files/KJPlayer/ResourceBundle-KJPlayer-KJPlayer-Info.plist";
-				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
-				PRODUCT_NAME = KJPlayer;
-				SDKROOT = iphoneos;
-				SKIP_INSTALL = YES;
-				TARGETED_DEVICE_FAMILY = "1,2";
-				WRAPPER_EXTENSION = bundle;
-			};
-			name = Release;
-		};
 		B391EE93B3CE5257531B1B8850B9CE06 /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 53459E88B2F5C4385DBE8DD31E6C0979 /* IJKMediaFramework.debug.xcconfig */;
+			baseConfigurationReference = 31BE3C9FB2725BA9847BE898132651B5 /* IJKMediaFramework.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
@@ -1893,9 +2508,59 @@
 			};
 			name = Debug;
 		};
+		B89F43AA65F0700DD7A2442B359FBFCA /* Debug */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = DCA50823DDA5EB67907B3D951E6931BA /* KJPlayer.debug.xcconfig */;
+			buildSettings = {
+				CONFIGURATION_BUILD_DIR = "$(BUILD_DIR)/$(CONFIGURATION)$(EFFECTIVE_PLATFORM_NAME)/KJPlayer";
+				IBSC_MODULE = KJPlayer;
+				INFOPLIST_FILE = "Target Support Files/KJPlayer/ResourceBundle-KJPlayer-KJPlayer-Info.plist";
+				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
+				PRODUCT_NAME = KJPlayer;
+				SDKROOT = iphoneos;
+				SKIP_INSTALL = YES;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				WRAPPER_EXTENSION = bundle;
+			};
+			name = Debug;
+		};
+		C27A5424724A77EEEF0722EEBE155371 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = BDDA3E9AE25DC1FF4AD603341D1BA75A /* FBRetainCycleDetector.debug.xcconfig */;
+			buildSettings = {
+				"CODE_SIGN_IDENTITY[sdk=appletvos*]" = "";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "";
+				"CODE_SIGN_IDENTITY[sdk=watchos*]" = "";
+				CURRENT_PROJECT_VERSION = 1;
+				DEFINES_MODULE = YES;
+				DYLIB_COMPATIBILITY_VERSION = 1;
+				DYLIB_CURRENT_VERSION = 1;
+				DYLIB_INSTALL_NAME_BASE = "@rpath";
+				GCC_PREFIX_HEADER = "Target Support Files/FBRetainCycleDetector/FBRetainCycleDetector-prefix.pch";
+				INFOPLIST_FILE = "Target Support Files/FBRetainCycleDetector/FBRetainCycleDetector-Info.plist";
+				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
+				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
+				);
+				MODULEMAP_FILE = "Target Support Files/FBRetainCycleDetector/FBRetainCycleDetector.modulemap";
+				PRODUCT_MODULE_NAME = FBRetainCycleDetector;
+				PRODUCT_NAME = FBRetainCycleDetector;
+				SDKROOT = iphoneos;
+				SKIP_INSTALL = YES;
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "$(inherited) ";
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				VERSIONING_SYSTEM = "apple-generic";
+				VERSION_INFO_PREFIX = "";
+			};
+			name = Debug;
+		};
 		D06BCC980AAB87049B84B30C9F2D6FA6 /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 0F51024AE3EFF75FD2E2709609DA859D /* SwiftMonkeyPaws.release.xcconfig */;
+			baseConfigurationReference = C85FDA7B8638383D62E2486C2359D49A /* SwiftMonkeyPaws.release.xcconfig */;
 			buildSettings = {
 				"CODE_SIGN_IDENTITY[sdk=appletvos*]" = "";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "";
@@ -1925,6 +2590,22 @@
 				VALIDATE_PRODUCT = YES;
 				VERSIONING_SYSTEM = "apple-generic";
 				VERSION_INFO_PREFIX = "";
+			};
+			name = Release;
+		};
+		E5D658E2BAA6A19E9399D7DC2974A4D3 /* Release */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = B4C6FFA127D71077D51D267FFC07F5B4 /* KJPlayer.release.xcconfig */;
+			buildSettings = {
+				CONFIGURATION_BUILD_DIR = "$(BUILD_DIR)/$(CONFIGURATION)$(EFFECTIVE_PLATFORM_NAME)/KJPlayer";
+				IBSC_MODULE = KJPlayer;
+				INFOPLIST_FILE = "Target Support Files/KJPlayer/ResourceBundle-KJPlayer-KJPlayer-Info.plist";
+				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
+				PRODUCT_NAME = KJPlayer;
+				SDKROOT = iphoneos;
+				SKIP_INSTALL = YES;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				WRAPPER_EXTENSION = bundle;
 			};
 			name = Release;
 		};
@@ -1965,34 +2646,44 @@
 			};
 			name = Release;
 		};
-		ECBA1AF7CC9E8E099242DF0002E77271 /* Debug */ = {
+		F49244CFAC2E0CAD52B29DEE952D5C82 /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = DCA50823DDA5EB67907B3D951E6931BA /* KJPlayer.debug.xcconfig */;
+			baseConfigurationReference = AAAA8D91ADA25FEAD96BC73B1B5D3DE4 /* FBRetainCycleDetector.release.xcconfig */;
 			buildSettings = {
-				CONFIGURATION_BUILD_DIR = "$(BUILD_DIR)/$(CONFIGURATION)$(EFFECTIVE_PLATFORM_NAME)/KJPlayer";
-				IBSC_MODULE = KJPlayer;
-				INFOPLIST_FILE = "Target Support Files/KJPlayer/ResourceBundle-KJPlayer-KJPlayer-Info.plist";
-				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
-				PRODUCT_NAME = KJPlayer;
+				"CODE_SIGN_IDENTITY[sdk=appletvos*]" = "";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "";
+				"CODE_SIGN_IDENTITY[sdk=watchos*]" = "";
+				CURRENT_PROJECT_VERSION = 1;
+				DEFINES_MODULE = YES;
+				DYLIB_COMPATIBILITY_VERSION = 1;
+				DYLIB_CURRENT_VERSION = 1;
+				DYLIB_INSTALL_NAME_BASE = "@rpath";
+				GCC_PREFIX_HEADER = "Target Support Files/FBRetainCycleDetector/FBRetainCycleDetector-prefix.pch";
+				INFOPLIST_FILE = "Target Support Files/FBRetainCycleDetector/FBRetainCycleDetector-Info.plist";
+				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
+				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
+				);
+				MODULEMAP_FILE = "Target Support Files/FBRetainCycleDetector/FBRetainCycleDetector.modulemap";
+				PRODUCT_MODULE_NAME = FBRetainCycleDetector;
+				PRODUCT_NAME = FBRetainCycleDetector;
 				SDKROOT = iphoneos;
 				SKIP_INSTALL = YES;
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "$(inherited) ";
+				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
-				WRAPPER_EXTENSION = bundle;
+				VALIDATE_PRODUCT = YES;
+				VERSIONING_SYSTEM = "apple-generic";
+				VERSION_INFO_PREFIX = "";
 			};
-			name = Debug;
+			name = Release;
 		};
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
-		039E89FAF32EDE2C0F6257941C783AC3 /* Build configuration list for PBXNativeTarget "KJPlayer-KJPlayer" */ = {
-			isa = XCConfigurationList;
-			buildConfigurations = (
-				ECBA1AF7CC9E8E099242DF0002E77271 /* Debug */,
-				AA4FF60614046A770B9309FDD7CA7021 /* Release */,
-			);
-			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = Release;
-		};
 		2C7B2A6FCF5709033FDB6B00AC7521F5 /* Build configuration list for PBXNativeTarget "SwiftMonkeyPaws" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
@@ -2011,11 +2702,11 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		49D5FE2CF9420F68CD123A0BD3B6A2A4 /* Build configuration list for PBXNativeTarget "Pods-KJPlayerDemo-MonkeyUITests" */ = {
+		53547F01DAB8C8207895D59202257926 /* Build configuration list for PBXNativeTarget "KJPlayer-KJPlayer" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
-				A5419648777441113EBB5BAEA5F6E6BD /* Debug */,
-				31F4F43B60CD166AA1C3252A57BBB821 /* Release */,
+				B89F43AA65F0700DD7A2442B359FBFCA /* Debug */,
+				E5D658E2BAA6A19E9399D7DC2974A4D3 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
@@ -2029,11 +2720,29 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
+		5DF19280816486D6A02354AA7AF606E9 /* Build configuration list for PBXNativeTarget "FBRetainCycleDetector" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				C27A5424724A77EEEF0722EEBE155371 /* Debug */,
+				F49244CFAC2E0CAD52B29DEE952D5C82 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
 		5FC48A6A4CC9043F9E4AF6BA5AB544B8 /* Build configuration list for PBXNativeTarget "KJPlayer" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				3CBAE640085750850D55FC256F986F3D /* Debug */,
 				E8F80F0DB09BCE7884577AA69B51D62D /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		7FEDCE07E3326B0020E3D38C1E5EAFFF /* Build configuration list for PBXNativeTarget "Pods-KJPlayerDemo" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				37A0D909A114E3A91484C1DB4A220B8A /* Debug */,
+				B04E4FCA611A48C634A614327E533644 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
@@ -2047,11 +2756,20 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		E44476D6C9C394C647EDBC5A57728CB5 /* Build configuration list for PBXNativeTarget "Pods-KJPlayerDemo" */ = {
+		A60658009DDFBEBD5BC6B35A4A87B419 /* Build configuration list for PBXNativeTarget "AMLeaksFinder" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
-				59A1D23916D1920EA5996985B045B34B /* Debug */,
-				1ADA20F8FAF1855160AAB791EE8E8E7E /* Release */,
+				7809D031342DB08FB14D160DA31647A8 /* Debug */,
+				97980763F160742CC0F5372B5BA885EB /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		AAD5EEE221C0D5476DDE77090F9ABAC1 /* Build configuration list for PBXNativeTarget "Pods-KJPlayerDemo-MonkeyUITests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				B0CAC4DD3BFB3111B7C533AEA5D90DAA /* Debug */,
+				770CBCD989C631D3F5076DA945FD60FA /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
