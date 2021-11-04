@@ -53,9 +53,18 @@ PODS:
     - KJPlayer/Common
   - KJPlayer/TryTime (2.1.10):
     - KJPlayer/Common
+  - SnapKit (5.0.1)
+  - Then (2.7.0)
 
 DEPENDENCIES:
   - KJPlayer (from `..`)
+  - SnapKit
+  - Then
+
+SPEC REPOS:
+  trunk:
+    - SnapKit
+    - Then
 
 EXTERNAL SOURCES:
   KJPlayer:
@@ -63,7 +72,9 @@ EXTERNAL SOURCES:
 
 SPEC CHECKSUMS:
   KJPlayer: 51bfc41b619b136c177cdd01d9a98ee45c0fce8f
+  SnapKit: 97b92857e3df3a0c71833cce143274bf6ef8e5eb
+  Then: acfe0be7e98221c6204e12f8161459606d5d822d
 
-PODFILE CHECKSUM: 7bde3ec5ed610392bca29ff7c845264930b5671c
+PODFILE CHECKSUM: a6808c11eecb85b27c2338cf6473ef69423318b9
 
 COCOAPODS: 1.10.1
