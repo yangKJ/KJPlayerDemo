@@ -1,74 +1,16 @@
-# Uncomment the next line to define a global platform for your project
-# platform :ios, '9.0'
+use_frameworks!
 
-def main_pods
+platform :ios, '10.0'
 
-  ## 播放器板块
-  pod "KJPlayer", :path => '..'
-#  pod "KJPlayer/Database", :path => '..' # 数据库
-#  pod "KJPlayer/CustomView", :path => '..' # 自定义UI
-#  pod 'KJPlayer/AVPlayer # AVPlayer内核和下载分支
-#  pod "KJPlayer/AVPlayer/AVCore", :path => '..' # AVPlayer内核
-#  pod "KJPlayer/AVPlayer/AVDownloader", :path => '..' # AVPlayer内核附加下载分支
-#  pod "KJPlayer/IJKPlayer", :path => '..' # IJKPlayer内核
-#  pod "KJPlayer/MIDI", :path => '..' # MIDIPlayer内核
-#
-#  ## 功能区
-#  pod "KJPlayer/DynamicSource", :path => '..' # 动态内核
-#  pod "KJPlayer/PingTimer", :path => '..' # 心跳包
-#  pod "KJPlayer/RecordTime", :path => '..' # 记录播放
-#  pod "KJPlayer/TryTime", :path => '..' # 尝试播放
-#  pod "KJPlayer/SkipTime", :path => '..' # 跳过片头片尾
-#  pod "KJPlayer/Cache", :path => '..' # 缓存板块
-#  pod "KJPlayer/Screenshots", :path => '..' # 视频截屏板块
-#  pod "KJPlayer/BackgroundMonitoring", :path => '..' # 前后台播放
+target 'KJPlayer_Example' do
+  pod 'KJPlayer', :path => '..'
+  
+  pod 'Then'
+  pod 'SnapKit'
 
-  ## 查找内存泄露
-  pod "AMLeaksFinder", :configurations => ['Debug']
-
-  ## 查找循环引用
-  pod "FBRetainCycleDetector", :configurations => ['Debug']
-
-  ## SwiftMonkey测试工具
-  pod "SwiftMonkeyPaws", :configurations => ['Debug']
-
-end
-
-target 'KJPlayerDemo' do
-  # Comment the next line if you don't want to use dynamic frameworks
-  use_frameworks!
-
-  # Pods for KJPlayerDemo
-  main_pods
-
-  target 'KJPlayerDemoTests' do
+  target 'KJPlayer_Tests' do
     inherit! :search_paths
     # Pods for testing
   end
-  
-  target 'MonkeyUITests' do
-    pod "SwiftMonkey"
-  end
 
-end
-
-post_install do |installer|
-  ## Fix for Xcode 12.5
-  find_and_replace("./Pods/FBRetainCycleDetector/FBRetainCycleDetector/Layout/Classes/FBClassStrongLayout.mm",
-                   "layoutCache[currentClass] = ivars;",
-                   "layoutCache[(id<NSCopying>)currentClass] = ivars;")
-end
-
-## 给Pod库修改代码
-def find_and_replace(dir, findstr, replacestr)
-  Dir[dir].each do |name|
-    text = File.read(name)
-    replace = text.gsub(findstr,replacestr)
-    if text != replace
-      puts "Fix: " + name
-      File.open(name, "w") { |file| file.puts replace }
-      STDOUT.flush
-    end
-  end
-  Dir[dir + '*/'].each(&method(:find_and_replace))
 end

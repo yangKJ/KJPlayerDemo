@@ -1,6 +1,4 @@
 PODS:
-  - AMLeaksFinder (2.1.5)
-  - FBRetainCycleDetector (0.1.4)
   - KJPlayer (2.1.10):
     - KJPlayer/AVPlayer (= 2.1.10)
     - KJPlayer/BackgroundMonitoring (= 2.1.10)
@@ -55,34 +53,28 @@ PODS:
     - KJPlayer/Common
   - KJPlayer/TryTime (2.1.10):
     - KJPlayer/Common
-  - SwiftMonkey (2.2.0)
-  - SwiftMonkeyPaws (2.2.0)
+  - SnapKit (5.0.1)
+  - Then (2.7.0)
 
 DEPENDENCIES:
-  - AMLeaksFinder
-  - FBRetainCycleDetector
   - KJPlayer (from `..`)
-  - SwiftMonkey
-  - SwiftMonkeyPaws
+  - SnapKit
+  - Then
 
 SPEC REPOS:
   trunk:
-    - AMLeaksFinder
-    - FBRetainCycleDetector
-    - SwiftMonkey
-    - SwiftMonkeyPaws
+    - SnapKit
+    - Then
 
 EXTERNAL SOURCES:
   KJPlayer:
     :path: ".."
 
 SPEC CHECKSUMS:
-  AMLeaksFinder: 96afc314ede22c6dad5dd2517d016a955d375368
-  FBRetainCycleDetector: 46f8179bbb1c587deee3ea838a1a3ee02acf5015
-  KJPlayer: 3c36042901daa5979fc5e3264034edc0c324fe18
-  SwiftMonkey: 24ffde5b590d3658cfcb1d775cf74b9f5280eb9c
-  SwiftMonkeyPaws: 9d183b8a1b9cfd497c2704342e861b71412d94f5
+  KJPlayer: b1242abf4a49d72f09c7f8f786729ca9c88abe6e
+  SnapKit: 97b92857e3df3a0c71833cce143274bf6ef8e5eb
+  Then: acfe0be7e98221c6204e12f8161459606d5d822d
 
-PODFILE CHECKSUM: 26208a51c84e3f6c31b2ea22fb2ec2e51d99f605
+PODFILE CHECKSUM: a6808c11eecb85b27c2338cf6473ef69423318b9
 
 COCOAPODS: 1.10.1

@@ -1,0 +1,3 @@
+${PODS_ROOT}/Target Support Files/Pods-KJPlayerDemo-MonkeyUITests/Pods-KJPlayerDemo-MonkeyUITests-resources.sh
+${PODS_CONFIGURATION_BUILD_DIR}/KJPlayer/KJPlayer.bundle
+${BUILT_PRODUCTS_DIR}/KJPlayer/KJPlayer.framework/DBPlayer.momd
