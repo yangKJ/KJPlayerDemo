@@ -1,0 +1,69 @@
+PODS:
+  - KJPlayer (2.1.10):
+    - KJPlayer/AVPlayer (= 2.1.10)
+    - KJPlayer/BackgroundMonitoring (= 2.1.10)
+    - KJPlayer/Cache (= 2.1.10)
+    - KJPlayer/Common (= 2.1.10)
+    - KJPlayer/CustomView (= 2.1.10)
+    - KJPlayer/Database (= 2.1.10)
+    - KJPlayer/Downloader (= 2.1.10)
+    - KJPlayer/DynamicSource (= 2.1.10)
+    - KJPlayer/IJKPlayer (= 2.1.10)
+    - KJPlayer/MIDI (= 2.1.10)
+    - KJPlayer/PingTimer (= 2.1.10)
+    - KJPlayer/RecordTime (= 2.1.10)
+    - KJPlayer/Screenshots (= 2.1.10)
+    - KJPlayer/SkipTime (= 2.1.10)
+    - KJPlayer/TryTime (= 2.1.10)
+  - KJPlayer/AVPlayer (2.1.10):
+    - KJPlayer/AVPlayer/AVCore (= 2.1.10)
+    - KJPlayer/AVPlayer/AVDownloader (= 2.1.10)
+  - KJPlayer/AVPlayer/AVCore (2.1.10):
+    - KJPlayer/Common
+  - KJPlayer/AVPlayer/AVDownloader (2.1.10):
+    - KJPlayer/AVPlayer/AVCore
+    - KJPlayer/Database
+    - KJPlayer/Downloader
+  - KJPlayer/BackgroundMonitoring (2.1.10):
+    - KJPlayer/Common
+  - KJPlayer/Cache (2.1.10):
+    - KJPlayer/Common
+    - KJPlayer/Database
+  - KJPlayer/Common (2.1.10)
+  - KJPlayer/CustomView (2.1.10):
+    - KJPlayer/Common
+  - KJPlayer/Database (2.1.10)
+  - KJPlayer/Downloader (2.1.10):
+    - KJPlayer/Common
+  - KJPlayer/DynamicSource (2.1.10):
+    - KJPlayer/Common
+  - KJPlayer/IJKPlayer (2.1.10):
+    - KJPlayer/Common
+  - KJPlayer/MIDI (2.1.10):
+    - KJPlayer/Common
+  - KJPlayer/PingTimer (2.1.10):
+    - KJPlayer/Common
+  - KJPlayer/RecordTime (2.1.10):
+    - KJPlayer/Common
+    - KJPlayer/Database
+  - KJPlayer/Screenshots (2.1.10):
+    - KJPlayer/Common
+    - KJPlayer/Database
+  - KJPlayer/SkipTime (2.1.10):
+    - KJPlayer/Common
+  - KJPlayer/TryTime (2.1.10):
+    - KJPlayer/Common
+
+DEPENDENCIES:
+  - KJPlayer (from `..`)
+
+EXTERNAL SOURCES:
+  KJPlayer:
+    :path: ".."
+
+SPEC CHECKSUMS:
+  KJPlayer: 51bfc41b619b136c177cdd01d9a98ee45c0fce8f
+
+PODFILE CHECKSUM: 7bde3ec5ed610392bca29ff7c845264930b5671c
+
+COCOAPODS: 1.10.1
