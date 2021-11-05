@@ -108,6 +108,7 @@
 @end
 
 @implementation UIButton (KJPlayerAreaInsets)
+
 - (BOOL)pointInside:(CGPoint)point withEvent:(UIEvent*)event{
     UIEdgeInsets touchAreaInsets = self.touchAreaInsets;
     CGRect bounds = self.bounds;

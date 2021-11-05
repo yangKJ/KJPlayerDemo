@@ -13,9 +13,11 @@
 @property(nonatomic,strong)CATextLayer *textLayer;
 @property(nonatomic,assign)float value;
 @property(nonatomic,assign)float time;
+
 @end
 
 @implementation KJPlayerFastLayer
+
 - (instancetype)init{
     if (self = [super init]) {
         self.cornerRadius = 7;
@@ -33,7 +35,9 @@
     self.textLayer.string = [NSString stringWithFormat:@"%@ / %@", kPlayerConvertTime(self.value), kPlayerConvertTime(self.time)];
     [self setNeedsDisplay];
 }
+
 #pragma mark - draw
+
 - (void)drawInContext:(CGContextRef)context{
     CGFloat width = self.frame.size.width;
     CGFloat y = self.frame.size.height / 4 * 3;
@@ -56,7 +60,9 @@
     
     UIGraphicsPopContext();
 }
+
 #pragma mark - lazy
+
 - (CATextLayer *)textLayer{
     if (!_textLayer) {
         CATextLayer *layer = [CATextLayer layer];

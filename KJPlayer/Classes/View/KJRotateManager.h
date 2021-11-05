@@ -11,6 +11,7 @@
 #import <UIKit/UIKit.h>
 
 NS_ASSUME_NONNULL_BEGIN
+
 /// 必须在Appdelegate当中实现该协议 
 @protocol KJPlayerRotateAppDelegate <NSObject>
 @required;
@@ -18,6 +19,7 @@ NS_ASSUME_NONNULL_BEGIN
 - (void)kj_transmitCurrentRotateOrientation:(UIInterfaceOrientationMask)rotateOrientation;
 
 @end
+
 @class KJBasePlayerView;
 @interface KJRotateManager : NSObject
 

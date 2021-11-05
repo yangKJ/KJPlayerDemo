@@ -17,17 +17,22 @@ window = [UIApplication sharedApplication].windows.firstObject;\
 window = [UIApplication sharedApplication].keyWindow;\
 }\
 window;})
-//旋转中间控制器
+
+/// 旋转中间控制器
 @interface KJRotateViewController : UIViewController
 @property (nonatomic, assign) UIInterfaceOrientationMask interfaceOrientationMask;
+
 @end
+
 @implementation KJRotateViewController
+
 - (BOOL)shouldAutorotate{
     return YES;
 }
 - (UIInterfaceOrientationMask)supportedInterfaceOrientations{
     return self.interfaceOrientationMask;
 }
+
 @end
 
 // ************************* 黄金分割线 **************************
@@ -36,6 +41,7 @@ window;})
 @property(nonatomic,assign,class)UIView *tempView;
 @property(nonatomic,assign,class)CGRect originalFrame;
 @property(nonatomic,strong,class)UIColor *superViewColor;
+
 @end
 
 @implementation KJRotateManager
@@ -141,13 +147,17 @@ window;})
         baseView.lockButton.hidden = NO;
         if (baseView.screenState == KJPlayerVideoScreenStateFullScreen) {
             baseView.backButton.hidden = baseView.fullScreenHiddenBackButton;
-        }else if (baseView.smallScreenHiddenBackButton == NO) {
+        } else if (baseView.smallScreenHiddenBackButton == NO) {
             baseView.backButton.hidden = NO;
         }
     } completion:^(BOOL finished) {
         if (baseView.autoHideTime) {
-            [baseView.class cancelPreviousPerformRequestsWithTarget:baseView selector:@selector(kj_hiddenOperationView) object:nil];
-            [baseView performSelector:@selector(kj_hiddenOperationView) withObject:nil afterDelay:baseView.autoHideTime];
+            [baseView.class cancelPreviousPerformRequestsWithTarget:baseView
+                                                           selector:@selector(kj_hiddenOperationView)
+                                                             object:nil];
+            [baseView performSelector:@selector(kj_hiddenOperationView)
+                           withObject:nil
+                           afterDelay:baseView.autoHideTime];
         }
     }];
 }

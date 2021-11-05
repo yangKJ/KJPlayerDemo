@@ -23,7 +23,8 @@
         self.lastRect = frame;
         CGFloat height = frame.size.height;
         if (operationType == KJPlayerOperationViewTypeTop) {
-            self.backgroundColor = [self kj_gradientColor:[UIColor.blackColor colorWithAlphaComponent:0.8],[UIColor.blackColor colorWithAlphaComponent:0.],nil](CGSizeMake(1, height));
+            self.backgroundColor = [self kj_gradientColor:[UIColor.blackColor colorWithAlphaComponent:0.8],
+                                    [UIColor.blackColor colorWithAlphaComponent:0.],nil](CGSizeMake(1, height));
         } else {
             self.backgroundColor = [self kj_gradientColor:[UIColor.blackColor colorWithAlphaComponent:0.],
                                     [UIColor.blackColor colorWithAlphaComponent:0.8],nil](CGSizeMake(1, height));

@@ -22,6 +22,7 @@
 @end
 
 @implementation KJPlayerHintLayer
+
 - (instancetype)init{
     if (self = [super init]) {
         self.cornerRadius = 7;
@@ -39,7 +40,10 @@
 /// @param textColor 字体颜色
 /// @param background 背景颜色
 /// @param maxWidth 最大宽度
-- (void)kj_setHintFont:(UIFont *)font textColor:(UIColor *)textColor background:(UIColor *)background maxWidth:(CGFloat)maxWidth{
+- (void)kj_setHintFont:(UIFont *)font
+             textColor:(UIColor *)textColor
+            background:(UIColor *)background
+              maxWidth:(CGFloat)maxWidth{
     if (font) {
         self.hintFont = font;
         self.hintTextLayer.font = (__bridge CFTypeRef _Nullable)(self.hintFont.fontName);

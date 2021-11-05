@@ -6,13 +6,13 @@
 //  https://github.com/yangKJ/KJPlayerDemo
 
 import UIKit
+import KJPlayer
 
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate {
 
     var window: UIWindow?
-
-
+    
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
         // Override point for customization after application launch.
         return true
@@ -40,6 +40,37 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         // Called when the application is about to terminate. Save data if appropriate. See also applicationDidEnterBackground:.
     }
 
-
 }
 
+// MARK: KJPlayerRotateAppDelegate
+extension AppDelegate: KJPlayerRotateAppDelegate {
+    
+    static var orientationKey: String = "orientationKey"
+    public var orientation: UIInterfaceOrientationMask? {
+        get {
+            return objc_getAssociatedObject(self, &AppDelegate.orientationKey) as? UIInterfaceOrientationMask
+        }
+        set {
+            objc_setAssociatedObject(self, &AppDelegate.orientationKey, newValue, .OBJC_ASSOCIATION_RETAIN_NONATOMIC)
+        }
+    }
+    
+    /// 当前屏幕方向响应
+    /// - Parameter rotateOrientation: 屏幕方向
+    func kj_transmitCurrentRotateOrientation(_ rotateOrientation: UIInterfaceOrientationMask) {
+        self.orientation = rotateOrientation
+    }
+    
+    /// 屏幕方向响应
+    /// - Parameters:
+    ///   - application: 应用程序
+    ///   - window: 窗口
+    /// - Returns: 当前屏幕方向
+    func application(_ application: UIApplication, supportedInterfaceOrientationsFor window: UIWindow?) -> UIInterfaceOrientationMask {
+        guard (self.orientation != nil) else {
+            return .portrait
+        }
+        return self.orientation!
+    }
+    
+}

@@ -23,7 +23,8 @@ typedef NS_ENUM(NSUInteger, KJPlayerOperationViewType) {
 /// 初始化
 /// @param frame 尺寸
 /// @param operationType 位置
-- (instancetype)initWithFrame:(CGRect)frame operationType:(KJPlayerOperationViewType)operationType;
+- (instancetype)initWithFrame:(CGRect)frame
+                operationType:(KJPlayerOperationViewType)operationType;
 
 @end
 

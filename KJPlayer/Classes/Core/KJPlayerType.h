@@ -137,7 +137,7 @@ typedef NS_ENUM(NSInteger, KJPlayerCustomCode) {
 };
 
 /// 联合体，返回总时间和当前时间
-typedef union KJPlayerTimeUnion{
+typedef struct KJPlayerTimeUnion{
     NSTimeInterval currentTime;
     NSTimeInterval totalTime;
     bool isReplace; /// 是否替换自带UI，也就是是否使用CustomView模块

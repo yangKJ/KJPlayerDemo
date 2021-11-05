@@ -9,13 +9,18 @@
 /* Begin PBXBuildFile section */
 		1BC391F925C892CDF1B8A90E /* Pods_KJPlayer_Tests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1313CE376647CC3CDC517A58 /* Pods_KJPlayer_Tests.framework */; };
 		607FACD61AFB9204008FA782 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 607FACD51AFB9204008FA782 /* AppDelegate.swift */; };
-		607FACD81AFB9204008FA782 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 607FACD71AFB9204008FA782 /* ViewController.swift */; };
 		607FACDB1AFB9204008FA782 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 607FACD91AFB9204008FA782 /* Main.storyboard */; };
 		607FACDD1AFB9204008FA782 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 607FACDC1AFB9204008FA782 /* Images.xcassets */; };
 		607FACE01AFB9204008FA782 /* LaunchScreen.xib in Resources */ = {isa = PBXBuildFile; fileRef = 607FACDE1AFB9204008FA782 /* LaunchScreen.xib */; };
 		607FACEC1AFB9204008FA782 /* Tests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 607FACEB1AFB9204008FA782 /* Tests.swift */; };
 		689AA74A2733CB8F00FA6CB5 /* birds.mp4 in Resources */ = {isa = PBXBuildFile; fileRef = 689AA7492733CB8F00FA6CB5 /* birds.mp4 */; };
 		689AA74C2733CBB800FA6CB5 /* rock.mp4 in Resources */ = {isa = PBXBuildFile; fileRef = 689AA74B2733CBB800FA6CB5 /* rock.mp4 */; };
+		68F803552733DDC900C5B535 /* DetailsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 68F803542733DDC900C5B535 /* DetailsViewController.swift */; };
+		68F803602733E00900C5B535 /* HomeViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 68F8035F2733E00900C5B535 /* HomeViewModel.swift */; };
+		68F803632733E03200C5B535 /* HomeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 68F803622733E03200C5B535 /* HomeViewController.swift */; };
+		68F803682733E48700C5B535 /* HomeModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 68F803672733E48700C5B535 /* HomeModel.swift */; };
+		68F803702734147200C5B535 /* luoza.jpeg in Resources */ = {isa = PBXBuildFile; fileRef = 68F8036F2734147200C5B535 /* luoza.jpeg */; };
+		68F80373273419FB00C5B535 /* HomePagerViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 68F80372273419FB00C5B535 /* HomePagerViewCell.swift */; };
 		BFE00C81ABF5E5A4EE2D339A /* Pods_KJPlayer_Example.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DDD8B61A8D8918A346395D40 /* Pods_KJPlayer_Example.framework */; };
 /* End PBXBuildFile section */
 
@@ -36,7 +41,6 @@
 		607FACD01AFB9204008FA782 /* KJPlayer_Example.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = KJPlayer_Example.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		607FACD41AFB9204008FA782 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		607FACD51AFB9204008FA782 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
-		607FACD71AFB9204008FA782 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
 		607FACDA1AFB9204008FA782 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		607FACDC1AFB9204008FA782 /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Images.xcassets; sourceTree = "<group>"; };
 		607FACDF1AFB9204008FA782 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = Base; path = Base.lproj/LaunchScreen.xib; sourceTree = "<group>"; };
@@ -46,6 +50,12 @@
 		689AA7472733C3D600FA6CB5 /* CHANGELOG.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; name = CHANGELOG.md; path = ../CHANGELOG.md; sourceTree = "<group>"; };
 		689AA7492733CB8F00FA6CB5 /* birds.mp4 */ = {isa = PBXFileReference; lastKnownFileType = file; path = birds.mp4; sourceTree = "<group>"; };
 		689AA74B2733CBB800FA6CB5 /* rock.mp4 */ = {isa = PBXFileReference; lastKnownFileType = file; path = rock.mp4; sourceTree = "<group>"; };
+		68F803542733DDC900C5B535 /* DetailsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailsViewController.swift; sourceTree = "<group>"; };
+		68F8035F2733E00900C5B535 /* HomeViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeViewModel.swift; sourceTree = "<group>"; };
+		68F803622733E03200C5B535 /* HomeViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeViewController.swift; sourceTree = "<group>"; };
+		68F803672733E48700C5B535 /* HomeModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeModel.swift; sourceTree = "<group>"; };
+		68F8036F2734147200C5B535 /* luoza.jpeg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = luoza.jpeg; sourceTree = "<group>"; };
+		68F80372273419FB00C5B535 /* HomePagerViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomePagerViewCell.swift; sourceTree = "<group>"; };
 		70CBDA7BEABA591B615BDC4E /* LICENSE */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text; name = LICENSE; path = ../LICENSE; sourceTree = "<group>"; };
 		B64122A17D1CA379224A40D9 /* Pods-KJPlayer_Example.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-KJPlayer_Example.debug.xcconfig"; path = "Target Support Files/Pods-KJPlayer_Example/Pods-KJPlayer_Example.debug.xcconfig"; sourceTree = "<group>"; };
 		D68187C64866242058332133 /* Pods-KJPlayer_Tests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-KJPlayer_Tests.debug.xcconfig"; path = "Target Support Files/Pods-KJPlayer_Tests/Pods-KJPlayer_Tests.debug.xcconfig"; sourceTree = "<group>"; };
@@ -108,12 +118,11 @@
 			isa = PBXGroup;
 			children = (
 				607FACD51AFB9204008FA782 /* AppDelegate.swift */,
-				607FACD71AFB9204008FA782 /* ViewController.swift */,
 				607FACDC1AFB9204008FA782 /* Images.xcassets */,
 				607FACDE1AFB9204008FA782 /* LaunchScreen.xib */,
 				607FACD91AFB9204008FA782 /* Main.storyboard */,
-				689AA7462733C2D300FA6CB5 /* Modules */,
-				689AA7482733CB6D00FA6CB5 /* Resources */,
+				68F803562733DDE900C5B535 /* Modules */,
+				68F803572733DE1500C5B535 /* Resources */,
 				607FACD31AFB9204008FA782 /* Supporting Files */,
 			);
 			name = "Example for KJPlayer";
@@ -156,28 +165,98 @@
 			name = "Podspec Metadata";
 			sourceTree = "<group>";
 		};
-		689AA7462733C2D300FA6CB5 /* Modules */ = {
+		68F803562733DDE900C5B535 /* Modules */ = {
 			isa = PBXGroup;
 			children = (
+				68F803582733DE6A00C5B535 /* Details */,
+				68F803612733E01C00C5B535 /* Home */,
 			);
-			name = Modules;
+			path = Modules;
 			sourceTree = "<group>";
 		};
-		689AA7482733CB6D00FA6CB5 /* Resources */ = {
+		68F803572733DE1500C5B535 /* Resources */ = {
 			isa = PBXGroup;
 			children = (
-				689AA74D2733CBE200FA6CB5 /* Video */,
+				68F8036A2733F13E00C5B535 /* Image */,
+				68F803692733F13200C5B535 /* Video */,
 			);
-			name = Resources;
+			path = Resources;
 			sourceTree = "<group>";
 		};
-		689AA74D2733CBE200FA6CB5 /* Video */ = {
+		68F803582733DE6A00C5B535 /* Details */ = {
+			isa = PBXGroup;
+			children = (
+				68F8035A2733DE9700C5B535 /* Controller */,
+			);
+			path = Details;
+			sourceTree = "<group>";
+		};
+		68F8035A2733DE9700C5B535 /* Controller */ = {
+			isa = PBXGroup;
+			children = (
+				68F803542733DDC900C5B535 /* DetailsViewController.swift */,
+			);
+			path = Controller;
+			sourceTree = "<group>";
+		};
+		68F803612733E01C00C5B535 /* Home */ = {
+			isa = PBXGroup;
+			children = (
+				68F803652733E04000C5B535 /* Controller */,
+				68F803662733E47200C5B535 /* Model */,
+				68F80371273419DA00C5B535 /* View */,
+				68F803642733E03700C5B535 /* ViewModel */,
+			);
+			path = Home;
+			sourceTree = "<group>";
+		};
+		68F803642733E03700C5B535 /* ViewModel */ = {
+			isa = PBXGroup;
+			children = (
+				68F8035F2733E00900C5B535 /* HomeViewModel.swift */,
+			);
+			path = ViewModel;
+			sourceTree = "<group>";
+		};
+		68F803652733E04000C5B535 /* Controller */ = {
+			isa = PBXGroup;
+			children = (
+				68F803622733E03200C5B535 /* HomeViewController.swift */,
+			);
+			path = Controller;
+			sourceTree = "<group>";
+		};
+		68F803662733E47200C5B535 /* Model */ = {
+			isa = PBXGroup;
+			children = (
+				68F803672733E48700C5B535 /* HomeModel.swift */,
+			);
+			path = Model;
+			sourceTree = "<group>";
+		};
+		68F803692733F13200C5B535 /* Video */ = {
 			isa = PBXGroup;
 			children = (
 				689AA74B2733CBB800FA6CB5 /* rock.mp4 */,
 				689AA7492733CB8F00FA6CB5 /* birds.mp4 */,
 			);
-			name = Video;
+			path = Video;
+			sourceTree = "<group>";
+		};
+		68F8036A2733F13E00C5B535 /* Image */ = {
+			isa = PBXGroup;
+			children = (
+				68F8036F2734147200C5B535 /* luoza.jpeg */,
+			);
+			path = Image;
+			sourceTree = "<group>";
+		};
+		68F80371273419DA00C5B535 /* View */ = {
+			isa = PBXGroup;
+			children = (
+				68F80372273419FB00C5B535 /* HomePagerViewCell.swift */,
+			);
+			path = View;
 			sourceTree = "<group>";
 		};
 		AAF0040F99580C699AF24C2F /* Pods */ = {
@@ -284,6 +363,7 @@
 				689AA74A2733CB8F00FA6CB5 /* birds.mp4 in Resources */,
 				689AA74C2733CBB800FA6CB5 /* rock.mp4 in Resources */,
 				607FACDD1AFB9204008FA782 /* Images.xcassets in Resources */,
+				68F803702734147200C5B535 /* luoza.jpeg in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -326,11 +406,13 @@
 			);
 			inputPaths = (
 				"${PODS_ROOT}/Target Support Files/Pods-KJPlayer_Example/Pods-KJPlayer_Example-frameworks.sh",
+				"${BUILT_PRODUCTS_DIR}/FSPagerView/FSPagerView.framework",
 				"${BUILT_PRODUCTS_DIR}/SnapKit/SnapKit.framework",
 				"${BUILT_PRODUCTS_DIR}/Then/Then.framework",
 			);
 			name = "[CP] Embed Pods Frameworks";
 			outputPaths = (
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/FSPagerView.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/SnapKit.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Then.framework",
 			);
@@ -388,8 +470,12 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				607FACD81AFB9204008FA782 /* ViewController.swift in Sources */,
 				607FACD61AFB9204008FA782 /* AppDelegate.swift in Sources */,
+				68F803552733DDC900C5B535 /* DetailsViewController.swift in Sources */,
+				68F80373273419FB00C5B535 /* HomePagerViewCell.swift in Sources */,
+				68F803682733E48700C5B535 /* HomeModel.swift in Sources */,
+				68F803602733E00900C5B535 /* HomeViewModel.swift in Sources */,
+				68F803632733E03200C5B535 /* HomeViewController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

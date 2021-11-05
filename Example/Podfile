@@ -7,6 +7,7 @@ target 'KJPlayer_Example' do
   
   pod 'Then'
   pod 'SnapKit'
+  pod 'FSPagerView'
 
   target 'KJPlayer_Tests' do
     inherit! :search_paths
