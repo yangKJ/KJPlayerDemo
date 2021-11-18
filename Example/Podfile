@@ -15,3 +15,13 @@ target 'KJPlayer_Example' do
   end
 
 end
+
+## 忽略CocoaPods警告
+inhibit_all_warnings!
+post_install do |installer|
+  installer.pods_project.targets.each do |target|
+    target.build_configurations.each do |config|
+      config.build_settings['COMPILER_INDEX_STORE_ENABLE'] = "NO"
+    end
+  end
+end

@@ -4,7 +4,7 @@
 //
 //  Created by 77。 on 2021/11/4.
 //  Copyright © 2021 CocoaPods. All rights reserved.
-//
+//  https://github.com/yangKJ/KJPlayerDemo
 
 import UIKit
 

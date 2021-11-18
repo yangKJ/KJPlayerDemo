@@ -24,6 +24,9 @@
         self.tryLooked = NO;
         return NO;
     }
+    if (self.closeTLook) {
+        return NO;
+    }
     return [self kj_tryLook:time];
 }
 
@@ -55,6 +58,19 @@
     return self.tryLooked;
 }
 
+/// 关闭试看
+- (void)closeTryLook{
+    self.closeTLook = YES;
+    self.tryLooked = NO;
+    [self kj_resume];
+}
+/// 继续开启试看限制，播放下一个不同视频可以不用管
+/// 主要针对于打开试看限制之后，
+/// 重播会不再开启试看限制的影响
+- (void)againPlayOpenTryLook{
+    self.closeTLook = NO;
+}
+
 #pragma mark - Associated
 
 - (id<KJPlayerTryLookDelegate>)tryLookDelegate{
@@ -64,7 +80,17 @@
     objc_setAssociatedObject(self, @selector(tryLookDelegate), tryLookDelegate, OBJC_ASSOCIATION_ASSIGN);
     if ([tryLookDelegate respondsToSelector:@selector(kj_tryLookTimeWithPlayer:)]) {
         self.tryTime = [tryLookDelegate kj_tryLookTimeWithPlayer:self];
+        if (self.tryTime) {
+            self.closeTLook = NO;
+        }
     }
+}
+
+- (BOOL)closeTLook{
+    return [objc_getAssociatedObject(self, _cmd) boolValue];
+}
+- (void)setCloseTLook:(BOOL)closeTLook{
+    objc_setAssociatedObject(self, @selector(closeTLook), @(closeTLook), OBJC_ASSOCIATION_ASSIGN);
 }
 
 @end

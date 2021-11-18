@@ -4,7 +4,7 @@
 //
 //  Created by 77。 on 2021/11/4.
 //  Copyright © 2021 CocoaPods. All rights reserved.
-//
+//  https://github.com/yangKJ/KJPlayerDemo
 
 import UIKit
 import FSPagerView
@@ -16,7 +16,6 @@ class HomeViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
         self.setupUI()
         self.bindViewModel()
     }
@@ -25,14 +24,14 @@ class HomeViewController: UIViewController {
         self.view.addSubview(self.pagerView)
         self.view.addSubview(self.tableView)
         self.pagerView.snp.makeConstraints { make in
-            make.top.equalTo(self.view).offset(64)
+            make.top.equalTo(self.view.safeAreaLayoutGuide.snp.top).offset(20)
             make.left.right.equalTo(self.view).inset(15)
             make.height.equalTo(150)
         }
         self.tableView.snp.makeConstraints { make in
             make.top.equalTo(self.pagerView.snp.bottom).offset(10)
             make.left.right.equalTo(self.view).inset(15)
-            make.bottom.equalTo(self.view).inset(20)
+            make.bottom.equalTo(self.view.safeAreaLayoutGuide.snp.bottom).inset(20)
         }
     }
     
@@ -41,7 +40,7 @@ class HomeViewController: UIViewController {
         self.viewModel.updateDataBlock = { [unowned self] in
             self.pagerView.reloadData()
         }
-        self.typeIndex = 3
+        self.typeIndex = 5
     }
     
     private lazy var pagerView: FSPagerView = {
@@ -78,7 +77,7 @@ class HomeViewController: UIViewController {
                 self.pagerView.itemSize = self.pagerView.frame.size.applying(transform)
                 self.pagerView.decelerationDistance = FSPagerView.automaticDistance
             case .ferrisWheel, .invertedFerrisWheel:
-                self.pagerView.itemSize = CGSize(width: 200, height: 140)
+                self.pagerView.itemSize = CGSize(width: 250, height: 140)
                 self.pagerView.decelerationDistance = FSPagerView.automaticDistance
             case .coverFlow:
                 self.pagerView.itemSize = CGSize(width: 220, height: 170)
@@ -90,7 +89,6 @@ class HomeViewController: UIViewController {
             }
         }
     }
-    
 }
 
 // MARK: - FSPagerViewDataSource,FSPagerViewDelegate
@@ -143,5 +141,4 @@ extension HomeViewController: UITableViewDataSource, UITableViewDelegate {
             tableView.reloadRows(at: visibleRows, with: .automatic)
         }
     }
-    
 }

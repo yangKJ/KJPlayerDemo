@@ -19,6 +19,12 @@ NS_ASSUME_NONNULL_BEGIN
 /// 是否试看结束
 @property (nonatomic, assign, readonly) BOOL tryLooked;
 
+/// 关闭试看
+- (void)closeTryLook;
+
+/// 继续开启试看限制，播放下一个不同视频可以不用管
+- (void)againPlayOpenTryLook;
+
 @end
 
 /// 免费试看协议

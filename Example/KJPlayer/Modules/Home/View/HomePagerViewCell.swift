@@ -4,7 +4,7 @@
 //
 //  Created by 77。 on 2021/11/4.
 //  Copyright © 2021 CocoaPods. All rights reserved.
-//
+//  https://github.com/yangKJ/KJPlayerDemo
 
 import UIKit
 import KJPlayer
@@ -14,9 +14,6 @@ import FSPagerView
     
     static let className = "HomePagerViewCell"
     @objc static let reuseIdentifier = className
-    
-//    typealias PlayButtonBlock = () -> Bool
-//    public var playBlock: PlayButtonBlock
     
     @objc public override init(frame: CGRect) {
         super.init(frame: frame)

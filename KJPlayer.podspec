@@ -1,6 +1,6 @@
 Pod::Spec.new do |s|
   s.name         = "KJPlayer"
-  s.version      = "2.1.10"
+  s.version      = "2.1.11"
   s.summary      = "KJPlayer play and cache, AVPlayer / MIDIPlayer / IJKPlayer"
   s.homepage     = "https://github.com/yangKJ/KJPlayerDemo"
   s.description  = 'https://github.com/yangKJ/KJPlayerDemo/blob/master/README.md'
@@ -38,7 +38,7 @@ Pod::Spec.new do |s|
   
   s.subspec 'MIDI' do |md|
     md.source_files = "KJPlayer/Classes/MidiPlayer/*.{h,m}"
-    md.resources = "KJPlayer/Classes/KJMidiPlayer/*.{bundle}"
+    md.resources = "KJPlayer/Classes/MidiPlayer/*.{bundle}"
     md.dependency 'KJPlayer/Common'
   end
   
@@ -47,6 +47,7 @@ Pod::Spec.new do |s|
     jk.dependency 'KJPlayer/Common'
     jk.dependency 'IJKMediaFramework'
     jk.libraries = 'c++', 'z', 'bz2', 'iconv'
+    jk.ios.deployment_target = '9.0'
     jk.pod_target_xcconfig  = { 'EXCLUDED_ARCHS[sdk=iphonesimulator*]' => 'arm64' }
     jk.user_target_xcconfig = { 'EXCLUDED_ARCHS[sdk=iphonesimulator*]' => 'arm64' }
   end

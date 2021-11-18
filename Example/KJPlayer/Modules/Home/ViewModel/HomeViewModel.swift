@@ -4,7 +4,7 @@
 //
 //  Created by 77。 on 2021/11/4.
 //  Copyright © 2021 CocoaPods. All rights reserved.
-//
+//  https://github.com/yangKJ/KJPlayerDemo
 
 import UIKit
 import Foundation
@@ -47,13 +47,14 @@ class HomeViewModel: NSObject {
     }()
     
     public func loadDatas() {
-        let source = [
+        let array = [
             "https://mp4.vjshi.com/2017-11-21/7c2b143eeb27d9f2bf98c4ab03360cfe.mp4",
             "https://mp4.vjshi.com/2018-03-30/1f36dd9819eeef0bc508414494d34ad9.mp4",
-            "luoza.jpeg",
+            "luoza.jpeg", nil, nil,
             "https://mp4.vjshi.com/2020-12-27/a86e0cb5d0ea55cd4864a6fc7609dce8.mp4",
             "https://mp4.vjshi.com/2020-09-27/542926a8c2a99808fc981d46c1dc6aef.mp4",
         ]
+        let source = array.compactMap { $0 } // 祛除空数据
         let group = DispatchGroup()
         for name in source {
             let model = HomdeModel()

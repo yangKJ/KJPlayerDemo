@@ -4,7 +4,7 @@
 //
 //  Created by 77。 on 2021/11/4.
 //  Copyright © 2021 CocoaPods. All rights reserved.
-//
+//  https://github.com/yangKJ/KJPlayerDemo
 
 import UIKit
 import KJPlayer
@@ -16,22 +16,28 @@ class DetailsViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
-        self.view.backgroundColor = UIColor.white
         self.setupInit()
         self.setupUI()
     }
     
     private func setupInit() {
+        self.view.backgroundColor = UIColor.white
         self.title = self.name
     }
     
     private func setupUI() {
         self.view.addSubview(self.backview)
+        self.view.addSubview(self.openTryButton)
         self.backview.snp.makeConstraints { make in
-            make.top.equalTo(self.view).offset(64)
+            make.top.equalTo(self.view.safeAreaLayoutGuide.snp.top).offset(20)
             make.left.right.equalTo(self.view)
             make.height.equalTo(self.backview.snp.width).multipliedBy(1)
+        }
+        self.openTryButton.snp.makeConstraints { make in
+            make.top.equalTo(self.backview.snp.bottom).offset(20)
+            make.centerX.equalTo(self.view)
+            make.width.equalTo(200)
+            make.height.equalTo(40)
         }
     }
     
@@ -50,10 +56,23 @@ class DetailsViewController: UIViewController {
         return backview
     }()
     
+    private lazy var openTryButton: UIButton = {
+        let button = UIButton(type: .custom)
+        button.setTitle("关闭试看限制", for: .normal)
+        button.setTitle("打开试看限制", for: .selected)
+        button.setTitleColor(UIColor.green, for: .normal)
+        button.setTitleColor(UIColor.green, for: .selected)
+        button.backgroundColor = UIColor.green.withAlphaComponent(0.3)
+        button.titleLabel?.font = UIFont.systemFont(ofSize: 16)
+        button.addTarget(self, action: #selector(tryLookAction), for: .touchUpInside)
+        return button
+    }()
+    
     private lazy var player: KJAVPlayer = {
         let player = KJAVPlayer()
         player.delegate = self
         player.skipDelegate = self
+        player.tryLookDelegate = self
         player.playerView = self.backview
         player.placeholder = self.backview.image!
         player.timeSpace = 2
@@ -67,11 +86,19 @@ class DetailsViewController: UIViewController {
         }
     }
     
+    // MARK: - action
+    @objc private func tryLookAction(_ button: UIButton) {
+        button.isSelected = !button.isSelected
+        if button.isSelected {
+            self.player.closeTryLook()
+        } else {
+            self.player.againPlayOpenTryLook()
+        }
+    }
 }
 
-// MARK: KJPlayerDelegate
+// MARK: - KJPlayerDelegate
 extension DetailsViewController: KJPlayerDelegate {
-    
     /// 播放器状态响应
     /// - Parameters:
     ///   - player: 内核
@@ -107,12 +134,10 @@ extension DetailsViewController: KJPlayerDelegate {
         print("🎷🎷:total:\(player.totalTime),",
               "current:\(String(format:"%.5f", currentTime))")
     }
-    
 }
 
-// MARK: KJPlayerBaseViewDelegate
+// MARK: - KJPlayerBaseViewDelegate
 extension DetailsViewController: KJPlayerBaseViewDelegate {
-    
     /// 单双击手势响应
     /// - Parameters:
     ///   - view: 播放器载体控件
@@ -206,12 +231,10 @@ extension DetailsViewController: KJPlayerBaseViewDelegate {
     func kj_basePlayerView(_ view: KJPlayerView, screenState: KJPlayerVideoScreenState) {
         
     }
-    
 }
 
-// MARK: KJPlayerSkipDelegate
+// MARK: - KJPlayerSkipDelegate
 extension DetailsViewController: KJPlayerSkipDelegate {
-    
     /// 跳过片头
     /// - Parameter player: 内核
     /// - Returns: 需要跳过的时间
@@ -239,5 +262,22 @@ extension DetailsViewController: KJPlayerSkipDelegate {
         @unknown default: break
         }
     }
+}
+
+// MARK: - KJPlayerTryLookDelegate
+extension DetailsViewController: KJPlayerTryLookDelegate {
+    /// 获取免费试看时间
+    /// - Parameter player: 播放器内核
+    /// - Returns: 试看时间，返回零不限制
+    func kj_tryLookTime(with player: KJBasePlayer) -> TimeInterval {
+        return 50
+    }
     
+    /// 试看结束响应
+    /// - Parameters:
+    ///   - player: 播放器内核
+    ///   - currentTime: 当前播放时间
+    func kj_tryLookEnd(with player: KJBasePlayer, currentTime: TimeInterval) {
+        
+    }
 }
