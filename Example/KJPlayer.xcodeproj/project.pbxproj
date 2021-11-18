@@ -430,11 +430,13 @@
 				"${PODS_ROOT}/Target Support Files/Pods-KJPlayer_Example/Pods-KJPlayer_Example-resources.sh",
 				"${PODS_CONFIGURATION_BUILD_DIR}/KJPlayer/KJPlayer.bundle",
 				"${BUILT_PRODUCTS_DIR}/KJPlayer/KJPlayer.framework/DBPlayer.momd",
+				"${PODS_ROOT}/../../KJPlayer/Classes/MidiPlayer/KJMidiSource.bundle",
 			);
 			name = "[CP] Copy Pods Resources";
 			outputPaths = (
 				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/KJPlayer.bundle",
 				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/DBPlayer.momd",
+				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/KJMidiSource.bundle",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;

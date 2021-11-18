@@ -1,58 +1,60 @@
 PODS:
   - FSPagerView (0.8.3)
-  - KJPlayer (2.1.10):
-    - KJPlayer/AVPlayer (= 2.1.10)
-    - KJPlayer/BackgroundMonitoring (= 2.1.10)
-    - KJPlayer/Cache (= 2.1.10)
-    - KJPlayer/Common (= 2.1.10)
-    - KJPlayer/CustomView (= 2.1.10)
-    - KJPlayer/Database (= 2.1.10)
-    - KJPlayer/Downloader (= 2.1.10)
-    - KJPlayer/DynamicSource (= 2.1.10)
-    - KJPlayer/IJKPlayer (= 2.1.10)
-    - KJPlayer/MIDI (= 2.1.10)
-    - KJPlayer/PingTimer (= 2.1.10)
-    - KJPlayer/RecordTime (= 2.1.10)
-    - KJPlayer/Screenshots (= 2.1.10)
-    - KJPlayer/SkipTime (= 2.1.10)
-    - KJPlayer/TryTime (= 2.1.10)
-  - KJPlayer/AVPlayer (2.1.10):
-    - KJPlayer/AVPlayer/AVCore (= 2.1.10)
-    - KJPlayer/AVPlayer/AVDownloader (= 2.1.10)
-  - KJPlayer/AVPlayer/AVCore (2.1.10):
+  - IJKMediaFramework (0.1.5)
+  - KJPlayer (2.1.11):
+    - KJPlayer/AVPlayer (= 2.1.11)
+    - KJPlayer/BackgroundMonitoring (= 2.1.11)
+    - KJPlayer/Cache (= 2.1.11)
+    - KJPlayer/Common (= 2.1.11)
+    - KJPlayer/CustomView (= 2.1.11)
+    - KJPlayer/Database (= 2.1.11)
+    - KJPlayer/Downloader (= 2.1.11)
+    - KJPlayer/DynamicSource (= 2.1.11)
+    - KJPlayer/IJKPlayer (= 2.1.11)
+    - KJPlayer/MIDI (= 2.1.11)
+    - KJPlayer/PingTimer (= 2.1.11)
+    - KJPlayer/RecordTime (= 2.1.11)
+    - KJPlayer/Screenshots (= 2.1.11)
+    - KJPlayer/SkipTime (= 2.1.11)
+    - KJPlayer/TryTime (= 2.1.11)
+  - KJPlayer/AVPlayer (2.1.11):
+    - KJPlayer/AVPlayer/AVCore (= 2.1.11)
+    - KJPlayer/AVPlayer/AVDownloader (= 2.1.11)
+  - KJPlayer/AVPlayer/AVCore (2.1.11):
     - KJPlayer/Common
-  - KJPlayer/AVPlayer/AVDownloader (2.1.10):
+  - KJPlayer/AVPlayer/AVDownloader (2.1.11):
     - KJPlayer/AVPlayer/AVCore
     - KJPlayer/Database
     - KJPlayer/Downloader
-  - KJPlayer/BackgroundMonitoring (2.1.10):
+  - KJPlayer/BackgroundMonitoring (2.1.11):
     - KJPlayer/Common
-  - KJPlayer/Cache (2.1.10):
-    - KJPlayer/Common
-    - KJPlayer/Database
-  - KJPlayer/Common (2.1.10)
-  - KJPlayer/CustomView (2.1.10):
-    - KJPlayer/Common
-  - KJPlayer/Database (2.1.10)
-  - KJPlayer/Downloader (2.1.10):
-    - KJPlayer/Common
-  - KJPlayer/DynamicSource (2.1.10):
-    - KJPlayer/Common
-  - KJPlayer/IJKPlayer (2.1.10):
-    - KJPlayer/Common
-  - KJPlayer/MIDI (2.1.10):
-    - KJPlayer/Common
-  - KJPlayer/PingTimer (2.1.10):
-    - KJPlayer/Common
-  - KJPlayer/RecordTime (2.1.10):
+  - KJPlayer/Cache (2.1.11):
     - KJPlayer/Common
     - KJPlayer/Database
-  - KJPlayer/Screenshots (2.1.10):
+  - KJPlayer/Common (2.1.11)
+  - KJPlayer/CustomView (2.1.11):
+    - KJPlayer/Common
+  - KJPlayer/Database (2.1.11)
+  - KJPlayer/Downloader (2.1.11):
+    - KJPlayer/Common
+  - KJPlayer/DynamicSource (2.1.11):
+    - KJPlayer/Common
+  - KJPlayer/IJKPlayer (2.1.11):
+    - IJKMediaFramework
+    - KJPlayer/Common
+  - KJPlayer/MIDI (2.1.11):
+    - KJPlayer/Common
+  - KJPlayer/PingTimer (2.1.11):
+    - KJPlayer/Common
+  - KJPlayer/RecordTime (2.1.11):
     - KJPlayer/Common
     - KJPlayer/Database
-  - KJPlayer/SkipTime (2.1.10):
+  - KJPlayer/Screenshots (2.1.11):
     - KJPlayer/Common
-  - KJPlayer/TryTime (2.1.10):
+    - KJPlayer/Database
+  - KJPlayer/SkipTime (2.1.11):
+    - KJPlayer/Common
+  - KJPlayer/TryTime (2.1.11):
     - KJPlayer/Common
   - SnapKit (5.0.1)
   - Then (2.7.0)
@@ -66,6 +68,7 @@ DEPENDENCIES:
 SPEC REPOS:
   trunk:
     - FSPagerView
+    - IJKMediaFramework
     - SnapKit
     - Then
 
@@ -75,10 +78,11 @@ EXTERNAL SOURCES:
 
 SPEC CHECKSUMS:
   FSPagerView: 670405b2f18e2a87fa37f20b00de783e562c25a8
-  KJPlayer: b1242abf4a49d72f09c7f8f786729ca9c88abe6e
+  IJKMediaFramework: f1119f6324c96bc4654f3045a5beaa95ba0596c0
+  KJPlayer: 74a3520a3c3b16240ba82c5265537bcc2fac6795
   SnapKit: 97b92857e3df3a0c71833cce143274bf6ef8e5eb
   Then: acfe0be7e98221c6204e12f8161459606d5d822d
 
-PODFILE CHECKSUM: 7b67500f463e06d4c9b6c1c99b7d90dc2a4fd022
+PODFILE CHECKSUM: 8357c0024c4b40ab3cd9f2f1cce01d503a428c03
 
-COCOAPODS: 1.10.1
+COCOAPODS: 1.11.2
