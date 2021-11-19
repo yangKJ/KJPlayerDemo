@@ -1,59 +1,59 @@
 PODS:
   - AMLeaksFinder (2.1.5)
   - FBRetainCycleDetector (0.1.4)
-  - KJPlayer (2.1.10):
-    - KJPlayer/AVPlayer (= 2.1.10)
-    - KJPlayer/BackgroundMonitoring (= 2.1.10)
-    - KJPlayer/Cache (= 2.1.10)
-    - KJPlayer/Common (= 2.1.10)
-    - KJPlayer/CustomView (= 2.1.10)
-    - KJPlayer/Database (= 2.1.10)
-    - KJPlayer/Downloader (= 2.1.10)
-    - KJPlayer/DynamicSource (= 2.1.10)
-    - KJPlayer/IJKPlayer (= 2.1.10)
-    - KJPlayer/MIDI (= 2.1.10)
-    - KJPlayer/PingTimer (= 2.1.10)
-    - KJPlayer/RecordTime (= 2.1.10)
-    - KJPlayer/Screenshots (= 2.1.10)
-    - KJPlayer/SkipTime (= 2.1.10)
-    - KJPlayer/TryTime (= 2.1.10)
-  - KJPlayer/AVPlayer (2.1.10):
-    - KJPlayer/AVPlayer/AVCore (= 2.1.10)
-    - KJPlayer/AVPlayer/AVDownloader (= 2.1.10)
-  - KJPlayer/AVPlayer/AVCore (2.1.10):
+  - KJPlayer (2.1.11):
+    - KJPlayer/AVPlayer (= 2.1.11)
+    - KJPlayer/BackgroundMonitoring (= 2.1.11)
+    - KJPlayer/Cache (= 2.1.11)
+    - KJPlayer/Common (= 2.1.11)
+    - KJPlayer/CustomView (= 2.1.11)
+    - KJPlayer/Database (= 2.1.11)
+    - KJPlayer/Downloader (= 2.1.11)
+    - KJPlayer/DynamicSource (= 2.1.11)
+    - KJPlayer/IJKPlayer (= 2.1.11)
+    - KJPlayer/MIDI (= 2.1.11)
+    - KJPlayer/PingTimer (= 2.1.11)
+    - KJPlayer/RecordTime (= 2.1.11)
+    - KJPlayer/Screenshots (= 2.1.11)
+    - KJPlayer/SkipTime (= 2.1.11)
+    - KJPlayer/TryTime (= 2.1.11)
+  - KJPlayer/AVPlayer (2.1.11):
+    - KJPlayer/AVPlayer/AVCore (= 2.1.11)
+    - KJPlayer/AVPlayer/AVDownloader (= 2.1.11)
+  - KJPlayer/AVPlayer/AVCore (2.1.11):
     - KJPlayer/Common
-  - KJPlayer/AVPlayer/AVDownloader (2.1.10):
+  - KJPlayer/AVPlayer/AVDownloader (2.1.11):
     - KJPlayer/AVPlayer/AVCore
     - KJPlayer/Database
     - KJPlayer/Downloader
-  - KJPlayer/BackgroundMonitoring (2.1.10):
+  - KJPlayer/BackgroundMonitoring (2.1.11):
     - KJPlayer/Common
-  - KJPlayer/Cache (2.1.10):
-    - KJPlayer/Common
-    - KJPlayer/Database
-  - KJPlayer/Common (2.1.10)
-  - KJPlayer/CustomView (2.1.10):
-    - KJPlayer/Common
-  - KJPlayer/Database (2.1.10)
-  - KJPlayer/Downloader (2.1.10):
-    - KJPlayer/Common
-  - KJPlayer/DynamicSource (2.1.10):
-    - KJPlayer/Common
-  - KJPlayer/IJKPlayer (2.1.10):
-    - KJPlayer/Common
-  - KJPlayer/MIDI (2.1.10):
-    - KJPlayer/Common
-  - KJPlayer/PingTimer (2.1.10):
-    - KJPlayer/Common
-  - KJPlayer/RecordTime (2.1.10):
+  - KJPlayer/Cache (2.1.11):
     - KJPlayer/Common
     - KJPlayer/Database
-  - KJPlayer/Screenshots (2.1.10):
+  - KJPlayer/Common (2.1.11)
+  - KJPlayer/CustomView (2.1.11):
+    - KJPlayer/Common
+  - KJPlayer/Database (2.1.11)
+  - KJPlayer/Downloader (2.1.11):
+    - KJPlayer/Common
+  - KJPlayer/DynamicSource (2.1.11):
+    - KJPlayer/Common
+  - KJPlayer/IJKPlayer (2.1.11):
+    - KJPlayer/Common
+  - KJPlayer/MIDI (2.1.11):
+    - KJPlayer/Common
+  - KJPlayer/PingTimer (2.1.11):
+    - KJPlayer/Common
+  - KJPlayer/RecordTime (2.1.11):
     - KJPlayer/Common
     - KJPlayer/Database
-  - KJPlayer/SkipTime (2.1.10):
+  - KJPlayer/Screenshots (2.1.11):
     - KJPlayer/Common
-  - KJPlayer/TryTime (2.1.10):
+    - KJPlayer/Database
+  - KJPlayer/SkipTime (2.1.11):
+    - KJPlayer/Common
+  - KJPlayer/TryTime (2.1.11):
     - KJPlayer/Common
   - SwiftMonkey (2.2.0)
   - SwiftMonkeyPaws (2.2.0)
@@ -79,10 +79,10 @@ EXTERNAL SOURCES:
 SPEC CHECKSUMS:
   AMLeaksFinder: 96afc314ede22c6dad5dd2517d016a955d375368
   FBRetainCycleDetector: 46f8179bbb1c587deee3ea838a1a3ee02acf5015
-  KJPlayer: b1242abf4a49d72f09c7f8f786729ca9c88abe6e
+  KJPlayer: 209494e4af73f57aa26c03e7ba6e3fb918180fde
   SwiftMonkey: 24ffde5b590d3658cfcb1d775cf74b9f5280eb9c
   SwiftMonkeyPaws: 9d183b8a1b9cfd497c2704342e861b71412d94f5
 
 PODFILE CHECKSUM: 26208a51c84e3f6c31b2ea22fb2ec2e51d99f605
 
-COCOAPODS: 1.10.1
+COCOAPODS: 1.11.2

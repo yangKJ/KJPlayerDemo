@@ -1,6 +1,6 @@
 {
   "name": "KJPlayer",
-  "version": "2.1.10",
+  "version": "2.1.11",
   "summary": "KJPlayer play and cache, AVPlayer / MIDIPlayer / IJKPlayer",
   "homepage": "https://github.com/yangKJ/KJPlayerDemo",
   "description": "https://github.com/yangKJ/KJPlayerDemo/blob/master/README.md",
@@ -13,7 +13,7 @@
   },
   "source": {
     "git": "https://github.com/yangKJ/KJPlayerDemo.git",
-    "tag": "2.1.10"
+    "tag": "2.1.11"
   },
   "social_media_url": "https://juejin.cn/user/1987535102554472/posts",
   "platforms": {
@@ -68,7 +68,7 @@
     {
       "name": "MIDI",
       "source_files": "KJPlayer/Classes/MidiPlayer/*.{h,m}",
-      "resources": "KJPlayer/Classes/KJMidiPlayer/*.{bundle}",
+      "resources": "KJPlayer/Classes/MidiPlayer/*.{bundle}",
       "dependencies": {
         "KJPlayer/Common": [
 
@@ -89,6 +89,9 @@
         "bz2",
         "iconv"
       ],
+      "platforms": {
+        "ios": "9.0"
+      },
       "pod_target_xcconfig": {
         "EXCLUDED_ARCHS[sdk=iphonesimulator*]": "arm64"
       },
