@@ -86,9 +86,17 @@
 pod 'KJPlayer' # 播放器功能区
 pod 'KJPlayer/AVPlayer # AVPlayer内核和下载分支
 pod 'KJPlayer/AVPlayer/AVCore' # AVPlayer内核播放器
-pod 'KJPlayer/AVPlayer/AVDownloader' # AVPlayer附加边播边下边存分支
 pod 'KJPlayer/MIDI' # MIDI内核
 pod 'KJPlayer/IJKPlayer' # IJKPlayer内核
+ 
+AVPlaye内核扩展功能
+pod 'KJPlayer/AVPlayer/AVDownloader' # 边播边下边存分支
+pod 'KJPlayer/RecordTime' # 记忆播放
+pod 'KJPlayer/TryTime' # 尝鲜播放
+pod 'KJPlayer/SkipTime' # 跳过片头片尾
+pod 'KJPlayer/Cache' # 缓存板块
+pod 'KJPlayer/Screenshots' # 视频截屏板块
+pod 'KJPlayer/BackgroundMonitoring' # 前后台播放
 
 ### 文档信息介绍
 * 更新日志文档，https://github.com/yangKJ/KJPlayerDemo/blob/master/CHANGELOG.md

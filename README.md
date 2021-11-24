@@ -34,74 +34,142 @@
 | <img src="Document/AAA.png" width="300" align="center" /> | <img src="Document/XXX.png" width="300" align="center" /> |
 | --- | --- |
 
-### KJBaseFunctionPlayer
-- [**播放器内核协议**](Document/Method/KJBaseFunctionPlayer.md)：所有播放器壳子都是基于该基础做处理，提取公共部分
+### 免费试看功能
+- 该功能类似于Vip会员观看性质，充值之后继续播放观看模式
 
-### KJBaseUIPlayer
-- [**播放器UI视图协议**](Document/Method/KJBaseUIPlayer.md)：播放器UI相关协议
+```
+// MARK: - KJPlayerTryLookDelegate
+extension DetailsViewController: KJPlayerTryLookDelegate {
+    /// 获取免费试看时间
+    /// - Parameter player: 播放器内核
+    /// - Returns: 试看时间，返回零不限制
+    func kj_tryLookTime(with player: KJBasePlayer) -> TimeInterval {
+        return 50
+    }
+    
+    /// 试看结束响应
+    /// - Parameters:
+    ///   - player: 播放器内核
+    ///   - currentTime: 当前播放时间
+    func kj_tryLookEnd(with player: KJBasePlayer, currentTime: TimeInterval) {
+        
+    }
+}
+```
+- 充值之后恢复观看权限
 
-### KJBasePlayerView
-- [**播放器视图基类**](Document/Method/KJBasePlayerView.md)：只要子控件没有涉及到手势交互，我均采用Layer的方式来处理，然后根据`zPosition`来区分控件的上下层级关系
+```
+self.player.closeTryLook()
+```
 
-### KJPlayerProtocol
-- [**播放器代理**](Document/Method/KJPlayerProtocol.md)：主要包含两部分**内核** 和 **基类视图**
-  - **KJPlayerDelegate**：播放器内核代理方法
-  - **KJPlayerBaseViewDelegate**：播放器UI控件相关代理方法
+#### CocoaPods安装尝试观看模块
+```
+pod 'KJPlayer/TryTime' # vip尝试观看功能
+```
 
-### KJPlayerType
-- 枚举文件夹和公共方法管理
+### 跳过片头片尾功能
+- 该功能很明确就是类似于观看视频跳过片头和片尾功能
 
-### DBPlayerData
-- [**数据库工具**](Document/Method/DBPlayerData.md)：主要包含两部分**数据库模型** 和 **数据库工具**
+```
+// MARK: - KJPlayerSkipDelegate
+extension DetailsViewController: KJPlayerSkipDelegate {
+    /// 跳过片头
+    /// - Parameter player: 内核
+    /// - Returns: 需要跳过的时间
+    func kj_skipHeadTime(with player: KJBasePlayer) -> TimeInterval {
+        return 18
+    }
+    
+    /// 跳过片头或片尾响应
+    /// - Parameters:
+    ///   - player: 内核
+    ///   - currentTime: 当前时间
+    ///   - totalTime: 总事件
+    ///   - skipState: 跳过类型
+    func kj_skipTime(with player: KJBasePlayer,
+                     currentTime: TimeInterval,
+                     totalTime: TimeInterval,
+                     skipState: KJPlayerVideoSkipState) {
+        switch skipState {
+        case .head:
+            self.backview.hintTextLayer.kj_displayHintText("跳过片头，自动播放",
+                                                           time: 5,
+                                                           position: KJPlayerHintPositionBottom)
+            break
+        case .foot: break
+        @unknown default: break
+        }
+    }
+}
+```
 
-### KJResourceLoader
-- 中间桥梁作用，把网络请求缓存到本地的临时数据传递给播放器
+#### CocoaPods安装跳过片头片尾模块
+```
+pod 'KJPlayer/SkipTime' # vip跳过片头片尾功能
+```
 
-### KJPlayer
-- [**AVPlayer播放器内核**](Document/Method/AVPlayer.md)：基于系统播放器`AVFoundation`封装播放内核
-- [**边下边播边存**](Document/边下边播.md)：基于`AVAssetResourceLoaderDelegate`实现边下边播边存方案
+### 记忆播放功能
+- 该功能会自动记忆上次播放时间，下次直接无缝开始继续播放
 
-**AVPlayer播放工作流程：**  
+```
+// MARK: - KJPlayerRecordDelegate
+extension DetailsViewController: KJPlayerRecordDelegate {
+    /// 获取是否需要记录响应
+    /// - Parameter player: 播放器内核
+    /// - Returns: 是否需要记忆播放
+    func kj_recordTime(with player: KJBasePlayer) -> Bool {
+        return true
+    }
+    
+    /// 获取到上次播放时间响应
+    /// - Parameters:
+    ///   - player: 播放器内核
+    ///   - totalTime: 总时长
+    ///   - lastTime: 上次播放时间
+    func kj_recordTime(with player: KJBasePlayer, totalTime: TimeInterval, lastTime: TimeInterval) {
+        
+    }
+}
+```
+- 主动选择储存记忆
 
-- 获取视频类型，根据网址来确定，目前没找到更好的方式（知道的朋友可以指点一下）
-- 处理视频，这里才用队列组来处理，子线程处理解决第一次加载卡顿问题
-- 处理视频链接地址，这里分两种情况，
-  - 使用缓存就从缓存当中读取
-  - 获取数据库当中的数据
-- 判断地址是否可用，添加下载和播放桥梁
-- 播放准备操作设置`playerItem`，然后初始化`player`，添加时间观察者处理播放
-- 处理视频状态，kvo监听播放器五种状态 
-  - `status`：监听播放器状态 
-  - `loadedTimeRanges`：监听播放器缓冲进度 
-  - `presentationSize`：监听视频尺寸  
-  - `playbackBufferEmpty`：监听缓存不够的情况
-  - `playbackLikelyToKeepUp`：监听缓存足够  
+```
+self.player.kj_saveRecordLastTime()
+```
+
+#### CocoaPods安装自动记忆播放模块
+```
+pod 'KJPlayer/RecordTime' # vip自动记忆播放功能
+```
+
+> 备注提示：该功能大于跳过片头功能，简单讲就是该功能实现之后下次会直接从上次播放位置开始继续观看
+
+----------------------------------------
+
+### 其余功能模块
+#### 1.播放器模块
+- midi内核：`pod 'KJPlayer/MIDI'`
+- ijk内核：`pod 'KJPlayer/IJKPlayer'`
+- av内核：`pod 'KJPlayer/AVPlayer/AVCore'`
+- 自定义UI：`pod 'KJPlayer/CustomView'`
+- 数据库：`pod 'KJPlayer/Database'`
+
+#### 2.功能区域模块
+- AVPlayer内核扩展功能
+    - 边下边播边存分支：`pod 'KJPlayer/AVPlayer/AVDownloader'`
+  - 记忆播放：`pod 'KJPlayer/RecordTime'`
+  - 尝鲜播放：`pod 'KJPlayer/TryTime'`
+  - 跳过片头片尾：`pod 'KJPlayer/SkipTime'`
+  - 缓存板块：`pod 'KJPlayer/Cache'`
+  - 视频截屏板块：`pod 'KJPlayer/Screenshots'`
+  - 前后台播放：`pod 'KJPlayer/BackgroundMonitoring'`
+  
+- 切换内核：`pod 'KJPlayer/DynamicSource`
+  - 目前支持3种内核：AVPlayer内核、MIDI内核、IJKPlayer内核
+  
+- 心跳包：`pod 'KJPlayer/PingTimer'`
 
 > 大致流程就差不多这样子，Demo也写的很详细，可以自己去看看🎷
-
-### CocoaPods使用方法
-- **公共播放器功能区**
-
-```
-pod 'KJPlayer'
-```
-- **AVPlayer内核播放器 和 边播边下边存分支**
-
-```
-pod 'KJPlayer/AVPlayer # 内核和下载分支
-pod 'KJPlayer/AVPlayer/AVCore' # 内核
-pod 'KJPlayer/AVPlayer/AVDownloader' # 边下边播
-```
-- **MIDI内核**
-
-```
-pod 'KJPlayer/MIDI'
-```
-- **IJKPlayer内核**
-
-```
-pod 'KJPlayer/IJKPlayer'
-```
 
 ### <a id="更新日志"></a>更新日志
 > **[更新日志](CHANGELOG.md)**

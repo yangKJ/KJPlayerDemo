@@ -73,6 +73,7 @@ class DetailsViewController: UIViewController {
         player.delegate = self
         player.skipDelegate = self
         player.tryLookDelegate = self
+        player.recordDelegate = self
         player.playerView = self.backview
         player.placeholder = self.backview.image!
         player.timeSpace = 2
@@ -278,6 +279,25 @@ extension DetailsViewController: KJPlayerTryLookDelegate {
     ///   - player: 播放器内核
     ///   - currentTime: 当前播放时间
     func kj_tryLookEnd(with player: KJBasePlayer, currentTime: TimeInterval) {
+        
+    }
+}
+
+// MARK: - KJPlayerRecordDelegate
+extension DetailsViewController: KJPlayerRecordDelegate {
+    /// 获取是否需要记录响应
+    /// - Parameter player: 播放器内核
+    /// - Returns: 是否需要记忆播放
+    func kj_recordTime(with player: KJBasePlayer) -> Bool {
+        return true
+    }
+    
+    /// 获取到上次播放时间响应
+    /// - Parameters:
+    ///   - player: 播放器内核
+    ///   - totalTime: 总时长
+    ///   - lastTime: 上次播放时间
+    func kj_recordTime(with player: KJBasePlayer, totalTime: TimeInterval, lastTime: TimeInterval) {
         
     }
 }

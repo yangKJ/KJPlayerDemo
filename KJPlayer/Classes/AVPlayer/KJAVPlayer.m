@@ -9,9 +9,6 @@
 #import "KJAVPlayer.h"
 #import "KJPlayerView.h"
 
-#pragma clang diagnostic push
-#pragma clang diagnostic ignored"-Wdeprecated-declarations"
-
 @interface KJAVPlayer ()
 PLAYER_COMMON_EXTENSION_PROPERTY
 @property (nonatomic,strong) NSObject *timeObserver;
@@ -152,8 +149,8 @@ static NSString * const kTimeControlStatus = @"timeControlStatus";
     self.currentTime = 0;
 }
 
-#pragma mark - 定时器
-//监听时间变化
+#pragma mark - timer
+/// 监听时间变化
 - (void)kj_addTimeObserver{
     if (self.player == nil) return;
     if (self.timeObserver) {
@@ -176,9 +173,6 @@ static NSString * const kTimeControlStatus = @"timeControlStatus";
             weakself.currentTime = sec;
         }
     }];
-}
-- (void)updateEvent{
-    //解决ijkplayer内核切换时刻找不到方法崩溃
 }
 
 #pragma mark - public method
@@ -599,5 +593,3 @@ BOOL kPlayerHaveTracks(NSURL *videoURL, void(^assetblock)(AVURLAsset *), NSDicti
 }
 
 @end
-
-#pragma clang diagnostic pop
