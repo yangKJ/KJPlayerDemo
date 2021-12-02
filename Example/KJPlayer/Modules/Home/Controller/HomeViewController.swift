@@ -52,6 +52,7 @@ class HomeViewController: UIViewController {
         //pagerView.scrollDirection = .vertical
         pagerView.automaticSlidingInterval = 2
         pagerView.register(HomePagerViewCell.self, forCellWithReuseIdentifier: HomePagerViewCell.reuseIdentifier)
+        pagerView.currentIndex
         return pagerView
     }()
     

@@ -5,7 +5,6 @@ platform :ios, '10.0'
 target 'KJPlayer_Example' do
   pod 'KJPlayer', :path => '..'
   
-  pod 'Then'
   pod 'SnapKit'
   pod 'FSPagerView'
 
