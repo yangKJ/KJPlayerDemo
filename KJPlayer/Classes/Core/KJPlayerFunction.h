@@ -8,6 +8,7 @@
 //  播放器协议，功能区
 
 #import <Foundation/Foundation.h>
+#import <UIKit/UIkit.h>
 
 NS_ASSUME_NONNULL_BEGIN
 @protocol KJPlayerDelegate;

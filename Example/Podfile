@@ -4,15 +4,6 @@ platform :ios, '10.0'
 
 target 'KJPlayer_Example' do
   pod 'KJPlayer', :path => '..'
-  
-  pod 'SnapKit'
-  pod 'FSPagerView'
-
-  target 'KJPlayer_Tests' do
-    inherit! :search_paths
-    # Pods for testing
-  end
-
 end
 
 ## 忽略CocoaPods警告

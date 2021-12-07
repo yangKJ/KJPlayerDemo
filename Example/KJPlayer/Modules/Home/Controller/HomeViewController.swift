@@ -7,12 +7,10 @@
 //  https://github.com/yangKJ/KJPlayerDemo
 
 import UIKit
-import FSPagerView
-import SnapKit
 
 class HomeViewController: UIViewController {
     
-    var viewModel = HomeViewModel()
+    let viewModel = HomeViewModel()
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -52,7 +50,6 @@ class HomeViewController: UIViewController {
         //pagerView.scrollDirection = .vertical
         pagerView.automaticSlidingInterval = 2
         pagerView.register(HomePagerViewCell.self, forCellWithReuseIdentifier: HomePagerViewCell.reuseIdentifier)
-        pagerView.currentIndex
         return pagerView
     }()
     
@@ -101,9 +98,6 @@ extension HomeViewController: FSPagerViewDelegate, FSPagerViewDataSource {
     func pagerView(_ pagerView: FSPagerView, cellForItemAt index: Int) -> FSPagerViewCell {
         let item = pagerView.dequeueReusableCell(withReuseIdentifier: HomePagerViewCell.reuseIdentifier, at: index)
         (item as! HomePagerViewCell).dataModel = viewModel.homeDatas[index]
-        //        (item as! HomePagerViewCell).playBlock = { isPlay, [unowned self] in
-        //
-        //        }
         return item
     }
     

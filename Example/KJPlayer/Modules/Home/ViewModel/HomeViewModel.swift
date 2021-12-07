@@ -8,7 +8,6 @@
 
 import UIKit
 import Foundation
-import FSPagerView
 import KJPlayer
 
 class HomeViewModel: NSObject {

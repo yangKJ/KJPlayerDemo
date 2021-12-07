@@ -8,7 +8,6 @@
 
 import UIKit
 import KJPlayer
-import SnapKit
 
 class DetailsViewController: UIViewController {
     

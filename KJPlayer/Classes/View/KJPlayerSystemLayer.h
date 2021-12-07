@@ -8,6 +8,7 @@
 //  音量亮度系统控件
 
 #import <QuartzCore/QuartzCore.h>
+#import <UIKit/UIkit.h>
 
 NS_ASSUME_NONNULL_BEGIN
 

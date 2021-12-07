@@ -8,7 +8,6 @@
 
 import UIKit
 import KJPlayer
-import FSPagerView
 
 @objc open class HomePagerViewCell: FSPagerViewCell {
     

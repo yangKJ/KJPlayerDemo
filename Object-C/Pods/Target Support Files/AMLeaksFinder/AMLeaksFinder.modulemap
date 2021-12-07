@@ -1,6 +1,0 @@
-framework module AMLeaksFinder {
-  umbrella header "AMLeaksFinder-umbrella.h"
-
-  export *
-  module * { export * }
-}

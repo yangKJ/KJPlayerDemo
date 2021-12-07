@@ -8,6 +8,7 @@
 //  加载动画
 
 #import <QuartzCore/QuartzCore.h>
+#import <UIKit/UIkit.h>
 
 NS_ASSUME_NONNULL_BEGIN
 
