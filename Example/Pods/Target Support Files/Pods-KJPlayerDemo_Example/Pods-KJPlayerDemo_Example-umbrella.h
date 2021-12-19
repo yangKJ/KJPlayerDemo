@@ -11,6 +11,6 @@
 #endif
 
 
-FOUNDATION_EXPORT double KJPlayerVersionNumber;
-FOUNDATION_EXPORT const unsigned char KJPlayerVersionString[];
+FOUNDATION_EXPORT double Pods_KJPlayerDemo_ExampleVersionNumber;
+FOUNDATION_EXPORT const unsigned char Pods_KJPlayerDemo_ExampleVersionString[];
 

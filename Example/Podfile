@@ -2,11 +2,14 @@ use_frameworks!
 
 platform :ios, '10.0'
 
-target 'KJPlayer_Example' do
+target 'KJPlayerDemo_Example' do
   pod 'KJPlayer', :path => '..'
+
+  target 'KJPlayerDemo_Tests' do
+    inherit! :search_paths
+  end
 end
 
-## 忽略CocoaPods警告
 inhibit_all_warnings!
 post_install do |installer|
   installer.pods_project.targets.each do |target|

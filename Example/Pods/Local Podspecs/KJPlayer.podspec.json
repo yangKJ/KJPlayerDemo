@@ -1,6 +1,6 @@
 {
   "name": "KJPlayer",
-  "version": "2.1.11",
+  "version": "2.2.0",
   "summary": "KJPlayer play and cache, AVPlayer / MIDIPlayer / IJKPlayer",
   "homepage": "https://github.com/yangKJ/KJPlayerDemo",
   "description": "https://github.com/yangKJ/KJPlayerDemo/blob/master/README.md",
@@ -13,7 +13,7 @@
   },
   "source": {
     "git": "https://github.com/yangKJ/KJPlayerDemo.git",
-    "tag": "2.1.11"
+    "tag": "2.2.0"
   },
   "social_media_url": "https://juejin.cn/user/1987535102554472/posts",
   "platforms": {
@@ -21,35 +21,56 @@
   },
   "requires_arc": true,
   "static_framework": true,
+  "swift_versions": "5.0",
   "frameworks": [
     "Foundation",
     "UIKit",
     "AVFoundation",
     "MediaPlayer"
   ],
-  "ios": {
-    "source_files": "KJPlayer/Classes/KJPlayerHeader.h"
-  },
   "subspecs": [
     {
-      "name": "Common",
-      "source_files": "KJPlayer/Classes/Core/*.{h,m}"
+      "name": "Extension",
+      "source_files": "Sources/Extension/*.swift"
+    },
+    {
+      "name": "Database",
+      "source_files": "Sources/Database/*.swift",
+      "resources": "Sources/Database/*.{xcdatamodeld}"
+    },
+    {
+      "name": "Downloader",
+      "source_files": "Sources/Downloader/*.swift",
+      "dependencies": {
+        "KJPlayer/Core": [
+
+        ]
+      }
+    },
+    {
+      "name": "Core",
+      "source_files": "Sources/Core/*.swift",
+      "dependencies": {
+        "KJPlayer/Extension": [
+
+        ]
+      }
     },
     {
       "name": "AVPlayer",
       "subspecs": [
         {
           "name": "AVCore",
-          "source_files": "KJPlayer/Classes/AVPlayer/*.{h,m}",
+          "source_files": "Sources/AVPlayer/*.swift",
           "dependencies": {
-            "KJPlayer/Common": [
+            "KJPlayer/Core": [
 
             ]
           }
         },
         {
           "name": "AVDownloader",
-          "source_files": "KJPlayer/Classes/AVPlayer/AVDownloader/**/*",
+          "source_files": "Sources/AVPlayer/AVDownloader/**/*.swift",
           "frameworks": "MobileCoreServices",
           "dependencies": {
             "KJPlayer/AVPlayer/AVCore": [
@@ -67,62 +88,33 @@
     },
     {
       "name": "MIDI",
-      "source_files": "KJPlayer/Classes/MidiPlayer/*.{h,m}",
-      "resources": "KJPlayer/Classes/MidiPlayer/*.{bundle}",
+      "source_files": "Sources/MidiPlayer/*.swift",
+      "resources": "Sources/MidiPlayer/*.{bundle}",
       "dependencies": {
-        "KJPlayer/Common": [
+        "KJPlayer/Core": [
 
         ]
-      }
-    },
-    {
-      "name": "IJKPlayer",
-      "source_files": "KJPlayer/Classes/IJKPlayer/*.{h,m}",
-      "dependencies": {
-        "KJPlayer/Common": [
-
-        ]
-      },
-      "libraries": [
-        "c++",
-        "z",
-        "bz2",
-        "iconv"
-      ],
-      "platforms": {
-        "ios": "9.0"
-      },
-      "pod_target_xcconfig": {
-        "EXCLUDED_ARCHS[sdk=iphonesimulator*]": "arm64"
-      },
-      "user_target_xcconfig": {
-        "EXCLUDED_ARCHS[sdk=iphonesimulator*]": "arm64"
       }
     },
     {
       "name": "CustomView",
-      "source_files": "KJPlayer/Classes/View/*.{h,m}",
+      "source_files": "Sources/View/*.swift",
       "resource_bundles": {
         "KJPlayer": [
-          "KJPlayer/Classes/View/*.{ttf}"
+          "Sources/View/*.{ttf}"
         ]
       },
       "dependencies": {
-        "KJPlayer/Common": [
+        "KJPlayer/Core": [
 
         ]
       }
     },
     {
-      "name": "Database",
-      "source_files": "KJPlayer/Classes/Tools/Database/*.{h,m}",
-      "resources": "KJPlayer/Classes/Tools/Database/*.{xcdatamodeld}"
-    },
-    {
       "name": "Cache",
-      "source_files": "KJPlayer/Classes/Tools/Cache/*.{h,m}",
+      "source_files": "Sources/Cache/*.swift",
       "dependencies": {
-        "KJPlayer/Common": [
+        "KJPlayer/Core": [
 
         ],
         "KJPlayer/Database": [
@@ -131,37 +123,10 @@
       }
     },
     {
-      "name": "Downloader",
-      "source_files": "KJPlayer/Classes/Tools/Downloader/*.{h,m}",
-      "dependencies": {
-        "KJPlayer/Common": [
-
-        ]
-      }
-    },
-    {
-      "name": "DynamicSource",
-      "source_files": "KJPlayer/Classes/Tools/DynamicSource/*.{h,m}",
-      "dependencies": {
-        "KJPlayer/Common": [
-
-        ]
-      }
-    },
-    {
-      "name": "PingTimer",
-      "source_files": "KJPlayer/Classes/Tools/PingTimer/*.{h,m}",
-      "dependencies": {
-        "KJPlayer/Common": [
-
-        ]
-      }
-    },
-    {
       "name": "RecordTime",
-      "source_files": "KJPlayer/Classes/Tools/RecordTime/*.{h,m}",
+      "source_files": "Sources/RecordTime/*.swift",
       "dependencies": {
-        "KJPlayer/Common": [
+        "KJPlayer/Core": [
 
         ],
         "KJPlayer/Database": [
@@ -171,27 +136,27 @@
     },
     {
       "name": "SkipTime",
-      "source_files": "KJPlayer/Classes/Tools/SkipTime/*.{h,m}",
+      "source_files": "Sources/SkipTime/*.swift",
       "dependencies": {
-        "KJPlayer/Common": [
+        "KJPlayer/Core": [
 
         ]
       }
     },
     {
-      "name": "TryTime",
-      "source_files": "KJPlayer/Classes/Tools/TryTime/*.{h,m}",
+      "name": "FreeTime",
+      "source_files": "Sources/FreeTime/*.swift",
       "dependencies": {
-        "KJPlayer/Common": [
+        "KJPlayer/Core": [
 
         ]
       }
     },
     {
       "name": "Screenshots",
-      "source_files": "KJPlayer/Classes/Tools/Screenshots/*.{h,m}",
+      "source_files": "Sources/Screenshots/*.swift",
       "dependencies": {
-        "KJPlayer/Common": [
+        "KJPlayer/Core": [
 
         ],
         "KJPlayer/Database": [
@@ -200,13 +165,14 @@
       }
     },
     {
-      "name": "BackgroundMonitoring",
-      "source_files": "KJPlayer/Classes/Tools/BackgroundMonitoring/*.{h,m}",
+      "name": "Pip",
+      "source_files": "Sources/Pip/*.swift",
       "dependencies": {
-        "KJPlayer/Common": [
+        "KJPlayer/Core": [
 
         ]
       }
     }
-  ]
+  ],
+  "swift_version": "5.0"
 }
