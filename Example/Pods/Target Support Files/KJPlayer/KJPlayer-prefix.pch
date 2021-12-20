@@ -10,3 +10,4 @@
 #endif
 #endif
 
+#import "KJPlayer-Bridging-Header.h"

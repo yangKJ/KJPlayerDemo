@@ -31,6 +31,7 @@
 		0646C3735247175F49EAE10C /* KJPlayer.podspec */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text; name = KJPlayer.podspec; path = ../KJPlayer.podspec; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.ruby; };
 		1E75E781103955B4A5896434 /* Pods_KJPlayerDemo_Tests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_KJPlayerDemo_Tests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		20689A01276845B2000FE077 /* CHANGELOG.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; name = CHANGELOG.md; path = ../CHANGELOG.md; sourceTree = "<group>"; };
+		20A40AF92770120D00A22418 /* README_EN.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; name = README_EN.md; path = ../README_EN.md; sourceTree = "<group>"; };
 		3460239408C8858C57301E9B /* Pods-KJPlayerDemo_Example.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-KJPlayerDemo_Example.release.xcconfig"; path = "Target Support Files/Pods-KJPlayerDemo_Example/Pods-KJPlayerDemo_Example.release.xcconfig"; sourceTree = "<group>"; };
 		52DDA1AD9256F3A62C9A0929 /* README.md */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = net.daringfireball.markdown; name = README.md; path = ../README.md; sourceTree = "<group>"; };
 		53C22725C20DFE027AD90805 /* Pods-KJPlayerDemo_Tests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-KJPlayerDemo_Tests.debug.xcconfig"; path = "Target Support Files/Pods-KJPlayerDemo_Tests/Pods-KJPlayerDemo_Tests.debug.xcconfig"; sourceTree = "<group>"; };
@@ -146,6 +147,7 @@
 				0646C3735247175F49EAE10C /* KJPlayer.podspec */,
 				828212A69A962E71FEB287BD /* LICENSE */,
 				52DDA1AD9256F3A62C9A0929 /* README.md */,
+				20A40AF92770120D00A22418 /* README_EN.md */,
 			);
 			name = "Podspec Metadata";
 			sourceTree = "<group>";

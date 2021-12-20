@@ -40,7 +40,8 @@
     },
     {
       "name": "Downloader",
-      "source_files": "Sources/Downloader/*.swift",
+      "source_files": "Sources/Downloader/*.{h,m}",
+      "prefix_header_contents": "#import \"KJPlayer-Bridging-Header.h\"",
       "dependencies": {
         "KJPlayer/Core": [
 

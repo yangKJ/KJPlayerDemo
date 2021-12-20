@@ -30,6 +30,10 @@
 		205DA295276DCDEB00D4E3EA /* Prefetcher.swift in Sources */ = {isa = PBXBuildFile; fileRef = 205DA294276DCDEB00D4E3EA /* Prefetcher.swift */; };
 		2084A880276F25EA007B355A /* Cache.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2084A87F276F25EA007B355A /* Cache.swift */; };
 		2084A882276F2608007B355A /* CacheManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2084A881276F2608007B355A /* CacheManager.swift */; };
+		20A40B0327701DFF00A22418 /* KJDownloader.m in Sources */ = {isa = PBXBuildFile; fileRef = 20A40AFC27701DFF00A22418 /* KJDownloader.m */; };
+		20A40B0427701DFF00A22418 /* KJFileHandleInfo.m in Sources */ = {isa = PBXBuildFile; fileRef = 20A40AFD27701DFF00A22418 /* KJFileHandleInfo.m */; };
+		20A40B0527701DFF00A22418 /* KJFileHandleManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 20A40AFE27701DFF00A22418 /* KJFileHandleManager.m */; };
+		20A40B0627701DFF00A22418 /* KJDownloaderCommon.m in Sources */ = {isa = PBXBuildFile; fileRef = 20A40AFF27701DFF00A22418 /* KJDownloaderCommon.m */; };
 		20D38000276869B60004E13C /* PlayerVideo.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 20D37FFE276869B60004E13C /* PlayerVideo.xcdatamodeld */; };
 		20D3800A27687F1E0004E13C /* PlayerVideoData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 20D3800927687F1E0004E13C /* PlayerVideoData.swift */; };
 		20D38012276890460004E13C /* KJPlayerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 20D38011276890460004E13C /* KJPlayerTests.swift */; };
@@ -83,6 +87,15 @@
 		205DA294276DCDEB00D4E3EA /* Prefetcher.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Prefetcher.swift; sourceTree = "<group>"; };
 		2084A87F276F25EA007B355A /* Cache.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Cache.swift; sourceTree = "<group>"; };
 		2084A881276F2608007B355A /* CacheManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CacheManager.swift; sourceTree = "<group>"; };
+		20A40AFB27701DFF00A22418 /* KJDownloaderCommon.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = KJDownloaderCommon.h; sourceTree = "<group>"; };
+		20A40AFC27701DFF00A22418 /* KJDownloader.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = KJDownloader.m; sourceTree = "<group>"; };
+		20A40AFD27701DFF00A22418 /* KJFileHandleInfo.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = KJFileHandleInfo.m; sourceTree = "<group>"; };
+		20A40AFE27701DFF00A22418 /* KJFileHandleManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = KJFileHandleManager.m; sourceTree = "<group>"; };
+		20A40AFF27701DFF00A22418 /* KJDownloaderCommon.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = KJDownloaderCommon.m; sourceTree = "<group>"; };
+		20A40B0027701DFF00A22418 /* KJDownloader.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = KJDownloader.h; sourceTree = "<group>"; };
+		20A40B0127701DFF00A22418 /* KJFileHandleInfo.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = KJFileHandleInfo.h; sourceTree = "<group>"; };
+		20A40B0227701DFF00A22418 /* KJFileHandleManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = KJFileHandleManager.h; sourceTree = "<group>"; };
+		20A40B34277028E200A22418 /* KJPlayer-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "KJPlayer-Bridging-Header.h"; sourceTree = "<group>"; };
 		20D37FFF276869B60004E13C /* PlayerVideo.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = PlayerVideo.xcdatamodel; sourceTree = "<group>"; };
 		20D3800927687F1E0004E13C /* PlayerVideoData.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PlayerVideoData.swift; sourceTree = "<group>"; };
 		20D3800F276890460004E13C /* KJPlayerTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = KJPlayerTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -178,6 +191,7 @@
 		203D5D28276843A900883D00 /* Sources */ = {
 			isa = PBXGroup;
 			children = (
+				20A40AFA27701DFF00A22418 /* Downloader */,
 				682690D12768D68D0073D1E7 /* AVPlayer */,
 				2084A87E276F2540007B355A /* Cache */,
 				682690C82768CDDA0073D1E7 /* Core */,
@@ -257,6 +271,22 @@
 				2084A881276F2608007B355A /* CacheManager.swift */,
 			);
 			path = Cache;
+			sourceTree = "<group>";
+		};
+		20A40AFA27701DFF00A22418 /* Downloader */ = {
+			isa = PBXGroup;
+			children = (
+				20A40B0027701DFF00A22418 /* KJDownloader.h */,
+				20A40AFC27701DFF00A22418 /* KJDownloader.m */,
+				20A40AFB27701DFF00A22418 /* KJDownloaderCommon.h */,
+				20A40AFF27701DFF00A22418 /* KJDownloaderCommon.m */,
+				20A40B0127701DFF00A22418 /* KJFileHandleInfo.h */,
+				20A40AFD27701DFF00A22418 /* KJFileHandleInfo.m */,
+				20A40B0227701DFF00A22418 /* KJFileHandleManager.h */,
+				20A40AFE27701DFF00A22418 /* KJFileHandleManager.m */,
+				20A40B34277028E200A22418 /* KJPlayer-Bridging-Header.h */,
+			);
+			path = Downloader;
 			sourceTree = "<group>";
 		};
 		20D38010276890460004E13C /* KJPlayerTests */ = {
@@ -411,20 +441,24 @@
 				20D3800A27687F1E0004E13C /* PlayerVideoData.swift in Sources */,
 				682690D52768DA9E0073D1E7 /* KJPlayerView.swift in Sources */,
 				2035EC0D276AE4A600B65363 /* Provider.swift in Sources */,
+				20A40B0627701DFF00A22418 /* KJDownloaderCommon.m in Sources */,
 				203D5D2C276843A900883D00 /* DatabaseConfiguration.swift in Sources */,
 				2035EC0B276AD66400B65363 /* PictureInPicture.swift in Sources */,
 				2005AC8D2769841F007573E9 /* Bridge.swift in Sources */,
 				682690CE2768D05F0073D1E7 /* KJBasePlayer.swift in Sources */,
 				203D5D2B276843A900883D00 /* DatabaseManager.swift in Sources */,
 				682690D72768DF5F0073D1E7 /* Common.swift in Sources */,
+				20A40B0427701DFF00A22418 /* KJFileHandleInfo.m in Sources */,
 				20F4EBB0276C324B00B0FA76 /* DetailViewController.swift in Sources */,
 				2084A882276F2608007B355A /* CacheManager.swift in Sources */,
 				205DA28D276D97AB00D4E3EA /* Definition.swift in Sources */,
+				20A40B0327701DFF00A22418 /* KJDownloader.m in Sources */,
 				682690D02768D54D0073D1E7 /* Enum.swift in Sources */,
 				205DA290276D986800D4E3EA /* Screenshots.swift in Sources */,
 				682690CA2768CDEE0073D1E7 /* KJPlayer.swift in Sources */,
 				20E216D2276ECB840079DEAA /* SkipTime.swift in Sources */,
 				2084A880276F25EA007B355A /* Cache.swift in Sources */,
+				20A40B0527701DFF00A22418 /* KJFileHandleManager.m in Sources */,
 				20EE6E67276E535E00F882B9 /* Timer.swift in Sources */,
 				2005AC8B27697E92007573E9 /* SharedInstance.swift in Sources */,
 				205DA292276D9B9F00D4E3EA /* RecordTimeData.swift in Sources */,
@@ -621,7 +655,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = kj.KJPlayer;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_EMIT_LOC_STRINGS = YES;
-				SWIFT_OBJC_BRIDGING_HEADER = "";
+				SWIFT_OBJC_BRIDGING_HEADER = "KJPlayer/Sources/Downloader/KJPlayer-Bridging-Header.h";
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
@@ -652,7 +686,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = kj.KJPlayer;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_EMIT_LOC_STRINGS = YES;
-				SWIFT_OBJC_BRIDGING_HEADER = "";
+				SWIFT_OBJC_BRIDGING_HEADER = "KJPlayer/Sources/Downloader/KJPlayer-Bridging-Header.h";
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
