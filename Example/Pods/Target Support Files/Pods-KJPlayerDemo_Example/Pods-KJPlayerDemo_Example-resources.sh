@@ -98,11 +98,11 @@ EOM
 }
 if [[ "$CONFIGURATION" == "Debug" ]]; then
   install_resource "${PODS_CONFIGURATION_BUILD_DIR}/KJPlayer/KJPlayer.bundle"
-  install_resource "${BUILT_PRODUCTS_DIR}/KJPlayer/KJPlayer.framework/PlayerVideo.momd"
+  install_resource "${BUILT_PRODUCTS_DIR}/KJPlayer/KJPlayer.framework/APlayer.momd"
 fi
 if [[ "$CONFIGURATION" == "Release" ]]; then
   install_resource "${PODS_CONFIGURATION_BUILD_DIR}/KJPlayer/KJPlayer.bundle"
-  install_resource "${BUILT_PRODUCTS_DIR}/KJPlayer/KJPlayer.framework/PlayerVideo.momd"
+  install_resource "${BUILT_PRODUCTS_DIR}/KJPlayer/KJPlayer.framework/APlayer.momd"
 fi
 
 mkdir -p "${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}"

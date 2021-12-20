@@ -295,12 +295,12 @@
 			inputPaths = (
 				"${PODS_ROOT}/Target Support Files/Pods-KJPlayerDemo_Example/Pods-KJPlayerDemo_Example-resources.sh",
 				"${PODS_CONFIGURATION_BUILD_DIR}/KJPlayer/KJPlayer.bundle",
-				"${BUILT_PRODUCTS_DIR}/KJPlayer/KJPlayer.framework/PlayerVideo.momd",
+				"${BUILT_PRODUCTS_DIR}/KJPlayer/KJPlayer.framework/APlayer.momd",
 			);
 			name = "[CP] Copy Pods Resources";
 			outputPaths = (
 				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/KJPlayer.bundle",
-				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/PlayerVideo.momd",
+				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/APlayer.momd",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;

@@ -22,7 +22,7 @@ extension DatabaseManager {
 /// Configuration information, please set in the App startup time
 extension DatabaseManager.Configuration {
     /// `xcdatamodeld` database name
-    static let resourceName = "PlayerVideo"
+    static let resourceName = "APlayer"
     
     static var ctx: NSManagedObjectContext? = nil
     
