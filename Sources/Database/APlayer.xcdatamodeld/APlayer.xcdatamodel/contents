@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<model type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="19461" systemVersion="21A559" minimumToolsVersion="Automatic" sourceLanguage="Swift" userDefinedModelVersionIdentifier="">
+    <entity name="Record" representedClassName="RecordTimeData" isAbstract="YES" syncable="YES">
+        <attribute name="dbid" optional="YES" attributeType="String"/>
+        <attribute name="lastTime" optional="YES" attributeType="Double" defaultValueString="0.0" usesScalarValueType="YES"/>
+        <attribute name="totalTime" optional="YES" attributeType="Double" defaultValueString="0.0" usesScalarValueType="YES"/>
+    </entity>
+    <entity name="Video" representedClassName="PlayerVideoData" isAbstract="YES" syncable="YES">
+        <attribute name="dbid" optional="YES" attributeType="String"/>
+        <attribute name="recordID" optional="YES" attributeType="String"/>
+        <attribute name="sandboxPath" optional="YES" attributeType="String"/>
+        <attribute name="saveTime" optional="YES" attributeType="Double" defaultValueString="0.0" usesScalarValueType="YES"/>
+        <attribute name="videoContentLength" optional="YES" attributeType="Integer 16" defaultValueString="0.0" usesScalarValueType="YES"/>
+        <attribute name="videoData" optional="YES" attributeType="Binary"/>
+        <attribute name="videoDownloaded" optional="YES" attributeType="Boolean" usesScalarValueType="YES"/>
+        <attribute name="videoFormat" optional="YES" attributeType="String"/>
+        <attribute name="videoTotalTime" optional="YES" attributeType="Double" defaultValueString="0.0" usesScalarValueType="YES"/>
+        <attribute name="videoUrl" optional="YES" attributeType="String"/>
+    </entity>
+    <elements>
+        <element name="Video" positionX="-63" positionY="-18" width="128" height="179"/>
+        <element name="Record" positionX="-54" positionY="-9" width="128" height="74"/>
+    </elements>
+</model>
