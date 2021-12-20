@@ -48,7 +48,6 @@
 		682690D32768D6AF0073D1E7 /* KJAVPlayer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 682690D22768D6AF0073D1E7 /* KJAVPlayer.swift */; };
 		682690D52768DA9E0073D1E7 /* KJPlayerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 682690D42768DA9E0073D1E7 /* KJPlayerView.swift */; };
 		682690D72768DF5F0073D1E7 /* Common.swift in Sources */ = {isa = PBXBuildFile; fileRef = 682690D62768DF5F0073D1E7 /* Common.swift */; };
-		687BCB5F276B91A20052C99E /* rock.mp4 in Resources */ = {isa = PBXBuildFile; fileRef = 687BCB5E276B91A20052C99E /* rock.mp4 */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -111,7 +110,6 @@
 		682690D22768D6AF0073D1E7 /* KJAVPlayer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KJAVPlayer.swift; sourceTree = "<group>"; };
 		682690D42768DA9E0073D1E7 /* KJPlayerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KJPlayerView.swift; sourceTree = "<group>"; };
 		682690D62768DF5F0073D1E7 /* Common.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Common.swift; sourceTree = "<group>"; };
-		687BCB5E276B91A20052C99E /* rock.mp4 */ = {isa = PBXFileReference; lastKnownFileType = file; path = rock.mp4; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -255,7 +253,6 @@
 		20689A02276845F3000FE077 /* Resources */ = {
 			isa = PBXGroup;
 			children = (
-				687BCB5E276B91A20052C99E /* rock.mp4 */,
 				203D5D1D2768434900883D00 /* Assets.xcassets */,
 				203D5D222768434900883D00 /* Info.plist */,
 				203D5D1F2768434900883D00 /* LaunchScreen.storyboard */,
@@ -416,7 +413,6 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				687BCB5F276B91A20052C99E /* rock.mp4 in Resources */,
 				203D5D212768434900883D00 /* LaunchScreen.storyboard in Resources */,
 				203D5D1E2768434900883D00 /* Assets.xcassets in Resources */,
 				203D5D1C2768434800883D00 /* Main.storyboard in Resources */,

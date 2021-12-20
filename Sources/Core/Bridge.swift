@@ -58,6 +58,7 @@ extension BridgeMethod {
     }
     
     internal static func skipTime(_ player: KJBasePlayer) -> TimeInterval {
+        
         return 10.0
     }
 }
@@ -109,5 +110,12 @@ extension BridgeMethod {
         default:
             break
         }
+    }
+}
+
+extension BridgeMethod {
+    
+    internal static func freeLookEnded(_ player: KJBasePlayer) -> Bool {
+        return KJBasePlayer.FreeTime.freeTimeEnded(player)
     }
 }

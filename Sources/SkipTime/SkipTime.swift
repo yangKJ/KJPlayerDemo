@@ -18,11 +18,11 @@ import Foundation
     @objc(kj_skipEndingTimeWithPlayer:)
     optional func kj_skipEndingTime(with player: KJBasePlayer) -> TimeInterval
     
-    @objc(kj_skipIntroWithPlayer:openingTime:)
-    optional func kj_skipIntro(with player: KJBasePlayer, openingTime: TimeInterval)
+    @objc(kj_skipOpeningTimeWithPlayer:openingTime:)
+    optional func kj_skipOpeningTime(with player: KJBasePlayer, openingTime: TimeInterval)
     
-    @objc(kj_skipTailLeaderWithPlayer:endingTime:)
-    optional func kj_skipTailLeader(with player: KJBasePlayer, endingTime: TimeInterval)
+    @objc(kj_skipEndingTimeWithPlayer:endingTime:)
+    optional func kj_skipEndingTime(with player: KJBasePlayer, endingTime: TimeInterval)
 }
 
 extension KJBasePlayer {

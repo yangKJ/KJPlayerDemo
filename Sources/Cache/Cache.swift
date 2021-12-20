@@ -23,8 +23,8 @@ import Foundation
     ///   - player: Player Kernel
     ///   - haveCached: Whether there is a cache
     ///   - cacheURL: Cache link, can be played directly
-    @objc(kj_beginPlayIsHaveCachedWithPlayer:haveCached:cacheURL:)
-    optional func kj_beginPlayIsHaveCached(with player: KJBasePlayer, haveCached: Bool, cacheURL: NSURL)
+    @objc(kj_cacheBeginPlayHaveCachedWithPlayer:haveCached:cacheURL:)
+    optional func kj_cacheBeginPlayHaveCached(with player: KJBasePlayer, haveCached: Bool, cacheURL: NSURL)
 }
 
 extension KJBasePlayer {

@@ -30,6 +30,7 @@ extension KJBasePlayer {
             guard let `self` = self else { return }
             self.runingCommonTimer(sender: timer)
         })
+        RunLoop.current.add(self.timer!, forMode: .common)
     }
     
     internal func deinitTimer() {

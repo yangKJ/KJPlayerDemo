@@ -26,12 +26,12 @@ import UIKit
     var autoPlay: Bool = true
     
     // MARK: - private
-    private var tempOriginalURL: NSURL? = nil
-    private var tempPlayURL: NSURL? = nil
+    private var _originalURL: NSURL? = nil
+    private var _playURL: NSURL? = nil
     private var userPause: Bool = false
     private var localed: Bool = false
     private var replay: Bool = false
-    internal var playing: Bool = false
+    private var playing: Bool = false
     
     public convenience init(withPlayerView view: KJPlayerView) {
         self.init()
@@ -82,7 +82,7 @@ import UIKit
                 break
             case .playing(let time):
                 self.playing = true
-                if userPause == false {
+                if userPause == false, !BridgeMethod.freeLookEnded(self) {
                     self.playStateObserve = .playing
                 }
                 self.currentTimeObserve = time
@@ -124,8 +124,8 @@ import UIKit
                 videoURL = NSURL.init(fileURLWithPath: videoURLString)
             }
         }
-        self.tempOriginalURL = videoURL
-        self.tempPlayURL = videoURL
+        self._originalURL = videoURL
+        self._playURL = videoURL
         return videoURL
     }
     
@@ -228,8 +228,8 @@ extension KJBasePlayer: KJPlayer {
     public var currentTime: TimeInterval { return self.currentTimeObserve! }
     public var totalTime: TimeInterval { return self.totalTimeObserve! }
     public var videoSize: CGSize { return self.videoSizeObserve! }
-    public var originalURL: NSURL? { return self.tempOriginalURL }
-    public var playURL: NSURL? { return self.tempPlayURL }
+    public var originalURL: NSURL? { return self._originalURL }
+    public var playURL: NSURL? { return self._playURL }
     public var isPlaying: Bool { return self.playing }
     public var isUserPause: Bool { return self.userPause }
     public var isOnlineSource: Bool { return self.localed }
@@ -245,7 +245,7 @@ extension KJBasePlayer: KJPlayer {
     }
     
     public var isLiveStreaming: Bool {
-        if let videoURL = self.tempOriginalURL {
+        if let videoURL = self._originalURL {
             return Common.Function.videoAesset(videoURL) == .HLS
         } else {
             return false
