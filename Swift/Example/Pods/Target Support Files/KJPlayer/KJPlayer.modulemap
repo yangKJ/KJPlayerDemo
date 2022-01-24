@@ -1,0 +1,6 @@
+framework module KJPlayer {
+  umbrella header "KJPlayer-umbrella.h"
+
+  export *
+  module * { export * }
+}

@@ -1,0 +1,788 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 55;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		2003A049276F037900197093 /* Timer+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2003A048276F037900197093 /* Timer+Extension.swift */; };
+		2003A04E276F055200197093 /* Function.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2003A04D276F055200197093 /* Function.swift */; };
+		2005AC8B27697E92007573E9 /* SharedInstance.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2005AC8A27697E92007573E9 /* SharedInstance.swift */; };
+		2005AC8D2769841F007573E9 /* Bridge.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2005AC8C2769841F007573E9 /* Bridge.swift */; };
+		2005AC8F2769A03D007573E9 /* Notification.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2005AC8E2769A03D007573E9 /* Notification.swift */; };
+		2005AC962769C25B007573E9 /* RecordTime.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2005AC952769C25B007573E9 /* RecordTime.swift */; };
+		2005AC9B2769E3BC007573E9 /* RecordTimeTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2005AC9A2769E3BC007573E9 /* RecordTimeTests.swift */; };
+		2035EC0B276AD66400B65363 /* PictureInPicture.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2035EC0A276AD66400B65363 /* PictureInPicture.swift */; };
+		2035EC0D276AE4A600B65363 /* Provider.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2035EC0C276AE4A600B65363 /* Provider.swift */; };
+		203D5D152768434800883D00 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 203D5D142768434800883D00 /* AppDelegate.swift */; };
+		203D5D192768434800883D00 /* HomeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 203D5D182768434800883D00 /* HomeViewController.swift */; };
+		203D5D1C2768434800883D00 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 203D5D1A2768434800883D00 /* Main.storyboard */; };
+		203D5D1E2768434900883D00 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 203D5D1D2768434900883D00 /* Assets.xcassets */; };
+		203D5D212768434900883D00 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 203D5D1F2768434900883D00 /* LaunchScreen.storyboard */; };
+		203D5D2B276843A900883D00 /* DatabaseManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 203D5D29276843A900883D00 /* DatabaseManager.swift */; };
+		203D5D2C276843A900883D00 /* DatabaseConfiguration.swift in Sources */ = {isa = PBXBuildFile; fileRef = 203D5D2A276843A900883D00 /* DatabaseConfiguration.swift */; };
+		205DA28A276D672200D4E3EA /* FreeTime.swift in Sources */ = {isa = PBXBuildFile; fileRef = 205DA289276D672200D4E3EA /* FreeTime.swift */; };
+		205DA28D276D97AB00D4E3EA /* Definition.swift in Sources */ = {isa = PBXBuildFile; fileRef = 205DA28C276D97AB00D4E3EA /* Definition.swift */; };
+		205DA290276D986800D4E3EA /* Screenshots.swift in Sources */ = {isa = PBXBuildFile; fileRef = 205DA28F276D986800D4E3EA /* Screenshots.swift */; };
+		205DA292276D9B9F00D4E3EA /* RecordTimeData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 205DA291276D9B9F00D4E3EA /* RecordTimeData.swift */; };
+		205DA295276DCDEB00D4E3EA /* Prefetcher.swift in Sources */ = {isa = PBXBuildFile; fileRef = 205DA294276DCDEB00D4E3EA /* Prefetcher.swift */; };
+		2084A880276F25EA007B355A /* Cache.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2084A87F276F25EA007B355A /* Cache.swift */; };
+		2084A882276F2608007B355A /* CacheManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2084A881276F2608007B355A /* CacheManager.swift */; };
+		20A07AE5277034DE005B247A /* APlayer.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 20A07AE3277034DE005B247A /* APlayer.xcdatamodeld */; };
+		20A40B0327701DFF00A22418 /* KJDownloader.m in Sources */ = {isa = PBXBuildFile; fileRef = 20A40AFC27701DFF00A22418 /* KJDownloader.m */; };
+		20A40B0427701DFF00A22418 /* KJFileHandleInfo.m in Sources */ = {isa = PBXBuildFile; fileRef = 20A40AFD27701DFF00A22418 /* KJFileHandleInfo.m */; };
+		20A40B0527701DFF00A22418 /* KJFileHandleManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 20A40AFE27701DFF00A22418 /* KJFileHandleManager.m */; };
+		20A40B0627701DFF00A22418 /* KJDownloaderCommon.m in Sources */ = {isa = PBXBuildFile; fileRef = 20A40AFF27701DFF00A22418 /* KJDownloaderCommon.m */; };
+		20D3800A27687F1E0004E13C /* PlayerVideoData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 20D3800927687F1E0004E13C /* PlayerVideoData.swift */; };
+		20D38012276890460004E13C /* KJPlayerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 20D38011276890460004E13C /* KJPlayerTests.swift */; };
+		20D380192768906A0004E13C /* DatabaseTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 20D380182768906A0004E13C /* DatabaseTests.swift */; };
+		20E216D2276ECB840079DEAA /* SkipTime.swift in Sources */ = {isa = PBXBuildFile; fileRef = 20E216D1276ECB840079DEAA /* SkipTime.swift */; };
+		20EE6E67276E535E00F882B9 /* Timer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 20EE6E66276E535E00F882B9 /* Timer.swift */; };
+		20F4EBB0276C324B00B0FA76 /* DetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 20F4EBAF276C324B00B0FA76 /* DetailViewController.swift */; };
+		682690CA2768CDEE0073D1E7 /* KJPlayer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 682690C92768CDEE0073D1E7 /* KJPlayer.swift */; };
+		682690CC2768CEA40073D1E7 /* Protocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 682690CB2768CEA40073D1E7 /* Protocol.swift */; };
+		682690CE2768D05F0073D1E7 /* KJBasePlayer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 682690CD2768D05F0073D1E7 /* KJBasePlayer.swift */; };
+		682690D02768D54D0073D1E7 /* Enum.swift in Sources */ = {isa = PBXBuildFile; fileRef = 682690CF2768D54D0073D1E7 /* Enum.swift */; };
+		682690D32768D6AF0073D1E7 /* KJAVPlayer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 682690D22768D6AF0073D1E7 /* KJAVPlayer.swift */; };
+		682690D52768DA9E0073D1E7 /* KJPlayerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 682690D42768DA9E0073D1E7 /* KJPlayerView.swift */; };
+		682690D72768DF5F0073D1E7 /* Common.swift in Sources */ = {isa = PBXBuildFile; fileRef = 682690D62768DF5F0073D1E7 /* Common.swift */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXContainerItemProxy section */
+		20D38013276890470004E13C /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 203D5D092768434800883D00 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 203D5D102768434800883D00;
+			remoteInfo = KJPlayer;
+		};
+/* End PBXContainerItemProxy section */
+
+/* Begin PBXFileReference section */
+		2003A048276F037900197093 /* Timer+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Timer+Extension.swift"; sourceTree = "<group>"; };
+		2003A04D276F055200197093 /* Function.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Function.swift; sourceTree = "<group>"; };
+		2005AC8A27697E92007573E9 /* SharedInstance.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SharedInstance.swift; sourceTree = "<group>"; };
+		2005AC8C2769841F007573E9 /* Bridge.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Bridge.swift; sourceTree = "<group>"; };
+		2005AC8E2769A03D007573E9 /* Notification.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Notification.swift; sourceTree = "<group>"; };
+		2005AC952769C25B007573E9 /* RecordTime.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecordTime.swift; sourceTree = "<group>"; };
+		2005AC9A2769E3BC007573E9 /* RecordTimeTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecordTimeTests.swift; sourceTree = "<group>"; };
+		2035EC0A276AD66400B65363 /* PictureInPicture.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PictureInPicture.swift; sourceTree = "<group>"; };
+		2035EC0C276AE4A600B65363 /* Provider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Provider.swift; sourceTree = "<group>"; };
+		203D5D112768434800883D00 /* KJPlayer.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = KJPlayer.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		203D5D142768434800883D00 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
+		203D5D182768434800883D00 /* HomeViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeViewController.swift; sourceTree = "<group>"; };
+		203D5D1B2768434800883D00 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
+		203D5D1D2768434900883D00 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		203D5D202768434900883D00 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
+		203D5D222768434900883D00 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		203D5D29276843A900883D00 /* DatabaseManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DatabaseManager.swift; sourceTree = "<group>"; };
+		203D5D2A276843A900883D00 /* DatabaseConfiguration.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DatabaseConfiguration.swift; sourceTree = "<group>"; };
+		205DA289276D672200D4E3EA /* FreeTime.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FreeTime.swift; sourceTree = "<group>"; };
+		205DA28C276D97AB00D4E3EA /* Definition.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Definition.swift; sourceTree = "<group>"; };
+		205DA28F276D986800D4E3EA /* Screenshots.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Screenshots.swift; sourceTree = "<group>"; };
+		205DA291276D9B9F00D4E3EA /* RecordTimeData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecordTimeData.swift; sourceTree = "<group>"; };
+		205DA294276DCDEB00D4E3EA /* Prefetcher.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Prefetcher.swift; sourceTree = "<group>"; };
+		2084A87F276F25EA007B355A /* Cache.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Cache.swift; sourceTree = "<group>"; };
+		2084A881276F2608007B355A /* CacheManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CacheManager.swift; sourceTree = "<group>"; };
+		20A07AE4277034DE005B247A /* APlayer.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = APlayer.xcdatamodel; sourceTree = "<group>"; };
+		20A07AEB27704380005B247A /* KJPlayer-Bridging-Header.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "KJPlayer-Bridging-Header.h"; sourceTree = "<group>"; };
+		20A40AFB27701DFF00A22418 /* KJDownloaderCommon.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = KJDownloaderCommon.h; sourceTree = "<group>"; };
+		20A40AFC27701DFF00A22418 /* KJDownloader.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = KJDownloader.m; sourceTree = "<group>"; };
+		20A40AFD27701DFF00A22418 /* KJFileHandleInfo.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = KJFileHandleInfo.m; sourceTree = "<group>"; };
+		20A40AFE27701DFF00A22418 /* KJFileHandleManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = KJFileHandleManager.m; sourceTree = "<group>"; };
+		20A40AFF27701DFF00A22418 /* KJDownloaderCommon.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = KJDownloaderCommon.m; sourceTree = "<group>"; };
+		20A40B0027701DFF00A22418 /* KJDownloader.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = KJDownloader.h; sourceTree = "<group>"; };
+		20A40B0127701DFF00A22418 /* KJFileHandleInfo.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = KJFileHandleInfo.h; sourceTree = "<group>"; };
+		20A40B0227701DFF00A22418 /* KJFileHandleManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = KJFileHandleManager.h; sourceTree = "<group>"; };
+		20D3800927687F1E0004E13C /* PlayerVideoData.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PlayerVideoData.swift; sourceTree = "<group>"; };
+		20D3800F276890460004E13C /* KJPlayerTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = KJPlayerTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		20D38011276890460004E13C /* KJPlayerTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KJPlayerTests.swift; sourceTree = "<group>"; };
+		20D380182768906A0004E13C /* DatabaseTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DatabaseTests.swift; sourceTree = "<group>"; };
+		20E216D1276ECB840079DEAA /* SkipTime.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SkipTime.swift; sourceTree = "<group>"; };
+		20EE6E66276E535E00F882B9 /* Timer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Timer.swift; sourceTree = "<group>"; };
+		20F4EBAF276C324B00B0FA76 /* DetailViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailViewController.swift; sourceTree = "<group>"; };
+		682690C92768CDEE0073D1E7 /* KJPlayer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KJPlayer.swift; sourceTree = "<group>"; };
+		682690CB2768CEA40073D1E7 /* Protocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Protocol.swift; sourceTree = "<group>"; };
+		682690CD2768D05F0073D1E7 /* KJBasePlayer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KJBasePlayer.swift; sourceTree = "<group>"; };
+		682690CF2768D54D0073D1E7 /* Enum.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Enum.swift; sourceTree = "<group>"; };
+		682690D22768D6AF0073D1E7 /* KJAVPlayer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KJAVPlayer.swift; sourceTree = "<group>"; };
+		682690D42768DA9E0073D1E7 /* KJPlayerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KJPlayerView.swift; sourceTree = "<group>"; };
+		682690D62768DF5F0073D1E7 /* Common.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Common.swift; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		203D5D0E2768434800883D00 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		20D3800C276890460004E13C /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		2003A04A276F039800197093 /* Extension */ = {
+			isa = PBXGroup;
+			children = (
+				682690D62768DF5F0073D1E7 /* Common.swift */,
+				2003A048276F037900197093 /* Timer+Extension.swift */,
+			);
+			path = Extension;
+			sourceTree = "<group>";
+		};
+		2005AC942769C230007573E9 /* RecordTime */ = {
+			isa = PBXGroup;
+			children = (
+				2005AC952769C25B007573E9 /* RecordTime.swift */,
+				205DA291276D9B9F00D4E3EA /* RecordTimeData.swift */,
+			);
+			path = RecordTime;
+			sourceTree = "<group>";
+		};
+		2035EC09276AD63C00B65363 /* Pip */ = {
+			isa = PBXGroup;
+			children = (
+				2035EC0A276AD66400B65363 /* PictureInPicture.swift */,
+			);
+			path = Pip;
+			sourceTree = "<group>";
+		};
+		203D5D082768434800883D00 = {
+			isa = PBXGroup;
+			children = (
+				203D5D132768434800883D00 /* KJPlayer */,
+				20D38010276890460004E13C /* KJPlayerTests */,
+				203D5D122768434800883D00 /* Products */,
+			);
+			sourceTree = "<group>";
+		};
+		203D5D122768434800883D00 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				203D5D112768434800883D00 /* KJPlayer.app */,
+				20D3800F276890460004E13C /* KJPlayerTests.xctest */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		203D5D132768434800883D00 /* KJPlayer */ = {
+			isa = PBXGroup;
+			children = (
+				203D5D142768434800883D00 /* AppDelegate.swift */,
+				20F4EBAF276C324B00B0FA76 /* DetailViewController.swift */,
+				203D5D182768434800883D00 /* HomeViewController.swift */,
+				20689A02276845F3000FE077 /* Resources */,
+				203D5D28276843A900883D00 /* Sources */,
+			);
+			path = KJPlayer;
+			sourceTree = "<group>";
+		};
+		203D5D28276843A900883D00 /* Sources */ = {
+			isa = PBXGroup;
+			children = (
+				682690D12768D68D0073D1E7 /* AVPlayer */,
+				2084A87E276F2540007B355A /* Cache */,
+				682690C82768CDDA0073D1E7 /* Core */,
+				203D5D2D276843B400883D00 /* Database */,
+				205DA28B276D978900D4E3EA /* Definition */,
+				20A40AFA27701DFF00A22418 /* Downloader */,
+				2003A04A276F039800197093 /* Extension */,
+				205DA288276D670200D4E3EA /* FreeTime */,
+				2035EC09276AD63C00B65363 /* Pip */,
+				205DA293276DCDE100D4E3EA /* Prefetcher */,
+				2005AC942769C230007573E9 /* RecordTime */,
+				205DA28E276D985C00D4E3EA /* Screenshots */,
+				20E216D0276ECB670079DEAA /* SkipTime */,
+			);
+			name = Sources;
+			path = ../../Sources;
+			sourceTree = "<group>";
+		};
+		203D5D2D276843B400883D00 /* Database */ = {
+			isa = PBXGroup;
+			children = (
+				20A07AE3277034DE005B247A /* APlayer.xcdatamodeld */,
+				203D5D2A276843A900883D00 /* DatabaseConfiguration.swift */,
+				203D5D29276843A900883D00 /* DatabaseManager.swift */,
+				20D3800927687F1E0004E13C /* PlayerVideoData.swift */,
+			);
+			path = Database;
+			sourceTree = "<group>";
+		};
+		205DA288276D670200D4E3EA /* FreeTime */ = {
+			isa = PBXGroup;
+			children = (
+				205DA289276D672200D4E3EA /* FreeTime.swift */,
+			);
+			path = FreeTime;
+			sourceTree = "<group>";
+		};
+		205DA28B276D978900D4E3EA /* Definition */ = {
+			isa = PBXGroup;
+			children = (
+				205DA28C276D97AB00D4E3EA /* Definition.swift */,
+			);
+			path = Definition;
+			sourceTree = "<group>";
+		};
+		205DA28E276D985C00D4E3EA /* Screenshots */ = {
+			isa = PBXGroup;
+			children = (
+				205DA28F276D986800D4E3EA /* Screenshots.swift */,
+			);
+			path = Screenshots;
+			sourceTree = "<group>";
+		};
+		205DA293276DCDE100D4E3EA /* Prefetcher */ = {
+			isa = PBXGroup;
+			children = (
+				205DA294276DCDEB00D4E3EA /* Prefetcher.swift */,
+			);
+			path = Prefetcher;
+			sourceTree = "<group>";
+		};
+		20689A02276845F3000FE077 /* Resources */ = {
+			isa = PBXGroup;
+			children = (
+				203D5D1D2768434900883D00 /* Assets.xcassets */,
+				203D5D222768434900883D00 /* Info.plist */,
+				203D5D1F2768434900883D00 /* LaunchScreen.storyboard */,
+				203D5D1A2768434800883D00 /* Main.storyboard */,
+			);
+			path = Resources;
+			sourceTree = "<group>";
+		};
+		2084A87E276F2540007B355A /* Cache */ = {
+			isa = PBXGroup;
+			children = (
+				2084A87F276F25EA007B355A /* Cache.swift */,
+				2084A881276F2608007B355A /* CacheManager.swift */,
+			);
+			path = Cache;
+			sourceTree = "<group>";
+		};
+		20A40AFA27701DFF00A22418 /* Downloader */ = {
+			isa = PBXGroup;
+			children = (
+				20A40B0027701DFF00A22418 /* KJDownloader.h */,
+				20A40AFC27701DFF00A22418 /* KJDownloader.m */,
+				20A40AFB27701DFF00A22418 /* KJDownloaderCommon.h */,
+				20A40AFF27701DFF00A22418 /* KJDownloaderCommon.m */,
+				20A40B0127701DFF00A22418 /* KJFileHandleInfo.h */,
+				20A40AFD27701DFF00A22418 /* KJFileHandleInfo.m */,
+				20A40B0227701DFF00A22418 /* KJFileHandleManager.h */,
+				20A40AFE27701DFF00A22418 /* KJFileHandleManager.m */,
+				20A07AEB27704380005B247A /* KJPlayer-Bridging-Header.h */,
+			);
+			path = Downloader;
+			sourceTree = "<group>";
+		};
+		20D38010276890460004E13C /* KJPlayerTests */ = {
+			isa = PBXGroup;
+			children = (
+				20D380182768906A0004E13C /* DatabaseTests.swift */,
+				20D38011276890460004E13C /* KJPlayerTests.swift */,
+				2005AC9A2769E3BC007573E9 /* RecordTimeTests.swift */,
+			);
+			path = KJPlayerTests;
+			sourceTree = "<group>";
+		};
+		20E216D0276ECB670079DEAA /* SkipTime */ = {
+			isa = PBXGroup;
+			children = (
+				20E216D1276ECB840079DEAA /* SkipTime.swift */,
+			);
+			path = SkipTime;
+			sourceTree = "<group>";
+		};
+		682690C82768CDDA0073D1E7 /* Core */ = {
+			isa = PBXGroup;
+			children = (
+				2005AC8C2769841F007573E9 /* Bridge.swift */,
+				682690CF2768D54D0073D1E7 /* Enum.swift */,
+				2003A04D276F055200197093 /* Function.swift */,
+				682690CD2768D05F0073D1E7 /* KJBasePlayer.swift */,
+				682690C92768CDEE0073D1E7 /* KJPlayer.swift */,
+				682690D42768DA9E0073D1E7 /* KJPlayerView.swift */,
+				2005AC8E2769A03D007573E9 /* Notification.swift */,
+				682690CB2768CEA40073D1E7 /* Protocol.swift */,
+				2035EC0C276AE4A600B65363 /* Provider.swift */,
+				2005AC8A27697E92007573E9 /* SharedInstance.swift */,
+				20EE6E66276E535E00F882B9 /* Timer.swift */,
+			);
+			path = Core;
+			sourceTree = "<group>";
+		};
+		682690D12768D68D0073D1E7 /* AVPlayer */ = {
+			isa = PBXGroup;
+			children = (
+				682690D22768D6AF0073D1E7 /* KJAVPlayer.swift */,
+			);
+			path = AVPlayer;
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		203D5D102768434800883D00 /* KJPlayer */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 203D5D252768434900883D00 /* Build configuration list for PBXNativeTarget "KJPlayer" */;
+			buildPhases = (
+				203D5D0D2768434800883D00 /* Sources */,
+				203D5D0E2768434800883D00 /* Frameworks */,
+				203D5D0F2768434800883D00 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = KJPlayer;
+			productName = KJPlayer;
+			productReference = 203D5D112768434800883D00 /* KJPlayer.app */;
+			productType = "com.apple.product-type.application";
+		};
+		20D3800E276890460004E13C /* KJPlayerTests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 20D38015276890470004E13C /* Build configuration list for PBXNativeTarget "KJPlayerTests" */;
+			buildPhases = (
+				20D3800B276890460004E13C /* Sources */,
+				20D3800C276890460004E13C /* Frameworks */,
+				20D3800D276890460004E13C /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				20D38014276890470004E13C /* PBXTargetDependency */,
+			);
+			name = KJPlayerTests;
+			productName = KJPlayerTests;
+			productReference = 20D3800F276890460004E13C /* KJPlayerTests.xctest */;
+			productType = "com.apple.product-type.bundle.unit-test";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		203D5D092768434800883D00 /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				BuildIndependentTargetsInParallel = 1;
+				LastSwiftUpdateCheck = 1310;
+				LastUpgradeCheck = 1310;
+				TargetAttributes = {
+					203D5D102768434800883D00 = {
+						CreatedOnToolsVersion = 13.1;
+						LastSwiftMigration = 1310;
+					};
+					20D3800E276890460004E13C = {
+						CreatedOnToolsVersion = 13.1;
+						LastSwiftMigration = 1310;
+						TestTargetID = 203D5D102768434800883D00;
+					};
+				};
+			};
+			buildConfigurationList = 203D5D0C2768434800883D00 /* Build configuration list for PBXProject "KJPlayer" */;
+			compatibilityVersion = "Xcode 13.0";
+			developmentRegion = en;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+				Base,
+			);
+			mainGroup = 203D5D082768434800883D00;
+			productRefGroup = 203D5D122768434800883D00 /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				203D5D102768434800883D00 /* KJPlayer */,
+				20D3800E276890460004E13C /* KJPlayerTests */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		203D5D0F2768434800883D00 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				203D5D212768434900883D00 /* LaunchScreen.storyboard in Resources */,
+				203D5D1E2768434900883D00 /* Assets.xcassets in Resources */,
+				203D5D1C2768434800883D00 /* Main.storyboard in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		20D3800D276890460004E13C /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		203D5D0D2768434800883D00 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				682690D32768D6AF0073D1E7 /* KJAVPlayer.swift in Sources */,
+				20D3800A27687F1E0004E13C /* PlayerVideoData.swift in Sources */,
+				682690D52768DA9E0073D1E7 /* KJPlayerView.swift in Sources */,
+				2035EC0D276AE4A600B65363 /* Provider.swift in Sources */,
+				20A40B0627701DFF00A22418 /* KJDownloaderCommon.m in Sources */,
+				203D5D2C276843A900883D00 /* DatabaseConfiguration.swift in Sources */,
+				2035EC0B276AD66400B65363 /* PictureInPicture.swift in Sources */,
+				2005AC8D2769841F007573E9 /* Bridge.swift in Sources */,
+				20A07AE5277034DE005B247A /* APlayer.xcdatamodeld in Sources */,
+				682690CE2768D05F0073D1E7 /* KJBasePlayer.swift in Sources */,
+				203D5D2B276843A900883D00 /* DatabaseManager.swift in Sources */,
+				682690D72768DF5F0073D1E7 /* Common.swift in Sources */,
+				20A40B0427701DFF00A22418 /* KJFileHandleInfo.m in Sources */,
+				20F4EBB0276C324B00B0FA76 /* DetailViewController.swift in Sources */,
+				2084A882276F2608007B355A /* CacheManager.swift in Sources */,
+				205DA28D276D97AB00D4E3EA /* Definition.swift in Sources */,
+				20A40B0327701DFF00A22418 /* KJDownloader.m in Sources */,
+				682690D02768D54D0073D1E7 /* Enum.swift in Sources */,
+				205DA290276D986800D4E3EA /* Screenshots.swift in Sources */,
+				682690CA2768CDEE0073D1E7 /* KJPlayer.swift in Sources */,
+				20E216D2276ECB840079DEAA /* SkipTime.swift in Sources */,
+				2084A880276F25EA007B355A /* Cache.swift in Sources */,
+				20A40B0527701DFF00A22418 /* KJFileHandleManager.m in Sources */,
+				20EE6E67276E535E00F882B9 /* Timer.swift in Sources */,
+				2005AC8B27697E92007573E9 /* SharedInstance.swift in Sources */,
+				205DA292276D9B9F00D4E3EA /* RecordTimeData.swift in Sources */,
+				205DA295276DCDEB00D4E3EA /* Prefetcher.swift in Sources */,
+				2003A04E276F055200197093 /* Function.swift in Sources */,
+				203D5D192768434800883D00 /* HomeViewController.swift in Sources */,
+				203D5D152768434800883D00 /* AppDelegate.swift in Sources */,
+				682690CC2768CEA40073D1E7 /* Protocol.swift in Sources */,
+				2005AC962769C25B007573E9 /* RecordTime.swift in Sources */,
+				2003A049276F037900197093 /* Timer+Extension.swift in Sources */,
+				205DA28A276D672200D4E3EA /* FreeTime.swift in Sources */,
+				2005AC8F2769A03D007573E9 /* Notification.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		20D3800B276890460004E13C /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				20D380192768906A0004E13C /* DatabaseTests.swift in Sources */,
+				2005AC9B2769E3BC007573E9 /* RecordTimeTests.swift in Sources */,
+				20D38012276890460004E13C /* KJPlayerTests.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		20D38014276890470004E13C /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 203D5D102768434800883D00 /* KJPlayer */;
+			targetProxy = 20D38013276890470004E13C /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
+
+/* Begin PBXVariantGroup section */
+		203D5D1A2768434800883D00 /* Main.storyboard */ = {
+			isa = PBXVariantGroup;
+			children = (
+				203D5D1B2768434800883D00 /* Base */,
+			);
+			name = Main.storyboard;
+			sourceTree = "<group>";
+		};
+		203D5D1F2768434900883D00 /* LaunchScreen.storyboard */ = {
+			isa = PBXVariantGroup;
+			children = (
+				203D5D202768434900883D00 /* Base */,
+			);
+			name = LaunchScreen.storyboard;
+			sourceTree = "<group>";
+		};
+/* End PBXVariantGroup section */
+
+/* Begin XCBuildConfiguration section */
+		203D5D232768434900883D00 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++17";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_TESTABILITY = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 12.0;
+				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
+				MTL_FAST_MATH = YES;
+				ONLY_ACTIVE_ARCH = YES;
+				SDKROOT = iphoneos;
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = DEBUG;
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+			};
+			name = Debug;
+		};
+		203D5D242768434900883D00 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++17";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 12.0;
+				MTL_ENABLE_DEBUG_INFO = NO;
+				MTL_FAST_MATH = YES;
+				SDKROOT = iphoneos;
+				SWIFT_COMPILATION_MODE = wholemodule;
+				SWIFT_OPTIMIZATION_LEVEL = "-O";
+				VALIDATE_PRODUCT = YES;
+			};
+			name = Release;
+		};
+		203D5D262768434900883D00 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CLANG_ENABLE_MODULES = YES;
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = KJPlayer/Resources/Info.plist;
+				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
+				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
+				INFOPLIST_KEY_UIMainStoryboardFile = Main;
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				IPHONEOS_DEPLOYMENT_TARGET = 12.0;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = kj.KJPlayer;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_INSTALL_OBJC_HEADER = NO;
+				SWIFT_OBJC_BRIDGING_HEADER = "../Sources/Downloader/KJPlayer-Bridging-Header.h";
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Debug;
+		};
+		203D5D272768434900883D00 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CLANG_ENABLE_MODULES = YES;
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = KJPlayer/Resources/Info.plist;
+				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
+				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
+				INFOPLIST_KEY_UIMainStoryboardFile = Main;
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				IPHONEOS_DEPLOYMENT_TARGET = 12.0;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = kj.KJPlayer;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_INSTALL_OBJC_HEADER = NO;
+				SWIFT_OBJC_BRIDGING_HEADER = "../Sources/Downloader/KJPlayer-Bridging-Header.h";
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Release;
+		};
+		20D38016276890470004E13C /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				CLANG_ENABLE_MODULES = YES;
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				GENERATE_INFOPLIST_FILE = YES;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
+				);
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = kj.KJPlayerTests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_OBJC_BRIDGING_HEADER = "";
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/KJPlayer.app/KJPlayer";
+			};
+			name = Debug;
+		};
+		20D38017276890470004E13C /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				CLANG_ENABLE_MODULES = YES;
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				GENERATE_INFOPLIST_FILE = YES;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
+				);
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = kj.KJPlayerTests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_OBJC_BRIDGING_HEADER = "";
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/KJPlayer.app/KJPlayer";
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		203D5D0C2768434800883D00 /* Build configuration list for PBXProject "KJPlayer" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				203D5D232768434900883D00 /* Debug */,
+				203D5D242768434900883D00 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		203D5D252768434900883D00 /* Build configuration list for PBXNativeTarget "KJPlayer" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				203D5D262768434900883D00 /* Debug */,
+				203D5D272768434900883D00 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		20D38015276890470004E13C /* Build configuration list for PBXNativeTarget "KJPlayerTests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				20D38016276890470004E13C /* Debug */,
+				20D38017276890470004E13C /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+/* End XCConfigurationList section */
+
+/* Begin XCVersionGroup section */
+		20A07AE3277034DE005B247A /* APlayer.xcdatamodeld */ = {
+			isa = XCVersionGroup;
+			children = (
+				20A07AE4277034DE005B247A /* APlayer.xcdatamodel */,
+			);
+			currentVersion = 20A07AE4277034DE005B247A /* APlayer.xcdatamodel */;
+			path = APlayer.xcdatamodeld;
+			sourceTree = "<group>";
+			versionGroupType = wrapper.xcdatamodel;
+		};
+/* End XCVersionGroup section */
+	};
+	rootObject = 203D5D092768434800883D00 /* Project object */;
+}
