@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<model type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="17709" systemVersion="19E287" minimumToolsVersion="Automatic" sourceLanguage="Objective-C" userDefinedModelVersionIdentifier="">
+    <entity name="DBPlayerData" representedClassName="DBPlayerData" syncable="YES">
+        <attribute name="dbid" optional="YES" attributeType="String"/>
+        <attribute name="sandboxPath" optional="YES" attributeType="String"/>
+        <attribute name="saveTime" optional="YES" attributeType="Integer 64" defaultValueString="0" usesScalarValueType="YES"/>
+        <attribute name="videoContentLength" optional="YES" attributeType="Integer 64" defaultValueString="0" usesScalarValueType="YES"/>
+        <attribute name="videoData" optional="YES" attributeType="Binary"/>
+        <attribute name="videoFormat" optional="YES" attributeType="String"/>
+        <attribute name="videoIntact" optional="YES" attributeType="Boolean" usesScalarValueType="YES"/>
+        <attribute name="videoPlayTime" optional="YES" attributeType="Integer 64" defaultValueString="0" usesScalarValueType="YES"/>
+        <attribute name="videoUrl" optional="YES" attributeType="String"/>
+    </entity>
+    <elements>
+        <element name="DBPlayerData" positionX="-36" positionY="9" width="128" height="178"/>
+    </elements>
+</model>
