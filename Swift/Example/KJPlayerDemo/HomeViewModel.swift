@@ -16,6 +16,14 @@ enum ViewControllerType: String {
         case .AVPlayer: return AVPlayerViewController()
         }
     }
+    var className: String {
+        var string: String = "."
+        switch self {
+        case .AVPlayer:
+            string = NSStringFromClass(AVPlayerViewController.self)
+        }
+        return String(string.split(separator: ".").last ?? "")
+    }
 }
 
 class HomeViewModel: NSObject {

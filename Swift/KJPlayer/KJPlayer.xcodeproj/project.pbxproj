@@ -13,7 +13,6 @@
 		2005AC8D2769841F007573E9 /* Bridge.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2005AC8C2769841F007573E9 /* Bridge.swift */; };
 		2005AC8F2769A03D007573E9 /* Notification.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2005AC8E2769A03D007573E9 /* Notification.swift */; };
 		2005AC962769C25B007573E9 /* RecordTime.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2005AC952769C25B007573E9 /* RecordTime.swift */; };
-		2005AC9B2769E3BC007573E9 /* RecordTimeTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2005AC9A2769E3BC007573E9 /* RecordTimeTests.swift */; };
 		2035EC0B276AD66400B65363 /* PictureInPicture.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2035EC0A276AD66400B65363 /* PictureInPicture.swift */; };
 		2035EC0D276AE4A600B65363 /* Provider.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2035EC0C276AE4A600B65363 /* Provider.swift */; };
 		203D5D152768434800883D00 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 203D5D142768434800883D00 /* AppDelegate.swift */; };
@@ -67,7 +66,6 @@
 		2005AC8C2769841F007573E9 /* Bridge.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Bridge.swift; sourceTree = "<group>"; };
 		2005AC8E2769A03D007573E9 /* Notification.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Notification.swift; sourceTree = "<group>"; };
 		2005AC952769C25B007573E9 /* RecordTime.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecordTime.swift; sourceTree = "<group>"; };
-		2005AC9A2769E3BC007573E9 /* RecordTimeTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecordTimeTests.swift; sourceTree = "<group>"; };
 		2035EC0A276AD66400B65363 /* PictureInPicture.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PictureInPicture.swift; sourceTree = "<group>"; };
 		2035EC0C276AE4A600B65363 /* Provider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Provider.swift; sourceTree = "<group>"; };
 		203D5D112768434800883D00 /* KJPlayer.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = KJPlayer.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -291,7 +289,6 @@
 			children = (
 				20D380182768906A0004E13C /* DatabaseTests.swift */,
 				20D38011276890460004E13C /* KJPlayerTests.swift */,
-				2005AC9A2769E3BC007573E9 /* RecordTimeTests.swift */,
 			);
 			path = KJPlayerTests;
 			sourceTree = "<group>";
@@ -476,7 +473,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				20D380192768906A0004E13C /* DatabaseTests.swift in Sources */,
-				2005AC9B2769E3BC007573E9 /* RecordTimeTests.swift in Sources */,
 				20D38012276890460004E13C /* KJPlayerTests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

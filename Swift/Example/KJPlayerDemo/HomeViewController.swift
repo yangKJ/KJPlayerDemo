@@ -64,7 +64,7 @@ extension HomeViewController: UITableViewDataSource, UITableViewDelegate {
         cell.selectionStyle = .none
         cell.accessoryType = .disclosureIndicator
         cell.textLabel?.textColor = UIColor.blue
-        cell.textLabel?.text = "\(indexPath.row + 1). " + String(describing: type(of: element.viewController()))
+        cell.textLabel?.text = "\(indexPath.row + 1). " + element.className
         cell.textLabel?.font = UIFont.systemFont(ofSize: 14)
         cell.detailTextLabel?.textColor = UIColor.blue.withAlphaComponent(0.5)
         cell.detailTextLabel?.text = element.rawValue
