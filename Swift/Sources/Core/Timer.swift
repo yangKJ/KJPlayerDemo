@@ -7,6 +7,7 @@
 
 import Foundation
 import UIKit
+import ObjectiveC
 
 /// 该计时器会一直跑起来，需要使用的地方自行借取
 /// The timer will keep running and borrow it from the place where it needs to be used
