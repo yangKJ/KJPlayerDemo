@@ -16,19 +16,19 @@ Pod::Spec.new do |s|
   s.ios.deployment_target = '9.0'
   s.frameworks = 'Foundation', 'UIKit', 'AVFoundation', 'MediaPlayer'
 
-  s.ios.source_files = 'KJPlayer/Classes/KJPlayerHeader.h'
+  s.ios.source_files = 'Sources/KJPlayerHeader.h'
 
   s.subspec 'Common' do |xx|
-    xx.source_files = "KJPlayer/Classes/Core/*.{h,m}"
+    xx.source_files = "Sources/Core/*.{h,m}"
   end
 
   s.subspec 'AVPlayer' do |av|
     av.subspec 'AVCore' do |xx|
-      xx.source_files = "KJPlayer/Classes/AVPlayer/*.{h,m}"
+      xx.source_files = "Sources/AVPlayer/*.{h,m}"
       xx.dependency 'KJPlayer/Common'
     end
     av.subspec 'AVDownloader' do |xx|
-      xx.source_files = "KJPlayer/Classes/AVPlayer/AVDownloader/**/*"
+      xx.source_files = "Sources/AVPlayer/AVDownloader/**/*"
       xx.frameworks = 'MobileCoreServices'
       xx.dependency 'KJPlayer/AVPlayer/AVCore'
       xx.dependency 'KJPlayer/Database'
@@ -37,13 +37,13 @@ Pod::Spec.new do |s|
   end
   
   s.subspec 'MIDI' do |md|
-    md.source_files = "KJPlayer/Classes/MidiPlayer/*.{h,m}"
-    md.resources = "KJPlayer/Classes/MidiPlayer/*.{bundle}"
+    md.source_files = "Sources/MidiPlayer/*.{h,m}"
+    md.resources = "Sources/MidiPlayer/*.{bundle}"
     md.dependency 'KJPlayer/Common'
   end
   
   s.subspec 'IJKPlayer' do |jk|
-    jk.source_files = "KJPlayer/Classes/IJKPlayer/*.{h,m}"
+    jk.source_files = "Sources/IJKPlayer/*.{h,m}"
     jk.dependency 'KJPlayer/Common'
     jk.dependency 'IJKMediaFramework'
     jk.libraries = 'c++', 'z', 'bz2', 'iconv'
@@ -54,73 +54,73 @@ Pod::Spec.new do |s|
   
   ## UI控件模块
   s.subspec 'CustomView' do |xx|
-    xx.source_files = "KJPlayer/Classes/View/*.{h,m}"
+    xx.source_files = "Sources/View/*.{h,m}"
     xx.resource_bundles = {
-      'KJPlayer' => ['KJPlayer/Classes/View/*.{ttf}']
+      'KJPlayer' => ['Sources/View/*.{ttf}']
     }
     xx.dependency 'KJPlayer/Common'
   end
 
   ## 数据库模块
   s.subspec 'Database' do |db|
-    db.source_files = "KJPlayer/Classes/Tools/Database/*.{h,m}"
-    db.resources = "KJPlayer/Classes/Tools/Database/*.{xcdatamodeld}"
+    db.source_files = "Sources/Tools/Database/*.{h,m}"
+    db.resources = "Sources/Tools/Database/*.{xcdatamodeld}"
   end
   
   ## 缓存模块
   s.subspec 'Cache' do |xx|
-    xx.source_files = "KJPlayer/Classes/Tools/Cache/*.{h,m}"
+    xx.source_files = "Sources/Tools/Cache/*.{h,m}"
     xx.dependency 'KJPlayer/Common'
     xx.dependency 'KJPlayer/Database'
   end
   
   ## 下载模块
   s.subspec 'Downloader' do |xx|
-    xx.source_files = "KJPlayer/Classes/Tools/Downloader/*.{h,m}"
+    xx.source_files = "Sources/Tools/Downloader/*.{h,m}"
     xx.dependency 'KJPlayer/Common'
   end
   
   ## 动态切换内核
   s.subspec 'DynamicSource' do |xx|
-    xx.source_files = "KJPlayer/Classes/Tools/DynamicSource/*.{h,m}"
+    xx.source_files = "Sources/Tools/DynamicSource/*.{h,m}"
     xx.dependency 'KJPlayer/Common'
   end
   
   ## 心跳包
   s.subspec 'PingTimer' do |xx|
-    xx.source_files = "KJPlayer/Classes/Tools/PingTimer/*.{h,m}"
+    xx.source_files = "Sources/Tools/PingTimer/*.{h,m}"
     xx.dependency 'KJPlayer/Common'
   end
   
   ## 记录播放时间
   s.subspec 'RecordTime' do |xx|
-    xx.source_files = "KJPlayer/Classes/Tools/RecordTime/*.{h,m}"
+    xx.source_files = "Sources/Tools/RecordTime/*.{h,m}"
     xx.dependency 'KJPlayer/Common'
     xx.dependency 'KJPlayer/Database'
   end
   
   ## 跳过片头片尾
   s.subspec 'SkipTime' do |xx|
-    xx.source_files = "KJPlayer/Classes/Tools/SkipTime/*.{h,m}"
+    xx.source_files = "Sources/Tools/SkipTime/*.{h,m}"
     xx.dependency 'KJPlayer/Common'
   end
   
   ## 尝试观看
-  s.subspec 'TryTime' do |xx|
-    xx.source_files = "KJPlayer/Classes/Tools/TryTime/*.{h,m}"
+  s.subspec 'FreeTime' do |xx|
+    xx.source_files = "Sources/Tools/TryTime/*.{h,m}"
     xx.dependency 'KJPlayer/Common'
   end
   
   ## 截屏板块
   s.subspec 'Screenshots' do |xx|
-    xx.source_files = "KJPlayer/Classes/Tools/Screenshots/*.{h,m}"
+    xx.source_files = "Sources/Tools/Screenshots/*.{h,m}"
     xx.dependency 'KJPlayer/Common'
     xx.dependency 'KJPlayer/Database'
   end
   
   ## 前后台功能
   s.subspec 'BackgroundMonitoring' do |xx|
-    xx.source_files = "KJPlayer/Classes/Tools/BackgroundMonitoring/*.{h,m}"
+    xx.source_files = "Sources/Tools/BackgroundMonitoring/*.{h,m}"
     xx.dependency 'KJPlayer/Common'
   end
   

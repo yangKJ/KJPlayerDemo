@@ -14,10 +14,8 @@
 		689D5A8022E3011400DE33FC /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 689D5A7F22E3011400DE33FC /* Assets.xcassets */; };
 		689D5A8322E3011400DE33FC /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 689D5A8122E3011400DE33FC /* LaunchScreen.storyboard */; };
 		689D5A8622E3011400DE33FC /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 689D5A8522E3011400DE33FC /* main.m */; };
-		689D5A9022E3011400DE33FC /* KJPlayerDemoTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 689D5A8F22E3011400DE33FC /* KJPlayerDemoTests.m */; };
 		68E17A7B25DB6FC1008DC2BC /* BaseViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 68E17A7A25DB6FC1008DC2BC /* BaseViewController.m */; };
 		68F064D227E04E93005A2955 /* SceneDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 68F064D127E04E93005A2955 /* SceneDelegate.m */; };
-		8498EB02B1292F2CB9C6F4A2 /* libPods-KJPlayerDemoTests.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 8B384A0CC9D7266BF3DDC4CA /* libPods-KJPlayerDemoTests.a */; };
 		C9DA0D3726C4B89600345CF0 /* KJCacheViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = C9DA0D1726C4B89600345CF0 /* KJCacheViewController.m */; };
 		C9DA0D3826C4B89600345CF0 /* KJSkipViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = C9DA0D1826C4B89600345CF0 /* KJSkipViewController.m */; };
 		C9DA0D3926C4B89600345CF0 /* KJScreenViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = C9DA0D1926C4B89600345CF0 /* KJScreenViewController.m */; };
@@ -34,16 +32,6 @@
 		C9DA0D4426C4B89600345CF0 /* KJLiveViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = C9DA0D3626C4B89600345CF0 /* KJLiveViewController.m */; };
 /* End PBXBuildFile section */
 
-/* Begin PBXContainerItemProxy section */
-		689D5A8C22E3011400DE33FC /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 689D5A6B22E3011200DE33FC /* Project object */;
-			proxyType = 1;
-			remoteGlobalIDString = 689D5A7222E3011200DE33FC;
-			remoteInfo = KJPlayerDemo;
-		};
-/* End PBXContainerItemProxy section */
-
 /* Begin PBXFileReference section */
 		1134522D635D0388C6BD70BA /* Pods_KJPlayerDemo.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_KJPlayerDemo.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		35775C94E59E22261A53527D /* Pods-KJPlayerDemoTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-KJPlayerDemoTests.debug.xcconfig"; path = "Target Support Files/Pods-KJPlayerDemoTests/Pods-KJPlayerDemoTests.debug.xcconfig"; sourceTree = "<group>"; };
@@ -58,9 +46,6 @@
 		689D5A8222E3011400DE33FC /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		689D5A8422E3011400DE33FC /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		689D5A8522E3011400DE33FC /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
-		689D5A8B22E3011400DE33FC /* KJPlayerDemoTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = KJPlayerDemoTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
-		689D5A8F22E3011400DE33FC /* KJPlayerDemoTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = KJPlayerDemoTests.m; sourceTree = "<group>"; };
-		689D5A9122E3011400DE33FC /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		68E17A7925DB6FC1008DC2BC /* BaseViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = BaseViewController.h; sourceTree = "<group>"; };
 		68E17A7A25DB6FC1008DC2BC /* BaseViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = BaseViewController.m; sourceTree = "<group>"; };
 		68F064D027E04E92005A2955 /* SceneDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SceneDelegate.h; sourceTree = "<group>"; };
@@ -107,14 +92,6 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		689D5A8822E3011400DE33FC /* Frameworks */ = {
-			isa = PBXFrameworksBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-				8498EB02B1292F2CB9C6F4A2 /* libPods-KJPlayerDemoTests.a in Frameworks */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
@@ -133,7 +110,6 @@
 			isa = PBXGroup;
 			children = (
 				689D5A7522E3011200DE33FC /* KJPlayerDemo */,
-				689D5A8E22E3011400DE33FC /* KJPlayerDemoTests */,
 				689D5A7422E3011200DE33FC /* Products */,
 				2A1D33BBD0DC335459FCDC6B /* Pods */,
 				E7E958B8FD442A1FF229C22F /* Frameworks */,
@@ -144,7 +120,6 @@
 			isa = PBXGroup;
 			children = (
 				689D5A7322E3011200DE33FC /* KJPlayerDemo.app */,
-				689D5A8B22E3011400DE33FC /* KJPlayerDemoTests.xctest */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -160,15 +135,6 @@
 				68F064D427E04EC0005A2955 /* Resources */,
 			);
 			path = KJPlayerDemo;
-			sourceTree = "<group>";
-		};
-		689D5A8E22E3011400DE33FC /* KJPlayerDemoTests */ = {
-			isa = PBXGroup;
-			children = (
-				689D5A8F22E3011400DE33FC /* KJPlayerDemoTests.m */,
-				689D5A9122E3011400DE33FC /* Info.plist */,
-			);
-			path = KJPlayerDemoTests;
 			sourceTree = "<group>";
 		};
 		68F064D327E04EA7005A2955 /* Modules */ = {
@@ -365,25 +331,6 @@
 			productReference = 689D5A7322E3011200DE33FC /* KJPlayerDemo.app */;
 			productType = "com.apple.product-type.application";
 		};
-		689D5A8A22E3011400DE33FC /* KJPlayerDemoTests */ = {
-			isa = PBXNativeTarget;
-			buildConfigurationList = 689D5AA222E3011400DE33FC /* Build configuration list for PBXNativeTarget "KJPlayerDemoTests" */;
-			buildPhases = (
-				8F87004263AC128CBABBCC1D /* [CP] Check Pods Manifest.lock */,
-				689D5A8722E3011400DE33FC /* Sources */,
-				689D5A8822E3011400DE33FC /* Frameworks */,
-				689D5A8922E3011400DE33FC /* Resources */,
-			);
-			buildRules = (
-			);
-			dependencies = (
-				689D5A8D22E3011400DE33FC /* PBXTargetDependency */,
-			);
-			name = KJPlayerDemoTests;
-			productName = KJPlayerDemoTests;
-			productReference = 689D5A8B22E3011400DE33FC /* KJPlayerDemoTests.xctest */;
-			productType = "com.apple.product-type.bundle.unit-test";
-		};
 /* End PBXNativeTarget section */
 
 /* Begin PBXProject section */
@@ -397,10 +344,6 @@
 					689D5A7222E3011200DE33FC = {
 						CreatedOnToolsVersion = 10.2.1;
 						LastSwiftMigration = 1250;
-					};
-					689D5A8A22E3011400DE33FC = {
-						CreatedOnToolsVersion = 10.2.1;
-						TestTargetID = 689D5A7222E3011200DE33FC;
 					};
 				};
 			};
@@ -418,7 +361,6 @@
 			projectRoot = "";
 			targets = (
 				689D5A7222E3011200DE33FC /* KJPlayerDemo */,
-				689D5A8A22E3011400DE33FC /* KJPlayerDemoTests */,
 			);
 		};
 /* End PBXProject section */
@@ -434,38 +376,9 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		689D5A8922E3011400DE33FC /* Resources */ = {
-			isa = PBXResourcesBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXShellScriptBuildPhase section */
-		8F87004263AC128CBABBCC1D /* [CP] Check Pods Manifest.lock */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputFileListPaths = (
-			);
-			inputPaths = (
-				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
-				"${PODS_ROOT}/Manifest.lock",
-			);
-			name = "[CP] Check Pods Manifest.lock";
-			outputFileListPaths = (
-			);
-			outputPaths = (
-				"$(DERIVED_FILE_DIR)/Pods-KJPlayerDemoTests-checkManifestLockResult.txt",
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
-			showEnvVarsInLog = 0;
-		};
 		D02340C072D184A978774186 /* [CP] Copy Pods Resources */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
@@ -534,23 +447,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		689D5A8722E3011400DE33FC /* Sources */ = {
-			isa = PBXSourcesBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-				689D5A9022E3011400DE33FC /* KJPlayerDemoTests.m in Sources */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
 /* End PBXSourcesBuildPhase section */
-
-/* Begin PBXTargetDependency section */
-		689D5A8D22E3011400DE33FC /* PBXTargetDependency */ = {
-			isa = PBXTargetDependency;
-			target = 689D5A7222E3011200DE33FC /* KJPlayerDemo */;
-			targetProxy = 689D5A8C22E3011400DE33FC /* PBXContainerItemProxy */;
-		};
-/* End PBXTargetDependency section */
 
 /* Begin PBXVariantGroup section */
 		689D5A7C22E3011200DE33FC /* Main.storyboard */ = {
@@ -753,46 +650,6 @@
 			};
 			name = Release;
 		};
-		689D5AA322E3011400DE33FC /* Debug */ = {
-			isa = XCBuildConfiguration;
-			baseConfigurationReference = 35775C94E59E22261A53527D /* Pods-KJPlayerDemoTests.debug.xcconfig */;
-			buildSettings = {
-				BUNDLE_LOADER = "$(TEST_HOST)";
-				CODE_SIGN_STYLE = Automatic;
-				DEVELOPMENT_TEAM = 66T6NB6T4J;
-				INFOPLIST_FILE = KJPlayerDemoTests/Info.plist;
-				LD_RUNPATH_SEARCH_PATHS = (
-					"$(inherited)",
-					"@executable_path/Frameworks",
-					"@loader_path/Frameworks",
-				);
-				PRODUCT_BUNDLE_IDENTIFIER = com.ykj.KJPlayerDemo.KJPlayerDemoTests;
-				PRODUCT_NAME = "$(TARGET_NAME)";
-				TARGETED_DEVICE_FAMILY = "1,2";
-				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/KJPlayerDemo.app/KJPlayerDemo";
-			};
-			name = Debug;
-		};
-		689D5AA422E3011400DE33FC /* Release */ = {
-			isa = XCBuildConfiguration;
-			baseConfigurationReference = D2F75349279B5113F33C6543 /* Pods-KJPlayerDemoTests.release.xcconfig */;
-			buildSettings = {
-				BUNDLE_LOADER = "$(TEST_HOST)";
-				CODE_SIGN_STYLE = Automatic;
-				DEVELOPMENT_TEAM = 66T6NB6T4J;
-				INFOPLIST_FILE = KJPlayerDemoTests/Info.plist;
-				LD_RUNPATH_SEARCH_PATHS = (
-					"$(inherited)",
-					"@executable_path/Frameworks",
-					"@loader_path/Frameworks",
-				);
-				PRODUCT_BUNDLE_IDENTIFIER = com.ykj.KJPlayerDemo.KJPlayerDemoTests;
-				PRODUCT_NAME = "$(TARGET_NAME)";
-				TARGETED_DEVICE_FAMILY = "1,2";
-				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/KJPlayerDemo.app/KJPlayerDemo";
-			};
-			name = Release;
-		};
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
@@ -810,15 +667,6 @@
 			buildConfigurations = (
 				689D5AA022E3011400DE33FC /* Debug */,
 				689D5AA122E3011400DE33FC /* Release */,
-			);
-			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = Release;
-		};
-		689D5AA222E3011400DE33FC /* Build configuration list for PBXNativeTarget "KJPlayerDemoTests" */ = {
-			isa = XCConfigurationList;
-			buildConfigurations = (
-				689D5AA322E3011400DE33FC /* Debug */,
-				689D5AA422E3011400DE33FC /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;

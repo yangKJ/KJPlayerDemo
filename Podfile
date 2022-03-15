@@ -17,7 +17,7 @@ def main_pods
 #  pod "KJPlayer/DynamicSource", :path => './' # 动态内核
 #  pod "KJPlayer/PingTimer", :path => './' # 心跳包
 #  pod "KJPlayer/RecordTime", :path => './' # 记录播放
-#  pod "KJPlayer/TryTime", :path => './' # 尝试播放
+#  pod "KJPlayer/FreeTime", :path => './' # 尝试播放
 #  pod "KJPlayer/SkipTime", :path => './' # 跳过片头片尾
 #  pod "KJPlayer/Cache", :path => './' # 缓存板块
 #  pod "KJPlayer/Screenshots", :path => './' # 视频截屏板块
@@ -32,9 +32,4 @@ target 'KJPlayerDemo' do
   # Pods for KJPlayerDemo
   main_pods
   
-end
-
-target 'KJPlayerDemoTests' do
-  inherit! :search_paths
-  # Pods for testing
 end
