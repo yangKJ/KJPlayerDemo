@@ -1,6 +1,6 @@
 {
   "name": "KJPlayer",
-  "version": "2.1.11",
+  "version": "2.1.12",
   "summary": "KJPlayer play and cache, AVPlayer / MIDIPlayer / IJKPlayer",
   "homepage": "https://github.com/yangKJ/KJPlayerDemo",
   "description": "https://github.com/yangKJ/KJPlayerDemo/blob/master/README.md",
@@ -13,7 +13,7 @@
   },
   "source": {
     "git": "https://github.com/yangKJ/KJPlayerDemo.git",
-    "tag": "2.1.11"
+    "tag": "2.1.12"
   },
   "social_media_url": "https://juejin.cn/user/1987535102554472/posts",
   "platforms": {
@@ -179,7 +179,7 @@
       }
     },
     {
-      "name": "FreeTime",
+      "name": "TryTime",
       "source_files": "Sources/Tools/TryTime/*.{h,m}",
       "dependencies": {
         "KJPlayer/Common": [

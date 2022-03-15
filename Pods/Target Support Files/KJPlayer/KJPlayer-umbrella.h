@@ -42,13 +42,13 @@
 #import "KJFileHandleManager.h"
 #import "KJPlayerSharedInstance.h"
 #import "KJBasePlayer+KJDynamicSource.h"
-#import "KJBasePlayer+KJTryTime.h"
 #import "KJIJKPlayer.h"
 #import "KJMIDIPlayer.h"
 #import "KJBasePlayer+KJPingTimer.h"
 #import "KJBasePlayer+KJRecordTime.h"
 #import "KJScreenshotsManager.h"
 #import "KJBasePlayer+KJSkipTime.h"
+#import "KJBasePlayer+KJTryTime.h"
 
 FOUNDATION_EXPORT double KJPlayerVersionNumber;
 FOUNDATION_EXPORT const unsigned char KJPlayerVersionString[];

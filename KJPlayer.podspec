@@ -1,6 +1,6 @@
 Pod::Spec.new do |s|
   s.name         = "KJPlayer"
-  s.version      = "2.1.11"
+  s.version      = "2.1.12"
   s.summary      = "KJPlayer play and cache, AVPlayer / MIDIPlayer / IJKPlayer"
   s.homepage     = "https://github.com/yangKJ/KJPlayerDemo"
   s.description  = 'https://github.com/yangKJ/KJPlayerDemo/blob/master/README.md'
@@ -106,7 +106,7 @@ Pod::Spec.new do |s|
   end
   
   ## 尝试观看
-  s.subspec 'FreeTime' do |xx|
+  s.subspec 'TryTime' do |xx|
     xx.source_files = "Sources/Tools/TryTime/*.{h,m}"
     xx.dependency 'KJPlayer/Common'
   end
