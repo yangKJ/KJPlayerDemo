@@ -1,0 +1,829 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 51;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		4987062851FC050C7C11E661 /* Pods_KJPlayerDemo.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1134522D635D0388C6BD70BA /* Pods_KJPlayerDemo.framework */; };
+		689D5A7822E3011200DE33FC /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 689D5A7722E3011200DE33FC /* AppDelegate.m */; };
+		689D5A7B22E3011200DE33FC /* HomeViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 689D5A7A22E3011200DE33FC /* HomeViewController.m */; };
+		689D5A7E22E3011200DE33FC /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 689D5A7C22E3011200DE33FC /* Main.storyboard */; };
+		689D5A8022E3011400DE33FC /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 689D5A7F22E3011400DE33FC /* Assets.xcassets */; };
+		689D5A8322E3011400DE33FC /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 689D5A8122E3011400DE33FC /* LaunchScreen.storyboard */; };
+		689D5A8622E3011400DE33FC /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 689D5A8522E3011400DE33FC /* main.m */; };
+		689D5A9022E3011400DE33FC /* KJPlayerDemoTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 689D5A8F22E3011400DE33FC /* KJPlayerDemoTests.m */; };
+		68E17A7B25DB6FC1008DC2BC /* BaseViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 68E17A7A25DB6FC1008DC2BC /* BaseViewController.m */; };
+		68F064D227E04E93005A2955 /* SceneDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 68F064D127E04E93005A2955 /* SceneDelegate.m */; };
+		8498EB02B1292F2CB9C6F4A2 /* libPods-KJPlayerDemoTests.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 8B384A0CC9D7266BF3DDC4CA /* libPods-KJPlayerDemoTests.a */; };
+		C9DA0D3726C4B89600345CF0 /* KJCacheViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = C9DA0D1726C4B89600345CF0 /* KJCacheViewController.m */; };
+		C9DA0D3826C4B89600345CF0 /* KJSkipViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = C9DA0D1826C4B89600345CF0 /* KJSkipViewController.m */; };
+		C9DA0D3926C4B89600345CF0 /* KJScreenViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = C9DA0D1926C4B89600345CF0 /* KJScreenViewController.m */; };
+		C9DA0D3A26C4B89600345CF0 /* KJRecordViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = C9DA0D1B26C4B89600345CF0 /* KJRecordViewController.m */; };
+		C9DA0D3B26C4B89600345CF0 /* KJFreeViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = C9DA0D1C26C4B89600345CF0 /* KJFreeViewController.m */; };
+		C9DA0D3C26C4B89600345CF0 /* KJScreenshotsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = C9DA0D1F26C4B89600345CF0 /* KJScreenshotsViewController.m */; };
+		C9DA0D3D26C4B89600345CF0 /* KJDetailPlayerVC.m in Sources */ = {isa = PBXBuildFile; fileRef = C9DA0D2626C4B89600345CF0 /* KJDetailPlayerVC.m */; };
+		C9DA0D3E26C4B89600345CF0 /* KJTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = C9DA0D2726C4B89600345CF0 /* KJTableViewController.m */; };
+		C9DA0D3F26C4B89600345CF0 /* KJListViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = C9DA0D2A26C4B89600345CF0 /* KJListViewController.m */; };
+		C9DA0D4026C4B89600345CF0 /* KJVideoPlayViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = C9DA0D2C26C4B89600345CF0 /* KJVideoPlayViewController.m */; };
+		C9DA0D4126C4B89600345CF0 /* KJLoadingViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = C9DA0D2D26C4B89600345CF0 /* KJLoadingViewController.m */; };
+		C9DA0D4226C4B89600345CF0 /* KJSourceViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = C9DA0D3026C4B89600345CF0 /* KJSourceViewController.m */; };
+		C9DA0D4326C4B89600345CF0 /* KJIJKViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = C9DA0D3326C4B89600345CF0 /* KJIJKViewController.m */; };
+		C9DA0D4426C4B89600345CF0 /* KJLiveViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = C9DA0D3626C4B89600345CF0 /* KJLiveViewController.m */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXContainerItemProxy section */
+		689D5A8C22E3011400DE33FC /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 689D5A6B22E3011200DE33FC /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 689D5A7222E3011200DE33FC;
+			remoteInfo = KJPlayerDemo;
+		};
+/* End PBXContainerItemProxy section */
+
+/* Begin PBXFileReference section */
+		1134522D635D0388C6BD70BA /* Pods_KJPlayerDemo.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_KJPlayerDemo.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		35775C94E59E22261A53527D /* Pods-KJPlayerDemoTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-KJPlayerDemoTests.debug.xcconfig"; path = "Target Support Files/Pods-KJPlayerDemoTests/Pods-KJPlayerDemoTests.debug.xcconfig"; sourceTree = "<group>"; };
+		382E2F96EA9C7B4D5F60C7B9 /* Pods-KJPlayerDemo.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-KJPlayerDemo.release.xcconfig"; path = "Target Support Files/Pods-KJPlayerDemo/Pods-KJPlayerDemo.release.xcconfig"; sourceTree = "<group>"; };
+		689D5A7322E3011200DE33FC /* KJPlayerDemo.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = KJPlayerDemo.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		689D5A7622E3011200DE33FC /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
+		689D5A7722E3011200DE33FC /* AppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
+		689D5A7922E3011200DE33FC /* HomeViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = HomeViewController.h; sourceTree = "<group>"; };
+		689D5A7A22E3011200DE33FC /* HomeViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = HomeViewController.m; sourceTree = "<group>"; };
+		689D5A7D22E3011200DE33FC /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
+		689D5A7F22E3011400DE33FC /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		689D5A8222E3011400DE33FC /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
+		689D5A8422E3011400DE33FC /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		689D5A8522E3011400DE33FC /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
+		689D5A8B22E3011400DE33FC /* KJPlayerDemoTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = KJPlayerDemoTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		689D5A8F22E3011400DE33FC /* KJPlayerDemoTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = KJPlayerDemoTests.m; sourceTree = "<group>"; };
+		689D5A9122E3011400DE33FC /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		68E17A7925DB6FC1008DC2BC /* BaseViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = BaseViewController.h; sourceTree = "<group>"; };
+		68E17A7A25DB6FC1008DC2BC /* BaseViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = BaseViewController.m; sourceTree = "<group>"; };
+		68F064D027E04E92005A2955 /* SceneDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SceneDelegate.h; sourceTree = "<group>"; };
+		68F064D127E04E93005A2955 /* SceneDelegate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SceneDelegate.m; sourceTree = "<group>"; };
+		8B384A0CC9D7266BF3DDC4CA /* libPods-KJPlayerDemoTests.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-KJPlayerDemoTests.a"; sourceTree = BUILT_PRODUCTS_DIR; };
+		8D31EC6D45FF0C9D2958438E /* Pods-KJPlayerDemo.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-KJPlayerDemo.debug.xcconfig"; path = "Target Support Files/Pods-KJPlayerDemo/Pods-KJPlayerDemo.debug.xcconfig"; sourceTree = "<group>"; };
+		C9DA0D1526C4B89600345CF0 /* KJRecordViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = KJRecordViewController.h; sourceTree = "<group>"; };
+		C9DA0D1626C4B89600345CF0 /* KJFreeViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = KJFreeViewController.h; sourceTree = "<group>"; };
+		C9DA0D1726C4B89600345CF0 /* KJCacheViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = KJCacheViewController.m; sourceTree = "<group>"; };
+		C9DA0D1826C4B89600345CF0 /* KJSkipViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = KJSkipViewController.m; sourceTree = "<group>"; };
+		C9DA0D1926C4B89600345CF0 /* KJScreenViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = KJScreenViewController.m; sourceTree = "<group>"; };
+		C9DA0D1A26C4B89600345CF0 /* KJScreenshotsViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = KJScreenshotsViewController.h; sourceTree = "<group>"; };
+		C9DA0D1B26C4B89600345CF0 /* KJRecordViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = KJRecordViewController.m; sourceTree = "<group>"; };
+		C9DA0D1C26C4B89600345CF0 /* KJFreeViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = KJFreeViewController.m; sourceTree = "<group>"; };
+		C9DA0D1D26C4B89600345CF0 /* KJSkipViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = KJSkipViewController.h; sourceTree = "<group>"; };
+		C9DA0D1E26C4B89600345CF0 /* KJCacheViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = KJCacheViewController.h; sourceTree = "<group>"; };
+		C9DA0D1F26C4B89600345CF0 /* KJScreenshotsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = KJScreenshotsViewController.m; sourceTree = "<group>"; };
+		C9DA0D2026C4B89600345CF0 /* KJScreenViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = KJScreenViewController.h; sourceTree = "<group>"; };
+		C9DA0D2226C4B89600345CF0 /* KJLoadingViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = KJLoadingViewController.h; sourceTree = "<group>"; };
+		C9DA0D2426C4B89600345CF0 /* KJDetailPlayerVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = KJDetailPlayerVC.h; sourceTree = "<group>"; };
+		C9DA0D2526C4B89600345CF0 /* KJTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = KJTableViewController.h; sourceTree = "<group>"; };
+		C9DA0D2626C4B89600345CF0 /* KJDetailPlayerVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = KJDetailPlayerVC.m; sourceTree = "<group>"; };
+		C9DA0D2726C4B89600345CF0 /* KJTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = KJTableViewController.m; sourceTree = "<group>"; };
+		C9DA0D2926C4B89600345CF0 /* KJVideoPlayViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = KJVideoPlayViewController.h; sourceTree = "<group>"; };
+		C9DA0D2A26C4B89600345CF0 /* KJListViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = KJListViewController.m; sourceTree = "<group>"; };
+		C9DA0D2B26C4B89600345CF0 /* KJListViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = KJListViewController.h; sourceTree = "<group>"; };
+		C9DA0D2C26C4B89600345CF0 /* KJVideoPlayViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = KJVideoPlayViewController.m; sourceTree = "<group>"; };
+		C9DA0D2D26C4B89600345CF0 /* KJLoadingViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = KJLoadingViewController.m; sourceTree = "<group>"; };
+		C9DA0D2F26C4B89600345CF0 /* KJSourceViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = KJSourceViewController.h; sourceTree = "<group>"; };
+		C9DA0D3026C4B89600345CF0 /* KJSourceViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = KJSourceViewController.m; sourceTree = "<group>"; };
+		C9DA0D3226C4B89600345CF0 /* KJIJKViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = KJIJKViewController.h; sourceTree = "<group>"; };
+		C9DA0D3326C4B89600345CF0 /* KJIJKViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = KJIJKViewController.m; sourceTree = "<group>"; };
+		C9DA0D3526C4B89600345CF0 /* KJLiveViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = KJLiveViewController.h; sourceTree = "<group>"; };
+		C9DA0D3626C4B89600345CF0 /* KJLiveViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = KJLiveViewController.m; sourceTree = "<group>"; };
+		D2F75349279B5113F33C6543 /* Pods-KJPlayerDemoTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-KJPlayerDemoTests.release.xcconfig"; path = "Target Support Files/Pods-KJPlayerDemoTests/Pods-KJPlayerDemoTests.release.xcconfig"; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		689D5A7022E3011200DE33FC /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				4987062851FC050C7C11E661 /* Pods_KJPlayerDemo.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		689D5A8822E3011400DE33FC /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				8498EB02B1292F2CB9C6F4A2 /* libPods-KJPlayerDemoTests.a in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		2A1D33BBD0DC335459FCDC6B /* Pods */ = {
+			isa = PBXGroup;
+			children = (
+				8D31EC6D45FF0C9D2958438E /* Pods-KJPlayerDemo.debug.xcconfig */,
+				382E2F96EA9C7B4D5F60C7B9 /* Pods-KJPlayerDemo.release.xcconfig */,
+				35775C94E59E22261A53527D /* Pods-KJPlayerDemoTests.debug.xcconfig */,
+				D2F75349279B5113F33C6543 /* Pods-KJPlayerDemoTests.release.xcconfig */,
+			);
+			path = Pods;
+			sourceTree = "<group>";
+		};
+		689D5A6A22E3011200DE33FC = {
+			isa = PBXGroup;
+			children = (
+				689D5A7522E3011200DE33FC /* KJPlayerDemo */,
+				689D5A8E22E3011400DE33FC /* KJPlayerDemoTests */,
+				689D5A7422E3011200DE33FC /* Products */,
+				2A1D33BBD0DC335459FCDC6B /* Pods */,
+				E7E958B8FD442A1FF229C22F /* Frameworks */,
+			);
+			sourceTree = "<group>";
+		};
+		689D5A7422E3011200DE33FC /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				689D5A7322E3011200DE33FC /* KJPlayerDemo.app */,
+				689D5A8B22E3011400DE33FC /* KJPlayerDemoTests.xctest */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		689D5A7522E3011200DE33FC /* KJPlayerDemo */ = {
+			isa = PBXGroup;
+			children = (
+				689D5A7622E3011200DE33FC /* AppDelegate.h */,
+				689D5A7722E3011200DE33FC /* AppDelegate.m */,
+				689D5A7922E3011200DE33FC /* HomeViewController.h */,
+				689D5A7A22E3011200DE33FC /* HomeViewController.m */,
+				68F064D327E04EA7005A2955 /* Modules */,
+				68F064D427E04EC0005A2955 /* Resources */,
+			);
+			path = KJPlayerDemo;
+			sourceTree = "<group>";
+		};
+		689D5A8E22E3011400DE33FC /* KJPlayerDemoTests */ = {
+			isa = PBXGroup;
+			children = (
+				689D5A8F22E3011400DE33FC /* KJPlayerDemoTests.m */,
+				689D5A9122E3011400DE33FC /* Info.plist */,
+			);
+			path = KJPlayerDemoTests;
+			sourceTree = "<group>";
+		};
+		68F064D327E04EA7005A2955 /* Modules */ = {
+			isa = PBXGroup;
+			children = (
+				C9DA0D1426C4B89600345CF0 /* AVPlayer */,
+				C9DA0D3126C4B89600345CF0 /* IJKPlayer */,
+				C9DA0D2126C4B89600345CF0 /* Other */,
+			);
+			path = Modules;
+			sourceTree = "<group>";
+		};
+		68F064D427E04EC0005A2955 /* Resources */ = {
+			isa = PBXGroup;
+			children = (
+				689D5A7F22E3011400DE33FC /* Assets.xcassets */,
+				68E17A7925DB6FC1008DC2BC /* BaseViewController.h */,
+				68E17A7A25DB6FC1008DC2BC /* BaseViewController.m */,
+				689D5A8422E3011400DE33FC /* Info.plist */,
+				689D5A8122E3011400DE33FC /* LaunchScreen.storyboard */,
+				689D5A8522E3011400DE33FC /* main.m */,
+				689D5A7C22E3011200DE33FC /* Main.storyboard */,
+				68F064D027E04E92005A2955 /* SceneDelegate.h */,
+				68F064D127E04E93005A2955 /* SceneDelegate.m */,
+			);
+			path = Resources;
+			sourceTree = "<group>";
+		};
+		68F064D527E0513D005A2955 /* Cache */ = {
+			isa = PBXGroup;
+			children = (
+				C9DA0D1E26C4B89600345CF0 /* KJCacheViewController.h */,
+				C9DA0D1726C4B89600345CF0 /* KJCacheViewController.m */,
+			);
+			path = Cache;
+			sourceTree = "<group>";
+		};
+		68F064D627E05146005A2955 /* Record */ = {
+			isa = PBXGroup;
+			children = (
+				C9DA0D1526C4B89600345CF0 /* KJRecordViewController.h */,
+				C9DA0D1B26C4B89600345CF0 /* KJRecordViewController.m */,
+			);
+			path = Record;
+			sourceTree = "<group>";
+		};
+		68F064D727E05153005A2955 /* Screen */ = {
+			isa = PBXGroup;
+			children = (
+				C9DA0D2026C4B89600345CF0 /* KJScreenViewController.h */,
+				C9DA0D1926C4B89600345CF0 /* KJScreenViewController.m */,
+			);
+			path = Screen;
+			sourceTree = "<group>";
+		};
+		68F064D827E0517A005A2955 /* Free */ = {
+			isa = PBXGroup;
+			children = (
+				C9DA0D1626C4B89600345CF0 /* KJFreeViewController.h */,
+				C9DA0D1C26C4B89600345CF0 /* KJFreeViewController.m */,
+			);
+			path = Free;
+			sourceTree = "<group>";
+		};
+		68F064D927E0518E005A2955 /* Skip */ = {
+			isa = PBXGroup;
+			children = (
+				C9DA0D1D26C4B89600345CF0 /* KJSkipViewController.h */,
+				C9DA0D1826C4B89600345CF0 /* KJSkipViewController.m */,
+			);
+			path = Skip;
+			sourceTree = "<group>";
+		};
+		68F064DA27E0519C005A2955 /* Screenshots */ = {
+			isa = PBXGroup;
+			children = (
+				C9DA0D1A26C4B89600345CF0 /* KJScreenshotsViewController.h */,
+				C9DA0D1F26C4B89600345CF0 /* KJScreenshotsViewController.m */,
+			);
+			path = Screenshots;
+			sourceTree = "<group>";
+		};
+		68F064DB27E051BA005A2955 /* Loading */ = {
+			isa = PBXGroup;
+			children = (
+				C9DA0D2226C4B89600345CF0 /* KJLoadingViewController.h */,
+				C9DA0D2D26C4B89600345CF0 /* KJLoadingViewController.m */,
+			);
+			path = Loading;
+			sourceTree = "<group>";
+		};
+		68F064DC27E051C3005A2955 /* Source */ = {
+			isa = PBXGroup;
+			children = (
+				C9DA0D2F26C4B89600345CF0 /* KJSourceViewController.h */,
+				C9DA0D3026C4B89600345CF0 /* KJSourceViewController.m */,
+			);
+			path = Source;
+			sourceTree = "<group>";
+		};
+		C9DA0D1426C4B89600345CF0 /* AVPlayer */ = {
+			isa = PBXGroup;
+			children = (
+				68F064D527E0513D005A2955 /* Cache */,
+				68F064D827E0517A005A2955 /* Free */,
+				68F064D627E05146005A2955 /* Record */,
+				68F064D927E0518E005A2955 /* Skip */,
+			);
+			path = AVPlayer;
+			sourceTree = "<group>";
+		};
+		C9DA0D2126C4B89600345CF0 /* Other */ = {
+			isa = PBXGroup;
+			children = (
+				C9DA0D2826C4B89600345CF0 /* List */,
+				68F064DB27E051BA005A2955 /* Loading */,
+				68F064D727E05153005A2955 /* Screen */,
+				68F064DA27E0519C005A2955 /* Screenshots */,
+				68F064DC27E051C3005A2955 /* Source */,
+				C9DA0D2326C4B89600345CF0 /* Table */,
+			);
+			path = Other;
+			sourceTree = "<group>";
+		};
+		C9DA0D2326C4B89600345CF0 /* Table */ = {
+			isa = PBXGroup;
+			children = (
+				C9DA0D2426C4B89600345CF0 /* KJDetailPlayerVC.h */,
+				C9DA0D2626C4B89600345CF0 /* KJDetailPlayerVC.m */,
+				C9DA0D2526C4B89600345CF0 /* KJTableViewController.h */,
+				C9DA0D2726C4B89600345CF0 /* KJTableViewController.m */,
+			);
+			path = Table;
+			sourceTree = "<group>";
+		};
+		C9DA0D2826C4B89600345CF0 /* List */ = {
+			isa = PBXGroup;
+			children = (
+				C9DA0D2B26C4B89600345CF0 /* KJListViewController.h */,
+				C9DA0D2A26C4B89600345CF0 /* KJListViewController.m */,
+				C9DA0D2926C4B89600345CF0 /* KJVideoPlayViewController.h */,
+				C9DA0D2C26C4B89600345CF0 /* KJVideoPlayViewController.m */,
+			);
+			path = List;
+			sourceTree = "<group>";
+		};
+		C9DA0D3126C4B89600345CF0 /* IJKPlayer */ = {
+			isa = PBXGroup;
+			children = (
+				C9DA0D3226C4B89600345CF0 /* KJIJKViewController.h */,
+				C9DA0D3326C4B89600345CF0 /* KJIJKViewController.m */,
+				C9DA0D3426C4B89600345CF0 /* Live */,
+			);
+			path = IJKPlayer;
+			sourceTree = "<group>";
+		};
+		C9DA0D3426C4B89600345CF0 /* Live */ = {
+			isa = PBXGroup;
+			children = (
+				C9DA0D3526C4B89600345CF0 /* KJLiveViewController.h */,
+				C9DA0D3626C4B89600345CF0 /* KJLiveViewController.m */,
+			);
+			path = Live;
+			sourceTree = "<group>";
+		};
+		E7E958B8FD442A1FF229C22F /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				1134522D635D0388C6BD70BA /* Pods_KJPlayerDemo.framework */,
+				8B384A0CC9D7266BF3DDC4CA /* libPods-KJPlayerDemoTests.a */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		689D5A7222E3011200DE33FC /* KJPlayerDemo */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 689D5A9F22E3011400DE33FC /* Build configuration list for PBXNativeTarget "KJPlayerDemo" */;
+			buildPhases = (
+				F8DF9C089D87D299D2EE7CEA /* [CP] Check Pods Manifest.lock */,
+				689D5A6F22E3011200DE33FC /* Sources */,
+				689D5A7022E3011200DE33FC /* Frameworks */,
+				689D5A7122E3011200DE33FC /* Resources */,
+				D02340C072D184A978774186 /* [CP] Copy Pods Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = KJPlayerDemo;
+			productName = KJPlayerDemo;
+			productReference = 689D5A7322E3011200DE33FC /* KJPlayerDemo.app */;
+			productType = "com.apple.product-type.application";
+		};
+		689D5A8A22E3011400DE33FC /* KJPlayerDemoTests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 689D5AA222E3011400DE33FC /* Build configuration list for PBXNativeTarget "KJPlayerDemoTests" */;
+			buildPhases = (
+				8F87004263AC128CBABBCC1D /* [CP] Check Pods Manifest.lock */,
+				689D5A8722E3011400DE33FC /* Sources */,
+				689D5A8822E3011400DE33FC /* Frameworks */,
+				689D5A8922E3011400DE33FC /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				689D5A8D22E3011400DE33FC /* PBXTargetDependency */,
+			);
+			name = KJPlayerDemoTests;
+			productName = KJPlayerDemoTests;
+			productReference = 689D5A8B22E3011400DE33FC /* KJPlayerDemoTests.xctest */;
+			productType = "com.apple.product-type.bundle.unit-test";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		689D5A6B22E3011200DE33FC /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				LastSwiftUpdateCheck = 1250;
+				LastUpgradeCheck = 1250;
+				ORGANIZATIONNAME = "杨科军";
+				TargetAttributes = {
+					689D5A7222E3011200DE33FC = {
+						CreatedOnToolsVersion = 10.2.1;
+						LastSwiftMigration = 1250;
+					};
+					689D5A8A22E3011400DE33FC = {
+						CreatedOnToolsVersion = 10.2.1;
+						TestTargetID = 689D5A7222E3011200DE33FC;
+					};
+				};
+			};
+			buildConfigurationList = 689D5A6E22E3011200DE33FC /* Build configuration list for PBXProject "KJPlayerDemo" */;
+			compatibilityVersion = "Xcode 9.3";
+			developmentRegion = en;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+				Base,
+			);
+			mainGroup = 689D5A6A22E3011200DE33FC;
+			productRefGroup = 689D5A7422E3011200DE33FC /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				689D5A7222E3011200DE33FC /* KJPlayerDemo */,
+				689D5A8A22E3011400DE33FC /* KJPlayerDemoTests */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		689D5A7122E3011200DE33FC /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				689D5A8322E3011400DE33FC /* LaunchScreen.storyboard in Resources */,
+				689D5A8022E3011400DE33FC /* Assets.xcassets in Resources */,
+				689D5A7E22E3011200DE33FC /* Main.storyboard in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		689D5A8922E3011400DE33FC /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXShellScriptBuildPhase section */
+		8F87004263AC128CBABBCC1D /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
+				"${PODS_ROOT}/Manifest.lock",
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputFileListPaths = (
+			);
+			outputPaths = (
+				"$(DERIVED_FILE_DIR)/Pods-KJPlayerDemoTests-checkManifestLockResult.txt",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
+			showEnvVarsInLog = 0;
+		};
+		D02340C072D184A978774186 /* [CP] Copy Pods Resources */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-KJPlayerDemo/Pods-KJPlayerDemo-resources-${CONFIGURATION}-input-files.xcfilelist",
+			);
+			name = "[CP] Copy Pods Resources";
+			outputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-KJPlayerDemo/Pods-KJPlayerDemo-resources-${CONFIGURATION}-output-files.xcfilelist",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-KJPlayerDemo/Pods-KJPlayerDemo-resources.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		F8DF9C089D87D299D2EE7CEA /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
+				"${PODS_ROOT}/Manifest.lock",
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputFileListPaths = (
+			);
+			outputPaths = (
+				"$(DERIVED_FILE_DIR)/Pods-KJPlayerDemo-checkManifestLockResult.txt",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
+			showEnvVarsInLog = 0;
+		};
+/* End PBXShellScriptBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		689D5A6F22E3011200DE33FC /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				C9DA0D3E26C4B89600345CF0 /* KJTableViewController.m in Sources */,
+				C9DA0D4226C4B89600345CF0 /* KJSourceViewController.m in Sources */,
+				C9DA0D3A26C4B89600345CF0 /* KJRecordViewController.m in Sources */,
+				C9DA0D3C26C4B89600345CF0 /* KJScreenshotsViewController.m in Sources */,
+				C9DA0D3B26C4B89600345CF0 /* KJFreeViewController.m in Sources */,
+				C9DA0D3926C4B89600345CF0 /* KJScreenViewController.m in Sources */,
+				689D5A7B22E3011200DE33FC /* HomeViewController.m in Sources */,
+				C9DA0D4326C4B89600345CF0 /* KJIJKViewController.m in Sources */,
+				C9DA0D4026C4B89600345CF0 /* KJVideoPlayViewController.m in Sources */,
+				C9DA0D4126C4B89600345CF0 /* KJLoadingViewController.m in Sources */,
+				C9DA0D3726C4B89600345CF0 /* KJCacheViewController.m in Sources */,
+				68E17A7B25DB6FC1008DC2BC /* BaseViewController.m in Sources */,
+				C9DA0D3826C4B89600345CF0 /* KJSkipViewController.m in Sources */,
+				689D5A8622E3011400DE33FC /* main.m in Sources */,
+				689D5A7822E3011200DE33FC /* AppDelegate.m in Sources */,
+				C9DA0D3F26C4B89600345CF0 /* KJListViewController.m in Sources */,
+				C9DA0D4426C4B89600345CF0 /* KJLiveViewController.m in Sources */,
+				68F064D227E04E93005A2955 /* SceneDelegate.m in Sources */,
+				C9DA0D3D26C4B89600345CF0 /* KJDetailPlayerVC.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		689D5A8722E3011400DE33FC /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				689D5A9022E3011400DE33FC /* KJPlayerDemoTests.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		689D5A8D22E3011400DE33FC /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 689D5A7222E3011200DE33FC /* KJPlayerDemo */;
+			targetProxy = 689D5A8C22E3011400DE33FC /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
+
+/* Begin PBXVariantGroup section */
+		689D5A7C22E3011200DE33FC /* Main.storyboard */ = {
+			isa = PBXVariantGroup;
+			children = (
+				689D5A7D22E3011200DE33FC /* Base */,
+			);
+			name = Main.storyboard;
+			sourceTree = "<group>";
+		};
+		689D5A8122E3011400DE33FC /* LaunchScreen.storyboard */ = {
+			isa = PBXVariantGroup;
+			children = (
+				689D5A8222E3011400DE33FC /* Base */,
+			);
+			name = LaunchScreen.storyboard;
+			sourceTree = "<group>";
+		};
+/* End PBXVariantGroup section */
+
+/* Begin XCBuildConfiguration section */
+		689D5A9D22E3011400DE33FC /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_TESTABILITY = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 12.0;
+				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
+				MTL_FAST_MATH = YES;
+				ONLY_ACTIVE_ARCH = YES;
+				SDKROOT = iphoneos;
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = DEBUG;
+			};
+			name = Debug;
+		};
+		689D5A9E22E3011400DE33FC /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 12.0;
+				MTL_ENABLE_DEBUG_INFO = NO;
+				MTL_FAST_MATH = YES;
+				SDKROOT = iphoneos;
+				SWIFT_COMPILATION_MODE = wholemodule;
+				VALIDATE_PRODUCT = YES;
+			};
+			name = Release;
+		};
+		689D5AA022E3011400DE33FC /* Debug */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = 8D31EC6D45FF0C9D2958438E /* Pods-KJPlayerDemo.debug.xcconfig */;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_WEAK = NO;
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = 66T6NB6T4J;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)/KJPlayerDemo/KJIJKPlayer",
+					"$(PROJECT_DIR)",
+					"$(PROJECT_DIR)/KJPlayerDemo",
+				);
+				GCC_PREFIX_HEADER = "";
+				HEADER_SEARCH_PATHS = "\"$(PROJECT_DIR)/KJPlayerDemo/KJIJKPlayer/IJKMediaFramework.framework/Headers\"";
+				INFOPLIST_FILE = "$(SRCROOT)/KJPlayerDemo/Resources/Info.plist";
+				IPHONEOS_DEPLOYMENT_TARGET = 14.1;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = com.ykj.KJPlayerDemo2;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_OBJC_BRIDGING_HEADER = "";
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Debug;
+		};
+		689D5AA122E3011400DE33FC /* Release */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = 382E2F96EA9C7B4D5F60C7B9 /* Pods-KJPlayerDemo.release.xcconfig */;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_WEAK = NO;
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = 66T6NB6T4J;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)/KJPlayerDemo/KJIJKPlayer",
+					"$(PROJECT_DIR)",
+					"$(PROJECT_DIR)/KJPlayerDemo",
+				);
+				GCC_PREFIX_HEADER = "";
+				HEADER_SEARCH_PATHS = "\"$(PROJECT_DIR)/KJPlayerDemo/KJIJKPlayer/IJKMediaFramework.framework/Headers\"";
+				INFOPLIST_FILE = "$(SRCROOT)/KJPlayerDemo/Resources/Info.plist";
+				IPHONEOS_DEPLOYMENT_TARGET = 14.1;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = com.ykj.KJPlayerDemo2;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_OBJC_BRIDGING_HEADER = "";
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Release;
+		};
+		689D5AA322E3011400DE33FC /* Debug */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = 35775C94E59E22261A53527D /* Pods-KJPlayerDemoTests.debug.xcconfig */;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = 66T6NB6T4J;
+				INFOPLIST_FILE = KJPlayerDemoTests/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = com.ykj.KJPlayerDemo.KJPlayerDemoTests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/KJPlayerDemo.app/KJPlayerDemo";
+			};
+			name = Debug;
+		};
+		689D5AA422E3011400DE33FC /* Release */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = D2F75349279B5113F33C6543 /* Pods-KJPlayerDemoTests.release.xcconfig */;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = 66T6NB6T4J;
+				INFOPLIST_FILE = KJPlayerDemoTests/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = com.ykj.KJPlayerDemo.KJPlayerDemoTests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/KJPlayerDemo.app/KJPlayerDemo";
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		689D5A6E22E3011200DE33FC /* Build configuration list for PBXProject "KJPlayerDemo" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				689D5A9D22E3011400DE33FC /* Debug */,
+				689D5A9E22E3011400DE33FC /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		689D5A9F22E3011400DE33FC /* Build configuration list for PBXNativeTarget "KJPlayerDemo" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				689D5AA022E3011400DE33FC /* Debug */,
+				689D5AA122E3011400DE33FC /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		689D5AA222E3011400DE33FC /* Build configuration list for PBXNativeTarget "KJPlayerDemoTests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				689D5AA322E3011400DE33FC /* Debug */,
+				689D5AA422E3011400DE33FC /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = 689D5A6B22E3011200DE33FC /* Project object */;
+}

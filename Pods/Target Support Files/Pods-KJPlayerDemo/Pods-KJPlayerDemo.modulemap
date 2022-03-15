@@ -1,0 +1,6 @@
+framework module Pods_KJPlayerDemo {
+  umbrella header "Pods-KJPlayerDemo-umbrella.h"
+
+  export *
+  module * { export * }
+}

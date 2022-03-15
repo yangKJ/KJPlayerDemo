@@ -1,0 +1,1 @@
+/Users/yangkejun/Library/Developer/Xcode/DerivedData/KJPlayerDemo-bsfsmrjmjgrmnihjtjlmdqyqkylw/Index/Build/Products/Debug-iphoneos/KJPlayer/KJPlayer.bundle
